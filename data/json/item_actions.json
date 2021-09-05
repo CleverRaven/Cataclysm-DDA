@@ -186,6 +186,16 @@
   },
   {
     "type": "item_action",
+    "id": "CHANGE_EYES",
+    "name": { "str": "Change the eye colour" }
+  },
+  {
+    "type": "item_action",
+    "id": "CHANGE_SKIN",
+    "name": { "str": "Change skin colour" }
+  },
+  {
+    "type": "item_action",
     "id": "transform",
     "name": { "str": "Turn on" }
   },

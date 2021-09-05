@@ -13,7 +13,6 @@
 class Character;
 class item;
 class mission;
-class player;
 class talker;
 
 /*
@@ -36,7 +35,7 @@ class talker_npc : public talker_character
         std::string distance_to_goal() const override;
 
         // mandatory functions for starting a dialogue
-        bool will_talk_to_u( const player &u, bool force ) override;
+        bool will_talk_to_u( const Character &you, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
         void check_missions() override;
         void update_missions( const std::vector<mission *> &missions_assigned ) override;

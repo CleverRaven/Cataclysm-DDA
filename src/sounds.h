@@ -13,7 +13,6 @@ class Creature;
 class JsonObject;
 class item;
 class monster;
-class player;
 class translation;
 struct tripoint;
 template <typename E> struct enum_traits;
@@ -72,7 +71,7 @@ void reset_markers();
 // process_sounds() applies the sounds since the last turn to monster AI,
 void process_sounds();
 // process_sound_markers applies sound events to the player and records them for display.
-void process_sound_markers( player *p );
+void process_sound_markers( Character *you );
 
 // Return list of points that have sound events the player can hear.
 std::vector<tripoint> get_footstep_markers();

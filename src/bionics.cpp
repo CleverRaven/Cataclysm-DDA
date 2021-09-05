@@ -62,7 +62,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "projectile.h"
@@ -187,8 +186,6 @@ static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
-
-static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
@@ -946,7 +943,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         std::vector<std::pair<item, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
-            if( p == pos() || !here.has_items( p ) || here.has_flag( flag_SEALED, p ) ) {
+            if( p == pos() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
                 continue;
             }
 
@@ -1010,12 +1007,13 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
-        const int player_local_temp = g->weather.get_temperature( player_character.pos() );
+        weather_manager &weather = get_weather();
+        const int player_local_temp = weather.get_temperature( player_character.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( g->weather.windspeed + vehwindspeed,
-                           cur_om_ter, pos(), g->weather.winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
+                           cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
-        const w_point weatherPoint = *g->weather.weather_precise;
+        const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
@@ -1029,7 +1027,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
         add_msg_activate();
@@ -1444,6 +1442,7 @@ void Character::burn_fuel( const int b, const auto_toggle_bionic_result &result 
     }
 
     map &here = get_map();
+    weather_manager &weather = get_weather();
     switch( result.fuel_type ) {
         case auto_toggle_bionic_result::fuel_type_t::metabolism: {
             const int kcal_consumed = result.fuel_energy;
@@ -1467,8 +1466,8 @@ void Character::burn_fuel( const int b, const auto_toggle_bionic_result &result 
                     // vehicle velocity in mph
                     vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                 }
-                const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                         overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+                const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                         overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                          g->is_sheltered( pos() ) );
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * windpower *
                                  result.effective_efficiency );
@@ -1510,6 +1509,7 @@ void Character::passive_power_gen( int b )
     const float effective_passive_efficiency = get_effective_efficiency( b, passive_fuel_efficiency );
     const std::vector<material_id> &fuel_available = get_fuel_available( bio.id );
     map &here = get_map();
+    weather_manager &weather = get_weather();
 
     for( const material_id &fuel : fuel_available ) {
         const int fuel_energy = fuel->get_fuel_data().energy;
@@ -1527,8 +1527,8 @@ void Character::passive_power_gen( int b )
                 // vehicle velocity in mph
                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
-            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+            const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                     overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                      g->is_sheltered( pos() ) );
             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
         } else {
@@ -2063,16 +2063,16 @@ bool Character::has_enough_anesth( const itype &cbm )
     return true;
 }
 
-void Character::consume_anesth_requirement( const itype &cbm, player &patient )
+void Character::consume_anesth_requirement( const itype &cbm, Character &patient )
 {
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                         cbm.bionic->difficulty * 2 * weight;
     for( const auto &e : req_anesth.get_components() ) {
-        as_player()->consume_items( e, 1, is_crafting_component );
+        consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : req_anesth.get_tools() ) {
-        as_player()->consume_tools( e );
+        consume_tools( e );
     }
     invalidate_crafting_inventory();
 }
@@ -2098,10 +2098,10 @@ bool Character::has_installation_requirement( const bionic_id &bid )
 void Character::consume_installation_requirement( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
-        as_player()->consume_items( e, 1, is_crafting_component );
+        consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : bid->installation_requirement->get_tools() ) {
-        as_player()->consume_tools( e );
+        consume_tools( e );
     }
     invalidate_crafting_inventory();
 }
@@ -2529,7 +2529,7 @@ float Character::env_surgery_bonus( int radius ) const
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
     if( !type.bionic ) {
@@ -2738,6 +2738,40 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
                                elem.second );
     }
     return desc;
+}
+
+std::vector<bionic_id> Character::get_bionics() const
+{
+    std::vector<bionic_id> result;
+    for( const bionic &b : *my_bionics ) {
+        result.push_back( b.id );
+    }
+    return result;
+}
+
+bool Character::has_bionic( const bionic_id &b ) const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid == b ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_active_bionic( const bionic_id &b ) const
+{
+    for( const bionic &i : *my_bionics ) {
+        if( i.id == b ) {
+            return ( i.powered && i.incapacitated_time == 0_turns );
+        }
+    }
+    return false;
+}
+
+bool Character::has_any_bionic() const
+{
+    return !get_bionics().empty();
 }
 
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
@@ -3165,7 +3199,7 @@ std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &b
     return bionics_cancelling;
 }
 
-void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
+void Character::introduce_into_anesthesia( const time_duration &duration, Character &installer,
         bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
@@ -3221,3 +3255,228 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
         fall_asleep( duration );
     }
 }
+
+bool Character::can_fuel_bionic_with( const item &it ) const
+{
+    // the item needs fuel data, or it needs to be a magazine with an item with fuel data.
+    if( !it.is_fuel() ) {
+        if( it.is_magazine() ) {
+            if( !item( it.ammo_current() ).is_fuel() ) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
+                return true;
+            }
+            if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+                return true;
+            }
+        }
+
+    }
+    return false;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ||
+                ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const material_id &mat ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == mat ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_fueled_bionics() const
+{
+    std::vector<bionic_id> bionics;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( !bid->fuel_opts.empty() ) {
+            bionics.emplace_back( bid );
+        }
+    }
+    return bionics;
+}
+
+bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
+{
+    float temp_eff = 0.0f;
+    bionic_id bio( "null" );
+    for( const bionic_id &bid : bids ) {
+        if( bid->fuel_efficiency > temp_eff ) {
+            temp_eff = bid->fuel_efficiency;
+            bio = bid;
+        }
+    }
+    return bio;
+}
+
+bionic_id Character::get_remote_fueled_bionic() const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->is_remote_fueled ) {
+            return bid;
+        }
+    }
+    return bionic_id();
+}
+
+std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) const
+{
+    std::vector<material_id> stored_fuels;
+    for( const material_id &fuel : bio->fuel_opts ) {
+        if( !get_value( fuel.str() ).empty() || fuel->get_fuel_data().is_perpetual_fuel ) {
+            stored_fuels.emplace_back( fuel );
+        }
+    }
+    return stored_fuels;
+}
+
+int Character::get_fuel_capacity( const material_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    int capacity = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
+                if( fl == fuel ) {
+                    capacity += bid->fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity - amount_stored;
+}
+
+int Character::get_total_fuel_capacity( const material_id &fuel ) const
+{
+    int capacity = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
+                if( fl == fuel ) {
+                    capacity += bid->fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity;
+}
+
+void Character::update_fuel_storage( const material_id &fuel )
+{
+
+    if( get_value( fuel.str() ).empty() ) {
+        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
+            remove_value( bid.c_str() );
+        }
+        return;
+    }
+
+    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
+    if( bids.empty() ) {
+        return;
+    }
+    int amount_fuel_loaded = std::stoi( get_value( fuel.str() ) );
+    std::vector<bionic_id> loaded_bio;
+
+    // Sort bionic in order of decreasing capacity
+    // To fill the bigger ones firts.
+    bool swap = true;
+    while( swap ) {
+        swap = false;
+        for( size_t i = 0; i < bids.size() - 1; i++ ) {
+            if( bids[i + 1]->fuel_capacity > bids[i]->fuel_capacity ) {
+                std::swap( bids[i + 1], bids[i] );
+                swap = true;
+            }
+        }
+    }
+
+    for( const bionic_id &bid : bids ) {
+        remove_value( bid.c_str() );
+        if( bid->fuel_capacity <= amount_fuel_loaded ) {
+            amount_fuel_loaded -= bid->fuel_capacity;
+            loaded_bio.emplace_back( bid );
+        } else if( amount_fuel_loaded != 0 ) {
+            loaded_bio.emplace_back( bid );
+            break;
+        }
+    }
+
+    for( const bionic_id &bd : loaded_bio ) {
+        set_value( bd.str(), fuel.str() );
+    }
+
+}
+
+int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
+{
+    int ret = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto St_bn = bid->stat_bonus.find( Stat );
+        if( St_bn != bid->stat_bonus.end() ) {
+            ret += St_bn->second;
+        }
+    }
+    return ret;
+}
+
+float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+{
+    float result = 0.0f;
+    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto cut_prot = bid->cut_protec.find( bp.id() );
+            if( cut_prot != bid->cut_protec.end() ) {
+                result += cut_prot->second;
+            }
+        }
+    } else if( dt == damage_type::BASH ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bash_prot = bid->bash_protec.find( bp.id() );
+            if( bash_prot != bid->bash_protec.end() ) {
+                result += bash_prot->second;
+            }
+        }
+    } else if( dt == damage_type::BULLET ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
+            if( bullet_prot != bid->bullet_protec.end() ) {
+                result += bullet_prot->second;
+            }
+        }
+    }
+
+    return result;
+}
+

@@ -6,7 +6,6 @@
 #include <bitset>
 #include <cmath>
 #include <cstdint>
-#include <fstream>
 #include <iterator>
 #include <set>
 #include <stdexcept>
@@ -24,11 +23,13 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -49,7 +50,6 @@
 #include "overlay_ordering.h"
 #include "path_info.h"
 #include "pixel_minimap.h"
-#include "player.h"
 #include "rect_range.h"
 #include "scent_map.h"
 #include "sdl_utils.h"
@@ -589,7 +589,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     std::string img_path = tileset_root + '/' + tileset_path;
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    std::ifstream config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream config_file( fs::u8path( json_path ), std::ifstream::in | std::ifstream::binary );
 
     if( !config_file.good() ) {
         throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
@@ -632,8 +632,8 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-        std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in |
-                                       std::ifstream::binary );
+        cata::ifstream mod_config_file( fs::u8path( json_path ), std::ifstream::in |
+                                        std::ifstream::binary );
 
         if( !mod_config_file.good() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
@@ -943,6 +943,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
+                    curr_subtile.animated = subentry.get_bool( "animated", false );
                     curr_tile.available_subtiles.push_back( s_id );
                 }
             } else if( entry.has_array( "additional_tiles" ) ) {
@@ -1202,6 +1203,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             max_npc_effectiveness = std::max( pair.second, max_npc_effectiveness );
         }
     }
+
+    creature_tracker &creatures = get_creature_tracker();
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1397,7 +1400,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
-                const Creature *critter = g->critter_at( pos, true );
+                const Creature *critter = creatures.creature_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
                     ( critter && ( you.sees_with_infrared( *critter ) ||
                                    you.sees_with_specials( *critter ) ) ) ) {
@@ -2058,6 +2061,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // TODO: faster solution here
     unsigned int seed = 0;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // TODO: determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -2120,7 +2124,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_MONSTER:
             // FIXME: add persistent id to Creature type, instead of using monster pointer address
             if( monster_override.find( pos ) == monster_override.end() ) {
-                seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
+                seed = reinterpret_cast<uintptr_t>( creatures.creature_at<monster>( pos ) );
             }
             break;
         default:
@@ -2131,7 +2135,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
             // NPC
             if( string_starts_with( found_id, "npc_" ) ) {
-                if( npc *const guy = g->critter_at<npc>( pos ) ) {
+                if( npc *const guy = creatures.creature_at<npc>( pos ) ) {
                     seed = guy->getID().get_value();
                     break;
                 }
@@ -2183,6 +2187,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             // offset by log_rand so that everything does not blink at the same time:
             animation_frame += loc_rand;
             int frames_in_loop = display_tile.fg.get_weight();
+            if( frames_in_loop == 1 ) {
+                frames_in_loop = display_tile.bg.get_weight();
+            }
             // loc_rand is actually the weighed index of the selected tile, and
             // for animations the "weight" is the number of frames to show the tile for:
             loc_rand = animation_frame % frames_in_loop;
@@ -2418,7 +2425,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     const furn_t &curr_furn = here.furn( pbelow ).obj();
     int part_below;
     int sizefactor = 2;
-    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_furn.movecost < 0 ) {
+    if( curr_furn.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) || curr_furn.movecost < 0 ) {
         tercol = curses_color_to_SDL( curr_furn.color() );
     } else if( const vehicle *veh = here.veh_at_internal( pbelow, part_below ) ) {
         const int roof = veh->roof_at_part( part_below );
@@ -2427,7 +2434,8 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         tercol = curses_color_to_SDL( ( roof >= 0 ||
                                         vpobst ) ? c_light_gray : c_magenta );
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
-    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.has_flag( TFLAG_NO_FLOOR ) ||
+    } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ||
+               curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                curr_ter.movecost == 0 ) {
         tercol = curses_color_to_SDL( curr_ter.color() );
     } else {
@@ -2996,7 +3004,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
 
     // Get the critter at the location below. If there isn't one,
     // we can bail.
-    const Creature *critter = g->critter_at( pbelow, true );
+    const Creature *critter = get_creature_tracker().creature_at( pbelow, true );
     if( critter == nullptr ) {
         return false;
     }
@@ -3044,6 +3052,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     bool sees_player;
     Creature::Attitude attitude;
     Character &you = get_player_character();
+    creature_tracker &creatures = get_creature_tracker();
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {
         const mtype_id id = std::get<0>( override->second );
@@ -3059,7 +3068,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         result = draw_from_id_string( chosen_id, C_MONSTER, ent_subcategory, p, corner, 0,
                                       lit_level::LIT, false, height_3d );
     } else if( !invisible[0] ) {
-        const Creature *pcritter = g->critter_at( p, true );
+        const Creature *pcritter = creatures.creature_at( p, true );
         if( pcritter == nullptr ) {
             return false;
         }
@@ -3114,7 +3123,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 attitude = m->attitude_to( you );
             }
         }
-        const player *pl = dynamic_cast<const player *>( &critter );
+        const Character *pl = dynamic_cast<const Character *>( &critter );
         if( pl != nullptr ) {
             draw_entity_with_overlays( *pl, p, ll, height_3d );
             result = true;
@@ -3127,7 +3136,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     } else {
         // invisible
-        const Creature *critter = g->critter_at( p, true );
+        const Creature *critter = creatures.creature_at( p, true );
         if( critter && ( you.sees_with_infrared( *critter ) ||
                          you.sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden
@@ -3647,7 +3656,7 @@ void cata_tiles::draw_weather_frame()
 void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings )
 {
     const bool use_font = get_option<bool>( "ANIMATION_SCT_USE_FONT" );
-    tripoint player_pos = get_player_location().pos();
+    tripoint player_pos = get_player_character().pos();
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const point iD( iter->getPosX(), iter->getPosY() );
@@ -3692,7 +3701,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
 void cata_tiles::draw_zones_frame()
 {
-    tripoint player_pos = get_player_location().pos();
+    tripoint player_pos = get_player_character().pos();
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( "highlight", C_NONE, empty_string,
@@ -3879,7 +3888,8 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
 {
     map &here = get_map();
     //check if furniture should connect to itself
-    if( here.has_flag( "NO_SELF_CONNECT", p ) || here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
+        here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
         get_rotation_and_subtile( 0, rotation, subtile );
     } else {
@@ -3891,7 +3901,7 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
         int val = 0;
         bool use_furniture = false;
 
-        if( here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
             for( int i = 0; i < 4; ++i ) {
                 // align to furniture that has the workbench quality
                 const tripoint &pt = p + four_adjacent_offsets[i];
@@ -3905,8 +3915,9 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
         if( val == 0 ) {
             for( int i = 0; i < 4; ++i ) {
                 const tripoint &pt = p + four_adjacent_offsets[i];
-                if( here.has_flag( "WALL", pt ) || here.has_flag( "WINDOW", pt ) ||
-                    here.has_flag( "DOOR", pt ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_WALL, pt ) ||
+                    here.has_flag( ter_furn_flag::TFLAG_WINDOW, pt ) ||
+                    here.has_flag( ter_furn_flag::TFLAG_DOOR, pt ) ) {
                     val += 1 << i;
                 }
             }

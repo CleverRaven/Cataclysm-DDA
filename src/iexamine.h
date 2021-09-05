@@ -14,7 +14,7 @@
 
 class item;
 class JsonObject;
-class player;
+class Character;
 class time_point;
 class vpart_reference;
 struct itype;
@@ -28,7 +28,7 @@ struct iexamine_actor {
     explicit iexamine_actor( const std::string &type ) : type( type ) {}
 
     virtual void load( const JsonObject & ) = 0;
-    virtual void call( player &, const tripoint & ) const = 0;
+    virtual void call( Character &, const tripoint & ) const = 0;
     virtual void finalize() const = 0;
 
     virtual std::unique_ptr<iexamine_actor> clone() const = 0;
@@ -39,96 +39,101 @@ struct iexamine_actor {
 namespace iexamine
 {
 
-bool try_start_hacking( player &p, const tripoint &examp );
+bool try_start_hacking( Character &you, const tripoint &examp );
 
-void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );
+void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype );
 
-void none( player &p, const tripoint &examp );
+void none( Character &you, const tripoint &examp );
 
-void gaspump( player &p, const tripoint &examp );
-void atm( player &p, const tripoint &examp );
-void vending( player &p, const tripoint &examp );
-void toilet( player &p, const tripoint &examp );
-void elevator( player &p, const tripoint &examp );
-void nanofab( player &p, const tripoint &examp );
-void controls_gate( player &p, const tripoint &examp );
-void cardreader( player &p, const tripoint &examp );
-void cardreader_robofac( player &p, const tripoint &examp );
-void cardreader_foodplace( player &p, const tripoint &examp );
-void intercom( player &p, const tripoint &examp );
-void cvdmachine( player &p, const tripoint &examp );
-void rubble( player &p, const tripoint &examp );
-void chainfence( player &p, const tripoint &examp );
-void bars( player &p, const tripoint &examp );
-void deployed_furniture( player &p, const tripoint &pos );
-void portable_structure( player &p, const tripoint &examp );
-void pit( player &p, const tripoint &examp );
-void pit_covered( player &p, const tripoint &examp );
-void slot_machine( player &p, const tripoint &examp );
-void safe( player &guy, const tripoint &examp );
-void gunsafe_el( player &p, const tripoint &examp );
-void harvest_furn_nectar( player &p, const tripoint &examp );
-void harvest_furn( player &p, const tripoint &examp );
-void harvest_ter_nectar( player &p, const tripoint &examp );
-void harvest_ter( player &p, const tripoint &examp );
-void harvested_plant( player &p, const tripoint &examp );
-void locked_object( player &p, const tripoint &examp );
-void locked_object_pickable( player &p, const tripoint &examp );
-void bulletin_board( player &p, const tripoint &examp );
-void fault( player &p, const tripoint &examp );
-void pedestal_wyrm( player &p, const tripoint &examp );
-void pedestal_temple( player &p, const tripoint &examp );
-void door_peephole( player &p, const tripoint &examp );
-void fswitch( player &p, const tripoint &examp );
-void flower_tulip( player &p, const tripoint &examp );
-void flower_spurge( player &p, const tripoint &examp );
-void flower_poppy( player &p, const tripoint &examp );
-void flower_cactus( player &p, const tripoint &examp );
-void flower_bluebell( player &p, const tripoint &examp );
-void flower_dahlia( player &p, const tripoint &examp );
-void flower_marloss( player &p, const tripoint &examp );
-void egg_sackbw( player &p, const tripoint &examp );
-void egg_sackcs( player &p, const tripoint &examp );
-void egg_sackws( player &p, const tripoint &examp );
-void fungus( player &p, const tripoint &examp );
-void dirtmound( player &p, const tripoint &examp );
-void aggie_plant( player &p, const tripoint &examp );
-void tree_hickory( player &p, const tripoint &examp );
-void tree_maple( player &p, const tripoint &examp );
-void tree_maple_tapped( player &p, const tripoint &examp );
-void shrub_marloss( player &p, const tripoint &examp );
-void tree_marloss( player &p, const tripoint &examp );
-void shrub_wildveggies( player &p, const tripoint &examp );
-void water_source( player &p, const tripoint &examp );
-void clean_water_source( player &, const tripoint &examp );
-void kiln_empty( player &p, const tripoint &examp );
-void kiln_full( player &p, const tripoint &examp );
-void arcfurnace_empty( player &p, const tripoint &examp );
-void arcfurnace_full( player &p, const tripoint &examp );
-void autoclave_empty( player &p, const tripoint &examp );
-void autoclave_full( player &, const tripoint &examp );
-void fireplace( player &p, const tripoint &examp );
-void fvat_empty( player &p, const tripoint &examp );
-void fvat_full( player &p, const tripoint &examp );
-void keg( player &p, const tripoint &examp );
-void reload_furniture( player &p, const tripoint &examp );
-void curtains( player &p, const tripoint &examp );
-void sign( player &p, const tripoint &examp );
-void pay_gas( player &p, const tripoint &examp );
-void ledge( player &p, const tripoint &examp );
-void autodoc( player &p, const tripoint &examp );
-void attunement_altar( player &p, const tripoint &examp );
-void translocator( player &p, const tripoint &examp );
+bool always_false( const tripoint &examp );
+bool always_true( const tripoint &examp );
+bool harvestable_now( const tripoint &examp );
+
+void gaspump( Character &you, const tripoint &examp );
+void atm( Character &you, const tripoint &examp );
+void vending( Character &you, const tripoint &examp );
+void toilet( Character &, const tripoint &examp );
+void elevator( Character &you, const tripoint &examp );
+void nanofab( Character &you, const tripoint &examp );
+void controls_gate( Character &you, const tripoint &examp );
+void cardreader( Character &you, const tripoint &examp );
+void cardreader_robofac( Character &you, const tripoint &examp );
+void cardreader_foodplace( Character &you, const tripoint &examp );
+void intercom( Character &you, const tripoint &examp );
+void cvdmachine( Character &you, const tripoint &examp );
+void change_appearance( Character &you, const tripoint &examp );
+void rubble( Character &you, const tripoint &examp );
+void chainfence( Character &you, const tripoint &examp );
+void bars( Character &you, const tripoint &examp );
+void deployed_furniture( Character &you, const tripoint &pos );
+void portable_structure( Character &you, const tripoint &examp );
+void pit( Character &you, const tripoint &examp );
+void pit_covered( Character &you, const tripoint &examp );
+void slot_machine( Character &you, const tripoint &examp );
+void safe( Character &you, const tripoint &examp );
+void gunsafe_el( Character &you, const tripoint &examp );
+void harvest_furn_nectar( Character &you, const tripoint &examp );
+void harvest_furn( Character &you, const tripoint &examp );
+void harvest_ter_nectar( Character &you, const tripoint &examp );
+void harvest_ter( Character &you, const tripoint &examp );
+void harvested_plant( Character &you, const tripoint &examp );
+void locked_object( Character &you, const tripoint &examp );
+void locked_object_pickable( Character &you, const tripoint &examp );
+void bulletin_board( Character &you, const tripoint &examp );
+void fault( Character &you, const tripoint &examp );
+void pedestal_wyrm( Character &you, const tripoint &examp );
+void pedestal_temple( Character &you, const tripoint &examp );
+void door_peephole( Character &you, const tripoint &examp );
+void fswitch( Character &you, const tripoint &examp );
+void flower_tulip( Character &you, const tripoint &examp );
+void flower_spurge( Character &you, const tripoint &examp );
+void flower_poppy( Character &you, const tripoint &examp );
+void flower_cactus( Character &you, const tripoint &examp );
+void flower_bluebell( Character &you, const tripoint &examp );
+void flower_dahlia( Character &you, const tripoint &examp );
+void flower_marloss( Character &you, const tripoint &examp );
+void egg_sackbw( Character &you, const tripoint &examp );
+void egg_sackcs( Character &you, const tripoint &examp );
+void egg_sackws( Character &you, const tripoint &examp );
+void fungus( Character &you, const tripoint &examp );
+void dirtmound( Character &you, const tripoint &examp );
+void aggie_plant( Character &you, const tripoint &examp );
+void tree_hickory( Character &you, const tripoint &examp );
+void tree_maple( Character &you, const tripoint &examp );
+void tree_maple_tapped( Character &you, const tripoint &examp );
+void shrub_marloss( Character &you, const tripoint &examp );
+void tree_marloss( Character &you, const tripoint &examp );
+void shrub_wildveggies( Character &you, const tripoint &examp );
+void water_source( Character &, const tripoint &examp );
+void clean_water_source( Character &, const tripoint &examp );
+void kiln_empty( Character &you, const tripoint &examp );
+void kiln_full( Character &you, const tripoint &examp );
+void arcfurnace_empty( Character &you, const tripoint &examp );
+void arcfurnace_full( Character &you, const tripoint &examp );
+void autoclave_empty( Character &you, const tripoint &examp );
+void autoclave_full( Character &, const tripoint &examp );
+void fireplace( Character &you, const tripoint &examp );
+void fvat_empty( Character &you, const tripoint &examp );
+void fvat_full( Character &you, const tripoint &examp );
+void keg( Character &you, const tripoint &examp );
+void reload_furniture( Character &you, const tripoint &examp );
+void curtains( Character &you, const tripoint &examp );
+void sign( Character &you, const tripoint &examp );
+void pay_gas( Character &you, const tripoint &examp );
+void ledge( Character &you, const tripoint &examp );
+void autodoc( Character &you, const tripoint &examp );
+void attunement_altar( Character &you, const tripoint &examp );
+void translocator( Character &you, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
-void mill_finalize( player &, const tripoint &examp, const time_point &start_time );
-void quern_examine( player &p, const tripoint &examp );
-void smoker_options( player &p, const tripoint &examp );
-void open_safe( player &p, const tripoint &examp );
-void workbench( player &p, const tripoint &examp );
-void workbench_internal( player &p, const tripoint &examp,
+void mill_finalize( Character &, const tripoint &examp, const time_point &start_time );
+void quern_examine( Character &you, const tripoint &examp );
+void smoker_options( Character &you, const tripoint &examp );
+void open_safe( Character &you, const tripoint &examp );
+void workbench( Character &you, const tripoint &examp );
+void workbench_internal( Character &you, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
-void workout( player &p, const tripoint &examp );
+void workout( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
@@ -144,24 +149,30 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 // Planting functions
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
-void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
-void harvest_plant( player &p, const tripoint &examp, bool from_activity = false );
-void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );
-itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
-ret_val<bool> can_fertilize( player &p, const tripoint &tile, const itype_id &fertilizer );
+void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id );
+void harvest_plant( Character &you, const tripoint &examp, bool from_activity = false );
+void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
+itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
+ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions
-void practice_survival_while_foraging( player *p );
+void practice_survival_while_foraging( Character *you );
 
 } // namespace iexamine
 
 namespace iexamine_helper
 {
-bool drink_nectar( player &p );
-void handle_harvest( player &p, const std::string &itemid, bool force_drop );
+bool drink_nectar( Character &you );
+void handle_harvest( Character &you, const std::string &itemid, bool force_drop );
 } // namespace iexamine_helper
 
-using iexamine_function = void ( * )( player &, const tripoint & );
-iexamine_function iexamine_function_from_string( const std::string &function_name );
+using iexamine_examine_function = void ( * )( Character &, const tripoint & );
+using iexamine_can_examine_function = bool ( * )( const tripoint & );
+struct iexamine_functions {
+    iexamine_can_examine_function can_examine;
+    iexamine_examine_function examine;
+};
+
+iexamine_functions iexamine_functions_from_string( const std::string &function_name );
 
 #endif // CATA_SRC_IEXAMINE_H

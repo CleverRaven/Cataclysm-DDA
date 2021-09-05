@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
@@ -773,7 +774,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     const bool vert_coll = bash_floor || p.z != sm_pos.z;
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
-    Creature *critter = g->critter_at( p, true );
+    Creature *critter = get_creature_tracker().creature_at( p, true );
     Character *ph = dynamic_cast<Character *>( critter );
 
     Creature *driver = pl_ctrl ? &player_character : nullptr;
@@ -822,7 +823,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const units::angle angle =
@@ -830,7 +831,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
-            while( g->critter_at( end_pos, true ) ||
+            while( get_creature_tracker().creature_at( end_pos, true ) ||
                    cur_points.find( end_pos ) != cur_points.end() ) {
                 start_pos = end_pos;
                 calc_ray_end( angle, 2, start_pos, end_pos );
@@ -869,21 +870,21 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                ( here.is_bashable_ter_furn( p, false ) && here.move_cost_ter_furn( p ) != 2 &&
                  // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                  ( part_with_feature( ret.part, VPFLAG_WHEEL, true ) >= 0 ||
-                   !here.has_flag_ter_or_furn( "TINY", p ) ) &&
+                   !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
                  !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
-                    here.has_flag_ter_or_furn( "SHORT", p ) ) &&
+                    here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
-                 !here.has_flag_ter_or_furn( "NOCOLLIDE", p ) &&
+                 !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOCOLLIDE, p ) &&
                  // Do not collide with track tiles if we can use rails
-                 !( here.has_flag_ter_or_furn( TFLAG_RAIL, p ) && this->can_use_rails() ) ) ) {
+                 !( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, p ) && this->can_use_rails() ) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
         ret.type = veh_coll_bashable;
         terrain_collision_data( p, bash_floor, mass2, part_dens, e );
         ret.target_name = here.disp_name( p );
     } else if( here.impassable_ter_furn( p ) ||
-               ( bash_floor && !here.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
+               ( bash_floor && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ) {
         // not destructible
         ret.type = veh_coll_other;
         mass2 = 1000;
@@ -1283,7 +1284,8 @@ bool vehicle::check_is_heli_landed()
 {
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
-    if( global_pos3().z == 0 || !get_map().has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) {
+    if( global_pos3().z == 0 ||
+        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, global_pos3() ) ) {
         is_flying = false;
         return true;
     }
@@ -1299,20 +1301,21 @@ bool vehicle::check_heli_descend( Character &p )
     int count = 0;
     int air_count = 0;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
         if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
-                                    !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) ) {
+                                    !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) ) {
             p.add_msg_if_player( _( "You are already landed!" ) );
             return false;
         }
         const optional_vpart_position ovp = here.veh_at( below );
-        if( here.impassable_ter_furn( below ) || ovp || g->critter_at( below ) ) {
+        if( here.impassable_ter_furn( below ) || ovp || creatures.creature_at( below ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
-        if( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
             air_count++;
         }
         count++;
@@ -1336,11 +1339,14 @@ bool vehicle::check_heli_ascend( Character &p )
         return false;
     }
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
         const optional_vpart_position ovp = here.veh_at( above );
-        if( here.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || here.impassable_ter_furn( above ) || ovp ||
-            g->critter_at( above ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, pt ) ||
+            here.impassable_ter_furn( above ) ||
+            ovp ||
+            creatures.creature_at( above ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
             return false;
@@ -1528,7 +1534,7 @@ float get_collision_factor( const float delta_v )
 }
 
 void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-        const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+        const ter_furn_flag ter_flag_to_check, int &wheels_on_rail,
         int &turning_wheels_that_are_one_axis ) const
 {
     // The direction we're moving
@@ -1643,7 +1649,7 @@ bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) con
 
         int wheels_on_rail;
         int turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( corrected_turn_dir, true, TFLAG_RAIL, wheels_on_rail,
+        precalculate_vehicle_turning( corrected_turn_dir, true, ter_furn_flag::TFLAG_RAIL, wheels_on_rail,
                                       turning_wheels_that_are_one_axis );
         if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
                 turning_wheels_that_are_one_axis ) ) {
@@ -1661,21 +1667,23 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
         // precalculate wheels for every direction
         int straight_wheels_on_rail;
         int straight_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( face.dir(), true, TFLAG_RAIL, straight_wheels_on_rail,
+        precalculate_vehicle_turning( face.dir(), true, ter_furn_flag::TFLAG_RAIL, straight_wheels_on_rail,
                                       straight_turning_wheels_that_are_one_axis );
 
         units::angle left_turn_dir =
             get_corrected_turn_dir( face.dir() - 45_degrees, face.dir() );
         int leftturn_wheels_on_rail;
         int leftturn_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( left_turn_dir, true, TFLAG_RAIL, leftturn_wheels_on_rail,
+        precalculate_vehicle_turning( left_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+                                      leftturn_wheels_on_rail,
                                       leftturn_turning_wheels_that_are_one_axis );
 
         units::angle right_turn_dir =
             get_corrected_turn_dir( face.dir() + 45_degrees, face.dir() );
         int rightturn_wheels_on_rail;
         int rightturn_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( right_turn_dir, true, TFLAG_RAIL, rightturn_wheels_on_rail,
+        precalculate_vehicle_turning( right_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+                                      rightturn_wheels_on_rail,
                                       rightturn_turning_wheels_that_are_one_axis );
 
         // if bad terrain ahead (landing wheels num is low)
@@ -1899,7 +1907,7 @@ bool vehicle::level_vehicle()
             no_support[part_pos.z] = part_pos.z > -OVERMAP_DEPTH;
         }
         if( no_support[part_pos.z] ) {
-            no_support[part_pos.z] = here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, part_pos ) &&
+            no_support[part_pos.z] = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, part_pos ) &&
                                      !here.supports_above( part_pos + tripoint_below );
         }
     }
@@ -1951,10 +1959,10 @@ void vehicle::check_falling_or_floating()
         }
         // water counts as support if we're swimming and checking to see if we're falling, but
         // not to see if the wheels are supported at all
-        if( here.has_flag_ter_or_furn( TFLAG_SWIMMABLE, position ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, position ) ) {
             return water_supports;
         }
-        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
+        if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
         tripoint below( position.xy(), position.z - 1 );
@@ -1991,8 +1999,8 @@ void vehicle::check_falling_or_floating()
     size_t deep_water_tiles = 0;
     size_t water_tiles = 0;
     for( const tripoint &position : pts ) {
-        deep_water_tiles += here.has_flag( TFLAG_DEEP_WATER, position ) ? 1 : 0;
-        water_tiles += here.has_flag( TFLAG_SWIMMABLE, position ) ? 1 : 0;
+        deep_water_tiles += here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, position ) ? 1 : 0;
+        water_tiles += here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, position ) ? 1 : 0;
         if( !is_falling ) {
             continue;
         }
@@ -2029,7 +2037,8 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
-        if( tr.has_flag( TFLAG_DEEP_WATER ) || tr.has_flag( TFLAG_NO_FLOOR ) ) {
+        if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
+            tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
             // No traction from wheel in water or air
             continue;
         }

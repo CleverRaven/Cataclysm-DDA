@@ -14,6 +14,7 @@
 class Character;
 class JsonIn;
 class JsonOut;
+class JsonValue;
 class monster;
 class player_activity;
 
@@ -139,7 +140,7 @@ class disable_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         /** Returns whether the given monster is a robot and can currently be disabled or reprogrammed */
         static bool can_disable_or_reprogram( const monster &monster );
@@ -156,7 +157,7 @@ namespace activity_actors
 {
 
 // defined in activity_actor.cpp
-extern const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
+extern const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions;
 
 } // namespace activity_actors

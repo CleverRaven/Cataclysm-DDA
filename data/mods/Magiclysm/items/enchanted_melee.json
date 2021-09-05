@@ -369,22 +369,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "crowbar_plus_one",
-    "copy-from": "crowbar",
-    "name": { "str": "crowbar +1", "str_pl": "crowbars +1" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
-    "relative": { "to_hit": 1 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "crowbar_plus_two",
-    "copy-from": "crowbar",
-    "name": { "str": "crowbar +2", "str_pl": "crowbars +2" },
-    "proportional": { "price": 9.0, "price_postapoc": 9.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
-    "relative": { "to_hit": 2 }
-  },
-  {
-    "type": "GENERIC",
     "id": "cutlass_plus_one",
     "copy-from": "cutlass",
     "name": { "str": "cutlass +1", "str_pl": "cutlasses +1" },
@@ -444,22 +428,6 @@
     "id": "knife_combat_plus_two",
     "copy-from": "knife_combat",
     "name": { "str": "combat knife +2", "str_pl": "combat knives +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
-    "relative": { "to_hit": 2 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "knife_hunting_plus_one",
-    "copy-from": "knife_hunting",
-    "name": { "str": "hunting knife +1", "str_pl": "hunting knives +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
-    "relative": { "to_hit": 1 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "knife_hunting_plus_two",
-    "copy-from": "knife_hunting",
-    "name": { "str": "hunting knife +2", "str_pl": "hunting knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -724,6 +692,34 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
   },
   {
+    "id": "rune_biomancer_weapon_adept",
+    "type": "GENERIC",
+    "name": { "str": "Biomancer shifting spear" },
+    "//": "Effectively a durable knife spear +2 and a barb laucher that shoots sharpened bone, will have less dps because it has reach and is capable of morphing into a gun",
+    "description": "A grotesque bone spearhead on a hardened flesh pole.  There is a Biomancer rune embedded in the middle.  You feel this spear squirming in your hand as if alive.",
+    "weight": "1422 g",
+    "volume": "1350 ml",
+    "longest_side": "130 cm",
+    "price": 3900,
+    "to_hit": 3,
+    "bashing": 9,
+    "cutting": 25,
+    "material": [ "hflesh", "bone" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "IMPALE" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Extend",
+      "target": "rune_biomancer_gun_adept_trans",
+      "msg": "You feel the spear rapidly contracting and squirming for ranged combat",
+      "need_wielding": true,
+      "moves": 400
+    },
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+  },
+  {
     "id": "rune_technomancer_weapon",
     "type": "GENERIC",
     "name": { "str": "Technomancer toolbar" },
@@ -743,6 +739,29 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS" ]
   },
   {
+    "id": "rune_technomancer_weapon_adept",
+    "type": "TOOL",
+    "name": { "str": "Technomancer mana-toolbar" },
+    "//": "Pretty much the same as the other, but now with a cool touchscreen that casts mirror image and does some minor things",
+    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convenient package.  There are eletronic components in the staff connected to a touchscreen embedded in the staff, you only had time to cram one spell in the prototype software.  There is a Technomancer rune embedded in the hammerhead.",
+    "weight": "1000 g",
+    "volume": "1750 ml",
+    "longest_side": "65 cm",
+    "price": 5000,
+    "bashing": 27,
+    "cutting": 1,
+    "material": [ "steel", "glass" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ] ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "WATCH", "ALARMCLOCK", "NO_RELOAD", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "charges_per_use": 1,
+    "use_action": [ { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true } ]
+  },
+  {
     "id": "rune_magus_weapon",
     "type": "GENERIC",
     "name": { "str": "Magus staff", "str_pl": "Magus staves" },
@@ -756,6 +775,27 @@
     "bashing": 29,
     "material": [ "wood", "diamond" ],
     "symbol": "/",
+    "color": "brown",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+  },
+  {
+    "id": "rune_magus_weapon_adept",
+    "type": "GENERIC",
+    "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
+    "//": "It will be based on the Q +2 weapon but sightly worse, sightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
+    "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magi runes carved into the wood.",
+    "weight": "1600 g",
+    "volume": "3500 ml",
+    "longest_side": "185 cm",
+    "price": 15000,
+    "to_hit": 4,
+    "bashing": 34,
+    "material": [ "wood", "diamond" ],
+    "symbol": "/",
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ] } ]
+    },
     "color": "brown",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
@@ -780,6 +820,38 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "MAGIC_FOCUS", "THERMOMETER" ]
+  },
+  {
+    "id": "rune_kelvinist_ice_adept_weapon",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "Kelvinist Frostbind" },
+    "//": "Stats based on scimitar +2, a weapon that will cast freezing touch when it hits, has wide strike",
+    "description": "This curved sword, reminiscent of a scimitar, has a handle with an embedded crystal from which a cold wind emanates.  There are Kelvinist runes embedded in the blade.",
+    "price": 558000,
+    "price_postapoc": 21000,
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_2", "WIDE" ],
+    "weight": "960 g",
+    "volume": "2 L",
+    "longest_side": "90 cm",
+    "bashing": 8,
+    "cutting": 36,
+    "to_hit": 3,
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "use_action": [
+      { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
+      "WEATHER_TOOL"
+    ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "THERMOMETER", "MAGIC_FOCUS", "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "chilling_touch" } ] } ]
+    },
+    "charges_per_use": 1
   },
   {
     "id": "rune_stormshaper_weapon",

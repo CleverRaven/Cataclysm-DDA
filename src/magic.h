@@ -148,9 +148,9 @@ struct fake_spell {
     // a chance to trigger the enchantment spells
     int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
-    translation trigger_message;
+    translation trigger_message; // NOLINT(cata-serialize)
     // a message when the enchantment is triggered and is on npc
-    translation npc_trigger_message;
+    translation npc_trigger_message; // NOLINT(cata-serialize)
 
     fake_spell() = default;
     explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -209,9 +209,11 @@ class spell_type
         std::string sound_variant;
         // spell effect string. used to look up spell function
         std::string effect_name;
+        // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
         std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
-                                          const tripoint &source, const tripoint &target )> spell_area_function;
+                                          const tripoint &source, const tripoint &target )>
+        spell_area_function; // NOLINT(cata-serialize)
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
@@ -582,12 +584,12 @@ class known_magic
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
         // the base mana a Character would start with
-        int mana_base = 0;
+        int mana_base = 0; // NOLINT(cata-serialize)
         // current mana
         int mana = 0;
     public:
         // ignores all distractions when casting a spell when true
-        bool casting_ignore = false;
+        bool casting_ignore = false; // NOLINT(cata-serialize)
 
         known_magic();
 

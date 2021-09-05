@@ -12,6 +12,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "colony.h"
+#include "contents_change_handler.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"

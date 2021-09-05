@@ -335,6 +335,11 @@ class string_id
             return !is_null();
         }
 
+        friend std::ostream &operator<<( std::ostream &os, const string_id &s ) {
+            os << s.str();
+            return os;
+        }
+
     private:
         // generic_factory version that corresponds to the _cid
         mutable int64_t _version = INVALID_VERSION;

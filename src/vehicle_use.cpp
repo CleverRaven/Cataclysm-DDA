@@ -19,6 +19,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -983,7 +984,7 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( player_character.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && !player_character.has_two_arms_lifting() ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
             } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( player_character.get_working_leg_count() < 2 ) ) {
@@ -1404,7 +1405,7 @@ void vehicle::operate_planter()
                     break;
                 } else if( here.ter( loc ) == t_dirtmound ) {
                     here.set( loc, t_dirt, f_plant_seed );
-                } else if( !here.has_flag( "PLOWABLE", loc ) ) {
+                } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1452,7 +1453,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = here.i_at( position );
-            if( here.has_flag( "SEALED", position ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_SEALED, position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -1543,9 +1544,10 @@ bool vehicle::is_open( int part_index ) const
 
 bool vehicle::can_close( int part_index, Character &who )
 {
+    creature_tracker &creatures = get_creature_tracker();
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
-            const Creature *const mon = g->critter_at( global_part_pos3( parts[partID] ) );
+            const Creature *const mon = creatures.creature_at( global_part_pos3( parts[partID] ) );
             if( mon ) {
                 if( mon->is_avatar() ) {
                     who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
@@ -1820,8 +1822,9 @@ void vehicle::use_harness( int part, const tripoint &pos )
         add_msg( m_info, _( "The harness is blocked." ) );
         return;
     }
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        monster *mon_ptr = g->critter_at<monster>( pnt );
+    creature_tracker &creatures = get_creature_tracker();
+    const std::function<bool( const tripoint & )> f = [&creatures]( const tripoint & pnt ) {
+        monster *mon_ptr = creatures.creature_at<monster>( pnt );
         if( mon_ptr == nullptr ) {
             return false;
         }
@@ -1838,7 +1841,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
     const tripoint &target = *pnt_;
-    monster *mon_ptr = g->critter_at<monster>( target );
+    monster *mon_ptr = creatures.creature_at<monster>( target );
     if( mon_ptr == nullptr ) {
         add_msg( m_info, _( "No creature there." ) );
         return;
@@ -2032,7 +2035,7 @@ void vehicle::interact_with( const vpart_position &vp )
     map &here = get_map();
     avatar &player_character = get_avatar();
     const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
-    const bool items_are_sealed = here.has_flag( "SEALED", vp.pos() );
+    const bool items_are_sealed = here.has_flag( ter_furn_flag::TFLAG_SEALED, vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
@@ -2159,7 +2162,7 @@ void vehicle::interact_with( const vpart_position &vp )
         choice = selectmenu.ret;
     }
     if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
-        if( !handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+        if( !handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
             return;
         }
     }
