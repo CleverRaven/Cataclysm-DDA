@@ -1898,11 +1898,11 @@ void inventory_selector::refresh_window()
     wnoutrefresh( w_inv );
 }
 
-void inventory_selector::set_filter()
+std::pair< bool, std::string > inventory_selector::query_string( std::string val )
 {
     spopup = std::make_unique<string_input_popup>();
     spopup->max_length( 256 )
-    .text( filter );
+    .text( val );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
@@ -1914,17 +1914,40 @@ void inventory_selector::set_filter()
         spopup->query_string( /*loop=*/false );
     } while( !spopup->confirmed() && !spopup->canceled() );
 
-    if( spopup->confirmed() ) {
-        filter = spopup->text();
-        for( inventory_column *const elem : columns ) {
-            elem->set_filter( filter );
-        }
-        if( current_ui ) {
-            current_ui->mark_resize();
-        }
+    std::string rval;
+    bool confirmed = spopup->confirmed();
+    if( confirmed ) {
+        rval = spopup->text();
     }
 
     spopup.reset();
+    return std::make_pair( confirmed, rval );
+}
+
+void inventory_selector::query_set_filter()
+{
+    std::pair< bool, std::string > query = query_string( filter );
+    if( query.first ) {
+        set_filter( query.second );
+    }
+}
+
+int inventory_selector::query_count( std::string init )
+{
+    std::pair< bool, std::string > query = query_string( init );
+    int ret = -1;
+    if( query.first ) {
+        try {
+            ret = std::stoi( query.second );
+        } catch( const std::invalid_argument &e ) {
+            // TODO Tell User they did a bad
+            ret = -1;
+        } catch( const std::out_of_range &e ) {
+            ret = INT_MAX;
+        }
+    }
+
+    return ret;
 }
 
 void inventory_selector::set_filter( const std::string &str )
@@ -2359,7 +2382,7 @@ item_location inventory_pick_selector::execute()
                 return selected.any_item();
             }
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else if( input.action == "EXAMINE" ) {
             const inventory_entry &selected = get_active_column().get_selected();
             if( selected ) {
@@ -2437,6 +2460,8 @@ inventory_multiselector::inventory_multiselector( Character &p,
 {
     ctxt.register_action( "TOGGLE_ENTRY", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
+    ctxt.register_action( "MARK_WITH_COUNT",
+                          to_translation( "Mark a specific amount of selected item" ) );
 
     max_chosen_count = std::numeric_limits<decltype( max_chosen_count )>::max();
 
@@ -2541,7 +2566,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
@@ -2601,24 +2626,27 @@ drop_locations inventory_iuse_selector::execute()
             }
         }
     }
-    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
+        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
 
-        if( input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.entry != nullptr ) {
+        if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            if( count == 0 && input.entry->chosen_count == 0 ) {
-                count = max_chosen_count;
+            set_chosen_count( *input.entry, max_chosen_count );
+        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
+                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
+                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
+            int count = 0;
+            if( input.action == "MARK_WITH_COUNT" || ( noMarkCountBound && input.ch >= '0' &&
+                    input.ch <= '9' ) ) {
+                count = query_count( noMarkCountBound ? std::string( 1, input.ch ) : "" );
+                if( count < 0 ) {
+                    continue; // Skip selecting any if invalid result or user canceled prompt
+                }
             }
-            set_chosen_count( *input.entry, count );
-            count = 0;
-        } else if( input.action == "TOGGLE_ENTRY" ) {
+
             const auto selected( get_active_column().get_all_selected() );
 
             if( count == 0 ) {
@@ -2635,7 +2663,6 @@ drop_locations inventory_iuse_selector::execute()
             for( const auto &elem : selected ) {
                 set_chosen_count( *elem, count );
             }
-            count = 0;
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -2652,10 +2679,9 @@ drop_locations inventory_iuse_selector::execute()
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else {
             on_input( input );
-            count = 0;
         }
     }
     drop_locations dropped_pos_and_qty;
@@ -2750,23 +2776,15 @@ drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
-    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
+        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
 
-        if( input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.entry != nullptr ) {
+        if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            if( count == 0 && input.entry->chosen_count == 0 ) {
-                count = INT_MAX;
-            }
-            set_chosen_count( *input.entry, count );
-            count = 0;
+            set_chosen_count( *input.entry, INT_MAX );
         } else if( input.action == "DROP_NON_FAVORITE" ) {
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
                 return entry.is_item() &&
@@ -2775,9 +2793,22 @@ drop_locations inventory_drop_selector::execute()
             };
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
+            int count = 0; // TODO can't handled count of favorites if seperate key to set count
             process_selected( count, selected );
             deselect_contained_items();
-        } else if( input.action == "TOGGLE_ENTRY" ) {
+
+        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
+                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
+                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
+            int count = 0;
+            if( input.action == "MARK_WITH_COUNT" || ( noMarkCountBound && input.ch >= '0' &&
+                    input.ch <= '9' ) ) {
+                count = query_count( noMarkCountBound ? std::string( 1, input.ch ) : "" );
+                if( count < 0 ) {
+                    continue; // Skip selecting any if invalid result or user canceled prompt
+                }
+            }
+
             const auto selected( get_active_column().get_all_selected() );
 
             // No amount entered, select all
@@ -2831,12 +2862,11 @@ drop_locations inventory_drop_selector::execute()
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
-            count = 0;
         }
     }
 

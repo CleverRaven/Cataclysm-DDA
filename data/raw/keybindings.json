@@ -3095,6 +3095,12 @@
   },
   {
     "type": "keybinding",
+    "id": "MARK_WITH_COUNT",
+    "category": "INVENTORY",
+    "name": "Mark a specific amount of selected item"
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_NW",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-West",
