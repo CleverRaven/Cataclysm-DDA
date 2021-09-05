@@ -174,12 +174,6 @@ ter_id clay_or_sand()
     return t_clay;
 }
 
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
-{
-    const om_direction::type dir = terrain_type->get_dir();
-    m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
 ///// mapgen_functions_big.cpp
