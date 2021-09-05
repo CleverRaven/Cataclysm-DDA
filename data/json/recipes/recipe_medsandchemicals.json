@@ -128,20 +128,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "meth",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_DRUGS",
-    "skill_used": "chemistry",
-    "difficulty": 5,
-    "time": "20 m",
-    "book_learn": [ [ "textbook_chemistry", 5 ], [ "adv_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "dayquil", 2 ] ], [ [ "aspirin", 40 ] ], [ [ "caffeine", 20 ], [ "adderall", 5 ], [ "energy_drink", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "crack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -406,14 +392,13 @@
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
     "difficulty": 6,
-    "time": "2 m",
+    "batch_time_factors": [ 40, 6 ],
+    "charges": 3,
+    "time": "2 h",
     "book_learn": [ [ "textbook_chemistry", 7 ], [ "adv_chemistry", 7 ], [ "atomic_survival", 6 ], [ "recipe_labchem", 6 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "salt_water", 1 ], [ "salt", 10 ], [ "saline", 5 ] ],
-      [ [ "codeine", 25 ], [ "morphine", 3 ], [ "oxycodone", 2 ] ]
-    ]
+    "components": [ [ [ "acetic_anhydride", 1 ] ], [ [ "morphine", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1034,11 +1019,13 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "chem_match_head_powder",
+    "result": "red_phosphorous",
+    "charges": 5,
+    "batch_time_factors": [ 60, 5 ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "fabrication",
-    "time": "8 m",
+    "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
   },
