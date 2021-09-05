@@ -1473,6 +1473,23 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
+    if( it.is_container() ) {
+        hint_rating best_rate = hint_rating::cant;
+        it.visit_items( [&you, &best_rate]( item * node, item * ) {
+            if( you.can_consume( *node ) )  {
+                ret_val<edible_rating> rate = you.will_eat( *node );
+                if( rate.success() ) {
+                    best_rate = hint_rating::good;
+                    return VisitResponse::ABORT;
+                } else if( rate.value() != INEDIBLE || rate.value() != INEDIBLE_MUTATION ) {
+                    best_rate = hint_rating::iffy;
+                }
+            }
+            return VisitResponse::NEXT;
+        } );
+        return best_rate;
+    }
+
     if( !you.can_consume( it ) ) {
         return hint_rating::cant;
     }
@@ -1485,6 +1502,32 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
     }
 
     return hint_rating::iffy;
+}
+
+static hint_rating rate_action_collapse( const item &it )
+{
+    if( it.is_container() ) {
+        for( const item_pocket *pocket : it.get_all_contained_pockets().value() ) {
+            if( !pocket->settings.is_collapsed() ) {
+                return hint_rating::good;
+            }
+        }
+        return hint_rating::cant;
+    }
+    return hint_rating::cant;
+}
+
+static hint_rating rate_action_expand( const item &it )
+{
+    if( !it.is_container() ) {
+        return hint_rating::cant;
+    }
+    for( const item_pocket *pocket : it.get_all_contained_pockets().value() ) {
+        if( pocket->settings.is_collapsed() ) {
+            return hint_rating::good;
+        }
+    }
+    return hint_rating::cant;
 }
 
 static hint_rating rate_action_mend( const avatar &, const item &it )
@@ -1521,6 +1564,9 @@ static hint_rating rate_action_take_off( const avatar &you, const item &it )
 
 static hint_rating rate_action_use( const avatar &you, const item &it )
 {
+    if( it.is_container() && it.item_has_uses_recursive() ) {
+        return hint_rating::good;
+    }
     if( it.is_broken() ) {
         return hint_rating::iffy;
     } else if( it.is_tool() ) {
@@ -1650,6 +1696,8 @@ int game::inventory_item_menu( item_location locThisItem,
             addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
+        addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
+        addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
 
         if( bHPR ) {
@@ -1733,12 +1781,20 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'a': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    avatar_action::use_item( u, locThisItem );
+                    if( !locThisItem.get_item()->is_container() ) {
+                        avatar_action::use_item( u, locThisItem );
+                    } else {
+                        game::item_action_menu( locThisItem );
+                    }
                     handler.handle_by( u );
                     break;
                 }
                 case 'E':
-                    avatar_action::eat( u, locThisItem );
+                    if( !locThisItem.get_item()->is_container() ) {
+                        avatar_action::eat( u, locThisItem );
+                    } else {
+                        avatar_action::eat( u, game_menus::inv::consume( u, locThisItem ) );
+                    }
                     break;
                 case 'W': {
                     contents_change_handler handler;
@@ -1845,6 +1901,20 @@ int game::inventory_item_menu( item_location locThisItem,
                         get_auto_pickup().remove_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' removed from character pickup rules." ), oThisItem.tname( 1,
                                  false ) );
+                    }
+                    break;
+                case '<':
+                    if( oThisItem.is_container() ) {
+                        for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
+                            pocket->settings.set_collapse( false );
+                        }
+                    }
+                    break;
+                case '>':
+                    if( oThisItem.is_container() ) {
+                        for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
+                            pocket->settings.set_collapse( true );
+                        }
                     }
                     break;
                 default:

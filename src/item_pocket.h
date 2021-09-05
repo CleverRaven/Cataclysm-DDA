@@ -100,6 +100,11 @@ class item_pocket
                 /** Whether an item passes the current whitelist and blacklist filters. */
                 bool accepts_item( const item &it ) const;
 
+                /** Are pocket contents hidden?*/
+                bool is_collapsed() const;
+                /** Flag to show or hide the pocket contents in 'i'nventory screen. */
+                void set_collapse( bool );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
@@ -110,6 +115,7 @@ class item_pocket
                 cata::flat_set<itype_id> item_blacklist;
                 cata::flat_set<item_category_id> category_whitelist;
                 cata::flat_set<item_category_id> category_blacklist;
+                bool collapsed = false;
         };
 
         item_pocket() = default;

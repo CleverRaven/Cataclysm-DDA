@@ -220,7 +220,10 @@
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
+      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
+      { "item": "red_phosphorous", "prob": 10 },
+      { "item": "acetic_anhydride", "prob": 8 },
+      { "item": "iodine_crystal", "prob": 12 }
     ]
   },
   {

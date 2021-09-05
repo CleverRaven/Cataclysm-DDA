@@ -5,8 +5,7 @@
     "vit_type": "vitamin",
     "name": { "str": "Calcium" },
     "min": -12000,
-    "rate": "15 m",
-    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
+    "rate": "90 m"
   },
   {
     "id": "iron",
@@ -17,7 +16,7 @@
     "deficiency": "anemia",
     "min": -12000,
     "max": 3600,
-    "rate": "15 m",
+    "rate": "30 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
   },
   {
@@ -28,8 +27,7 @@
     "excess": "hypervitaminosis",
     "min": -8400,
     "max": 3600,
-    "rate": "15 m",
-    "disease": [ [ -2000, -4800 ], [ -4801, -5600 ], [ -5601, -8400 ] ]
+    "rate": "180 m"
   },
   {
     "id": "vitB",
@@ -37,17 +35,18 @@
     "vit_type": "vitamin",
     "name": { "str": "Vitamin B12" },
     "min": -5600,
-    "rate": "15 m",
-    "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
+    "max": 2000,
+    "rate": "360 m"
   },
   {
     "id": "vitC",
     "type": "vitamin",
     "vit_type": "vitamin",
     "name": { "str": "Vitamin C" },
+    "deficiency": "scurvy",
     "min": -5600,
     "rate": "15 m",
-    "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
+    "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
   },
   {
     "id": "mutant_toxin",

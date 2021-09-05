@@ -139,7 +139,7 @@ class talker_character: public talker
         bool worn_with_flag( const flag_id &flag ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
 
-        void mod_fatigue( int amount ) override;
+        void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
         bool can_see() const override;
         void mod_healthy_mod( int, int ) override;
@@ -149,7 +149,16 @@ class talker_character: public talker
         void remove_morale( const morale_type &old_morale ) override;
         int focus_cur() const override;
         void mod_focus( int ) override;
-        void mod_rad( int ) override;
+        void set_rad( int ) override;
+        int get_rad() const override;
+        void set_stim( int ) override;
+        int get_stim() const override;
+        void set_pkill( int ) override;
+        int get_pkill() const override;
+        void set_stamina( int ) override;
+        int get_stamina() const override;
+        void set_sleep_deprivation( int ) override;
+        int get_sleep_deprivation() const override;
     protected:
         talker_character() = default;
         Character *me_chr;
