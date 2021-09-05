@@ -26,16 +26,8 @@
     "armor_stab": 30,
     "armor_acid": 3,
     "weakpoints": [
-      {
-        "name": "a small gap in the armor",
-        "armor_mult": { "physical": 0.5 },
-        "coverage": 15
-      },
-      {
-        "name": "a hole in the bony plates",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 10
-      },
+      { "name": "a small gap in the armor", "armor_mult": { "physical": 0.5 }, "coverage": 15 },
+      { "name": "a hole in the bony plates", "armor_mult": { "physical": 0.25 }, "coverage": 10 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 50,
@@ -76,16 +68,8 @@
     "armor_bash": 12,
     "armor_acid": 1,
     "weakpoints": [
-      {
-        "name": "a small gap in the armor",
-        "armor_mult": { "physical": 0.5 },
-        "coverage": 8
-      },
-      {
-        "name": "a hole in the bony plates",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 5
-      },
+      { "name": "a small gap in the armor", "armor_mult": { "physical": 0.5 }, "coverage": 8 },
+      { "name": "a hole in the bony plates", "armor_mult": { "physical": 0.25 }, "coverage": 5 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
@@ -130,16 +114,8 @@
     "armor_stab": 30,
     "armor_acid": 3,
     "weakpoints": [
-      {
-        "name": "a small gap in the armor",
-        "armor_mult": { "physical": 0.5 },
-        "coverage": 8
-      },
-      {
-        "name": "a hole in the bony plates",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 5
-      },
+      { "name": "a small gap in the armor", "armor_mult": { "physical": 0.5 }, "coverage": 8 },
+      { "name": "a hole in the bony plates", "armor_mult": { "physical": 0.25 }, "coverage": 5 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
@@ -177,16 +153,8 @@
     "armor_cut": 45,
     "armor_bullet": 36,
     "weakpoints": [
-      {
-        "name": "a small gap in the armor",
-        "armor_mult": { "physical": 0.5 },
-        "coverage": 5
-      },
-      {
-        "name": "a hole in the bony plates",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 3
-      },
+      { "name": "a small gap in the armor", "armor_mult": { "physical": 0.5 }, "coverage": 5 },
+      { "name": "a hole in the bony plates", "armor_mult": { "physical": 0.25 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
