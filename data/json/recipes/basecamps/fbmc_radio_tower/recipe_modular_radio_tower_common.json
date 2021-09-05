@@ -202,7 +202,7 @@
         "qualities": [
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SCREW", "level": 2 } ],
+          [ { "id": "SCREW" } ],
           [ { "id": "SCREW_FINE" } ],
           [ { "id": "WRENCH", "level": 2 } ],
           [ { "id": "WRENCH_FINE" } ],
