@@ -148,6 +148,16 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_knot_tying",
+    "name": { "str": "Knot Tying" },
+    "description": "You've learned how to tie ropes or strings into various knots.",
+    "can_learn": true,
+    "default_time_multiplier": 1.2,
+    "default_fail_multiplier": 1.2,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_parkour",
     "name": { "str": "Parkour Expert" },
     "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
