@@ -21,7 +21,9 @@
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
+#include "contents_change_handler.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -127,14 +129,6 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
-static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_TREE( "TREE" );
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -187,6 +181,7 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               vehicle &veh, int part )
 {
+    c.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -307,6 +302,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
+    you.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -754,6 +750,80 @@ std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest
     return std::vector<tripoint>();
 }
 
+std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest )
+{
+    std::unordered_set<tripoint> passable_tiles = std::unordered_set<tripoint>();
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint &tp : here.points_in_radius( dest, 1 ) ) {
+        if( tp == you.pos() || ( here.passable( tp ) && !creatures.creature_at( tp ) ) ) {
+            passable_tiles.emplace( tp );
+        }
+    }
+    // Make sure current tile is at first
+    // so that the "best" tile doesn't change on reaching our destination
+    // if we are near the best workbench
+    std::vector<tripoint> sorted = get_sorted_tiles_by_distance( you.pos(), passable_tiles );
+
+    const auto cmp = [&]( tripoint a, tripoint b ) {
+        float best_bench_multi_a = 0.0f;
+        float best_bench_multi_b = 0.0f;
+        for( const tripoint &adj : here.points_in_radius( a, 1 ) ) {
+            if( here.dangerous_field_at( adj ) ) {
+                continue;
+            }
+            if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
+                if( wb->multiplier > best_bench_multi_a ) {
+                    best_bench_multi_a = wb->multiplier;
+                }
+            } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+                           adj ).part_with_feature( "WORKBENCH", true ) ) {
+                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                    if( wb_info->multiplier > best_bench_multi_a ) {
+                        best_bench_multi_a = wb_info->multiplier;
+                    }
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                }
+            }
+        }
+        for( const tripoint &adj : here.points_in_radius( b, 1 ) ) {
+            if( here.dangerous_field_at( adj ) ) {
+                continue;
+            }
+            if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
+                if( wb->multiplier > best_bench_multi_b ) {
+                    best_bench_multi_b = wb->multiplier;
+                }
+            } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+                           adj ).part_with_feature( "WORKBENCH", true ) ) {
+                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                    if( wb_info->multiplier > best_bench_multi_b ) {
+                        best_bench_multi_b = wb_info->multiplier;
+                    }
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                }
+            }
+        }
+        return best_bench_multi_a > best_bench_multi_b;
+    };
+    std::stable_sort( sorted.begin(), sorted.end(), cmp );
+    const std::set<tripoint> &avoid = you.get_path_avoid();
+    if( sorted.front() == you.pos() ) {
+        // We are on the best tile
+        return std::vector<tripoint>();
+    }
+    for( const tripoint &tp : sorted ) {
+        std::vector<tripoint> route = here.route( you.pos(), tp, you.get_pathfinding_settings(), avoid );
+
+        if( !route.empty() ) {
+            return route;
+        }
+    }
+    return std::vector<tripoint>();
+
+}
 static activity_reason_info find_base_construction(
     const std::vector<construction> &list_constructions,
     Character &you,
@@ -1131,7 +1201,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_MINE ) {
-        if( !here.has_flag( "MINEABLE", src_loc ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> mining_inv = you.items_with( [&you]( const item & itm ) {
@@ -1145,7 +1215,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_FISH ) {
-        if( !here.has_flag( flag_FISHABLE, src_loc ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> rod_inv = you.items_with( []( const item & itm ) {
@@ -1158,7 +1228,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( flag_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
+        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
             here.ter( src_loc ) == t_stump ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
@@ -1187,7 +1257,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
         bool b_rack_present = false;
         for( const tripoint &pt : here.points_in_radius( src_loc, 2 ) ) {
-            if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_BUTCHER_EQ, pt ) ) {
                 b_rack_present = true;
             }
         }
@@ -1264,10 +1334,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         zones = mgr.get_zones( zone_type_FARM_PLOT,
                                here.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
-            if( here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
-            } else if( here.has_flag( flag_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( you.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
                     return activity_reason_info::ok( do_activity_reason::NEEDS_TILLING );
@@ -1275,7 +1345,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) &&
+            } else if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANTABLE, src_loc ) &&
                        warm_enough_to_plant( src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
@@ -1327,8 +1397,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             i.erase_var( "activity_var" );
             if( i.is_disassemblable() ) {
                 // Are the requirements fulfilled?
-                req = recipe_dictionary::get_uncraft(
-                          i.typeId() ).disassembly_requirements();
+                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
+                                  i.components.front().typeId() : i.typeId() );
+                const auto &req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
                 req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {
                 return cur.empty() ||
@@ -2174,7 +2245,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     } );
     map &here = get_map();
     if( mining_inv.empty() || you.is_mounted() || you.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( "MINEABLE", src_loc ) || you.has_effect( effect_incorporeal ) ) {
+        !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ) {
         return false;
     }
     item *chosen_item = nullptr;
@@ -2225,7 +2296,7 @@ static bool chop_tree_activity( Character &you, const tripoint &src_loc )
     }
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
-    if( here.has_flag( flag_TREE, src_loc ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( ACT_CHOP_TREE, moves, -1, you.get_item_position( best_qual ) );
         you.activity.placement = here.getabs( src_loc );
         return true;
@@ -2330,7 +2401,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
             for( const item &stack_elem : here.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == you.name ) {
                     const furn_t &f = here.furn( elem ).obj();
-                    if( !f.has_flag( flag_PLANT ) ) {
+                    if( !f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
                         src_set.insert( here.getabs( elem ) );
                         found_one_point = true;
                         // only check for a valid path, as that is all that is needed to tidy something up.
@@ -2397,7 +2468,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
         }
         if( act_id == ACT_MULTIPLE_FISH ) {
             const ter_id terrain_id = here.ter( set_pt );
-            if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );
             } else {
                 ++it2;
@@ -2642,16 +2713,17 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
     if( reason == do_activity_reason::NEEDS_HARVESTING &&
-        here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         iexamine::harvest_plant( you, src_loc, true );
-    } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
+    } else if( reason == do_activity_reason::NEEDS_TILLING &&
+               here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( ACT_CHURN, 18000, -1 );
         you.backlog.push_front( player_activity( act_id ) );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
-               here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) ) {
+               here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANTABLE, src_loc ) ) {
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        here.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
@@ -2744,8 +2816,10 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
                 if( elem.get_var( "activity_var" ) == you.name ) {
-                    player_activity act = player_activity( disassemble_activity_actor( recipe_dictionary::get_uncraft(
-                            elem.typeId() ).time_to_craft_moves( you, recipe_time_flag::ignore_proficiencies ) ) );
+                    const auto &r = ( elem.typeId() == itype_id( "disassembly" ) ) ? elem.get_making() :
+                                    recipe_dictionary::get_uncraft( elem.typeId() );
+                    player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
+                                                           recipe_time_flag::ignore_proficiencies ) * std::max( 1, elem.charges ) ) );
                     act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getabs( src_loc );
                     act.position = elem.charges;
@@ -2782,7 +2856,9 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
 
-    // sanity check: if a fetch act was assigned but no need to do that anymore, restore our task
+    // check: if a fetch act was assigned but no need to do that anymore, restore our task
+    // may cause infinite loop if something goes wrong
+    // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
         return true;
     }
@@ -2816,10 +2892,21 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         } else if( req_res == requirement_check_result::RETURN_EARLY ) {
             return true;
         }
-
-        if( square_dist( you.pos(), src_loc ) > 1 ) {
-            std::vector<tripoint> route = route_adjacent( you, src_loc );
-
+        std::vector<tripoint> route_workbench;
+        if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+            // returns empty vector if we can't reach best tile
+            // or we are already on the best tile
+            route_workbench = route_best_workbench( you, src_loc );
+        }
+        // If we are doing disassemble we need to stand on the "best" tile
+        if( square_dist( you.pos(), src_loc ) > 1 || !route_workbench.empty() ) {
+            std::vector<tripoint> route;
+            // find best workbench if possible
+            if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+                route = route_workbench;
+            } else {
+                route = route_adjacent( you, src_loc );
+            }
             // check if we found path to source / adjacent tile
             if( route.empty() ) {
                 check_npc_revert( you );
@@ -2839,6 +2926,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 return true;
             }
         }
+
         // we checked if the work spot was in darkness earlier
         // but there is a niche case where the player is in darkness but the work spot is not
         // this can create infinite loops
@@ -2902,7 +2990,7 @@ static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &fro
             best_fire_age = fire_age;
         }
         // If a contained fire exists, ignore any other fires
-        if( here.has_flag_furn( TFLAG_FIRE_CONTAINER, pt ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pt ) ) {
             return pt;
         }
     }
@@ -3082,7 +3170,7 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
     }
 
     // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
-    bool contained = here.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
+    bool contained = here.has_flag_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
     time_duration fire_age = here.get_field_age( *best_fire, fd_fire );
 

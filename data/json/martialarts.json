@@ -670,7 +670,6 @@
       "acr_300blk",
       "ak47",
       "ak74",
-      "an94",
       "ar10",
       "ar15",
       "ar15_retool_300blk",
@@ -690,7 +689,19 @@
       "steyr_aug",
       "tanto",
       "tanto_inferior",
-      "tanto_fake"
+      "tanto_fake",
+      "kirpan",
+      "kirpan_cheap",
+      "kris",
+      "kris_fake",
+      "kukri",
+      "knife_butcher",
+      "knife_carving",
+      "knife_chef",
+      "knife_steak",
+      "pockknife",
+      "punch_dagger",
+      "sword_bayonet"
     ]
   },
   {

@@ -18,7 +18,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "A paramedic who suffers a bit of racism for being asian",
+    "//": "A paramedic who suffers a bit of racism for being Asian",
     "bonus_str": { "rng": [ -1, 1 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ 0, 3 ] },

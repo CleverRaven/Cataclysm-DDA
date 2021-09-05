@@ -59,7 +59,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
-#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -1020,12 +1019,12 @@ void change_spells( Character &character )
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    location &player_location = get_player_location();
-    if( !where || *where == player_location.pos() ) {
+    const Character &player_character = get_player_character();
+    if( !where || *where == player_character.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_location.pos() );
+    const tripoint new_pos( player_character.pos() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
@@ -1193,7 +1192,7 @@ void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
@@ -1219,6 +1218,7 @@ void character_edit_menu()
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
+    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
     if( you.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
@@ -1735,6 +1735,20 @@ void character_edit_menu()
         case D_ASTHMA: {
             you.set_mutation( trait_ASTHMA );
             you.add_effect( effect_asthma, 10_minutes );
+            break;
+        }
+        case D_PRINT_VARS: {
+            write_to_file( "var_list.output", [&you]( std::ostream & testfile ) {
+                testfile << "Character Name: " + you.get_name() << std::endl;
+                testfile << "|;key;value;" << std::endl;
+
+                for( const auto &value : you.get_values() ) {
+                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+                }
+
+            }, "var_list" );
+
+            popup( _( "Var list written to var_list.output" ) );
             break;
         }
     }

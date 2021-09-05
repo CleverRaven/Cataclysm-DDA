@@ -253,7 +253,6 @@
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "crucible", "description": " Craft: Crucible" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" }
     ]

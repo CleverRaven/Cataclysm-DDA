@@ -395,6 +395,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
+    optional( jo, was_loaded, "vanity", vanity, false );
 
     for( JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),

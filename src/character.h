@@ -107,8 +107,6 @@ using drop_locations = std::list<drop_location>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 
-nc_color encumb_color( int level );
-
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
@@ -322,43 +320,11 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
-/**
- * Records a batch of unsealed containers and handles spilling at once. This
- * is preferred over handling containers right after unsealing because the latter
- * can cause items to be invalidated when later code still needs to access them.
- * See @ref `Character::handle_contents_changed` for more detail.
- */
-class contents_change_handler
-{
-    public:
-        contents_change_handler() = default;
-        /**
-         * Add an already unsealed container to the list. This item location
-         * should remain valid when `handle_by` is called.
-         */
-        void add_unsealed( const item_location &loc );
-        /**
-         * Unseal the pocket containing `loc` and add `loc`'s parent to the list.
-         * Does nothing if `loc` does not have a parent container. The parent of
-         * `loc` should remain valid when `handle_by` is called, but `loc` only
-         * needs to be valid here (for example, the item may be consumed afterwards).
-         */
-        void unseal_pocket_containing( const item_location &loc );
-        /**
-         * Let the guy handle any container that needs spilling. This may invalidate
-         * items in and out of the list of containers. The list is cleared after handling.
-         */
-        void handle_by( Character &guy );
-        /**
-         * Serialization for activities
-         */
-        void serialize( JsonOut &jsout ) const;
-        /**
-         * Deserialization for activities
-         */
-        void deserialize( JsonIn &jsin );
-    private:
-        std::vector<item_location> unsealed;
+enum class customize_appearance_choice : int {
+    EYES, // customize eye colour
+    HAIR, // customize hair
+    HAIR_F, // customize facial hair
+    SKIN  // customize skin colour
 };
 
 enum class book_mastery {
@@ -656,7 +622,7 @@ class Character : public Creature, public visitable
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los( const tripoint_abs_omt &omt, int sight_points );
+        bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range( int light_level ) const;
         /** Returns the distance the player can see through walls */
@@ -1197,21 +1163,19 @@ class Character : public Creature, public visitable
                                  int normal_bonus, int head_bonus, int torso_bonus,
                                  int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
-        // Returns color which this limb would have in healing menus
-        nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
         inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
+            setpos( tripoint( x, posy(), posz() ) );
         }
         inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
+            setpos( tripoint( posx(), y, posz() ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
+            setpos( tripoint( pos().xy(), z ) );
         }
         void setpos( const tripoint &p ) override;
 
@@ -2023,9 +1987,6 @@ class Character : public Creature, public visitable
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
-        /** Returns the player's skill rust rate */
-        int rust_rate() const;
-
         // Mental skills and stats
         /** Returns the player's reading speed */
         int read_speed( bool return_stat_effect = true ) const;
@@ -2558,6 +2519,8 @@ class Character : public Creature, public visitable
         /** Handles Character vomiting effects */
         void vomit();
 
+        void customize_appearance( customize_appearance_choice choice );
+
         std::map<mutation_category_id, int> mutation_category_level;
 
         int adjust_for_focus( int amount ) const;
@@ -3028,8 +2991,6 @@ class Character : public Creature, public visitable
         // specific trap - it will consider visibile and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
@@ -3171,6 +3132,9 @@ class Character : public Creature, public visitable
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
 
+        // Our weariness level last turn, so we know when we transition
+        int old_weary_level = 0;
+
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
         bool bio_soporific_powered_at_last_sleep_check = false;
@@ -3246,26 +3210,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** suffer() subcalls */
-        void suffer_water_damage( const trait_id &mut_id );
-        void suffer_mutation_power( const trait_id &mut_id );
-        void suffer_while_underwater();
-        void suffer_from_addictions();
-        void suffer_while_awake( int current_stim );
-        void suffer_from_chemimbalance();
-        void suffer_from_schizophrenia();
-        void suffer_from_asthma( int current_stim );
-        void suffer_from_pain();
-        void suffer_in_sunlight();
-        void suffer_from_sunburn();
-        void suffer_from_other_mutations();
-        void suffer_from_item_dropping();
-        void suffer_from_radiation();
-        void suffer_from_bad_bionics();
-        void suffer_from_stimulants( int current_stim );
-        void suffer_from_exertion();
-        void suffer_without_sleep( int sleep_deprivation );
-        void suffer_from_tourniquet();
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visibility
@@ -3292,9 +3236,6 @@ class Character : public Creature, public visitable
 
         units::energy power_level;
         units::energy max_power_level;
-
-        // Our weariness level last turn, so we know when we transition
-        int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)

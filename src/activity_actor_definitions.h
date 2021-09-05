@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "clone_ptr.h"
+#include "contents_change_handler.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
@@ -95,7 +96,7 @@ class aim_activity_actor : public activity_actor
             return std::string();
         }
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         item *get_weapon();
         void restore_view();
@@ -126,7 +127,7 @@ class autodrive_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class dig_activity_actor : public activity_actor
@@ -185,7 +186,7 @@ class dig_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class dig_channel_activity_actor : public activity_actor
@@ -245,7 +246,7 @@ class dig_channel_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class gunmod_remove_activity_actor : public activity_actor
@@ -278,7 +279,7 @@ class gunmod_remove_activity_actor : public activity_actor
         static void gunmod_remove( Character &who, item &gun, item &mod );
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class hacking_activity_actor : public activity_actor
@@ -302,7 +303,7 @@ class hacking_activity_actor : public activity_actor
             return std::string();
         }
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class bookbinder_copy_activity_actor: public activity_actor
@@ -339,7 +340,7 @@ class bookbinder_copy_activity_actor: public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class hotwire_car_activity_actor : public activity_actor
@@ -375,7 +376,7 @@ class hotwire_car_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class bikerack_racking_activity_actor : public activity_actor
@@ -402,7 +403,7 @@ class bikerack_racking_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class bikerack_unracking_activity_actor : public activity_actor
@@ -431,7 +432,7 @@ class bikerack_unracking_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class read_activity_actor : public activity_actor
@@ -465,7 +466,7 @@ class read_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         int moves_total;
@@ -520,7 +521,7 @@ class move_items_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class pickup_activity_actor : public activity_actor
@@ -561,7 +562,7 @@ class pickup_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class boltcutting_activity_actor : public activity_actor
@@ -583,7 +584,7 @@ class boltcutting_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false; // NOLINT(cata-serialize)
@@ -644,7 +645,7 @@ class lockpick_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class ebooksave_activity_actor : public activity_actor
@@ -671,7 +672,7 @@ class ebooksave_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         item_location book;
@@ -708,7 +709,7 @@ class migration_cancel_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class open_gate_activity_actor : public activity_actor
@@ -742,7 +743,7 @@ class open_gate_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class consume_activity_actor : public activity_actor
@@ -793,7 +794,7 @@ class consume_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class try_sleep_activity_actor : public activity_actor
@@ -829,7 +830,7 @@ class try_sleep_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class safecracking_activity_actor : public activity_actor
@@ -852,7 +853,7 @@ class safecracking_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         tripoint safe;
@@ -895,7 +896,7 @@ class unload_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class craft_activity_actor : public activity_actor
@@ -934,7 +935,7 @@ class craft_activity_actor : public activity_actor
         float exertion_level() const override;
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class workout_activity_actor : public activity_actor
@@ -978,7 +979,7 @@ class workout_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class drop_or_stash_item_info
@@ -1004,6 +1005,13 @@ class drop_or_stash_item_info
         int _count = 0;
 };
 
+
+/**
+ * Activity to drop items to the ground or into a vehicle cargo part.
+ * @items is the list of items to drop
+ * @placement is the offset to the current position of the actor (use tripoint_zero for current pos)
+ * @force_ground should the items be forced to the ground instead of e.g. a container at the position
+ */
 class drop_activity_actor : public activity_actor
 {
     public:
@@ -1030,7 +1038,7 @@ class drop_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         std::vector<drop_or_stash_item_info> items;
@@ -1065,7 +1073,7 @@ class stash_activity_actor: public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         std::vector<drop_or_stash_item_info> items;
@@ -1093,7 +1101,7 @@ class harvest_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         tripoint target;
@@ -1133,7 +1141,7 @@ class reload_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         int moves_total{};
@@ -1167,7 +1175,7 @@ class milk_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
         int total_moves {};
@@ -1207,7 +1215,7 @@ class shearing_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class disassemble_activity_actor : public activity_actor
@@ -1228,6 +1236,7 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
 
         float exertion_level() const override;
 
@@ -1238,7 +1247,7 @@ class disassemble_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class move_furniture_activity_actor : public activity_actor
@@ -1264,7 +1273,7 @@ class move_furniture_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class insert_item_activity_actor : public activity_actor
@@ -1295,7 +1304,7 @@ class insert_item_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class tent_placement_activity_actor : public activity_actor
@@ -1330,7 +1339,7 @@ class tent_placement_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class oxytorch_activity_actor : public activity_actor
@@ -1352,7 +1361,7 @@ class oxytorch_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
@@ -1385,7 +1394,7 @@ class meditate_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut & ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn & );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
 class play_with_pet_activity_actor : public activity_actor
@@ -1409,7 +1418,7 @@ class play_with_pet_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class tent_deconstruct_activity_actor : public activity_actor
@@ -1437,7 +1446,7 @@ class tent_deconstruct_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class shave_activity_actor : public activity_actor
@@ -1457,7 +1466,7 @@ class shave_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut & ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn & );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
 class haircut_activity_actor : public activity_actor
@@ -1477,7 +1486,7 @@ class haircut_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut & ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn & );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

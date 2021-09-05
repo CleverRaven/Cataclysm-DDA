@@ -245,6 +245,7 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "item_blacklist", item_blacklist );
     json.member( "category_whitelist", category_whitelist );
     json.member( "category_blacklist", category_blacklist );
+    json.member( "collapsed", collapsed );
     json.end_object();
 }
 
@@ -257,6 +258,9 @@ void item_pocket::favorite_settings::deserialize( JsonIn &jsin )
     data.read( "item_blacklist", item_blacklist );
     data.read( "category_whitelist", category_whitelist );
     data.read( "category_blacklist", category_blacklist );
+    if( data.has_member( "collapsed" ) ) {
+        data.read( "collapsed", collapsed );
+    }
 }
 
 void pocket_data::deserialize( JsonIn &jsin )
@@ -1790,10 +1794,6 @@ void npc::load( const JsonObject &data )
         submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
     }
 
-    if( !data.read( "mapz", position.z ) ) {
-        data.read( "omz", position.z ); // omz/mapz got moved to position.z
-    }
-
     if( data.has_member( "plx" ) ) {
         last_player_seen_pos.emplace();
         data.read( "plx", last_player_seen_pos->x );
@@ -2126,7 +2126,7 @@ void monster::load( const JsonObject &data )
     data.read( "wandx", wander_pos.x );
     data.read( "wandy", wander_pos.y );
     if( data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = position.z;
+        wander_pos.z = posz();
     }
     if( data.has_int( "next_patrol_point" ) ) {
         data.read( "next_patrol_point", next_patrol_point );
@@ -3377,9 +3377,9 @@ void faction::serialize( JsonOut &json ) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member( "posx", position.x );
-    jsout.member( "posy", position.y );
-    jsout.member( "posz", position.z );
+    jsout.member( "posx", posx() );
+    jsout.member( "posy", posy() );
+    jsout.member( "posz", posz() );
 
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
@@ -3428,13 +3428,15 @@ void Creature::store( JsonOut &jsout ) const
 void Creature::load( const JsonObject &jsin )
 {
     jsin.allow_omitted_members();
-    if( !jsin.read( "posx", position.x ) ) {  // uh-oh.
+    tripoint pos;
+    if( !jsin.read( "posx", pos.x ) ) {  // uh-oh.
         debugmsg( "Bad Creature JSON: no 'posx'?" );
     }
-    jsin.read( "posy", position.y );
-    if( !jsin.read( "posz", position.z ) && g != nullptr ) {
-        position.z = get_map().get_abs_sub().z;
+    jsin.read( "posy", pos.y );
+    if( !jsin.read( "posz", pos.z ) && g != nullptr ) {
+        pos.z = get_map().get_abs_sub().z;
     }
+    set_pos_only( pos );
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 

@@ -28,6 +28,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "contents_change_handler.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"

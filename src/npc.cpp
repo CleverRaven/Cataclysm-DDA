@@ -134,9 +134,7 @@ npc::npc()
 {
     last_updated = calendar::turn;
     submap_coords = point_zero;
-    position.x = -1;
-    position.y = -1;
-    position.z = 500;
+    set_pos_only( tripoint( -1, -1, 500 ) );
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
@@ -172,7 +170,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    position = pos;
+    set_pos_only( pos );
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -797,7 +795,7 @@ void npc::spawn_at_precise( const tripoint_abs_ms &p )
     tripoint_sm_ms remainder;
     std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
     submap_coords = quotient.raw();
-    position = remainder.raw();
+    set_pos_only( remainder.raw() );
 }
 
 tripoint_abs_ms npc::global_square_location() const
@@ -813,7 +811,7 @@ void npc::place_on_map()
     // The main map assumes that pos is in its own (local to the main map)
     // coordinate system. We have to change pos to match that assumption
     const point dm( submap_coords - get_map().get_abs_sub().xy() );
-    const point offset( position.x % SEEX, position.y % SEEY );
+    const point offset( posx() % SEEX, posy() % SEEY );
     // value of "submap_coords.x * SEEX + posx()" is unchanged
     setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
 
@@ -2252,8 +2250,8 @@ int npc::follow_distance() const
     // HACK: If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
     if( is_walking_with() &&
-        ( here.has_flag( TFLAG_GOES_DOWN, player_character.pos() ) ||
-          here.has_flag( TFLAG_GOES_UP, player_character.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos() ) ||
+          here.has_flag( ter_furn_flag::TFLAG_GOES_UP, player_character.pos() ) ) ) {
         return 1;
     }
     // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
@@ -2810,7 +2808,7 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
-    if( here.has_flag( "UNSTABLE", pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );

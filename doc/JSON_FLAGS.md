@@ -528,7 +528,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
 - ```BARRICADABLE_WINDOW_CURTAINS```
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
-- ```BASHABLE``` Players + Monsters can bash this.
 - ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```BURROWABLE``` Burrowing monsters can travel under this terrain, while most others can't (e.g. graboid will traverse under the chain link fence, while ordinary zombie will be stopped by it).
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
@@ -538,7 +537,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
-- ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER``` This is water that can submerge the player
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
@@ -556,7 +554,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_SEED``` This plant is in its seed stage of growth.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
 - ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
 - ```GROWTH_HARVEST``` This plant is ready for harvest.
@@ -987,6 +984,7 @@ Other monster flags.
 - ```VENOM``` Attack may poison the player.
 - ```VERMIN``` Obsolete flag for inconsequential monsters, now prevents loading.
 - ```WARM``` Warm blooded.
+- ```WATER_CAMOUFLAGE``` If in water, stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges. Can also make it harder to see in deep water or across Z-levels if it is underwater and the viewer is not.
 - ```WEBWALK``` Doesn't destroy webs and won't get caught in them.
 - ```WOOL``` May produce wool when butchered.
 
