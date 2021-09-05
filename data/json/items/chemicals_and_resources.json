@@ -1716,7 +1716,7 @@
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "iodine crystal" },
-    "description": "Ressublimated crystals of the element iodine, can be used as an antisseptic, but it is also used in the making of methamphetamine.",
+    "description": "Resublimed crystals of the element iodine, can be used as an antiseptic, but it is also used in the making of methamphetamine.",
     "weight": "3500 mg",
     "volume": "100 ml",
     "container": "box_small",
