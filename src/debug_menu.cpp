@@ -1169,8 +1169,9 @@ void character_edit_menu()
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
              << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << std::endl;
+        data << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << " "
+             << string_format( _( "Sold: %d" ), np->op_of_u.sold ) << std::endl;
 
         data << string_format( _( "Aggression: %d" ),
                                static_cast<int>( np->personality.aggression ) ) << " "
@@ -1178,10 +1179,11 @@ void character_edit_menu()
              << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
              << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
-        data << _( "Needs:" ) << std::endl;
+        data << _( "Needs:" );
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << " " << npc::get_need_str_id( need );
         }
+        data << std::endl;
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
         nmenu.text = data.str();
@@ -1397,6 +1399,7 @@ void character_edit_menu()
             smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+            smenu.addentry( 5, true, 'd', "%s: %d", _( "sold" ), np->op_of_u.sold );
 
             smenu.query();
             int value;
@@ -1427,6 +1430,11 @@ void character_edit_menu()
                 case 4:
                     if( query_int( value, _( "Set owed to?  Currently: %d" ), np->op_of_u.owed ) ) {
                         np->op_of_u.owed = value;
+                    }
+                    break;
+                case 5:
+                    if( query_int( value, _( "Set sold to?  Currently: %d" ), np->op_of_u.sold ) ) {
+                        np->op_of_u.sold = value;
                     }
                     break;
             }

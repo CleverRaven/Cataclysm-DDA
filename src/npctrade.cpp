@@ -664,6 +664,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 int delta_price = ip.price * change_amount;
                 if( !np.will_exchange_items_freely() ) {
                     your_balance -= delta_price;
+                    if( ip.selected != focus_them ) {
+                        your_sale_value -= delta_price;
+                    }
                 }
                 if( ip.loc.where() == item_location::type::character ) {
                     volume_left += ip.vol * change_amount;
@@ -702,6 +705,7 @@ int trading_window::calc_npc_owes_you( const npc &np ) const
 void trading_window::update_npc_owed( npc &np )
 {
     np.op_of_u.owed = calc_npc_owes_you( np );
+    np.op_of_u.sold += your_sale_value;
 }
 
 // Oh my aching head
