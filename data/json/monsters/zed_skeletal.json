@@ -28,15 +28,15 @@
     "weakpoints": [
       {
         "name": "a small gap in the armor",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 },
+        "armor_mult": { "physical": 0.5 },
         "coverage": 15
       },
       {
         "name": "a hole in the bony plates",
-        "armor_mult": { "bullet": 0.25, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
+        "armor_mult": { "physical": 0.25 },
         "coverage": 10
       },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 50,
     "vision_day": 30,
@@ -78,15 +78,15 @@
     "weakpoints": [
       {
         "name": "a small gap in the armor",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 },
+        "armor_mult": { "physical": 0.5 },
         "coverage": 8
       },
       {
         "name": "a hole in the bony plates",
-        "armor_mult": { "bullet": 0.25, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
+        "armor_mult": { "physical": 0.25 },
         "coverage": 5
       },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 35,
@@ -132,15 +132,15 @@
     "weakpoints": [
       {
         "name": "a small gap in the armor",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 },
+        "armor_mult": { "physical": 0.5 },
         "coverage": 8
       },
       {
         "name": "a hole in the bony plates",
-        "armor_mult": { "bullet": 0.25, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
+        "armor_mult": { "physical": 0.25 },
         "coverage": 5
       },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 30,
@@ -179,15 +179,15 @@
     "weakpoints": [
       {
         "name": "a small gap in the armor",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 },
+        "armor_mult": { "physical": 0.5 },
         "coverage": 5
       },
       {
         "name": "a hole in the bony plates",
-        "armor_mult": { "bullet": 0.25, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
+        "armor_mult": { "physical": 0.25 },
         "coverage": 3
       },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 50,

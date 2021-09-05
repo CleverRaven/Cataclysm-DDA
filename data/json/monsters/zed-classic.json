@@ -23,7 +23,7 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "armor_bullet": 6,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 } ],
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": {
@@ -135,9 +135,9 @@
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "coverage": 4
       },
-      { "name": "the face", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 },
-      { "name": "the neck", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "vision_day": 30,
     "vision_night": 3,
@@ -251,9 +251,9 @@
     "armor_cut": 3,
     "armor_bullet": 2,
     "weakpoints": [
-      { "name": "the leg", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 18 },
-      { "name": "the head", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 18 },
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "vision_night": 3,
     "harvest": "zombie",
@@ -307,7 +307,7 @@
     "weakpoints": [
       {
         "name": "a tear in its turnout gear",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5, "acid": 0.5, "fire": 0.5 },
+        "armor_mult": { "physical": 0.5, "acid": 0.5, "fire": 0.5 },
         "coverage": 10
       }
     ],
@@ -360,7 +360,7 @@
     "weakpoints": [
       {
         "name": "a tear in its hazmat suit",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 },
+        "armor_mult": { "physical": 0.5 },
         "coverage": 10
       }
     ],
@@ -472,9 +472,9 @@
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "coverage": 4
       },
-      { "name": "the face", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 },
-      { "name": "the neck", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "vision_day": 30,
     "vision_night": 3,
@@ -526,8 +526,8 @@
     "armor_cut": 1,
     "armor_bullet": 1,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "vision_night": 3,
     "harvest": "zombie",

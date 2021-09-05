@@ -76,9 +76,9 @@
     "armor_bullet": 4,
     "armor_stab": 4,
     "weakpoints": [
-      { "name": "the leg", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 18 },
-      { "name": "the arm", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 9 },
-      { "name": "the head", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 4 }
+      { "name": "the leg", "armor_mult": { "physical": 0 }, "coverage": 18 },
+      { "name": "the arm", "armor_mult": { "physical": 0 }, "coverage": 9 },
+      { "name": "the head", "armor_mult": { "physical": 0 }, "coverage": 4 }
     ],
     "vision_day": 30,
     "vision_night": 3,
@@ -129,10 +129,10 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "weakpoints": [
-      { "name": "the leg", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 10 },
-      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 5 },
-      { "name": "the face", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 2 },
-      { "name": "a gap in the armor", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+      { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 10 },
+      { "name": "the arm", "armor_mult": { "physical": 0.5 }, "coverage": 5 },
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "vision_day": 20,
     "vision_night": 3,
@@ -166,9 +166,9 @@
     "armor_cut": 40,
     "armor_bullet": 30,
     "weakpoints": [
-      { "name": "the face", "armor_mult": { "bullet": 0.25, "cut": 0.25, "stab": 0.25, "bash": 0.25 }, "coverage": 4 },
-      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 },
-      { "name": "a gap in the armor", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 3 }
+      { "name": "the face", "armor_mult": { "physical": 0.25 }, "coverage": 4 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
     ],
     "bleed_rate": 50,
     "vision_night": 5,
