@@ -304,9 +304,7 @@
     "armor_bullet": 5,
     "armor_acid": 3,
     "armor_fire": 10,
-    "weakpoints": [
-      { "name": "a tear in its turnout gear", "armor_mult": { "physical": 0.5, "acid": 0.5 }, "coverage": 10 }
-    ],
+    "weakpoints": [ { "name": "a tear in its turnout gear", "armor_mult": { "physical": 0.5, "acid": 0.5 }, "coverage": 10 } ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
