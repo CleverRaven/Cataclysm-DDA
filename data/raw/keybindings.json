@@ -1748,7 +1748,7 @@
     "type": "keybinding",
     "id": "HIDE_CONTENTS",
     "category": "INVENTORY",
-      "name": "Hide contents",
+    "name": "Hide contents",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
@@ -1758,8 +1758,7 @@
     "name": "Hide contents",
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
-    {      
-
+  {
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "INVENTORY",
     "name": "Scroll item info up",
@@ -1772,9 +1771,8 @@
     "name": "Scroll item info down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
-
-    {
-	"type": "keybinding",
+  {
+    "type": "keybinding",
     "id": "SORT",
     "category": "INVENTORY",
     "name": "Toggle sorting order",

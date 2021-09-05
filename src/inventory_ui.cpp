@@ -2201,7 +2201,7 @@ void inventory_selector::on_input( const inventory_input &input )
             action_examine( sitem );
         }
     } else if( input.action == "INVENTORY_FILTER" ) {
-        set_filter();
+        query_set_filter();
     } else {
         if( has_available_choices() ) {
             for( inventory_column *elem : columns ) {
