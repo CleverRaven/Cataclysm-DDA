@@ -907,6 +907,35 @@
   },
   {
     "type": "vehicle_part",
+    "id": "veh_table_foldable",
+    "name": { "str": "flat-packable table" },
+    "symbol": "#",
+    "looks_like": "veh_table_wood",
+    "categories": [ "utility" ],
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "damage_modifier": 30,
+    "durability": 70,
+    "size": 80,
+    "item": "foldwoodframe",
+    "folded_volume": "12500 ml",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "FOLDABLE" ],
+    "breaks_into": [
+      { "item": "2x4", "count": [ 1, 6 ] },
+      { "item": "splinter", "count": [ 4, 6 ] },
+      { "item": "nail", "charges": [ 4, 7 ] }
+    ],
+    "damage_reduction": { "all": 16 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "workbench",
     "name": { "str": "workbench" },
     "symbol": "#",
