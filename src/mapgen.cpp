@@ -469,7 +469,8 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset )
+load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
+                      const point &total )
 {
     int mgweight = jio.get_int( "weight", 1000 );
     std::shared_ptr<mapgen_function> ret;
@@ -490,7 +491,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
         ret = std::make_shared<mapgen_function_json>(
-                  jsrc, mgweight, "mapgen " + id_base, offset );
+                  jsrc, mgweight, "mapgen " + id_base, offset, total );
         oter_mapgen.add( id_base, ret );
     } else {
         jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
@@ -545,13 +546,17 @@ static void load_update_mapgen( const JsonObject &jio, const std::string &id_bas
  */
 void load_mapgen( const JsonObject &jo )
 {
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    static constexpr point point_one( 1, 1 );
+
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
             point offset;
+            point total( ja.get_array( 0 ).size(), ja.size() );
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
-                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset );
+                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset, total );
                     if( mgfunc ) {
                         oter_mapgen.add( mapgenid, mgfunc );
                     }
@@ -567,7 +572,7 @@ void load_mapgen( const JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero );
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero, point_one );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
                         oter_mapgen.add( i, mgfunc );
@@ -576,7 +581,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero );
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
@@ -647,14 +652,15 @@ mapgen_function_json_base::mapgen_function_json_base(
     , context_( context )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
-    , objects( m_offset, mapgensize )
+    , total_size( mapgensize )
+    , objects( m_offset, mapgensize, total_size )
 {
 }
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
 mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc, const int w,
-        const std::string &context, const point &grid_offset )
+        const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( w )
     , mapgen_function_json_base( jsrcloc, context )
     , fill_ter( t_null )
@@ -662,7 +668,9 @@ mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc,
 {
     m_offset.x = grid_offset.x * mapgensize.x;
     m_offset.y = grid_offset.y * mapgensize.y;
-    objects = jmapgen_objects( m_offset, mapgensize );
+    total_size.x = grid_total.x * mapgensize.x;
+    total_size.y = grid_total.y * mapgensize.y;
+    objects = jmapgen_objects( m_offset, mapgensize, total_size );
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
@@ -2818,9 +2826,10 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize )
+jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize, const point &tot_size )
     : m_offset( offset )
     , mapgensize( mapsize )
+    , total_size( tot_size )
 {}
 
 bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject &jso )
@@ -3322,6 +3331,7 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
             // Non-square sizes not implemented yet
             jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
         }
+        total_size = mapgensize;
     } else {
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }
@@ -3422,6 +3432,11 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
                                                expected_dim.y, parray.size() ) );
         }
+        if( static_cast<int>( parray.size() ) != total_size.y ) {
+            parray.throw_error(
+                string_format( "format: rows: must have %d rows, not %d; check mapgensize if applicable",
+                               total_size.y, parray.size() ) );
+        }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const std::string row = parray.get_string( c );
             std::vector<map_key> row_keys;
@@ -3432,6 +3447,11 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 parray.throw_error(
                     string_format( "  format: row %d must have at least %d columns, not %d",
                                    c + 1, expected_dim.x, row_keys.size() ) );
+            }
+            if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
+                parray.throw_error(
+                    string_format( "  format: row %d must have %d columns, not %d; check mapgensize if applicable",
+                                   c + 1, total_size.x, row_keys.size() ) );
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
