@@ -1904,16 +1904,10 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case '<':
-                    if( oThisItem.is_container() ) {
-                        for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
-                            pocket->settings.set_collapse( false );
-                        }
-                    }
-                    break;
                 case '>':
                     if( oThisItem.is_container() ) {
                         for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
-                            pocket->settings.set_collapse( true );
+                            pocket->settings.set_collapse( cMenu == '>' );
                         }
                     }
                     break;
