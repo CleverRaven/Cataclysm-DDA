@@ -2999,24 +2999,6 @@ cata::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, bool, const
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-cata::optional<int> iuse::cs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws scream to life!" ),
-                           _( "You yank the cords, but nothing happens." ) );
-}
-
-cata::optional<int> iuse::ecs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws scream to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
 cata::optional<int> iuse::carver_off( Character *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -3093,26 +3075,6 @@ cata::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, cons
     return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
                           false,
                           15, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-cata::optional<int> iuse::cs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws rumble." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-cata::optional<int> iuse::ecs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws buzz." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
 }
 
 cata::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )

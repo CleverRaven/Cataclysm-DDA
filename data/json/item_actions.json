@@ -391,26 +391,6 @@
   },
   {
     "type": "item_action",
-    "id": "CS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "DATURA",
     "name": { "str": "Eat" }
   },

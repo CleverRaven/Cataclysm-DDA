@@ -95,8 +95,6 @@ cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & )
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
@@ -105,8 +103,6 @@ cata::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
 cata::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
