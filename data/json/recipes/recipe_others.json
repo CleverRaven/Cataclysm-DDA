@@ -1495,7 +1495,13 @@
     "skill_used": "survival",
     "difficulty": 2,
     "time": "10 m",
-    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
+    "book_learn": [
+      [ "mag_survival", 2 ],
+      [ "textbook_survival", 2 ],
+      [ "survival_book", 1 ],
+      [ "pocket_survival", 1 ],
+      [ "scout_handbook", 1 ]
+    ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_plastic_small", 20 ] ],

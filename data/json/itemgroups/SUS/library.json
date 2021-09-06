@@ -348,7 +348,8 @@
       { "item": "atomic_survival", "count": [ 1, 2 ], "prob": 30 },
       { "item": "textbook_survival", "count": [ 1, 3 ], "prob": 80 },
       { "item": "survival_book", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "manual_swimming", "count": [ 1, 2 ], "prob": 40 }
+      { "item": "manual_swimming", "count": [ 1, 2 ], "prob": 40 },
+      { "item": "scout_handbook", "count": [ 1, 3 ], "prob": 30 }
     ]
   },
   {
@@ -366,7 +367,8 @@
       { "item": "survival_book", "count": [ 0, 1 ], "prob": 20 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "manual_swimming", "count": [ 0, 1 ], "prob": 10 }
+      { "item": "manual_swimming", "count": [ 0, 1 ], "prob": 10 },
+      { "item": "scout_handbook", "count": [ 1, 3 ], "prob": 30 }
     ]
   },
   {

@@ -207,5 +207,24 @@
     "intelligence": 8,
     "time": "20 m",
     "fun": 4
+  },
+  {
+    "id": "scout_handbook",
+    "type": "BOOK",
+    "name": { "str": "The Scout's Handbook", "str_pl": "copies of The Scout's Handbook" },
+    "proficiencies": [ { "proficiency": "prof_knot_tying", "time_factor": 0.1, "fail_factor": 0.1 } ],
+    "description": "A paperback handbook with instruction on basic camping, scouting, and chivalry.",
+    "weight": "250g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "survival",
+    "max_level": 3,
+    "intelligence": 6,
+    "time": "20 m",
+    "fun": 1
   }
 ]

@@ -151,6 +151,7 @@
     "id": "prof_knot_tying",
     "name": { "str": "Knot Tying" },
     "description": "You've learned how to tie ropes or strings into various knots.",
+    "//": "Potentially give a bonus to learning fiber-twisting or ropemaking",
     "can_learn": true,
     "default_time_multiplier": 1.2,
     "default_fail_multiplier": 1.2,
