@@ -435,7 +435,7 @@
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
-    "proficiencies": [ "prof_fibers", "prof_knitting","prof_knot_tying" ],
+    "proficiencies": [ "prof_fibers", "prof_knitting", "prof_knot_tying" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
@@ -3017,7 +3017,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic","prof_knot_tying" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic", "prof_knot_tying" ],
     "items": {
       "both": {
         "items": [
