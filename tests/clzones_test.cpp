@@ -219,18 +219,5 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 }
             }
         }
-
-        // MREs are under the food category but are not directly edible.
-        GIVEN( "a non-comestible food" ) {
-            item noncomestible_food( "mre_dessert" );
-            REQUIRE( noncomestible_food.get_category_shallow().get_id() == item_category_id( "food" ) );
-            REQUIRE_FALSE( noncomestible_food.is_comestible() );
-
-            WHEN( "sorting" ) {
-                THEN( "should put in the food zone" ) {
-                    CHECK( zm.get_near_zone_type_for_item( noncomestible_food, origin_pos ) == zone_type_LOOT_FOOD );
-                }
-            }
-        }
     }
 }
