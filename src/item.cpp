@@ -1650,7 +1650,11 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
-        temp_mon->absorb_hit( nullptr, bodypart_id( "torso" ), dealt_damage );
+        resistances r = resistances( *static_cast<monster *>( temp_mon ) );
+        for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
+            dmg_unit.amount -= std::min( r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+        }
+
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1674,7 +1678,10 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                 dmg_unit.damage_multiplier *= 0.66;
             }
             // TODO: Modify DPS calculation to consider weakpoints.
-            temp_rs_mon->absorb_hit( nullptr, bodypart_id( "torso" ), dealt_rs_damage );
+            resistances rs_r = resistances( *static_cast<monster *>( temp_rs_mon ) );
+            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+                dmg_unit.amount -= std::min( rs_r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+            }
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
