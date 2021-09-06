@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );

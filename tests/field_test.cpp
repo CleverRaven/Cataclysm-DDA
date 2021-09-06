@@ -238,7 +238,7 @@ TEST_CASE( "fire spreading", "[field]" )
     }
     SECTION( "fire spreads on flammable terrain" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
-            REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( TFLAG_FLAMMABLE_ASH ) );
+            REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) );
             m.ter_set( p0, ter_str_id( "t_tree_walnut" ) );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.

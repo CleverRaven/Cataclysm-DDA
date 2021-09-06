@@ -172,9 +172,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
-// terrain-furniture flags
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-
 static const matec_id RAPID( "RAPID" );
 
 class npc_class;
@@ -1652,7 +1649,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon->absorb_hit( bodypart_id( "torso" ), dealt_damage );
+        // TODO: Modify DPS calculation to consider weakpoints.
+        temp_mon->absorb_hit( nullptr, bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1675,7 +1673,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon->absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
+            // TODO: Modify DPS calculation to consider weakpoints.
+            temp_rs_mon->absorb_hit( nullptr, bodypart_id( "torso" ), dealt_rs_damage );
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
@@ -4312,8 +4311,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
         info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
                            enumerate_as_string( holsters.begin(), holsters.end(),
-        []( const itype * e ) {
-            return e->nname( 1 );
+        [&]( const itype * e ) {
+            bool is_worn = player_character.is_wearing( e->get_id() );
+            return ( is_worn ? "<good>" : "" ) + e->nname( 1 ) + ( is_worn ? "</good>" : "" );
         } ) );
         info.back().sName += ".";
     }
@@ -10393,8 +10393,8 @@ bool item::process_litcig( Character *carrier, const tripoint &pos )
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
-                here.has_flag( TFLAG_FLAMMABLE, pos ) ||
-                here.has_flag( TFLAG_FLAMMABLE_ASH, pos ) ) {
+                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
+                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
                 here.add_field( pos, fd_fire, 1 );
             }
         }
@@ -10448,11 +10448,11 @@ bool item::process_extinguish( Character *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && !in_veh && here.has_flag( TFLAG_DEEP_WATER, pos ) ) {
+    if( in_inv && !in_veh && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( TFLAG_LIQUID, pos ) && !here.veh_at( pos ) ) ||
+    if( ( !in_inv && here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) && !here.veh_at( pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
@@ -11071,7 +11071,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
-    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
+    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) &&
         !has_own_flag( flag_DIRTY ) ) {
         set_flag( flag_DIRTY );
     }

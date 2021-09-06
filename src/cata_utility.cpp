@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstdio>
 #include <exception>
-#include <fstream>
 #include <iterator>
 #include <sstream>
 #include <stdexcept>
@@ -282,7 +281,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, std::ios::binary );
+    ofstream_wrapper fout( fs::u8path( path ), std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -302,7 +301,7 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
 {
@@ -348,7 +347,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
-        std::ifstream fin( path, std::ios::binary );
+        cata::ifstream fin( fs::u8path( path ), std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }

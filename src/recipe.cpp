@@ -185,7 +185,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         // so we can specify moves that is not a multiple of 100
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                               time_duration::units ) );
     }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
@@ -358,7 +358,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     } else {
                         blueprint_reqs->time =
                             to_moves<int>( read_from_json_string<time_duration>(
-                                               *jneeds.get_raw( "time" ), time_duration::units ) );
+                                               jneeds.get_member( "time" ), time_duration::units ) );
                     }
                 }
                 if( jneeds.has_member( "skills" ) ) {

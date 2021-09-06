@@ -618,7 +618,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "AQUATIC", "SEES" ],
+    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
     "upgrades": { "age_grow": 21, "into": "mon_dragonfly_giant" }
   },
   {
@@ -762,6 +762,7 @@
     "harvest": "arachnid_flying",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
+    "//": "LOUDMOVES is now part of the species INSECT_FLYING",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
@@ -2080,7 +2081,7 @@
   {
     "id": "mon_mantis_small",
     "type": "MONSTER",
-    "name": { "str": "huge praying mantis" },
+    "name": { "str": "huge praying mantis", "str_pl": "huge praying mantises" },
     "description": "A green mutant insect with sharp grappling spikes on its front legs.  It's a little smaller than an adult person.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2096,7 +2097,7 @@
   {
     "id": "mon_mantis_giant",
     "type": "MONSTER",
-    "name": { "str": "giant praying mantis" },
+    "name": { "str": "giant praying mantis", "str_pl": "giant praying mantises" },
     "description": "An enormous green creature grown about the size of a bear.  It dances weirdly and looks ready to chop your head off at any moment.",
     "default_faction": "mantis",
     "bodytype": "insect",
@@ -2136,7 +2137,7 @@
   {
     "id": "mon_mantis_mega",
     "type": "MONSTER",
-    "name": { "str": "great mantis" },
+    "name": { "str": "great mantis", "str_pl": "great mantises" },
     "description": "This ferocious creature is lurking through the land.  It's probably capable of killing a moose with its powerful arms.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },

@@ -40,6 +40,7 @@
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -62,6 +63,7 @@
 #include "trap.h"
 #include "units.h"
 #include "viewer.h"
+#include "weakpoint.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -155,9 +157,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 monster::monster()
 {
-    position.x = 20;
-    position.y = 10;
-    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    set_pos_only( tripoint( 20, 10, -500 ) ); // Some arbitrary position that will cause debugmsgs
     unset_dest();
     wandf = 0;
     hp = 60;
@@ -213,7 +213,7 @@ monster::monster( const mtype_id &id ) : monster()
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
 {
-    position = p;
+    set_pos_only( p );
     unset_dest();
 }
 
@@ -489,7 +489,7 @@ void monster::try_biosignature()
 
 void monster::spawn( const tripoint &p )
 {
-    position = p;
+    set_pos_only( p );
     unset_dest();
 }
 
@@ -652,12 +652,19 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
     const int max_width = getmaxx( w ) - column - 1;
+    std::ostringstream oss;
+
+    oss << get_tag_from_color( c_white ) << _( "Origin: " );
+    oss << enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    oss << "</color>" << "\n\n";
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
     std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
-    std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
     oss << "<color_white>" << std::string( 5 - utf8_width( bar_str ), '.' ) << "</color> ";
     oss << get_tag_from_color( basic_symbol_color() ) << name() << "</color> ";
@@ -745,6 +752,14 @@ std::string monster::extended_description() const
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
         }
     }
+
+    ss += _( "Origin: " );
+    ss += enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+
+    ss += "\n--\n";
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
@@ -1050,7 +1065,7 @@ void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 void monster::shift( const point &sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
-    position -= ms_shift;
+    set_pos_only( pos() - ms_shift );
     goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
@@ -1487,14 +1502,23 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
+std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_instance &dam )
 {
+    resistances r = resistances( *this );
+    const weakpoint *wp = type->weakpoints.select_weakpoint( source );
+    wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
-        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
+                       wp->id, wp->armor_mult[static_cast<int>( elem.type )],
+                       wp->armor_penalty[static_cast<int>( elem.type )],
+                       r.get_effective_resist( elem ) );
+        elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
+    return wp->name;
 }
 
 bool monster::melee_attack( Creature &target )
@@ -2162,7 +2186,7 @@ int monster::impact( const int force, const tripoint &p )
 
     const float mod = fall_damage_mod();
     int total_dealt = 0;
-    if( get_map().has_flag( TFLAG_SHARP, p ) ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_SHARP, p ) ) {
         const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
@@ -3076,7 +3100,7 @@ bool monster::will_join_horde( int size )
     if( mha == MHA_ALWAYS ) {
         return true;
     }
-    if( get_map().has_flag( TFLAG_INDOORS, pos() ) &&
+    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos() ) &&
         ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
         return false;
     }

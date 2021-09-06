@@ -845,7 +845,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return get_map().has_flag( TFLAG_BLOCK_WIND, location );
+    return get_map().has_flag( ter_furn_flag::TFLAG_BLOCK_WIND, location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale

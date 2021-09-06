@@ -211,14 +211,6 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
-static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
-
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
 
@@ -229,6 +221,23 @@ void iexamine::none( Character &/*p*/, const tripoint &examp )
 {
     add_msg( _( "That is a %s." ), get_map().name( examp ) );
 }
+
+bool iexamine::always_false( const tripoint &/*examp*/ )
+{
+    return false;
+}
+
+bool iexamine::always_true( const tripoint &/*examp*/ )
+{
+    return true;
+}
+
+bool iexamine::harvestable_now( const tripoint &examp )
+{
+    const auto hid = get_map().get_harvest( examp );
+    return !hid->is_null() && !hid->empty();
+}
+
 
 /**
  * Pick an appropriate item and apply diamond coating if possible.
@@ -272,6 +281,24 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 }
 
 /**
+ * Change player eye and skin colour
+ */
+void iexamine::change_appearance( Character &you, const tripoint & )
+{
+    uilist amenu;
+    amenu.title = _( "Change what?" );
+    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
+    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin colour" ) );
+
+    amenu.query();
+    if( amenu.ret == 0 ) {
+        you.customize_appearance( customize_appearance_choice::EYES );
+    } else if( amenu.ret == 1 ) {
+        you.customize_appearance( customize_appearance_choice::SKIN );
+    }
+}
+
+/**
  * TEMPLATE FABRICATORS
  * Generate items from found blueprints.
  */
@@ -282,7 +309,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.has_flag( flag_NANOFAB_TABLE, valid_location ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -1238,10 +1265,11 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && you.has_proficiency( proficiency_prof_parkour ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) &&
+        you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         you.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
-    } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
+    } else if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         you.moves -= 300; // Most common move cost for barricades pre-change.
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
@@ -1545,7 +1573,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 
     map &here = get_map();
     if( prying_items.empty() ) {
-        if( here.has_flag( flag_PICKABLE, examp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
             locked_object_pickable( you, examp );
@@ -1733,7 +1761,7 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
     map &here = get_map();
     if( here.is_outside( you.pos() ) ) {
         // if door is a locked type attempt to open
-        if( here.has_flag( flag_OPENCLOSE_INSIDE, examp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, examp ) ) {
             locked_object( you, examp );
         } else {
             you.add_msg_if_player( _( "You cannot look through the peephole from the outside." ) );
@@ -2421,7 +2449,7 @@ ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
     map &here = get_map();
-    if( !here.has_flag_furn( "PLANT", tile ) ) {
+    if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
         return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( here.i_at( tile ).size() > 1 ) {
@@ -2532,10 +2560,10 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 
     const std::string pname = seed->get_plant_name();
 
-    if( here.has_flag_furn( flag_GROWTH_HARVEST, examp ) &&
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
         query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( you, examp );
-    } else if( !here.has_flag_furn( flag_GROWTH_HARVEST, examp ) ) {
+    } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;
@@ -3969,8 +3997,10 @@ void iexamine::reload_furniture( Character &you, const tripoint &examp )
 void iexamine::curtains( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    const bool closed_window_with_curtains = here.has_flag( flag_BARRICADABLE_WINDOW_CURTAINS, examp );
-    if( here.is_outside( you.pos() ) && ( here.has_flag( TFLAG_WALL, examp ) ||
+    const bool closed_window_with_curtains = here.has_flag(
+                ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
+                examp );
+    if( here.is_outside( you.pos() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
                                           closed_window_with_curtains ) ) {
         locked_object( you, examp );
         return;
@@ -4581,7 +4611,8 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
             if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( TFLAG_UNSTABLE, examp + tripoint_below ) && g->slip_down( true ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, examp + tripoint_below ) &&
+                       g->slip_down( true ) ) {
                 return;
             }
 
@@ -4604,7 +4635,7 @@ static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( you.pos() == couch_loc ) {
@@ -4625,7 +4656,7 @@ static Character &operator_present( Character &you, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, loc ) ) {
             if( you.pos() == loc ) {
                 return you;
             }
@@ -6184,13 +6215,14 @@ void iexamine::workout( Character &you, const tripoint &examp )
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-iexamine_function iexamine_function_from_string( const std::string &function_name )
+iexamine_functions iexamine_functions_from_string( const std::string &function_name )
 {
-    static const std::map<std::string, iexamine_function> function_map = {{
+    static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
             { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
+            { "change_appearance", &iexamine::change_appearance },
             { "nanofab", &iexamine::nanofab },
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },
@@ -6266,14 +6298,29 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
         }
     };
 
+    static const std::set<std::string> harvestable_functions = {
+        "harvest_furn_nectar",
+        "harvest_furn",
+        "harvest_ter_nectar",
+        "harvest_ter",
+        "tree_hickory",
+    };
+
     auto iter = function_map.find( function_name );
     if( iter != function_map.end() ) {
-        return iter->second;
+        iexamine_examine_function func = iter->second;
+        if( function_name == "none" ) {
+            return iexamine_functions{&iexamine::always_false, func};
+        } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
+            return iexamine_functions{&iexamine::harvestable_now, func};
+        } else {
+            return iexamine_functions{&iexamine::always_true, func};
+        }
     }
 
     //No match found
     debugmsg( "Could not find an iexamine function matching '%s'!", function_name );
-    return &iexamine::none;
+    return iexamine_functions{&iexamine::always_false, &iexamine::none};
 }
 
 void iexamine::practice_survival_while_foraging( Character *you )
