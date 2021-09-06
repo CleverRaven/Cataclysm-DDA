@@ -111,6 +111,7 @@ class damage_over_time_data
 struct dealt_damage_instance {
     std::array<int, static_cast<int>( damage_type::NUM )> dealt_dams;
     bodypart_id bp_hit;
+    std::string wp_hit;
 
     dealt_damage_instance();
     void set_damage( damage_type dt, int amount );

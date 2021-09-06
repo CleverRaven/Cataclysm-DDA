@@ -143,6 +143,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
         case debug_menu::debug_menu_index::CHANGE_SKILLS: return "CHANGE_SKILLS";
+        case debug_menu::debug_menu_index::CHANGE_THEORY: return "CHANGE_THEORY";
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
@@ -229,6 +230,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -1169,8 +1171,9 @@ void character_edit_menu()
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
              << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << std::endl;
+        data << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << " "
+             << string_format( _( "Sold: %d" ), np->op_of_u.sold ) << std::endl;
 
         data << string_format( _( "Aggression: %d" ),
                                static_cast<int>( np->personality.aggression ) ) << " "
@@ -1178,10 +1181,11 @@ void character_edit_menu()
              << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
              << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
-        data << _( "Needs:" ) << std::endl;
+        data << _( "Needs:" );
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << " " << npc::get_need_str_id( need );
         }
+        data << std::endl;
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
         nmenu.text = data.str();
@@ -1190,13 +1194,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
     nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
@@ -1229,6 +1234,9 @@ void character_edit_menu()
     switch( nmenu.ret ) {
         case D_SKILLS:
             wishskill( &you );
+            break;
+        case D_THEORY:
+            wishskill( &you, true );
             break;
         case D_STATS: {
             uilist smenu;
@@ -1397,6 +1405,7 @@ void character_edit_menu()
             smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+            smenu.addentry( 5, true, 'd', "%s: %d", _( "sold" ), np->op_of_u.sold );
 
             smenu.query();
             int value;
@@ -1427,6 +1436,11 @@ void character_edit_menu()
                 case 4:
                     if( query_int( value, _( "Set owed to?  Currently: %d" ), np->op_of_u.owed ) ) {
                         np->op_of_u.owed = value;
+                    }
+                    break;
+                case 5:
+                    if( query_int( value, _( "Set sold to?  Currently: %d" ), np->op_of_u.sold ) ) {
+                        np->op_of_u.sold = value;
                     }
                     break;
             }
@@ -2317,6 +2331,11 @@ void debug()
 
         case debug_menu_index::CHANGE_SKILLS: {
             debug_menu::wishskill( &player_character );
+        }
+        break;
+
+        case debug_menu_index::CHANGE_THEORY: {
+            debug_menu::wishskill( &player_character, true );
         }
         break;
 

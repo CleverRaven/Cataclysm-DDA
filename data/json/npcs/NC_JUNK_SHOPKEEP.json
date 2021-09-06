@@ -43,6 +43,7 @@
       { "item": "gloves_leather", "prob": 35 },
       { "item": "boots", "prob": 20 },
       { "item": "boots_steel", "prob": 20 },
+      { "item": "sneakers_steel", "prob": 15 },
       { "item": "boots_hiking", "prob": 30 },
       { "item": "knee_high_boots", "prob": 5 },
       { "item": "boots_combat", "prob": 15 },

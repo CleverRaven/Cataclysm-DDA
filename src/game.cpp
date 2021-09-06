@@ -1904,16 +1904,10 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case '<':
-                    if( oThisItem.is_container() ) {
-                        for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
-                            pocket->settings.set_collapse( false );
-                        }
-                    }
-                    break;
                 case '>':
                     if( oThisItem.is_container() ) {
                         for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
-                            pocket->settings.set_collapse( true );
+                            pocket->settings.set_collapse( cMenu == '>' );
                         }
                     }
                     break;
@@ -2592,11 +2586,7 @@ void game::reset_npc_dispositions()
         npc_to_add->chatbin.clear_all();
         npc_to_add->mission = NPC_MISSION_NULL;
         npc_to_add->set_attitude( NPCATT_NULL );
-        npc_to_add->op_of_u.anger = 0;
-        npc_to_add->op_of_u.fear = 0;
-        npc_to_add->op_of_u.trust = 0;
-        npc_to_add->op_of_u.value = 0;
-        npc_to_add->op_of_u.owed = 0;
+        npc_to_add->op_of_u = npc_opinion();
         npc_to_add->set_fac( faction_id( "no_faction" ) );
         npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                                      npc_to_add->global_omt_location(),
