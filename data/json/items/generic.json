@@ -3256,6 +3256,7 @@
     "price": 1,
     "price_postapoc": 10,
     "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -3462,7 +3463,7 @@
     "price": 15000,
     "price_postapoc": 250,
     "material": [ "plastic", "leather" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "COLLAPSE_CONTENTS" ],
     "weight": "708 g",
     "volume": "500 ml",
     "bashing": 1,

@@ -1199,20 +1199,24 @@ bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) con
 
 void Item_factory::check_definitions() const
 {
+    auto is_container = []( const itype * t ) {
+        bool am_container = false;
+        for( const pocket_data &pocket : t->pockets ) {
+            if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+                am_container = true;
+                // no need to look further
+                break;
+            }
+        }
+        return am_container;
+    };
+
     for( const auto &elem : m_templates ) {
         std::string msg;
         const itype *type = &elem.second;
 
         if( !type->has_flag( flag_TARDIS ) ) {
-            bool is_container = false;
-            for( const pocket_data &pocket : type->pockets ) {
-                if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
-                    is_container = true;
-                    // no need to look further
-                    break;
-                }
-            }
-            if( is_container ) {
+            if( is_container( type ) ) {
                 units::volume volume = type->volume;
                 if( type->count_by_charges() ) {
                     volume /= type->charges_default();
@@ -1220,6 +1224,12 @@ void Item_factory::check_definitions() const
                 if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
                 }
+            }
+        }
+
+        if( type->has_flag( flag_COLLAPSE_CONTENTS ) ) {
+            if( !is_container( type ) ) {
+                msg += "is not a container so COLLAPSE_CONTENTS is unnecessary.\n";
             }
         }
 
