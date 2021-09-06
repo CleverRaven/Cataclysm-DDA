@@ -1749,7 +1749,7 @@
     "id": "HIDE_CONTENTS",
     "category": "INVENTORY",
     "name": "Hide contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
