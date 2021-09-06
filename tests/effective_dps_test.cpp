@@ -68,8 +68,7 @@ static void check_actual_dps( avatar &attacker, monster &defender, item &weapon 
     clear_character( attacker );
     double expect_dps = weapon.effective_dps( attacker, defender );
     double actual_dps = weapon_dps_trials( attacker, defender, weapon );
-    // TODO: Reduce epsilon once weak points have stabilized.
-    CHECK( actual_dps == Approx( expect_dps ).epsilon( 5.0f ) );
+    CHECK( actual_dps == Approx( expect_dps ).epsilon( 0.2f ) );
 }
 
 static void check_accuracy_dps( avatar &attacker, monster &defender, item &wpn1, item &wpn2,
@@ -124,7 +123,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
     }
 
     SECTION( "against an armored target" ) {
-        monster soldier( mtype_id( "mon_zombie_soldier" ) );
+        monster soldier( mtype_id( "mon_zombie_soldier_no_weakpoints" ) );
 
         CHECK( clumsy_sword.effective_dps( dummy, soldier ) == Approx( 8.0f ).epsilon( 0.15f ) );
         CHECK( good_sword.effective_dps( dummy, soldier ) == Approx( 15.0f ).epsilon( 0.15f ) );
@@ -167,7 +166,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
-    monster soldier( mtype_id( "mon_zombie_soldier" ) );
+    monster soldier( mtype_id( "mon_zombie_soldier_no_weakpoints" ) );
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
@@ -199,7 +198,7 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
-    monster soldier( mtype_id( "mon_zombie_soldier" ) );
+    monster soldier( mtype_id( "mon_zombie_soldier_no_weakpoints" ) );
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
