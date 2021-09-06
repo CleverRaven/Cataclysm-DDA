@@ -16,7 +16,7 @@
     "id": "NC_JUNK_SHOPKEEP_misc",
     "ammo": 75,
     "magazine": 100,
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "vest", "prob": 40 },
       { "item": "kevlar", "prob": 15 },
