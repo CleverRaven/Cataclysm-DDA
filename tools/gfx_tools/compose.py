@@ -724,8 +724,8 @@ if __name__ == '__main__':
         tileset_worker = Tileset(
             source_dir=args_dict.get('source_dir'),
             output_dir=(
-                args_dict.get('output_dir')
-                or args_dict.get('source_dir')
+                args_dict.get('output_dir') or
+                args_dict.get('source_dir')
             ),
             use_all=args_dict.get('use_all', False),
             obsolete_fillers=args_dict.get('obsolete_fillers', False),
