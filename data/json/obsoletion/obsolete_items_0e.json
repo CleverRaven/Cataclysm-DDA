@@ -1,0 +1,60 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "spidery_legs_big",
+    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
+    "description": "A set of big pointy legs, like the ones found under a tripod.",
+    "symbol": "W",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "20 L",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "id": "rock_pot",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "stone pot" },
+    "description": "A large stone, roughly hollowed out into a pot.",
+    "weight": "1500 g",
+    "volume": "2 L",
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "stone" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "aux_pressurized_tank",
+    "looks_like": "pressurized_tank",
+    "type": "MAGAZINE",
+    "name": { "str": "0.5L pressurized fuel tank" },
+    "description": "A pressurized 0.5L canister built for use with a small auxiliary flamethrower.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "flammable" ],
+    "reload_time": 3,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flammable": 500 }, "watertight": true } ]
+  }
+]

@@ -1,5 +1,85 @@
 [
   {
+    "id": "aep_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "AEP suit" },
+    "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
+    "weight": "7200 g",
+    "volume": "9 L",
+    "price": 140000,
+    "price_postapoc": 6000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 7,
+    "environmental_protection": 9,
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
+  },
+  {
+    "id": "anbc_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ANBC suit" },
+    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
+    "weight": "8700 g",
+    "volume": "20 L",
+    "price": 400000,
+    "price_postapoc": 9000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "warmth": 50,
+    "material_thickness": 7,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "abstract": "mre_box",
     "type": "GENERIC",
     "symbol": ")",
@@ -273,126 +353,6 @@
     "price": 1000
   },
   {
-    "id": "aep_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "AEP suit" },
-    "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
-    "weight": "7200 g",
-    "volume": "9 L",
-    "price": 140000,
-    "price_postapoc": 6000,
-    "material": [ "kevlar_layered", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hazmat_suit",
-    "color": "light_red",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "18 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "18 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "18 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "18 cm",
-        "moves": 80
-      }
-    ],
-    "warmth": 35,
-    "material_thickness": 7,
-    "environmental_protection": 9,
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
-  },
-  {
-    "id": "anbc_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "ANBC suit" },
-    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
-    "weight": "8700 g",
-    "volume": "20 L",
-    "price": 400000,
-    "price_postapoc": 9000,
-    "material": [ "kevlar_layered", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hazmat_suit",
-    "color": "light_red",
-    "warmth": 50,
-    "material_thickness": 7,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
-    "armor": [
-      {
-        "encumbrance": 35,
-        "coverage": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-      }
-    ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "spidery_legs_big",
-    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
-    "description": "A set of big pointy legs, like the ones found under a tripod.",
-    "symbol": "W",
-    "color": "light_gray",
-    "weight": "40000 g",
-    "volume": "20 L",
-    "price": 200000,
-    "material": [ "steel" ],
-    "category": "spare_parts"
-  },
-  {
-    "id": "rock_pot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "stone pot" },
-    "description": "A large stone, roughly hollowed out into a pot.",
-    "weight": "1500 g",
-    "volume": "2 L",
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "stone" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "3 kg",
-        "watertight": true,
-        "open_container": true,
-        "rigid": true
-      }
-    ],
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
     "id": "nato_assault_rifle",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
@@ -490,21 +450,16 @@
     ]
   },
   {
-    "id": "aux_pressurized_tank",
-    "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
-    "name": { "str": "0.5L pressurized fuel tank" },
-    "description": "A pressurized 0.5L canister built for use with a small auxiliary flamethrower.",
-    "weight": "100 g",
-    "volume": "500 ml",
-    "price": 3000,
-    "price_postapoc": 250,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "flammable" ],
-    "reload_time": 3,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flammable": 500 }, "watertight": true } ]
+    "type": "GENERIC",
+    "id": "money_bundle",
+    "name": { "str": "money bundle" },
+    "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
+    "weight": "20 g",
+    "to_hit": -3,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "250 ml",
+    "price": 0
   }
 ]
