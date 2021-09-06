@@ -140,6 +140,7 @@ class Tileset:
         palette_copies: bool = False,
         palette: bool = False,
         format_json: bool = False,
+        only_json: bool = False,
     ) -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
@@ -148,6 +149,7 @@ class Tileset:
         self.palette_copies = palette_copies
         self.palette = palette
         self.format_json = format_json
+        self.only_json = only_json
         self.output_conf_file = None
 
         self.pngnum = 0
@@ -236,9 +238,10 @@ class Tileset:
             if sheet_type != 'fallback':
                 sheet.walk_dirs()
 
-                # write output PNGs
-                if not sheet.write_composite_png():
-                    continue
+                if not self.only_json:
+                    # write output PNGs
+                    if not sheet.write_composite_png():
+                        continue
 
                 sheet.max_index = self.pngnum
 
@@ -444,7 +447,8 @@ class Tilesheet:
 
             return
 
-        self.sprites.append(self.load_image(filepath))
+        if not self.tileset.only_json:
+            self.sprites.append(self.load_image(filepath))
         self.tileset.pngnum += 1
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.unreferenced_pngnames[
@@ -710,18 +714,25 @@ if __name__ == '__main__':
         '--format-json', dest='format_json', action='store_true',
         help='Use either CDDA formatter or Python json.tool '
         'to format the tile_config.json')
+    arg_parser.add_argument(
+        '--only-json', dest='only_json', action='store_true',
+        help='Only output the tile_config.json')
     args_dict = vars(arg_parser.parse_args())
 
     # compose the tileset
     try:
         tileset_worker = Tileset(
-            args_dict.get('source_dir'),
-            args_dict.get('output_dir') or args_dict.get('source_dir'),
-            args_dict.get('use_all', False),
-            args_dict.get('obsolete_fillers', False),
-            args_dict.get('palette_copies', False),
-            args_dict.get('palette', False),
-            args_dict.get('format_json', False),
+            source_dir=args_dict.get('source_dir'),
+            output_dir=(
+                args_dict.get('output_dir')
+                or args_dict.get('source_dir')
+            ),
+            use_all=args_dict.get('use_all', False),
+            obsolete_fillers=args_dict.get('obsolete_fillers', False),
+            palette_copies=args_dict.get('palette_copies', False),
+            palette=args_dict.get('palette', False),
+            format_json=args_dict.get('format_json', False),
+            only_json=args_dict.get('only_json', False),
         )
         tileset_worker.compose()
     except ComposingException as exception:
