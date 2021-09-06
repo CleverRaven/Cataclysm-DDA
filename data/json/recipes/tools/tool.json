@@ -126,7 +126,7 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "cordage_short", 4, "LIST" ] ] ]
   },
   {
@@ -181,6 +181,7 @@
     "reversible": true,
     "time": "30 s",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "knife_butcher", 1 ] ],
       [ [ "knife_carving", 1 ] ],
@@ -372,6 +373,7 @@
     "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
     "using": [ [ "cordage", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 2 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
   {

@@ -73,7 +73,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 4 ] ],

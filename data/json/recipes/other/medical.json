@@ -81,6 +81,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [
         [ "leather_belt", 1 ],

@@ -356,6 +356,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
@@ -655,7 +656,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ], [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
@@ -986,6 +987,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "string_6", 2 ] ] ]
   },
   {
@@ -1319,7 +1321,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -1378,6 +1380,7 @@
     "time": "2 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "rope_superior", 1, "LIST" ] ], [ [ "grip_hook", 4 ] ] ]
   },
   {
@@ -1413,6 +1416,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 6 ] ],
     "tools": [  ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
   {
@@ -1426,6 +1430,7 @@
     "time": "2 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "rx12_injector", 1 ] ],
       [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
@@ -1535,6 +1540,7 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "chitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
@@ -1552,6 +1558,7 @@
     "time": "55 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "acidchitin_piece", 25 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
@@ -1638,6 +1645,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "pointy_stick", 3 ] ], [ [ "cordage", 1, "LIST" ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ]
   },
   {
@@ -1913,6 +1921,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 2 ] ],
     "components": [
       [ [ "leather", 1 ], [ "fur", 1 ] ],
@@ -1933,6 +1942,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 4 ] ],
     "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ], [ [ "rag", 1 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
   },
@@ -2040,6 +2050,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -2053,6 +2064,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "rebar", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -2066,6 +2078,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -2079,6 +2092,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick_long", 5 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -2100,6 +2114,7 @@
       { "id": "DRILL", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
@@ -2128,6 +2143,7 @@
       { "id": "DRILL", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],

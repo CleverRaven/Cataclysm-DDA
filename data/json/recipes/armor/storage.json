@@ -326,7 +326,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
@@ -362,6 +362,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "strap_large", 1 ], [ "clasps", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying", "time_multiplier": 1.6 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ]
   },
   {
@@ -566,7 +567,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
@@ -683,6 +684,7 @@
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage", 1 ] ],
     "components": [
       [
@@ -732,6 +734,7 @@
     "autolearn": true,
     "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying", "time_multiplier": 2 } ],
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -767,7 +770,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" }, { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "birchbark", 3 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
@@ -870,7 +873,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
@@ -923,7 +926,7 @@
     "reversible": true,
     "components": [ [ [ "plant_cordage", 6, "LIST" ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_basketweaving" } ]
+    "proficiencies": [ { "proficiency": "prof_basketweaving" }, { "proficiency": "prof_knot_tying" } ]
   },
   {
     "result": "survivor_duffel_bag",
@@ -1223,7 +1226,7 @@
     "difficulty": 3,
     "time": "16 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_cordage", 16, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },

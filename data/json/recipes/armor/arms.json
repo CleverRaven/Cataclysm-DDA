@@ -12,6 +12,7 @@
     "reversible": true,
     "using": [ [ "cordage_short", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 1 ] ] ]
   },
   {
@@ -182,7 +183,11 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 4 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_knot_tying" }
+    ]
   },
   {
     "result": "xl_armguard_metal",
@@ -192,7 +197,11 @@
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 6 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_knot_tying" }
+    ]
   },
   {
     "result": "armguard_paper",
@@ -232,7 +241,11 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 60 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_knot_tying" }
+    ]
   },
   {
     "result": "xl_armguard_scrap",
@@ -242,7 +255,11 @@
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 80 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_knot_tying" }
+    ]
   },
   {
     "result": "armguard_tire",
@@ -257,7 +274,11 @@
     "autolearn": true,
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "cordage", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_knot_tying" }
+    ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
   },
@@ -268,7 +289,11 @@
     "time": "55 m",
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "cordage", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_knot_tying" }
+    ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
   },

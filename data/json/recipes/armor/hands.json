@@ -45,7 +45,8 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_knot_tying" }
     ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ] ]

@@ -101,6 +101,7 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "jug_plastic", 4 ] ] ]
@@ -115,6 +116,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "metal_tank", 1 ] ], [ [ "scrap", 1 ] ] ]
@@ -438,6 +440,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "filament", 50 ], [ "cordage_short", 1 ] ],
     "components": [ [ [ "rag", 2 ] ] ]
   },
@@ -451,6 +454,7 @@
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
     "components": [ [ [ "rag", 12 ] ] ]
   },
@@ -626,7 +630,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" }, { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
@@ -641,7 +645,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" }, { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
@@ -656,7 +660,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" }, { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
     "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "clay_lump", 10 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -671,7 +675,7 @@
     "difficulty": 2,
     "time": "80 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" }, { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "clay_lump", 20 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -686,7 +690,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" }, { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ], [ "earthenware_firing", 50 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 6 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -717,6 +721,7 @@
     "autolearn": true,
     "using": [ [ "waterproofing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
@@ -737,6 +742,7 @@
     "using": [ [ "waterproofing", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "meat_stomach_large", 1, "LIST" ] ],

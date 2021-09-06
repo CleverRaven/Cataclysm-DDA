@@ -13,7 +13,8 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_closures" }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_knot_tying" }
     ]
   },
   {
@@ -31,7 +32,8 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_closures" }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_knot_tying" }
     ]
   },
   {

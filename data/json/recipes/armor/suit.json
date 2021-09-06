@@ -53,7 +53,8 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic" }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_knot_tying" }
     ],
     "components": [ [ [ "chitin_piece", 72 ] ] ]
   },
@@ -83,7 +84,8 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic" }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_knot_tying" }
     ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "acidchitin_piece", 72 ] ] ]
@@ -423,7 +425,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 170 ] ] ]
   },
@@ -442,7 +444,8 @@
     "using": [ [ "cordage", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
+      { "proficiency": "prof_articulation", "fail_multiplier": 1 },
+      { "proficiency": "prof_knot_tying" }
     ],
     "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
   },
@@ -461,7 +464,8 @@
     "using": [ [ "cordage", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 },
+      { "proficiency": "prof_knot_tying" }
     ],
     "components": [ [ [ "cuirass_tire", 1 ] ], [ [ "armguard_tire", 1 ] ], [ [ "legguard_tire", 1 ] ] ]
   },
@@ -478,7 +482,11 @@
     "autolearn": true,
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "cordage", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_knot_tying" }
+    ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 24 ] ] ]
   },
@@ -1250,6 +1258,7 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "sheet", 1 ] ] ]
   },
@@ -1268,6 +1277,7 @@
     "book_learn": [ [ "mag_tailor", 0 ], [ "manual_tailor", 0 ], [ "textbook_tailor", 0 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "long_undertop", 1 ] ], [ [ "long_underpants", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {

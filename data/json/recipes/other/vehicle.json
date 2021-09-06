@@ -113,6 +113,7 @@
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "frame", 4 ] ], [ [ "pipe", 11 ] ] ]
   },
   {
@@ -144,6 +145,7 @@
     "autolearn": true,
     "using": [ [ "rope_natural", 2 ], [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "wire", 40 ] ], [ [ "pipe", 6 ] ] ]
   },
   {

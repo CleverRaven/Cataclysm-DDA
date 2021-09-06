@@ -572,6 +572,7 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "rope_natural_short", 3, "LIST" ] ], [ [ "rock", 3 ] ] ]
   },
   {
@@ -587,7 +588,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_fibers", "time_multiplier": 4, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying", "time_multiplier": 4, "fail_multiplier": 1 } ],
     "components": [ [ [ "cordage", 32, "LIST" ] ], [ [ "rock", 8 ] ] ]
   },
   {
@@ -618,7 +619,7 @@
     "time": "15 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knot_tying", "fail_multiplier": 1 } ],
     "using": [ [ "cordage", 3 ] ]
   },
   {
@@ -661,7 +662,7 @@
     "time": "8 h",
     "reversible": true,
     "decomp_learn": 1,
-    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "book_learn": [ [ "manual_archery", 4 ], [ "recipe_bows", 3 ], [ "book_archery", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
@@ -679,7 +680,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_archery", 6 ], [ "recipe_bows", 5 ], [ "book_archery", 7 ] ],
-    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
@@ -696,7 +697,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_bowyery" } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
@@ -714,7 +715,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
@@ -730,7 +731,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "using": [ [ "adhesive", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_knot_tying" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
@@ -858,7 +859,8 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
-      { "proficiency": "prof_gunsmithing_spring" }
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_knot_tying" }
     ],
     "components": [
       [ [ "2x4", 2 ], [ "stick", 3 ] ],
@@ -882,7 +884,8 @@
     "decomp_learn": 2,
     "proficiencies": [
       { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
-      { "proficiency": "prof_gunsmithing_spring" }
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_knot_tying" }
     ],
     "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 4 ], [ "book_archery", 3 ], [ "textbook_armschina", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -899,7 +902,8 @@
     "proficiencies": [
       { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
       { "proficiency": "prof_gunsmithing_spring" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "knot_tying" }
     ],
     "difficulty": 5,
     "time": "10 h",
@@ -922,7 +926,8 @@
     "decomp_learn": 2,
     "proficiencies": [
       { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
-      { "proficiency": "prof_gunsmithing_spring" }
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_knot_tying" }
     ],
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 3 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -1212,7 +1217,8 @@
     "proficiencies": [
       { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
       { "proficiency": "prof_gunsmithing_spring" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "prof_knot_tying" }
     ],
     "components": [
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
@@ -1239,7 +1245,8 @@
     "proficiencies": [
       { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
       { "proficiency": "prof_gunsmithing_spring" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "prof_knot_tying" }
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
