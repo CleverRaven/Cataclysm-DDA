@@ -375,7 +375,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ] ]
   },
   {
     "type": "item_group",

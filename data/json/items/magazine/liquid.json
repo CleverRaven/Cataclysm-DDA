@@ -17,24 +17,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flammable": 3000 }, "watertight": true } ]
   },
   {
-    "id": "aux_pressurized_tank",
-    "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
-    "name": { "str": "0.5L pressurized fuel tank" },
-    "description": "A pressurized 0.5L canister built for use with a small auxiliary flamethrower.",
-    "weight": "100 g",
-    "volume": "500 ml",
-    "price": 3000,
-    "price_postapoc": 250,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "flammable" ],
-    "reload_time": 3,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flammable": 500 }, "watertight": true } ]
-  },
-  {
     "id": "rm4502",
     "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
