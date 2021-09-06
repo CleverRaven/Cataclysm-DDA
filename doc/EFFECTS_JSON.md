@@ -230,11 +230,12 @@ future applications decreasing the overall time left.
 
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
-```C++
-    "int_add_val": 2        - Defaults to 0! This means future applications will not increase intensity unless changed!
-    and/or
+```JSON
+    "int_add_val": 2         - Defaults to 0! This means future applications will not increase intensity unless changed!
+
     "int_decay_step": -2,    - Defaults to -1
-    "int_decay_tick": 10
+    "int_decay_tick": 10     - Defaults to 0, preventing intensity decay
+    "int_decay_remove": true - Defaults to true, removes the intensity if decay would decrease it to zero
     or
     "int_dur_factor": 700
 ```
@@ -245,7 +246,8 @@ Because "int_add_val" = 2, the second addition will change the effect intensity 
 NOTE: You must have at least one of the 3 intensity data sets for intensity to do anything!
 
 "int_decay_step" and "int_decay_tick" require one another to do anything. If both exist then the game will automatically
-increment the current effect intensities by "int_decay_step" every "int_decay_tick" ticks, capping the result at [1, "max_intensity"].
+increment the current effect intensities by "int_decay_step" every "int_decay_tick" ticks, capping the result at [0, "max_intensity"]
+and removing effects if the intensity reaches zero and `int_decay_remove` is true.
 This can be used to make effects automatically increase or decrease in intensity over time.
 
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as

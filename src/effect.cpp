@@ -1005,6 +1005,10 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
+    if( val == 0 && !eff_type->int_decay_remove ) {
+        val = 1;
+    }
+
     intensity = val;
 
     return intensity;
@@ -1475,6 +1479,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.int_add_val = jo.get_int( "int_add_val", 0 );
     new_etype.int_decay_step = jo.get_int( "int_decay_step", -1 );
     new_etype.int_decay_tick = jo.get_int( "int_decay_tick", 0 );
+    optional( jo, false, "int_decay_remove", new_etype.int_decay_remove, true );
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );

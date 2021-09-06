@@ -140,6 +140,7 @@ class effect_type
         int int_decay_step = 0;
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
+        bool int_decay_remove = true;
 
         std::set<flag_id> flags;
 
