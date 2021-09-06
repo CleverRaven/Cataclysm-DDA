@@ -687,8 +687,8 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "A training session with this book takes %s." ),
                  to_string( time_duration::from_minutes( reading->time ) ) );
     } else {
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                   "A chapter of this book takes %d minutes to read.", reading->time ),
+        add_msg( m_info, n_gettext( "A chapter of this book takes %d minute to read.",
+                                    "A chapter of this book takes %d minutes to read.", reading->time ),
                  reading->time );
     }
 

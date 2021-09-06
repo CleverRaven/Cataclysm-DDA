@@ -2074,7 +2074,7 @@ static void debug_menu_game_state()
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
     s += _( "Current turn: %d.\n" );
-    s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+    s += n_gettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
 
     std::unordered_map<std::string, int> creature_counts;
     for( Creature &critter : g->all_creatures() ) {

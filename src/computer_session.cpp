@@ -692,7 +692,7 @@ void computer_session::action_list_bionics()
         print_line( "%s", name );
     }
     if( more > 0 ) {
-        print_line( ngettext( "%d OTHER FOUND…", "%d OTHERS FOUND…", more ), more );
+        print_line( n_gettext( "%d OTHER FOUND…", "%d OTHERS FOUND…", more ), more );
     }
 
     print_newline();

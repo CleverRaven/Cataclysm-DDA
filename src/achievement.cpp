@@ -721,7 +721,7 @@ std::string achievement_tracker::ui_text() const
         if( num_completions > 1 ) {
             message +=
                 string_format(
-                    ngettext( " and %d other", " and %d others", num_completions - 1 ),
+                    n_gettext( " and %d other", " and %d others", num_completions - 1 ),
                     num_completions - 1 );
         }
         result += "  " + colorize( message, c_blue ) + "\n";

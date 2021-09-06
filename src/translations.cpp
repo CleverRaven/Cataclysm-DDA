@@ -75,7 +75,7 @@ static std::string getAppleSystemLanguage();
 static std::string getAndroidSystemLanguage();
 #endif
 
-const char *ngettext( const char *msgid, const char *msgid_plural, unsigned long n )
+const char *n_gettext( const char *msgid, const char *msgid_plural, std::size_t n )
 {
     return TranslationManager::GetInstance().TranslatePlural( msgid, msgid_plural, n );
 }
@@ -724,7 +724,7 @@ std::string translation::translated( const int num ) const
                 cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
             } else {
                 cached_translation = cata::make_value<std::string>(
-                                         ngettext( raw.c_str(), raw_pl->c_str(), num ) );
+                                         n_gettext( raw.c_str(), raw_pl->c_str(), num ) );
             }
         } else {
             if( !raw_pl ) {

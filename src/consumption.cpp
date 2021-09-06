@@ -1547,11 +1547,11 @@ bool Character::fuel_bionic_with( item &it )
     update_fuel_storage( mat );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
-                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                           n_gettext( "You load %1$i charge of %2$s in your %3$s.",
+                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
+                           n_gettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
 
     // Return false for magazines because only their ammo is consumed

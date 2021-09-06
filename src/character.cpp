@@ -5884,22 +5884,22 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         std::string it_name = used->tname();
         if( used->has_flag( flag_USE_UPS ) ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         ammo_req ),
+                               n_gettext( "Your %s needs %d charge from some UPS.",
+                                          "Your %s needs %d charges from some UPS.",
+                                          ammo_req ),
                                it_name, ammo_req );
         } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d bionic power.",
-                                         "Your %s needs %d bionic power.",
-                                         ammo_req ),
+                               n_gettext( "Your %s needs %d bionic power.",
+                                          "Your %s needs %d bionic power.",
+                                          ammo_req ),
                                it_name, ammo_req );
         } else {
             int ammo_rem = used->ammo_remaining();
             add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge, but needs %d.",
-                                         "Your %s has %d charges, but needs %d.",
-                                         ammo_rem ),
+                               n_gettext( "Your %s has %d charge, but needs %d.",
+                                          "Your %s has %d charges, but needs %d.",
+                                          ammo_rem ),
                                it_name, ammo_rem, ammo_req );
         }
         moves = pre_obtain_moves;

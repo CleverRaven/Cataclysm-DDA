@@ -156,12 +156,12 @@ inline const T &translation_argument_identity( const T &t )
         return cache( arg ); \
     } )( translation_argument_identity( msg ) ) )
 
-const char *ngettext( const char *msgid, const char *msgid_plural,
-                      unsigned long n ) ATTRIBUTE_FORMAT_ARG( 1 );
+const char *n_gettext( const char *msgid, const char *msgid_plural,
+                       std::size_t n ) ATTRIBUTE_FORMAT_ARG( 1 );
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
-// same as pgettext, but supports plural forms like ngettext
+// same as pgettext, but supports plural forms like n_gettext
 const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
                        unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
@@ -182,9 +182,9 @@ inline std::string _translate_internal( const std::string &msg )
 }
 } // namespace detail
 
-#define ngettext(STRING1, STRING2, COUNT) ((COUNT) < 2 ? _(STRING1) : _(STRING2))
+#define n_gettext(STRING1, STRING2, COUNT) ((COUNT) < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
-#define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
+#define npgettext(STRING0, STRING1, STRING2, COUNT) n_gettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
 
@@ -241,7 +241,7 @@ class translation
          * Can be used to ensure a translation object has plural form enabled
          * before loading into it from JSON. If plural form has not been enabled
          * yet, the plural string will be set to the original singular string.
-         * `ngettext` will ignore the new plural string and correctly retrieve
+         * `n_gettext` will ignore the new plural string and correctly retrieve
          * the original translation.
          *     Note that a `make_singular()` function is not provided due to the
          * potential loss of information.

@@ -3682,9 +3682,9 @@ bool mattack::flamethrower( monster *z )
             // Because that stupid oaf was in the way!
             if( boo_hoo > 0 ) {
                 add_msg_if_player_sees( *z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                                         z->name(), boo_hoo );
             }
             // Did reset before refactor, changed to match other turret behaviors
@@ -3820,9 +3820,9 @@ bool mattack::chickenbot( monster *z )
         if( target == nullptr ) {
             if( boo_hoo > 0 ) { // because that stupid oaf was in the way!
                 add_msg_if_player_sees( *z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                                         z->name(), boo_hoo );
             }
             return false;
@@ -3904,9 +3904,9 @@ bool mattack::multi_robot( monster *z )
         if( target == nullptr ) {
             if( boo_hoo > 0 ) { // because that stupid oaf was in the way!
                 add_msg_if_player_sees( *z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                                         z->name(), boo_hoo );
             }
             return false;

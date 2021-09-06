@@ -65,7 +65,7 @@ std::string talker_npc::distance_to_goal() const
         }
         response = string_format( _( "%d.%d miles." ), fullmiles, miles );
     } else {
-        response = string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
+        response = string_format( n_gettext( "%d foot.", "%d feet.", dist ), dist );
     }
     return response;
 }

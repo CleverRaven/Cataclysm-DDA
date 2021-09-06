@@ -1394,7 +1394,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                         points *= -1;
                     }
                     mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
-                               ngettext( "%s %s %d point", "%s %s %d points", points ),
+                               n_gettext( "%s %s %d point", "%s %s %d points", points ),
                                mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
@@ -1587,14 +1587,14 @@ tab_direction set_traits( avatar &u, pool_type pool )
                        enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points && pool != pool_type::FREEFORM ) {
-                popup( ngettext( "Sorry, but you can only take %d point of advantages.",
-                                 "Sorry, but you can only take %d points of advantages.", max_trait_points ),
+                popup( n_gettext( "Sorry, but you can only take %d point of advantages.",
+                                  "Sorry, but you can only take %d points of advantages.", max_trait_points ),
                        max_trait_points );
 
             } else if( iCurWorkingPage != 0 && num_bad + mdata.points <
                        -max_trait_points && pool != pool_type::FREEFORM ) {
-                popup( ngettext( "Sorry, but you can only take %d point of disadvantages.",
-                                 "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
+                popup( n_gettext( "Sorry, but you can only take %d point of disadvantages.",
+                                  "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
                        max_trait_points );
 
             } else {
@@ -1733,14 +1733,14 @@ tab_direction set_profession( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Profession %1$s earns %2$d point",
-                                          "Profession %1$s earns %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Profession %1$s earns %2$d point",
+                                           "Profession %1$s earns %2$d points",
+                                           pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Profession %1$s costs %2$d point",
-                                          "Profession %1$s costs %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Profession %1$s costs %2$d point",
+                                           "Profession %1$s costs %2$d points",
+                                           pointsForProf );
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
@@ -2151,14 +2151,14 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Hobby %1$s earns %2$d point",
-                                          "Hobby %1$s earns %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Hobby %1$s earns %2$d point",
+                                           "Hobby %1$s earns %2$d points",
+                                           pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Hobby %1$s costs %2$d point",
-                                          "Hobby %1$s costs %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Hobby %1$s costs %2$d point",
+                                           "Hobby %1$s costs %2$d points",
+                                           pointsForProf );
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
@@ -2520,12 +2520,12 @@ tab_direction set_skills( avatar &u, pool_type pool )
         // We have two different strings to pluralize, so we have to use two translation calls.
         const std::string upgrade_levels_s = string_format(
                 //~ levels here are skill levels at character creation time
-                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+                n_gettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
         const nc_color color = skill_points_left( u, pool ) >= cost ? COL_SKILL_USED : c_light_red;
         mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
                    //~ Second string is e.g. "1 level" or "2 levels"
-                   ngettext( "Upgrading %s by %s costs %d point",
-                             "Upgrading %s by %s costs %d points", cost ),
+                   n_gettext( "Upgrading %s by %s costs %d point",
+                              "Upgrading %s by %s costs %d points", cost ),
                    currentSkill->name(), upgrade_levels_s, cost );
 
         // We want recipes from profession skills displayed, but
@@ -2840,22 +2840,22 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             if( isWide ) {
                 if( negativeScen ) {
                     //~ 1s - scenario name, 2d - current character points.
-                    scen_msg_temp = ngettext( "Scenario %1$s earns %2$d point",
-                                              "Scenario %1$s earns %2$d points",
-                                              pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario %1$s earns %2$d point",
+                                               "Scenario %1$s earns %2$d points",
+                                               pointsForScen );
                 } else {
                     //~ 1s - scenario name, 2d - current character points.
-                    scen_msg_temp = ngettext( "Scenario %1$s costs %2$d point",
-                                              "Scenario %1$s costs %2$d points",
-                                              pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario %1$s costs %2$d point",
+                                               "Scenario %1$s costs %2$d points",
+                                               pointsForScen );
                 }
             } else {
                 if( negativeScen ) {
-                    scen_msg_temp = ngettext( "Scenario earns %2$d point",
-                                              "Scenario earns %2$d points", pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario earns %2$d point",
+                                               "Scenario earns %2$d points", pointsForScen );
                 } else {
-                    scen_msg_temp = ngettext( "Scenario costs %2$d point",
-                                              "Scenario costs %2$d points", pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario costs %2$d point",
+                                               "Scenario costs %2$d points", pointsForScen );
                 }
             }
 
@@ -3185,7 +3185,7 @@ static void draw_blood( const catacurses::window &w_blood, const avatar &you, co
 static void draw_location( const catacurses::window &w_location, const avatar &you,
                            const bool highlight )
 {
-    const std::string random_start_location_text = string_format( ngettext(
+    const std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
@@ -3197,8 +3197,8 @@ static void draw_location( const catacurses::window &w_location, const avatar &y
     mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
                you.random_start_location ? c_red : c_white,
                you.random_start_location ? remove_color_tags( random_start_location_text ) :
-               string_format( ngettext( "%s (%d variant)", "%s (%d variants)",
-                                        you.start_location.obj().targets_count() ),
+               string_format( n_gettext( "%s (%d variant)", "%s (%d variants)",
+                                         you.start_location.obj().targets_count() ),
                               you.start_location.obj().name(), you.start_location.obj().targets_count() ) );
     wnoutrefresh( w_location );
 }
@@ -3302,7 +3302,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 1;
-    const std::string random_start_location_text = string_format( ngettext(
+    const std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
@@ -3313,8 +3313,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         if( get_scenario()->allowed_start( loc.id ) ) {
             std::string loc_name = loc.name();
             if( loc.targets_count() > 1 ) {
-                loc_name = string_format( ngettext( "%s (<color_white>%d</color> variant)",
-                                                    "%s (<color_white>%d</color> variants)", loc.targets_count() ),
+                loc_name = string_format( n_gettext( "%s (<color_white>%d</color> variant)",
+                                                     "%s (<color_white>%d</color> variants)", loc.targets_count() ),
                                           loc_name, loc.targets_count() );
             }
 
