@@ -249,11 +249,16 @@ struct CataListener : Catch::TestEventListenerBase {
 
     void sectionEnded( Catch::SectionStats const &sectionStats ) override {
         TestEventListenerBase::sectionEnded( sectionStats );
-        if( !sectionStats.assertions.allPassed() ) {
+        if( !sectionStats.assertions.allPassed() ||
+            m_config->includeSuccessfulResults() ) {
             std::vector<std::pair<std::string, std::string>> messages =
                         Messages::recent_messages( 0 );
             if( !messages.empty() ) {
-                stream << "Log messages during failed test:\n";
+                if( !sectionStats.assertions.allPassed() ) {
+                    stream << "Log messages during failed test:\n";
+                } else {
+                    stream << "Log messages during successful test:\n";
+                }
             }
             for( const std::pair<std::string, std::string> &message : messages ) {
                 stream << message.first << ": " << message.second << '\n';
