@@ -123,10 +123,10 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
     }
 
     SECTION( "against an armored target" ) {
-        monster cyborg( mtype_id( "mon_exodii_worker" ) );
+        monster soldier( mtype_id( "mon_zombie_soldier" ) );
 
-        CHECK( clumsy_sword.effective_dps( dummy, cyborg ) == Approx( 8.0f ).epsilon( 0.15f ) );
-        CHECK( good_sword.effective_dps( dummy, cyborg ) == Approx( 15.0f ).epsilon( 0.15f ) );
+        CHECK( clumsy_sword.effective_dps( dummy, soldier ) == Approx( 8.0f ).epsilon( 0.15f ) );
+        CHECK( good_sword.effective_dps( dummy, soldier ) == Approx( 15.0f ).epsilon( 0.15f ) );
     }
 
     SECTION( "effect of STR and DEX on damage per second" ) {
@@ -166,7 +166,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
-    monster cyborg( mtype_id( "mon_exodii_worker" ) );
+    monster soldier( mtype_id( "mon_zombie_soldier" ) );
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
@@ -174,10 +174,10 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     item normal_sword( "test_normal_sword" );
     item good_sword( "test_balanced_sword" );
 
-    SECTION( "exodii worker" ) {
-        check_actual_dps( dummy, cyborg, clumsy_sword );
-        check_actual_dps( dummy, cyborg, normal_sword );
-        check_actual_dps( dummy, cyborg, good_sword );
+    SECTION( "soldier zombie" ) {
+        check_actual_dps( dummy, soldier, clumsy_sword );
+        check_actual_dps( dummy, soldier, normal_sword );
+        check_actual_dps( dummy, soldier, good_sword );
     }
 
     SECTION( "smoker zombie" ) {
@@ -198,7 +198,7 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
-    monster cyborg( mtype_id( "mon_exodii_worker" ) );
+    monster soldier( mtype_id( "mon_zombie_soldier" ) );
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
@@ -206,8 +206,8 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
     item normal_sword( "test_normal_sword" );
     item good_sword( "test_balanced_sword" );
 
-    SECTION( "exodii worker" ) {
-        check_accuracy_dps( dummy, cyborg, clumsy_sword, normal_sword, good_sword );
+    SECTION( "soldier zombie" ) {
+        check_accuracy_dps( dummy, soldier, clumsy_sword, normal_sword, good_sword );
     }
 
     SECTION( "smoker zombie" ) {
