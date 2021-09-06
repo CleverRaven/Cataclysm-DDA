@@ -260,7 +260,7 @@
     "move_cost_mod": 3,
     "coverage": 30,
     "required_str": 6,
-    "light_emitted": 20,
+    "light_emitted": 90,
     "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,
