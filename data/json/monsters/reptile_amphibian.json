@@ -194,7 +194,7 @@
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
-  }
+  },
 {
     "id": "mon_turtle_giant",
     "type": "MONSTER",
