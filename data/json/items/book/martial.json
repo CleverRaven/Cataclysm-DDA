@@ -266,7 +266,7 @@
     "type": "BOOK",
     "name": { "str_sp": "Historic European Swordfighting" },
     "price_postapoc": 3000,
-    "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for a variety of swords, in and out of armor, with and without shield.",
+    "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for a multitude of swords, in and out of armor, with and without shield.",
     "martial_art": "style_swordsmanship"
   }
 ]
