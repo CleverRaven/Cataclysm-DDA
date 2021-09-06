@@ -41,6 +41,7 @@
       { "item": "gauntlets_larmor", "prob": 25 },
       { "item": "gloves_fur", "prob": 5 },
       { "item": "boots", "prob": 20 },
+      { "item": "sneakers_steel", "prob": 15 },
       { "item": "boots_hiking", "prob": 30 },
       { "item": "knee_high_boots", "prob": 5 },
       { "item": "boots_larmor", "prob": 10 },

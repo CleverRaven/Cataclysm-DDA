@@ -514,6 +514,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "cookbook_italian", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "sweets_book", "prob": 10 },
       { "item": "cookbook_liverforkids", "prob": 10 },
       { "item": "cookbook_foodfashions", "prob": 7 },
       { "item": "cookbook_daintydishes", "prob": 10 },
