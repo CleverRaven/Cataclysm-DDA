@@ -4027,7 +4027,7 @@
     "type": "profession",
     "id": "mafia_boss",
     "name": "Mafia boss",
-    "description": "Born into poverty, you joined one of the organized crime families to make a living. There, you quickly made it to the top and became the boss. The government was building a RICO case against you, but the doomsday arrived first. Your crew is gone, but your past life prepared you for a world where violence is common currency.",
+    "description": "Born into poverty, you joined one of the organized crime families to make a living.  There, you quickly made it to the top and became the boss.  The government was building a RICO case against you, but the doomsday arrived first.  Your crew is gone, but your past life prepared you for a world where violence is common currency.",
     "points": 5,
     "skills": [
       { "level": 2, "name": "pistol" },
