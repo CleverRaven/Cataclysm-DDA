@@ -227,6 +227,8 @@
         "type": "bite",
         "cooldown": 10,
         "accuracy": 6,
+        "range": 3,
+        "move_cost": 25,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
