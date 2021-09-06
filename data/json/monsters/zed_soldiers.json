@@ -62,7 +62,35 @@
     "type": "MONSTER",
     "name": { "str": "zombie soldier test only" },
     "description": "This zombie soldier is for testing purposes only.",
-    "copy-from": "mon_zombie_soldier"
+    "copy-from": "mon_zombie_soldier",
+    "delete": {
+      "weakpoints": [
+        {
+          "name": "an unarmored part of the leg",
+          "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+          "coverage": 8
+        },
+        { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+        {
+          "name": "the armpit",
+          "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+          "coverage": 1
+        },
+        {
+          "name": "the weak armor on the side",
+          "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+          "coverage": 4
+        },
+        {
+          "name": "a gap in the stomach armor",
+          "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+          "coverage": 2
+        },
+        { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+        { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+        { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      ]
+    }
   },
   {
     "id": "mon_zombie_soldier_blackops_1",
