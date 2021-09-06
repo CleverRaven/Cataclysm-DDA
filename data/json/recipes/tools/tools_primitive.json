@@ -74,7 +74,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 }, { "proficiency": "prof_know_tying" } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 }, { "proficiency": "prof_knot_tying" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "2x4", 1 ] ],
