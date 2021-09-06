@@ -220,7 +220,8 @@
     "dodge": 1,
     "armor_bash": 30,
     "armor_cut": 30,
-    "armor_bullet": 30,
+    "armor_bullet": 35,
+    "armor_stab": 30,
     "path_settings": { "max_dist": 5 },
      "special_attacks": [
       {
