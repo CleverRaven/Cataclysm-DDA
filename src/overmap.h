@@ -456,9 +456,6 @@ class overmap
                                 om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
-                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
