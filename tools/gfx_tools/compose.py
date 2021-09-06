@@ -238,10 +238,9 @@ class Tileset:
             if sheet_type != 'fallback':
                 sheet.walk_dirs()
 
-                if not self.only_json:
-                    # write output PNGs
-                    if not sheet.write_composite_png():
-                        continue
+                # write output PNGs
+                if not sheet.write_composite_png():
+                    continue
 
                 sheet.max_index = self.pngnum
 
@@ -449,6 +448,8 @@ class Tilesheet:
 
         if not self.tileset.only_json:
             self.sprites.append(self.load_image(filepath))
+        else:
+            self.sprites.append(None)
         self.tileset.pngnum += 1
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.unreferenced_pngnames[
@@ -521,23 +522,24 @@ class Tilesheet:
         self.tileset.pngnum += self.sheet_width - \
             ((len(self.sprites) % self.sheet_width) or self.sheet_width)
 
-        if self.sprites:
-            sheet_image = Vips.Image.arrayjoin(
-                self.sprites, across=self.sheet_width)
-
-            pngsave_args = PNGSAVE_ARGS
-
-            if self.tileset.palette:
-                pngsave_args['palette'] = True
-
-            sheet_image.pngsave(self.output, **pngsave_args)
-
-            if self.tileset.palette_copies and not self.tileset.palette:
-                sheet_image.pngsave(
-                    self.output + '8', palette=True, **pngsave_args)
-
+        if self.tileset.only_json:
             return True
-        return False
+
+        sheet_image = Vips.Image.arrayjoin(
+            self.sprites, across=self.sheet_width)
+
+        pngsave_args = PNGSAVE_ARGS.copy()
+
+        if self.tileset.palette:
+            pngsave_args['palette'] = True
+
+        sheet_image.pngsave(self.output, **pngsave_args)
+
+        if self.tileset.palette_copies and not self.tileset.palette:
+            sheet_image.pngsave(
+                self.output + '8', palette=True, **pngsave_args)
+
+        return True
 
 
 class TileEntry:
