@@ -435,7 +435,7 @@
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
-    "proficiencies": [ "prof_fibers", "prof_knitting" ],
+    "proficiencies": [ "prof_fibers", "prof_knitting","prof_knot_tying" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
@@ -1284,7 +1284,8 @@
       "prof_metalworking",
       "prof_lockpicking",
       "prof_bow_basic",
-      "prof_bow_expert"
+      "prof_bow_expert",
+      "prof_knot_tying"
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -2233,7 +2234,7 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting", "prof_knot_tying" ],
     "items": {
       "both": {
         "items": [
@@ -2298,7 +2299,7 @@
     "description": "In the rush to safety, you were separated from your master by cruel fate.  Now you are on your own, with nothing to your name but a suit of really kinky black leather.  Unfortunately, there are no safewords in the apocalypse.",
     "points": -1,
     "flags": [ "NO_BONUS_ITEMS" ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
+    "proficiencies": [ "prof_knot_tying" ],
     "items": {
       "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
     }
@@ -2896,7 +2897,7 @@
     "name": "Hardened Scavenger",
     "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself amidst the ruins of civilization.  Whether through force, guile, or luck, you've obtained the best gear you could find.",
     "points": 8,
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures", "prof_knot_tying" ],
     "skills": [
       { "level": 5, "name": "melee" },
       { "level": 5, "name": "gun" },
@@ -3016,7 +3017,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic","prof_knot_tying" ],
     "items": {
       "both": {
         "items": [
@@ -3052,7 +3053,7 @@
     "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
     "points": 2,
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_knot_tying" ],
     "items": {
       "both": {
         "items": [
@@ -3237,7 +3238,7 @@
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "traps" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking", "prof_knot_tying" ],
     "items": {
       "both": {
         "items": [
