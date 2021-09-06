@@ -9,7 +9,12 @@
 #include <utility>
 #include <vector>
 
+// on some systems <locale> pulls in libintl.h anyway,
+// so preemptively include it before the gettext overrides.
+#include <locale> // IWYU pragma: keep
+
 #include "optional.h"
+#include "translation_manager.h"
 #include "value_ptr.h"
 
 constexpr int INVALID_LANGUAGE_VERSION = 0;
@@ -45,18 +50,7 @@ std::string getSystemLanguage();
 // Same as above but returns "en" in the case that the above one returns empty string
 std::string getSystemLanguageOrEnglish();
 void select_language();
-
-// MingW flips out if you don't define this before you try to statically link libintl.
-// This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
-#   if !defined(LIBINTL_STATIC)
-#       define LIBINTL_STATIC
-#   endif
-#endif
-
-// IWYU pragma: begin_exports
-#include <libintl.h>
-// IWYU pragma: end_exports
+std::string locale_dir();
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -66,18 +60,18 @@ void select_language();
 
 namespace detail
 {
+
 // same as _(), but without local cache
 const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 
 inline const char *_translate_internal( const char *msg )
 {
-    return msg[0] == '\0' ? msg : gettext( msg );
+    return TranslationManager::GetInstance().Translate( msg );
 }
 
-// same as _(), but without local cache
 inline std::string _translate_internal( const std::string &msg )
 {
-    return _translate_internal( msg.c_str() );
+    return TranslationManager::GetInstance().Translate( msg );
 }
 
 template<typename T>
@@ -162,18 +156,8 @@ inline const T &translation_argument_identity( const T &t )
         return cache( arg ); \
     } )( translation_argument_identity( msg ) ) )
 
-// ngettext overload taking an unsigned long long so that people don't need
-// to cast at call sites.  This is particularly relevant on 64-bit Windows where
-// size_t is bigger than unsigned long, so MSVC will try to encourage you to
-// add a cast.
-template<typename T, typename = std::enable_if_t<std::is_same<T, unsigned long long>::value>>
-ATTRIBUTE_FORMAT_ARG( 1 )
-inline const char *ngettext( const char *msgid, const char *msgid_plural, T n )
-{
-    // Leaving this long because it matches the underlying API.
-    // NOLINTNEXTLINE(cata-no-long)
-    return ngettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
-}
+const char *ngettext( const char *msgid, const char *msgid_plural,
+                      unsigned long n ) ATTRIBUTE_FORMAT_ARG( 1 );
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
@@ -182,10 +166,6 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
                        unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
-
-// on some systems <locale> pulls in libintl.h anyway,
-// so preemptively include it before the gettext overrides.
-#include <locale> // IWYU pragma: keep
 
 #define _(STRING) (STRING)
 
@@ -222,7 +202,6 @@ using GenderMap = std::map<std::string, std::vector<std::string>>;
  */
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
 
-std::string locale_dir();
 void set_language();
 
 class JsonIn;
