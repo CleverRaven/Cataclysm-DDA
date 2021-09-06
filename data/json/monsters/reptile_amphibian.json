@@ -240,7 +240,7 @@
 ],
     "anger_triggers": [ "PLAYER_CLOSE", "HOSTILE_SEEN" ],
     "baby_flags": [ "SUMMER" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
   }
 ]
 ]
