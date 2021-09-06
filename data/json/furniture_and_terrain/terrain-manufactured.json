@@ -1101,7 +1101,7 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "INDOORS" ],
     "coverage": 30,
     "deconstruct": {
       "ter_set": "t_rock_floor",
@@ -1188,7 +1188,7 @@
         { "item": "steel_chunk", "count": [ 1, 10 ] }
       ]
     },
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
   },
   {
     "type": "terrain",
@@ -1199,7 +1199,7 @@
     "color": "green",
     "looks_like": "t_pit",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,

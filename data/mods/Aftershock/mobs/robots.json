@@ -173,7 +173,7 @@
   {
     "id": "afs_mon_sentinel_lx",
     "type": "MONSTER",
-    "name": { "str": "Wraitheon Sentinel-lx" },
+    "name": { "str": "Wraitheon Sentinel-lx", "str_pl": "Wraitheon Sentinels-lx" },
     "description": "Its exterior plates are sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],

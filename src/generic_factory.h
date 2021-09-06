@@ -983,15 +983,16 @@ struct handler<std::vector<T>> {
  * would add the "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
  * @tparam Derived The class that inherits from this. It must implement the following:
- *   - `Foo get_next( JsonIn & ) const`: reads the next value from JSON, converts it into some
+ *   - `Foo get_next( V ) const`: reads the next value from JSON, converts it into some
  *      type `Foo` and returns it. The returned value is assigned to the loaded member (see reader
  *      interface above), or is inserted into the member (if it's a container). The type `Foo` must
- *      be compatible with those uses (read: it should be the same type).
- *   - (optional) `erase_next( JsonIn &jin, C &container ) const`, the default implementation here
+ *      be compatible with those uses (read: it should be the same type). V is a type convertible from
+ *      JsonValue.
+ *   - (optional) `erase_next( V v, C &container ) const`, the default implementation here
  *      reads a value from JSON via `get_next` and removes the matching value in the container.
  *      The value in the container must match *exactly*. You may override this function to allow
  *      a different matching algorithm, e.g. reading a simple id from JSON and remove entries with
- *      the same id from the container.
+ *      the same id from the container. V is a value convertible from JsonValue.
  */
 template<typename Derived>
 class generic_typed_reader
@@ -1004,22 +1005,22 @@ class generic_typed_reader
             if( !jo.has_member( member_name ) ) {
                 return;
             }
-            JsonIn &jin = *jo.get_raw( member_name );
+            JsonValue jv = jo.get_member( member_name );
             // We allow either a single value or an array of values. Note that this will not work
             // correctly if the thing we load from JSON is itself an array.
-            if( jin.test_array() ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    derived.insert_next( jin, container );
+            if( jv.test_array() ) {
+                for( JsonValue jav : jv.get_array() ) {
+                    derived.insert_next( jav, container );
                 }
             } else {
-                derived.insert_next( jin, container );
+                derived.insert_next( jv, container );
             }
         }
+
         template<typename C>
-        void insert_next( JsonIn &jin, C &container ) const {
+        void insert_next( JsonValue &jv, C &container ) const {
             const Derived &derived = static_cast<const Derived &>( *this );
-            reader_detail::handler<C>().insert( container, derived.get_next( jin ) );
+            reader_detail::handler<C>().insert( container, derived.get_next( jv ) );
         }
 
         template<typename C>
@@ -1028,21 +1029,20 @@ class generic_typed_reader
             if( !jo.has_member( member_name ) ) {
                 return;
             }
-            JsonIn &jin = *jo.get_raw( member_name );
+            JsonValue jv = jo.get_member( member_name );
             // Same as for inserting: either an array or a single value, same caveat applies.
-            if( jin.test_array() ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    derived.erase_next( jin, container );
+            if( jv.test_array() ) {
+                for( JsonValue jav : jv.get_array() ) {
+                    derived.erase_next( jav, container );
                 }
             } else {
-                derived.erase_next( jin, container );
+                derived.erase_next( jv, container );
             }
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
+        void erase_next( JsonValue &jv, C &container ) const {
             const Derived &derived = static_cast<const Derived &>( *this );
-            reader_detail::handler<C>().erase( container, derived.get_next( jin ) );
+            reader_detail::handler<C>().erase( container, derived.get_next( jv ) );
         }
 
         /**
@@ -1115,7 +1115,7 @@ class generic_typed_reader
                 if( !relative.has_member( name ) ) {
                     return false;
                 }
-                C adder = derived.get_next( *relative.get_raw( name ) );
+                C adder = derived.get_next( relative.get_member( name ) );
                 member += adder;
                 return true;
             }
@@ -1126,7 +1126,7 @@ class generic_typed_reader
         bool read_normal( const JsonObject &jo, const std::string &name, C &member ) const {
             if( jo.has_member( name ) ) {
                 const Derived &derived = static_cast<const Derived &>( *this );
-                member = derived.get_next( *jo.get_raw( name ) );
+                member = derived.get_next( jo.get_member( name ) );
                 return true;
             }
             return false;
@@ -1163,8 +1163,8 @@ template<typename FlagType = std::string>
 class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType>>
 {
     public:
-        FlagType get_next( JsonIn &jin ) const {
-            return FlagType( jin.get_string() );
+        FlagType get_next( std::string &&str ) const {
+            return FlagType( std::move( str ) );
         }
 };
 
@@ -1178,11 +1178,11 @@ class volume_reader : public generic_typed_reader<units::volume>
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = read_from_json_string<units::volume>( *jo.get_raw( member_name ), units::volume_units );
+            member = read_from_json_string<units::volume>( jo.get_member( member_name ), units::volume_units );
             return true;
         }
-        units::volume get_next( JsonIn &jin ) const {
-            return read_from_json_string<units::volume>( jin, units::volume_units );
+        units::volume get_next( JsonValue &jv ) const {
+            return read_from_json_string<units::volume>( jv, units::volume_units );
         }
 };
 
@@ -1194,11 +1194,11 @@ class mass_reader : public generic_typed_reader<units::mass>
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = read_from_json_string<units::mass>( *jo.get_raw( member_name ), units::mass_units );
+            member = read_from_json_string<units::mass>( jo.get_member( member_name ), units::mass_units );
             return true;
         }
-        units::mass get_next( JsonIn &jin ) const {
-            return read_from_json_string<units::mass>( jin, units::mass_units );
+        units::mass get_next( JsonValue &jv ) const {
+            return read_from_json_string<units::mass>( jv, units::mass_units );
         }
 };
 
@@ -1231,13 +1231,12 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             , flag_type( flag_type ) {
         }
 
-        T get_next( JsonIn &jin ) const {
-            const std::string flag = jin.get_string();
+        T get_next( JsonValue jv ) const {
+            const std::string flag = jv;
             const auto iter = flag_map.find( flag );
 
             if( iter == flag_map.cend() ) {
-                jin.seek( jin.tell() );
-                jin.error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
+                jv.throw_error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
             }
 
             return iter->second;
@@ -1263,14 +1262,12 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         explicit enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
-        E get_next( JsonIn &jin ) const {
-            const int position = jin.tell();
-            const std::string flag = jin.get_string();
+        E get_next( JsonValue jv ) const {
+            const std::string flag = jv.get_string();
             try {
                 return io::string_to_enum<E>( flag );
             } catch( const io::InvalidEnumString & ) {
-                jin.seek( position );
-                jin.error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
+                jv.throw_error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
                 throw; // ^^ throws already
             }
         }
@@ -1283,8 +1280,8 @@ template<typename T>
 class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 {
     public:
-        string_id<T> get_next( JsonIn &jin ) const {
-            return string_id<T>( jin.get_string() );
+        string_id<T> get_next( std::string &&str ) const {
+            return string_id<T>( std::move( str ) );
         }
 };
 
@@ -1317,7 +1314,7 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
         explicit text_style_check_reader( allow_object object_allowed = allow_object::yes );
 
-        std::string get_next( JsonIn &jsin ) const;
+        std::string get_next( JsonValue jv ) const;
 
     private:
         allow_object object_allowed;

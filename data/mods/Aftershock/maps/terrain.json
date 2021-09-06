@@ -20,7 +20,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_foamcrete_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": { "str_min": 15, "str_max": 40, "sound": "crash!", "sound_fail": "thump!", "ter_set": "t_null" }
   },
   {

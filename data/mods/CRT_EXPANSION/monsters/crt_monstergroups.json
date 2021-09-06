@@ -126,5 +126,11 @@
       { "monster": "mon_prototype_cyborg", "freq": 400, "cost_multiplier": 0 },
       { "monster": "mon_twitcher", "freq": 10, "cost_multiplier": 5 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER",
+    "default": "mon_spider_web_small",
+    "monsters": [ { "monster": "mon_spider_disease", "freq": 400, "cost_multiplier": 0 } ]
   }
 ]

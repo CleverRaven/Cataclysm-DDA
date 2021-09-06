@@ -255,6 +255,7 @@ struct npc_opinion {
     int value;
     int anger;
     int owed; // Positive when the npc owes the player. Negative if player owes them.
+    int sold; // Total value of goods sold/donated by player to the npc. Cannot be negative.
 
     npc_opinion() {
         trust = 0;
@@ -262,10 +263,7 @@ struct npc_opinion {
         value = 0;
         anger = 0;
         owed  = 0;
-    }
-
-    npc_opinion( int T, int F, int V, int A, int O ) :
-        trust( T ), fear( F ), value( V ), anger( A ), owed( O ) {
+        sold = 0;
     }
 
     npc_opinion &operator+=( const npc_opinion &rhs ) {
@@ -274,6 +272,7 @@ struct npc_opinion {
         value += rhs.value;
         anger += rhs.anger;
         owed  += rhs.owed;
+        sold  += rhs.sold;
         return *this;
     }
 

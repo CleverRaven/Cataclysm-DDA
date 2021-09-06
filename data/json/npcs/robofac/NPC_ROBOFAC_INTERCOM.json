@@ -439,7 +439,7 @@
       "Say again?",
       "If/you speak to/understand… you/me. Yes?"
     ],
-    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": "600" } },
+    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": 600 } },
     "responses": [
       { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
