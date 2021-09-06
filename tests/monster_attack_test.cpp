@@ -177,6 +177,8 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     // You got a player
     Character &you = get_player_character();
     clear_avatar();
+    you.dodges_left = 1;
+    REQUIRE( Approx( you.get_dodge() ) == 4.0 );
     you.setpos( target_location );
     // and you got a monster
     const std::string monster_type = "mon_feral_human_pipe";
@@ -185,17 +187,21 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
     reset_caches( attacker_location.z, target_location.z );
     statistics<int> damage_dealt;
+    statistics<bool> hits;
     do {
         you.set_all_parts_hp_to_max();
+        you.dodges_left = 1;
         int prev_hp = you.get_hp();
         // monster shoots the player
         REQUIRE( attack->call( test_monster ) == true );
         // how much damage did it do?
         // Player-centric test in throwing_test.cpp ranges from 2 - 8 damage at point-blank range.
         int current_hp = you.get_hp();
+        hits.add( current_hp < prev_hp );
         damage_dealt.add( prev_hp - current_hp );
         test_monster.ammo[ itype_id( "rock" ) ]++;
     } while( damage_dealt.n() < 100 );
+    INFO( "Hit rate: " << hits.avg() );
     INFO( "Avg total damage: " << damage_dealt.avg() );
     INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
     CHECK( damage_dealt.test_threshold( epsilon_threshold{ 5, 3 } ) );
