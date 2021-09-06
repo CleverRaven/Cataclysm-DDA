@@ -48,27 +48,6 @@
     "flags": [ "SEES", "SMELLS", "FLIES", "VERMIN" ]
   },
   {
-    "id": "mon_frog",
-    "type": "MONSTER",
-    "name": { "str": "bull frog" },
-    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
-    "default_faction": "vermin",
-    "species": [ "AMPHIBIAN" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 3,
-    "speed": 80,
-    "material": [ "flesh" ],
-    "symbol": "b",
-    "color": "green",
-    "melee_cut": 0,
-    "dodge": 6,
-    "harvest": "mammal_tiny",
-    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
-  },
-  {
     "id": "mon_mosquito",
     "type": "MONSTER",
     "name": { "str": "mosquito" },

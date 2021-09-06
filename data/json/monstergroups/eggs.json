@@ -188,5 +188,11 @@
     "type": "monstergroup",
     "default": "mon_mantis_small",
     "monsters": [ { "monster": "mon_mantis_small", "freq": 1000, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_FROG",
+    "type": "monstergroup",
+    "default": "mon_tadpole",
+    "monsters": [ { "monster": "mon_tadpole", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]

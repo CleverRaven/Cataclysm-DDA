@@ -7,7 +7,7 @@
     "name": "Edison generator",
     "symbol": "0",
     "color": "light_green",
-    "description": "This imposing apparatus harnesses 'atmospheric charges', or at least thats what the news said when these things came out.  Pioneered by Elton Moosek and his Bluebox team, these were immediately snapped up by the government due to their potential to generate near limitless power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",
+    "description": "This imposing apparatus harnesses 'atmospheric charges', or at least that's what the news said when these things came out.  Pioneered by Elton Moosek and his Bluebox team, these were immediately snapped up by the government due to their potential to generate near limitless power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",
     "deconstruct": {
       "ter_set": "t_concrete",
       "items": [

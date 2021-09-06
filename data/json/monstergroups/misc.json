@@ -303,6 +303,7 @@
       { "monster": "mon_sewer_snake", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "freq": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "freq": 25, "cost_multiplier": 2 },
+      { "monster": "mon_frog", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_frog_small", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "freq": 50, "cost_multiplier": 1, "ends": 180 },
       { "monster": "mon_slug_giant", "freq": 75, "cost_multiplier": 1, "starts": 180 },

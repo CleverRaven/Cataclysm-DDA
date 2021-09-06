@@ -539,5 +539,15 @@
     "material": [ "egg" ],
     "fun": 2,
     "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_frog",
+    "name": { "str": "frog egg" },
+    "copy-from": "egg_chicken",
+    "weight": "30 mg",
+    "volume": "1 ml",
+    "description": "A frog's egg.  Laid in large clusters, these eggs are are gelatinous and transparent",
+    "rot_spawn": "GROUP_EGG_FROG"
   }
 ]
