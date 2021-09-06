@@ -1509,7 +1509,7 @@ std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_i
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
+                       io::enum_to_string( elem.type ), elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
                        wp->id, wp->armor_mult[static_cast<int>( elem.type )],
