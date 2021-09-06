@@ -686,6 +686,31 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "sailing",
+    "name": "Sailing",
+    "description": "You have experience operating a sailing vessel.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_knot_tying" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "scouting",
+    "name": { "male": "Boy Scout", "female": "Girl Scout" },
+    "description": "You've had fun camping trips with your scout troop.  Now it's time to see how useful all those badges really are.",
+    "points": 2,
+    "skills": [
+      { "level": 1, "name": "swimming" },
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "cooking" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "proficiencies": [ "prof_knot_tying" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "underweight",
     "name": "Extreme Dieting",
     "description": "You lost an awful lot of weight before the Cataclysm.  Now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
