@@ -1458,7 +1458,7 @@ void load_effect_type( const JsonObject &jo )
     for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
         new_etype.blocks_effects.emplace_back( f );
     }
-    optional( jo, false, "max_duration", new_etype.max_duration, 365_days )
+    optional( jo, false, "max_duration", new_etype.max_duration, 365_days );
 
     if( jo.has_string( "int_dur_factor" ) ) {
         new_etype.int_dur_factor = read_from_json_string<time_duration>( jo.get_member( "int_dur_factor" ),
