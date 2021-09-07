@@ -33,7 +33,7 @@ struct weakpoint_report {
         if( items.find( wp ) == items.end() || hits == 0 ) {
             return 0.0f;
         } else {
-            return ( float )items[wp].hits / ( float )hits;
+            return static_cast<float>( items[wp].hits ) / static_cast<float>( hits );
         }
     }
 
@@ -41,7 +41,7 @@ struct weakpoint_report {
         if( items.find( wp ) == items.end() ) {
             return 0.0f;
         } else {
-            return ( float )items[wp].totaldamage / ( float )items[wp].hits;
+            return static_cast<float>( items[wp].totaldamage ) / static_cast<float>( items[wp].hits );
         }
     }
 
@@ -57,7 +57,7 @@ static weakpoint_report damage_monster( const std::string &target_type, const da
     weakpoint_report ret{};
     for( int i = 0; i < attacks; i++ ) {
         monster target{ mtype_id( target_type ), tripoint_zero };
-        ret.Accumulate( target.deal_damage( NULL, bodypart_id( "torso" ), dam ) );
+        ret.Accumulate( target.deal_damage( nullptr, bodypart_id( "torso" ), dam ) );
     }
 
     return ret;
