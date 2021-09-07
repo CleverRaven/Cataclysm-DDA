@@ -2123,8 +2123,14 @@
       { "monster": "mon_dragonfly_naiad", "freq": 10, "cost_multiplier": 2, "ends": 168 },
       { "monster": "mon_dragonfly_naiad", "freq": 30, "cost_multiplier": 3, "starts": 168, "pack_size": [ 1, 3 ] },
       { "monster": "mon_strider_small", "freq": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] }
-    ]
-  },
+      },
+      { 
+	"monster": "mon_turtle_giant",
+	"freq": 30,
+	"cost_multiplier": 1,
+	"conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }, 
+	]
   {
     "type": "monstergroup",
     "name": "GROUP_SWAMP",
@@ -2132,6 +2138,13 @@
     "//": "Current SPRING first DAY count is 417.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
+      { 
+	"monster": "mon_turtle_giant",
+	"freq": 30,
+	"cost_multiplier": 1,
+	"conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+	
       {
         "monster": "mon_lemming",
         "freq": 50,
