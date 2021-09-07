@@ -92,14 +92,6 @@ enum class debug_menu_index : int {
     last
 };
 
-void change_spells( Character &character );
-
-void teleport_short();
-void teleport_long();
-void teleport_overmap( bool specific_coordinates = false );
-
-void spawn_nested_mapgen();
-void character_edit_menu();
 void wisheffect( Character &p );
 void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
@@ -107,8 +99,6 @@ void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( Character *you );
 void wishskill( Character *you, bool change_theory = false );
 void wishproficiency( Character *you );
-void mutation_wish();
-void draw_benchmark( int max_difference );
 
 void debug();
 

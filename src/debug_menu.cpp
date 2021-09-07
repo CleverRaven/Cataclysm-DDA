@@ -650,7 +650,7 @@ static void spell_description(
     std::get<2>( spl_data ) = description.str();
 }
 
-void change_spells( Character &character )
+static void change_spells( Character &character )
 {
     if( spell_type::get_all().empty() ) {
         add_msg( m_info, _( "There are no spells to change." ) );
@@ -1036,7 +1036,7 @@ void change_spells( Character &character )
     }
 }
 
-void teleport_short()
+static void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
     const Character &player_character = get_player_character();
@@ -1048,7 +1048,7 @@ void teleport_short()
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
-void teleport_long()
+static void teleport_long()
 {
     const tripoint_abs_omt where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
@@ -1058,7 +1058,7 @@ void teleport_long()
     add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
-void teleport_overmap( bool specific_coordinates )
+static void teleport_overmap( bool specific_coordinates = false )
 {
     Character &player_character = get_player_character();
     tripoint_abs_omt where;
@@ -1107,7 +1107,7 @@ void teleport_overmap( bool specific_coordinates )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
-void spawn_nested_mapgen()
+static void spawn_nested_mapgen()
 {
     uilist nest_menu;
     std::vector<std::string> nest_str;
@@ -1144,7 +1144,7 @@ void spawn_nested_mapgen()
     }
 }
 
-void character_edit_menu()
+static void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uilist charmenu;
@@ -1984,7 +1984,7 @@ void mission_debug::edit_mission( mission &m )
     }
 }
 
-void draw_benchmark( const int max_difference )
+static void draw_benchmark( const int max_difference )
 {
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
