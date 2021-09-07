@@ -251,45 +251,53 @@
     "id": "mon_turtle_giant",
     "type": "MONSTER",
     "name": { "str": "giant turtle" },
-    "description": "A horrifically large and ulcerous snapping turtle. In the air above its primordial shell it interweaves its unnaturally elongated and flexible neck and tail with unnervingly elegant complexity.",
+    "description": "A horrifically large and ulcerous snapping turtle. In the air above its antediluvian shell it interweaves its unnaturally elongated and flexible neck and tail with unnervingly elegant complexity.",
     "default_faction": "mutant",
     "bodytype": "gator",
     "species": [ "AMPHIBIAN" ],
     "volume": "92500 ml",
-    "weight": "120 kg",
-    "hp": 150,
-    "speed": 10,
-    "attack_cost": 10,
+    "weight": "907 kg",
+    "hp": 250,
+    "speed": 25,
+    "attack_cost": 25,
     "material": [ "flesh", "bone" ],
     "symbol": "T",
     "color": "light_green",
-    "aggression": 50,
-    "morale": 100,
+    "aggression": 5,
+    "morale": 40,
     "melee_skill": 10,
-    "melee_dice": 1,
-    "melee_dice_sides": 20,
-    "melee_cut": 10,
+    "melee_dice": 5,
+    "melee_dice_sides": 4,
     "dodge": 1,
-    "armor_bash": 30,
-    "armor_cut": 30,
-    "armor_bullet": 30,
+    "armor_bash": 50,
+    "armor_cut": 50,
+    "armor_bullet": 60,
+    "armor_stab": 50,
+    "weakpoints": [ 
+	{ 
+	  "name": "the face", 
+	  "armor_penalty": { "bash": 40, "bullet": 40, "cut": 40, "stab": 40 },
+	  "coverage": 40 } 
+],
     "path_settings": { "max_dist": 5 },
      "special_attacks": [
       {
         "type": "bite",
         "cooldown": 10,
         "accuracy": 6,
+        "range": 3,
+        "move_cost": 25,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
-          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
+          { "damage_type": "cut", "amount": 27, "armor_multiplier": 0.66 }
         ],
         "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
-        "infection_chance": 50
+        "infection_chance": 10
       }
 ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "HOSTILE_SEEN" ],
     "baby_flags": [ "SUMMER" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "GRABS", "WATER_CAMOUFLAGE" ]
   }
 ]
 ]
