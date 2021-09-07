@@ -35,7 +35,7 @@ void advanced_inventory_pane::set_area( const advanced_inv_area &square, bool in
     prev_area = area;
     prev_viewing_cargo = viewing_cargo;
     area = square.id;
-    viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
+    viewing_cargo = square.can_store_in_vehicle() && ( in_vehicle_cargo || area == AIM_DRAGGED );
 }
 
 void advanced_inventory_pane::restore_area()
