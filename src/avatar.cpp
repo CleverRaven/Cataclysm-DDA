@@ -1568,16 +1568,24 @@ void avatar::randomize_hobbies()
     int random = rng( 0, 5 );
 
     if( random >= 1 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 3 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 5 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
+    }
+}
+
+void avatar::add_random_hobby( std::vector<profession_id> &choices )
+{
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_id &trait : hobby->get_locked_traits() ) {
+        toggle_trait( trait );
     }
 }
 
