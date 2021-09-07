@@ -7118,11 +7118,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
 
+        int iStartPos = 0;
         if( ground_items.empty() ) {
             wnoutrefresh( w_items_border );
             mvwprintz( w_items, point( 2, 10 ), c_white, _( "You don't see any items around you!" ) );
         } else {
-            int iStartPos = 0;
             werase( w_items );
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
@@ -7226,6 +7226,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             activeItem->vIG[page_num].it->color_in_inventory(),
                             activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
+            // move the cursor to the selected item (for screen readers)
+            wmove( w_items, point( 1, iActive - iStartPos ) );
         }
 
         wnoutrefresh( w_items );
