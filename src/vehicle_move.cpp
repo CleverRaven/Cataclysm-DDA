@@ -1971,7 +1971,7 @@ void vehicle::check_falling_or_floating()
     // Check under the wheels, if they're supported nothing else matters.
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
-        const tripoint &position = global_part_pos3( wheel_index );
+        const tripoint position = global_part_pos3( wheel_index );
         if( has_support( position, false ) ) {
             ++supported_wheels;
         }
@@ -2032,7 +2032,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
-        const tripoint &pp = veh.global_part_pos3( p );
+        const tripoint pp = veh.global_part_pos3( p );
         const int wheel_area = veh.part( p ).wheel_area();
 
         const auto &tr = ter( pp ).obj();

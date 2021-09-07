@@ -1168,17 +1168,6 @@ class Character : public Creature, public visitable
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        inline void setx( int x ) {
-            setpos( tripoint( x, posy(), posz() ) );
-        }
-        inline void sety( int y ) {
-            setpos( tripoint( posx(), y, posz() ) );
-        }
-        inline void setz( int z ) {
-            setpos( tripoint( pos().xy(), z ) );
-        }
-        void setpos( const tripoint &p ) override;
-
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -1191,6 +1180,7 @@ class Character : public Creature, public visitable
         std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
     protected:
 
+        void on_move( const tripoint_abs_ms &old_pos ) override;
         void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );

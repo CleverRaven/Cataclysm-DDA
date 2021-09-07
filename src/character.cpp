@@ -2384,9 +2384,9 @@ void Character::remove_mission_items( int mission_id )
     remove_items_with( has_mission_item_filter { mission_id } );
 }
 
-void Character::setpos( const tripoint &p )
+void Character::on_move( const tripoint_abs_ms &old_pos )
 {
-    Creature::setpos( p );
+    Creature::on_move( old_pos );
     // In case we've moved out of range of lifting assist.
     invalidate_weight_carried_cache();
 }
