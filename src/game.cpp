@@ -709,7 +709,7 @@ bool game::start_game()
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Do this after the map cache has been built!
-    start_loc.place_player( u );
+    start_loc.place_player( u, omtstart );
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
@@ -803,7 +803,7 @@ bool game::start_game()
                         }
                     }
 
-                    auto mons = critter_tracker->find( pos );
+                    auto mons = critter_tracker->find( u.get_location() );
                     if( mons != nullptr ) {
                         critter_tracker->remove( *mons );
                     }
@@ -1004,7 +1004,7 @@ void game::create_starting_npcs()
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
-    tmp->spawn_at_precise( u.global_square_location() - point_south_east );
+    tmp->spawn_at_precise( u.get_location() - point_south_east );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
@@ -2843,7 +2843,7 @@ struct npc_dist_to_player {
 void game::disp_NPCs()
 {
     const tripoint_abs_omt ppos = u.global_omt_location();
-    const tripoint &lpos = u.pos();
+    const tripoint lpos = u.pos();
     const int scan_range = 120;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( scan_range );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
@@ -4354,7 +4354,7 @@ shared_ptr_fast<T> game::shared_from( const T &critter )
         return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
     if( critter.is_monster() ) {
-        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
+        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.get_location() ) ) {
             if( static_cast<const Creature *>( mon_ptr.get() ) == static_cast<const Creature *>( &critter ) ) {
                 return std::dynamic_pointer_cast<T>( mon_ptr );
             }
@@ -4486,9 +4486,10 @@ size_t game::num_creatures() const
     return critter_tracker->size() + critter_tracker->active_npc.size() + 1;
 }
 
-bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
+bool game::update_zombie_pos( const monster &critter, const tripoint_abs_ms &old_pos,
+                              const tripoint_abs_ms &new_pos )
 {
-    return critter_tracker->update_pos( critter, pos );
+    return critter_tracker->update_pos( critter, old_pos, new_pos );
 }
 
 void game::remove_zombie( const monster &critter )
@@ -5981,7 +5982,7 @@ void game::zones_manager()
         if( show_all_zones ) {
             zones = mgr.get_zones();
         } else {
-            const tripoint &u_abs_pos = m.getabs( u.pos() );
+            const tripoint u_abs_pos = m.getabs( u.pos() );
             for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
                 const tripoint &zone_abs_pos = ref.get().get_center_point();
                 if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
@@ -10223,7 +10224,7 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
         return pts[0];
     }
 
-    const tripoint &upos = get_player_character().pos();
+    const tripoint upos = get_player_character().pos();
     uilist pmenu;
     pmenu.title = _( "Climb where?" );
     int num = 0;
@@ -10483,7 +10484,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 remove_zombie( critter );
             }
         }
-        auto mons = critter_tracker->find( u.pos() );
+        auto mons = critter_tracker->find( u.get_location() );
         if( mons != nullptr ) {
             critter_tracker->remove( *mons );
         }
@@ -10590,7 +10591,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( u.is_mounted() ) {
         if( stored_mount ) {
             cata_assert( !here.has_zlevels() );
-            stored_mount->spawn( u.pos() );
+            stored_mount->spawn( u.get_location() );
             if( critter_tracker->add( stored_mount ) ) {
                 u.mounted_creature = stored_mount;
             }
@@ -10634,7 +10635,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // TODO: Remove stair teleport bullshit
     if( rl_dist( u.pos(), old_pos ) <= 1 ) {
         for( monster *m : monsters_following ) {
-            m->set_dest( u.pos() );
+            m->set_dest( u.get_location() );
         }
     }
 
@@ -10856,7 +10857,7 @@ void game::vertical_shift( const int z_after )
 
     scent.reset();
 
-    u.setz( z_after );
+    u.move_to( tripoint_abs_ms( u.get_location().xy(), z_after ) );
     const tripoint abs_sub = m.get_abs_sub();
     const int z_before = abs_sub.z;
     if( !m.has_zlevels() ) {
@@ -11094,9 +11095,6 @@ void game::shift_monsters( const tripoint &shift )
         // anyway: it must be saved and removed.
         despawn_monster( critter );
     }
-    // The order in which zombies are shifted may cause zombies to briefly exist on
-    // the same square. This messes up the mon_at cache, so we need to rebuild it.
-    critter_tracker->rebuild_cache();
 }
 
 void game::perhaps_add_random_npc()
@@ -11664,8 +11662,8 @@ namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 {
-    const tripoint &new_pos = u.pos();
-    const tripoint &new_abs_pos = m.getabs( new_pos );
+    const tripoint new_pos = u.pos();
+    const tripoint new_abs_pos = m.getabs( new_pos );
     mtype_id mount_type;
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;

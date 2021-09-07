@@ -1509,30 +1509,17 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 
 void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
 {
-    // Create a copy, so we can reuse x and y later
-    point_abs_sm abs_sm = p.xy();
-    point_om_sm sm;
     point_abs_om omp;
-    std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
+    tripoint_om_sm current_submap_loc;
+    std::tie( omp, current_submap_loc ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    const tripoint_om_sm current_submap_loc( sm, p.z() );
     auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
     std::for_each( monster_bucket.first, monster_bucket.second,
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
-        // The absolute position in map squares, (x,y) is already global, but it's a
-        // submap coordinate, so translate it and add the exact monster position on
-        // the submap. modulo because the zombies position might be negative, as it
-        // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the submap to put it.
-        point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
-        cata_assert( ms.x >= 0 && ms.x < SEEX );
-        cata_assert( ms.y >= 0 && ms.y < SEEX );
-        // TODO: fix point types
-        ms += project_to<coords::ms>( p.xy() ).raw();
         const map &here = get_map();
+        const tripoint local = here.getlocal( this_monster.get_location().raw() );
         // The monster position must be local to the main map when added to the game
-        const tripoint local = tripoint( here.getlocal( ms ), p.z() );
         cata_assert( here.inbounds( local ) );
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
                                 local, 0, true );
