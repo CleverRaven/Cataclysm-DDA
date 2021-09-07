@@ -312,6 +312,7 @@ class avatar : public Character
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
         void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
 

@@ -1649,7 +1649,12 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon->absorb_hit( bodypart_id( "torso" ), dealt_damage );
+        // TODO: Modify DPS calculation to consider weakpoints.
+        resistances r = resistances( *static_cast<monster *>( temp_mon ) );
+        for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
+            dmg_unit.amount -= std::min( r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+        }
+
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1672,7 +1677,11 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon->absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
+            // TODO: Modify DPS calculation to consider weakpoints.
+            resistances rs_r = resistances( *static_cast<monster *>( temp_rs_mon ) );
+            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+                dmg_unit.amount -= std::min( rs_r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+            }
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
@@ -5311,7 +5320,7 @@ std::string item::display_name( unsigned int quantity ) const
         get_option<bool>( "AMMO_IN_NAMES" ) ) {
         if( !ammo_current().is_null() ) {
             // Loaded with ammo
-            ammotext = find_type( ammo_current() )->ammo->type->name();
+            ammotext = ammo_current()->nname( 1 );
         } else if( !ammo_types().empty() ) {
             // Is not loaded but can be loaded
             ammotext = ammotype( *ammo_types().begin() )->name();
