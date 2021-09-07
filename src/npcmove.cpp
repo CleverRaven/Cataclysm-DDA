@@ -2570,11 +2570,14 @@ void npc::worker_downtime()
         move_pause();
         return;
     }
-    //  already know of a chair, go there
-    if( chair_pos != tripoint_min ) {
-        if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, here.getlocal( chair_pos ) ) ) {
-            update_path( here.getlocal( chair_pos ) );
-            if( pos() == here.getlocal( chair_pos ) || path.empty() ) {
+    //  already know of a chair, go there - if there isn't already another creature there.
+    //  this is a bit of behind the scene omniscience for the npc, since ideally the npc 
+    //  should walk to the chair and then change their destination due to the seat being taken.
+    auto local_chair_pos = here.getlocal( chair_pos );
+    if( chair_pos != tripoint_min && !creatures.creature_at( local_chair_pos ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, local_chair_pos ) ) {
+            update_path( local_chair_pos );
+            if( pos() == local_chair_pos || path.empty() ) {
                 move_pause();
                 path.clear();
             } else {
