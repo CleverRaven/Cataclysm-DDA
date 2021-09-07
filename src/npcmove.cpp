@@ -2571,7 +2571,7 @@ void npc::worker_downtime()
         return;
     }
     //  already know of a chair, go there - if there isn't already another creature there.
-    //  this is a bit of behind the scene omniscience for the npc, since ideally the npc 
+    //  this is a bit of behind the scene omniscience for the npc, since ideally the npc
     //  should walk to the chair and then change their destination due to the seat being taken.
     tripoint local_chair_pos = here.getlocal( chair_pos );
     if( chair_pos != tripoint_min && !creatures.creature_at( local_chair_pos ) ) {
