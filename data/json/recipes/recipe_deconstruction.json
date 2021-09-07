@@ -672,6 +672,15 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
+    "result": "sneakers_steel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cotton_patchwork", 3 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
     "result": "box_cigarette",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

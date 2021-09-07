@@ -2507,10 +2507,18 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             jo.throw_error( "altering cash this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "owed" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const dialogue & d, int input ) {
                     d.actor( true )->add_debt( input - d.actor( true )->debt() );
+                };
+            }
+        } else if( checked_value == "sold" ) {
+            if( is_npc ) {
+                jo.throw_error( "sold amount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return []( const dialogue & d, int input ) {
+                    d.actor( true )->add_sold( input - d.actor( true )->sold() );
                 };
             }
         } else if( checked_value == "skill_level" ) {
@@ -2923,20 +2931,20 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
 {
     if( d.has_beta ) {
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
-        mission *miss = d.actor( true )->selected_mission();
+        const mission *miss = d.actor( true )->selected_mission();
         for( const talk_effect_fun_t &effect : effects ) {
             effect( d );
         }
-        d.actor( true )->add_opinion( opinion.trust, opinion.fear, opinion.value, opinion.anger,
-                                      opinion.owed );
+        d.actor( true )->add_opinion( opinion );
         if( miss && ( mission_opinion.trust || mission_opinion.fear ||
                       mission_opinion.value || mission_opinion.anger ) ) {
-            int m_value = d.actor( true )->cash_to_favor( miss->get_value() );
-            d.actor( true )->add_opinion( mission_opinion.trust ? m_value / mission_opinion.trust : 0,
-                                          mission_opinion.fear ? m_value / mission_opinion.fear : 0,
-                                          mission_opinion.value ? m_value / mission_opinion.value : 0,
-                                          mission_opinion.anger ? m_value / mission_opinion.anger : 0,
-                                          0 );
+            const int m_value = d.actor( true )->cash_to_favor( miss->get_value() );
+            npc_opinion op;
+            op.trust = mission_opinion.trust ? m_value / mission_opinion.trust : 0;
+            op.fear = mission_opinion.fear ? m_value / mission_opinion.fear : 0;
+            op.value = mission_opinion.value ? m_value / mission_opinion.value : 0;
+            op.anger = mission_opinion.anger ? m_value / mission_opinion.anger : 0;
+            d.actor( true )->add_opinion( op );
         }
         if( d.actor( true )->turned_hostile() ) {
             d.actor( true )->make_angry();
