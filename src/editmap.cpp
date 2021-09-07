@@ -485,9 +485,9 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
-                    if( mon != nullptr && mon->pos() != mon->move_target() ) {
-                        for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
-                            hilights["mplan"].points[location] = 1;
+                    if( mon != nullptr && mon->has_dest() ) {
+                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
+                            hilights["mplan"].points[m->getlocal( location )] = 1;
                         }
                     }
                 }

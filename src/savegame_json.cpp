@@ -154,7 +154,7 @@ static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
 
-        jsout.member( "monster_at", monster_ptr->pos() );
+        jsout.member( "monster_at", monster_ptr->get_location() );
         // TODO: if monsters/Creatures ever get unique ids,
         // create a differently named member, e.g.
         //     jsout.member("unique_id", monster_ptr->getID());
@@ -169,14 +169,14 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
-    tripoint temp_pos;
+    tripoint_abs_ms temp_pos;
 
     obj.reset();
     if( data.read( "monster_at", temp_pos ) ) {
         const auto monp = g->critter_tracker->find( temp_pos );
 
         if( monp == nullptr ) {
-            debugmsg( "no monster found at %d,%d,%d", temp_pos.x, temp_pos.y, temp_pos.z );
+            debugmsg( "no monster found at %s", temp_pos.to_string_writable() );
             return;
         }
 
@@ -188,6 +188,15 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
     //     data.read( "unique_id", unique_id );
     //     obj = g->id_registry->from_id( unique_id)
     //    }
+}
+
+static tripoint read_legacy_creature_pos( const JsonObject &data )
+{
+    tripoint pos;
+    if( !data.read( "posx", pos.x ) || !data.read( "posy", pos.y ) || !data.read( "posz", pos.z ) ) {
+        debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
+    }
+    return pos;
 }
 
 void item_contents::serialize( JsonOut &json ) const
@@ -1324,6 +1333,11 @@ void avatar::load( const JsonObject &data )
 {
     Character::load( data );
 
+    // TEMPORARY until 0.G
+    if( !data.has_member( "location" ) ) {
+        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+    }
+
     // Remove after 0.F
     // Exists to prevent failed to visit member errors
     if( data.has_member( "reactor_plut" ) ) {
@@ -1745,6 +1759,39 @@ void npc::load( const JsonObject &data )
 {
     Character::load( data );
 
+    // TEMPORARY Remove if branch after 0.G (keep else branch)
+    if( !data.has_member( "location" ) ) {
+        point submap_coords;
+        data.read( "submap_coords", submap_coords );
+        const tripoint pos = read_legacy_creature_pos( data );
+        set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+                                       0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
+        cata::optional<tripoint> opt;
+        if( data.read( "last_player_seen_pos", opt ) && opt ) {
+            last_player_seen_pos = get_location() + *opt - pos;
+        }
+        if( data.read( "pulp_location", opt ) && opt ) {
+            pulp_location = get_location() + *opt - pos;
+        }
+        tripoint tmp;
+        if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
+            tmp != tripoint_min ) {
+            guard_pos = tripoint_abs_ms( tmp );
+        }
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint_min ) {
+            chair_pos = tripoint_abs_ms( tmp );
+        }
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint_min ) {
+            wander_pos = tripoint_abs_ms( tmp );
+        }
+    } else {
+        data.read( "last_player_seen_pos", last_player_seen_pos );
+        data.read( "guard_pos", guard_pos );
+        data.read( "pulp_location", pulp_location );
+        data.read( "chair_pos", chair_pos );
+        data.read( "wander_pos", wander_pos );
+    }
+
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
@@ -1780,65 +1827,18 @@ void npc::load( const JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-    if( !data.read( "submap_coords", submap_coords ) ) {
-        // Old submap coordinates are for the point (0, 0, 0) on local map
-        // New ones are for submap that contains pos
-        point old_coords;
-        data.read( "mapx", old_coords.x );
-        data.read( "mapy", old_coords.y );
-        int o = 0;
-        if( data.read( "omx", o ) ) {
-            old_coords.x += o * OMAPX * 2;
-        }
-        if( data.read( "omy", o ) ) {
-            old_coords.y += o * OMAPY * 2;
-        }
-        submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
-    }
-
-    if( data.has_member( "plx" ) ) {
-        last_player_seen_pos.emplace();
-        data.read( "plx", last_player_seen_pos->x );
-        data.read( "ply", last_player_seen_pos->y );
-        if( !data.read( "plz", last_player_seen_pos->z ) ) {
-            last_player_seen_pos->z = posz();
-        }
-        // old code used tripoint_min to indicate "not a valid point"
-        if( *last_player_seen_pos == tripoint_min ) {
-            last_player_seen_pos.reset();
-        }
-    } else {
-        data.read( "last_player_seen_pos", last_player_seen_pos );
-    }
 
     data.read( "goalx", goal.x() );
     data.read( "goaly", goal.y() );
     data.read( "goalz", goal.z() );
 
-    data.read( "guardx", guard_pos.x );
-    data.read( "guardy", guard_pos.y );
-    data.read( "guardz", guard_pos.z );
     if( data.read( "current_activity_id", act_id ) ) {
         current_activity_id = activity_id( act_id );
     } else if( activity ) {
         current_activity_id = activity.id();
     }
 
-    if( data.has_member( "pulp_locationx" ) ) {
-        pulp_location.emplace();
-        data.read( "pulp_locationx", pulp_location->x );
-        data.read( "pulp_locationy", pulp_location->y );
-        data.read( "pulp_locationz", pulp_location->z );
-        // old code used tripoint_min to indicate "not a valid point"
-        if( *pulp_location == tripoint_min ) {
-            pulp_location.reset();
-        }
-    } else {
-        data.read( "pulp_location", pulp_location );
-    }
     data.read( "assigned_camp", assigned_camp );
-    data.read( "chair_pos", chair_pos );
-    data.read( "wander_pos", wander_pos );
     data.read( "job", job );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
@@ -1986,17 +1986,13 @@ void npc::store( JsonOut &json ) const
     json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 
-    json.member( "submap_coords", submap_coords );
-
     json.member( "last_player_seen_pos", last_player_seen_pos );
 
     json.member( "goalx", goal.x() );
     json.member( "goaly", goal.y() );
     json.member( "goalz", goal.z() );
 
-    json.member( "guardx", guard_pos.x );
-    json.member( "guardy", guard_pos.y );
-    json.member( "guardz", guard_pos.z );
+    json.member( "guard_pos", guard_pos );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
     json.member( "assigned_camp", assigned_camp );
@@ -2106,6 +2102,14 @@ void inventory::json_load_items( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
+// TEMPORARY until 0.G
+void monster::deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc )
+{
+    JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
+    load( data, submap_loc );
+}
+
 void monster::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
@@ -2113,9 +2117,45 @@ void monster::deserialize( JsonIn &jsin )
     load( data );
 }
 
+// TEMPORARY until 0.G
+void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
+{
+    load( data );
+    if( !data.has_member( "location" ) ) {
+        // When loading an older save in which the monster's absolute location is not serialized
+        // and the monster is not in the current map, the submap location inferred by load()
+        // will be wrong. Use the supplied argument to fix it.
+        const tripoint_abs_ms old_loc = get_location();
+        point_abs_sm wrong_submap;
+        tripoint_sm_ms local_pos;
+        std::tie( wrong_submap, local_pos ) = project_remain<coords::sm>( get_location() );
+        set_location( project_combine( submap_loc.xy(), local_pos ) );
+        // adjust other relative coordinates that would be subject to the same error
+        wander_pos = wander_pos - old_loc + get_location();
+        if( goal ) {
+            *goal = *goal - old_loc + get_location();
+        }
+    }
+}
+
 void monster::load( const JsonObject &data )
 {
     Creature::load( data );
+
+    // TEMPORARY until 0.G
+    if( !data.has_member( "location" ) ) {
+        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+        tripoint wand;
+        data.read( "wandx", wand.x );
+        data.read( "wandy", wand.y );
+        data.read( "wandz", wand.z );
+        wander_pos = get_map().getglobal( wand );
+        tripoint destination;
+        data.read( "destination", destination );
+        if( destination != tripoint_zero ) {
+            goal = get_location() + destination;
+        }
+    }
 
     std::string sidtmp;
     // load->str->int
@@ -2123,16 +2163,13 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
+    data.read( "goal", goal );
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
+    data.read( "wander_pos", wander_pos );
     if( data.has_int( "next_patrol_point" ) ) {
         data.read( "next_patrol_point", next_patrol_point );
-        data.read( "patrol_route", patrol_route_abs_ms );
+        data.read( "patrol_route", patrol_route );
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
@@ -2227,11 +2264,6 @@ void monster::load( const JsonObject &data )
     data.read( "fish_population", fish_population );
     data.read( "summon_time_limit", summon_time_limit );
 
-    // This is relative to the monster so it isn't invalidated by map shifting.
-    tripoint destination;
-    data.read( "destination", destination );
-    goal = pos() + destination;
-
     upgrades = data.get_bool( "upgrades", type->upgrades );
     upgrade_time = data.get_int( "upgrade_time", -1 );
 
@@ -2278,13 +2310,12 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
-    json.member( "provocative_sound", provocative_sound );
+    json.member( "goal", goal );
+    json.member( "wander_pos", wander_pos );
     json.member( "wandf", wandf );
-    if( !patrol_route_abs_ms.empty() ) {
-        json.member( "patrol_route", patrol_route_abs_ms );
+    json.member( "provocative_sound", provocative_sound );
+    if( !patrol_route.empty() ) {
+        json.member( "patrol_route", patrol_route );
         json.member( "next_patrol_point", next_patrol_point );
     }
     json.member( "hp", hp );
@@ -2315,8 +2346,6 @@ void monster::store( JsonOut &json ) const
     if( battery_item ) {
         json.member( "battery_item", *battery_item );
     }
-    // Store the relative position of the goal so it loads correctly after a map shift.
-    json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
     json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
@@ -2337,7 +2366,6 @@ void monster::store( JsonOut &json ) const
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
     json.member( "mounted_player_id", mounted_player_id );
-    json.member( "path", path );
 }
 
 void mon_special_attack::serialize( JsonOut &json ) const
@@ -3379,9 +3407,7 @@ void faction::serialize( JsonOut &json ) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member( "posx", posx() );
-    jsout.member( "posy", posy() );
-    jsout.member( "posz", posz() );
+    jsout.member( "location", location );
 
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
@@ -3430,15 +3456,7 @@ void Creature::store( JsonOut &jsout ) const
 void Creature::load( const JsonObject &jsin )
 {
     jsin.allow_omitted_members();
-    tripoint pos;
-    if( !jsin.read( "posx", pos.x ) ) {  // uh-oh.
-        debugmsg( "Bad Creature JSON: no 'posx'?" );
-    }
-    jsin.read( "posy", pos.y );
-    if( !jsin.read( "posz", pos.z ) && g != nullptr ) {
-        pos.z = get_map().get_abs_sub().z;
-    }
-    set_pos_only( pos );
+    jsin.read( "location", location );
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 
