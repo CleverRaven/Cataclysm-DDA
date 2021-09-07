@@ -205,7 +205,7 @@
     "species": [ "AMPHIBIAN" ],
     "volume": "92500 ml",
     "weight": "907 kg",
-    "hp": 250,
+    "hp": 175,
     "speed": 25,
     "attack_cost": 25,
     "material": [ "flesh", "bone" ],
@@ -225,7 +225,7 @@
 	{ 
 	  "name": "the face", 
 	  "armor_penalty": { "bash": 40, "bullet": 40, "cut": 40, "stab": 40 },
-	  "coverage": 40 } 
+	  "coverage": 50 } 
 ],
     "path_settings": { "max_dist": 5 },
      "special_attacks": [
