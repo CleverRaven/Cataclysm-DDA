@@ -174,5 +174,7 @@ Xcode/
 # gdb
 .gdb_history
 
-# gem directory for jekyll site
+# bundler local directories and files for jekyll site
 vendor/
+.bundle/
+Gemfile.lock
