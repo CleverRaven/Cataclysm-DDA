@@ -318,11 +318,26 @@
     ]
   },
   {
+    "id": "any_cracklins",
+    "type": "requirement",
+    "//": "multifarious cracklins",
+    "components": [
+      [
+        [ "cracklins", 1 ],
+        [ "human_cracklins", 1 ],
+        [ "mutant_cracklins", 1 ],
+        [ "mutant_human_cracklins", 1 ],
+        [ "demihuman_cracklins", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_cooked",
     "type": "requirement",
     "//": "meat you'd put on a sandwich",
     "components": [
       [
+        [ "any_cracklins", 2 , "LIST" ],
         [ "meat_cooked", 1 ],
         [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
@@ -350,8 +365,10 @@
         [ "can_tuna", 1 ],
         [ "can_sardine", 1 ],
         [ "can_clams", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 1 ],
         [ "fish_pickled", 1 ],
-        [ "cracklins", 1 ],
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],

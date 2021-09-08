@@ -3878,33 +3878,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [
-        [ "bacon", 2 ],
-        [ "meat_cooked", 1 ],
-        [ "human_cooked", 1 ],
-        [ "demihuman_cooked", 1 ],
-        [ "mutant_meat_cooked", 1 ],
-        [ "meat_smoked", 1 ],
-        [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "sausage", 2 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 2 ],
-        [ "jerky", 1 ],
-        [ "salted_fish", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "meat_salted", 1 ],
-        [ "meat_canned", 1 ],
-        [ "can_chicken", 1 ],
-        [ "can_spam", 2 ],
-        [ "fish_pickled", 1 ],
-        [ "fish_canned", 1 ],
-        [ "cracklins", 2 ],
-        [ "can_sardine", 1 ],
-        [ "can_tuna", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_herring", 1 ]
-      ]
+      [ "meat_cooked", 1 , "LIST" ]
     ]
   },
   {
@@ -3922,33 +3896,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "powder_eggs", 2 ] ],
-      [
-        [ "bacon", 2 ],
-        [ "meat_cooked", 1 ],
-        [ "human_cooked", 1 ],
-        [ "demihuman_cooked", 1 ],
-        [ "mutant_meat_cooked", 1 ],
-        [ "meat_smoked", 1 ],
-        [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "sausage", 2 ],
-        [ "sausage_cooked", 2 ],
-        [ "bratwurst_sausage", 2 ],
-        [ "jerky", 1 ],
-        [ "salted_fish", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "meat_salted", 1 ],
-        [ "meat_canned", 1 ],
-        [ "can_chicken", 1 ],
-        [ "can_spam", 2 ],
-        [ "fish_pickled", 1 ],
-        [ "fish_canned", 1 ],
-        [ "cracklins", 2 ],
-        [ "can_sardine", 1 ],
-        [ "can_tuna", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_herring", 1 ]
-      ],
+      [ "meat_cooked", 1 , "LIST" ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
