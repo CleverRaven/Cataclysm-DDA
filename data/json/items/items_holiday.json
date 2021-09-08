@@ -13,7 +13,6 @@
     "symbol": "0",
     "color": "yellow",
     "looks_like": "pumpkin",
-    "initial_charges": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK" ],
@@ -45,6 +44,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": {
+      "ammo_scale": 0,
       "type": "transform",
       "target": "plastic_jack_o_lantern",
       "msg": "The LED winks out inside the lantern.",
@@ -83,7 +83,13 @@
     "name": { "str": "lit jack o' lantern" },
     "description": "A carved pumpkin with a lit candle inside.  Spooky and festive!",
     "turns_per_charge": 1350,
-    "use_action": { "type": "transform", "target": "jackolantern", "msg": "You blow out the jack o' lantern.", "menu_text": "Extinguish" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "target": "jackolantern",
+      "msg": "You blow out the jack o' lantern.",
+      "menu_text": "Extinguish"
+    },
     "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
   },
   {
@@ -123,11 +129,13 @@
     "name": { "str": "inflatable dragon" },
     "description": "A battery powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "dragon_inflatable", "no_fail": true, "level": 1 }
   },
@@ -138,11 +146,13 @@
     "name": { "str": "inflatable ghost" },
     "description": "A battery powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 1 }
   },
@@ -153,11 +163,13 @@
     "name": { "str": "fog machine" },
     "description": "A battery powered fog machine.  It would be great for setting ambience.",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "fog_machine", "no_fail": true, "level": 1 }
   }

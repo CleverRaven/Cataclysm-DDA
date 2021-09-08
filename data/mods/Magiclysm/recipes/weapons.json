@@ -25,6 +25,30 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "rune_magus_weapon_adept",
+    "//": "This recipes uses cut to represent the carving, alchemy for the infusion of the mana and to make life difficult",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 6 ], [ "bashing", 4 ] ],
+    "difficulty": 6,
+    "time": "660 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 } ],
+    "components": [
+      [ [ "enchanted_wood", 1 ] ],
+      [ [ "mana_pearl", 2 ] ],
+      [ [ "leather", 4 ] ],
+      [ [ "rune_magus", 2 ] ],
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_biomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -42,6 +66,58 @@
       [ [ "bone", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
       [ [ "rune_biomancer", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "rune_biomancer_weapon_adept",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 6 ], [ "stabbing", 4 ], [ "rifle", 2 ] ],
+    "difficulty": 6,
+    "time": "660 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 3 }
+    ],
+    "components": [
+      [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "fat", 1 ], [ "fat_tainted", 1 ], [ "mutant_fat", 1 ], [ "fur", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ],
+      [ [ "slime_scrap", 20 ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
+      [
+        [ "meat_tainted", 5 ],
+        [ "meat_scrap", 15 ],
+        [ "meat", 7 ],
+        [ "mutant_meat", 3 ],
+        [ "mutant_meat_scrap", 10 ],
+        [ "human_flesh", 4 ]
+      ],
+      [ [ "rune_biomancer", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sharped_bone",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "reversible": false,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "components": [ [ [ "bone", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -107,6 +183,34 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "rune_technomancer_weapon_adept",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "skills_required": [ [ "spellcraft", 6 ], [ "computer", 3 ] ],
+    "time": "100 m",
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CUT_FINE", "level": 2 }
+    ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_elec_soldering" } ],
+    "components": [
+      [ [ "rune_technomancer_weapon", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_stormshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -164,6 +268,37 @@
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "rune_kelvinist", 1 ] ] ]
+  },
+  {
+    "result": "rune_kelvinist_ice_adept_weapon",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ [ "spellcraft", 6 ], [ "cutting", 4 ] ],
+    "time": "420 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 2 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ],
+      [ [ "rune_kelvinist", 1 ] ],
+      [ [ "mana_pearl", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

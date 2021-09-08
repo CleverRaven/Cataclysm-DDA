@@ -1,0 +1,168 @@
+[
+  {
+    "result": "acidchitin_armor_elephant",
+    "type": "recipe",
+    "copy-from": "armor_acidchitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 4 ] ],
+    "time": "1000 m",
+    "using": [ [ "cordage", 14 ] ],
+    "components": [ [ [ "acidchitin_piece", 150 ] ] ]
+  },
+  {
+    "result": "chitin_armor_elephant",
+    "type": "recipe",
+    "copy-from": "armor_chitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "time": "1000 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "using": [ [ "cordage", 14 ] ],
+    "components": [ [ [ "chitin_piece", 150 ] ] ]
+  },
+  {
+    "result": "chainmail_armor_elephant",
+    "type": "recipe",
+    "copy-from": "chainmail_vest",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "time": "700 m",
+    "using": [ [ "chainmail_standard", 14 ] ],
+    "components": [
+      [ [ "link_sheet", 70 ] ],
+      [ [ "chain_link", 2000 ] ],
+      [ [ "wire", 14 ] ],
+      [ [ "fur", 100 ], [ "tanned_pelt", 14 ], [ "leather", 100 ], [ "tanned_hide", 14 ] ]
+    ]
+  },
+  {
+    "result": "kevlar_armor_elephant",
+    "type": "recipe",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "400 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 400 ] ],
+    "components": [ [ [ "kevlar_plate", 100 ] ], [ [ "rag", 100 ] ], [ [ "leather", 50 ], [ "tanned_hide", 7 ] ] ]
+  },
+  {
+    "result": "leather_armor_elephant",
+    "type": "recipe",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "200 m",
+    "byproducts": [ [ "leather", 40 ] ],
+    "using": [ [ "sewing_standard", 60 ] ],
+    "components": [ [ [ "armor_blarmor", 5 ] ], [ [ "rag", 40 ] ] ]
+  },
+  {
+    "result": "leather_armor_elephant",
+    "type": "recipe",
+    "copy-from": "armor_blarmor",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skills_required": [ "tailor", 6 ],
+    "time": "800 m",
+    "using": [ [ "sewing_standard", 400 ], [ "surface_heat", 100, "LIST" ] ],
+    "components": [
+      [ [ "water", 50 ], [ "water_clean", 50 ] ],
+      [
+        [ "wax", 10 ],
+        [ "tallow", 50 ],
+        [ "mutant_tallow", 50 ],
+        [ "tallow_tainted", 50 ],
+        [ "vinegar", 50 ],
+        [ "pine_bough", 100 ]
+      ],
+      [ [ "salt", 300 ] ],
+      [ [ "leather", 200 ], [ "tanned_hide", 40 ] ],
+      [ [ "rag", 40 ] ]
+    ]
+  },
+  {
+    "result": "leatherbone_armor_elephant",
+    "type": "recipe",
+    "copy-from": "leather_armor_elephant",
+    "difficulty": 4,
+    "time": "400 m",
+    "using": [ [ "sewing_standard", 150 ] ],
+    "components": [ [ [ "bone", 80 ], [ "bone_human", 80 ], [ "bone_tainted", 150 ] ], [ [ "armor_blarmor", 5 ] ] ]
+  },
+  {
+    "result": "leatherbone_armor_elephant",
+    "type": "recipe",
+    "id_suffix": "from_leatherarmor",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "200 m",
+    "autolearn": true,
+    "byproducts": [ [ "rag", 10 ] ],
+    "using": [ [ "sewing_standard", 70 ] ],
+    "components": [ [ [ "bone", 80 ], [ "bone_human", 80 ], [ "bone_tainted", 150 ] ], [ [ "leather_armor_elephant", 1 ] ] ]
+  },
+  {
+    "result": "leatherbone_armor_elephant",
+    "type": "recipe",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "tailor", 6 ],
+    "time": "1000 m",
+    "book_learn": [
+      [ "textbook_tailor", 4 ],
+      [ "tailor_portfolio", 5 ],
+      [ "textbook_survival", 3 ],
+      [ "trappers_companion", 3 ],
+      [ "survival_book", 3 ],
+      [ "textbook_armwest", 6 ],
+      [ "textbook_armschina", 6 ]
+    ],
+    "using": [ [ "sewing_standard", 400 ] ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 50 ], [ "water_clean", 50 ] ],
+      [ [ "wax", 10 ], [ "any_tallow", 50, "LIST" ], [ "vinegar", 50 ], [ "pine_bough", 100 ] ],
+      [ [ "salt", 300 ] ],
+      [ [ "bone", 75 ], [ "bone_human", 75 ], [ "bone_tainted", 150 ] ],
+      [ [ "leather", 200 ], [ "tanned_hide", 40 ] ]
+    ]
+  },
+  {
+    "result": "rubber_armor_elephant",
+    "type": "recipe",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "200 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "duct_tape", 250 ] ], [ [ "coat_rain", 15 ] ] ]
+  },
+  {
+    "result": "rubber_armor_elephant",
+    "type": "recipe",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "400 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "duct_tape", 700 ] ], [ [ "bag_plastic", 150 ] ], [ [ "rag", 150 ] ] ]
+  }
+]

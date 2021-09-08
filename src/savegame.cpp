@@ -32,6 +32,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmap_types.h"
+#include "path_info.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -95,6 +96,11 @@ void game::serialize( std::ostream &fout )
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
+    json.member( "monstairz", monstairz );
+
+    json.member( "driving_view_offset", driving_view_offset );
+    json.member( "turnssincelastmon", turnssincelastmon );
+    json.member( "bVMonsterLookFire", bVMonsterLookFire );
 
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
@@ -208,7 +214,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
             calendar::start_of_game = calendar::start_of_cataclysm;
         }
 
-        load_map( project_combine( com, lev ) );
+        load_map( project_combine( com, lev ), /*pump_events=*/true );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -231,6 +237,11 @@ void game::unserialize( std::istream &fin, const std::string &path )
             elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
+        data.read( "monstairz", monstairz );
+
+        data.read( "driving_view_offset", driving_view_offset );
+        data.read( "turnssincelastmon", turnssincelastmon );
+        data.read( "bVMonsterLookFire", bVMonsterLookFire );
 
         if( data.has_object( "kill_tracker" ) ) {
             data.read( "kill_tracker", *kill_tracker_ptr );
@@ -250,8 +261,10 @@ void game::unserialize( std::istream &fin, const std::string &path )
         }
 
         data.read( "player", u );
+        inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+        inp_mngr.pump_events();
 
         //load queued_eocs
         for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
@@ -622,7 +635,7 @@ void overmap::unserialize( std::istream &fin )
                 tripoint_om_sm monster_location;
                 monster new_monster;
                 monster_location.deserialize( jsin );
-                new_monster.deserialize( jsin );
+                new_monster.deserialize( jsin, project_combine( loc, monster_location ) );
                 monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
             }
@@ -720,6 +733,15 @@ void overmap::unserialize( std::istream &fin )
                         }
                     }
                 }
+            }
+        } else if( name == "mapgen_arg_storage" ) {
+            jsin.read( mapgen_arg_storage, true );
+        } else if( name == "mapgen_arg_index" ) {
+            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+                auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+                mapgen_args_index.emplace( p.first, &*it );
             }
         }
     }
@@ -1120,6 +1142,22 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    json.member( "mapgen_arg_storage", mapgen_arg_storage );
+    fout << std::endl;
+    json.member( "mapgen_arg_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+         mapgen_args_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
+        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        json.write( index );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
     json.end_object();
     fout << std::endl;
 }
@@ -1131,12 +1169,14 @@ void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
     archive.io( "pos", pos, tripoint_om_sm() );
+    archive.io( "abs_pos", abs_pos, tripoint_abs_sm() );
     archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, tripoint_om_sm() );
+    archive.io( "nemesis_target", nemesis_target, tripoint_abs_sm() );
     archive.io( "interest", interest, 0 );
     archive.io( "horde_behaviour", horde_behaviour, io::empty_default_tag() );
     archive.io( "monsters", monsters, io::empty_default_tag() );
@@ -1165,6 +1205,8 @@ void mongroup::deserialize_legacy( JsonIn &json )
             type = mongroup_id( json.get_string() );
         } else if( name == "pos" ) {
             pos.deserialize( json );
+        } else if( name == "abs_pos" ) {
+            abs_pos.deserialize( json );
         } else if( name == "radius" ) {
             radius = json.get_int();
         } else if( name == "population" ) {
@@ -1177,6 +1219,8 @@ void mongroup::deserialize_legacy( JsonIn &json )
             horde = json.get_bool();
         } else if( name == "target" ) {
             target.deserialize( json );
+        } else if( name == "nemesis_target" ) {
+            nemesis_target.deserialize( json );
         } else if( name == "interest" ) {
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {
@@ -1337,7 +1381,7 @@ void faction_manager::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::deserialize( JsonIn &jsin )
+void creature_tracker::deserialize( JsonIn &jsin )
 {
     monsters_list.clear();
     monsters_by_location.clear();
@@ -1350,7 +1394,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::serialize( JsonOut &jsout ) const
+void creature_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( const auto &monster_ptr : monsters_list ) {

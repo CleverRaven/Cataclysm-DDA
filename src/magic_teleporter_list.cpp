@@ -14,6 +14,7 @@
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
@@ -67,7 +68,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     tinymap checker;
     checker.load( sm_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }
@@ -105,7 +106,7 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
 
     bool valid_targets = false;
     for( const tripoint &pt : targets ) {
-        Character *you = g->critter_at<Character>( pt );
+        Character *you = get_creature_tracker().creature_at<Character>( pt );
 
         if( you && you->is_avatar() ) {
             valid_targets = true;

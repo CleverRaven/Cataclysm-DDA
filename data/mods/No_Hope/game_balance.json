@@ -1,0 +1,16 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WORKBENCH_ALL_OPTIONS",
+    "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_BASE_STAMINA_BURN_RATE",
+    "info": "Sets base stamina burn per 100 moves of the walking player.",
+    "stype": "int",
+    "value": 10
+  }
+]

@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -16,6 +14,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
@@ -135,6 +134,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_NUMB( "NUMB" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
@@ -710,7 +710,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     const use_function *smoking = food.type->get_use( "SMOKING" );
     if( smoking != nullptr ) {
-        cata::optional<std::string> litcig = iuse::can_smoke( *this->as_player() );
+        cata::optional<std::string> litcig = iuse::can_smoke( *this );
         if( litcig.has_value() ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
         }
@@ -880,7 +880,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 /** Eat a comestible.
 *   @return true if item consumed.
 */
-static bool eat( item &food, player &you, bool force )
+static bool eat( item &food, Character &you, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -1188,6 +1188,7 @@ void Character::modify_morale( item &food, const int nutr )
         const bool psycho = has_trait( trait_PSYCHOPATH );
         const bool sapiovore = has_trait( trait_SAPIOVORE );
         const bool spiritual = has_trait( trait_SPIRITUAL );
+        const bool numb = has_trait( trait_NUMB );
         if( ( cannibal || sapiovore ) && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
@@ -1212,6 +1213,9 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
+            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+        } else if( numb ) {
+            add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
@@ -1357,6 +1361,22 @@ int Character::compute_calories_per_effective_volume( const item &food,
     return std::round( kcalories / effective_volume );
 }
 
+static void activate_consume_eocs( Character &you, item &target )
+{
+    Character *char_ptr = nullptr;
+    if( avatar *u = you.as_avatar() ) {
+        char_ptr = u;
+    } else if( npc *n = you.as_npc() ) {
+        char_ptr = n;
+    }
+    item_location loc( you, &target );
+    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    const islot_comestible &comest = *target.get_comestible();
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
+}
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
@@ -1478,6 +1498,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1569,7 +1590,11 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || can_fuel_bionic_with( it );
+    if( it.is_comestible() ) {
+        return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
+               it.has_flag( flag_MELTS );
+    }
+    return can_fuel_bionic_with( it );
 }
 
 bool Character::can_consume( const item &it ) const
@@ -1656,7 +1681,7 @@ time_duration Character::get_consume_time( const item &it )
     return time * consume_time_modifier;
 }
 
-static bool query_consume_ownership( item &target, player &p )
+static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
@@ -1689,7 +1714,7 @@ static bool query_consume_ownership( item &target, player &p )
 /** Consume medication.
 *   @return true if item consumed.
 */
-static bool consume_med( item &target, player &you )
+static bool consume_med( item &target, Character &you )
 {
     if( !target.is_medication() ) {
         return false;
@@ -1731,11 +1756,13 @@ static bool consume_med( item &target, player &you )
         you.consume_effects( target );
     }
 
+    activate_consume_eocs( you, target );
+
     target.mod_charges( -amount_used );
     return true;
 }
 
-trinary player::consume( item &target, bool force, bool refuel )
+trinary Character::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1749,7 +1776,7 @@ trinary player::consume( item &target, bool force, bool refuel )
     if( target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
         if( is_npc() ) {
-            debugmsg( "%s tried to eat a %s", name, target.tname() );
+            debugmsg( "%s tried to eat a %s", get_name(), target.tname() );
         }
         return trinary::NONE;
     }
@@ -1772,7 +1799,7 @@ trinary player::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary player::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force, bool refuel )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );

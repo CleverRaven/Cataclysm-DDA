@@ -33,8 +33,7 @@
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
       { "skill": "computer", "bonus": { "one_in": 2 } },
       { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
     ]
   },
   {

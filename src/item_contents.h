@@ -25,7 +25,6 @@ class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
-class player;
 struct iteminfo;
 struct tripoint;
 
@@ -41,16 +40,21 @@ class item_contents
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested, bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
+
+        std::set<flag_id> magazine_flag_restrictions() const;
+
         /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
+         * @param it the item being put in
+         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
-        ret_val<bool> can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         // does not ignore mods
@@ -93,6 +97,9 @@ class item_contents
         std::vector<const item *> mods() const;
 
         std::vector<const item *> softwares() const;
+
+        std::vector<item *> ebooks();
+        std::vector<const item *> ebooks() const;
 
         void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
@@ -239,7 +246,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, float insulation = 1,
+        void process( Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;

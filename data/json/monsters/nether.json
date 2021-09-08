@@ -56,7 +56,7 @@
     "melee_cut": 0,
     "dodge": 2,
     "bleed_rate": 50,
-    "harvest": "human",
+    "harvest": "demihuman",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "death_drops": "amigara_drops",

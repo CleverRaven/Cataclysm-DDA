@@ -19,6 +19,7 @@
 #include "common_types.h"
 #include "coordinates.h"
 #include "enum_bitset.h"
+#include "mapgen_parameter.h"
 #include "optional.h"
 #include "point.h"
 #include "translations.h"
@@ -34,10 +35,9 @@ class JsonObject;
 class overmap_connection;
 class overmap_special;
 class overmap_special_batch;
+struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
-
-using overmap_special_id = string_id<overmap_special>;
 
 static const overmap_land_use_code_id land_use_code_forest( "forest" );
 static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
@@ -442,7 +442,7 @@ struct overmap_special_terrain {
 struct overmap_special_connection {
     tripoint p;
     cata::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid;
+    om_direction::type initial_dir = om_direction::type::invalid; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
@@ -469,6 +469,11 @@ class overmap_special
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
+        const mapgen_parameters &get_params() const {
+            return mapgen_params;
+        }
+        mapgen_arguments get_args( const mapgendata & ) const;
+
         overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
@@ -485,10 +490,12 @@ class overmap_special
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
+        void finalize_mapgen_parameters();
         void check() const;
     private:
         // These locations are the default values if ones are not specified for the individual OMTs.
         std::set<string_id<overmap_location>> default_locations;
+        mapgen_parameters mapgen_params;
 };
 
 namespace overmap_terrains
@@ -520,6 +527,7 @@ namespace overmap_specials
 
 void load( const JsonObject &jo, const std::string &src );
 void finalize();
+void finalize_mapgen_parameters();
 void check_consistency();
 void reset();
 

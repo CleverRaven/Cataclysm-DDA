@@ -95,9 +95,9 @@ TEST_CASE( "Wield time test", "[wield]" )
         clear_character( guy );
         REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
-        wield_check_from_inv( guy, itype_id( "aspirin" ), 375 );
+        wield_check_from_inv( guy, itype_id( "aspirin" ), 500 );
         clear_character( guy );
-        wield_check_from_inv( guy, itype_id( "knife_combat" ), 412 );
+        wield_check_from_inv( guy, itype_id( "knife_combat" ), 537 );
         clear_character( guy );
         wield_check_from_ground( guy, itype_id( "metal_tank" ), 300 );
         clear_character( guy );

@@ -518,7 +518,7 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, bool nested, const bool allow_sealed, const bool ignore_settings )
+        item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
@@ -529,9 +529,6 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // best pocket is for picking stuff up.
             // containers are the only pockets that are available for such
-            continue;
-        }
-        if( nested && !pocket.rigid() ) {
             continue;
         }
         if( !allow_sealed && pocket.sealed() ) {
@@ -552,10 +549,13 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.second = &pocket;
             // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                if( contained == avoid ) {
+                    continue;
+                }
                 std::pair<item_location, item_pocket *> internal_pocket =
-                    contained->best_pocket( it, parent, /*allow_sealed=*/false, /*ignore_settings=*/false,
-                                            /*nested=*/true );
-                if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
+                    contained->best_pocket( it, parent, avoid, /*allow_sealed=*/false, /*ignore_settings=*/false );
+                if( internal_pocket.second != nullptr &&
+                    ret.second->better_pocket( *internal_pocket.second, it, true ) ) {
                     ret = internal_pocket;
                 }
             }
@@ -584,6 +584,17 @@ units::length item_contents::max_containable_length() const
         units::length candidate = pocket.max_containable_length();
         if( candidate > ret ) {
             ret = candidate;
+        }
+    }
+    return ret;
+}
+
+std::set<flag_id> item_contents::magazine_flag_restrictions() const
+{
+    std::set<flag_id> ret;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            ret = ( pocket.get_pocket_data() )->get_flag_restrictions();
         }
     }
     return ret;
@@ -627,7 +638,7 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
     return ret;
 }
 
-ret_val<bool> item_contents::can_contain( const item &it ) const
+ret_val<bool> item_contents::can_contain( const item &it, const bool ignore_fullness ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -635,7 +646,8 @@ ret_val<bool> item_contents::can_contain( const item &it ) const
         if( !pocket.is_standard_type() ) {
             continue;
         }
-        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
+        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it,
+                ignore_fullness );
         if( pocket_contain_code.success() ) {
             return ret_val<bool>::make_success();
         }
@@ -1194,6 +1206,32 @@ std::vector<const item *> item_contents::softwares() const
     return softwares;
 }
 
+std::vector<item *> item_contents::ebooks()
+{
+    std::vector<item *> ebooks;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::EBOOK ) ) {
+            for( item *it : pocket.all_items_top() ) {
+                ebooks.emplace_back( it );
+            }
+        }
+    }
+    return ebooks;
+}
+
+std::vector<const item *> item_contents::ebooks() const
+{
+    std::vector<const item *> ebooks;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::EBOOK ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                ebooks.emplace_back( it );
+            }
+        }
+    }
+    return ebooks;
+}
+
 void item_contents::update_modified_pockets(
     const cata::optional<const pocket_data *> &mag_or_mag_well,
     std::vector<const pocket_data *> container_pockets )
@@ -1441,7 +1479,7 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( player *carrier, const tripoint &pos, float insulation,
+void item_contents::process( Character *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {

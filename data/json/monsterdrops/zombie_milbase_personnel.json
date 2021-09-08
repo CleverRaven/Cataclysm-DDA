@@ -14,7 +14,7 @@
       { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "mil_food_nodrugs", "prob": 15 },
-      { "group": "misc_smoking", "prob": 10 }
+      { "group": "misc_smoking_legal", "prob": 10 }
     ]
   }
 ]

@@ -107,12 +107,12 @@
   {
     "id": "consumer_electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 2 ], [ "atomic_light", 4 ] ]
+    "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_imager", 2 ], [ "atomic_light", 4 ] ]
   },
   {
     "id": "electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_imager", 2 ], [ "atomic_light", 2 ] ]
   },
   {
     "id": "lab_dorm",
@@ -127,7 +127,12 @@
   {
     "id": "hardware",
     "type": "item_group",
-    "items": [ [ "afs_power_cutter", 5 ], [ "atomic_butterchurn", 1 ] ]
+    "items": [ [ "afs_power_cutter", 5 ], [ "afs_imager", 5 ], [ "atomic_butterchurn", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mechanics",
+    "items": [ [ "afs_imager", 5 ], [ "afs_plasma_torch", 5 ] ]
   },
   {
     "id": "hardware_bulk",
@@ -360,6 +365,12 @@
       [ "seed_lemon", 20 ],
       [ "seed_coconut", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "nanofab_recipes",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_archeotech_cartridge", "prob": 10 }, { "item": "afs_translocation_device", "prob": 10 } ]
   },
   {
     "id": "SUS_scuba_gear",

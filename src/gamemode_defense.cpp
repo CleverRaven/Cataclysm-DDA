@@ -281,6 +281,7 @@ void defense_game::init_map()
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();
                 refresh_display();
+                inp_mngr.pump_events();
                 old_percent = percent;
             }
             // Round down to the nearest even number
@@ -298,8 +299,7 @@ void defense_game::init_map()
     tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
     g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
     Character &player_character = get_player_character();
-    player_character.setx( SEEX );
-    player_character.sety( SEEY );
+    player_character.move_to( midpoint( project_bounds<coords::ms>( abs_defloc_pos ) ) );
 
     g->update_map( player_character );
     monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ),
@@ -1361,7 +1361,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
-    tripoint player_pos = get_player_character().pos();
+    const tripoint_abs_ms player_pos = get_player_character().get_location();
     map &here = get_map();
     for( int tries = 0; tries < 1000; tries++ ) {
         point pnt;

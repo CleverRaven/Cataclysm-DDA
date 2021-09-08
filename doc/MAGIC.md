@@ -14,6 +14,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
 	"effect_str": "template",                                 // special. see below
+  "effect_on_conditions": ["template"],                     // special. see below
   "shape": "blast",                                         // the "shape" of the spell's area of effect. uses the aoe stat
 	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
@@ -126,6 +127,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `remove_effect` | Removes `effect_str` effects from all creatures in aoe
 | `emit` | Causes an emit at the target
 | `fungalize` | Fungalizes the target
+| `effect_on_condition` | Runs the effect_on_condition found in `effect_str` on all valid targets.  `effect_str` can be either a string id or an effect_on_condition object.  For the run eoc the target will be u and the caster will be npc.
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 

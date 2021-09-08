@@ -18,9 +18,9 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -46,7 +46,6 @@ class avatar;
 class field;
 class field_entry;
 class npc;
-class player;
 class time_duration;
 struct point;
 struct tripoint;
@@ -220,7 +219,7 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-class Creature : public location, public viewer
+class Creature : public viewer
 {
     public:
         ~Creature() override;
@@ -250,12 +249,6 @@ class Creature : public location, public viewer
         virtual const Character *as_character() const {
             return nullptr;
         }
-        virtual player *as_player() {
-            return nullptr;
-        }
-        virtual const player *as_player() const {
-            return nullptr;
-        }
         virtual avatar *as_avatar() {
             return nullptr;
         }
@@ -280,6 +273,19 @@ class Creature : public location, public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        tripoint pos() const;
+        inline int posx() const {
+            return pos().x;
+        }
+        inline int posy() const {
+            return pos().y;
+        }
+        inline int posz() const {
+            return get_location().z();
+        }
+        void setpos( const tripoint &p );
+        /** Moves the creature to the given location and calls the on_move() handler. */
+        void move_to( const tripoint_abs_ms &loc );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -385,8 +391,8 @@ class Creature : public location, public viewer
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
-        // of damage instance. mutates &dam
-        virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
+        // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
+        virtual std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
@@ -467,6 +473,7 @@ class Creature : public location, public viewer
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
+        bool is_likely_underwater() const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -590,7 +597,6 @@ class Creature : public location, public viewer
         virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
-        virtual std::pair<std::string, nc_color> get_pain_description() const;
 
         int get_moves() const;
         void mod_moves( int nmoves );
@@ -658,6 +664,15 @@ class Creature : public location, public viewer
         }
 
     private:
+        /** The creature's position in absolute coordinates */
+        tripoint_abs_ms location;
+    protected:
+        // Sets the creature's position without any side-effects.
+        void set_pos_only( const tripoint &p );
+        // Sets the creature's position without any side-effects.
+        void set_location( const tripoint_abs_ms &loc );
+        // Invoked when the creature's position changes.
+        virtual void on_move( const tripoint_abs_ms &old_pos );
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -673,6 +688,10 @@ class Creature : public location, public viewer
          */
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
+        std::vector<bodypart_id> get_all_body_parts_of_type(
+            body_part_type::type part_type,
+            get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_root_body_part() const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1103,6 +1122,8 @@ class Creature : public location, public viewer
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
+        std::unordered_map<std::string, std::string> &get_values();
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
@@ -1182,6 +1203,19 @@ class Creature : public location, public viewer
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+        /**
+         * Returns the location of the creature in map square coordinates (the most detailed
+         * coordinate system), relative to a fixed global point of origin.
+         */
+        tripoint_abs_ms get_location() const;
+        /**
+         * Returns the location of the creature in global submap coordinates.
+         */
+        tripoint_abs_sm global_sm_location() const;
+        /**
+         * Returns the location of the creature in global overmap terrain coordinates.
+         */
+        tripoint_abs_omt global_omt_location() const;
     protected:
         /**
          * These two functions are responsible for storing and loading the members
@@ -1224,5 +1258,6 @@ class Creature : public location, public viewer
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
-
+std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

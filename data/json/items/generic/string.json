@@ -137,5 +137,17 @@
     "volume": "1 L",
     "stack_size": 10,
     "weight": "80 g"
+  },
+  {
+    "id": "rubber_band",
+    "type": "GENERIC",
+    "name": { "str": "rubber band" },
+    "description": "An elastic loop of rubber commonly used to hold multiple objects together.",
+    "copy-from": "string_6",
+    "looks_like": "string_6",
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "red",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

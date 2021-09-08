@@ -5,7 +5,6 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "game.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -62,7 +61,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     clear_avatar();
     you.setpos( target_location );
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    test_monster.set_goal( target_location );
+    test_monster.set_dest( you.get_location() );
     reset_caches( a_zlev, t_zlev );
     // Trigger basic attack.
     CAPTURE( attacker_location );
@@ -182,7 +181,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     // and you got a monster
     const std::string monster_type = "mon_feral_human_pipe";
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    test_monster.set_goal( target_location );
+    test_monster.set_dest( you.get_location() );
     const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
     reset_caches( attacker_location.z, target_location.z );
     statistics<int> damage_dealt;

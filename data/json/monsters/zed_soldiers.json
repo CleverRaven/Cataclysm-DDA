@@ -36,6 +36,13 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
+    "id": "mon_zombie_soldier_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str": "zombie soldier test only" },
+    "description": "This zombie soldier is for testing purposes only.",
+    "copy-from": "mon_zombie_soldier"
+  },
+  {
     "id": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
     "name": { "str": "black-ops zombie" },
@@ -135,7 +142,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
@@ -171,7 +178,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],

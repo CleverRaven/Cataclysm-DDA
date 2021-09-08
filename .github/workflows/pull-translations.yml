@@ -40,6 +40,7 @@ jobs:
           commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
           committer: Brett Dong (BOT) <brett.browning.dong@gmail.com>
           author: Brett Dong (BOT) <brett.browning.dong@gmail.com>
+          token: ${{ secrets.TX_PR_CREATOR }}
           branch: i18n
           delete-branch: true
           base: master

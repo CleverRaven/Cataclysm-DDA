@@ -195,7 +195,6 @@
     "name": { "str": "Outdoorsman" },
     "points": 1,
     "description": "You are accustomed to being exposed to the elements.  This decreases morale penalties for being wet.",
-    "starting_trait": true,
     "valid": false,
     "wet_protection": [
       { "part": "head", "neutral": 6 },
@@ -209,17 +208,6 @@
       { "part": "hand_r", "neutral": 12 },
       { "part": "torso", "neutral": 10 }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "PARKOUR",
-    "name": { "str": "Parkour Expert" },
-    "points": 2,
-    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-    "starting_trait": false,
-    "valid": false,
-    "cancels": [ "BADKNEES" ],
-    "movecost_obstacle_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -468,7 +456,6 @@
     "points": -1,
     "consume_time_modifier": 1.5,
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -531,7 +518,6 @@
     "points": 2,
     "consume_time_modifier": 1.25,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
-    "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
     "valid": false,
     "active": true,
@@ -543,7 +529,6 @@
     "name": { "str": "Bookworm" },
     "points": 1,
     "description": "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
-    "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "HATES_BOOKS" ]
   },
@@ -648,7 +633,6 @@
     "points": 2,
     "mixed_effect": true,
     "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -657,7 +641,6 @@
     "name": { "str": "Stylish" },
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -689,7 +672,6 @@
     "points": 1,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
-    "starting_trait": true,
     "category": [ "BIRD", "MOUSE" ],
     "cancels": [ "UNOBSERVANT" ],
     "overmap_sight": 5
@@ -709,7 +691,7 @@
     "type": "mutation",
     "id": "CANNIBAL",
     "name": { "str": "Cannibal" },
-    "points": 3,
+    "points": 2,
     "//": "Feral humans vastly increase the cannibal meat supply, therefore this trait needs to increase in cost.",
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
@@ -760,6 +742,7 @@
     "points": 2,
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
     "valid": false
   },
@@ -770,6 +753,7 @@
     "points": 2,
     "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [
       "style_krav_maga",
       "style_muay_thai",
@@ -788,6 +772,7 @@
     "points": 2,
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
     "valid": false
   },
@@ -798,6 +783,7 @@
     "points": 3,
     "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [
       "style_eskrima",
       "style_fencing",
@@ -815,7 +801,6 @@
     "name": { "str": "Competitive Fencer" },
     "points": 0,
     "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
-    "starting_trait": false,
     "initial_ma_styles": [ "style_fencing" ],
     "valid": false
   },
@@ -836,7 +821,6 @@
     "name": { "str": "Skilled Liar" },
     "points": 1,
     "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
-    "starting_trait": true,
     "cancels": [ "TRUTHTELLER" ],
     "social_modifiers": { "lie": 40 }
   },
@@ -846,7 +830,6 @@
     "name": { "str": "Weight: XS" },
     "points": -1,
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XXXL" ]
@@ -857,7 +840,6 @@
     "name": { "str": "Weight: XXXL" },
     "points": -1,
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XS" ]
@@ -883,7 +865,6 @@
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "PARKOUR" ],
     "movecost_obstacle_modifier": 1.25
   },
   {
@@ -1014,7 +995,6 @@
     "points": -1,
     "description": "You are terrible at organizing and storing your possessions.  You retrieve things from containers 10% slower.",
     "obtain_cost_multiplier": 1.1,
-    "starting_trait": true,
     "valid": false,
     "cancels": [ "PACKMULE" ]
   },
@@ -1109,8 +1089,8 @@
     "name": { "str": "Hates Vegetables" },
     "points": -2,
     "description": "You have problems with eating vegetables.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
-    "starting_trait": true,
     "valid": false,
+    "starting_trait": true,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
@@ -1120,7 +1100,6 @@
     "name": { "str": "Hates Books" },
     "points": -1,
     "description": "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
-    "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "LOVES_BOOKS" ]
   },
@@ -1130,8 +1109,8 @@
     "name": { "str": "Hates Fruit" },
     "points": -3,
     "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
-    "starting_trait": true,
     "valid": false,
+    "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
@@ -1341,7 +1320,6 @@
     "name": { "str": "Hoarder" },
     "points": -4,
     "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -1410,7 +1388,6 @@
     "name": { "str": "Truth Teller" },
     "points": -1,
     "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
-    "starting_trait": true,
     "cancels": [ "LIAR" ],
     "social_modifiers": { "lie": -40 }
   },
@@ -1540,6 +1517,19 @@
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
     "flags": [ "EYE_MEMBRANE" ],
     "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MANSBESTFRIEND",
+    "name": { "str": "Man's Best Friend" },
+    "points": 1,
+    "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
+    "valid": false,
+    "prereqs": [ "LIGHTFUR" ],
+    "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
+    "category": [ "LUPINE" ],
+    "mixed_effect": true,
+    "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
   },
   {
     "type": "mutation",
@@ -3877,7 +3867,7 @@
       "THRESH_LIZARD",
       "THRESH_SPIDER"
     ],
-    "cancels": [ "PACIFIST" ],
+    "cancels": [ "PACIFIST", "MANSBESTFRIEND" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "PRED1" ]
   },
@@ -6455,7 +6445,6 @@
     "type": "mutation",
     "id": "PYROMANIA",
     "name": { "str": "Pyromaniac" },
-    "starting_trait": true,
     "points": -2,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
   },
@@ -6646,7 +6635,6 @@
     "name": { "str": "Skater" },
     "points": 1,
     "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -6832,6 +6820,26 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_TAIL",
+    "name": { "str": "Debug Tail" },
+    "points": 99,
+    "valid": false,
+    "description": "Gain a tail bodypart",
+    "enchantments": [ "ENCH_DEBUG_TAIL" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_ONLY_HEAD",
+    "name": { "str": "Debug No Torso" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college costs an arm and a leg, they sure weren't kidding!",
+    "enchantments": [ "ENCH_DEBUG_ONLY_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
     "name": { "str": "Debug Night Vision" },
     "points": 99,
@@ -7010,7 +7018,6 @@
     "id": "NOMAD",
     "name": { "str": "Nomad" },
     "points": -1,
-    "starting_trait": true,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
     "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH", "CHIMERA" ]
@@ -7047,9 +7054,28 @@
     "type": "mutation",
     "id": "FAST_REFLEXES",
     "name": { "str": "Fast Reflexes" },
-    "points": 3,
-    "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
+    "points": 2,
+    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "dodge_modifier": 2
+    "dodge_modifier": 3
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_NEMESIS",
+    "name": { "str": "Hunted" },
+    "points": -1,
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "NUMB",
+    "name": { "str": "Numb" },
+    "points": 0,
+    "description": "Your ability to feel or express emotion has been greatly hampered.",
+    "category": [ "MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL" ]
   }
 ]
