@@ -61,6 +61,7 @@ enum class widget_var : int {
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
+    veh_azimuth_text, // Azimuth or heading in degrees, string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
     weight_text,    // Weight description text, color string

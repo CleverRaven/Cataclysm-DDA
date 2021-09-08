@@ -63,6 +63,9 @@ std::string activity_malus_str( const Character &u );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
 
+// Azimuth (heading) in degrees of vehicle being driven or remotely piloted by character
+std::string vehicle_azimuth_text( const Character &u );
+
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );

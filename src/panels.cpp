@@ -1440,6 +1440,19 @@ std::pair<std::string, nc_color> display::rad_badge_text_color( const Character 
     return std::make_pair( rad_text, rad_color );
 }
 
+std::string display::vehicle_azimuth_text( const Character &u )
+{
+    // Get remotely controlled vehicle, or vehicle character is inside of
+    vehicle *veh = g->remoteveh();
+    if( veh == nullptr && u.in_vehicle ) {
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+    }
+    if( veh ) {
+        return veh->face.to_string_azimuth_from_north();
+    }
+    return "";
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );

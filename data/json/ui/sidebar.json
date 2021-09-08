@@ -711,6 +711,14 @@
     "//": "Uses display::weary_malus_text_color"
   },
   {
+    "id": "vehicle_azimuth_desc",
+    "type": "widget",
+    "label": "Azimuth",
+    "style": "text",
+    "var": "veh_azimuth_text",
+    "//": "Uses display::vehicle_azimuth_text"
+  },
+  {
     "id": "weariness_desc",
     "type": "widget",
     "label": "Weariness",
