@@ -35,7 +35,7 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "rock",
         "no_ammo_sound": "",
-        "fake_skills": [ [ "throw", 2 ] ],
+        "fake_skills": [ [ "throw", 4 ] ],
         "fake_str": 7,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
