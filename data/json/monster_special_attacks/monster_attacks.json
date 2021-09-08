@@ -315,5 +315,24 @@
     "range": 100,
     "dispersion": 500,
     "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 6 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "flaming_whip",
+    "cooldown": 20,
+    "move_cost": 500,
+    "range": 15,
+    "damage_max_instance": [ { "damage_type": "heat", "amount": 30, "armor_penetration": 3, "armor_multiplier": 0.5 } ],
+    "body_parts": [ [ "leg_l", 4 ], [ "leg_r", 4 ], [ "head", 2 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "torso", 6 ] ],
+    "effects": [ { "id": "onfire", "duration": 1, "chance": 10, "affect_hit_bp": true } ],
+    "hit_dmg_u": "The %1$s lashes you with its flaming whip!",
+    "hit_dmg_npc": "The %1$s lashes <npcname> with its flaming whip!",
+    "miss_msg_u": "The %1$s lashes you with its flaming whip, but you dodge!",
+    "miss_msg_npc": "The %1$s lashes <npcname> with its flaming whip, but they dodge!",
+    "no_dmg_msg_u": "The %1$s lashes you with its flaming whip, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s lashes <npcname> with its flaming whip, but fails to penetrate their armor!",
+    "dodgeable": true,
+    "no_adjacent": true
   }
 ]
