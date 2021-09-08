@@ -1591,127 +1591,94 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
     return it->type->charges_to_use();
 }
 
-// Types of petfood for taming each different monster.
-enum Petfood {
-    DOGFOOD,
-    CATFOOD,
-    CATTLEFODDER,
-    BIRDFOOD
-};
-
-static int feedpet( Character &p, monster &mon, item &it, m_flag food_flag, const char *message )
+cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint & )
 {
-    if( mon.has_flag( food_flag ) ) {
-        p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, true );
-        p.consume_charges( it, 1 );
-        return 0;
-    } else {
-        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
-        return 0;
-    }
-}
-
-static cata::optional<int> petfood( Character &p, item &it, Petfood animal_food_type )
-{
-    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                          it.tname() ) );
-    if( !pnt_ ) {
-        return 0;
-    }
-    const tripoint pnt = *pnt_;
-    p.moves -= to_moves<int>( 1_seconds );
-
-    creature_tracker &creatures = get_creature_tracker();
-    // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD && creatures.creature_at<npc>( pnt ) != nullptr ) {
-        if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
-            npc &person = *person_;
-            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
-                p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
-                                     person.get_name() );
-                if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
-                    person.say(
-                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                    p.consume_charges( it, 1 );
-                    return 0;
-                } else {
-                    p.add_msg_if_player( _( "%s knocks it from your hand!" ), person.get_name() );
-                    person.make_angry();
-                    p.consume_charges( it, 1 );
-                    return 0;
-                }
-            } else {
-                p.add_msg_if_player( _( "Never mind." ) );
-                return cata::nullopt;
-            }
-        }
-        // Then monsters.
-    } else if( monster *const mon_ptr = creatures.creature_at<monster>( pnt, true ) ) {
-        monster &mon = *mon_ptr;
-
-        if( mon.is_hallucination() ) {
-            p.add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
-                                 mon.type->nname(), it.tname() );
-            mon.die( nullptr );
-            return 0;
-        }
-
-        // This switch handles each petfood for each type of tameable monster.
-        switch( animal_food_type ) {
-            case DOGFOOD:
-                if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
-                    p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                    if( one_in( 5 ) ) {
-                        p.add_msg_if_player(
-                            _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
-                        p.consume_charges( it, 1 );
-                        return 0;
-                    }
-                } else {
-                    return feedpet( p, mon, it, MF_DOGFOOD,
-                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-                }
-                break;
-            case CATFOOD:
-                return feedpet( p, mon, it, MF_CATFOOD,
-                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
-            case CATTLEFODDER:
-                return feedpet( p, mon, it, MF_CATTLEFODDER,
-                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-            case BIRDFOOD:
-                return feedpet( p, mon, it, MF_BIRDFOOD,
-                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
-        }
-
-    } else {
-        p.add_msg_if_player( _( "There is nothing to be fed here." ) );
+    if( !it->is_comestible() ) {
+        p->add_msg_if_player( _( "You doubt someone would want to eat %1$s." ), it->tname() );
         return cata::nullopt;
     }
 
-    return 1;
-}
+    const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
+                                         it->tname() ) );
+    if( !pnt ) {
+        return cata::nullopt;;
+    }
 
-cata::optional<int> iuse::dogfood( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, DOGFOOD );
-}
+    creature_tracker &creatures = get_creature_tracker();
+    // First a check to see if we are trying to feed a NPC dog food.
+    if( npc *const who = creatures.creature_at<npc>( *pnt ) ) {
+        if( query_yn( _( "Are you sure you want to feed a person %1$s?" ), it->tname() ) ) {
+            p->mod_moves( -to_moves<int>( 1_seconds ) );
+            p->add_msg_if_player( _( "You put your %1$s into %2$s mouth!" ),
+                                  it->tname(), who->disp_name( true ) );
+            if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
+                who->say(
+                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+            } else {
+                p->add_msg_if_player( _( "%s knocks it from your hand!" ), who->disp_name() );
+                who->make_angry();
+            }
+            p->consume_charges( *it, 1 );
+            return cata::nullopt;
+        } else {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return cata::nullopt;
+        }
+        // Then monsters.
+    } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
+        p->mod_moves( -to_moves<int>( 1_seconds ) );
 
-cata::optional<int> iuse::catfood( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATFOOD );
-}
+        if( mon->is_hallucination() ) {
+            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
+                                  mon->type->nname(), it->tname() );
+            mon->die( nullptr );
+            return cata::nullopt;
+        }
 
-cata::optional<int> iuse::feedcattle( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATTLEFODDER );
-}
 
-cata::optional<int> iuse::feedbird( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, BIRDFOOD );
+        bool can_feed = false;
+        const pet_food_data &petfood = mon->type->petfood;
+        const std::set<std::string> &itemfood = it->get_comestible()->petfood;
+        if( !petfood.food.empty() ) {
+            for( const std::string &food : petfood.food ) {
+                if( itemfood.find( food ) != itemfood.end() ) {
+                    can_feed = true;
+                    break;
+                }
+            }
+        }
+
+        if( !can_feed ) {
+            p->add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon->get_name() );
+            return cata::nullopt;
+        }
+
+        if( mon->type->id == mon_dog_thing ) {
+            p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player(
+                    _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
+                p->consume_charges( *it, 1 );
+            }
+            return cata::nullopt;
+        }
+
+        p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
+
+        if( petfood.feed.empty() ) {
+            p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
+        } else {
+            p->add_msg_if_player( m_good, petfood.feed, mon->get_name() );
+        }
+
+        mon->friendly = -1;
+        mon->add_effect( effect_pet, 1_turns, true );
+        p->consume_charges( *it, 1 );
+        return cata::nullopt;
+    }
+    p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::radio_mod( Character *p, item *, bool, const tripoint & )

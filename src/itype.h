@@ -166,6 +166,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /** pet food category */
+        std::set<std::string> petfood;
+
         /**effect on conditions to apply on consumption*/
         std::vector<effect_on_condition_id> consumption_eocs;
 

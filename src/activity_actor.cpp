@@ -4569,6 +4569,11 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+
+    if( !playstr.empty() ) {
+        who.add_msg_if_player( m_good, playstr, pet_name );
+    }
+
     who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                            pet_name );
     act.set_to_null();
@@ -4577,19 +4582,17 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
 void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-
     jsout.member( "pet_name", pet_name );
-
+    jsout.member( "playstr", playstr );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
-
     JsonObject data = jsin.get_object();
-
     data.read( "pet_name", actor.pet_name );
+    data.read( "playstr", actor.playstr );
     return actor.clone();
 }
 
