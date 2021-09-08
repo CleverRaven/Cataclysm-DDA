@@ -880,7 +880,7 @@
     "id": "mon_balrog",
     "type": "MONSTER",
     "name": { "str": "fiery nightmare" },
-    "description": "A colossal figure which seems to consist entirely of shadows engulfed by flames.  Its immense dark wings extend from wall to wall.  Two eyes, like two burning charcoals, are looking down on you with hatred.  In one hand it holds a huge sword, in the other it has a many-thonged whip, both glowing with red-hot flames.",
+    "description": "A colossal figure which seems to consist entirely of shadows engulfed in flames.  Its immense dark wings extend from wall to wall.  Two eyes that resemble burning coals are gazing down on you with hatred.  In one hand it holds a huge sword, in the other it has a many thonged whip, both glowing with red-hot flames.",
     "default_faction": "nether",
     "bodytype": "human",
     "species": [ "UNKNOWN" ],
