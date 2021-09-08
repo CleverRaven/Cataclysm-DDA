@@ -98,46 +98,55 @@
     "onblock_buffs": [
       {
         "id": "buff_barbaran_onblock",
-        "name": "Reversing Tajos",
-        "description": "Blocking a key strike will turn the battle around.\n\n-10% movecost\nLasts 2 turns.",
+        "name": "Reversing Destreza",
+        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
-        "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
-        "buff_duration": 2
+        "max_stacks": 3,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.95 } ],
+        "buff_duration": 3
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_barbaran_onkill",
+        "name": "Movimiento Natural",
+        "description": "Formal victory is attained, and your mind is cleared to focus on your next moves.\n\n+1 Block attempts.\nLasts 5 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "buff_duration": 5,
+        "bonus_blocks": 1
       }
     ],
     "onmove_buffs": [
       {
-        "id": "buff_barbaran_onmove1",
+        "id": "buff_barbaran_onmove",
         "name": "Ricasso Step",
         "description": "You switch or sturdy your grip mid-step to aid your blocking.\n\nBlocked damage reduced by 40% of Strength.\nLasts 3 turns.  Stacks 3 times.",
-        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "max_stacks": 3,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.4 } ],
         "buff_duration": 3
-      },
-      {
-        "id": "buff_barbaran_onmove2",
-        "name": "Advancing Represa",
-        "description": "You are prepared to strike an opponent back.\n\nEnables \"Crushing Empuje\" technique.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "melee", "level": 3 } ],
-        "melee_allowed": true,
-        "buff_duration": 1
       }
     ],
     "onpause_buffs": [
       {
         "id": "buff_barbaran_onpause",
         "name": "Vulgar Preparation",
-        "description": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength.\nEnables \"Saragossa Estocada\" technique.\nLasts 1 turn.",
+        "description": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, Armor penetration increased by 225% of Strength.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
-        "mult_bonuses": [ { "stat": "hit", "scaling-stat": "str", "scale": 0.15 } ],
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "str", "scale": 0.15 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 2.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 2.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 2.25 }
+        ],
         "buff_duration": 1
       }
     ],
-    "techniques": [ "tec_barbaran_impale", "tec_barbaran_shove", "tec_barbaran_heavy", "tec_barbaran_heavyimpale" ],
+    "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
     "weapons": [
       "2h_flail_steel",
       "2h_flail_wood",
