@@ -967,6 +967,8 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
 
+$(ODIR)/resource.o: data/cataicon.ico data/application_manifest.xml
+
 src/version.h: version
 
 src/version.cpp: src/version.h

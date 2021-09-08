@@ -6,6 +6,15 @@ set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
 set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
+if (WIN32)
+    set(RSRC_RC_DEP "${CMAKE_SOURCE_DIR}/data/cataicon.ico")
+    set(RSRC_RC_DEP "${RSRC_RC_DEP};${CMAKE_SOURCE_DIR}/data/application_manifest.xml")
+    set_source_files_properties(
+            ${RESOURCE_RC}
+            PROPERTIES
+            OBJECT_DEPENDS "${RSRC_RC_DEP}")
+endif ()
+
 file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
