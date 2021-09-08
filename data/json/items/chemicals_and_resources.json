@@ -1750,7 +1750,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "mithril ingot",
-    "description": "An ingot of mithril.  About 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
+    "description": "An ingot forged from an exotic silvery metal.  Approximately 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
     "//": "density of aluminum",
     "weight": "683 g",
     "volume": "253 ml",
