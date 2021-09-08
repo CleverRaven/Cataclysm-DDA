@@ -1342,6 +1342,21 @@ int effect::get_int_add_val() const
     return eff_type->int_add_val;
 }
 
+int effect::get_int_decay_step() const
+{
+    return eff_type->int_decay_step;
+}
+
+int effect::get_int_decay_tick() const
+{
+    return eff_type->int_decay_tick;
+}
+
+bool effect::get_int_decay_remove() const
+{
+    return eff_type->int_decay_remove;
+}
+
 const std::vector<std::pair<translation, int>> &effect::get_miss_msgs() const
 {
     return eff_type->miss_msgs;

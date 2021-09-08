@@ -340,6 +340,12 @@ class effect
         time_duration get_int_dur_factor() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
+        /** Returns the step of intensity decay */
+        int get_int_decay_step() const;
+        /** Returns the number of ticks between intensity changes */
+        int get_int_decay_tick() const;
+        /** Returns if the effect is not protected from intensity decay-based removal */
+        bool get_int_decay_remove() const;
 
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
         const std::vector<std::pair<translation, int>> &get_miss_msgs() const;
@@ -349,6 +355,7 @@ class effect
 
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
+
 
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {
