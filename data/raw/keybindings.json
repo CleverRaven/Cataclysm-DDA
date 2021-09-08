@@ -1760,13 +1760,6 @@
   },
   {
     "type": "keybinding",
-    "id": "SORT",
-    "category": "INVENTORY",
-    "name": "Toggle sorting order",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
