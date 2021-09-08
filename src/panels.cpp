@@ -55,6 +55,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -79,6 +80,8 @@ static const efftype_id effect_mending( "mending" );
 static const flag_id json_flag_RAD_DETECT( "RAD_DETECT" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+
+static const itype_id fuel_type_muscle( "muscle" );
 
 static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
@@ -1434,6 +1437,88 @@ std::pair<std::string, nc_color> display::rad_badge_text_color( const Character 
     return std::make_pair( rad_text, rad_color );
 }
 
+// Get remotely controlled vehicle, or vehicle character is inside of
+static vehicle *vehicle_driven( const Character &u )
+{
+    vehicle *veh = g->remoteveh();
+    if( veh == nullptr && u.in_vehicle ) {
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+    }
+    return veh;
+}
+
+std::string display::vehicle_azimuth_text( const Character &u )
+{
+    vehicle *veh = vehicle_driven( u );
+    if( veh ) {
+        return veh->face.to_string_azimuth_from_north();
+    }
+    return "";
+}
+
+std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
+{
+    // Defaults in case no vehicle is found
+    std::string vel_text;
+    nc_color vel_color = c_light_gray;
+
+    // Show target velocity and current velocity, with units.
+    // For example:
+    //     25 < 10 mph : accelerating towards 25 mph
+    //     25 < 25 mph : cruising at 25 mph
+    //     10 < 25 mph : decelerating toward 10
+    // Text color indicates how much the engine is straining beyond its safe velocity.
+    vehicle *veh = vehicle_driven( u );
+    if( veh && veh->cruise_on ) {
+        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
+        vel_text = string_format( "%d < %d %s", target, current, units );
+
+        const float strain = veh->strain();
+        if( strain <= 0 ) {
+            vel_color = c_light_blue;
+        } else if( strain <= 0.2 ) {
+            vel_color = c_yellow;
+        } else if( strain <= 0.4 ) {
+            vel_color = c_light_red;
+        } else {
+            vel_color = c_red;
+        }
+    }
+    return std::make_pair( vel_text, vel_color );
+}
+
+std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const Character &u )
+{
+    // Defaults in case no vehicle is found
+    std::string fuel_text;
+    nc_color fuel_color = c_light_gray;
+
+    vehicle *veh = vehicle_driven( u );
+    if( veh && veh->cruise_on ) {
+        itype_id fuel_type = itype_id::NULL_ID();
+        // FIXME: Move this to a vehicle helper function like get_active_engine
+        for( size_t e = 0; e < veh->engines.size(); e++ ) {
+            if( veh->is_engine_on( e ) &&
+                !( veh->is_perpetual_type( e ) || veh->is_engine_type( e, fuel_type_muscle ) ) ) {
+                // Get the fuel type of the first engine that is turned on
+                fuel_type = veh->engine_fuel_current( e );
+            }
+        }
+        int max_fuel = veh->fuel_capacity( fuel_type );
+        int cur_fuel = veh->fuel_left( fuel_type );
+        if( max_fuel != 0 ) {
+            int percent = cur_fuel * 100 / max_fuel;
+            // Simple percent indicator, yellow under 25%, red under 10%
+            fuel_text = string_format( "%d %%", percent );
+            fuel_color = percent < 10 ? c_red : ( percent < 25 ? c_yellow : c_green );
+        }
+    }
+
+    return std::make_pair( fuel_text, fuel_color );
+}
+
 static void draw_stats( const draw_args &args )
 {
     const avatar &u = args._ava;
@@ -2184,11 +2269,6 @@ static void draw_health_classic( const draw_args &args )
     const avatar &u = args._ava;
     const catacurses::window &w = args._win;
 
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
-
     werase( w );
 
     // 7x7 minimap
@@ -2222,6 +2302,8 @@ static void draw_health_classic( const draw_args &args )
     // print mood
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     mvwprintz( w, point( 34, 1 ), morale_pair.second, morale_pair.first );
+
+    vehicle *veh = vehicle_driven( u );
 
     if( !veh ) {
         // stats
@@ -2589,11 +2671,7 @@ static void draw_veh_compact( const draw_args &args )
 
     werase( w );
 
-    // vehicle display
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
@@ -2610,11 +2688,7 @@ static void draw_veh_padding( const draw_args &args )
 
     werase( w );
 
-    // vehicle display
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );

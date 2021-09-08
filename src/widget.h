@@ -63,9 +63,12 @@ enum class widget_var : int {
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
-    weather_text,   // Weather/sky conditions (if visible), color string
+    veh_azimuth_text, // Azimuth or heading in degrees, string
+    veh_cruise_text, // Current/target cruising speed in vehicle, color string
+    veh_fuel_text,  // Current/total fuel for active vehicle engine, color string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
+    weather_text,   // Weather/sky conditions (if visible), color string
     weight_text,    // Weight description text, color string
     wielding_text,  // Currently wielded weapon or item name
     wind_text,      // Wind level and direction, color string
