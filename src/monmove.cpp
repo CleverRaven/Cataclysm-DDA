@@ -446,7 +446,7 @@ void monster::plan()
     constexpr double max_turns_to_skip = 600.0;
     // Outputs a range from 0.0 - 1.0.
     float rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
-                               turns_since_target );
+                                 turns_since_target );
     int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
     if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
         for( const auto &fac_list : factions ) {
