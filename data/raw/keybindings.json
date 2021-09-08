@@ -1759,19 +1759,6 @@
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
-    "id": "SCROLL_ITEM_INFO_UP",
-    "category": "INVENTORY",
-    "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SCROLL_ITEM_INFO_DOWN",
-    "category": "INVENTORY",
-    "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
-  },
-  {
     "type": "keybinding",
     "id": "SORT",
     "category": "INVENTORY",
