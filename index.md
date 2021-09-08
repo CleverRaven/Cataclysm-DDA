@@ -5,6 +5,13 @@ title: "Cataclysm: Dark Days Ahead"
 
 Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have...
 
+<figure>
+  <img src="assets/images/showcase-ultica.png" alt="Showcase image. Tileset: UltiCa">
+  <figcaption>
+    <em>Tileset: UltiCa</em>
+  </figcaption>
+</figure>
+
 ## Gameplay
 
 As your game begins, you awaken with hazy memories of violence and terror from when the world suddenly unravelled around you.  Now you need to explore your surroundings, and secure food, water and safety.  After that, who knows?  Long term survival will mean tapping abilities you haven't used before, learning to survive in this new environment, and developing new skills.
