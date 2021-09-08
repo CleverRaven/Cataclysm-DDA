@@ -22,7 +22,7 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_CARDIO_STAMINA_SCALING",
+    "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "info": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
     "value": 5
@@ -36,7 +36,7 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_CARDIO_STAMINA_MOD",
+    "name": "PLAYER_CARDIOFIT_STAMINA_MOD",
     "info": "Sets the effect of cardio on stamina regeneration.",
     "stype": "float",
     "value": 0.01
