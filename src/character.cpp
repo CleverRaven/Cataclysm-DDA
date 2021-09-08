@@ -3582,9 +3582,9 @@ std::string Character::debug_weary_info() const
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO FITNESS: %d %s Thresh: %d At: %d\nCalories: %d",
+    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO FITNESS: %d %s Thresh: %d At: %d\n Calories: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
                           amt, max_act, move_mult, cardio_mult, activity_history.debug_weary_info(), thresh, current,
-                          stored_calories );
+                          get_stored_kcal(), get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
@@ -5726,7 +5726,7 @@ int Character::get_stamina_max() const
     // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
     // Player_max_stamina defaults to 2000.
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
-    static const std::string player_cardiofit_stamina_mod( "PLAYER_CARDIO_FITNESS_STAMINA_SCALING" );
+    static const std::string player_cardiofit_stamina_mod( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     // Cardiofit stamina mod defaults to 5, and get_cardiofit() should return a value in the vicinity
     // of 1000-4000, so this should add somewhere between 5000 to 20000 stamina.
@@ -5790,7 +5790,7 @@ void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
-    static const std::string stamina_cardio_regen_modifier( "PLAYER_CARDIO_FITNESS_STAMINA_MOD" );
+    static const std::string stamina_cardiofit_regen_modifier( "PLAYER_CARDIOFIT_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
     const float effective_regen_rate = base_regen_rate + get_bmr() * get_option<float>
                                        ( stamina_cardiofit_regen_modifier );
