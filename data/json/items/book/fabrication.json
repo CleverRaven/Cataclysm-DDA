@@ -547,5 +547,25 @@
     "max_level": 4,
     "intelligence": 9,
     "time": "30 m"
+  },
+  {
+    "id": "textbook_mithril",
+    "type": "BOOK",
+    "name": { "str_sp": "ᚲᚨᚲ:ᚲᛟᚹᚨᛏ:ᛗᛁᚠᚱᛁᛚ" },
+    "description": "This book is written on some runic language you have not a slightest idea about.  Fortunately, there are several very detailed colored pictures demonstrating the process of forging a sword from an ingot of silvery metal which leads you to an idea that this is some sort of textbook for blacksmiths.",
+    "weight": "654 g",
+    "volume": "1250 ml",
+    "price": 6400,
+    "price_postapoc": 2250,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 7,
+    "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false } ],
+    "intelligence": 9,
+    "time": "60 m",
+    "fun": -1
   }
 ]
