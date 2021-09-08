@@ -1010,73 +1010,54 @@
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_grab",
-    "name": "Pommel Strike",
-    "messages": [ "You dodge, grab, and pommel strike %s", "<npcname> dodges, grabs, and pommel strikes %s" ],
+    "id": "tec_swordsmanship_ringen",
+    "name": "Grab",
+    "messages": [ "You wrestle %s to the ground", "<npcname> wrestles %s to the ground" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "crit_ok": true,
-    "dodge_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0 }, { "stat": "damage", "type": "stab", "scale": 0 } ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_break",
-    "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you evade its grab!", "The %s tries to grab <npcname>, but they evade its grab!" ],
-    "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_unterhau",
-    "name": "Sweeping Strike",
-    "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ],
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
-    "melee_allowed": true,
-    "req_buffs": [ "buff_swordsmanship_onblock" ],
+    "req_buffs": [ "buff_swordsmanship_onpause" ],
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0.5 }, { "stat": "damage", "type": "stab", "scale": 0.33 } ],
     "crit_tec": true,
     "down_dur": 2
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_zornhau",
-    "name": "Vicious Strike",
-    "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ],
-    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "id": "tec_swordsmanship_lethal",
+    "name": "Lethal Strike",
+    "messages": [ "You drive the point of your blade into %s", "<npcname> drives their blade into %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_swordsmanship_oncrit" ],
-    "crit_tec": true,
-    "stun_dur": 1,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.5 },
-      { "stat": "damage", "type": "cut", "scale": 1.5 },
-      { "stat": "damage", "type": "stab", "scale": 1.5 }
-    ]
+    "req_buffs": [ "buff_swordsmanship_onpause" ],
+    "crit_ok": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
+    ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ]
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_mordhau",
-    "name": "Mordhau",
+    "id": "tec_swordsmanship_feint",
+    "name": "Flow Drills",
     "messages": [
-      "You flip your weapon around and deliver a mordhau to %s",
-      "<npcname> flips their weapon around and smashes down on %s"
+      "With practiced movements, you transition from a failed strike into another strike",
+      "With practiced movements, <npcname> transitions from a failed strike into another strike"
     ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_swordsmanship_onblock" ],
-    "crit_tec": true,
-    "stun_dur": 2,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.5 },
-      { "stat": "damage", "type": "bash", "scale": 3 },
-      { "stat": "damage", "type": "cut", "scale": 0 },
-      { "stat": "damage", "type": "stab", "scale": 0 }
-    ]
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_mastercut",
+    "name": "Master Cut",
+    "messages": [ "You parry and strike %s in one movement", "<npcname> parries and strikes %s in one movement" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "block_counter": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
   },
   {
     "type": "technique",
