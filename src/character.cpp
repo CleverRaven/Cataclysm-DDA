@@ -5171,14 +5171,14 @@ std::string Character::debug_weary_info() const
     std::string max_act = activity_level_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
-    int cardio_mult = get_cardio();
+    int cardio_mult = get_cardiofit();
     int thresh = weary_threshold();
     int current = weariness_level();
     int morale = get_morale_level();
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO: %d %s Thresh: %d At: %d\nCalories: %d",
+    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO FITNESS: %d %s Thresh: %d At: %d\nCalories: %d",
                           amt, max_act, move_mult, cardio_mult, activity_history.debug_weary_info(), thresh, current,
                           stored_calories );
 }
@@ -5631,7 +5631,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        activity_history.try_reduce_weariness( get_cardio(), in_sleep_state() );
+        activity_history.try_reduce_weariness( get_cardiofit(), in_sleep_state() );
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -5705,7 +5705,7 @@ int Character::weariness() const
 
 int Character::weary_threshold() const
 {
-    const int cardio_mult = get_cardio();
+    const int cardio_mult = get_cardiofit();
     int threshold = cardio_mult * get_option<float>( "WEARY_BMR_MULT" );
     // reduce by 1% per 14 points of fatigue after 150 points
     threshold *= 1.0f - ( ( std::max( fatigue, -20 ) - 150 ) / 1400.0f );
@@ -8655,10 +8655,10 @@ int Character::get_stamina_max() const
 {
     // this is now base max stamina, name not changed (for now) to avoid code changes.
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
-    static const std::string player_cardio_stamina_mod( "PLAYER_CARDIO_STAMINA_SCALING" );
+    static const std::string player_cardiofit_stamina_mod( "PLAYER_CARDIO_FITNESS_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     int max_stamina = get_option<int>( player_max_stamina ) +
-                      get_option<int>( player_cardio_stamina_mod ) * get_cardio();
+                      get_option<int>( player_cardiofit_stamina_mod ) * get_cardiofit();
     max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
     return max_stamina;
 }
@@ -8725,10 +8725,10 @@ void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
-    static const std::string stamina_cardio_regen_modifier( "PLAYER_CARDIO_STAMINA_MOD" );
+    static const std::string stamina_cardio_regen_modifier( "PLAYER_CARDIO_FITNESS_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
     const float effective_regen_rate = base_regen_rate + get_bmr() * get_option<float>
-                                       ( stamina_cardio_regen_modifier );
+                                       ( stamina_cardiofit_regen_modifier );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
@@ -8778,7 +8778,7 @@ void Character::update_stamina( int turns )
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
 
-int Character::get_cardio() const
+int Character::get_cardiofit() const
 {
     const int bmr = base_bmr();
     const int athletics_mod = get_skill_level( skill_swimming ) * 10;

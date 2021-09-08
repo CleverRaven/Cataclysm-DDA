@@ -2204,7 +2204,7 @@ class Character : public Creature, public visitable
         /** Regenerates stamina */
         void update_stamina( int turns );
 
-        int get_cardio() const;
+        int get_cardiofit() const;
 
         int get_cardio_acc() const;
         void set_cardio_acc( int ncardio_acc );
