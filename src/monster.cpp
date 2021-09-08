@@ -157,7 +157,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 monster::monster()
 {
-    set_pos_only( tripoint( 20, 10, -500 ) ); // Some arbitrary position that will cause debugmsgs
     unset_dest();
     wandf = 0;
     hp = 60;
@@ -223,21 +222,20 @@ monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
 monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
-void monster::setpos( const tripoint &p )
+void monster::on_move( const tripoint_abs_ms &old_pos )
 {
-    if( p == pos() ) {
+    Creature::on_move( old_pos );
+    if( old_pos == get_location() ) {
         return;
     }
-
-    bool wandering = wander();
-    g->update_zombie_pos( *this, p );
-    Creature::setpos( p );
-    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
+    g->update_zombie_pos( *this, old_pos, get_location() );
+    if( has_effect( effect_ridden ) && mounted_player &&
+        mounted_player->get_location() != get_location() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
         mounted_player->forced_dismount();
     }
-    if( wandering ) {
+    if( has_dest() && get_location() == get_dest() ) {
         unset_dest();
     }
 }
@@ -490,6 +488,12 @@ void monster::try_biosignature()
 void monster::spawn( const tripoint &p )
 {
     set_pos_only( p );
+    unset_dest();
+}
+
+void monster::spawn( const tripoint_abs_ms &loc )
+{
+    set_location( loc );
     unset_dest();
 }
 
@@ -1047,43 +1051,60 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
-void monster::set_goal( const tripoint &p )
-{
-    goal = p;
-}
-
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 {
-    map &here = get_map();
-    tripoint base_abs_ms( real_coords( here.getabs( pos().xy() ) ).begin_om_pos(), posz() );
+    const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
     for( const point &patrol_pt : patrol_pts_rel_ms ) {
-        patrol_route_abs_ms.push_back( base_abs_ms + patrol_pt );
+        patrol_route.push_back( base_abs_ms + patrol_pt );
     }
     next_patrol_point = 0;
 }
 
-void monster::shift( const point &sm_shift )
+void monster::shift( const point & )
 {
-    const point ms_shift = sm_to_ms_copy( sm_shift );
-    set_pos_only( pos() - ms_shift );
-    goal -= ms_shift;
-    if( wandf > 0 ) {
-        wander_pos -= ms_shift;
-    }
+    // TODO: migrate this to absolute coords and get rid of shift()
+    path.clear();
 }
 
-tripoint monster::move_target() const
+bool monster::has_dest() const
 {
-    return goal;
+    return goal.has_value();
+}
+
+tripoint_abs_ms monster::get_dest() const
+{
+    return goal ? *goal : get_location();
+}
+
+void monster::set_dest( const tripoint_abs_ms &p )
+{
+    goal = p;
+}
+
+void monster::unset_dest()
+{
+    goal = cata::nullopt;
+    path.clear();
+}
+
+bool monster::is_wandering() const
+{
+    return !has_dest() && patrol_route.empty();
+}
+
+void monster::wander_to( const tripoint_abs_ms &p, int f )
+{
+    wander_pos = p;
+    wandf = f;
 }
 
 Creature *monster::attack_target()
 {
-    if( wander() ) {
+    if( !has_dest() ) {
         return nullptr;
     }
 
-    Creature *target = get_creature_tracker().creature_at( move_target() );
+    Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
         attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
         return nullptr;
@@ -1286,7 +1307,8 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FOLLOW;
     }
 
-    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
+    if( has_flag( MF_KEEP_DISTANCE ) &&
+        rl_dist( get_location(), get_dest() ) < type->tracking_distance ) {
         return MATT_FLEE;
     }
 
@@ -1509,7 +1531,7 @@ std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_i
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
+                       io::enum_to_string( elem.type ), elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
                        wp->id, wp->armor_mult[static_cast<int>( elem.type )],
@@ -2388,7 +2410,6 @@ void monster::die( Creature *nkiller )
         drop_items_on_death();
     }
     if( get_killer() != nullptr ) {
-        // TODO: should actually be class Character
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
             get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
@@ -3057,10 +3078,11 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
         max_error = 1;
     }
 
-    point target( source.xy() + point( rng( -max_error, max_error ), rng( -max_error, max_error ) ) );
+    tripoint_abs_ms target = get_map().getglobal( source ) + point( rng( -max_error, max_error ),
+                             rng( -max_error, max_error ) );
     // target_z will require some special check due to soil muffling sounds
 
-    int wander_turns = volume * ( goodhearing ? 6 : 1 );
+    const int wander_turns = volume * ( goodhearing ? 6 : 1 );
     // again, already following a more interesting sound
     if( wander_turns < wandf ) {
         return;
@@ -3070,11 +3092,15 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
-        wander_to( tripoint( target, source.z ), wander_turns );
+        wander_to( target, wander_turns );
     } else if( morale < 0 ) {
-        // Monsters afraid of sound should not go towards sound
-        wander_to( -target + tripoint( 2 * posx(), 2 * posy(), 2 * posz() - source.z ),
-                   wander_turns );
+        // Monsters afraid of sound should not go towards sound.
+        // Move towards a point on the opposite side of us from the target.
+        // TODO: make the destination scale with the sound and handle
+        // the case when (x,y) is the same by picking a random direction
+        tripoint_abs_ms away = get_location() + ( get_location() - target );
+        away.z() = posz();
+        wander_to( away, wander_turns );
     }
 }
 

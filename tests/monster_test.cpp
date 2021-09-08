@@ -39,7 +39,7 @@ static int moves_to_destination( const std::string &monster_type,
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( end );
+    test_monster.set_dest( get_map().getglobal( end ) );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     int moves_spent = 0;
@@ -50,7 +50,7 @@ static int moves_to_destination( const std::string &monster_type,
             const int moves_before = test_monster.moves;
             test_monster.move();
             moves_spent += moves_before - test_monster.moves;
-            if( test_monster.pos() == test_monster.move_target() ) {
+            if( test_monster.get_location() == test_monster.get_dest() ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
             }
@@ -107,7 +107,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     monster &test_monster = spawn_test_monster( monster_type, monster_start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( test_player.pos() );
+    test_monster.set_dest( test_player.get_location() );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     const int target_speed = 100;
@@ -136,7 +136,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
             test_player.mod_moves( -move_cost );
         }
         get_map().clear_traps();
-        test_monster.set_dest( test_player.pos() );
+        test_monster.set_dest( test_player.get_location() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
             const int moves_before = test_monster.moves;

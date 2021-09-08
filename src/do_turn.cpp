@@ -516,8 +516,7 @@ void update_stair_monsters()
                         msg = _( "The %s pushed you back!" );
                     }
                     add_msg( m_warning, msg.c_str(), critter.name() );
-                    u.setx( u.posx() + push.x );
-                    u.sety( u.posy() + push.y );
+                    u.move_to( u.get_location() + push );
                     return;
                 }
             }

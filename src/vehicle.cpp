@@ -1929,7 +1929,7 @@ void vehicle::part_removal_cleanup()
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
-            const tripoint &pt = global_part_pos3( *it );
+            const tripoint pt = global_part_pos3( *it );
             here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;

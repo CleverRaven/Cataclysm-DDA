@@ -75,7 +75,16 @@
     "using": [ [ "forging_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "tin", 12 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [
+      [
+        [ "tin", 12 ],
+        [ "material_aluminium_ingot", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "chem_aluminium_powder", 15 ],
+        [ "can_drink", 2 ]
+      ],
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",

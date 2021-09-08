@@ -143,6 +143,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
         case debug_menu::debug_menu_index::CHANGE_SKILLS: return "CHANGE_SKILLS";
+        case debug_menu::debug_menu_index::CHANGE_THEORY: return "CHANGE_THEORY";
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
@@ -229,6 +230,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -1192,13 +1194,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
     nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
@@ -1231,6 +1234,9 @@ void character_edit_menu()
     switch( nmenu.ret ) {
         case D_SKILLS:
             wishskill( &you );
+            break;
+        case D_THEORY:
+            wishskill( &you, true );
             break;
         case D_STATS: {
             uilist smenu;
@@ -2247,7 +2253,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2325,6 +2331,11 @@ void debug()
 
         case debug_menu_index::CHANGE_SKILLS: {
             debug_menu::wishskill( &player_character );
+        }
+        break;
+
+        case debug_menu_index::CHANGE_THEORY: {
+            debug_menu::wishskill( &player_character, true );
         }
         break;
 
