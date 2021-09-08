@@ -4182,7 +4182,7 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
             }
         }
 
-        deserialize( jsin );
+        deserialize( jsin.get_object() );
 
         // If stored_calories the template is under a million (kcals < 1000), assume it predates the
         // kilocalorie-to-literal-calorie conversion and is off by a factor of 1000.

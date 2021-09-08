@@ -1366,8 +1366,7 @@ void monster_death_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
 }
 
-void monster_death_effect::deserialize( JsonIn &jsin )
+void monster_death_effect::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     load( data );
 }

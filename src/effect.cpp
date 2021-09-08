@@ -61,9 +61,9 @@ void vitamin_rate_effect::load( const JsonObject &jo )
     optional( jo, false, "resist_tick", red_tick, tick );
 }
 
-void vitamin_rate_effect::deserialize( JsonIn &jsin )
+void vitamin_rate_effect::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 /** @relates string_id */
@@ -1571,9 +1571,9 @@ void effect::serialize( JsonOut &json ) const
     json.member( "source", source );
     json.end_object();
 }
-void effect::deserialize( JsonIn &jsin )
+
+void effect::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     efftype_id id;
     jo.read( "eff_type", id );
     eff_type = &id.obj();

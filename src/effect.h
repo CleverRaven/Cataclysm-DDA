@@ -22,7 +22,6 @@ class effect_type;
 
 enum game_message_type : int;
 enum class event_type : int;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 
@@ -52,7 +51,7 @@ struct vitamin_rate_effect {
     vitamin_id vitamin;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct vitamin_applied_effect {
@@ -357,7 +356,7 @@ class effect
         const effect_source &get_source() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
     protected:
         const effect_type *eff_type;

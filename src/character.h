@@ -292,7 +292,7 @@ struct consumption_event {
         component_hash = food.make_component_hash();
     }
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct stat_mod {
@@ -369,7 +369,7 @@ class Character : public Creature, public visitable
             return false;    // Overloaded for NPCs in npc.h
         }
         // populate variables, inventory items, and misc from json object
-        virtual void deserialize( JsonIn &jsin ) = 0;
+        virtual void deserialize( const JsonObject &jsobj ) = 0;
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
@@ -3079,7 +3079,7 @@ class Character : public Creature, public visitable
              */
             int charge = 0;
             void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &data );
         };
 
         /** Bonuses to stats, calculated each turn */

@@ -3305,14 +3305,14 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "opinion" );
+        JsonValue jv = jo.get_member( "opinion" );
         // Same format as when saving a game (-:
-        opinion.deserialize( *ji );
+        opinion.deserialize( jv );
     }
     if( jo.has_member( "mission_opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "mission_opinion" );
+        JsonValue jv = jo.get_member( "mission_opinion" );
         // Same format as when saving a game (-:
-        mission_opinion.deserialize( *ji );
+        mission_opinion.deserialize( jv );
     }
     if( !jo.has_member( member_name ) ) {
         return;

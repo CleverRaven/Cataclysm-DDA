@@ -20,7 +20,6 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
 class item;
 class item_location;
@@ -270,7 +269,7 @@ class item_contents
         void combine( const item_contents &read_input, bool convert = false );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
     private:
         // finds the pocket the item will fit in, given the pocket type.
         // this will be where the algorithm picks the best pocket in the contents
