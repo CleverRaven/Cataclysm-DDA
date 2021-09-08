@@ -27,6 +27,7 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -509,6 +510,9 @@ void npc::randomize( const npc_class_id &type )
             sp.gain_level();
         }
     }
+
+    // Add eocs
+    effect_on_conditions::load_new_character( *this );
 }
 
 void npc::randomize_from_faction( faction *fac )
@@ -2794,6 +2798,7 @@ void npc::on_load()
     if( has_trait( trait_HALLUCINATION ) ) {
         hallucination = true;
     }
+    effect_on_conditions::load_existing_character( *this );
 }
 
 constexpr tripoint_abs_omt npc::no_goal_point;

@@ -107,26 +107,6 @@ void game::serialize( std::ostream &fout )
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
 
-    //save queued effect_on_conditions
-    std::vector<queued_eoc> temp_queue;
-    while( !g->queued_effect_on_conditions.empty() ) {
-        temp_queue.push_back( g->queued_effect_on_conditions.top() );
-        g->queued_effect_on_conditions.pop();
-    }
-    json.member( "queued_effect_on_conditions" );
-    json.start_array();
-
-    for( const auto &queued : temp_queue ) {
-        g->queued_effect_on_conditions.push( queued );
-        json.start_object();
-        json.member( "time", queued.time );
-        json.member( "eoc", queued.eoc );
-        json.member( "recurring", queued.recurring );
-        json.end_object();
-    }
-    json.end_array();
-    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
-
     json.member( "player", u );
     Messages::serialize( json );
 
@@ -265,24 +245,6 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
         inp_mngr.pump_events();
-
-        //load queued_eocs
-        for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
-            queued_eoc temp;
-            temp.time = time_point( elem.get_int( "time" ) );
-            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            temp.recurring = elem.get_bool( "recurring" );
-            g->queued_effect_on_conditions.push( temp );
-        }
-        //load inactive queued_eocs
-        for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
-            queued_eoc temp;
-            temp.time = time_point( elem.get_int( "time" ) );
-            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            temp.recurring = elem.get_bool( "recurring" );
-            g->queued_effect_on_conditions.push( temp );
-        }
-        data.read( "inactive_eocs", inactive_effect_on_condition_vector );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {

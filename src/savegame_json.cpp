@@ -1021,6 +1021,23 @@ void Character::load( const JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+    //load queued_eocs
+    for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
+        queued_eoc temp;
+        temp.time = time_point( elem.get_int( "time" ) );
+        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        temp.recurring = elem.get_bool( "recurring" );
+        queued_effect_on_conditions.push( temp );
+    }
+    //load inactive queued_eocs
+    for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
+        queued_eoc temp;
+        temp.time = time_point( elem.get_int( "time" ) );
+        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        temp.recurring = elem.get_bool( "recurring" );
+        queued_effect_on_conditions.push( temp );
+    }
+    data.read( "inactive_eocs", inactive_effect_on_condition_vector );
 }
 
 /**
@@ -1223,6 +1240,23 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    //save queued effect_on_conditions
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
+        queued_effect_on_conditions );
+    json.member( "queued_effect_on_conditions" );
+    json.start_array();
+    while( !temp_queued.empty() ) {
+        json.start_object();
+        json.member( "time", temp_queued.top().time );
+        json.member( "eoc", temp_queued.top().eoc );
+        json.member( "recurring", temp_queued.top().recurring );
+        json.end_object();
+        temp_queued.pop();
+    }
+
+    json.end_array();
+    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
