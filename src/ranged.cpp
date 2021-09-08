@@ -746,8 +746,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     map &here = get_map();
-    // usage of any attached bipod is dependent upon terrain
-    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() );
+    // usage of any attached bipod is dependent upon terrain or on being prone
+    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() ) || you.is_prone();
     if( !bipod ) {
         if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
