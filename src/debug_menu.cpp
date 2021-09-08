@@ -59,7 +59,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
-#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -84,6 +83,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
@@ -143,6 +143,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
         case debug_menu::debug_menu_index::CHANGE_SKILLS: return "CHANGE_SKILLS";
+        case debug_menu::debug_menu_index::CHANGE_THEORY: return "CHANGE_THEORY";
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
@@ -229,6 +230,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -1019,12 +1021,12 @@ void change_spells( Character &character )
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    location &player_location = get_player_location();
-    if( !where || *where == player_location.pos() ) {
+    const Character &player_character = get_player_character();
+    if( !where || *where == player_character.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_location.pos() );
+    const tripoint new_pos( player_character.pos() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
@@ -1133,7 +1135,7 @@ void character_edit_menu()
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( player_character.pos() );
     for( const npc &guy : g->all_npcs() ) {
-        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
+        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
         locations.emplace_back( guy.pos() );
     }
 
@@ -1152,7 +1154,7 @@ void character_edit_menu()
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
+        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
@@ -1169,8 +1171,9 @@ void character_edit_menu()
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
              << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << std::endl;
+        data << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << " "
+             << string_format( _( "Sold: %d" ), np->op_of_u.sold ) << std::endl;
 
         data << string_format( _( "Aggression: %d" ),
                                static_cast<int>( np->personality.aggression ) ) << " "
@@ -1178,10 +1181,11 @@ void character_edit_menu()
              << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
              << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
-        data << _( "Needs:" ) << std::endl;
+        data << _( "Needs:" );
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << " " << npc::get_need_str_id( need );
         }
+        data << std::endl;
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
         nmenu.text = data.str();
@@ -1190,13 +1194,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
     nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
@@ -1218,6 +1223,7 @@ void character_edit_menu()
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
+    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
     if( you.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
@@ -1228,6 +1234,9 @@ void character_edit_menu()
     switch( nmenu.ret ) {
         case D_SKILLS:
             wishskill( &you );
+            break;
+        case D_THEORY:
+            wishskill( &you, true );
             break;
         case D_STATS: {
             uilist smenu;
@@ -1396,6 +1405,7 @@ void character_edit_menu()
             smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+            smenu.addentry( 5, true, 'd', "%s: %d", _( "sold" ), np->op_of_u.sold );
 
             smenu.query();
             int value;
@@ -1428,6 +1438,11 @@ void character_edit_menu()
                         np->op_of_u.owed = value;
                     }
                     break;
+                case 5:
+                    if( query_int( value, _( "Set sold to?  Currently: %d" ), np->op_of_u.sold ) ) {
+                        np->op_of_u.sold = value;
+                    }
+                    break;
             }
         }
         break;
@@ -1436,7 +1451,7 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), you.get_name() );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
             smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
             smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
             smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
@@ -1446,7 +1461,7 @@ void character_edit_menu()
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename:" ) )
+                    .title( _( "Rename save file:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1512,9 +1527,9 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
-            std::pair<std::string, nc_color> hunger_pair = you.get_hunger_description();
-            std::pair<std::string, nc_color> thirst_pair = you.get_thirst_description();
-            std::pair<std::string, nc_color> fatigue_pair = you.get_fatigue_description();
+            std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
+            std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
+            std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
 
             std::stringstream data;
             data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,
@@ -1656,7 +1671,7 @@ void character_edit_menu()
         }
         break;
         case D_STATUS:
-            you.disp_info();
+            you.disp_info( true );
             break;
         case D_MISSION_ADD: {
             uilist types;
@@ -1734,6 +1749,20 @@ void character_edit_menu()
         case D_ASTHMA: {
             you.set_mutation( trait_ASTHMA );
             you.add_effect( effect_asthma, 10_minutes );
+            break;
+        }
+        case D_PRINT_VARS: {
+            write_to_file( "var_list.output", [&you]( std::ostream & testfile ) {
+                testfile << "Character Name: " + you.get_name() << std::endl;
+                testfile << "|;key;value;" << std::endl;
+
+                for( const auto &value : you.get_values() ) {
+                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+                }
+
+            }, "var_list" );
+
+            popup( _( "Var list written to var_list.output" ) );
             break;
         }
     }
@@ -1880,10 +1909,10 @@ void mission_debug::remove_mission( mission &m )
     npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->get_name() );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name );
+            add_msg( _( "Removing from %s missions" ), giver->get_name() );
         }
     }
 }
@@ -2016,7 +2045,7 @@ static void debug_menu_game_state()
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
         tripoint_abs_sm t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
                  t.y(), guy.posx(), guy.posy() );
     }
 
@@ -2224,7 +2253,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2287,7 +2316,7 @@ void debug()
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
-                add_msg( _( "%s's head implodes!" ), guy.name );
+                add_msg( _( "%s's head implodes!" ), guy.get_name() );
                 guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;
@@ -2302,6 +2331,11 @@ void debug()
 
         case debug_menu_index::CHANGE_SKILLS: {
             debug_menu::wishskill( &player_character );
+        }
+        break;
+
+        case debug_menu_index::CHANGE_THEORY: {
+            debug_menu::wishskill( &player_character, true );
         }
         break;
 

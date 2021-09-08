@@ -1851,6 +1851,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
+    remove_dependent_part( "HANDHELD_BATTERY_MOUNT", "NEEDS_HANDHELD_BATTERY_MOUNT" );
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
@@ -1928,7 +1929,7 @@ void vehicle::part_removal_cleanup()
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
-            const tripoint &pt = global_part_pos3( *it );
+            const tripoint pt = global_part_pos3( *it );
             here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;
@@ -3474,7 +3475,7 @@ bool vehicle::can_use_rails() const
     bool is_wheel_on_rail = false;
     for( int part_index : rail_wheelcache ) {
         // at least one wheel should be on track
-        if( here.has_flag_ter_or_furn( TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
             is_wheel_on_rail = true;
             break;
         }
@@ -6859,8 +6860,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
         return false;
     }
 
-    return ( sm->get_ter( p ).obj().has_flag( TFLAG_CURRENT ) ||
-             sm->get_furn( p ).obj().has_flag( TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
@@ -6879,8 +6880,8 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
         return false;
     }
 
-    return !( sm->get_ter( p ).obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( p ).obj().has_flag( TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
@@ -7193,9 +7194,9 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
         } else if( !adjust_pos &&  parts_to_move.find( index ) != parts_to_move.end() ) {
             prt.precalc[0].z += dp.z;
         }
-        if( here.has_flag( TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
             prt.precalc[0].z += 1;
-        } else if( here.has_flag( TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
             prt.precalc[0].z -= 1;
         }
         prt.precalc[0].z -= ramp_offset;

@@ -466,7 +466,7 @@
     "category": "armor",
     "name": { "str": "XL Kevlar vest" },
     "description": "A massive, hand-built Kevlar vest based on the design of existing bullet-resistant vests.  It has four pouches capable of carrying magazines.",
-    "looks_like": "modularvest",
+    "looks_like": "tacvest",
     "weight": "5148 g",
     "volume": "10750 ml",
     "price": 200000,

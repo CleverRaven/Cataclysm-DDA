@@ -205,17 +205,7 @@
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE_ASH",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "EASY_DECONSTRUCT",
-      "BASHABLE",
-      "HIDE_PLACE",
-      "NO_SIGHT",
-      "CONTAINER"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
@@ -1082,7 +1072,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
     "keg_capacity": 1200,

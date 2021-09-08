@@ -38,6 +38,7 @@
 
 class JsonArray;
 class JsonDeserializer;
+class JsonIn;
 class JsonObject;
 class JsonSerializer;
 class JsonValue;
@@ -101,6 +102,76 @@ struct json_source_location {
     shared_ptr_fast<std::string> path;
     int offset = 0;
 };
+
+class JsonValue
+{
+    private:
+        JsonIn &jsin_;
+        int pos_;
+
+        JsonIn &seek() const;
+
+    public:
+        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator std::string() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator int() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator bool() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator double() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator JsonObject() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator JsonArray() const;
+        template<typename T>
+        bool read( T &t, bool throw_on_error = false ) const;
+
+        bool test_string() const;
+        bool test_int() const;
+        bool test_bool() const;
+        bool test_float() const;
+        bool test_object() const;
+        bool test_array() const;
+        bool test_null() const;
+
+        std::string get_string() const;
+        int get_int() const;
+        bool get_bool() const;
+        double get_float() const;
+        JsonObject get_object() const;
+        JsonArray get_array() const;
+
+        [[noreturn]] void string_error( const std::string &err, int offset = 0 ) const;
+        [[noreturn]] void throw_error( const std::string &err, int offset = 0 ) const;
+};
+
+
+namespace detail
+{
+// A c++11 compatible older compiler compatible implementation of void_t
+template<typename... Ts> struct make_void {
+    using type = void;
+};
+template<typename... Ts> using void_t = typename make_void<Ts...>::type;
+
+template<class, typename = void>
+struct IsJsonInDeserializable : std::false_type {};
+
+template<class T>
+struct IsJsonInDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<JsonIn &>() ) )>> :
+std::true_type {};
+
+template<class, typename = void>
+struct IsJsonValueDeserializable : std::false_type {};
+
+template<class T>
+struct IsJsonValueDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<const JsonValue &>() ) )>> :
+std::true_type {};
+} // namespace detail
+
 
 /* JsonIn
  * ======
@@ -244,6 +315,7 @@ class JsonIn
         std::string get_member_name(); // also strips the ':'
         JsonObject get_object();
         JsonArray get_array();
+        JsonValue get_value(); // just returns a JsonValue at the current position.
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value() {
@@ -335,10 +407,30 @@ class JsonIn
         }
 
         /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
+        /// And also that `T::deserialize(const JsonValue&)` is not available.
         template<typename T>
-        auto read( T &v, bool throw_on_error = false ) -> decltype( v.deserialize( *this ), true ) {
+        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
+        detail::IsJsonInDeserializable<T>::value &&
+        !detail::IsJsonValueDeserializable<T>::value, bool >::type {
             try {
                 v.deserialize( *this );
+                return true;
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+        }
+
+        /// Overload that calls a member function `T::deserialize(const JsonValue&)`, if available.
+        /// But only if `T::deserialize(JsonIn&)` is not available.
+        template<typename T>
+        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
+        !detail::IsJsonInDeserializable<T>::value &&
+        detail::IsJsonValueDeserializable<T>::value, bool >::type {
+            try {
+                v.deserialize( this->get_value() );
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {
@@ -989,7 +1081,8 @@ class JsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, const std::string &name ) const;
+        [[noreturn]] void throw_error( const std::string &err, const std::string &name,
+                                       int offset = 0 ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1167,8 +1260,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        [[noreturn]] void throw_error( const std::string &err );
-        [[noreturn]] void throw_error( const std::string &err, int idx );
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err, int idx ) const;
         // See JsonIn::string_error
         [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
@@ -1180,6 +1273,7 @@ class JsonArray
         std::string next_string();
         JsonArray next_array();
         JsonObject next_object();
+        JsonValue next_value();
         void skip_value(); // ignore whatever is next
 
         // static access
@@ -1242,88 +1336,105 @@ class JsonArray
         }
 };
 
-class JsonValue
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator std::string() const
 {
-    private:
-        JsonIn &jsin_;
-        int pos_;
+    return seek().get_string();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator int() const
+{
+    return seek().get_int();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator bool() const
+{
+    return seek().get_bool();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator double() const
+{
+    return seek().get_float();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator JsonObject() const
+{
+    return seek().get_object();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator JsonArray() const
+{
+    return seek().get_array();
+}
+template<typename T>
+inline bool JsonValue::read( T &t, bool throw_on_error ) const
+{
+    return seek().read( t, throw_on_error );
+}
 
-        JsonIn &seek() const;
+inline bool JsonValue::test_string() const
+{
+    return seek().test_string();
+}
+inline bool JsonValue::test_int() const
+{
+    return seek().test_int();
+}
+inline bool JsonValue::test_bool() const
+{
+    return seek().test_bool();
+}
+inline bool JsonValue::test_float() const
+{
+    return seek().test_float();
+}
+inline bool JsonValue::test_object() const
+{
+    return seek().test_object();
+}
+inline bool JsonValue::test_array() const
+{
+    return seek().test_array();
+}
+inline bool JsonValue::test_null() const
+{
+    return seek().test_null();
+}
 
-    public:
-        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+[[noreturn]] inline void JsonValue::string_error( const std::string &err, int offset ) const
+{
+    seek().string_error( err, offset );
+}
 
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator std::string() const {
-            return seek().get_string();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator int() const {
-            return seek().get_int();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator bool() const {
-            return seek().get_bool();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator double() const {
-            return seek().get_float();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator JsonObject() const {
-            return seek().get_object();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator JsonArray() const {
-            return seek().get_array();
-        }
-        template<typename T>
-        bool read( T &t, bool throw_on_error = false ) const {
-            return seek().read( t, throw_on_error );
-        }
+[[noreturn]] inline void JsonValue::throw_error( const std::string &err, int offset ) const
+{
+    seek().error( err, offset );
+}
 
-        bool test_string() const {
-            return seek().test_string();
-        }
-        bool test_int() const {
-            return seek().test_int();
-        }
-        bool test_bool() const {
-            return seek().test_bool();
-        }
-        bool test_float() const {
-            return seek().test_float();
-        }
-        bool test_object() const {
-            return seek().test_object();
-        }
-        bool test_array() const {
-            return seek().test_array();
-        }
-
-        [[noreturn]] void throw_error( const std::string &err ) const {
-            seek().error( err );
-        }
-
-        std::string get_string() const {
-            return seek().get_string();
-        }
-        int get_int() const {
-            return seek().get_int();
-        }
-        bool get_bool() const {
-            return seek().get_bool();
-        }
-        double get_float() const {
-            return seek().get_float();
-        }
-        JsonObject get_object() const {
-            return seek().get_object();
-        }
-        JsonArray get_array() const {
-            return seek().get_array();
-        }
-};
+inline std::string JsonValue::get_string() const
+{
+    return seek().get_string();
+}
+inline int JsonValue::get_int() const
+{
+    return seek().get_int();
+}
+inline bool JsonValue::get_bool() const
+{
+    return seek().get_bool();
+}
+inline double JsonValue::get_float() const
+{
+    return seek().get_float();
+}
+inline JsonObject JsonValue::get_object() const
+{
+    return seek().get_object();
+}
+inline JsonArray JsonValue::get_array() const
+{
+    return seek().get_array();
+}
 
 class JsonArray::const_iterator
 {
@@ -1564,13 +1675,23 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
+void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj, true );
+    }
+}
+
+template<typename T>
 void deserialize( cata::optional<T> &obj, JsonIn &jsin )
 {
     if( jsin.read_null() ) {
         obj.reset();
     } else {
-        obj.emplace();
-        jsin.read( *obj, true );
+        deserialize( obj, jsin.get_value() );
     }
 }
 

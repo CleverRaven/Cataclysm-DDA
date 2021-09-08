@@ -115,10 +115,15 @@ void pocket_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
+    optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
+    optional( jo, was_loaded, "default_magazine", default_magazine );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
+    }
+    if( jo.has_member( "flag_restrictions" ) && flag_restrictions.empty() ) {
+        jo.throw_error( "pocket defines empty flag_restrictions" );
     }
     if( jo.has_member( "item_restriction" ) && item_id_restriction.empty() ) {
         jo.throw_error( "pocket defines empty item_restriction" );
@@ -137,8 +142,8 @@ void pocket_data::load( const JsonObject &jo )
         if( temp != -1_ml ) {
             max_item_volume = temp;
         }
-        mandatory( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader() );
-        mandatory( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader() );
+        optional( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader(), 200000_ml );
+        optional( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader(), 200000_gram );
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
     }
@@ -151,7 +156,6 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
-    optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "sealed_data", sealed_data );
@@ -1000,8 +1004,14 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
     settings.info( info );
 }
 
-ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
+ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
+        const bool ignore_fullness ) const
 {
+    if( it.has_flag( flag_NO_UNWIELD ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_MOD, _( "cannot unwield item" ) );
+    }
+
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
     if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         return ret_val<item_pocket::contain_code>::make_success();
@@ -1031,24 +1041,21 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
     }
 
-    if( !data->item_id_restriction.empty() &&
-        data->item_id_restriction.count( it.typeId() ) == 0 ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_FLAG, _( "holster does not accept this item type" ) );
+    if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ) {
+        if( data->item_id_restriction.count( it.typeId() ) == 0 &&
+            !it.has_any_flag( data->get_flag_restrictions() ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_FLAG,
+                    _( "holster does not accept this item type or form factor" ) );
+        }
     }
 
-    if( data->holster && !contents.empty() ) {
+    if( !ignore_fullness && data->holster && !contents.empty() ) {
         if( contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_success();
         } else {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
         }
-    }
-
-    if( !data->get_flag_restrictions().empty() && !it.has_any_flag( data->get_flag_restrictions() ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_FLAG, _( "item does not have correct flag" ) );
     }
 
     // ammo restriction overrides item volume/weight and watertight/airtight data
@@ -1067,7 +1074,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                        contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
         }
 
-        if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
+        if( !ignore_fullness && it.count() > remaining_ammo_capacity( it_ammo ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "tried to put too many charges of ammo in item" ) );
         }
@@ -1080,11 +1087,11 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
         }
-        if( size() != 0 && !contents.front().can_combine( it ) ) {
+        if( !ignore_fullness && size() != 0 && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
         }
-    } else if( size() == 1 && !it.is_frozen_liquid() &&
+    } else if( !ignore_fullness && size() == 1 && !it.is_frozen_liquid() &&
                ( contents.front().made_of( phase_id::LIQUID ) ||
                  contents.front().is_frozen_liquid() ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
@@ -1095,7 +1102,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't contain gas" ) );
         }
-        if( size() != 0 && !contents.front().can_combine( it ) ) {
+        if( !ignore_fullness && size() != 0 && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
         }
@@ -1127,7 +1134,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
     }
-    if( it.weight() > 0_gram && charges_per_remaining_weight( it ) < it.count() ) {
+    if( !ignore_fullness && it.weight() > 0_gram && charges_per_remaining_weight( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_CANNOT_SUPPORT, _( "pocket is holding too much weight" ) );
     }
@@ -1135,7 +1142,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
-    if( it.volume() > 0_ml && charges_per_remaining_volume( it ) < it.count() ) {
+    if( !ignore_fullness && it.volume() > 0_ml && charges_per_remaining_volume( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_NO_SPACE, _( "not enough space" ) );
     }
@@ -1595,7 +1602,7 @@ bool item_pocket::favorite_settings::is_null() const
 {
     return item_whitelist.empty() && item_blacklist.empty() &&
            category_whitelist.empty() && category_blacklist.empty() &&
-           priority() == 0;
+           priority() == 0 && !collapsed;
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
@@ -1704,6 +1711,16 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     }
     // No whitelist - everything goes.
     return true;
+}
+
+bool item_pocket::favorite_settings::is_collapsed() const
+{
+    return collapsed;
+}
+
+void item_pocket::favorite_settings::set_collapse( bool flag )
+{
+    collapsed = flag;
 }
 
 template<typename T>

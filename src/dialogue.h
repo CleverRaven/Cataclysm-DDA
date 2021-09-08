@@ -100,9 +100,7 @@ struct talk_effect_fun_t {
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_add_power( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member );
@@ -141,14 +139,12 @@ struct talk_effect_fun_t {
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
         void set_npc_first_topic( const std::string &chat_topic );
-        void set_mod_focus( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
         std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_mod_radiation( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void operator()( const dialogue &d ) const {
             if( !function ) {

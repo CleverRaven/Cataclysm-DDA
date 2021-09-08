@@ -43,10 +43,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
@@ -55,7 +53,7 @@
   {
     "id": "afs_plasma_torch",
     "type": "TOOL",
-    "name": { "str": "377-UASTA plasma torch" },
+    "name": { "str": "377-UASTA plasma torch", "str_pl": "377-UASTA plasma torches" },
     "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  It is an indispensable tool for construction or demolition work, and is sometimes transformed into weapon by mining & salvage outfits of questionable repute.",
     "weight": "4200 g",
     "volume": "4500 ml",
@@ -306,10 +304,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -353,10 +349,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [ { "covers": [ "eyes", "torso" ] } ]

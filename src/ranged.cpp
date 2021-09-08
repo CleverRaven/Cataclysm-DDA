@@ -109,8 +109,6 @@ static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
@@ -725,7 +723,7 @@ int Character::fire_gun( const tripoint &target, int shots )
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
-        debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
+        debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
     bool is_mech_weapon = false;
@@ -749,7 +747,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
 
     map &here = get_map();
     // usage of any attached bipod is dependent upon terrain
-    bool bipod = here.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() );
     if( !bipod ) {
         if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
@@ -2679,7 +2677,7 @@ bool target_ui::confirm_non_enemy_target()
 {
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
-        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+        return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
     }
     return true;
 }
@@ -3611,7 +3609,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
-        bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
+        bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos() );
         if( !t_mountable && !v_mountable ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),

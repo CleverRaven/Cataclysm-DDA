@@ -99,6 +99,7 @@
       [ "gloves_work", 20 ],
       [ "boots", 20 ],
       [ "boots_steel", 20 ],
+      [ "sneakers_steel", 15 ],
       [ "boots_hiking", 30 ],
       [ "knee_high_boots", 5 ],
       [ "boots_combat", 15 ],

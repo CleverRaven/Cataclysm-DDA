@@ -12,6 +12,7 @@
 #include "monster.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player_helpers.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -55,11 +56,11 @@ static int kcal_speed_penalty_at_bmi( Character &dummy, float bmi )
     return dummy.kcal_speed_penalty();
 }
 
-// Return the player's `get_weight_string` at the given body mass index
+// Return the player's `weight_string` at the given body mass index
 static std::string weight_string_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
-    return remove_color_tags( dummy.get_weight_string() );
+    return remove_color_tags( display::weight_string( dummy ) );
 }
 
 // Return `bodyweight` in kilograms for a player at the given body mass index.

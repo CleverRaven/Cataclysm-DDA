@@ -24,7 +24,6 @@
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
@@ -173,7 +172,7 @@ struct fake_spell {
     bool is_valid() const;
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 class spell_events : public event_subscriber
@@ -634,7 +633,7 @@ class known_magic
         void on_mutation_loss( const trait_id &mid );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );

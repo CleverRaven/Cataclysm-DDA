@@ -368,6 +368,9 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 int Character::available_assistant_count( const recipe &rec ) const
 // NPCs around you should assist in batch production if they have the skills
 {
+    if( rec.is_practice() ) {
+        return 0;
+    }
     // TODO: Cache them in activity, include them in modifier calculations
     const auto helpers = get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
@@ -503,7 +506,7 @@ bool Character::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
+    if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
         return false;
     }
 
@@ -763,7 +766,7 @@ static item_location place_craft_or_disassembly(
 
     // Crafting without a workbench
     if( !target ) {
-        if( !ch.has_two_arms_lifting() ) {
+        if( !ch.has_two_arms_lifting() || ( ch.is_npc() && ch.has_wield_conflicts( craft ) ) ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
         } else if( !ch.has_wield_conflicts( craft ) ) {
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
@@ -839,7 +842,7 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
 
     item craft = command.create_in_progress_craft();
     const recipe &making = craft.get_making();
-    if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
+    if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
     }
 
@@ -862,55 +865,50 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
         craft.tname() );
 }
 
-void Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
+bool Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
-        return;
+        return false;
     }
 
     const recipe &making = craft.get_making();
+    if( !making.skill_used ) {
+        return false;
+    }
+
+    const int skill_cap = making.get_skill_cap();
     const int batch_size = craft.charges;
-
-    std::vector<npc *> helpers = get_crafting_helpers();
-
-    if( making.skill_used ) {
-        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, num_practice_ticks, skill_cap, true );
-
-        // NPCs assisting or watching should gain experience...
-        for( auto &helper : helpers ) {
-            //If the NPC can understand what you are doing, they gain more exp
-            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
-                                  skill_cap );
-                if( batch_size > 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
-                }
-                if( batch_size == 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
-                }
-                // NPCs around you understand the skill used better
-            } else {
-                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
-                                  skill_cap );
-                if( one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
-                }
+    // NPCs assisting or watching should gain experience...
+    for( npc *helper : get_crafting_helpers() ) {
+        // If the NPC can understand what you are doing, they gain more exp
+        if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
+            helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
+                              skill_cap );
+            if( batch_size > 1 && one_in( 300 ) ) {
+                add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
+            }
+            if( batch_size == 1 && one_in( 300 ) ) {
+                add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
+            }
+        } else {
+            helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
+                              skill_cap );
+            if( one_in( 300 ) ) {
+                add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
             }
         }
     }
+    return practice( making.skill_used, num_practice_ticks, skill_cap, true );
 }
 
-void Character::craft_proficiency_gain( const item &craft, const time_duration &time )
+bool Character::craft_proficiency_gain( const item &craft, const time_duration &time )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
-        return;
+        return false;
     }
-
     const recipe &making = craft.get_making();
-    std::vector<npc *> helpers = get_crafting_helpers();
 
     // The proficiency, and the multiplier on the time we learn it for
     std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
@@ -923,15 +921,13 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
             subjects.push_back( subject );
         }
     }
-
-    int amount = to_seconds<int>( time );
-    if( !subjects.empty() ) {
-        amount /= subjects.size();
+    if( subjects.empty() ) {
+        return false;
     }
-    time_duration learn_time = time_duration::from_seconds( amount );
+    const time_duration learn_time = time / subjects.size();
 
     int npc_helper_bonus = 1;
-    for( npc *helper : helpers ) {
+    for( npc *helper : get_crafting_helpers() ) {
         for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
             if( helper->has_proficiency( std::get<0>( subject ) ) ) {
                 // NPCs who know the proficiency and help teach you faster
@@ -942,10 +938,12 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
         }
     }
 
+    bool gained_prof = false;
     for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-        practice_proficiency( std::get<0>( subject ),
-                              learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
+        gained_prof |= practice_proficiency( std::get<0>( subject ),
+                                             learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
     }
+    return gained_prof;
 }
 
 double Character::crafting_success_roll( const recipe &making ) const
@@ -973,7 +971,7 @@ double Character::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->get_name() );
             break;
         }
     }
@@ -1163,12 +1161,17 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     const int batch_size = craft.charges;
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
-
-    // Set up the new item, and assign an inventory letter if available
-    std::vector<item> newits = making.create_results( batch_size );
-
     const bool should_heat = making.hot_result();
     const bool remove_raw = making.removes_raw();
+    std::vector<item> newits;
+
+    if( making.is_practice() ) {
+        add_msg( _( "You finish practicing %s." ), making.result_name() );
+        // practice recipes don't produce a result item
+    } else {
+        // Set up the new item, and assign an inventory letter if available
+        newits = making.create_results( batch_size );
+    }
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1185,15 +1188,15 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             if( knows_recipe( &making ) ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
-                // If we made it, but we don't know it,
-                // we're making it from a book and have a chance to learn it.
+                add_msg( _( "You craft %s using a reference." ), making.result_name() );
+                // If we made it, but we don't know it, we're using a book, device or NPC
+                // as a reference and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
                 // This means time to learn is greatly decreased with higher skill level,
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
+                int difficulty = making.difficulty;
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
                     std::max( get_skill_level( making.skill_used ), 1 ) *
@@ -2161,35 +2164,41 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 
 item_location Character::create_in_progress_disassembly( item_location target )
 {
-    const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
     item &orig_item = *target.get_item();
+    item new_disassembly;
+    if( target->typeId() == itype_disassembly ) {
+        new_disassembly = item( orig_item );
+    } else {
+        const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
+        new_disassembly = item( &r, orig_item );
 
-    item new_disassembly( &r, orig_item );
-
-    // Remove any batteries, ammo, contents and mods first
-    remove_ammo( orig_item, *this );
-    remove_radio_mod( orig_item, *this );
-    if( orig_item.is_container() ) {
-        orig_item.spill_contents( pos() );
-    }
-    if( orig_item.count_by_charges() ) {
-        // remove the charges that one would get from crafting it
-        if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-            //subtract selected number of rounds to disassemble
-            orig_item.charges -= activity.position;
-            new_disassembly.charges = activity.position;
-        } else {
-            orig_item.charges -= r.create_result().charges;
-            new_disassembly.charges = r.create_result().charges;
+        // Remove any batteries, ammo, contents and mods first
+        remove_ammo( orig_item, *this );
+        remove_radio_mod( orig_item, *this );
+        if( orig_item.is_container() ) {
+            orig_item.spill_contents( pos() );
+        }
+        if( orig_item.count_by_charges() ) {
+            // remove the charges that one would get from crafting it
+            if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
+                //subtract selected number of rounds to disassemble
+                orig_item.charges -= activity.position;
+                new_disassembly.charges = activity.position;
+            } else {
+                orig_item.charges -= r.create_result().charges;
+                new_disassembly.charges = r.create_result().charges;
+            }
         }
     }
     // remove the item, except when it's counted by charges and still has some
-    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
+    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ||
+        target->typeId() == itype_disassembly ) {
         target.remove_item();
     }
 
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
+
 
     if( !disassembly_in_world ) {
         return item_location::nowhere;
@@ -2421,7 +2430,12 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
-    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    if( this->is_avatar() ) {
+        add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    } else {
+        add_msg_if_player_sees( *this, _( "%1s disassembles the %2s into its components." ),
+                                this->disp_name( false, true ), dis_item.tname() );
+    }
 
     // Get rid of the disassembly item
     target.remove_item();
@@ -2506,15 +2520,23 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
-            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
+            if( this->is_avatar() ) {
+                add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
+            } else {
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2s." ), this->disp_name( false,
+                                        true ), newit.tname() );
+            }
             continue;
         }
         const bool dmg_success = component_success_chance > rng_float( 0, 1 );
         if( !dmg_success ) {
             // Show reason for failure (damaged item, tname contains the damage adjective)
-            //~ %1s - material, %2$s - disassembled item
-            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(),
-                     dis_item.tname() );
+            if( this->is_avatar() ) {
+                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
+            } else {
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2$s from the %3$s." ),
+                                        this->disp_name( false, true ), newit.tname(), dis_item.tname() );
+            }
             continue;
         }
         // Use item from components list, or (if not contained)
@@ -2558,14 +2580,15 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( one_in( 4 ) ) {
                 // TODO: change to forward an id or a reference
                 learn_recipe( &dis.ident().obj() );
-                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
-                         dis_item.tname() );
+                add_msg_if_player( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                                   dis_item.tname() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                         dis_item.tname() );
+                add_msg_if_player( m_info,
+                                   _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                                   dis_item.tname() );
             }
         } else {
-            add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
+            add_msg_if_player( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
         }
     }
 }
@@ -2590,7 +2613,7 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() ) {
+        if( it.is_irremovable() || ( !it.is_gunmod() && !it.is_toolmod() ) ) {
             return false;
         }
         drop_or_handle( it, p );

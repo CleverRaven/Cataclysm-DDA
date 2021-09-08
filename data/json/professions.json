@@ -608,7 +608,6 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" },
       { "level": 1, "name": "speech" },
       { "level": 1, "name": "traps" }
     ],
@@ -1798,7 +1797,7 @@
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
     "points": 5,
     "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
-    "vehicle": "semi_truck",
+    "vehicle": "semi_truck_scenario",
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
@@ -1814,7 +1813,7 @@
     "name": "Day Driver",
     "description": "You love driving and making a living with it.  On your way to pick up someone with your car, you start to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  All that's left is your car.",
     "points": 4,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 4, "name": "driving" } ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 4, "name": "driving" } ],
     "vehicle": "car",
     "items": {
       "both": {
@@ -1894,7 +1893,7 @@
     "name": "Bus Driver",
     "description": "You are making a living with delivering noisy brats to their schools, where you wish with every delivery, that they don't break a seat or window for you.  On your way to pick up the first row of brats, you start to notice all the chaos happening around you.  By the time you arrive at the station, all the brats look like zombies, so you took a long detour to safety, only to find yourself in a different place.  At last you have been freed of the hellish noises they release, but new ones are on the merge.",
     "points": 4,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 3, "name": "driving" } ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 3, "name": "driving" } ],
     "vehicle": "schoolbus",
     "items": {
       "both": {
@@ -2572,7 +2571,7 @@
           "knit_scarf",
           "wristwatch",
           "briefcase",
-          "money_bundle",
+          "money_strap_fifty",
           "file"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
@@ -2766,7 +2765,7 @@
           "sneakers",
           "pizza_veggy",
           "pizza_meat",
-          "money_bundle",
+          "money_strap_one",
           "wristwatch",
           "mbag"
         ],
@@ -3725,7 +3724,7 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_bundle", "cig" ],
+        "items": [ "gold_watch", "water_mineral", "money_strap_twenty", "cig" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],

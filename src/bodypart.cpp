@@ -711,9 +711,8 @@ void bodypart::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void bodypart::deserialize( JsonIn &jsin )
+void bodypart::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.read( "id", id, true );
     jo.read( "hp_cur", hp_cur, true );
     jo.read( "hp_max", hp_max, true );
@@ -738,8 +737,7 @@ void stat_hp_mods::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "health_mod", health_mod, 0.0f );
 }
 
-void stat_hp_mods::deserialize( JsonIn &jsin )
+void stat_hp_mods::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }

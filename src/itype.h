@@ -32,7 +32,6 @@
 #include "value_ptr.h"
 
 class Item_factory;
-class JsonIn;
 class JsonObject;
 class item;
 struct tripoint;
@@ -91,8 +90,8 @@ class gunmod_location
             return _id < rhs._id;
         }
 
-        void deserialize( JsonIn &jsin ) {
-            _id = jsin.get_string();
+        void deserialize( std::string &&id ) {
+            _id = std::move( id );
         }
 };
 
@@ -167,6 +166,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /** pet food category */
+        std::set<std::string> petfood;
+
         /**effect on conditions to apply on consumption*/
         std::vector<effect_on_condition_id> consumption_eocs;
 
@@ -213,7 +215,7 @@ struct islot_brewable {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct armor_portion_data {
@@ -235,7 +237,7 @@ struct armor_portion_data {
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_armor {
@@ -284,7 +286,7 @@ struct islot_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_pet_armor {
@@ -320,7 +322,7 @@ struct islot_pet_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_book {
@@ -392,7 +394,7 @@ struct islot_book {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_mod {
@@ -453,7 +455,7 @@ struct islot_engine {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct islot_wheel {
@@ -467,7 +469,7 @@ struct islot_wheel {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct gun_variant_data {
@@ -478,7 +480,7 @@ struct gun_variant_data {
 
     int weight = 0;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
 
@@ -695,7 +697,7 @@ struct islot_battery {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -764,7 +766,7 @@ struct islot_ammo : common_ranged_data {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_bionic {
@@ -792,7 +794,7 @@ struct islot_seed {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
@@ -854,7 +856,7 @@ class islot_milling
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct itype {
@@ -895,6 +897,8 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
+        std::set<std::string> weapon_category;
+
         std::string snippet_category;
         translation description; // Flavor text
         ascii_art_id picture_id;
@@ -915,6 +919,9 @@ struct itype {
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
+
+        /** The factor of ammo consumption indexed by action type*/
+        std::map<std::string, float> ammo_scale;
 
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;

@@ -198,6 +198,11 @@
     "requires_flag": "BATTERY_MOUNT"
   },
   {
+    "id": "NEEDS_HANDHELD_BATTERY_MOUNT",
+    "type": "json_flag",
+    "requires_flag": "HANDHELD_BATTERY_MOUNT"
+  },
+  {
     "id": "ON_CONTROLS",
     "type": "json_flag",
     "requires_flag": "CONTROLS"
@@ -248,6 +253,10 @@
   },
   {
     "id": "BATTERY_MOUNT",
+    "type": "json_flag"
+  },
+  {
+    "id": "HANDHELD_BATTERY_MOUNT",
     "type": "json_flag"
   },
   {

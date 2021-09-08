@@ -37,6 +37,28 @@ enum class widget_var : int {
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
+    // Text vars
+    activity_text,  // Activity level text, color string
+    body_temp_text, // Felt body temperature, color string
+    date_text,      // Current date, in terms of day within season
+    env_temp_text,  // Environment temperature, if character has thermometer
+    fatigue_text,   // Fagitue description text, color string
+    hunger_text,    // Hunger description text, color string
+    lighting_text,  // Current light level, color string
+    mood_text,      // Mood as a text emote, color string
+    moon_phase_text,// Current phase of the moon
+    pain_text,      // Pain description text, color string
+    place_text,     // Place name in world where character is
+    power_text,     // Remaining power from bionics, color string
+    safe_mode_text, // Safe mode text, color string
+    style_text,     // Active martial arts style name
+    thirst_text,    // Thirst description text, color string
+    time_text,      // Current time - exact if character has a watch, approximate otherwise
+    weariness_text, // Weariness description text, color string
+    weary_malus_text, // Weariness malus or penalty
+    weight_text,    // Weight description text, color string
+    wielding_text,  // Currently wielded weapon or item name
+    wind_text,      // Wind level and direction, color string
     last // END OF ENUMS
 };
 
@@ -68,7 +90,7 @@ class widget
 
         // Attributes from JSON
         // ----
-        // Display style to indicate the value: "numeric", "graph", "phrases"
+        // Display style to indicate the value: "numeric", "graph", "text"
         std::string _style;
         // Displayed label in the UI
         translation _label;
@@ -107,6 +129,10 @@ class widget
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava );
+        // Return a colorized string for a _var associated with a description function
+        std::string color_text_function_string( const avatar &ava );
+        // Return true if the current _var is one which uses a description function
+        bool uses_text_function();
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava );
@@ -122,8 +148,8 @@ class widget
 
         // Return a formatted numeric string
         std::string number( int value, int value_max = 0 );
-        // Return the phrase mapped to a given value for a "phrase" style
-        std::string phrase( int value, int value_max = 0 );
+        // Return the text phrase mapped to a given value for "text" style
+        std::string text( int value, int value_max = 0 );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
         std::string graph( int value, int value_max = 0 );
 

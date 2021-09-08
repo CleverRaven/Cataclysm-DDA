@@ -81,7 +81,7 @@ class avatar : public Character
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
 
@@ -280,9 +280,7 @@ class avatar : public Character
 
                 json.end_object();
             }
-            void deserialize( JsonIn &jsin ) {
-                JsonObject data = jsin.get_object();
-
+            void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
                 if( data.has_member( "activity" ) ) {
@@ -300,7 +298,7 @@ class avatar : public Character
             }
 
             void save_activity( JsonOut &json ) const;
-            void read_activity( JsonObject &data );
+            void read_activity( const JsonObject &data );
 
         };
         // called once a day; adds a new daily_calories to the
@@ -312,6 +310,7 @@ class avatar : public Character
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
         void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
 

@@ -200,6 +200,11 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
+    float scale = 1;
+    auto iter = it.type->ammo_scale.find( type );
+    if( iter != it.type->ammo_scale.end() ) {
+        scale = iter->second;
+    }
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
@@ -217,7 +222,9 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
+
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -248,7 +255,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = it.type->charges_to_use();
+        result = int( it.type->charges_to_use() * double( scale ) );
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
@@ -698,7 +705,7 @@ static effect_data load_effect_data( const JsonObject &e )
 {
     time_duration time;
     if( e.has_string( "duration" ) ) {
-        time = read_from_json_string<time_duration>( *e.get_raw( "duration" ), time_duration::units );
+        time = read_from_json_string<time_duration>( e.get_member( "duration" ), time_duration::units );
     } else {
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
@@ -1018,21 +1025,21 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
-    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_BUTCHER_EQ ) ) {
         can_function_as.emplace_back(
             _( "a place to hang <info>corpses for butchering</info>" ) );
     }
-    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_FLAT_SURF ) ) {
         can_function_as.emplace_back(
             _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
     }
-    if( the_furn.has_flag( "CAN_SIT" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_CAN_SIT ) ) {
         can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
     }
-    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_HIDE_PLACE ) ) {
         can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
     }
-    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
     if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
@@ -1270,7 +1277,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
     const float light_level = g->natural_light_level( pos.z );
     if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( TFLAG_INDOORS, pos ) ) {
+        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }
 
@@ -3821,7 +3828,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( "%s", bury_question );
@@ -3994,7 +4001,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         }
     }
 
-    if( p.has_bionic( bid ) ) {
+    if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
@@ -4277,7 +4284,7 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return cata::nullopt;
         }
-        if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {
+        if( here.impassable( dest ) || !here.has_flag( ter_furn_flag::TFLAG_FLAT, dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
                      here.name( dest ), it.tname() );
             return cata::nullopt;

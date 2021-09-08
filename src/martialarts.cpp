@@ -84,13 +84,12 @@ void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
 class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        std::pair<skill_id, int> get_next( const JsonObject &jo ) const {
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const skill_id id = skill_id( jin.get_string() );
+        void erase_next( std::string &&skill_id_str, C &container ) const {
+            const skill_id id = skill_id( std::move( skill_id_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
                 return e.first == id;
             } );
@@ -102,8 +101,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
     public:
         std::map<std::string, damage_type> dt_map = get_dt_map();
 
-        std::pair<damage_type, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        std::pair<damage_type, int> get_next( const JsonObject &jo ) const {
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
@@ -113,8 +111,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
             return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            JsonObject jo = jin.get_object();
+        void erase_next( const JsonObject &jo, C &container ) const {
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
@@ -135,8 +132,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
+    optional( jo, was_loaded, "req_buffs", req_buffs, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -247,7 +244,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonIn &jin ) const {
+        mabuff_id get_next( JsonValue jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -284,8 +281,9 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
-    optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
-    optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
+    optional( jo, was_loaded, "weapons", weapons, string_id_reader<::itype> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<std::string> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -848,7 +846,11 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0;
+    return weapons.count( itt ) > 0 ||
+           std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
+    [&]( const std::string & weap ) {
+        return weapon_category.count( weap ) > 0;
+    } );
 }
 
 bool martialart::weapon_valid( const item &it ) const
