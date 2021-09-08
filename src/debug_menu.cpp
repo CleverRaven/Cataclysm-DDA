@@ -109,6 +109,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 #include "weighted_list.h"
+#include "worldfactory.h"
 
 static const efftype_id effect_asthma( "asthma" );
 
@@ -224,6 +225,24 @@ class mission_debug
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
 };
+
+static std::string first_word( const std::string &str )
+{
+    const size_t space_pos = str.find( ' ' );
+    if( space_pos == std::string::npos || space_pos == 0 ) {
+        return str;
+    }
+    return str.substr( 0, space_pos );
+}
+
+static bool is_debug_character()
+{
+    static const std::unordered_set<std::string> debug_names = {
+        "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
+    };
+    return debug_names.count( first_word( get_player_character().name ) ) ||
+           debug_names.count( first_word( world_generator->active_world->world_name ) );
+}
 
 static int player_uilist()
 {
@@ -387,7 +406,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
     }
 
     std::string msg;
-    if( display_all_entries ) {
+    if( display_all_entries && !is_debug_character() ) {
         msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
     } else {
         msg = _( "Debug Functions" );
@@ -2202,7 +2221,8 @@ void debug()
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
     };
-    bool should_disable_achievements = action && !non_cheaty_options.count( *action );
+    const bool should_disable_achievements = action && !is_debug_character() &&
+            !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
         static const std::string query(
             translate_marker(
