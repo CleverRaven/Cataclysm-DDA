@@ -2343,7 +2343,7 @@ void game::move_save_to_graveyard()
 {
     const std::string &save_dir      = PATH_INFO::world_base_save_path();
     const std::string &graveyard_dir = PATH_INFO::graveyarddir();
-    const std::string &prefix        = base64_encode( u.name ) + ".";
+    const std::string &prefix        = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
         debugmsg( "could not create graveyard path '%s'", graveyard_dir );
@@ -2419,13 +2419,11 @@ bool game::load( const save_t &name )
     // Now load up the master game data; factions (and more?)
     load_master();
     u = avatar();
-    u.name = name.player_name();
-    // This should be initialized more globally (in player/Character constructor)
-    u.weapon = item();
     const std::string save_filename = playerpath + SAVE_EXTENSION;
     if( !read_from_file( save_filename, std::bind( &game::unserialize, this, _1, save_filename ) ) ) {
         return false;
     }
+    u.set_save_id( name.decoded_name() );
 
     u.load_map_memory();
 
@@ -2689,7 +2687,7 @@ bool game::save()
         }, _( "uistate data" ) ) ) {
             return false;
         } else {
-            world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
+            world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
     } catch( std::ios::failure & ) {
@@ -2698,11 +2696,11 @@ bool game::save()
     }
 }
 
-std::vector<std::string> game::list_active_characters()
+std::vector<std::string> game::list_active_saves()
 {
     std::vector<std::string> saves;
     for( auto &worldsave : world_generator->active_world->world_saves ) {
-        saves.push_back( worldsave.player_name() );
+        saves.push_back( worldsave.decoded_name() );
     }
     return saves;
 }
@@ -11401,7 +11399,7 @@ void game::quickload()
         return;
     }
 
-    if( active_world->save_exists( save_t::from_player_name( u.name ) ) ) {
+    if( active_world->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
             MAPBUFFER.clear();
             overmap_buffer.clear();
@@ -11410,10 +11408,10 @@ void game::quickload()
             } catch( const std::exception &err ) {
                 debugmsg( "Error: %s", err.what() );
             }
-            load( save_t::from_player_name( u.name ) );
+            load( save_t::from_save_id( u.get_save_id() ) );
         }
     } else {
-        popup_getkey( _( "No saves for %s yet." ), u.name );
+        popup_getkey( _( "No saves for current character yet." ) );
     }
 }
 
@@ -11582,7 +11580,7 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
 
 std::string PATH_INFO::player_base_save_path()
 {
-    return PATH_INFO::world_base_save_path() + "/" + base64_encode( get_player_character().name );
+    return PATH_INFO::world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
 }
 
 std::string PATH_INFO::world_base_save_path()

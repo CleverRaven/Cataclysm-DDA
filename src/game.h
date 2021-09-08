@@ -218,7 +218,7 @@ class game
         bool save();
 
         /** Returns a list of currently active character saves. */
-        std::vector<std::string> list_active_characters();
+        std::vector<std::string> list_active_saves();
         void write_memorial_file( std::string sLastWords );
         void start_calendar();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();

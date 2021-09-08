@@ -1451,17 +1451,32 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
-            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
-            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
-            smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
+            if( you.is_avatar() ) {
+                smenu.addentry( 0, true, 's', "%s: %s", _( "Current save file name" ), get_avatar().get_save_id() );
+            }
+            smenu.addentry( 1, true, 'n', "%s: %s", _( "Current pre-Cataclysm name" ), you.name );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
+            smenu.addentry( 3, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
+            smenu.addentry( 4, true, 'b', "%s: %s", _( "Current blood type" ), current_bloodt );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
+                    std::string filterstring = get_avatar().get_save_id();
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename save file (WARNING: this will duplicate the save):" ) )
+                    .width( 85 )
+                    .edit( filterstring );
+                    if( popup.confirmed() ) {
+                        get_avatar().set_save_id( filterstring );
+                    }
+                }
+                break;
+                case 1: {
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename save file:" ) )
+                    .title( _( "Rename character:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1469,7 +1484,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 1: {
+                case 2: {
                     string_input_popup popup;
                     popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
                     .text( string_format( "%d", you.base_age() ) )
@@ -1480,7 +1495,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 2: {
+                case 3: {
                     string_input_popup popup;
                     popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
                                                 Character::min_height(),
@@ -1493,7 +1508,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 3: {
+                case 4: {
                     uilist btype;
                     btype.text = _( "Select blood type" );
                     btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );

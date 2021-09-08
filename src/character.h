@@ -2193,7 +2193,7 @@ class Character : public Creature, public visitable
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name; // Save file name, pre-cataclysm name, invariable
+        std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
         cata::optional<std::string> play_name;
         bool male = false;
