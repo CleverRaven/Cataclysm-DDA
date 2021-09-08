@@ -1744,5 +1744,21 @@
     "price": 100,
     "price_postapoc": 5,
     "count": 100
+  },
+  {
+    "id": "mithril_ingot",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "mithril ingot",
+    "description": "An ingot of mithril.  About 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
+    "//": "density of aluminum",
+    "weight": "683 g",
+    "volume": "253 ml",
+    "price": 6399,
+    "bashing": 6,
+    "to_hit": -3,
+    "material": [ "mithril_metal" ],
+    "symbol": "=",
+    "color": "light_blue"
   }
 ]
