@@ -31,9 +31,9 @@
 #include "game_constants.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents_ui.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -1685,10 +1685,18 @@ void advanced_inventory::display()
             if( sitem == nullptr ) {
                 continue;
             }
-            if( !sitem->items.front()->is_container_empty() ) {
-                item_contents_ui contents_window( sitem->items[0].get_item() );
-                contents_window.execute();
-            } else {
+            item_location sitem_location = sitem->items.front();
+            bool contents_to_examine = false;
+            if( !sitem_location->is_container_empty() ) {
+                inventory_examiner examine_contents( player_character );
+                examine_contents.add_contained_items( sitem_location );
+                if( !examine_contents.empty() ) {
+                    contents_to_examine = true;
+                    examine_contents.set_title( sitem_location->display_name() );
+                    examine_contents.execute();
+                }
+            }
+            if( !contents_to_examine ) {
                 action_examine( sitem, spane );
             }
         } else if( action == "QUIT" ) {

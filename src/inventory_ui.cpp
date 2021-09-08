@@ -13,7 +13,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents_ui.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -551,7 +550,6 @@ void inventory_column::set_width( const size_t new_width,
                 return lhs.gap() < rhs.gap();
             }
         };
-
         const auto &cell = step > 0
                            ? std::min_element( cells.begin(), cells.end(), cmp_for_expansion )
                            : std::max_element( cells.begin(), cells.end(), cmp_for_shrinking );
@@ -559,7 +557,6 @@ void inventory_column::set_width( const size_t new_width,
         if( cell == cells.end() || !cell->visible() ) {
             break; // This is highly unlikely to happen, but just in case
         }
-
         cell->current_width += step;
         width_gap += step;
     }
@@ -1695,6 +1692,10 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width, columns );
     }
 
+    if( force_max_window_size && !visible_columns.empty() ) {
+      visible_columns.front()->set_width( client_width / 3, columns );
+    }
+  
     reassign_custom_invlets();
 
     refresh_active_column();
@@ -1720,10 +1721,17 @@ void inventory_selector::prepare_layout()
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
-    const int win_width  = snap( get_layout_width() + nc_width, TERMX );
-    const int win_height = snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ),
-                                 TERMY );
+    int win_width;
+    int win_height;
 
+    if( !force_max_window_size ) {
+        win_width  = snap( get_layout_width() + nc_width, TERMX );
+        win_height = snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ),
+                           TERMY );
+    } else {
+        win_width  = TERMX;
+        win_height = TERMY;
+    }
     prepare_layout( win_width - nc_width, win_height - nc_height );
 
     resize_window( win_width, win_height );
@@ -2129,6 +2137,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     append_column( own_inv_column );
     append_column( map_column );
     append_column( own_gear_column );
+
+    force_max_window_size = false;
 }
 
 inventory_selector::~inventory_selector() = default;
@@ -2184,20 +2194,27 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_categorize_contained();
     } else if( input.action == "EXAMINE_CONTENTS" ) {
         const inventory_entry &selected = get_active_column().get_selected();
+        //TODO: Should probably be any_item() rather than direct access, but that seems to lock us into const item_location, which various functions are unprepared for
+        item_location sitem = selected.locations.front();
         if( selected ) {
-            const item *sitem = selected.any_item().get_item();
+            bool contents_to_examine = false;
             if( !sitem->is_container_empty() ) {
-                item_contents_ui contents_window( sitem );
-                contents_window.execute();
-            } else {
-                const item_location sitemL = selected.any_item();
-                action_examine( sitemL );
+                inventory_examiner examine_contents( u );
+                examine_contents.add_contained_items( sitem );
+                if( !examine_contents.empty() ) {
+                    contents_to_examine = true;
+                    examine_contents.set_title( sitem->display_name() );
+                    examine_contents.execute();
+                }
+            }
+            if( !contents_to_examine ) {
+                action_examine( sitem );
             }
         }
     } else if( input.action == "EXAMINE" ) {
         const inventory_entry &selected = get_active_column().get_selected();
         if( selected ) {
-            const item_location sitem = selected.any_item();
+            const item_location &sitem = selected.any_item();
             action_examine( sitem );
         }
     } else if( input.action == "INVENTORY_FILTER" ) {
@@ -2447,6 +2464,7 @@ void inventory_selector::action_examine( const item_location sitem )
     std::vector<iteminfo> vDummy;
 
     sitem->info( true, vThisItem );
+
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
     draw_item_info( [&]() -> catacurses::window {
@@ -2680,8 +2698,6 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
                           ctxt.get_desc( "TOGGLE_ENTRY" ) );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
-        } else if( input.action == "INVENTORY_FILTER" ) {
-            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
@@ -2977,23 +2993,20 @@ drop_locations pickup_selector::execute()
         } else if( input.action == "EXAMINE" ) {
             const inventory_entry &selected = get_active_column().get_selected();
             if( selected ) {
-                const item *sitem = selected.any_item().get_item();
-                action_examine( sitem );
+	      const item *sitem = selected.any_item().get_item();
+	      action_examine( sitem );
             }
         } else if( input.action == "QUIT" ) {
-            return drop_locations();
+	  return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
-            query_set_filter();
+	  query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO: implement favoriting in multi selection menus while maintaining selection
-        } else {
-            on_input( input );
-        }
+	  // TODO: implement favoriting in multi selection menus while maintaining selection
+	}
     }
-
     drop_locations dropped_pos_and_qty;
     for( const std::pair<item_location, int> &drop_pair : to_use ) {
-        dropped_pos_and_qty.push_back( drop_pair );
+      dropped_pos_and_qty.push_back( drop_pair );
     }
 
     return dropped_pos_and_qty;
@@ -3034,4 +3047,80 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
                u.volume_capacity(),
                u.max_single_item_length(),
                u.max_single_item_volume() );
+}
+ 
+void inventory_examiner::action_examine( const item_location sitem, const bool fit_to_window )
+{
+    if( !fit_to_window ) {
+        inventory_selector::action_examine( sitem );
+    } else {
+        // Code below pulled from the action_examine function in advanced_inv.cpp
+        std::vector<iteminfo> vThisItem;
+        std::vector<iteminfo> vDummy;
+
+        sitem->info( true, vThisItem );
+
+        item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll );
+        //Tries to create a window covering the right half of the inventory screen
+        data.without_getch = true;
+
+        // NOTE: This assumes that the first column (currently own_inv_column) is used for the item list:
+        int inv_column_width = get_all_columns().front()->get_width();
+        /* NOTE: By flagging force_max_window_size as true, this forces the inventory_selector window to be
+         * TERMX x TERMY , allowing us to assume the window starts at 0,0 and is TERMX by TERMY.  If this is
+         * changed in inventory_selector::prepare_layout, then everything breaks.  This obviously isn't a
+         * great solution */
+
+        int border_width = 1; //Assumed, since the value in inventory_selector is private, but reasonable
+        int width = TERMX - 2 * border_width  - inv_column_width;
+        int height = TERMY  - get_header_height() - 1;
+        point start_position = point( ( inv_column_width + border_width + 1 ),
+                                      get_header_height() + 1 );
+
+        draw_item_info( catacurses::newwin( height, width, start_position ), data );
+    }
+}
+
+item_location inventory_examiner::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    while( true ) {
+        ui_manager::redraw();
+
+        const inventory_entry &selected = get_active_column().get_selected();
+        if( selected ) {
+            const item_location &sitem = selected.any_item();
+            action_examine( sitem, true );
+        }
+
+        const inventory_input input = get_input();
+
+        if( input.entry != nullptr ) {
+            if( select( input.entry->any_item() ) ) {
+                ui_manager::redraw();
+            }
+            return input.entry->any_item();
+        }
+
+        const int scroll_item_info_lines = get_layout_height() - 4;
+
+        if( input.action == "QUIT" ) {
+            return item_location();
+        } else if( input.action == "PAGE_UP" ) {
+            examine_window_scroll -= scroll_item_info_lines;
+        } else if( input.action == "PAGE_DOWN" ) {
+	  examine_window_scroll += scroll_item_info_lines;
+        } else if( input.action == "CONFIRM" ) {
+	  const inventory_entry &selected = get_active_column().get_selected();
+	  if( selected ) {
+	    return selected.any_item();
+	  }
+        } else if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
+	  /*HIDE/SHOW_CONTENTS in this menu results in unexpected behaviour since it modifies the
+            inventory entries.  So, do nothing.  TODO: Find a way to disable or gracefully handle
+            these actions */
+        } else {
+	  on_input( input );
+        }
+    }
 }

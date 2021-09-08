@@ -580,6 +580,11 @@ class inventory_selector
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
+        /** Used by derived class inventory_examiner to modify the size of the inventory_selector window.
+        * This is a bit of a brute force solution.  TODO: Add a set_minimum_window_size() or similar function
+        * to inventory_selector **/
+        bool force_max_window_size;
+
         size_t get_layout_width() const;
         size_t get_layout_height() const;
 
@@ -835,6 +840,42 @@ class pickup_selector : public inventory_multiselector
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
+};
+
+/**
+ * Class for opening a container and quickly examining the items contained within
+ *
+ * Class that lists inventory entries in a pane on the left, and shows the results of 'e'xamining
+ * the selected item on the right.  To use, create it, add_contained_items(), then execute().
+ * TODO: Ideally, add_contained_items could be done automatically on creation without duplicating
+ * that code from inventory_selector. **/
+class inventory_examiner : public inventory_selector
+{
+    private:
+        int examine_window_scroll;
+    public:
+        explicit inventory_examiner( Character &p,
+                                     const inventory_selector_preset &preset = default_preset ) :
+            inventory_selector( p, preset ) {
+            force_max_window_size = true;
+            examine_window_scroll = 0;
+        }
+        /**
+         * Overloaded method from inventory_selector for showing details of sitem
+         *
+         * If fit_to_window is false, is a wrapper for inventory_selector::action_examine().
+         * Otherwise, creates a panel taking up the right 2/3rds of the screen showing the
+         * details of sitem.
+        **/
+        void action_examine( const item_location sitem, const bool fit_to_window );
+
+        /**
+         * Method to display the inventory_examiner menu.
+         *
+         * Calls inventory_examiner::action_examine() with the currently selected item to display item details
+         * Passes essentially everything else back to inventory_selector for handling.
+         **/
+        item_location execute();
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H
