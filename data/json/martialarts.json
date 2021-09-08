@@ -792,7 +792,7 @@
       {
         "id": "buff_swordsmanship_onpause",
         "name": "Half Swording",
-        "description": "You grip the blade part way down for greater control. \n\n Blocked damage decreased an additional 50% of Strength, -1 Accuracy,\nEnables Grab and Lethal Strike",
+        "description": "You grip the blade part way down for greater control.\n\nBlocked damage decreased an additional 50% of Strength, -1 Accuracy,\nEnables Grab and Lethal Strike",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 2,
