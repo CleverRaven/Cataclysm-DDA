@@ -5709,15 +5709,27 @@ void Character::mod_rad( int mod )
 
 int Character::get_stamina() const
 {
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+        return 10000;
+    }
     return stamina;
 }
 
 int Character::get_stamina_max() const
 {
-    // this is now base max stamina, name not changed (for now) to avoid code changes.
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+        return 10000;
+    }
+    // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
+    // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
+    // Player_max_stamina defaults to 2000.
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
     static const std::string player_cardiofit_stamina_mod( "PLAYER_CARDIO_FITNESS_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
+    // Cardiofit stamina mod defaults to 5, and get_cardiofit() should return a value in the vicinity
+    // of 1000-4000, so this should add somewhere between 5000 to 20000 stamina.
     int max_stamina = get_option<int>( player_max_stamina ) +
                       get_option<int>( player_cardiofit_stamina_mod ) * get_cardiofit();
     max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
@@ -5833,6 +5845,10 @@ void Character::update_stamina( int turns )
 
 int Character::get_cardiofit() const
 {
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
+        return 2 * base_bmr();
+    }
     const int bmr = base_bmr();
     const int athletics_mod = get_skill_level( skill_swimming ) * 10;
     const int health_effect = get_healthy();
@@ -5841,12 +5857,13 @@ int Character::get_cardiofit() const
     // At some point we might have proficiencies that affect this.
     const int prof_mod = 0;
     const int cardio_acc_mod = get_cardio_acc();
-    int final_cardio_fitness = ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod + cardio_acc_mod );
-    if ( final_cardio_fitness > 3 * ( bmr + trait_mod ) ) {
-         // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of as a sharp cutoff, but the gradual
-         // growth rate of cardio_acc_mod should accomplish that naturally. The BMR will mostly determine this as it is based on the 
-         // size of the character, but mutations might push it up.
-         final_cardio_fitness = 3 * ( bmr + trait_mod );
+    int final_cardio_fitness = ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod +
+                                 cardio_acc_mod );
+    if( final_cardio_fitness > 3 * ( bmr + trait_mod ) ) {
+        // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of as a sharp cutoff, but the gradual
+        // growth rate of cardio_acc_mod should accomplish that naturally. The BMR will mostly determine this as it is based on the
+        // size of the character, but mutations might push it up.
+        final_cardio_fitness = 3 * ( bmr + trait_mod );
     }
     return final_cardio_fitness;
 }
