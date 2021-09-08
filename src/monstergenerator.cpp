@@ -733,21 +733,21 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
-    if( !was_loaded || jo.has_member( "regeneration_modifers" ) ) {
+    if( !was_loaded || jo.has_member( "regeneration_modifiers" ) ) {
         regeneration_modifiers.clear();
-        add_regeneration_modifiers( jo, "regeneration_modifers", src );
+        add_regeneration_modifiers( jo, "regeneration_modifiers", src );
     } else {
         // Note: regeneration_modifers left as is, new modifiers are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
-            add_regeneration_modifiers( tmp, "regeneration_modifers", src );
+            add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
-            remove_regeneration_modifiers( tmp, "regeneration_modifers", src );
+            remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
     }
 
