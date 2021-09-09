@@ -829,10 +829,7 @@ class pickup_selector : public inventory_multiselector
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
-        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
         void reassign_custom_invlets() override;
-    private:
-        void deselect_contained_items();
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

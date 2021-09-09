@@ -2040,6 +2040,7 @@ void vpart_position::form_inventory( inventory &inv )
 // Handles interactions with a vehicle in the examine menu.
 void vehicle::interact_with( const vpart_position &vp )
 {
+    map &here = get_map();
     avatar &player_character = get_avatar();
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
@@ -2068,8 +2069,6 @@ void vehicle::interact_with( const vpart_position &vp )
         HANDBRAKE,
         CONTROL,
         CONTROL_ELECTRONICS,
-        GET_ITEMS,
-        GET_ITEMS_ON_GROUND,
         FOLD_VEHICLE,
         UNLOAD_TURRET,
         RELOAD_TURRET,
