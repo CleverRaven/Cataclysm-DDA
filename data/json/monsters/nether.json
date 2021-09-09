@@ -899,7 +899,7 @@
     "melee_cut": 10,
     "armor_bash": 12,
     "armor_cut": 12,
-    "armor_bullet": 12,
+    "armor_bullet": 25,
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 60,
