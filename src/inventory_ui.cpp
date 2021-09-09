@@ -2939,92 +2939,54 @@ drop_locations pickup_selector::execute()
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
-    while( true ) {
+    while (true) {
         ui_manager::redraw();
 
+        const bool noMarkCountBound = ctxt.keys_bound_to("MARK_WITH_COUNT").empty();
         const inventory_input input = get_input();
 
-        if( input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.entry != nullptr ) {
-            select( input.entry->any_item() );
-            if( count == 0 && input.entry->chosen_count == 0 ) {
-                count = INT_MAX;
+        if (input.entry != nullptr) { // Single Item from mouse
+            select(input.entry->any_item());
+            toggle_entries();
+        }
+        else if (input.action == "TOGGLE_NON_FAVORITE") {
+            toggle_entries(toggle_mode::NON_FAVORITE_NON_WORN);
+        }
+        else if (input.action == "TOGGLE_ENTRY" || // Mark selected
+            input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
+            (noMarkCountBound && input.ch >= '0' && input.ch <= '9')) { // Ditto with numkey capture
+            int count = get_count(input, noMarkCountBound);
+            if (count < 0) {
+                continue; // Skip selecting any if invalid result or user canceled prompt
             }
-            set_chosen_count( *input.entry, count );
-            count = 0;
-        } else if( input.action == "DROP_NON_FAVORITE" ) {
-            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
-                return entry.is_item() &&
-                       !entry.any_item()->is_favorite &&
-                       !get_player_character().is_worn( *entry.any_item() );
-            };
-
-            const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
-            process_selected( count, selected );
-            deselect_contained_items();
-        } else if( input.action == "TOGGLE_ENTRY" ) {
-            const auto selected( get_active_column().get_all_selected() );
-
-            // No amount entered, select all
-            if( count == 0 ) {
-                count = INT_MAX;
-
-                // Any non favorite item to select?
-                const bool select_nonfav = std::any_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return ( !elem->any_item()->is_favorite ) && elem->chosen_count == 0;
-                } );
-
-                // Otherwise, any favorite item to select?
-                const bool select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return elem->any_item()->is_favorite && elem->chosen_count == 0;
-                } );
-
-                for( const auto &elem : selected ) {
-                    const bool is_favorite = elem->any_item()->is_favorite;
-                    if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
-                        set_chosen_count( *elem, count );
-                    } else if( !select_nonfav && !select_fav ) {
-                        // Every element is selected, unselect all
-                        set_chosen_count( *elem, 0 );
-                    }
-                }
-                deselect_contained_items();
-                // Select the entered amount
-            } else {
-                for( const auto &elem : selected ) {
-                    set_chosen_count( *elem, count );
-                }
-                deselect_contained_items();
-            }
-
-            count = 0;
-        } else if( input.action == "CONFIRM" ) {
-            if( to_use.empty() ) {
-                popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+            toggle_entries(toggle_mode::SELECTED, count);
+        }
+        else if (input.action == "CONFIRM") {
+            if (to_use.empty()) {
+                popup_getkey(_("No items were selected.  Use %s to select them."),
+                    ctxt.get_desc("TOGGLE_ENTRY"));
                 continue;
             }
             break;
-        } else if( input.action == "EXAMINE" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
-                const item *sitem = selected.any_item().get_item();
-                action_examine( sitem );
+        }
+        else if (input.action == "EXAMINE") {
+            const inventory_entry& selected = get_active_column().get_selected();
+            if (selected) {
+                const item* sitem = selected.any_item().get_item();
+                action_examine(sitem);
             }
-        } else if( input.action == "QUIT" ) {
+        }
+        else if (input.action == "QUIT") {
             return drop_locations();
-        } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
-        } else if( input.action == "TOGGLE_FAVORITE" ) {
+        }
+        else if (input.action == "INVENTORY_FILTER") {
+            query_set_filter();
+        }
+        else if (input.action == "TOGGLE_FAVORITE") {
             // TODO: implement favoriting in multi selection menus while maintaining selection
-        } else {
-            on_input( input );
-            count = 0;
+        }
+        else {
+            on_input(input);
         }
     }
 
