@@ -508,6 +508,13 @@ character_id Character::getID() const
     return this->id;
 }
 
+void Character::swap_character( Character &other, Character &tmp )
+{
+    tmp = std::move( other );
+    other = std::move( *this );
+    *this = std::move( tmp );
+}
+
 void Character::randomize_height()
 {
     // Height distribution data is taken from CDC distributes statistics for the US population

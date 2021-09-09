@@ -38,6 +38,7 @@ enum class debug_menu_index : int {
     LEARN_MA,
     UNLOCK_RECIPES,
     EDIT_PLAYER,
+    CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
     MAP_EDITOR,

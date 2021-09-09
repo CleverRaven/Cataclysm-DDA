@@ -964,7 +964,6 @@ void Character::load( const JsonObject &data )
     }
 
     data.read( "addictions", addictions );
-    data.read( "followers", follower_ids );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -1193,7 +1192,6 @@ void Character::store( JsonOut &json ) const
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-    json.member( "followers", follower_ids );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -1293,6 +1291,10 @@ void avatar::store( JsonOut &json ) const
         json.end_array();
     }
 
+    json.member( "followers", follower_ids );
+    if( shadow_npc ) {
+        json.member( "shadow_npc", *shadow_npc );
+    }
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
 
@@ -1382,6 +1384,11 @@ void avatar::load( const JsonObject &data )
         hobbies.insert( hobbies.end(), &hobby.obj() );
     }
 
+    data.read( "followers", follower_ids );
+    if( data.has_member( "shadow_npc" ) ) {
+        shadow_npc = std::make_unique<npc>();
+        data.read( "shadow_npc", *shadow_npc );
+    }
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
