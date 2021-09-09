@@ -212,7 +212,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "crude_picklock",
     "id_suffix": "from emergency",
     "category": "CC_OTHER",
