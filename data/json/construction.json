@@ -2798,18 +2798,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_power_grid",
-    "group": "start_power_grid",
-    "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a power grid",
-    "category": "OTHER",
-    "required_skills": [ [ "electronics", 0 ] ],
-    "time": "10 m",
-    "//2": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a power grid",
-    "pre_special": "check_empty",
-    "post_special": "done_vehicle"
-  },
-  {
-    "type": "construction",
     "id": "constr_barricade_road",
     "group": "build_road_barricade",
     "category": "OTHER",

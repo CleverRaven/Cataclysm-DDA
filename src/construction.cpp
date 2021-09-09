@@ -1807,17 +1807,12 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    std::vector<item_comp> power_grid_items;
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
-            power_grid_items.emplace_back( vp.base_item, 1 );
-        } else {
-            frame_items.emplace_back( vp.base_item, 1 );
-        }
+        frame_items.emplace_back( vp.base_item, 1 );
     }
 
     if( frame_items.empty() ) {
@@ -1831,10 +1826,6 @@ void finalize_constructions()
         }
         if( con.vehicle_start ) {
             const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
-        }
-        if( con.str_id == construction_str_id( "constr_power_grid" ) ) {
-            const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back(
-                power_grid_items );
         }
         bool is_valid_construction_category = false;
         for( const construction_category &cc : construction_categories::get_all() ) {

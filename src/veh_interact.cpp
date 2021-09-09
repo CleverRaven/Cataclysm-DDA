@@ -71,8 +71,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const std::string flag_APPLIANCE( "APPLIANCE" );
-
 static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_battery( "battery" );
@@ -751,13 +749,6 @@ bool veh_interact::can_self_jack()
         }
     }
     return false;
-}
-
-bool veh_interact::appliance_reqs_met( const vpart_info &info )
-{
-    bool is_appliance = veh->has_part( flag_APPLIANCE, false );
-    bool installing_appliance = info.has_flag( VPFLAG_APPLIANCE );
-    return ( is_appliance && installing_appliance ) || ( !is_appliance && !installing_appliance );
 }
 
 bool veh_interact::update_part_requirements()
@@ -2264,7 +2255,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
         engine_reqs_met = engines < 2;
     }
 
-    return hammerspace || ( can_make && engine_reqs_met && appliance_reqs_met( vpart ) );
+    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
 }
 
 /**
@@ -2578,7 +2569,6 @@ void veh_interact::display_stats() const
     };
 
     int i = 0;
-
     if( is_aircraft ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                         _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
@@ -2645,7 +2635,6 @@ void veh_interact::display_stats() const
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                     wheel_state_description( *veh ) );
     i += 1;
-
 
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
@@ -2855,7 +2844,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     size_t page = pos / lines_per_page;
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
-        if( !appliance_reqs_met( info ) ) {
+        if( !info.has_flag( VPFLAG_APPLIANCE ) ) {
             continue;
         }
 
