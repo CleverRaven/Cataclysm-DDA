@@ -1,0 +1,24 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "fridge",
+    "looks_like": "minifridge",
+    "symbol": "F",
+    "color": "light_blue",
+    "name": { "str": "fridge" },
+    "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
+    "longest_side": "1700 mm",
+    "insulation": 10,
+    "volume": "800 L",
+    "weight": "70 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "700 L",
+        "max_contains_weight": "400 kg"
+      }
+    ]
+  }
+]
