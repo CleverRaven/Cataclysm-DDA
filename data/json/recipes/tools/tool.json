@@ -260,9 +260,10 @@
         [ "platinum_hairpin", 1 ],
         [ "gold_hairpin", 1 ],
         [ "silver_hairpin", 1 ],
-        [ "fork", 1 ],
+        [ "knife_steak", 1 ],
         [ "knife_butter", 1 ],
-        [ "spoon", 1 ]
+        [ "knife_paring", 1 ],
+        [ "fork", 1 ]
       ],
       [ [ "wire", 1 ], [ "hairpin", 1 ], [ "cable", 1 ] ]
     ]
