@@ -1916,6 +1916,9 @@ class vehicle
         cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
+        void add_tag( std::string tag );
+        bool has_tag( std::string tag );
+
     private:
         mutable units::mass mass_cache; // NOLINT(cata-serialize)
         // cached pivot point

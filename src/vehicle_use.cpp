@@ -2057,7 +2057,7 @@ void vehicle::interact_with( const vpart_position &vp )
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
-    bool is_appliance = has_part( "APPLIANCE", false );
+    bool is_appliance = has_tag( "APPLIANCE" );
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,

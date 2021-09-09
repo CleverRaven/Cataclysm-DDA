@@ -119,6 +119,7 @@ static void done_nothing( const tripoint & ) {}
 void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
+void done_appliance( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
@@ -1265,8 +1266,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && ( vp.has_flag( flag_INITIAL_PART ) ||
-                                         vp.has_flag( "APPLIANCE" ) ) ) {
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1307,6 +1307,23 @@ void construct::done_vehicle( const tripoint &p )
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+}
+
+void construct::done_appliance( const tripoint &p )
+{
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
+
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+    veh->install_part( point_zero, vpart_from_item( get_avatar().lastconsumed ) );
+    veh->add_tag( "APPLIANCE" );
+
+    // Update the vehicle cache immediately,
+    // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 }
 
@@ -1665,6 +1682,7 @@ void load_construction( const JsonObject &jo )
             { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
+            { "done_appliance", construct::done_appliance },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },

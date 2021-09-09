@@ -2817,7 +2817,7 @@
     "time": "5 m",
     "components": [ [ [ "fridge", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_vehicle"
+    "post_special": "done_appliance"
   },
   {
     "type": "construction",
