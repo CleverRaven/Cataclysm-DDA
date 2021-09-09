@@ -1,0 +1,64 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "anthill",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [ "surface_to_tunnel", "tunnel_to_tunnel" ],
+    "overmaps": {
+      "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "below_entrance": {
+        "overmap": "ants_nesw",
+        "above": "surface_to_tunnel",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "crossroads": {
+        "overmap": "ants_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": { "overmap": "ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" },
+      "queen": { "overmap": "ants_queen", "north": "tunnel_to_tunnel" },
+      "larvae": { "overmap": "ants_larvae", "north": "tunnel_to_tunnel" },
+      "food": { "overmap": "ants_food", "north": "tunnel_to_tunnel" }
+    },
+    "root": "surface",
+    "phases": [
+      [ { "overmap": "below_entrance", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "max": 20 },
+        { "overmap": "corner", "max": 5 },
+        { "overmap": "tee", "max": 10 }
+      ],
+      [ { "overmap": "queen", "max": 1 } ],
+      [ { "overmap": "food", "max": 5 }, { "overmap": "larvae", "max": 5 } ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 }
+      ]
+    ]
+  }
+]
