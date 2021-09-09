@@ -6057,13 +6057,7 @@ void iexamine::open_safe( Character &, const tripoint &examp )
 
 void iexamine::workbench( Character &you, const tripoint &examp )
 {
-    if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
-        workbench_internal( you, examp, cata::nullopt );
-    } else {
-        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
-            deployed_furniture( you, examp );
-        }
-    }
+    workbench_internal( you, examp, cata::nullopt );
 }
 
 void iexamine::workbench_internal( Character &you, const tripoint &examp,
