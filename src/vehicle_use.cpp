@@ -2066,8 +2066,11 @@ void vehicle::interact_with( const vpart_position &vp )
     };
     uilist selectmenu;
 
-    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
-    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+
+    if( !is_appliance ) {
+        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+    }
     if( vp_controls ) {
         selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
@@ -2297,9 +2300,6 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case HANDBRAKE: {
-            if( is_appliance ) {
-                return;
-            }
             handbrake();
             return;
         }
@@ -2312,16 +2312,10 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case EXAMINE: {
-            if( is_appliance ) {
-                return;
-            }
             g->exam_vehicle( *this );
             return;
         }
         case TRACK: {
-            if( is_appliance ) {
-                return;
-            }
             toggle_tracking( );
             return;
         }
