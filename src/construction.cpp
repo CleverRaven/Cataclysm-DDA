@@ -1265,7 +1265,8 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+        if( vp.base_item == item_id && ( vp.has_flag( flag_INITIAL_PART ) ||
+                                         vp.has_flag( "APPLIANCE" ) ) ) {
             return vp.get_id();
         }
     }

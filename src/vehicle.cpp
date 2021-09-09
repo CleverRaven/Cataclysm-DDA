@@ -1243,8 +1243,9 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
-    //First part in an empty square MUST be a structural part
-    if( parts_in_square.empty() && part.location != part_location_structure ) {
+    //First part in an empty square MUST be a structural part or be an appliance
+    if( parts_in_square.empty() &&  part.location != part_location_structure &&
+        !part.has_flag( "APPLIANCE" ) ) {
         return false;
     }
     // If its a part that harnesses animals that don't allow placing on it.
