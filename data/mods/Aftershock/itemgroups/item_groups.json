@@ -8,7 +8,6 @@
       [ "v29", 7 ],
       [ "afs_hydraulic_gauntlet", 3 ],
       [ "afs_energy_saber_off", 3 ],
-      [ "ftk93", 5 ],
       [ "afs_hardlight_longbow", 2 ],
       [ "grenade_cryo", 12 ],
       [ "afs_freeze_gauntlet", 5 ]
@@ -50,7 +49,6 @@
       [ "afs_bag_of_holding", 1 ],
       [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],
-      [ "ftk93", 5 ],
       [ "iv_mutagen_mastodon", 5 ],
       [ "mutagen_mastodon", 10 ],
       [ "recipe_uplift", 2 ],
@@ -155,11 +153,6 @@
     "id": "textbooks",
     "type": "item_group",
     "items": [ [ "textbook_atomic", 8 ] ]
-  },
-  {
-    "id": "guns_pistol_improvised",
-    "type": "item_group",
-    "items": [ [ "v29_cheap", 10 ] ]
   },
   {
     "type": "item_group",

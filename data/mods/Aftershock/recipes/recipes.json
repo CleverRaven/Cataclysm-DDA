@@ -91,29 +91,6 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "afs_survivor_belt",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "survivor_belt",
-    "id_suffix": "form_afs",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
     "result": "thermometer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
