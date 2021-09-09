@@ -2629,11 +2629,9 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
 
     // Thing uses no ammo
     if( def.magazine && def.magazine->type.empty() ) {
-
         return;
     }
     if( def.tool && def.tool->ammo_id.empty() ) {
-
         return;
     }
 
