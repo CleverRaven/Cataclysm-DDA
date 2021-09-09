@@ -1954,7 +1954,7 @@
     "material": [ "iron" ],
     "weight": "2 g",
     "volume": "1 ml",
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [ [ "LOCKPICK", 1 ] ]
   },
   {
     "id": "fc_hairpin",

@@ -718,7 +718,8 @@
     "material": [ "steel" ],
     "weight": "151 g",
     "volume": "500 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "qualities": [ [ "LOCKPICK", 1 ] ]
   },
   {
     "type": "GENERIC",
