@@ -5084,6 +5084,31 @@
   },
   {
     "type": "mutation",
+    "id": "PERSISTENCE_HUNTER",
+    "name": { "str": "Persistence Hunter" },
+    "points": 2,
+    "description": "You can pursue prey for miles and miles at a variety of paces until they stop from exhauastion.",
+    "types": [ "METABOLISM" ],
+    "changes_to": [ "PERSISTENCE_HUNTER2" ],
+    "category": [ "LUPINE" ],
+    "fatigue_modifier": -0.1,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "PERSISTENCE_HUNTER2",
+    "name": { "str": "Extreme Persistence Hunter" },
+    "points": 10,
+    "description": "You can pursue prey for days until they literally die from exhaustion.  It's too bad zombies don't fatigue either.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "PERSISTENCE_HUNTER" ],
+    "threshreq": [ "THRESH_LUPINE" ],
+    "category": [ "LUPINE" ],
+    "fatigue_modifier": -0.2,
+    "stamina_regen_modifier": 0.2
+  },
+  {
+    "type": "mutation",
     "id": "HUNGER",
     "name": { "str": "Fast Metabolism" },
     "points": -2,

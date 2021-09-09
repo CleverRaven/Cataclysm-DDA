@@ -69,6 +69,7 @@
 #include "dependency_tree.h"
 #include "dialogue_chatbin.h"
 #include "editmap.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -638,7 +639,7 @@ void game::setup()
     // reset follower list
     follower_ids.clear();
     scent.reset();
-    effect_on_conditions::clear();
+    effect_on_conditions::clear( u );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
@@ -860,7 +861,7 @@ bool game::start_game()
     const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
     get_event_bus().send<event_type::avatar_enters_omt>( abs_omt.raw(), cur_ter );
 
-    effect_on_conditions::load_new_character();
+    effect_on_conditions::load_new_character( u );
     return true;
 }
 
@@ -2503,7 +2504,7 @@ bool game::load( const save_t &name )
         }
     }
 
-    effect_on_conditions::load_existing_character();
+    effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
     m.build_map_cache( m.get_abs_sub().z );
 
