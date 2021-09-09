@@ -4,8 +4,11 @@
 
 #if defined(LOCALIZE)
 
+#include <memory>
 #include <string>
 #include <vector>
+
+#include "translation_plural_evaluator.h"
 
 class InvalidTranslationDocumentException : public std::exception
 {
@@ -40,6 +43,7 @@ class TranslationDocument
         Endianness endianness;
         std::vector<std::size_t> original_offsets;
         std::vector<std::vector<std::size_t>> translated_offsets;
+        std::unique_ptr<TranslationPluralRulesEvaluator> plural_rules;
 
         std::uint8_t GetByte( const std::size_t byteIndex ) const;
         std::uint32_t GetUint32BE( const std::size_t byteIndex ) const;

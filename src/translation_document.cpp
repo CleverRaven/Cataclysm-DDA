@@ -2,6 +2,7 @@
 #include "filesystem.h"
 #include "string_formatter.h"
 #include "translation_document.h"
+#include "translation_plural_evaluator.h"
 
 InvalidTranslationDocumentException::InvalidTranslationDocumentException( const std::string &path )
 {
@@ -54,8 +55,11 @@ const char *TranslationDocument::GetString( const std::size_t byteIndex ) const
 
 std::size_t TranslationDocument::EvaluatePluralForm( std::size_t n ) const
 {
-    // TODO: evaluate based on plural_rules
-    return n != 1;
+    if( plural_rules ) {
+        return plural_rules->Evaluate( n );
+    } else {
+        return 0;
+    }
 }
 
 TranslationDocument::TranslationDocument( const std::string &path )
@@ -135,6 +139,35 @@ TranslationDocument::TranslationDocument( const std::string &path )
         }
         translated_offsets.emplace_back( offsets );
     }
+    const std::string metadata( GetTranslatedString( 0 ) );
+    const std::string plural_rules_header( "Plural-Forms:" );
+    std::size_t plural_rules_header_pos = metadata.find( plural_rules_header );
+    if( plural_rules_header_pos != std::string::npos ) {
+        plural_rules_header_pos += plural_rules_header.length();
+        std::size_t new_line_pos = metadata.find( '\n', plural_rules_header_pos );
+        std::string plural_rules_str;
+        if( new_line_pos != std::string::npos ) {
+            plural_rules_str = metadata.substr( plural_rules_header_pos,
+                                                new_line_pos - plural_rules_header_pos );
+        } else {
+            plural_rules_str = metadata.substr( plural_rules_header_pos );
+        }
+        try {
+            plural_rules = std::make_unique<TranslationPluralRulesEvaluator>( plural_rules_str );
+        } catch( TranslationPluralRulesEvaluator::HeaderError &e ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Error reading plural forms rules header of " << path << " : " <<
+                                        e.what();
+            throw InvalidTranslationDocumentException( path );
+        } catch( TranslationPluralRulesEvaluator::LexicalError &e ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Invalid plural forms rules expression in " << path << " : " <<
+                                        e.what();
+            throw InvalidTranslationDocumentException( path );
+        } catch( TranslationPluralRulesEvaluator::ParseError &e ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Error parsing plural forms rules expression in " << path << " : "
+                                        << e.what();
+            throw InvalidTranslationDocumentException( path );
+        }
+    }
 }
 
 std::size_t TranslationDocument::Count() const
@@ -155,5 +188,11 @@ const char *TranslationDocument::GetTranslatedString( const std::size_t index ) 
 const char *TranslationDocument::GetTranslatedStringPlural( const std::size_t index,
         std::size_t n ) const
 {
-    return GetString( translated_offsets[index][EvaluatePluralForm( n )] );
+    std::size_t plural_form = EvaluatePluralForm( n );
+    if( plural_form >= translated_offsets[index].size() ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Plural forms expression evaluated out-of-bound at string entry " <<
+                                    index << " with n=" << n;
+        return GetString( translated_offsets[index][0] );
+    }
+    return GetString( translated_offsets[index][plural_form] );
 }
