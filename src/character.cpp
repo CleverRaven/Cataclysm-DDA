@@ -3575,6 +3575,8 @@ std::string Character::debug_weary_info() const
     std::string max_act = activity_level_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
+    int bmr = base_bmr();
+    std::string weary_internals = activity_history.debug_weary_info();
     int cardio_mult = get_cardiofit();
     int thresh = weary_threshold();
     int current = weariness_level();
