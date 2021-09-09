@@ -1953,8 +1953,7 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "volume": "1 ml",
-    "qualities": [ [ "LOCKPICK", 1 ] ]
+    "volume": "1 ml"
   },
   {
     "id": "fc_hairpin",
@@ -1968,8 +1967,7 @@
     "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
-    "volume": "1 ml",
-    "qualities": [ [ "LOCKPICK", 1 ] ],
+    "volume": "1 ml"
     "flags": [ "FANCY" ]
   },
   {
