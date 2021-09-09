@@ -1967,7 +1967,7 @@
     "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
-    "volume": "1 ml"
+    "volume": "1 ml",
     "flags": [ "FANCY" ]
   },
   {
