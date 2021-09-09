@@ -252,18 +252,67 @@
   {
     "id": "TALK_EXODII_MERCHANT_Exodize",
     "type": "talk_topic",
-    "dynamic_line": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
-    "//~": "English: Oh, well.  Now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
+    "dynamic_line": {
+      "or": [
+        { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+        { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+      ],
+      "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+      "no": "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no exodii turn away a willin' Benny, and so it is."
+    },
+    "//~": "English: Yes: Oh, well.  Now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up. No: Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The exodii won't turn away a willing convert.",
     "responses": [
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
-        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
       },
       {
         "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
-        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
       },
-      { "text": "Maybe try that clarity-draught?", "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate" }
+      {
+        "text": "Maybe try that clarity-draught?",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "OK, well, I've got some stuff I could trade right now.",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "OK, maybe I'll come back when I've traded a bit more.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      }
     ]
   },
   {
