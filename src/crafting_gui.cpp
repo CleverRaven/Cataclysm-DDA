@@ -476,11 +476,116 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             item_info_scroll = 0;
             item_info_scroll_popup = 0;
         }
-        std::vector<iteminfo> info;
-        item_info_cache.dummy.info( true, info, count );
-        item_info_data data( item_info_cache.dummy.tname( count ),
-                             item_info_cache.dummy.type_name( count ),
-                             info, {}, scroll_pos );
+        std::vector<iteminfo> info; //This is the information that will be printed later
+        //getting item info clears the vector, so to append multiple results, we need a temporary vector
+        std::vector<iteminfo> temp_info;
+
+        const auto insert_iteminfo_separator_line = [&]() {
+            /*Calculation is the current method for calculating the width of the iteminfo panel.  TODO: Link it back
+              to the previously calculated value so that this won't break if the calculation changes. */
+            info.emplace_back( "DESCRIPTION", std::string( std::min( TERMX,
+                               FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
+        };
+        const auto insert_iteminfo_blank_line = [&]() {
+            info.emplace_back( "DESCRIPTION", "--" );
+        };
+
+        /*Temporary items to properly handle names/quantities, used in conjunction with item_info_cache.dummy
+        TODO: It may be beneficial to move these into item_info_cache.  However, given the complexity of
+        putting the iteminfo together, it would also be necessary to cache "info", and that might not be as
+        desirable. */
+        item dummy_result;
+        item dummy_container;
+
+        //Set up summary at top so people know they can look further to learn about byproducts and such
+        //First, see if we need it at all:
+        if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
+            //We don't need a summary for a single item
+        } else { //We do need a summary
+            //If it's in a container, focus on the contents
+            if( rec->container_id() != itype_id::NULL_ID() ) {
+                dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
+                dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+                info.emplace_back( "DESCRIPTION",
+                                   _( "<bold>Results in (per batch): </bold>" + dummy_result.display_name( count ) ) );
+                info.emplace_back( "DESCRIPTION",
+                                   _( "<bold>In container: </bold>" + dummy_container.display_name( count ) ) );
+            } else { //If it's not in a container, just tell us about the item
+                info.emplace_back( "DESCRIPTION",
+                                   _( "<bold>Results in (per batch): </bold>" + item_info_cache.dummy.display_name( count ) ) );
+            }
+            //If it has byproducts, list them
+            if( rec->has_byproducts() ) {
+                for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
+                    const itype *t = item::find_type( bp.first );
+                    int byproduct_count = bp.second * count;
+                    if( t->count_by_charges() ) {
+                        item temp_charged_item( bp.first );
+                        temp_charged_item.charges *= byproduct_count;
+                        info.emplace_back( "DESCRIPTION",
+                                           _( "<bold>With byproduct: </bold>" + temp_charged_item.display_name() ) );
+                    } else {
+                        if( byproduct_count == 1 ) { //Don't need to indicate count if there's only 1
+                            info.emplace_back( "DESCRIPTION",
+                                               _( "<bold>With byproduct: </bold>" + item( t ).display_name( byproduct_count ) ) );
+                        } else {
+                            info.emplace_back( "DESCRIPTION",
+                                               _( "<bold>With byproduct: </bold>" + item( t ).display_name( byproduct_count ) +
+                                                  string_format( " (%d)", byproduct_count ) ) );
+                        }
+
+                    }
+                }
+            }
+            insert_iteminfo_separator_line();
+        }
+
+        //If recipe creates an item within a container, focus on contents first:
+        if( rec->container_id() != itype_id::NULL_ID() ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "<bold>" + dummy_result.display_name( count ) + "</bold>: " ) );
+            dummy_result.info( true, temp_info, count );
+            info.insert( std::end( info ), std::begin( temp_info ), std::end( temp_info ) );
+            insert_iteminfo_blank_line();
+            insert_iteminfo_separator_line();
+            info.emplace_back( "DESCRIPTION",
+                               _( "<bold>Container: " + dummy_container.display_name( count ) + "</bold>: " ) );
+            dummy_container.info( true, temp_info, count );
+            info.insert( std::end( info ), std::begin( temp_info ), std::end( temp_info ) );
+        } else { //If recipe creates an item but no container, just tell us about the item
+            info.emplace_back( "DESCRIPTION",
+                               _( "<bold>" + item_info_cache.dummy.display_name( count ) + "</bold>: " ) );
+            item_info_cache.dummy.info( true, temp_info, count );
+            info.insert( std::end( info ), std::begin( temp_info ), std::end( temp_info ) );
+        }
+
+        if( rec->has_byproducts() ) {
+            for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
+                insert_iteminfo_blank_line();
+                insert_iteminfo_separator_line();
+                const itype *t = item::find_type( bp.first );
+                int byproduct_count = bp.second * count;
+                if( t->count_by_charges() ) {
+                    item temp_charged_item( bp.first );
+                    temp_charged_item.charges *= byproduct_count;
+                    temp_charged_item.info( true, temp_info, count );
+                    info.emplace_back( "DESCRIPTION",
+                                       _( "<bold>With byproduct: </bold>" + temp_charged_item.display_name() ) );
+                } else {
+                    item( t ).info( true, temp_info, byproduct_count );
+                    if( byproduct_count == 1 ) { //Don't need to indicate count if there's only 1
+                        info.emplace_back( "DESCRIPTION",
+                                           _( "<bold>With byproduct: </bold>" + item( t ).display_name( byproduct_count ) ) );
+                    } else {
+                        info.emplace_back( "DESCRIPTION",
+                                           _( "<bold>With byproduct: </bold>" + item( t ).display_name( byproduct_count ) +
+                                              string_format( " (%d)", byproduct_count ) ) );
+                    }
+                }
+                info.insert( std::end( info ), std::begin( temp_info ), std::end( temp_info ) );
+            }
+        }
+        item_info_data data( "", "", info, {}, scroll_pos );
         return data;
     };
 
