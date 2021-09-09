@@ -289,6 +289,8 @@ TEST_CASE( "effect decay", "[effect][decay]" )
         REQUIRE( eff_debugged.get_int_decay_step() == -1 );
         REQUIRE( eff_debugged.get_int_decay_tick() == 2 );
         REQUIRE( eff_debugged.get_int_decay_remove() == true );
+        // Reset time
+        calendar::turn = calendar::start_of_cataclysm;
 
         // First decay - at max duration, no intensity decay
         CHECK( eff_debugged.get_duration() == eff_debugged.get_max_duration() );
