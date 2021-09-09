@@ -933,8 +933,7 @@ static constexpr cube_direction operator-( const cube_direction d, int i )
         case cube_direction::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
-    abort();
+    return cube_direction::last;
 }
 
 static constexpr cube_direction operator+( const cube_direction l, const om_direction::type r )
@@ -952,8 +951,7 @@ static constexpr cube_direction operator+( const cube_direction l, const om_dire
         case cube_direction::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
-    abort();
+    return cube_direction::last;
 }
 
 static_assert( cube_direction::north - 0 == cube_direction::north, "" );
