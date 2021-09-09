@@ -233,6 +233,29 @@
     "components": [ [ [ "wire", 2 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wire_lockpick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "traps",
+    "time": "25 m",
+    "autolearn": true,
+    "proficiencies": [
+      {
+        "proficiency": "prof_lockpicking",
+        "required": false,
+        "time_multiplier": 2,
+        "fail_multiplier": 2,
+        "learning_time_multiplier": 0
+      }
+    ],
+    "components": [
+      [ [ "wire", 1 ], [ "hairpin", 1 ], [ "fancy_hairpin", 1 ] ],
+      [ [ "wire", 1 ], [ "hairpin", 1 ], [ "fancy_hairpin", 1 ] ]
+    ]
+  },
+  {
     "result": "shears",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
