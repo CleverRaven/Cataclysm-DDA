@@ -443,7 +443,7 @@ Character::Character() :
     healthy_calories = 55'000'000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    set_cardio_acc( get_bmr() / 2 );
+    set_cardio_acc( base_bmr() / 2 );
 
     name.clear();
     custom_profession.clear();
@@ -5792,7 +5792,7 @@ void Character::update_stamina( int turns )
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     static const std::string stamina_cardiofit_regen_modifier( "PLAYER_CARDIOFIT_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
-    const float effective_regen_rate = base_regen_rate + get_bmr() * get_option<float>
+    const float effective_regen_rate = base_regen_rate + base_bmr() * get_option<float>
                                        ( stamina_cardiofit_regen_modifier );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
