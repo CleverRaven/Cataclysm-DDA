@@ -24,7 +24,7 @@
     "id": "crude_picklock",
     "type": "TOOL",
     "name": { "str": "improvised lockpick" },
-    "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
+    "description": "This is an improvised pick and torsion wrench made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
     "ascii_picture": "crude_picklock",
     "weight": "23 g",
     "volume": "5 ml",
