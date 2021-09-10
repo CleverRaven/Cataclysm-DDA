@@ -2321,7 +2321,7 @@
     "//": "when taming becomes more involved, this should be slowly tameable with honeydew, allowing for a tamed stag beetle through almost a year of effort",
     "fear_triggers": [ "FIRE", "HURT" ],
     "upgrades": { "age_grow": 288, "into": "mon_stag_beetle_small" },
-    "flags": [ "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "SUNDEATH", "PET_WONT_FOLLOW" ]
+    "flags": [ "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_stag_beetle_small",
