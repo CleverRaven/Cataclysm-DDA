@@ -1172,19 +1172,15 @@ static void character_edit_menu()
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-        data << np->myclass.obj().get_name() << "; " <<
-             npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
-             << "; " <<
-             "api: " << np->get_faction_ver() << std::endl;
+        data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
+             np->myclass->get_name() << std::endl;
+        data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
+                               np->get_faction_ver() ) << "; "
+             << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
                      overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
-        } else {
-            data << _( "No destination." ) << std::endl;
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
