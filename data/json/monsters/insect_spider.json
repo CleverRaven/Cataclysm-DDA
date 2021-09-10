@@ -2346,10 +2346,8 @@
       }
     ],
     "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 20 },
-      "flags": [ "DESTROYS", "PUSH_VEH" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] },
+    "delete": { "flags": [ "DESTROYS", "PUSH_VEH" ] }
   },
   {
     "id": "mon_stag_beetle_giant",

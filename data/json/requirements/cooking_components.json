@@ -84,7 +84,8 @@
         [ "egg_grasshopper", 4 ],
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
-        [ "egg_mantis", 4 ]
+        [ "egg_mantis", 4 ],
+        [ "egg_stag_beetle", 1 ]
       ]
     ]
   },

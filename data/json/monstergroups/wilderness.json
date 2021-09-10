@@ -19,7 +19,7 @@
     "type": "monstergroup",
     "name": "GROUP_FOREST",
     "default": "mon_null",
-    "//": "Current SPRING first DAY count is 514.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "//": "Current SPRING first DAY count is 513.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       {
