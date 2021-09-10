@@ -21,7 +21,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -155,7 +154,6 @@ class game
         friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
-        friend location &get_player_location();
         friend viewer &get_player_view();
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();
@@ -219,7 +217,7 @@ class game
         bool save();
 
         /** Returns a list of currently active character saves. */
-        std::vector<std::string> list_active_characters();
+        std::vector<std::string> list_active_saves();
         void write_memorial_file( std::string sLastWords );
         void start_calendar();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
@@ -338,7 +336,8 @@ class game
          */
         size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
-        bool update_zombie_pos( const monster &critter, const tripoint &pos );
+        bool update_zombie_pos( const monster &critter, const tripoint_abs_ms &old_pos,
+                                const tripoint_abs_ms &new_pos );
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
@@ -886,8 +885,8 @@ class game
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
-
-        void item_action_menu(); // Displays item action menu
+        // If loc is empty then use all the items in character inventory including bionics.
+        void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
@@ -1047,9 +1046,6 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
-
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)

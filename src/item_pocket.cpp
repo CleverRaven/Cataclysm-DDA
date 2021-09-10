@@ -513,6 +513,17 @@ units::mass item_pocket::item_weight_modifier() const
     return total_mass;
 }
 
+units::length item_pocket::item_length_modifier() const
+{
+    units::length total_length = 0_mm;
+    for( const item &it : contents ) {
+        total_length = std::max( static_cast<units::length>( it.length() * std::cbrt(
+                                     data->volume_multiplier ) ),
+                                 total_length );
+    }
+    return total_length;
+}
+
 float item_pocket::spoil_multiplier() const
 {
     if( sealed() ) {
@@ -1602,7 +1613,7 @@ bool item_pocket::favorite_settings::is_null() const
 {
     return item_whitelist.empty() && item_blacklist.empty() &&
            category_whitelist.empty() && category_blacklist.empty() &&
-           priority() == 0;
+           priority() == 0 && !collapsed;
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
@@ -1711,6 +1722,16 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     }
     // No whitelist - everything goes.
     return true;
+}
+
+bool item_pocket::favorite_settings::is_collapsed() const
+{
+    return collapsed;
+}
+
+void item_pocket::favorite_settings::set_collapse( bool flag )
+{
+    collapsed = flag;
 }
 
 template<typename T>

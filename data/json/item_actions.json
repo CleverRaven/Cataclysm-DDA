@@ -186,6 +186,16 @@
   },
   {
     "type": "item_action",
+    "id": "CHANGE_EYES",
+    "name": { "str": "Change the eye colour" }
+  },
+  {
+    "type": "item_action",
+    "id": "CHANGE_SKIN",
+    "name": { "str": "Change skin colour" }
+  },
+  {
+    "type": "item_action",
     "id": "transform",
     "name": { "str": "Turn on" }
   },
@@ -326,11 +336,6 @@
   },
   {
     "type": "item_action",
-    "id": "CATFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "CHAINSAW_OFF",
     "name": { "str": "Turn on" }
   },
@@ -418,11 +423,6 @@
     "type": "item_action",
     "id": "DIRECTIONAL_ANTENNA",
     "name": { "str": "Find direction" }
-  },
-  {
-    "type": "item_action",
-    "id": "DOGFOOD",
-    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
@@ -731,6 +731,11 @@
   },
   {
     "type": "item_action",
+    "id": "PETFOOD",
+    "name": { "str": "Feed a wild animal…  or a human" }
+  },
+  {
+    "type": "item_action",
     "id": "PLANTBLECH",
     "name": { "str": "Consume" }
   },
@@ -1028,16 +1033,6 @@
     "type": "item_action",
     "id": "unfold_vehicle",
     "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
-    "id": "CATTLEFODDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
-    "id": "BIRDFOOD",
-    "name": { "str": "Place" }
   },
   {
     "type": "item_action",

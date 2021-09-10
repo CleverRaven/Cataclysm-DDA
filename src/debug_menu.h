@@ -34,6 +34,7 @@ enum class debug_menu_index : int {
     MUTATE,
     SPAWN_VEHICLE,
     CHANGE_SKILLS,
+    CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
     EDIT_PLAYER,
@@ -70,7 +71,6 @@ enum class debug_menu_index : int {
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,
     TEST_WEATHER,
-    WRITE_EOCS,
     SAVE_SCREENSHOT,
     GAME_REPORT,
     DISPLAY_SCENTS_LOCAL,
@@ -105,7 +105,7 @@ void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( Character *you );
-void wishskill( Character *you );
+void wishskill( Character *you, bool change_theory = false );
 void wishproficiency( Character *you );
 void mutation_wish();
 void draw_benchmark( int max_difference );

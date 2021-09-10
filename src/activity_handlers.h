@@ -22,6 +22,8 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest );
 
+std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest );
+
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
     CAN_DO_LOCATION,
@@ -84,7 +86,7 @@ struct activity_reason_info {
         can_do( can_do_ ),
         con_idx( con_idx_ )
     { }
-    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data req ):
+    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data &req ):
         reason( reason_ ),
         can_do( can_do_ ),
         req( req )

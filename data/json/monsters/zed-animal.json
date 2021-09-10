@@ -26,7 +26,19 @@
     "armor_bullet": 2,
     "luminance": 0,
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
+    ]
   },
   {
     "id": "mon_zombie_dog",

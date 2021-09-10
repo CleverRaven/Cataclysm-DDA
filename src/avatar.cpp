@@ -1449,7 +1449,7 @@ void avatar::daily_calories::save_activity( JsonOut &json ) const
     json.end_array();
 }
 
-void avatar::daily_calories::read_activity( JsonObject &data )
+void avatar::daily_calories::read_activity( const JsonObject &data )
 {
     if( data.has_array( "activity" ) ) {
         double act_level;
@@ -1568,16 +1568,24 @@ void avatar::randomize_hobbies()
     int random = rng( 0, 5 );
 
     if( random >= 1 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 3 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 5 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
+    }
+}
+
+void avatar::add_random_hobby( std::vector<profession_id> &choices )
+{
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_id &trait : hobby->get_locked_traits() ) {
+        toggle_trait( trait );
     }
 }
 
@@ -1784,7 +1792,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -1831,7 +1839,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( here.has_flag_ter( TFLAG_SWIMMABLE, pos() ) ) {
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }

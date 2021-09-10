@@ -3,6 +3,7 @@
 #define CATA_SRC_MTYPE_H
 
 #include <iosfwd>
+#include <array>
 #include <map>
 #include <set>
 #include <string>
@@ -23,6 +24,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
+#include "weakpoint.h"
 
 class Creature;
 class monster;
@@ -161,13 +163,10 @@ enum m_flag : int {
     MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
-    MF_CATFOOD,             // This monster will become friendly when fed cat food.
-    MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
-    MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
     MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
-    MF_DOGFOOD,             // This monster will become friendly when fed dog food.
+    MF_DOGFOOD,             // This monster will respond to the dog whistle.
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
@@ -183,6 +182,7 @@ enum m_flag : int {
     MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
+    MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -206,6 +206,17 @@ struct mon_effect_data {
         chance( nchance ) {}
 };
 
+/** Pet food data */
+struct pet_food_data {
+    std::set<std::string> food;
+    std::string pet;
+    std::string feed;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
 enum class mdeath_type {
     NORMAL,
     SPLATTER,
@@ -227,7 +238,7 @@ struct monster_death_effect {
     mdeath_type corpse_type = mdeath_type::NORMAL;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 struct mtype {
@@ -270,6 +281,9 @@ struct mtype {
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
+
+        /** Mod origin */
+        std::vector<std::pair<mtype_id, mod_id>> src;
 
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -328,9 +342,13 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
+        ::weakpoints weakpoints;
 
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
+
+        // Pet food category this monster is in
+        pet_food_data petfood;
 
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */

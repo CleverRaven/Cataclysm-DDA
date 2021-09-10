@@ -68,7 +68,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     tinymap checker;
     checker.load( sm_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }
@@ -144,10 +144,8 @@ void teleporter_list::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void teleporter_list::deserialize( JsonIn &jsin )
+void teleporter_list::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
-
     for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint_abs_omt temp_pos;
         jo.read( "position", temp_pos );

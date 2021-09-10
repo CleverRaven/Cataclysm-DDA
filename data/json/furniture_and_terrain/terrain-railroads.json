@@ -55,7 +55,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_h",
@@ -86,7 +86,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_v",
@@ -117,7 +117,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d",
@@ -148,7 +148,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d1",
@@ -179,7 +179,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d2",
@@ -210,7 +210,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie",
@@ -233,7 +233,7 @@
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_h",
@@ -256,7 +256,7 @@
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_v",
@@ -279,7 +279,7 @@
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_d",
@@ -302,7 +302,7 @@
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_on_tie",
@@ -336,7 +336,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_h_on_tie",
@@ -370,7 +370,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_v_on_tie",
@@ -404,7 +404,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d_on_tie",
@@ -438,7 +438,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_buffer_stop",
@@ -456,7 +456,7 @@
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 5 ] }, { "item": "nail", "charges": [ 3, 8 ] }, { "item": "splinter", "count": 2 } ]
     },
-    "flags": [ "BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
   },
   {
     "id": "t_railroad_tie_d1",
@@ -479,7 +479,7 @@
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_d2",
@@ -502,7 +502,7 @@
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_crossing_signal",
@@ -600,7 +600,7 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_small_d",
@@ -634,6 +634,6 @@
       ]
     },
     "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "RAIL", "TRANSPARENT" ]
   }
 ]

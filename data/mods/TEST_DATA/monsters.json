@@ -11,7 +11,7 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
     "type": "MONSTER",

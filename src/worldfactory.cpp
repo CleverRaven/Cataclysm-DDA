@@ -4,7 +4,6 @@
 #include <array>
 #include <cstdio>
 #include <cstdlib>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -37,12 +36,9 @@ using namespace std::placeholders;
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
-save_t::save_t( const std::string &name )
-    : name( name )
-{
-}
+save_t::save_t( const std::string &name ): name( name ) {}
 
-std::string save_t::player_name() const
+std::string save_t::decoded_name() const
 {
     return name;
 }
@@ -52,9 +48,9 @@ std::string save_t::base_path() const
     return base64_encode( name );
 }
 
-save_t save_t::from_player_name( const std::string &name )
+save_t save_t::from_save_id( const std::string &save_id )
 {
-    return save_t( name );
+    return save_t( save_id );
 }
 
 save_t save_t::from_base_path( const std::string &base_path )
@@ -96,7 +92,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    return PATH_INFO::savedir() + utf8_to_native( world_name );
+    return PATH_INFO::savedir() + world_name;
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -298,7 +294,7 @@ void worldfactory::init()
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
-        worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
+        worldname = world_dir.substr( name_index + 1 );
 
         // create and store the world
         all_worlds[worldname] = std::make_unique<WORLD>();
@@ -619,7 +615,8 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file( PATH_INFO::lastworld(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
+                         std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
     }

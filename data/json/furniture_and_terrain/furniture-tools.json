@@ -1226,7 +1226,13 @@
       "items": [
         { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] }
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "money_one", "count": [ 0, 100 ] },
+        { "item": "money_two", "count": [ 0, 20 ] },
+        { "item": "money_five", "count": [ 0, 100 ] },
+        { "item": "money_ten", "count": [ 0, 100 ] },
+        { "item": "money_twenty", "count": [ 0, 100 ] },
+        { "item": "money_fifty", "count": [ 0, 50 ] }
       ]
     }
   },
@@ -1276,7 +1282,14 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "coin_nickel", "count": [ 0, 100 ] },
+        { "item": "coin_dime", "count": [ 0, 100 ] },
+        { "item": "coin_quarter", "count": [ 0, 100 ] },
+        { "item": "coin_dollar", "count": [ 0, 1 ] },
+        { "item": "money_one", "count": [ 0, 100 ] },
+        { "item": "money_two", "count": [ 0, 10 ] },
+        { "item": "money_five", "count": [ 0, 30 ] }
       ]
     }
   },

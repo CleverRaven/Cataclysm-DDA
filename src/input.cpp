@@ -6,7 +6,6 @@
 #include <array>
 #include <cstddef>
 #include <exception>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <new>
@@ -263,7 +262,7 @@ static constexpr int current_keybinding_version = 1;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
-    std::ifstream data_file( file_name.c_str(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream data_file( fs::u8path( file_name ), std::ifstream::in | std::ifstream::binary );
 
     if( !data_file.good() ) {
         // Only throw if this is the first file to load, that file _must_ exist,

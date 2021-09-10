@@ -126,6 +126,7 @@ Use the `Home` key to return to the top.
       - [`move_cost_mod`](#move_cost_mod)
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
+      - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
       - [`required_str`](#required_str)
@@ -140,6 +141,7 @@ Use the `Home` key to return to the top.
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
       - [`lockpick_message`](#lockpick_message-1)
+      - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
       - [`transforms_into`](#transforms_into)
@@ -851,7 +853,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `freezing_point`   | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
-| `soft`   | Optional boolean. Default is false.
+| `soft`   | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
 | `reinforces`   | Optional boolean. Default is false.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
@@ -1905,6 +1907,7 @@ Values are checked from highest first, the order they're defined in doesn't matt
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
+"vanity": false, //Trait can be changed any time with no cost, like hair, eye colour and skin colour
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -2718,6 +2721,7 @@ CBMs can be defined like this:
 "rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
 "rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
 "smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
+"petfood": [ "FUNGALFRUIT", "MIGOFOOD" ] // (Optional) Pet food categories this item is in.
 ```
 
 

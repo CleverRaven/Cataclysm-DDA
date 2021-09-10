@@ -27,7 +27,6 @@
 #include "value_ptr.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class effect;
@@ -114,6 +113,7 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void spawn( const tripoint &p );
+        void spawn( const tripoint_abs_ms &loc );
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -176,17 +176,12 @@ class monster : public Creature
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
+        void deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
-        tripoint move_target() const; // Returns point at the end of the monster's current plans
-        Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
-
-        // Movement
-        void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
-        void set_goal( const tripoint &p );
+        // Performs any necessary coordinate updates due to map shift.
+        void shift( const point &sm_shift );
         void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
-        // Updates current pos AND our plans
-        bool wander(); // Returns true if we have no plans
 
         /**
          * Checks whether we can move to/through p. This does not account for bashing.
@@ -204,11 +199,19 @@ class monster : public Creature
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
 
-        // Go in a straight line to p
-        void set_dest( const tripoint &p );
+        // Returns true if the monster has a current goal
+        bool has_dest() const;
+        // Returns point at the end of the monster's current plans
+        tripoint_abs_ms get_dest() const;
+        // Returns the creature at the end of plans (if hostile)
+        Creature *attack_target();
+        // Go towards p using the monster's pathfinding settings.
+        void set_dest( const tripoint_abs_ms &p );
         // Reset our plans, we've become aimless.
         void unset_dest();
 
+        // Returns true if the monster has no plans.
+        bool is_wandering() const;
         /**
          * Set p as wander destination.
          *
@@ -219,8 +222,7 @@ class monster : public Creature
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
-        void wander_to( const tripoint &p, int f ); // Try to get to (x, y), we don't know
-        // the route.  Give up after f steps.
+        void wander_to( const tripoint_abs_ms &p, int f );
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
@@ -323,7 +325,7 @@ class monster : public Creature
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
-        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
+        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );
@@ -464,10 +466,10 @@ class monster : public Creature
         using Creature::add_msg_debug_player_or_npc;
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg ) const override;
-        // TEMP VALUES
-        tripoint wander_pos; // Wander destination - Just try to move in that direction
+
+        tripoint_abs_ms wander_pos; // Wander destination - Just try to move in that direction
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
-        int wandf = 0;       // Urge to wander - Increased by sound, decrements each move
+        int wandf = 0;       // Urge to is_wandering - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
@@ -509,8 +511,6 @@ class monster : public Creature
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
-
-        void setpos( const tripoint &p ) override;
 
         short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
@@ -559,7 +559,7 @@ class monster : public Creature
     private:
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
-        tripoint goal;
+        cata::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
@@ -574,7 +574,7 @@ class monster : public Creature
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         /** patrol points for monsters that can pathfind and have a patrol route! **/
-        std::vector<tripoint> patrol_route_abs_ms;
+        std::vector<tripoint_abs_ms> patrol_route;
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
@@ -587,7 +587,9 @@ class monster : public Creature
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
+        void load( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
+        void on_move( const tripoint_abs_ms &old_pos ) override;
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 };

@@ -246,9 +246,8 @@ void enchantment::bodypart_changes::load( const JsonObject &jo )
     optional( jo, was_loaded, "lose", lose );
 }
 
-void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
@@ -272,7 +271,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+            time_duration dur = read_from_json_string<time_duration>( effect_obj.get_member( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {

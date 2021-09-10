@@ -143,6 +143,7 @@
       { "item": "kukri", "prob": 2 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
       { "item": "gloves_fingerless", "prob": 20 },
       { "item": "glasses_safety", "prob": 40 },
       { "item": "hat_boonie", "prob": 10 },

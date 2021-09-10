@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include <cstddef>
-#include <fstream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -472,7 +471,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream tmp( path.c_str(), std::ios::in );
+        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway

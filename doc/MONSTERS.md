@@ -63,6 +63,7 @@ Monsters may also have any of these optional properties:
 | `armor_stab`             | (integer) Monster's protection from stab damage
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
+| `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 | `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
@@ -92,6 +93,7 @@ Monsters may also have any of these optional properties:
 | `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 | `shearing`               | (array of objects) Items produced when the monster is sheared
 | `speed_description`      | (string) ID of a `speed_description` type describing the monster speed string
+| `petfood`                | (object) Data regarding feeding this monster to turn it into a pet
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -316,6 +318,18 @@ Amount of cutting damage added to die roll on monster melee attack.
 
 Monster protection from bashing, cutting, stabbing, acid and fire damage.
 
+## "weakpoints"
+(array of objects, optional)
+
+Weakpoints in the monster's protection.
+
+| field               | description
+| ---                 | ---
+| `name`              | Name of the weakpoint.
+| `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+| `armor_multiplier`  | multipler on the monster's base protection when hitting the weakpoint.
+| `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
+
 ## "vision_day", "vision_night"
 (integer, optional)
 
@@ -437,11 +451,11 @@ The monster's reproduction cycle, if any. Supports:
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
 
-## "shearing
+## "shearing"
 (array of objects, optional)
 
 A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
-```json
+```cpp
 "shearing": [
     {
         "result": "wool",
@@ -468,9 +482,20 @@ This means that when this monster is sheared, it will give: 100 units of wool, 1
 (string, optional)
 
 By default monsters will use the `"DEFAULT"` speed description.
-
 ```JSON
 "speed_description": "SPEED_DESCRIPTION_ID"
+```
+
+## "petfood"
+(object, optional)
+
+Decides whether this monster can be tamed. `%s` is the monster name.
+```cpp
+"petfood": {
+    "food": [ "CATFOOD", "YULECATFOOD" ], // food categories this monster accepts
+    "feed": "The gigantic %s decides not to maul you today.", // (optional) message when feeding the monster the food
+    "pet": "The %s is enjoying hunting the red laser dot." // (optional) message when playing with pet
+}
 ```
 
 ## "special_when_hit"
