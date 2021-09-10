@@ -853,12 +853,17 @@ class inventory_examiner : public inventory_selector
 {
     private:
         int examine_window_scroll;
+    protected:
+        item_location selected_item;
+        catacurses::window w_examine;
+
     public:
         explicit inventory_examiner( Character &p,
                                      const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {
             force_max_window_size = true;
             examine_window_scroll = 0;
+            selected_item = item_location::nowhere;
         }
         /**
          * Overloaded method from inventory_selector for showing details of sitem

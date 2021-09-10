@@ -3054,46 +3054,57 @@ void inventory_examiner::action_examine( const item_location sitem, const bool f
     if( !fit_to_window ) {
         inventory_selector::action_examine( sitem );
     } else {
-        // Code below pulled from the action_examine function in advanced_inv.cpp
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
 
         sitem->info( true, vThisItem );
 
         item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll );
-        //Tries to create a window covering the right half of the inventory screen
         data.without_getch = true;
 
-        // NOTE: This assumes that the first column (currently own_inv_column) is used for the item list:
-        int inv_column_width = get_all_columns().front()->get_width();
-        /* NOTE: By flagging force_max_window_size as true, this forces the inventory_selector window to be
-         * TERMX x TERMY , allowing us to assume the window starts at 0,0 and is TERMX by TERMY.  If this is
-         * changed in inventory_selector::prepare_layout, then everything breaks.  This obviously isn't a
-         * great solution */
-
-        int border_width = 1; //Assumed, since the value in inventory_selector is private, but reasonable
-        int width = TERMX - 2 * border_width  - inv_column_width;
-        int height = TERMY  - get_header_height() - 1;
-        point start_position = point( ( inv_column_width + border_width + 1 ),
-                                      get_header_height() + 1 );
-
-        draw_item_info( catacurses::newwin( height, width, start_position ), data );
+        draw_item_info( w_examine, data );
     }
 }
 
 item_location inventory_examiner::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    ui_adaptor ui_examine;
+
+    ui_examine.on_screen_resize( [&]( ui_adaptor & ui_examine ) {
+        // NOTE: This assumes that the first column (currently own_inv_column) is used for the item list:
+        int inv_column_width = get_all_columns().front()->get_width();
+        /* NOTE: By flagging force_max_window_size as true, this forces the inventory_selector window to be
+         * TERMX x TERMY , allowing us to assume the window starts at 0,0 and is TERMX by TERMY.  If this is
+         * changed in inventory_selector::prepare_layout, then everything breaks.  This obviously isn't a
+         * great solution */
+        int border_width = 1; //Assumed, since the value in inventory_selector is private, but reasonable
+        int width = TERMX - 2 * border_width  - inv_column_width;
+        int height = TERMY  - get_header_height() - 1;
+        point start_position = point( ( inv_column_width + border_width + 1 ),
+                                      get_header_height() + 1 );
+
+        w_examine = catacurses::newwin( height, width, start_position );
+        ui_examine.position_from_window( w_examine );
+    } );
+    ui_examine.mark_resize();
+
+    ui_examine.on_redraw( [&]( const ui_adaptor & ) {
+        const inventory_entry &selected = get_active_column().get_selected();
+        if( selected ) {
+            selected_item = selected.any_item();
+            action_examine( selected_item, true );
+        }
+    } );
+
     while( true ) {
         ui_manager::redraw();
 
-        const inventory_entry &selected = get_active_column().get_selected();
-        if( selected ) {
-            const item_location &sitem = selected.any_item();
-            action_examine( sitem, true );
-        }
-
         const inventory_input input = get_input();
+
+        //Basically anything the player can do at this point will invalidate the examine screen
+        ui_examine.invalidate_ui();
 
         if( input.entry != nullptr ) {
             if( select( input.entry->any_item() ) ) {
@@ -3111,15 +3122,16 @@ item_location inventory_examiner::execute()
         } else if( input.action == "PAGE_DOWN" ) {
 	  examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
-            if( selected ) {
-                return selected.any_item();
+	  if( selected_item != item_location::nowhere ) {
+                return selected_item;
             }
         } else if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
 	  /*HIDE/SHOW_CONTENTS in this menu results in unexpected behaviour since it modifies the
             inventory entries.  So, do nothing.  TODO: Find a way to disable or gracefully handle
             these actions */
         } else {
-	  on_input( input );
+            ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
+            on_input( input );
         }
     }
 }
