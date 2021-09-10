@@ -188,6 +188,7 @@ class item_pocket
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
+        units::length item_length_modifier() const;
 
         /** gets the spoilage multiplier depending on sealed data */
         float spoil_multiplier() const;
