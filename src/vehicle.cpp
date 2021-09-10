@@ -3471,7 +3471,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data 
     }
 
     int average = fcd.total_fuel / fcd.fuel_per_sec.size();
-    //Fuel energy is in 'kJ', consumption is per 's' so multiply by 3600, then divide by 1000
+    //Fuel energy is in 'kJ', consumption is per 's' so multiply by 3600, then divide by 1000 in order to convert kj to ml
     return -36 * average / fuel.fuel_energy() / 10 ;
 }
 
