@@ -7,6 +7,7 @@
 *.o
 *.tmp
 *.zip
+*.apk
 /WinDepend/
 /bindist/
 /build/
@@ -205,3 +206,11 @@ Xcode/
 /tests/catch/catch.hpp.gch
 /tests/catch/catch.hpp.pch
 weather.output
+
+# bundler local directories and files for jekyll site
+/.bundle/
+/_site/
+/vendor/
+.sass-cache
+.jekyll-metadata
+Gemfile.lock
