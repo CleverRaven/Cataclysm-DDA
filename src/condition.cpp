@@ -65,6 +65,7 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
                            int default_val )
 {
     int_or_var ret_val;
+    optional( jo, false, "global", ret_val.global, false );
     if( jo.has_int( member ) ) {
         mandatory( jo, false, member, ret_val.int_val );
     } else if( jo.has_object( member ) ) {
@@ -83,6 +84,7 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
                                      time_duration default_val )
 {
     duration_or_var ret_val;
+    optional( jo, false, "global", ret_val.global, false );
     if( jo.has_int( member ) || jo.has_string( member ) ) {
         mandatory( jo, false, member, ret_val.dur_val );
     } else if( jo.has_object( member ) ) {
@@ -983,10 +985,17 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_per_max();
             };
         } else if( checked_value == "var" ) {
+            bool global;
+            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name]( const T & d ) {
+            return [is_npc, var_name, global]( const T & d ) {
                 int stored_value = 0;
-                const std::string &var = d.actor( is_npc )->get_value( var_name );
+                std::string var;
+                if( global ) {
+                    var = get_talker_for( get_player_character() )->get_value( var_name );
+                } else {
+                    var = d.actor( is_npc )->get_value( var_name );
+                }
                 if( !var.empty() ) {
                     stored_value = std::stoi( var );
                 }

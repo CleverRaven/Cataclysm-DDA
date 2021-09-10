@@ -71,7 +71,6 @@ enum class debug_menu_index : int {
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,
     TEST_WEATHER,
-    WRITE_EOCS,
     SAVE_SCREENSHOT,
     GAME_REPORT,
     DISPLAY_SCENTS_LOCAL,

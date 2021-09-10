@@ -246,9 +246,8 @@ void enchantment::bodypart_changes::load( const JsonObject &jo )
     optional( jo, was_loaded, "lose", lose );
 }
 
-void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 

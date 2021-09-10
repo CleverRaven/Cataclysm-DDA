@@ -43,6 +43,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -109,6 +110,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 #include "weighted_list.h"
+#include "worldfactory.h"
 
 static const efftype_id effect_asthma( "asthma" );
 
@@ -180,7 +182,6 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
-        case debug_menu::debug_menu_index::WRITE_EOCS: return "WRITE_EOCS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -224,6 +225,24 @@ class mission_debug
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
 };
+
+static std::string first_word( const std::string &str )
+{
+    const size_t space_pos = str.find( ' ' );
+    if( space_pos == std::string::npos || space_pos == 0 ) {
+        return str;
+    }
+    return str.substr( 0, space_pos );
+}
+
+static bool is_debug_character()
+{
+    static const std::unordered_set<std::string> debug_names = {
+        "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
+    };
+    return debug_names.count( first_word( get_player_character().name ) ) ||
+           debug_names.count( first_word( world_generator->active_world->world_name ) );
+}
 
 static int player_uilist()
 {
@@ -280,7 +299,6 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_EOCS, true, 'C', _( "Write effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -387,7 +405,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
     }
 
     std::string msg;
-    if( display_all_entries ) {
+    if( display_all_entries && !is_debug_character() ) {
         msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
     } else {
         msg = _( "Debug Functions" );
@@ -1196,7 +1214,7 @@ void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS, D_WRITE_EOCS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
@@ -1224,6 +1242,8 @@ void character_edit_menu()
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
+    nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
+                    _( "[w]rite effect_on_condition(s) to eocs.output." ) );
     if( you.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
@@ -1451,17 +1471,32 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
-            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
-            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
-            smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
+            if( you.is_avatar() ) {
+                smenu.addentry( 0, true, 's', "%s: %s", _( "Current save file name" ), get_avatar().get_save_id() );
+            }
+            smenu.addentry( 1, true, 'n', "%s: %s", _( "Current pre-Cataclysm name" ), you.name );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
+            smenu.addentry( 3, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
+            smenu.addentry( 4, true, 'b', "%s: %s", _( "Current blood type" ), current_bloodt );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
+                    std::string filterstring = get_avatar().get_save_id();
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename save file (WARNING: this will duplicate the save):" ) )
+                    .width( 85 )
+                    .edit( filterstring );
+                    if( popup.confirmed() ) {
+                        get_avatar().set_save_id( filterstring );
+                    }
+                }
+                break;
+                case 1: {
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename save file:" ) )
+                    .title( _( "Rename character:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1469,7 +1504,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 1: {
+                case 2: {
                     string_input_popup popup;
                     popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
                     .text( string_format( "%d", you.base_age() ) )
@@ -1480,7 +1515,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 2: {
+                case 3: {
                     string_input_popup popup;
                     popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
                                                 Character::min_height(),
@@ -1493,7 +1528,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 3: {
+                case 4: {
                     uilist btype;
                     btype.text = _( "Select blood type" );
                     btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
@@ -1765,6 +1800,11 @@ void character_edit_menu()
             popup( _( "Var list written to var_list.output" ) );
             break;
         }
+        case D_WRITE_EOCS: {
+            effect_on_conditions::write_eocs_to_file( you );
+            popup( _( "effect_on_condition list written to eocs.output" ) );
+        }
+        break;
     }
 }
 
@@ -2202,7 +2242,8 @@ void debug()
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
     };
-    bool should_disable_achievements = action && !non_cheaty_options.count( *action );
+    const bool should_disable_achievements = action && !is_debug_character() &&
+            !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
         static const std::string query(
             translate_marker(
@@ -2253,7 +2294,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2751,11 +2792,7 @@ void debug()
         }
         break;
 
-        case debug_menu_index::WRITE_EOCS: {
-            effect_on_conditions::write_eocs_to_file();
-            popup( _( "effect_on_condition list written to eocs.output" ) );
-        }
-        break;
+
 
         case debug_menu_index::SAVE_SCREENSHOT: {
 #if defined(TILES)

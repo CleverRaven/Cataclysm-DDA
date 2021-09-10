@@ -110,6 +110,7 @@ Creature::Creature()
     killer = nullptr;
     speed_base = 100;
     underwater = false;
+    location = tripoint_abs_ms( 20, 10, -500 ); // Some arbitrary position that will cause debugmsgs
 
     Creature::reset_bonuses();
 
@@ -123,15 +124,36 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+tripoint Creature::pos() const
+{
+    return get_map().getlocal( location );
+}
+
 void Creature::setpos( const tripoint &p )
 {
+    const tripoint_abs_ms old_loc = get_location();
     set_pos_only( p );
+    on_move( old_loc );
+}
+
+void Creature::move_to( const tripoint_abs_ms &loc )
+{
+    const tripoint_abs_ms old_loc = get_location();
+    set_location( loc );
+    on_move( old_loc );
 }
 
 void Creature::set_pos_only( const tripoint &p )
 {
-    position = p;
+    location = get_map().getglobal( p );
 }
+
+void Creature::set_location( const tripoint_abs_ms &loc )
+{
+    location = loc;
+}
+
+void Creature::on_move( const tripoint_abs_ms & ) {}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
@@ -609,8 +631,8 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
     // The square above must have no floor.
     // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
-    const tripoint &up   = target_above ? target->pos() : pos();
-    const tripoint &down = target_above ? pos() : target->pos();
+    const tripoint up = target_above ? target->pos() : pos();
+    const tripoint down = target_above ? pos() : target->pos();
     const tripoint above{ down.xy(), up.z };
     return ( !here.has_floor( up ) || here.ter( up )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) &&
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
@@ -2677,19 +2699,19 @@ void Creature::describe_specials( std::vector<std::string> &buf ) const
     buf.emplace_back( _( "You sense a creature here." ) );
 }
 
-tripoint_abs_ms Creature::global_square_location() const
+tripoint_abs_ms Creature::get_location() const
 {
-    return tripoint_abs_ms( get_map().getabs( pos() ) );
+    return location;
 }
 
 tripoint_abs_sm Creature::global_sm_location() const
 {
-    return project_to<coords::sm>( global_square_location() );
+    return project_to<coords::sm>( location );
 }
 
 tripoint_abs_omt Creature::global_omt_location() const
 {
-    return project_to<coords::omt>( global_square_location() );
+    return project_to<coords::omt>( location );
 }
 
 std::unique_ptr<talker> get_talker_for( Creature &me )

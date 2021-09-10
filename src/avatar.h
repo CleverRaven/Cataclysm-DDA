@@ -81,7 +81,7 @@ class avatar : public Character
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
 
@@ -103,6 +103,12 @@ class avatar : public Character
             return this;
         }
 
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
+        }
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
@@ -280,9 +286,7 @@ class avatar : public Character
 
                 json.end_object();
             }
-            void deserialize( JsonIn &jsin ) {
-                JsonObject data = jsin.get_object();
-
+            void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
                 if( data.has_member( "activity" ) ) {
@@ -300,7 +304,7 @@ class avatar : public Character
             }
 
             void save_activity( JsonOut &json ) const;
-            void read_activity( JsonObject &data );
+            void read_activity( const JsonObject &data );
 
         };
         // called once a day; adds a new daily_calories to the
@@ -322,6 +326,9 @@ class avatar : public Character
     private:
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
+
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
 
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;

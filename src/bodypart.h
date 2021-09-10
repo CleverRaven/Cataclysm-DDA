@@ -16,9 +16,9 @@
 #include "string_id.h"
 #include "translations.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 struct body_part_type;
 template <typename E> struct enum_traits;
 
@@ -102,7 +102,7 @@ struct stat_hp_mods {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct body_part_type {
@@ -372,7 +372,7 @@ class bodypart
         void mod_frostbite_timer( int mod );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 class body_part_set
@@ -433,8 +433,8 @@ class body_part_set
         void serialize( Stream &s ) const {
             s.write( parts );
         }
-        template<typename Stream>
-        void deserialize( Stream &s ) {
+        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+        void deserialize( const Value &s ) {
             s.read( parts );
         }
 };

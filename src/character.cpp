@@ -39,6 +39,7 @@
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enums.h"
 #include "event.h"
@@ -1827,6 +1828,7 @@ void Character::process_turn()
             it++;
         }
     }
+    effect_on_conditions::process_effect_on_conditions( *this );
 }
 
 void Character::recalc_hp()
@@ -2384,9 +2386,9 @@ void Character::remove_mission_items( int mission_id )
     remove_items_with( has_mission_item_filter { mission_id } );
 }
 
-void Character::setpos( const tripoint &p )
+void Character::on_move( const tripoint_abs_ms &old_pos )
 {
-    Creature::setpos( p );
+    Creature::on_move( old_pos );
     // In case we've moved out of range of lifting assist.
     invalidate_weight_carried_cache();
 }
@@ -8128,7 +8130,7 @@ void Character::on_mutation_gain( const trait_id &mid )
     magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 void Character::on_mutation_loss( const trait_id &mid )
@@ -8137,7 +8139,7 @@ void Character::on_mutation_loss( const trait_id &mid )
     magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 void Character::on_stat_change( const std::string &stat, int value )
@@ -10471,10 +10473,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
         }
         invoke_item( &used, loc.position(), pre_obtain_moves );
 
-    } else if( used.type->can_use( "DOGFOOD" ) ||
-               used.type->can_use( "CATFOOD" ) ||
-               used.type->can_use( "BIRDFOOD" ) ||
-               used.type->can_use( "CATTLEFODDER" ) ) { // NOLINT(bugprone-branch-clone)
+    } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
         invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&

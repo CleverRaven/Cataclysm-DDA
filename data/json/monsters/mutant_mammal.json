@@ -129,13 +129,18 @@
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_mutant_kitten_prism", "baby_count": 2, "baby_timer": 80 },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s sofly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "CATFOOD",
+      "CANPLAY",
       "CLIMBS",
       "PATH_AVOID_DANGER_1",
       "WARM",
@@ -166,7 +171,12 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s sofly purrs as you pet it.  It demands more."
+    },
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
     "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" }
   },
   {
@@ -396,9 +406,15 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",

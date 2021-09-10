@@ -1292,7 +1292,7 @@ class mapgen_value
             return source_->all_possible_results( params );
         }
 
-        void deserialize( JsonIn &jsin ) {
+        void deserialize( const JsonValue &jsin ) {
             if( jsin.test_object() ) {
                 *this = mapgen_value( jsin.get_object() );
             } else {
@@ -1334,9 +1334,8 @@ mapgen_parameter::mapgen_parameter( const mapgen_value<std::string> &def, cata_v
     , default_( make_shared_fast<mapgen_value<std::string>>( def ) )
 {}
 
-void mapgen_parameter::deserialize( JsonIn &jsin )
+void mapgen_parameter::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     optional( jo, false, "scope", scope_, mapgen_parameter_scope::overmap_special );
     jo.read( "type", type_, true );
     default_ = make_shared_fast<mapgen_value<std::string>>( jo.get_member( "default" ) );
@@ -6119,7 +6118,7 @@ void map::rotate( int turns, const bool setpos_safe )
         if( skip_npc_rotation() ) {
             break;
         }
-        const tripoint sq = np.global_square_location().raw();
+        const tripoint sq = np.get_location().raw();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );
         // Note: We are rotating the entire overmap square (2x2 of submaps)

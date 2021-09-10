@@ -348,5 +348,21 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan"
+  },
+  {
+    "id": "casting_mold",
+    "type": "TOOL",
+    "name": { "str": "sand casting mold" },
+    "description": "A mold for casting molten metals into different shapes",
+    "weight": "540 g",
+    "volume": "400 ml",
+    "longest_side": "100 cm",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "clay", "wood" ],
+    "symbol": ";",
+    "color": "brown"
   }
 ]
