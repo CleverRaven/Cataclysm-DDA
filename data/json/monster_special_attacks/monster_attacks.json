@@ -141,7 +141,7 @@
     "body_parts": [ [ "torso", 6 ], [ "leg_r", 1 ], [ "leg_l", 1 ], [ "arm_r", 1 ], [ "arm_l", 1 ] ],
     "throw_strength": 60,
     "hit_dmg_u": "The %1$s brutally rams you in the %2$s!",
-    "hit_dmg_npc": "The %1$s brutally rams <npcname> in the %2$s!",
+    "hit_dmg_npc": "The %1$s brutally rams <npcname>!",
     "no_dmg_msg_u": "The %1$s rams your %2$s, but you hold steady!",
     "no_dmg_msg_npc": "The %1$s rams <npcname>, but they hold steady!",
     "miss_msg_u": "The %s flicks its horns at you, but you dodge!",
