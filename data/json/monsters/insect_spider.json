@@ -668,7 +668,7 @@
     "id": "mon_dragonfly_mega",
     "type": "MONSTER",
     "name": { "str_sp": "fused dragonflies" },
-    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the amalgamation of two mating dragonflies, bodies still locked into the telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
+    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the unholy union of two dragonflies in the act of mating, bodies still locked into the telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
     "volume": "600 L",
     "weight": "800 kg",
     "default_faction": "dragonfly",
