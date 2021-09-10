@@ -335,7 +335,9 @@ TEST_CASE( "effect decay", "[effect][decay]" )
         CHECK( rem_ids.size() == 1 );
         CHECK( rem_bps.size() == 1 );
         // Effect ID and body part are pushed to the arrays
+        REQUIRE( rem_ids.size() > 0 );
         CHECK( rem_ids.front() == eff_debugged.get_id() );
+        REQUIRE( rem_bps.size() > 0 );
         CHECK( rem_bps.front() == bodypart_id( "bp_null" ) );
 
     }
@@ -387,7 +389,9 @@ TEST_CASE( "effect decay", "[effect][decay]" )
         CHECK( rem_ids.size() == 1 );
         CHECK( rem_bps.size() == 1 );
         // Effect ID and body part are pushed to the arrays
+        REQUIRE( rem_ids.size() > 0 );
         CHECK( rem_ids.front() == eff_test_int_remove.get_id() );
+        REQUIRE( rem_bps.size() > 0 );
         CHECK( rem_bps.front() == bodypart_id( "bp_null" ) );
 
 
