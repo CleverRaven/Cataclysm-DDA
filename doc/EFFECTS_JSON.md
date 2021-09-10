@@ -217,8 +217,8 @@ in "removes_effects" are automatically added to "blocks_effects", no need for ma
 
 ### Effect limiters
 ```C++
-    "max_duration": 100,    - Defaults to 365 days
-    "dur_add_perc": 150     - Defaults to 100%
+    "max_duration": 100,    - Time duration string, defaults to 365 days
+    "dur_add_perc": 150     - Defaults to 100(%)
 ```
 These are utilized when adding to currently existing effects. "max_duration" limits the overall duration of the effect.
 "dur_add_perc" is the percentage value of the normal duration for adding to an existing. An example:
@@ -231,11 +231,11 @@ future applications decreasing the overall time left.
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
 ```JSON
-    "int_add_val": 2         - Defaults to 0! This means future applications will not increase intensity unless changed!
+    "int_add_val": 2         - Int, defaults to 0 meaning future applications will not increase intensity
 
-    "int_decay_step": -2,    - Defaults to -1
-    "int_decay_tick": 10     - Defaults to 0, preventing intensity decay
-    "int_decay_remove": true - Defaults to true, removes the intensity if decay would decrease it to zero
+    "int_decay_step": -2,    - Int, default -1, intensity levels removed every decay tick
+    "int_decay_tick": 10     - Int, seconds between intensity decay (no decay at the default of 0)
+    "int_decay_remove": true - Bool, default true, removes the intensity if decay would decrease it to zero
     or
     "int_dur_factor": 700
 ```
