@@ -97,7 +97,7 @@
       { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
       { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] },
-	  { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 36, 40 ] }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 36, 40 ] }
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "warmth": 50,
