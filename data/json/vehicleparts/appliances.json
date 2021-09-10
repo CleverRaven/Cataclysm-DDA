@@ -31,5 +31,24 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "power_cord",
+    "name": { "str": "power cord" },
+    "symbol": "{",
+    "categories": [ "other" ],
+    "color": "yellow",
+    "broken_symbol": "s",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "epower": 0,
+    "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
+    "durability": 120,
+    "description": "A power cord sticking out of an appliance.  You need to plug it in a powered grid for the appliance to work properly.",
+    "item": "power_cord",
+    "requirements": { "removal": { "time": "5 s" } },
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   }
 ]

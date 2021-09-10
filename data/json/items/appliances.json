@@ -20,5 +20,25 @@
         "max_contains_weight": "400 kg"
       }
     ]
+  },
+  {
+    "type": "TOOL",
+    "id": "power_cord",
+    "name": { "str": "power cord" },
+    "description": "A power cord, like you've seen many times before: it's a short multi-stranded copper cord with power outlet at the end.",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "&",
+    "material": [ "steel", "plastic" ],
+    "volume": "500 ml",
+    "weight": "75 g",
+    "bashing": 2,
+    "category": "tools",
+    "price": 1,
+    "price_postapoc": 100,
+    "max_charges": 3,
+    "initial_charges": 3,
+    "use_action": [ "CABLE_ATTACH" ],
+    "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
   }
 ]
