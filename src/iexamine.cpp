@@ -794,7 +794,11 @@ class atm_menu
                 popup( _( "Destination card is full." ) );
                 return false;
             }
-            item_location( you, cash_item ).remove_item();
+            if( cash_item->charges > 1 ) {
+                cash_item->charges--;
+            } else {
+                item_location( you, cash_item ).remove_item();
+            }
             dst->ammo_set( dst->ammo_default(), dst->ammo_remaining() + value );
             you.assign_activity( ACT_ATM, 0, exchange_cash );
             you.activity.targets.emplace_back( you, dst );
