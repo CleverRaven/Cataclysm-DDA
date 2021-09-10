@@ -1077,6 +1077,10 @@ struct mutable_overmap_placement_rule {
         return std::min( max, weight );
     }
 
+    bool is_exhausted() const {
+        return get_weight() == 0;
+    }
+
     void decrement() {
         --max;
     }
@@ -1124,11 +1128,25 @@ struct placement_constraints {
 struct mutable_overmap_phase {
     std::vector<mutable_overmap_placement_rule> rules;
 
-    using ter_rule_and_dir =
-        std::tuple<const mutable_overmap_terrain *, mutable_overmap_placement_rule *,
-        om_direction::type>;
+    struct satisfy_result {
+        const mutable_overmap_terrain *terrain;
+        om_direction::type dir;
+        mutable_overmap_placement_rule *rule;
+        // For debugging purposes it's really handy to have a record of exactly
+        // what happened during placement of a mutable special when it fails,
+        // so to aid that we provide a human-readable description here which is
+        // only used in the event of a placement error.
+        std::string description;
+    };
 
-    ter_rule_and_dir satisfy(
+    bool all_rules_exhausted() const {
+        return std::all_of( rules.begin(), rules.end(),
+        []( const mutable_overmap_placement_rule & rule ) {
+            return rule.is_exhausted();
+        } );
+    }
+
+    satisfy_result satisfy(
         const std::unordered_map<std::string, mutable_overmap_terrain> &overmaps,
         const std::unordered_map<std::string, mutable_overmap_join *> &joins,
         const overmap &om, const tripoint_om_omt &pos, const placement_constraints &constraints ) {
@@ -1136,7 +1154,7 @@ struct mutable_overmap_phase {
         const oter_id &existing_terrain = om.ter( pos );
         std::array<placement_constraints, 4> all_constraints = constraints.all_rotations();
 
-        weighted_int_list<ter_rule_and_dir> options;
+        weighted_int_list<satisfy_result> options;
         for( mutable_overmap_placement_rule &rule : rules ) {
             auto it = overmaps.find( rule.overmap );
             if( it == overmaps.end() ) {
@@ -1184,53 +1202,43 @@ struct mutable_overmap_phase {
             }
 
             if( auto chosen_dir = random_entry_opt( dir_options ) ) {
-                options.add( ter_rule_and_dir( &ter, &rule, *chosen_dir ), rule.get_weight() );
+                options.add( satisfy_result{ &ter, *chosen_dir, &rule, {} }, rule.get_weight() );
             }
         }
-        if( ter_rule_and_dir *picked = options.pick() ) {
-#if CATA_DEBUG_MUTABLE_OVERMAP_PLACEMENT
-            auto dir = std::get<2>( *picked );
-            const placement_constraints &constraints = all_constraints[static_cast<int>( dir )];
-            std::string joins = enumerate_as_string( constraints.joins,
-            []( const std::pair<cube_direction, std::string> &p ) {
-                return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
-            } );
-            std::string message = string_format(
-                                      "At %s chose %s rot %d with neighbours N:%s E:%s S:%s W:%s and rotated "
-                                      "constraints %s",
-                                      pos.to_string(),
-                                      std::get<0>( *picked )->terrain.str(), static_cast<int>( dir ),
-                                      om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
-                                      om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
-                                      joins );
-            printf( "%s\n", message.c_str() );
-#endif
-            std::get<1>( *picked )->decrement();
+        std::string joins_s = enumerate_as_string( constraints.joins,
+        []( const std::pair<cube_direction, std::string> &p ) {
+            return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
+        } );
+        if( satisfy_result *picked = options.pick() ) {
+            om_direction::type dir = picked->dir;
+            picked->description =
+                string_format(
+                    "At %s chose %s rot %d with neighbours N:%s E:%s S:%s W:%s and constraints %s",
+                    pos.to_string(),
+                    picked->terrain->terrain.str(), static_cast<int>( dir ),
+                    om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
+                    om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
+                    joins_s );
+            picked->rule->decrement();
             return *picked;
         } else {
-#if CATA_DEBUG_MUTABLE_OVERMAP_PLACEMENT
-            std::string joins = enumerate_as_string( constraints.joins,
-            []( const std::pair<cube_direction, std::string> &p ) {
-                return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
-            } );
             std::string rules_s = enumerate_as_string( rules,
             []( const mutable_overmap_placement_rule & rule ) {
-                if( rule.get_weight() ) {
-                    return rule.overmap;
-                } else {
+                if( rule.is_exhausted() ) {
                     return string_format( "(%s)", rule.overmap );
+                } else {
+                    return rule.overmap;
                 }
             } );
-            std::string message = string_format(
-                                      "At %s failed to match with neighbours N:%s E:%s S:%s W:%s and constraints %s "
-                                      "from amongst rules %s",
-                                      pos.to_string(),
-                                      om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
-                                      om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
-                                      joins, rules_s );
-            printf( "%s\n", message.c_str() );
-#endif
-            return ter_rule_and_dir { nullptr, nullptr, om_direction::type::invalid };
+            std::string message =
+                string_format(
+                    "At %s failed to match with neighbours N:%s E:%s S:%s W:%s and constraints %s "
+                    "from amongst rules %s",
+                    pos.to_string(),
+                    om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
+                    om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
+                    joins_s, rules_s );
+            return { nullptr, om_direction::type::invalid, nullptr, std::move( message ) };
         }
     }
 
@@ -1367,7 +1375,6 @@ class joins_tracker
             }
         }
         void restore_postponed() {
-            cata_assert( unresolved.empty() );
             for( const join &conn : postponed ) {
                 add_unresolved( conn.where, conn.join_id );
             }
@@ -1529,6 +1536,10 @@ struct mutable_overmap_special_data {
         const mutable_overmap_terrain &root_omt = it->second;
         om.ter_set( origin, root_omt.terrain );
 
+        // This is for debugging only, it tracks a human-readable description
+        // of what happened to be put in the debugmsg in the event of failure.
+        std::vector<std::string> descriptions;
+
         joins_tracker unresolved( joins );
         unresolved.add_joins_for( root_omt, origin, om_direction::type::none );
 
@@ -1540,11 +1551,12 @@ struct mutable_overmap_special_data {
             placement_constraints next;
             std::tie( p_d, next ) = unresolved.pick_top_priority();
             const tripoint_om_omt &p = p_d.p;
-            const mutable_overmap_terrain *ter;
-            om_direction::type rot;
-            std::tie( ter, std::ignore, rot ) =
+            mutable_overmap_phase::satisfy_result satisfy_result =
                 phase_remaining.satisfy( overmaps, joins, om, p, next );
+            descriptions.push_back( std::move( satisfy_result.description ) );
+            const mutable_overmap_terrain *ter = satisfy_result.terrain;
             if( ter ) {
+                om_direction::type rot = satisfy_result.dir;
                 const oter_id tid = ter->terrain->get_rotated( rot );
                 om.ter_set( p, tid );
                 unresolved.add_joins_for( *ter, p, rot );
@@ -1552,7 +1564,7 @@ struct mutable_overmap_special_data {
             } else {
                 unresolved.postpone( p );
             }
-            if( !unresolved.any_unresolved() ) {
+            if( !unresolved.any_unresolved() || phase_remaining.all_rules_exhausted() ) {
                 ++current_phase;
                 if( current_phase == phases.end() ) {
                     break;
@@ -1579,8 +1591,9 @@ struct mutable_overmap_special_data {
             } );
 
             debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
-                      "at %s was %s; joins were %s", parent_id.str(), p.to_string(),
-                      current_terrain.id().str(), joins );
+                      "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
+                      parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
+                      join( descriptions, "\n" ) );
         }
 
         return result;
