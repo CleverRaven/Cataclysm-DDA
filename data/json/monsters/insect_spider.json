@@ -2298,7 +2298,7 @@
     "id": "mon_stag_beetle_larva",
     "type": "MONSTER",
     "name": { "str": "giant stag beetle larva", "str_pl": "giant stag beetle larvae" },
-    "description": "Something about this cow-sized larva is pitiable, despite it's immense size and sickening cream color.",
+    "description": "Something about this cow-sized larva is pitiable, despite its immense size and sickening cream color.",
     "default_faction": "stag_beetle_larva",
     "bodytype": "snake",
     "species": [ "INSECT" ],
@@ -2398,8 +2398,8 @@
         "hit_dmg_npc": "The %1$s rams <npcname> in the %2$s!",
         "no_dmg_msg_u": "The %1$s rams your %2$s, but you hold steady!",
         "no_dmg_msg_npc": "The %1$s rams <npcname>'s %2$s, but they hold steady!",
-        "miss_msg_u": "The %s flicks it's horns at you, but you dodge!",
-        "miss_msg_npc": "The %s flicks it's horns at <npcname>, but they dodge!"
+        "miss_msg_u": "The %s flicks its horns at you, but you dodge!",
+        "miss_msg_npc": "The %s flicks its horns at <npcname>, but they dodge!"
       }
     ],
     "upgrades": { "age_grow": 28, "into": "mon_stag_beetle_mega" },
@@ -2411,8 +2411,7 @@
       "GOODHEARING",
       "BASHES",
       "DESTROYS",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
+      "PATH_AVOID_DANGER_1",
       "PUSH_MON",
       "PUSH_VEH",
       "PET_WONT_FOLLOW",
@@ -2423,7 +2422,7 @@
     "id": "mon_stag_beetle_mega",
     "type": "MONSTER",
     "name": { "str": "titan stag beetle" },
-    "description": "This stag beetle rivals an armored personnel carrier in size, bearing horns that could fell a tree and chitin thick enough to ignore most bullets.  It's bulky shell looks nigh-impenetrable, and the cracks have sealed with a foul paste.",
+    "description": "This stag beetle rivals an armored personnel carrier in size, bearing horns that could fell a tree and chitin thick enough to ignore most bullets.  Its bulky shell looks nigh-impenetrable, and the cracks have sealed with a foul paste.",
     "copy-from": "mon_stag_beetle_giant",
     "proportional": { "hp": 4, "speed": 0.75, "morale": 3, "melee_dice_sides": 2 },
     "volume": "950 L",

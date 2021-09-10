@@ -400,14 +400,13 @@
     "type": "MONSTER_FACTION",
     "name": "stag_beetle",
     "base_faction": "insect",
-    "friendly": "stag_beetle_larva"
+    "by_mood": "zombie"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "stag_beetle_larva",
-    "base_faction": "insect",
-    "neutral": [ "ant", "acid_ant" ],
-    "friendly": "stag_beetle"
+    "base_faction": "stag_beetle",
+    "neutral": [ "ant", "acid_ant" ]
   },
   {
     "type": "MONSTER_FACTION",
