@@ -399,8 +399,7 @@ std::string enum_to_string<blood_type>( blood_type data )
         case blood_type::num_bt:
             break;
     }
-    debugmsg( "Invalid blood_type" );
-    abort();
+    cata_fatal( "Invalid blood_type" );
 }
 
 } // namespace io
@@ -3483,7 +3482,7 @@ std::string enum_to_string<character_stat>( character_stat data )
         case character_stat::DUMMY_STAT:
             break;
     }
-    abort();
+    cata_fatal( "Invalid character_stat" );
 }
 } // namespace io
 

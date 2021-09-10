@@ -65,8 +65,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::_LAST:
             break;
     }
-    debugmsg( "Invalid mon_trigger" );
-    abort();
+    cata_fatal( "Invalid mon_trigger" );
 }
 
 template<>
@@ -84,8 +83,7 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
         case mdeath_type::LAST:
             break;
     }
-    debugmsg( "Invalid mdeath_type" );
-    abort();
+    cata_fatal( "Invalid mdeath_type" );
 }
 
 template<>
@@ -212,8 +210,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case m_flag::MF_MAX:
             break;
     }
-    debugmsg( "Invalid m_flag" );
-    abort();
+    cata_fatal( "Invalid m_flag" );
 }
 
 } // namespace io

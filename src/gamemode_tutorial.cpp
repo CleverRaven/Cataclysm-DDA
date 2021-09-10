@@ -125,8 +125,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::NUM_LESSONS:
             break;
     }
-    debugmsg( "Invalid tut_lesson" );
-    abort();
+    cata_fatal( "Invalid tut_lesson" );
 }
 } // namespace io
 

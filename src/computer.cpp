@@ -337,8 +337,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case NUM_COMPUTER_ACTIONS:
             break;
     }
-    debugmsg( "Invalid computer_action" );
-    abort();
+    cata_fatal( "Invalid computer_action" );
 }
 
 template<>
@@ -361,8 +360,7 @@ std::string enum_to_string<computer_failure_type>( const computer_failure_type f
         case NUM_COMPUTER_FAILURES:
             break;
     }
-    debugmsg( "Invalid computer_failure_type" );
-    abort();
+    cata_fatal( "Invalid computer_failure_type" );
 }
 } // namespace io
 
