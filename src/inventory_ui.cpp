@@ -3111,10 +3111,9 @@ item_location inventory_examiner::execute()
         } else if( input.action == "PAGE_DOWN" ) {
 	  examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
-	  const inventory_entry &selected = get_active_column().get_selected();
-	  if( selected ) {
-	    return selected.any_item();
-	  }
+            if( selected ) {
+                return selected.any_item();
+            }
         } else if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
 	  /*HIDE/SHOW_CONTENTS in this menu results in unexpected behaviour since it modifies the
             inventory entries.  So, do nothing.  TODO: Find a way to disable or gracefully handle
