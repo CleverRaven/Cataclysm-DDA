@@ -7273,6 +7273,16 @@ tripoint vehicle::exhaust_dest( int part ) const
     return global_pos3() + tripoint( q, 0 );
 }
 
+void vehicle::add_tag( std::string tag )
+{
+    tags.insert( tag );
+}
+
+bool vehicle::has_tag( std::string tag )
+{
+    return tags.count( tag ) > 0;
+}
+
 template<>
 bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const
 {

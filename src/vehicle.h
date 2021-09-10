@@ -893,6 +893,8 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        void plug_in( const tripoint &pos );
+
         // Fold up the vehicle
         bool fold_up();
 
