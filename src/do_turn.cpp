@@ -268,10 +268,10 @@ bool cleanup_at_end()
         g->move_save_to_graveyard();
         g->write_memorial_file( sLastWords );
         get_memorial().clear();
-        std::vector<std::string> characters = g->list_active_characters();
+        std::vector<std::string> characters = g->list_active_saves();
         // remove current player from the active characters list, as they are dead
         std::vector<std::string>::iterator curchar = std::find( characters.begin(),
-                characters.end(), u.name );
+                characters.end(), u.get_save_id() );
         if( curchar != characters.end() ) {
             characters.erase( curchar );
         }

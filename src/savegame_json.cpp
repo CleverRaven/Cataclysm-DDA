@@ -582,6 +582,7 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    data.read( "name", name );
     data.read( "play_name", play_name );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
@@ -1062,6 +1063,7 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
+    json.member( "name", name );
     json.member( "play_name", play_name );
 
     json.member( "base_age", init_age );
@@ -1828,7 +1830,6 @@ void npc::load( const JsonObject &data )
         data.get_int( "tank_plut" );
     }
 
-    data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
@@ -1992,7 +1993,6 @@ void npc::store( JsonOut &json ) const
 {
     Character::store( json );
 
-    json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
