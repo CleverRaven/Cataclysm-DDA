@@ -264,5 +264,14 @@
     "mutagen_message": "You feel a desire to curl up in a nice, warm pile of… shredded paper.",
     "iv_message": "You feel… small.  But comfortable.",
     "memorial_message": "Found the cheese."
+  },
+  {
+    "type": "mutation_category",
+    "id": "RABBIT",
+    "name": "Rabbit",
+    "threshold_mut": "THRESH_RABBIT",
+    "mutagen_message": "Walking is overrated.  It's time to start hopping.",
+    "iv_message": "You are craving beta carotene.",
+    "memorial_message": "Acquired a taste for carrots."
   }
 ]

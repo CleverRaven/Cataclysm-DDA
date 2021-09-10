@@ -103,6 +103,12 @@ class avatar : public Character
             return this;
         }
 
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
+        }
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
@@ -320,6 +326,9 @@ class avatar : public Character
     private:
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
+
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
 
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
