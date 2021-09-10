@@ -3093,7 +3093,11 @@ item_location inventory_examiner::execute()
     ui_examine.on_redraw( [&]( const ui_adaptor & ) {
         const inventory_entry &selected = get_active_column().get_selected();
         if( selected ) {
-            selected_item = selected.any_item();
+            if( selected_item != selected.any_item() ) {
+                //A new item has been selected, reset scrolling
+                examine_window_scroll = 0;
+                selected_item = selected.any_item();
+            }
             action_examine( selected_item, true );
         }
     } );
@@ -3113,7 +3117,7 @@ item_location inventory_examiner::execute()
             return input.entry->any_item();
         }
 
-        const int scroll_item_info_lines = get_layout_height() - 4;
+        const int scroll_item_info_lines = TERMY / 2;
 
         if( input.action == "QUIT" ) {
             return item_location();
@@ -3122,7 +3126,7 @@ item_location inventory_examiner::execute()
         } else if( input.action == "PAGE_DOWN" ) {
 	  examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
-	  if( selected_item != item_location::nowhere ) {
+            if( selected_item != item_location::nowhere ) {
                 return selected_item;
             }
         } else if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
