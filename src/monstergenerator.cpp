@@ -806,6 +806,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         shearing = shearing_data( entries );
     }
 
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
     optional( jo, was_loaded, "death_function", mdeath_effect );
 
     if( jo.has_array( "emit_fields" ) ) {
