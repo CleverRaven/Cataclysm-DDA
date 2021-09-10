@@ -22,7 +22,6 @@
 #include "value_ptr.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class item;
 template <typename E> struct enum_traits;
@@ -56,7 +55,7 @@ struct recipe_proficiency {
     cata::optional<time_duration> max_experience = cata::nullopt;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct book_recipe_data {
@@ -65,7 +64,7 @@ struct book_recipe_data {
     bool hidden = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct practice_recipe_data {
@@ -79,7 +78,7 @@ struct practice_recipe_data {
     int skill_limit;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 class recipe

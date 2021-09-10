@@ -1077,7 +1077,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
         z->use_mech_power( -5 );
     }
-    z->set_goal( target->pos() );
+    z->set_dest( target->get_location() );
     smash( z );
 }
 
@@ -1499,24 +1499,32 @@ bool mattack::grow_vine( monster *z )
         if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.
-            vine->set_goal( z->pos() );
+            vine->set_dest( z->get_location() );
         }
     }
 
     return true;
 }
 
+// Return true if the creeper hub that spawned the vine is still there
+static bool has_vine_parent( monster *z )
+{
+    if( !z->has_dest() || !get_map().inbounds( z->get_dest() ) ) {
+        return false;
+    }
+    const monster *parent = get_creature_tracker().creature_at<monster>( z->get_dest() );
+    return parent != nullptr && parent->type->id == mon_creeper_hub;
+}
+
 bool mattack::vine( monster *z )
 {
-    int vine_neighbors = 0;
-    map &here = get_map();
-    bool parent_out_of_range = !here.inbounds( z->move_target() );
-    creature_tracker &creatures = get_creature_tracker();
-    monster *parent = creatures.creature_at<monster>( z->move_target() );
-    if( !parent_out_of_range && ( parent == nullptr || parent->type->id != mon_creeper_hub ) ) {
+    if( !has_vine_parent( z ) ) {
         // TODO: Should probably die instead.
         return true;
     }
+    int vine_neighbors = 0;
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     z->moves -= 100;
     for( const tripoint &dest : here.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = creatures.creature_at( dest );
@@ -1548,7 +1556,7 @@ bool mattack::vine( monster *z )
         }
     }
     // Calculate distance from nearest hub
-    int dist_from_hub = rl_dist( z->pos(), z->move_target() );
+    int dist_from_hub = rl_dist( z->get_location(), z->get_dest() );
     if( dist_from_hub > 20 || vine_neighbors > 5 || one_in( 7 - vine_neighbors ) ||
         !one_in( dist_from_hub ) ) {
         return true;
@@ -1557,7 +1565,7 @@ bool mattack::vine( monster *z )
         vine->make_ally( *z );
         vine->reset_special( "VINE" );
         // Store position of parent hub in vine goal point.
-        vine->set_goal( z->move_target() );
+        vine->set_dest( z->get_dest() );
     }
 
     return true;
@@ -2390,9 +2398,9 @@ bool mattack::callblobs( monster *z )
     // if we want to deal with NPCS and friendly monsters as well.
     // The strategy is to send about 1/3 of the available blobs after the player,
     // and keep the rest near the brain blob for protection.
-    const tripoint enemy = get_player_character().pos();
+    const tripoint_abs_ms enemy = get_player_character().get_location();
+    const std::vector<tripoint_abs_ms> nearby_points = closest_points_first( z->get_location(), 3 );
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_SLIME ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2405,7 +2413,7 @@ bool mattack::callblobs( monster *z )
     int guards = 0;
     for( std::list<monster *>::iterator ally = allies.begin();
          ally != allies.end(); ++ally, ++guards ) {
-        tripoint post = enemy;
+        tripoint_abs_ms post = enemy;
         if( guards < num_guards ) {
             // Each guard is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = ( nearby_points.size() * guards ) / num_guards;
@@ -2424,8 +2432,8 @@ bool mattack::callblobs( monster *z )
 bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
+    const std::vector<tripoint_abs_ms> nearby_points = closest_points_first( z->get_location(), 3 );
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -2437,7 +2445,7 @@ bool mattack::jackson( monster *z )
     int dancers = 0;
     bool converted = false;
     for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
-        tripoint post = z->pos();
+        tripoint_abs_ms post = z->get_location();
         if( dancers < num_dancers ) {
             // Each dancer is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = ( nearby_points.size() * dancers ) / num_dancers;
@@ -3062,7 +3070,7 @@ bool mattack::nurse_operate( monster *z )
             return false;
         }
         // Should designate target as the attack_target
-        z->set_dest( target->pos() );
+        z->set_dest( target->get_location() );
 
         // Check if target is already grabbed by something else
         if( target->has_effect( effect_grabbed ) ) {

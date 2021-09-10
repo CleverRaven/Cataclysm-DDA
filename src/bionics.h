@@ -21,7 +21,6 @@
 #include "value_ptr.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 
@@ -221,7 +220,7 @@ struct bionic {
         bool activate_spell( Character &caster );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;

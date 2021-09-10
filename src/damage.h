@@ -11,9 +11,9 @@
 #include "type_id.h"
 
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class item;
 class monster;
 template<typename T> struct enum_traits;
@@ -89,7 +89,7 @@ struct damage_instance {
     void add( const damage_unit &added_du );
     /*@}*/
 
-    void deserialize( JsonIn & );
+    void deserialize( const JsonValue &jsin );
 };
 
 class damage_over_time_data
@@ -105,12 +105,13 @@ class damage_over_time_data
         void load( const JsonObject &obj );
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct dealt_damage_instance {
     std::array<int, static_cast<int>( damage_type::NUM )> dealt_dams;
     bodypart_id bp_hit;
+    std::string wp_hit;
 
     dealt_damage_instance();
     void set_damage( damage_type dt, int amount );

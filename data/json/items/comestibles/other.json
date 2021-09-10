@@ -691,7 +691,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
-    "use_action": [ "CATTLEFODDER" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATTLEFOOD", "DINOFOOD_C" ]
   },
   {
     "id": "birdfood",
@@ -713,7 +714,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
-    "use_action": [ "BIRDFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "BIRDFOOD" ]
   },
   {
     "id": "dogfood",
@@ -737,7 +739,8 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": [ "DOGFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "dogfood_dry",
@@ -762,7 +765,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": [ "DOGFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "catfood",
@@ -786,7 +790,8 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": [ "CATFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "id": "catfood_dry",
@@ -811,7 +816,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": [ "CATFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "type": "COMESTIBLE",

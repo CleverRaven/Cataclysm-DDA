@@ -70,11 +70,6 @@ static const itype_id itype_pressurized_tank( "pressurized_tank" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-bool monster::wander()
-{
-    return ( goal == pos() && patrol_route_abs_ms.empty() );
-}
-
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
@@ -259,25 +254,6 @@ bool monster::can_move_to( const tripoint &p ) const
     return can_reach_to( p ) && will_move_to( p );
 }
 
-void monster::set_dest( const tripoint &p )
-{
-    goal = p;
-}
-
-void monster::unset_dest()
-{
-    goal = pos();
-    path.clear();
-}
-
-// Move towards p for f more turns--generally if we hear a sound there
-// "Stupid" movement; "if (wander_pos.x < posx) posx--;" etc.
-void monster::wander_to( const tripoint &p, int f )
-{
-    wander_pos = p;
-    wandf = f;
-}
-
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
     const FastDistanceApproximation d = rl_dist_fast( pos(), c.pos() );
@@ -401,7 +377,7 @@ void monster::plan()
 
     if( docile ) {
         if( friendly != 0 && target != nullptr ) {
-            set_dest( target->pos() );
+            set_dest( target->get_location() );
         }
 
         return;
@@ -469,8 +445,8 @@ void monster::plan()
     constexpr int max_turns_for_rate_limiting = 1800;
     constexpr double max_turns_to_skip = 600.0;
     // Outputs a range from 0.0 - 1.0.
-    int rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
-                               turns_since_target );
+    float rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
+                                 turns_since_target );
     int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
     if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
         for( const auto &fac_list : factions ) {
@@ -551,8 +527,7 @@ void monster::plan()
                 }
                 if( swarms ) {
                     if( rating < 5 ) { // Too crowded here
-                        wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
-                        wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
+                        wander_pos = get_location() + point( rng( 1, 3 ), rng( 1, 3 ) );
                         wandf = 2;
                         target = nullptr;
                         // Swarm to the furthest ally you can see
@@ -602,18 +577,20 @@ void monster::plan()
                 anger = 0;
                 remove_effect( effect_dragging );
             } else {
-                set_dest( couch_loc );
+                set_dest( here.getglobal( couch_loc ) );
             }
         }
 
     } else if( target != nullptr ) {
 
-        tripoint dest = target->pos();
+        const tripoint_abs_ms dest = target->get_location();
         Creature::Attitude att_to_target = attitude_to( *target );
         if( att_to_target == Attitude::HOSTILE && !fleeing ) {
             set_dest( dest );
         } else if( fleeing ) {
-            set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
+            tripoint_abs_ms away = get_location() - dest + get_location();
+            away.z() = posz();
+            set_dest( away );
         }
         if( angers_hostile_weak && att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
@@ -621,30 +598,30 @@ void monster::plan()
                 anger += 10 - static_cast<int>( hp_per / 10 );
             }
         }
-    } else if( !patrol_route_abs_ms.empty() ) {
+    } else if( !patrol_route.empty() ) {
         // If we have a patrol route and no target, find the current step on the route
-        tripoint next_stop_loc_ms = here.getlocal( patrol_route_abs_ms.at( next_patrol_point ) );
+        tripoint_abs_ms next_stop = patrol_route.at( next_patrol_point );
 
         // if there is more than one patrol point, advance to the next one if we're almost there
         // this handles impassable obstancles but patrollers can still get stuck
-        if( ( patrol_route_abs_ms.size() > 1 ) && rl_dist( next_stop_loc_ms, pos() ) < 2 ) {
-            next_patrol_point = ( next_patrol_point + 1 ) % patrol_route_abs_ms.size();
-            next_stop_loc_ms = here.getlocal( patrol_route_abs_ms.at( next_patrol_point ) );
+        if( ( patrol_route.size() > 1 ) && rl_dist( next_stop, get_location() ) < 2 ) {
+            next_patrol_point = ( next_patrol_point + 1 ) % patrol_route.size();
+            next_stop = patrol_route.at( next_patrol_point );
         }
-        set_dest( next_stop_loc_ms );
+        set_dest( next_stop );
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
     } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
         // visibility doesn't matter, we're getting pulled by a leash
-        if( rl_dist( pos(), player_character.pos() ) > 1 ) {
-            set_dest( player_character.pos() );
+        if( rl_dist( get_location(), player_character.get_location() ) > 1 ) {
+            set_dest( player_character.get_location() );
         } else {
             unset_dest();
         }
     } else if( friendly < 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( pos(), player_character.pos() ) > 2 ) {
-            set_dest( player_character.pos() );
+        if( rl_dist( get_location(), player_character.get_location() ) > 2 ) {
+            set_dest( player_character.get_location() );
         } else {
             unset_dest();
         }
@@ -754,7 +731,7 @@ void monster::move()
         }
     }
     // record position before moving to put the player there if we're dragging
-    tripoint drag_to = here.getabs( pos() );
+    tripoint_abs_ms drag_to = get_location();
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -848,22 +825,22 @@ void monster::move()
     }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
-    if( !wander() ) {
-        if( goal == player_character.pos() ) {
+    if( !is_wandering() ) {
+        if( get_dest() == player_character.get_location() ) {
             current_attitude = attitude( &player_character );
         } else {
             for( const npc &guy : g->all_npcs() ) {
-                if( goal == guy.pos() ) {
+                if( get_dest() == guy.get_location() ) {
                     current_attitude = attitude( &guy );
                 }
             }
         }
     }
 
-    if( ( current_attitude == MATT_IGNORE && patrol_route_abs_ms.empty() ) ||
+    if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
         ( ( current_attitude == MATT_FOLLOW ||
             ( has_flag( MF_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
-          && rl_dist( pos(), goal ) <= type->tracking_distance ) ) {
+          && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
         return;
@@ -885,27 +862,28 @@ void monster::move()
     }
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
+    const tripoint local_dest = here.getlocal( get_dest() );
     if( try_to_move ) {
-        if( !wander() ) {
+        if( !is_wandering() ) {
             while( !path.empty() && path.front() == pos() ) {
                 path.erase( path.begin() );
             }
 
             const auto &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+            if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
+                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
-                path = here.route( pos(), goal, pf_settings, get_path_avoid() );
+                path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
-            if( !path.empty() && path.back() == goal ) {
+            if( !path.empty() && path.back() == local_dest ) {
                 destination = path.front();
                 moved = true;
                 pathed = true;
             } else {
                 // Straight line forward, probably because we can't pathfind (well enough)
-                destination = goal;
+                destination = local_dest;
                 moved = true;
             }
         }
@@ -922,8 +900,8 @@ void monster::move()
     }
     if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
-        if( wander_pos != pos() ) {
-            destination = wander_pos;
+        if( wander_pos != get_location() ) {
+            destination = here.getlocal( wander_pos );
             moved = true;
         }
     }
@@ -951,7 +929,7 @@ void monster::move()
         }
     }
 
-    tripoint next_step;
+    tripoint_abs_ms next_step;
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
@@ -976,7 +954,7 @@ void monster::move()
                 via_ramp = true;
                 candidate.z -= 1;
             }
-            tripoint candidate_abs = get_map().getabs( candidate );
+            const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
 
             if( candidate.z != posz() ) {
                 bool can_z_move = true;
@@ -999,8 +977,8 @@ void monster::move()
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
-                    const tripoint &upper = candidate.z > posz() ? candidate : pos();
-                    const tripoint &lower = candidate.z > posz() ? pos() : candidate;
+                    const tripoint upper = candidate.z > posz() ? candidate : pos();
+                    const tripoint lower = candidate.z > posz() ? pos() : candidate;
                     if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper ) &&
                         here.has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) ) {
                         can_z_move = true;
@@ -1054,7 +1032,7 @@ void monster::move()
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
-                if( !provocative_sound && wander() && destination == wander_pos ) {
+                if( !provocative_sound && is_wandering() && destination == here.getlocal( wander_pos ) ) {
                     continue;
                 }
                 const int estimate = here.bash_rating( bash_estimate(), candidate );
@@ -1104,9 +1082,8 @@ void monster::move()
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
-            } else if( here.getlocal( drag_to ) != pos() &&
-                       creatures.creature_at( here.getlocal( drag_to ) ) == nullptr ) {
-                dragged_foe->setpos( here.getlocal( drag_to ) );
+            } else if( drag_to != get_location() && creatures.creature_at( drag_to ) == nullptr ) {
+                dragged_foe->move_to( drag_to );
             }
         }
     } else {
@@ -1115,7 +1092,7 @@ void monster::move()
         path.clear();
     }
     if( has_effect( effect_led_by_leash ) ) {
-        if( rl_dist( pos(), player_character.pos() ) > 2 ) {
+        if( rl_dist( get_location(), player_character.get_location() ) > 2 ) {
             // Either failed to keep up with the player or moved away
             remove_effect( effect_led_by_leash );
             add_msg( m_info, _( "You lose hold of a leash." ) );
@@ -1149,7 +1126,7 @@ Character *monster::find_dragged_foe()
 void monster::nursebot_operate( Character *dragged_foe )
 {
     // No dragged foe, nothing to do.
-    if( dragged_foe == nullptr ) {
+    if( dragged_foe == nullptr || !has_dest() ) {
         return;
     }
 
@@ -1159,26 +1136,27 @@ void monster::nursebot_operate( Character *dragged_foe )
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    if( rl_dist( pos(), goal ) == 1 &&
-        !get_map().has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, goal ) &&
+    map &here = get_map();
+    if( rl_dist( get_location(), get_dest() ) == 1 &&
+        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.getlocal( get_dest() ) ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-            ( creatures.creature_at( goal ) == nullptr ||
-              creatures.creature_at( goal ) == dragged_foe ) ) {
+            ( creatures.creature_at( get_dest() ) == nullptr ||
+              creatures.creature_at( get_dest() ) == dragged_foe ) ) {
             add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
                      dragged_foe->disp_name() );
 
-            dragged_foe->setpos( goal );
+            dragged_foe->move_to( get_dest() );
 
             // There's still time to get away
             add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-        } else if( creatures.creature_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+        } else if( creatures.creature_at( get_dest() ) != nullptr && has_effect( effect_dragging ) ) {
             sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
-            push_to( goal, 4, 0 );
+            push_to( here.getlocal( get_dest() ), 4, 0 );
         }
     }
     if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
@@ -2102,8 +2080,8 @@ bool monster::will_reach( const point &p )
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( wander_pos.xy(), p ) <= 2 &&
-        rl_dist( point( posx(), posy() ), wander_pos.xy() ) <= wandf ) {
+    if( can_hear() && wandf > 0 && rl_dist( get_map().getlocal( wander_pos ).xy(), p ) <= 2 &&
+        rl_dist( get_location().xy(), wander_pos.xy() ) <= wandf ) {
         return true;
     }
 

@@ -44,16 +44,17 @@ void weakpoint::apply_to( resistances &resistances ) const
     }
 }
 
-float weakpoint::hit_chance() const
+float weakpoint::hit_chance( Creature * ) const
 {
+    // TODO: scale the hit chance based on the source's skill / stats
     return coverage;
 }
 
-const weakpoint *weakpoints::select_weakpoint() const
+const weakpoint *weakpoints::select_weakpoint( Creature *source ) const
 {
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
-        float hit_chance = weakpoint.hit_chance( );
+        float hit_chance = weakpoint.hit_chance( source );
         if( idx < hit_chance ) {
             return &weakpoint;
         }
