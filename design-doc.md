@@ -481,6 +481,10 @@ The groundwater is infected with XE-037. Every creature on Earth is contaminated
 
 The XE-037 contaminating all living things is not the Blob, any more than a transistor is a computer processor. This basic Blob biomatter can be coerced into causing mutations in infected targets (i.e. anyone), using mutagen.
 
+#### The Exodii
+
+See [the Technology document](./technology.md) for more details on how Exodii technology works, both practically and (non-canonically) some of the theory ideas for how it could function.
+
 ### Other Alien Forces
 
 #### Mi-Go
