@@ -154,6 +154,12 @@
     ]
   },
   {
+    "name": "GROUP_EGG_STAG_BEETLE",
+    "type": "monstergroup",
+    "default": "mon_stag_beetle_larva",
+    "monsters": [ { "monster": "mon_stag_beetle_larva", "freq": 1000, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_ANTLION",
     "type": "monstergroup",
     "default": "mon_antlion_larva",

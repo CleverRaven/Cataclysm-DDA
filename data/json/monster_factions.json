@@ -27,7 +27,7 @@
     "name": "zombie",
     "friendly": [ "slime" ],
     "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator" ],
-    "by_mood": [ "ant", "acid_ant", "bee", "wasp" ]
+    "by_mood": [ "ant", "acid_ant", "bee", "wasp", "stag_beetle" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -375,26 +375,39 @@
     "name": "ant",
     "base_faction": "insect",
     "by_mood": [ "zombie", "fungus" ],
-    "neutral": [ "aphid" ]
+    "neutral": [ "aphid", "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
     "base_faction": "insect",
     "by_mood": [ "zombie", "fungus" ],
-    "neutral": [ "aphid" ]
+    "neutral": [ "aphid", "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "aphid",
     "base_faction": "insect",
-    "neutral": [ "ant", "acid_ant" ]
+    "neutral": [ "ant", "acid_ant", "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",
     "base_faction": "insect",
     "hate": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stag_beetle",
+    "base_faction": "insect",
+    "friendly": "stag_beetle_larva"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stag_beetle_larva",
+    "base_faction": "insect",
+    "neutral": [ "ant", "acid_ant" ],
+    "friendly": "stag_beetle"
   },
   {
     "type": "MONSTER_FACTION",
