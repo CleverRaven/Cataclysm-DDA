@@ -1230,7 +1230,7 @@ struct mutable_overmap_phase {
                                       joins, rules_s );
             printf( "%s\n", message.c_str() );
 #endif
-            return { nullptr, nullptr, om_direction::type::invalid };
+            return ter_rule_and_dir { nullptr, nullptr, om_direction::type::invalid };
         }
     }
 
