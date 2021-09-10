@@ -1029,24 +1029,6 @@
     "blood_analysis_description": "Bacterial Infection"
   },
   {
-    "type": "MONSTER",
-    "id": "mon_zombie_test",
-    "name": { "str": "Gangrenous zombo" },
-    "copy-from": "mon_zombie",
-    "melee_skill": 20,
-    "speed": 100,
-    "attack_effs": [ { "id": "paralyzepoison", "duration": 75000 } ]
-  },
-  {
-    "type": "monster_attack",
-    "attack_type": "melee",
-    "id": "eff_test",
-    "cooldown": 1,
-    "move_cost": 100,
-    "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
-    "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true } ]
-  },
-  {
     "type": "effect_type",
     "id": "recover",
     "name": [ "Recovering From Infection" ],
