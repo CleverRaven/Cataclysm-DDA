@@ -532,9 +532,23 @@
     "skill_used": "cooking",
     "time": "3 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_corn", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_eggs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "powder_eggs", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -565,7 +579,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [
         [ "lemon", 1 ],
         [ "irradiated_lemon", 1 ],
@@ -2812,7 +2826,7 @@
         [ "syrup", 1 ],
         [ "artificial_sweetener", 10 ]
       ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+      [ [ "eggs_any_shape", 1, "LIST" ] ]
     ]
   },
   {
@@ -2833,7 +2847,7 @@
         [ "syrup", 1 ],
         [ "artificial_sweetener", 10 ]
       ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "weed", 5 ] ]
     ]
   },
@@ -2856,7 +2870,7 @@
         [ "artificial_sweetener", 10 ]
       ],
       [ [ "chocolate", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+      [ [ "eggs_any_shape", 1, "LIST" ] ]
     ]
   },
   {
@@ -2878,7 +2892,7 @@
         [ "artificial_sweetener", 10 ]
       ],
       [ [ "chocolate", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "weed", 5 ] ]
     ]
   },
@@ -3182,9 +3196,7 @@
         [ "sausage_cooked", 2 ],
         [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
+        [ "eggs_any_shape", 2, "LIST" ]
       ],
       [
         [ "sugar", 10 ],
@@ -3253,29 +3265,8 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "rice_cooked", 1 ] ],
-      [
-        [ "meat_red", 1, "LIST" ],
-        [ "meat_smoked", 1 ],
-        [ "dry_meat", 1 ],
-        [ "can_chicken", 1 ],
-        [ "can_spam", 2 ],
-        [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "salted_fish", 1 ],
-        [ "meat_salted", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "sausage", 2 ],
-        [ "sausage_cooked", 2 ],
-        [ "bratwurst_sausage", 2 ],
-        [ "bacon", 2 ],
-        [ "powder_eggs", 10 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
-      ],
+      [ [ "eggs_any_shape", 2, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
   },
@@ -3360,9 +3351,7 @@
         [ "sausage_cooked", 2 ],
         [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
+        [ "eggs_any_shape", 2, "LIST" ]
       ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -3751,23 +3740,7 @@
     "batch_time_factors": [ 80, 2 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "scrambled_eggs",
-    "id_suffix": "from_powder",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "batch_time_factors": [ 80, 2 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "powder_eggs", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "eggs_any_shape", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3878,26 +3851,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [ "meat_cooked", 1 , "LIST" ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "deluxe_eggs",
-    "id_suffix": "from_powder",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [
-      [ [ "powder_eggs", 2 ] ],
-      [ "meat_cooked", 1 , "LIST" ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "meat_cooked", 1 , "LIST" ] ]
     ]
   },
   {
@@ -3915,7 +3869,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -3936,7 +3890,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -3958,7 +3912,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ]     ],
       [ [ "syrup", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -3980,16 +3934,9 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "milk_standard_raw", 1, "LIST" ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "cinnamon", 2 ] ],
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "hardtack", 2 ]
-      ]
+      [ [ "bread_sandwich", 2 , "LIST" ] ]
     ]
   },
   {
@@ -4006,7 +3953,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
@@ -4027,7 +3974,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
@@ -4050,7 +3997,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],

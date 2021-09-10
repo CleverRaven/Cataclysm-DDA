@@ -89,6 +89,18 @@
     ]
   },
   {
+    "id": "eggs_any_shape",
+    "type": "requirement",
+    "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
+    "components": [
+      [
+        [ "eggs_bird", 1 , "LIST" ],
+        [ "rehydrated_eggs" , 1 ],
+        [ "egg_reptile", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "milk_standard",
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",
@@ -300,20 +312,10 @@
     "components": [
       [
         [ "meat_red", 1, "LIST" ],
-        [ "meat_liver", 5, "LIST" ],
-        [ "meat_kidney", 5, "LIST" ],
-        [ "meat_lung", 5, "LIST" ],
-        [ "sweetbread", 5 ],
-        [ "bacon", 4 ],
-        [ "lunchmeat", 5 ],
-        [ "bologna", 5 ],
+        [ "meat_offal", 1, "LIST" ],
         [ "can_spam", 2 ],
-        [ "can_chicken", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "dry_meat", 1 ],
-        [ "jerky", 1 ],
-        [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ]
+        [ "lunchmeat", 2 ],
+        [ "can_chicken", 1 ]
       ]
     ]
   },
@@ -352,9 +354,9 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "jerky", 1 ],
-        [ "bacon", 1 ],
+        [ "bacon", 2 ],
         [ "lunchmeat", 2 ],
-        [ "bologna", 5 ],
+        [ "bologna", 2 ],
         [ "can_spam", 2 ],
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
@@ -372,6 +374,7 @@
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
+        [ "sausage_wasteland", 1 ],
         [ "bratwurst_sausage", 1 ]
       ]
     ]
