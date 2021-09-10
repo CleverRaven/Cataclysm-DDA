@@ -85,5 +85,23 @@ The biggest branch point in CDDA tech is the availability of sci-fi technology f
 
 The basic rule of thumb is that the more advanced or unbelievable the technology, the less player modifiable it should be.  An alien chemical propellant weapon might be modified to accept earth bullets because the principles are quite similar, but no player is going to be dismantling a mi-go slaver rifle and salvaging recognizable components. 
 
-### Cybernetics
-Cybernetics were brought to earth after the cataclysm.  A readily available CBM should not contain technology that can't be explained by modern technology, except for the details of it being attached to the body without harm.  We can handwave away neural interfacing with CBMs.  Unique advanced CBMs may possess greater capabilities but access to these should be strictly gated through story advancement through one of several factions.
+### Exodii Technology
+The Exodii are a faction of human travellers from other cataclysm-affected dimensions.  They have replaced a majority of their bodies with cybernetics to enable them to more easily defend against the zombie threat, both inside and out.  In general, Exodii technology should **not** be significantly more advanced than our own, with a few exceptions as outlined here.
+
+#### Cybernetics
+Cybernetics were brought to earth after the cataclysm, by the Exodii.  A readily available CBM should not contain technology that can't be explained by modern technology, except for the details of it being attached to the body without harm.  We can handwave away neural interfacing with CBMs.  Unique advanced CBMs may possess greater capabilities but access to these should be strictly gated through story advancement through one of several factions.  Cybernetics are a core part of the Exodii identity and have likely been part of their repertoire for centuries or more.
+
+Cybernetic technology includes the **auto-doc**, an operating table assisted by at least one adapted human brain as a central computer, and a traditional computer that mostly assists the adapted brain by providing it with additional knowledge from previous operations.  Technically this means an auto-doc is itself a cyborg.  It 
+
+#### Braaaains
+The Exodii use human and animal brains as computing assistants all the time.  Their major source of human brains are "feral" humans, who have had significant brain damage from the Blob.  They excise damaged tissue creating a lobotomized brain, which then gets hooked up to Exodii machinery to function as a handy computer able to make fairly complex decisions.
+
+#### Computers and software
+Exodii computers and software are somewhat less advanced (at least superficially) on average than our or CDDA Earth.  This is largely the result of them being kludged together from completely incompatible sources over decades to millenia.  They do as much computing as possible using wetware.  The Exodii neural uplink is able to function as a compatability bus for a lot of software, but it is very slow: literally, a human brain can take input from one piece of software and figure out how to output it to another.  Over time it can be trained to do this quickly, and over more time, train a machine to do it automatically, but it's not fast and it's not reliable.
+
+The Exodii do not have the capacity to develop novel microprocessors and things like that, but they can print existing designs according to spec, mostly as needed for CBMs.
+
+#### Manufacturing
+The Exodii have on-base a series of 3D printers able to manufacture the components needed for their most fundamental cybernetics.  These are maintained like religious relics and each part's structure (including the software) is known on an exacting level.  The actual function of some of the components has been lost over time.  Additionally they have some tools for separating and reforging scrap metals and other raw materials into the parts needed for their printers.
+
+Off-site the Exodii maintain separate nodes that they've gathered over time and try to bring along.  These allow more extensive and robust recycling and manufacturing of things that are useful to, but not necessary to, the Exodii.
