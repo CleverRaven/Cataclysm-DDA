@@ -2311,17 +2311,16 @@
     "color": "white",
     "aggression": -99,
     "morale": -10,
+    "special_attacks": [ "EAT_CROP", 30 ],
     "armor_bash": 5,
     "armor_cut": 6,
     "armor_bullet": 3,
     "armor_acid": 6,
-    "vision_day": 0,
-    "vision_night": 6,
     "harvest": "arachnid",
     "//": "when taming becomes more involved, this should be slowly tameable with honeydew, allowing for a tamed stag beetle through almost a year of effort",
     "fear_triggers": [ "FIRE", "HURT" ],
     "upgrades": { "age_grow": 288, "into": "mon_stag_beetle_small" },
-    "flags": [ "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "PET_WONT_FOLLOW" ]
+    "flags": [ "PATH_AVOID_FIRE", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_stag_beetle_small",
@@ -2346,7 +2345,7 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_multiplier": 0.5 } ]
       }
     ],
-    "upgrades": { "age_grow": 28, "into": "mon_stag_beetle_giant" },
+    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_giant" },
     "delete": {
       "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 20 },
       "flags": [ "DESTROYS", "PUSH_VEH" ]
@@ -2440,7 +2439,7 @@
     ],
     "weakpoints": [ { "name": "a foul scar in the chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 } ],
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 364 },
-    "delete": { "upgrades": { "age_grow": 28, "into": "mon_stag_beetle_mega" } }
+    "upgrades": false
   },
   {
     "id": "mon_antlion_larva",

@@ -1714,10 +1714,9 @@
       { "monster": "mon_grasshopper_small", "freq": 15, "pack_size": [ 1, 3 ], "cost_multiplier": 0 },
       { "monster": "mon_antlion_larva", "freq": 7, "cost_multiplier": 10 },
       { "monster": "mon_antlion_giant", "freq": 2, "cost_multiplier": 10 },
-      { "monster": "mon_stag_beetle_small", "freq": 1, "cost_multiplier": 0, "ends": 504 },
+      { "monster": "mon_stag_beetle_small", "freq": 2, "cost_multiplier": 0, "starts": 168, "ends": 720 },
       { "monster": "mon_stag_beetle_small", "freq": 2, "cost_multiplier": 0, "starts": 168 },
-      { "monster": "mon_stag_beetle_giant", "freq": 2, "cost_multiplier": 0, "starts": 504 },
-      { "monster": "mon_stag_beetle_giant", "freq": 1, "cost_multiplier": 0, "starts": 720, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_stag_beetle_giant", "freq": 1, "cost_multiplier": 0, "starts": 720 }
     ]
   },
   {

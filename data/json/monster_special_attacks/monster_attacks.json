@@ -143,7 +143,7 @@
     "hit_dmg_u": "The %1$s brutally rams you in the %2$s!",
     "hit_dmg_npc": "The %1$s brutally rams <npcname> in the %2$s!",
     "no_dmg_msg_u": "The %1$s rams your %2$s, but you hold steady!",
-    "no_dmg_msg_npc": "The %1$s rams <npcname>'s %2$s, but they hold steady!",
+    "no_dmg_msg_npc": "The %1$s rams <npcname>, but they hold steady!",
     "miss_msg_u": "The %s flicks its horns at you, but you dodge!",
     "miss_msg_npc": "The %s flicks its horns at <npcname>, but they dodge!"
   },
