@@ -72,7 +72,6 @@ jobs:
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/b/vcpkg" -Recurse
         echo =================================================
-        vcpkg.exe install --triplet x64-windows-static sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 
     - name: Dump vcpkg logs if vcpkg build failed
       if: failure()
