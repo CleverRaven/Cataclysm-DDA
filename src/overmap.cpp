@@ -919,6 +919,15 @@ struct enum_traits<cube_direction> {
     static constexpr cube_direction last = cube_direction::last;
 };
 
+namespace std
+{
+template <> struct hash<cube_direction> {
+    std::size_t operator()( const cube_direction &d ) const {
+        return static_cast<std::size_t>( d );
+    }
+};
+} // namespace std
+
 static constexpr cube_direction operator-( const cube_direction d, int i )
 {
     switch( d ) {
@@ -1221,7 +1230,7 @@ struct mutable_overmap_phase {
                                       joins, rules_s );
             printf( "%s\n", message.c_str() );
 #endif
-            return { nullptr, nullptr, om_direction::type::invalid };
+            return ter_rule_and_dir { nullptr, nullptr, om_direction::type::invalid };
         }
     }
 

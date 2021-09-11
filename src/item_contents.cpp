@@ -1560,6 +1560,16 @@ units::mass item_contents::item_weight_modifier() const
     return total_mass;
 }
 
+units::length item_contents::item_length_modifier() const
+{
+    units::length total_length = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        total_length = std::max( pocket.item_length_modifier(), total_length );
+    }
+    return total_length;
+}
+
+
 int item_contents::best_quality( const quality_id &id ) const
 {
     int ret = 0;

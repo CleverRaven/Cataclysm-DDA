@@ -117,6 +117,7 @@ class item_contents
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
+        units::length item_length_modifier() const;
 
         // gets the total weight capacity of all pockets
         units::mass total_container_weight_capacity() const;
