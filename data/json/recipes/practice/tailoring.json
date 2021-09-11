@@ -1,0 +1,18 @@
+[
+  {
+    "id": "prac_leather_beg",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "leatherworking (beginner)",
+    "description": "Practice basic principles of tailoring with leathers, furs, and hides.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 4 },
+    "autolearn": [ [ "tailor", 3 ] ],
+    "book_learn": [ [ "mag_animecon", 0 ], [ "dieselpunk_tailor", 0 ] ],
+    "using": [ [ "tailoring_leather_small", 2 ] ]
+  }
+]
