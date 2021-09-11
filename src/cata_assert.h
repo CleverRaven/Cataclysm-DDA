@@ -7,7 +7,11 @@
 
 // Might as well handle NDEBUG at the top level instead of just wrapping one variant.
 #ifdef NDEBUG
-#define cata_assert(expression) ((void)0)
+// Goes the convoluted way to avoid unused variable warnings. The inner declval
+// and decltype expressions are to workaround incorrect "left operand has no
+// effect" warning on some compilers.
+#define cata_assert(expression) \
+    ( static_cast<void>( decltype( std::declval<decltype( expression )>(), int() )() ) )
 #else
 #ifdef _WIN32
 #include <cstdlib>
