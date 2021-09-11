@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "FMCNote",
     "name": { "str": "Merch" },
@@ -18,7 +18,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "RobofacCoin",
     "name": { "str": "Hub 01 Gold Coin" },
@@ -36,7 +36,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
@@ -53,7 +53,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "signed_chit",
     "name": { "str": "chit" },
@@ -70,7 +70,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "icon",
     "name": { "str": "icon" },
@@ -87,7 +87,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_penny",
     "name": { "str": "penny", "str_pl": "pennies" },
@@ -105,7 +105,7 @@
     "ammo_type": "coin_penny"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_nickel",
     "name": { "str": "nickel" },
@@ -123,7 +123,7 @@
     "ammo_type": "coin_nickel"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_dime",
     "name": { "str": "dime" },
@@ -141,7 +141,7 @@
     "ammo_type": "coin_dime"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_quarter",
     "name": { "str": "quarter" },
@@ -159,7 +159,7 @@
     "ammo_type": "coin_quarter"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_half_dollar",
     "name": { "str": "half-dollar coin" },
@@ -177,7 +177,7 @@
     "ammo_type": "coin_half_dollar"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_dollar",
     "name": { "str": "dollar coin" },
@@ -195,7 +195,7 @@
     "ammo_type": "coin_dollar"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_silver",
     "name": { "str": "Silver Eagle coin" },
@@ -212,7 +212,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_gold",
     "name": { "str": "American Buffalo coin" },
@@ -253,7 +253,7 @@
     ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "money_one",
     "name": { "str": "one-dollar bill" },
@@ -270,7 +270,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_two",
     "name": { "str": "two-dollar bill" },
     "description": "A two-dollar bill, featuring a portrait of Thomas Jefferson.",
@@ -284,7 +284,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_five",
     "name": { "str": "five-dollar bill" },
     "description": "A five-dollar bill, featuring a portrait of Abraham Lincoln.",
@@ -298,7 +298,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_ten",
     "name": { "str": "ten-dollar bill" },
     "description": "A ten-dollar bill, featuring a depiction of Alexander Hamilton.",
@@ -312,7 +312,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_twenty",
     "name": { "str": "twenty-dollar bill" },
     "description": "A twenty-dollar bill, featuring a portrait of Andrew Jackson.",
@@ -326,7 +326,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_fifty",
     "name": { "str": "fifty-dollar bill" },
     "description": "A fifty-dollar bill, featuring a portrait of Ulysses S Grant.",
@@ -340,7 +340,7 @@
     "ammo_type": "currency"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_hundred",
     "name": { "str": "hundred-dollar bill" },
     "description": "A hundred-dollar bill, featuring a portrait of Benjamin Franklin.",
