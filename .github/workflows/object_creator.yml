@@ -68,7 +68,7 @@ jobs:
     - name: Install more vcpkg packages
       run: |
         vcpkg.exe --version
-        vcpkg.exe install "--x-install-root=${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" yasm-tool:x86-windows
+        vcpkg.exe install --vcpkg-root "D:/a/Cataclysm-DDA/b/vcpkg/scripts/buildsystems/msbuild/../../..//" "--x-install-root=${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed/" yasm-tool:x86-windows
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
         echo =================================================
