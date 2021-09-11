@@ -87,6 +87,12 @@ jobs:
             }
         }
 
+    - name: Check for yasm
+      run: |
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed"
+        echo =================================================
+
     - name: Build
       run: |
           cd msvc-object_creator
