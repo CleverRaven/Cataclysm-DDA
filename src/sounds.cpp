@@ -131,8 +131,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::order: return "order";
     case sounds::sound_t::_LAST: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 } // namespace io
@@ -189,8 +188,7 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::_LAST:
             break;
     }
-    debugmsg( "Invalid sound_t category" );
-    abort();
+    cata_fatal( "Invalid sound_t category" );
 }
 
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
@@ -1523,8 +1521,8 @@ void sfx::do_footstep()
 
         auto veh_displayed_part = get_map().veh_at( player_character.pos() ).part_displayed();
 
-        if( !veh_displayed_part && ( terrain->has_flag( TFLAG_DEEP_WATER ) ||
-                                     terrain->has_flag( TFLAG_SHALLOW_WATER ) ) ) {
+        if( !veh_displayed_part && ( terrain->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
+                                     terrain->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) ) {
             play_plmove_sound_variant( "walk_water" );
             return;
         }
@@ -1578,8 +1576,8 @@ void sfx::do_obstacle( const std::string &obst )
     if( sfx::has_variant_sound( "plmove", obst ) ) {
         play_variant_sound( "plmove", obst, heard_volume, 0_degrees, 0.8, 1.2 );
     } else if( ter_str_id( obst ).is_valid() &&
-               ( ter_id( obst )->has_flag( TFLAG_SHALLOW_WATER ) ||
-                 ter_id( obst )->has_flag( TFLAG_DEEP_WATER ) ) ) {
+               ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
+                 ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
         play_variant_sound( "plmove", "walk_water", heard_volume, 0_degrees, 0.8, 1.2 );
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );

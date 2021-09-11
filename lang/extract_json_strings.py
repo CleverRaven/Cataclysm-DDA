@@ -666,6 +666,8 @@ def extract_recipes(item):
             for (k, v) in item["book_learn"].items():
                 if type(v) is dict and "recipe_name" in v:
                     writestr(outfile, v["recipe_name"])
+    if "name" in item:
+        writestr(outfile, item["name"])
     if "description" in item:
         writestr(outfile, item["description"])
     if "blueprint_name" in item:
@@ -1005,6 +1007,14 @@ def extract_snippets(item):
             writestr(outfile, snip["text"])
 
 
+def extract_speed_description(item):
+    outfile = get_outfile("speed_description")
+    values = item.get("values", [])
+    for value in values:
+        if 'description' in value:
+            writestr(outfile, value['description'])
+
+
 def extract_vehicle_part_category(item):
     outfile = get_outfile("vehicle_part_categories")
     name = item.get("name")
@@ -1046,12 +1056,14 @@ extract_specials = {
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
     "palette": extract_palette,
+    "practice": extract_recipes,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "snippet": extract_snippets,
+    "speed_description": extract_speed_description,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,

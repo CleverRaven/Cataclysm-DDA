@@ -44,16 +44,8 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
-            prev_area = area;
-            prev_viewing_cargo = viewing_cargo;
-            area = square.id;
-            viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
-        }
-        void restore_area() {
-            area = prev_area;
-            viewing_cargo = prev_viewing_cargo;
-        }
+        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false );
+        void restore_area();
         aim_location get_area() const {
             return area;
         }

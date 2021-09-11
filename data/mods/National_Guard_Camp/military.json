@@ -37,7 +37,8 @@
     ],
     "death_drops": { "groups": [ [ "wraitheon_infantry", 30 ] ] },
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_w11b20b4",

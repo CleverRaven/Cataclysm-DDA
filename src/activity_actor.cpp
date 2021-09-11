@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -266,7 +267,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin )
 {
     aim_activity_actor actor = aim_activity_actor();
 
@@ -447,7 +448,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
 }
@@ -540,7 +541,7 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonValue &jsin )
 {
     dig_activity_actor actor( 0, tripoint_zero,
                               {}, tripoint_zero, 0, {} );
@@ -607,7 +608,7 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonValue &jsin )
 {
     dig_channel_activity_actor actor( 0, tripoint_zero,
                                       {}, tripoint_zero, 0, {} );
@@ -708,7 +709,7 @@ void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonValue &jsin )
 {
     gunmod_remove_activity_actor actor( 0, item_location(), -1 );
 
@@ -856,7 +857,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 
 void hacking_activity_actor::serialize( JsonOut & ) const {}
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {
     hacking_activity_actor actor;
     return actor.clone();
@@ -923,7 +924,7 @@ void bookbinder_copy_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonValue &jsin )
 {
     bookbinder_copy_activity_actor actor;
 
@@ -997,7 +998,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
     hotwire_car_activity_actor actor( 0, tripoint_zero );
 
@@ -1037,7 +1038,7 @@ void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonValue &jsin )
 {
     vehicle veh;
     bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
@@ -1079,7 +1080,7 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonValue &jsin )
 {
     vehicle veh;
     bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
@@ -1624,7 +1625,7 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsin )
 {
     read_activity_actor actor;
     JsonObject data = jsin.get_object();
@@ -1714,7 +1715,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
     move_items_activity_actor actor( {}, {}, false, tripoint_zero );
 
@@ -1787,7 +1788,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &jsin )
 {
     pickup_activity_actor actor( {}, {}, cata::nullopt );
 
@@ -1944,7 +1945,7 @@ void boltcutting_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonValue &jsin )
 {
     boltcutting_activity_actor actor( {}, {} );
     JsonObject data = jsin.get_object();
@@ -2147,7 +2148,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( "PICKABLE", p );
+        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
     };
 
     const cata::optional<tripoint> target = choose_adjacent_highlight(
@@ -2186,7 +2187,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
     lockpick_activity_actor actor( 0, cata::nullopt, cata::nullopt, tripoint_zero );
 
@@ -2250,7 +2251,7 @@ void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue &jsin )
 {
     ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
 
@@ -2285,7 +2286,7 @@ void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonValue & )
 {
     return migration_cancel_activity_actor().clone();
 }
@@ -2312,7 +2313,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
     open_gate_activity_actor actor( 0, tripoint_zero );
 
@@ -2434,7 +2435,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &jsin )
 {
     item_location null;
     consume_activity_actor actor( null );
@@ -2538,7 +2539,7 @@ void try_sleep_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonValue &jsin )
 {
     try_sleep_activity_actor actor = try_sleep_activity_actor( 0_seconds );
 
@@ -2642,7 +2643,7 @@ void safecracking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonValue &jsin )
 {
     safecracking_activity_actor actor = safecracking_activity_actor( {} );
 
@@ -2740,7 +2741,7 @@ void unload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonValue &jsin )
 {
     unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
@@ -2861,15 +2862,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
                              old_counter / ticks_per_practice;
+    bool level_up = false;
     if( num_practice_ticks > 0 ) {
-        crafter.craft_skill_gain( craft, num_practice_ticks );
+        level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
     int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-        crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
     }
@@ -2890,10 +2892,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
+        if( rec.is_practice() && !is_long && craft.charges == 1 ) {
+            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+                is_long = true;
+                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
+            }
+        }
         item craft_copy = craft;
         craft_item.remove_item();
         // We need to cache this before we cancel the activity else we risk Use After Free
-        bool will_continue = is_long;
+        const bool will_continue = is_long;
         crafter.cancel_activity();
         crafter.complete_craft( craft_copy, location );
         if( will_continue ) {
@@ -2901,14 +2909,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                 crafter.last_craft->execute( location );
             }
         }
-    } else if( craft.item_counter >= craft.get_next_failure_point() ) {
-        bool destroy = craft.handle_craft_failure( crafter );
-        // If the craft needs to be destroyed, do it and stop crafting.
-        if( destroy ) {
-            crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                           _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
-            craft_item.remove_item();
+    } else {
+        if( level_up && craft.get_making().is_practice() &&
+            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
             crafter.cancel_activity();
+        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+            bool destroy = craft.handle_craft_failure( crafter );
+            // If the craft needs to be destroyed, do it and stop crafting.
+            if( destroy ) {
+                crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                               _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+                craft_item.remove_item();
+                crafter.cancel_activity();
+            }
         }
     }
 }
@@ -2943,7 +2956,7 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &jsin )
 {
     JsonObject data = jsin.get_object();
 
@@ -2951,10 +2964,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
 
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
-
-    if( actor.craft_item ) {
-        actor.activity_override = actor.craft_item->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
@@ -2983,8 +2993,8 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // free training requires all limbs intact, but specialized workout machines
     // train upper or lower parts of body only and may permit workout with
     // broken limbs as long as they are not involved by the machine
-    bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
-    bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
+    bool hand_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_ARMS, location );
+    bool leg_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_LEGS, location );
 
     if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
                             who.is_limb_broken( body_part_arm_r ) ) ) {
@@ -3174,7 +3184,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
     workout_activity_actor actor = workout_activity_actor( tripoint_zero );
 
@@ -3272,9 +3282,8 @@ void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
     jsobj.read( "loc", _loc );
     jsobj.read( "count", _count );
 }
@@ -3309,7 +3318,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsin )
 {
     drop_activity_actor actor;
 
@@ -3405,7 +3414,7 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
     harvest_activity_actor actor( tripoint_zero );
 
@@ -3473,7 +3482,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonValue &jsin )
 {
     stash_activity_actor actor;
 
@@ -3575,7 +3584,7 @@ void disable_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonValue &jsin )
 {
     disable_activity_actor actor = disable_activity_actor();
 
@@ -3617,7 +3626,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
     move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
 
@@ -3742,7 +3751,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonValue &jsin )
 {
     insert_item_activity_actor actor;
 
@@ -3833,38 +3842,63 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     } else {
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
+
     // Volume change should only affect container that cantains the "base" item
     // For example a reloaded gun mod never "spills" from the gun
     // It just affect the container that cantains the gun
-    if( reload_targets[0].has_parent() ) {
-        item_location loc = reload_targets[0].parent_item();
-        if( loc.volume_capacity() < units::volume() ||
-            loc.weight_capacity() < units::mass() ) {
-            // In player inventory and player is wielding nothing.
-            if( !who.is_armed() && loc.held_by( who ) ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
-                         reloadable_name );
-                who.wield( reloadable );
-            } else {
-                // In player inventory and player is wielding something.
-                if( loc.held_by( who ) ) {
-                    add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
-                             reloadable_name );
-                    // Default handling message.
-                } else {
-                    add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
-                             reloadable_name );
-                }
-                get_map().add_item_or_charges( loc.position(), reloadable );
-                loc.remove_item();
-            }
-        }
-    } else {
+    if( !reload_targets[0].has_parent() ) {
         debugmsg( "item_location of item to be reloaded is not available" );
+        return;
     }
+
+    item_location loc = reload_targets[0].parent_item();
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
+    if( loc.volume_capacity() >= units::volume() &&
+        loc.weight_capacity() >= units::mass() ) {
+        return;
+    }
 
+    // Attempt to put item in another pocket before prompting
+    if( who.try_add( reloadable, nullptr, nullptr, false ) != nullptr ) {
+        // try_add copied the old item, so remove it now.
+        loc.remove_item();
+        return;
+    }
+
+    // Build prompt
+    uilist reload_query;
+    const bool wield_check = who.can_wield( reloadable ).success();
+    reload_query.text = string_format( _( "The %s no longer fits in your inventory" ),
+                                       reloadable_name );
+    if( who.has_wield_conflicts( reloadable ) ) {
+        reload_query.addentry( 1, wield_check, 'w',
+                               _( "Dispose of %s and wield %s" ), who.weapon.display_name(),
+                               reloadable_name );
+    } else {
+        reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );
+    }
+    reload_query.addentry( 2, true, 'd', _( "Drop %s" ), reloadable_name );
+    reload_query.query();
+
+    switch( reload_query.ret ) {
+        case 1:
+            // This case is only reachable if wield_check is true
+            who.wield( reloadable );
+            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                     reloadable_name );
+            break;
+        case 2:
+        default:
+            // In player inventory and player is wielding something.
+            if( loc.held_by( who ) ) {
+                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
+                         reloadable_name );
+            }
+            get_map().add_item_or_charges( loc.position(), reloadable );
+            loc.remove_item();
+            break;
+    }
 }
 
 void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
@@ -3884,7 +3918,7 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &jsin )
 {
     reload_activity_actor actor;
 
@@ -3954,7 +3988,7 @@ void milk_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonValue &jsin )
 {
     milk_activity_actor actor;
     JsonObject data = jsin.get_object();
@@ -4112,7 +4146,7 @@ void shearing_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonValue &jsin )
 {
     shearing_activity_actor actor = shearing_activity_actor( {} );
 
@@ -4145,19 +4179,19 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-
-    if( act.targets.back()->typeId() != itype_disassembly ) {
-        target = who.create_in_progress_disassembly( act.targets.back() );
-    } else {
-        target = act.targets.back();
-        act.position = target->charges;
+    if( act.targets.back()->typeId() == itype_disassembly ) {
+        act.position = act.targets.back()->charges;
     }
+    target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
     }
+
+    // Mark the item, not available for other characters
+    target->set_var( "activity_var", who.name );
 
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = target->get_making().exertion_level();
@@ -4201,6 +4235,13 @@ void disassemble_activity_actor::finish( player_activity &act, Character & )
     act.set_to_null();
 }
 
+void disassemble_activity_actor::canceled( player_activity &, Character & )
+{
+    if( target.get_item() ) {
+        target->erase_var( "activity_var" );
+    }
+}
+
 float disassemble_activity_actor::exertion_level() const
 {
     return activity_override;
@@ -4221,11 +4262,12 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "target", target );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonValue &jsin )
 {
     disassemble_activity_actor actor = disassemble_activity_actor( 0 );
 
@@ -4233,10 +4275,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
-
-    if( actor.target ) {
-        actor.activity_override = actor.target->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
@@ -4385,7 +4424,7 @@ void oxytorch_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonValue &jsin )
 {
     oxytorch_activity_actor actor( {}, {} );
     JsonObject data = jsin.get_object();
@@ -4444,7 +4483,7 @@ void tent_placement_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonValue &jsin )
 {
     item it;
     tent_placement_activity_actor actor( 0, {}, 0, it, {}, {}, {}, {} );
@@ -4486,7 +4525,7 @@ void tent_deconstruct_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonValue &jsin )
 {
     tent_deconstruct_activity_actor actor( 0, 0, {}, {} );
     JsonObject data = jsin.get_object();
@@ -4516,7 +4555,7 @@ void meditate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonValue & )
 {
     return meditate_activity_actor().clone();
 }
@@ -4530,6 +4569,11 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+
+    if( !playstr.empty() ) {
+        who.add_msg_if_player( m_good, playstr, pet_name );
+    }
+
     who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                            pet_name );
     act.set_to_null();
@@ -4538,19 +4582,17 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
 void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-
     jsout.member( "pet_name", pet_name );
-
+    jsout.member( "playstr", playstr );
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
-
     JsonObject data = jsin.get_object();
-
     data.read( "pet_name", actor.pet_name );
+    data.read( "playstr", actor.playstr );
     return actor.clone();
 }
 
@@ -4572,7 +4614,7 @@ void shave_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonValue & )
 {
     return shave_activity_actor().clone();
 }
@@ -4587,6 +4629,19 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
     who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    if( who.is_avatar() ) {
+        uilist amenu;
+        amenu.title = _( "Change what?" );
+        amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change hairstyle" ) );
+        amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change facial hairstyle" ) );
+
+        amenu.query();
+        if( amenu.ret == 0 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR );
+        } else if( amenu.ret == 1 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR_F );
+        }
+    }
     act.set_to_null();
 }
 
@@ -4595,7 +4650,7 @@ void haircut_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue & )
 {
     return haircut_activity_actor().clone();
 }
@@ -4604,7 +4659,7 @@ namespace activity_actors
 {
 
 // Please keep this alphabetically sorted
-const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
+const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
@@ -4678,7 +4733,8 @@ void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
             data.read( "actor_type", actor_type );
             auto deserializer = activity_actors::deserialize_functions.find( actor_type );
             if( deserializer != activity_actors::deserialize_functions.end() ) {
-                actor = deserializer->second( *data.get_raw( "actor_data" ) );
+                JsonValue jv = data.get_member( "actor_data" );
+                actor = deserializer->second( jv );
             } else {
                 debugmsg( "Failed to find activity actor deserializer for type \"%s\"", actor_type.c_str() );
                 actor = nullptr;

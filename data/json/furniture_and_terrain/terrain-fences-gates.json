@@ -680,6 +680,12 @@
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire", "count": 2 } ] },
+    "boltcut": {
+      "result": "t_fence_post",
+      "duration": "10 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 2 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 20,

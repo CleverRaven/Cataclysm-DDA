@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
@@ -159,14 +160,15 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
+        mvwprintz( win, point( 8, 1 + i ), display::encumb_color( e.encumbrance ), "%3d",
                    e.encumbrance - e.layer_penalty );
         // separator in low toned color
         mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
         // take into account the new encumbrance system for layers
-        mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
+        mvwprintz( win, point( 12, 1 + i ), display::encumb_color( e.encumbrance ), "%-3d",
+                   e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp ), "(% 3d)",
+        mvwprintz( win, point( width - 6, 1 + i ), display::bodytemp_color( *this, bp ), "(% 3d)",
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
     }
 
@@ -406,7 +408,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const Character &
     display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3, line_color( 2 ) );
     display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4, line_color( 3 ) );
     mvwprintz( w_stats, point( 1, 5 ), line_color( 4 ), _( "Weight:" ) );
-    right_print( w_stats, 5, 1, c_light_gray, you.get_weight_string() );
+    right_print( w_stats, 5, 1, c_light_gray, display::weight_string( you ) );
     mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
                you.height_string() );
@@ -459,10 +461,6 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
-        if( you.rust_rate() ) {
-            print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust delay: <color_white>%d%%</color>" ), you.rust_rate() ) );
-        }
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
@@ -485,7 +483,7 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
                                              " which in turn shows how prepared you are to survive for a time without food."
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.get_weight_long_description() );
+                        display::weight_long_description( you ) );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -927,12 +925,12 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_proficiencies_info( w_info, line, you );
             break;
         case player_display_tab::num_tabs:
-            abort();
+            cata_fatal( "Invalid curtab" );
     }
 }
 
 static void draw_tip( const catacurses::window &w_tip, const Character &you,
-                      const std::string &race, const input_context &ctxt )
+                      const std::string &race, const input_context &ctxt, bool customize_character )
 {
     werase( w_tip );
 
@@ -940,26 +938,28 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     if( you.custom_profession.empty() ) {
         if( you.crossed_threshold() ) {
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
                        you.male ? _( "Male" ) : _( "Female" ), race );
         } else if( you.prof == nullptr || you.prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.get_name(),
                        you.male ? _( "Male" ) : _( "Female" ) );
         } else {
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
                        you.male ? _( "Male" ) : _( "Female" ),
                        you.prof->gender_appropriate_name( you.male ) );
         }
     } else {
-        mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
+        mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
-    right_print( w_tip, 0, 8, c_light_gray, string_format(
-                     _( "[<color_yellow>%s</color>]Switch Gender" ),
-                     ctxt.get_desc( "SWITCH_GENDER" ) ) );
+    if( customize_character ) {
+        right_print( w_tip, 0, 8, c_light_gray, string_format(
+                         _( "[<color_yellow>%s</color>]Customize character" ),
+                         ctxt.get_desc( "SWITCH_GENDER" ) ) );
+    }
 
     right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
@@ -977,7 +977,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         const ui_adaptor &ui_skills, const ui_adaptor &ui_proficiencies,
         const std::vector<trait_id> &traitslist, const std::vector<bionic> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-        const std::vector<HeaderSkill> &skillslist )
+        const std::vector<HeaderSkill> &skillslist, bool customize_character )
 {
     const auto invalidate_tab = [&]( const player_display_tab tab ) {
         switch( tab ) {
@@ -1003,7 +1003,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 ui_proficiencies.invalidate_ui();
                 break;
             case player_display_tab::num_tabs:
-                abort();
+                cata_fatal( "Invalid tab" );
         }
     };
 
@@ -1035,7 +1035,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             line_end = you.display_proficiencies().size();
             break;
         case player_display_tab::num_tabs:
-            abort();
+            cata_fatal( "Invalid curtab" );
     }
     if( line_beg >= line_end || line < line_beg ) {
         line = line_beg;
@@ -1108,9 +1108,31 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
 
         you.custom_profession = popup.text();
         ui_tip.invalidate_ui();
-    } else if( action == "SWITCH_GENDER" ) {
-        you.male = !you.male;
-        popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
+    } else if( customize_character && action == "SWITCH_GENDER" ) {
+        uilist cmenu;
+        cmenu.title = _( "Customize Character" );
+        cmenu.addentry( 1, true, 'y', _( "Change gender" ) );
+        cmenu.addentry( 2, true, 'n', _( "Change name" ) );
+
+        cmenu.query();
+        if( cmenu.ret == 1 ) {
+            you.male = !you.male;
+            popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
+        } else if( cmenu.ret == 2 ) {
+            std::string filterstring = you.play_name.value_or( std::string() );
+            string_input_popup popup;
+            popup
+            .title( _( "New name ( leave empty to reset ):" ) )
+            .width( 85 )
+            .edit( filterstring );
+            if( popup.confirmed() ) {
+                if( filterstring.empty() ) {
+                    you.play_name.reset();
+                } else {
+                    you.play_name = filterstring;
+                }
+            }
+        }
     }
     return done;
 }
@@ -1139,8 +1161,11 @@ static std::pair<unsigned, unsigned> calculate_shared_column_win_height(
     return std::make_pair( first_win_size_y_max, second_win_size_y_max );
 }
 
-void Character::disp_info()
+void Character::disp_info( bool customize_character )
 {
+    // Customizing any character is always enabled in debug mode
+    customize_character |= debug_mode;
+
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -1153,7 +1178,7 @@ void Character::disp_info()
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
-        std::pair<std::string, nc_color> pain_desc = get_pain_description();
+        std::pair<std::string, nc_color> pain_desc = display::pain_text_color( *this );
         std::string pain_text;
         pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
         pain_text += colorize( pain_desc.first, pain_desc.second );
@@ -1281,7 +1306,7 @@ void Character::disp_info()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
-    ctxt.register_action( "SWITCH_GENDER", to_translation( "Change gender of the player" ) );
+    ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;
@@ -1310,7 +1335,7 @@ void Character::disp_info()
     } );
     ui_tip.mark_resize();
     ui_tip.on_redraw( [&]( const ui_adaptor & ) {
-        draw_tip( w_tip, *this, race, ctxt );
+        draw_tip( w_tip, *this, race, ctxt, customize_character );
     } );
 
     // STATS
@@ -1534,6 +1559,6 @@ void Character::disp_info()
 
         done = handle_player_display_action( *this, line, curtab, ctxt, ui_tip, ui_info, ui_stats,
                                              ui_encumb, ui_traits, ui_bionics, ui_effects, ui_skills, ui_proficiencies, traitslist, bionicslist,
-                                             effect_name_and_text, skillslist );
+                                             effect_name_and_text, skillslist, customize_character );
     } while( !done );
 }

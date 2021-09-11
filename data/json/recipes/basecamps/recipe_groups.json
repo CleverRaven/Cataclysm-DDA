@@ -200,13 +200,14 @@
     "type": "recipe_group",
     "id": "saltworks_recipes_2",
     "building_type": "COOK",
+    "//": "You can make the recipes work by adding a container like canning but it's a huge pain because of pockets and inconsistency in liquid volumes",
     "recipes": [
-      { "id": "brew_fruit_wine", "description": " Brew: Fruit Wine Must" },
-      { "id": "brew_mead", "description": " Brew: Spiced Wine Must" },
-      { "id": "brew_dandelion_wine", "description": " Brew: Dandelion Wine Must" },
-      { "id": "brew_burdock_wine", "description": " Brew: Burdock Wine Must" },
-      { "id": "brew_pine_wine", "description": " Brew: Pine Wine Must" },
-      { "id": "brew_hb_beer", "description": " Brew: Beer" }
+      { "id": "brew_fruit_wine", "description": " WIP Brew: Fruit Wine Must" },
+      { "id": "brew_mead", "description": " WIP Brew: Spiced Wine Must" },
+      { "id": "brew_dandelion_wine", "description": " WIP Brew: Dandelion Wine Must" },
+      { "id": "brew_burdock_wine", "description": " WIP Brew: Burdock Wine Must" },
+      { "id": "brew_pine_wine", "description": " WIP Brew: Pine Wine Must" },
+      { "id": "brew_hb_beer", "description": " WIP Brew: Beer" }
     ]
   },
   {
@@ -214,10 +215,10 @@
     "id": "saltworks_recipes_3",
     "building_type": "COOK",
     "recipes": [
-      { "id": "brandy", "description": " Distill: Brandy" },
-      { "id": "gin_from_mash", "description": " Distill: Gin" },
-      { "id": "vodka_from_wash", "description": " Distill: Vodka" },
-      { "id": "rum", "description": " Distill: Rum" }
+      { "id": "brandy", "description": " WIP Distill: Brandy" },
+      { "id": "gin_from_mash", "description": " WIP Distill: Gin" },
+      { "id": "vodka_from_wash", "description": " WIP Distill: Vodka" },
+      { "id": "rum", "description": " WIP Distill: Rum" }
     ]
   },
   {
@@ -253,7 +254,6 @@
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "crucible", "description": " Craft: Crucible" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" }
     ]

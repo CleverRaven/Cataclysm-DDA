@@ -354,7 +354,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 }
 
             } else {
-                return who->name;
+                return who->get_name();
             }
         }
 
@@ -748,9 +748,8 @@ void item_location::serialize( JsonOut &js ) const
     ptr->serialize( js );
 }
 
-void item_location::deserialize( JsonIn &js )
+void item_location::deserialize( const JsonObject &obj )
 {
-    JsonObject obj = js.get_object();
     auto type = obj.get_string( "type" );
 
     int idx = -1;

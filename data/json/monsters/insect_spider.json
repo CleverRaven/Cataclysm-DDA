@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "dark wyrm" },
     "description": "A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
-    "default_faction": "mutant",
+    "default_faction": "dark_wyrm",
     "bodytype": "snake",
     "species": [ "MUTANT" ],
     "volume": "92500 ml",
@@ -24,6 +24,7 @@
     "armor_bash": 6,
     "bleed_rate": 60,
     "harvest": "arachnid_acid",
+    "fear_triggers": [ "FIRE" ],
     "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
   },
   {
@@ -617,7 +618,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "AQUATIC", "SEES" ],
+    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
     "upgrades": { "age_grow": 21, "into": "mon_dragonfly_giant" }
   },
   {
@@ -667,7 +668,7 @@
     "id": "mon_dragonfly_mega",
     "type": "MONSTER",
     "name": { "str_sp": "fused dragonflies" },
-    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the amalgamation of two dragonflies, bodies still locked into a telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
+    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the unholy union of two dragonflies in the act of mating, bodies still locked into the telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
     "volume": "600 L",
     "weight": "800 kg",
     "default_faction": "dragonfly",
@@ -761,6 +762,7 @@
     "harvest": "arachnid_flying",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
+    "//": "LOUDMOVES is now part of the species INSECT_FLYING",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
@@ -2079,7 +2081,7 @@
   {
     "id": "mon_mantis_small",
     "type": "MONSTER",
-    "name": { "str": "huge praying mantis" },
+    "name": { "str": "huge praying mantis", "str_pl": "huge praying mantises" },
     "description": "A green mutant insect with sharp grappling spikes on its front legs.  It's a little smaller than an adult person.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2095,7 +2097,7 @@
   {
     "id": "mon_mantis_giant",
     "type": "MONSTER",
-    "name": { "str": "giant praying mantis" },
+    "name": { "str": "giant praying mantis", "str_pl": "giant praying mantises" },
     "description": "An enormous green creature grown about the size of a bear.  It dances weirdly and looks ready to chop your head off at any moment.",
     "default_faction": "mantis",
     "bodytype": "insect",
@@ -2135,7 +2137,7 @@
   {
     "id": "mon_mantis_mega",
     "type": "MONSTER",
-    "name": { "str": "great mantis" },
+    "name": { "str": "great mantis", "str_pl": "great mantises" },
     "description": "This ferocious creature is lurking through the land.  It's probably capable of killing a moose with its powerful arms.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },

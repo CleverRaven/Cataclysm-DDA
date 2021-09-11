@@ -7,7 +7,7 @@
 
 #include "type_id.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class mission;
 
@@ -73,7 +73,7 @@ struct dialogue_chatbin {
 
     void clear_all();
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 #endif // CATA_SRC_DIALOGUE_CHATBIN_H
