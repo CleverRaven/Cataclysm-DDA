@@ -5544,9 +5544,7 @@ units::length item::length() const
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
-    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        max = std::max( it->length(), max );
-    }
+    max = std::max( contents.item_length_modifier(), max );
     return max;
 }
 

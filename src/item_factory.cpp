@@ -1970,8 +1970,7 @@ std::string enum_to_string<layer_level>( layer_level data )
         case layer_level::NUM_LAYER_LEVELS:
             break;
     }
-    debugmsg( "Invalid layer_level" );
-    abort();
+    cata_fatal( "Invalid layer_level" );
 }
 } // namespace io
 
@@ -2744,8 +2743,7 @@ std::string enum_to_string<grip_val>( grip_val val )
         case grip_val::WEAPON: return "weapon";
         default: break;
     }
-    debugmsg( "Invalid grip val" );
-    abort();
+    cata_fatal( "Invalid grip val" );
 }
 
 template<>
@@ -2757,8 +2755,7 @@ std::string enum_to_string<length_val>( length_val val )
         case length_val::LONG: return "long";
         default: break;
     }
-    debugmsg( "Invalid length val" );
-    abort();
+    cata_fatal( "Invalid length val" );
 }
 
 template<>
@@ -2771,8 +2768,7 @@ std::string enum_to_string<surface_val>( surface_val val )
         case surface_val::EVERY: return "every";
         default: break;
     }
-    debugmsg( "Invalid surface val" );
-    abort();
+    cata_fatal( "Invalid surface val" );
 }
 
 template<>
@@ -2785,8 +2781,7 @@ std::string enum_to_string<balance_val>( balance_val val )
         case balance_val::GOOD: return "good";
         default: break;
     }
-    debugmsg( "Invalid balance val" );
-    abort();
+    cata_fatal( "Invalid balance val" );
 }
 
 struct acc_data {
@@ -3798,8 +3793,7 @@ std::string enum_to_string<phase_id>( phase_id data )
         case phase_id::num_phases:
             break;
     }
-    debugmsg( "Invalid phase" );
-    abort();
+    cata_fatal( "Invalid phase" );
 }
 } // namespace io
 

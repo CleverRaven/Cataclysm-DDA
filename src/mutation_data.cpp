@@ -305,8 +305,7 @@ namespace io
         case trigger_type::TIME: return "TIME";
         case trigger_type::num_trigger: return "undefined trigger";
         }
-        debugmsg("Invalid trigger_type %d", trigger_num);
-        abort();
+        cata_fatal("Invalid trigger_type %d", trigger_num);
     }
     // *INDENT-ON*
 } // namespace io
