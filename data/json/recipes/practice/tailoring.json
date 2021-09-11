@@ -10,9 +10,9 @@
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
-    "practice_data": { "min_difficulty": 1, "max_difficulty": 3, "skill_limit": 4 },
-    "autolearn": [ [ "tailor", 3 ] ],
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_animecon", 0 ], [ "dieselpunk_tailor", 0 ] ],
-    "using": [ [ "tailoring_leather_small", 2 ] ]
+    "using": [ [ "tailoring_leather_small", 4 ], [ "filament", 20 ] ]
   }
 ]
