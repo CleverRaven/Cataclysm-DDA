@@ -200,6 +200,7 @@
     "type": "recipe_group",
     "id": "saltworks_recipes_2",
     "building_type": "COOK",
+    "//": "You can make the recipes work by adding a container like canning but it's a huge pain because of pockets and inconsistency in liquid volumes",
     "recipes": [
       { "id": "brew_fruit_wine", "description": " WIP Brew: Fruit Wine Must" },
       { "id": "brew_mead", "description": " WIP Brew: Spiced Wine Must" },
