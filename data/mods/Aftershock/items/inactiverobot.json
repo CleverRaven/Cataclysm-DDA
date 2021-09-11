@@ -430,7 +430,7 @@
     "bashing": 6,
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bot_skitterbot_rat",
