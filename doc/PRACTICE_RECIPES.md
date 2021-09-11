@@ -21,10 +21,15 @@ They:
 - must not define a `result` or `difficulty`
 - may define `byproducts`
 
-The `practice_data` field is required for practice recipes, and must be defined. It sets a minimum
-and maximum difficulty level.  The difficulty of the recipe will match your current skill level as
-long as it is within those bounds.  `practice_data` can also set a hard cap on the maximum level
-that can be attained via the recipe, overriding (lowering) the normal limit based on difficulty.
+The `practice_data` field is required for practice recipes, and must be defined. It is an object
+with its own fields, as follows:
+
+- `min_difficulty` - Lowest skill level when practice recipe can be attempted.
+- `max_difficulty` - Highest skill level difficulty you will get credit for when practicing.
+- `skill_limit` - Hard cap on highest skill level that can be obtained. Optional, default max skill level (10). This should not be set higher than `max_difficulty` + 1.
+
+The difficulty of the recipe will match your current *practical* skill level if it is between
+`min_difficulty` and `max_difficulty`.
 
 The "category" and "subcategory" fields tell where the recipe should appear in the crafting menu.
 Use category "CC_PRACTICE" for practice recipes, and set a subcategory like "CSC_TAILORING" to make
@@ -59,20 +64,7 @@ For example, here is a recipe for practicing intermediate level computer skill:
 ]
 ```
 
-## Notes
-
-Practice recipes can be autolearned at a certain knowledge level, derived from books or taught by
-skilled NPCs. They don't show up as recipes in books because they're not really recipes.
-
-The minimum practical skill level is a hard requirement. If you don't have it you can't practice.
-
-They require tools and consume materials and/or tool charges, but are supposed to be more efficient
-than crafting+uncrafting something repeatedly.
-
-Practice recipes train skills and proficiencies. They are organized into categories by skill.
-
-Each recipe is typically named after the main skill or proficiency that it trains plus an optional
-suffix, e.g. the difficulty tier or material used
-
-Practice is something you do on your own. NPCs will not help you, but may watch and learn.
+The recipe `time` should be set to the standard `1 h` unless there is a compelling reason to do
+otherwise.  Practice recipes will be easier to balance against one another for skill and proficiency
+development if they all adhere to the same standard recipe length.
 
