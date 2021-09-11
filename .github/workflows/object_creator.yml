@@ -96,6 +96,8 @@ jobs:
       if: failure()
       run: |
         echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
+        echo =================================================
         echo "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed/x64-windows-static/share/yasm-tool-helper/yasm-tool-helper.cmake"
         echo =================================================
         type "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed/x64-windows-static/share/yasm-tool-helper/yasm-tool-helper.cmake"
