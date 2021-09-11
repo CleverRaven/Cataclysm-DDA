@@ -43,8 +43,7 @@ std::string enum_to_string<condition_type>( condition_type data )
         case condition_type::num_condition_types:
             break;
     }
-    debugmsg( "Invalid condition_type" );
-    abort();
+    cata_fatal( "Invalid condition_type" );
 }
 } // namespace io
 
