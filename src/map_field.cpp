@@ -162,7 +162,7 @@ void map::process_fields()
     }
 }
 
-bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags flag )
+bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_furn_flag flag )
 {
     return ter.has_flag( flag ) || furn.has_flag( flag );
 }
@@ -219,7 +219,8 @@ bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
     if( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
         const ter_t &ter = dst.get_ter_t();
         const furn_t &frn = dst.get_furn_t();
-        return ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE );
+        return ter_furn_movecost( ter, frn ) > 0 ||
+               ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_PERMEABLE );
     }
     return false;
 }
@@ -493,7 +494,7 @@ static void field_processor_underwater_dissipation( const tripoint &, field_entr
         field_proc_data &pd )
 {
     // Dissipate faster in water
-    if( pd.map_tile.get_ter_t().has_flag( TFLAG_SWIMMABLE ) ) {
+    if( pd.map_tile.get_ter_t().has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
         cur.mod_field_age( pd.cur_fd_type->underwater_age_speedup );
     }
 }
@@ -866,9 +867,9 @@ void field_processor_fd_incendiary( const tripoint &p, field_entry &cur, field_p
     // Needed for variable scope
     tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
 
-    if( pd.here.has_flag( TFLAG_FLAMMABLE, dst ) ||
-        pd.here.has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
-        pd.here.has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
+    if( pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, dst ) ||
+        pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, dst ) ||
+        pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD, dst ) ) {
         pd.here.add_field( dst, fd_fire, 1 );
     }
 
@@ -894,10 +895,10 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
     const ter_t &ter = pd.map_tile.get_ter_t();
     const furn_t &frn = pd.map_tile.get_furn_t();
     const int intensity = cur.get_field_intensity();
-    if( ter.has_flag( TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
+    if( ter.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
         pd.here.ter_set( p, t_dirt );
     }
-    if( frn.has_flag( TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
+    if( frn.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
         pd.here.furn_set( p, f_null );
     }
 }
@@ -920,19 +921,19 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     const furn_t &frn = map_tile.get_furn_t();
 
     // We've got ter/furn cached, so let's use that
-    const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                           !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
+    const bool is_sealed = ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_SEALED ) &&
+                           !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_ALLOW_FIELD_EFFECT );
     // Smoke generation probability, consumed items count
     int smoke = 0;
     int consumed = 0;
     // How much time to add to the fire's life due to burned items/terrain/furniture
     time_duration time_added = 0_turns;
     // Checks if the fire can spread
-    const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+    const bool can_spread = !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FIRE_CONTAINER );
     // If the flames are in furniture with fire_container flag like brazier or oven,
     // they're fully contained, so skip consuming terrain
     const bool can_burn = ( ter.is_flammable() || frn.is_flammable() ) &&
-                          !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+                          !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FIRE_CONTAINER );
     // The huge indent below should probably be somehow moved away from here
     // without forcing the function to use i_at( p ) for fires without items
     if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -999,13 +1000,13 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         // Damage the vehicle in the fire.
     }
     if( can_burn ) {
-        if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
+        if( ter.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
             // Flames die quickly on water
             cur.set_field_age( cur.get_field_age() + 4_minutes );
         }
 
         // Consume the terrain we're on
-        if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
+        if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE ) ) {
             // The fire feeds on the ground itself until max intensity.
             time_added += 1_turns * ( 5 - cur.get_field_intensity() );
             smoke += 2;
@@ -1015,7 +1016,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.destroy( p, false );
             }
 
-        } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
+        } else if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
                    one_in( 3 ) ) {
             // The fire feeds on the ground itself until max intensity.
             time_added += 1_turns * ( 4 - cur.get_field_intensity() );
@@ -1026,7 +1027,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.destroy( p, false );
             }
 
-        } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+        } else if( ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
             // The fire feeds on the ground itself until max intensity.
             time_added += 1_turns * ( 5 - cur.get_field_intensity() );
             smoke += 2;
@@ -1041,7 +1042,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 }
             }
 
-        } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+        } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
             // The fire feeds on the ground itself until max intensity.
             time_added += 1_turns * ( 5 - cur.get_field_intensity() );
             smoke += 2;
@@ -1052,7 +1053,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.add_item_or_charges( p, item( "ash" ) );
             }
 
-        } else if( ter.has_flag( TFLAG_NO_FLOOR ) && here.has_zlevels() && p.z > -OVERMAP_DEPTH ) {
+        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && here.has_zlevels() &&
+                   p.z > -OVERMAP_DEPTH ) {
             // We're hanging in the air - let's fall down
             tripoint dst{ p.xy(), p.z - 1 };
             if( here.valid_move( p, dst, true, true ) ) {
@@ -1225,10 +1227,10 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
         const auto &dst_ter = dst.get_ter_t();
-        if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
-            dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
-            dst_ter.has_flag( TFLAG_FLAMMABLE_ASH ) ||
-            dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
+        if( dst_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+            dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
+            dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
+            dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD ) ) {
             field_entry *nearfire = dst.find_field( fd_fire );
             if( nearfire != nullptr ) {
                 nearfire->mod_field_age( -2_turns );
@@ -1275,9 +1277,12 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             if( can_spread && rng( 1, 100 ) < spread_chance &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
-                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
-                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
-                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE ) &&
+                                      one_in( 2 ) ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) &&
+                                      one_in( 2 ) ) ) ||
+                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
+                                      one_in( 5 ) ) ) ||
                     nearwebfld ||
                     ( one_in( 5 ) && dst.get_item_count() > 0 &&
                       here.flammable_items_at( p + eight_horizontal_neighbors[i] ) )
@@ -1332,9 +1337,12 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             if( can_spread && rng( 1, 100 ) < spread_chance &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
-                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
-                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
-                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE ) &&
+                                      one_in( 2 ) ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) &&
+                                      one_in( 2 ) ) ) ||
+                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
+                                      one_in( 5 ) ) ) ||
                     nearwebfld ||
                     ( one_in( 5 ) && dst.get_item_count() > 0 &&
                       here.flammable_items_at( p + eight_horizontal_neighbors[i] ) )
@@ -1352,13 +1360,13 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         }
     }
     // Create smoke once - above us if possible, at us otherwise
-    if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
+    if( !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_SUPPRESS_SMOKE ) &&
         rng( 0, 100 - windpower ) <= smoke &&
         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
         bool smoke_up = here.has_zlevels() && p.z < OVERMAP_HEIGHT;
         if( smoke_up ) {
             tripoint up{p.xy(), p.z + 1};
-            if( here.has_flag_ter( TFLAG_NO_FLOOR, up ) ) {
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, up ) ) {
                 here.add_field( up, fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns, false );
             } else {
                 // Can't create smoke above
@@ -2146,7 +2154,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
 
-                if( impassable( pt ) && ( not_gas || !has_flag( TFLAG_PERMEABLE, pt ) ) ) {
+                if( impassable( pt ) && ( not_gas || !has_flag( ter_furn_flag::TFLAG_PERMEABLE, pt ) ) ) {
                     closed.insert( pt );
                     continue;
                 }

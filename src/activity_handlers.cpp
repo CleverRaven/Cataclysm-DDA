@@ -229,11 +229,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
-// not to confuse with item flags (json_flag)
-static const std::string flag_AUTODOC( "AUTODOC" );
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -369,8 +364,7 @@ std::string enum_to_string<butcher_type>( butcher_type data )
     case butcher_type::SKIN: return "SKIN";
     case butcher_type::NUM_TYPES: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 
@@ -1781,7 +1775,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     act->set_to_null();
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        if( here.is_bashable( pos ) && here.has_flag( TFLAG_SUPPORTS_ROOF, pos ) &&
+        if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
@@ -3040,9 +3034,9 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     map &here = get_map();
     if( autodoc && here.inbounds( you->pos() ) ) {
         const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                             flag_AUTODOC );
+                                             ter_furn_flag::TFLAG_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, you->pos() ) || autodocs.empty() ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos() ) || autodocs.empty() ) {
             you->remove_effect( effect_under_operation );
             act->set_to_null();
 
@@ -3167,7 +3161,7 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
             const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 flag_AUTODOC );
+                                                 ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
                            "Autodoc",
@@ -3176,7 +3170,7 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
             add_msg( m_bad,
                      _( "The Autodoc jerks back to its resting position after failing the operation." ) );
             const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 flag_AUTODOC );
+                                                 ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a sad beeping noise: \"Operation failed\"" ), true,
                            "Autodoc",
@@ -3224,7 +3218,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_PLANTABLE, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else {
             here.set( examp, t_dirt, f_plant_seed );

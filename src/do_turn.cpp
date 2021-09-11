@@ -268,10 +268,10 @@ bool cleanup_at_end()
         g->move_save_to_graveyard();
         g->write_memorial_file( sLastWords );
         get_memorial().clear();
-        std::vector<std::string> characters = g->list_active_characters();
+        std::vector<std::string> characters = g->list_active_saves();
         // remove current player from the active characters list, as they are dead
         std::vector<std::string>::iterator curchar = std::find( characters.begin(),
-                characters.end(), u.name );
+                characters.end(), u.get_save_id() );
         if( curchar != characters.end() ) {
             characters.erase( curchar );
         }
@@ -377,8 +377,8 @@ void update_stair_monsters()
 
     avatar &u = get_avatar();
     for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
-        if( ( from_below && m.has_flag( TFLAG_GOES_DOWN, dest ) ) ||
-            ( !from_below && m.has_flag( TFLAG_GOES_UP, dest ) ) ) {
+        if( ( from_below && m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) ||
+            ( !from_below && m.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ) {
             stairx.push_back( dest.x );
             stairy.push_back( dest.y );
             stairdist.push_back( rl_dist( dest, u.pos() ) );
@@ -516,8 +516,7 @@ void update_stair_monsters()
                         msg = _( "The %s pushed you back!" );
                     }
                     add_msg( m_warning, msg.c_str(), critter.name() );
-                    u.setx( u.posx() + push.x );
-                    u.sety( u.posy() + push.y );
+                    u.move_to( u.get_location() + push );
                     return;
                 }
             }
@@ -1004,7 +1003,6 @@ bool do_turn()
         ui_manager::redraw();
         refresh_display();
     }
-    effect_on_conditions::process_effect_on_conditions();
 
     if( levz >= 0 && !u.is_underwater() ) {
         handle_weather_effects( weather.weather_id );

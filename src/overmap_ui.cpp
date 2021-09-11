@@ -596,20 +596,21 @@ static void draw_ascii(
     point_rel_omt s_begin;
     point_rel_omt s_end;
     if( blink && uistate.place_special ) {
-        for( const auto &s_ter : uistate.place_special->terrains ) {
-            if( s_ter.p.z == 0 ) {
-                // TODO: fix point types
-                const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
-                const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
+            // Preview should only yield the terrains on the zero z-level
+            cata_assert( s_ter.p.z == 0 );
 
-                special_cache.insert( std::make_pair(
-                                          rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
+            // TODO: fix point types
+            const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
+            const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
-                s_begin.x() = std::min( s_begin.x(), rp.x() );
-                s_begin.y() = std::min( s_begin.y(), rp.y() );
-                s_end.x() = std::max( s_end.x(), rp.x() );
-                s_end.y() = std::max( s_end.y(), rp.y() );
-            }
+            special_cache.insert( std::make_pair(
+                                      rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
+
+            s_begin.x() = std::min( s_begin.x(), rp.x() );
+            s_begin.y() = std::min( s_begin.y(), rp.y() );
+            s_end.x() = std::max( s_end.x(), rp.x() );
+            s_end.y() = std::max( s_end.y(), rp.y() );
         }
     }
 
@@ -1464,7 +1465,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
         }
         // TODO: Unify these things.
         const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() :
-                                uistate.place_special->rotatable;
+                                uistate.place_special->is_rotatable();
 
         uistate.omedit_rotation = om_direction::type::none;
         // If user chose an already rotated submap, figure out its direction
@@ -1501,7 +1502,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
             mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
-                ( !terrain && uistate.place_special->rotatable ) ) {
+                ( !terrain && uistate.place_special->is_rotatable() ) ) {
                 mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
@@ -1525,11 +1526,12 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
-                    overmap_buffer.place_special( *uistate.place_special, curs, uistate.omedit_rotation, false, true );
-                    for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
-                        const tripoint_abs_omt pos =
-                            curs + om_direction::rotate( s_ter.p, uistate.omedit_rotation );
-                        overmap_buffer.set_seen( pos, true );
+                    if( cata::optional<std::vector<tripoint_abs_omt>> used_points =
+                            overmap_buffer.place_special( *uistate.place_special, curs,
+                                                          uistate.omedit_rotation, false, true ) ) {
+                        for( const tripoint_abs_omt &pos : *used_points ) {
+                            overmap_buffer.set_seen( pos, true );
+                        }
                     }
                 }
                 break;
@@ -1628,7 +1630,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         params = overmap_path_params::for_player();
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
-        if( here.has_flag( TFLAG_SWIMMABLE, player_character.pos() ) || is_river_or_lake( dest_ter ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
+            is_river_or_lake( dest_ter ) ) {
             params.water_cost = 100;
         }
     }

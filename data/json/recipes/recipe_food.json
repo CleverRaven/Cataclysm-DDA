@@ -12,6 +12,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "charges": 12,
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
     "components": [
       [ [ "flour", 4 ] ],
       [ [ "salt", 12 ] ],
@@ -35,6 +36,12 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" },
+      { "proficiency": "prof_baking", "fail_multiplier": 1.1 }
+    ],
     "components": [
       [ [ "flour", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -119,6 +126,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "mushroom", 1 ] ] ]
   },
   {
@@ -133,6 +141,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "bell_pepper", 1 ] ] ]
   },
   {
@@ -147,6 +156,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "meat", 1 ] ] ]
   },
   {
@@ -161,6 +171,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "porkbelly", 1 ], [ "raw_curing_fatty_meat", 1 ], [ "raw_cured_fatty_meat", 1 ] ] ]
   },
   {
@@ -175,6 +186,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 2 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [
       [
         [ "salt_water", 1 ],
@@ -205,6 +217,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
   {
@@ -221,6 +234,7 @@
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "bacon_uncut", 1 ] ] ]
   },
   {
@@ -245,6 +259,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "mutant_meat", 1 ] ] ]
   },
   {
@@ -270,6 +285,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "mutant_human_flesh", 1 ] ] ]
   },
   {
@@ -284,6 +300,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -298,6 +315,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "hstomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -312,6 +330,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "stomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -326,6 +345,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "hstomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -340,6 +360,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "fish", 1 ] ] ]
   },
   {
@@ -355,6 +376,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -371,6 +393,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "fat", 2 ] ] ]
   },
   {
@@ -380,6 +403,7 @@
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -390,6 +414,7 @@
     "byproducts": [ [ "mutant_cracklins" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_fat", 2 ] ] ]
   },
   {
@@ -399,6 +424,7 @@
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_human_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -409,6 +435,7 @@
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_human_fat", 2 ] ] ]
   },
   {
@@ -422,8 +449,9 @@
     "charges": 1,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [
       [
         [ "plant_sac", 2 ],
@@ -450,6 +478,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -533,6 +562,7 @@
     "charges": 4,
     "book_learn": [ [ "cookbook", 1 ], [ "mag_cooking", 1 ], [ "cookbook_foodfashions", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
@@ -562,6 +592,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
@@ -578,6 +609,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "fish", 1 ] ] ]
   },
   {
@@ -593,6 +625,7 @@
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "fish", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
@@ -608,6 +641,12 @@
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [ [ [ "can_clams", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
@@ -623,6 +662,12 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [ [ [ "onion", 2 ], [ "irradiated_onion", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 2, "LIST" ] ] ]
   },
   {
@@ -638,6 +683,7 @@
     "time": "10 m",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "dry_rice", 1 ] ],
@@ -660,6 +706,7 @@
     "time": "5 m",
     "charges": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "sushi_rice", 1 ] ],
       [
@@ -687,6 +734,7 @@
     "time": "8 m",
     "charges": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "sushi_rice", 1 ] ],
       [
@@ -728,6 +776,7 @@
     "time": "45 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "batch_time_factors": [ 50, 2 ],
     "components": [ [ [ "soy_milk", 5 ] ], [ [ "water_clean", 1 ] ], [ [ "lemon", 1 ], [ "vinegar", 1 ] ] ]
   },
@@ -743,6 +792,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "components": [ [ [ "tofu", 1 ] ] ]
   },
   {
@@ -757,6 +807,7 @@
     "time": "45 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "batch_time_factors": [ 25, 2 ],
     "components": [
       [ [ "tofu", 4 ], [ "dry_tofu", 4 ] ],
@@ -787,6 +838,7 @@
     "time": "6 m",
     "charges": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "sushi_rice", 1 ] ],
       [ [ "fish", 2 ] ],
@@ -814,6 +866,7 @@
     "book_learn": [ [ "cookbook_sushi", 3 ] ],
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "sushi_rice", 2 ] ],
       [ [ "meat_red", 1, "LIST" ] ],
@@ -845,6 +898,7 @@
     "time": "9 m",
     "charges": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "fish", 1 ] ],
       [
@@ -885,6 +939,7 @@
     "time": "4 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "protein_powder", 1 ] ],
       [ [ "water_clean", 1 ] ],
@@ -905,6 +960,12 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_preservation" },
+      { "proficiency": "prof_food_curing" }
+    ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
@@ -933,6 +994,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "charges": 8,
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
@@ -960,6 +1022,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
@@ -1004,6 +1067,12 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 5 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_preservation" },
+      { "proficiency": "prof_food_curing" }
+    ],
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 1 ], [ "seasoning_italian", 2 ], [ "wild_herbs", 2 ], [ "seasoning_salt", 2 ] ],
@@ -1023,6 +1092,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "human_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1039,6 +1109,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "human_fat", 2 ] ] ]
   },
   {
@@ -1053,6 +1124,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "human_flesh", 1 ] ] ]
   },
   {
@@ -1065,8 +1137,9 @@
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
       [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ],
@@ -1085,6 +1158,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "meat_red", 2, "LIST" ], [ "fish", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1098,6 +1172,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "veggy", 1 ] ] ]
   },
   {
@@ -1112,6 +1187,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "veggy_wild", 1 ] ] ]
   },
   {
@@ -1129,6 +1205,7 @@
     "batch_time_factors": [ 40, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "cattail_stalk", 1 ] ] ]
   },
   {
@@ -1146,6 +1223,7 @@
     "batch_time_factors": [ 80, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "cattail_rhizome", 1 ] ] ]
   },
   {
@@ -1161,6 +1239,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "mushroom_morel", 1 ] ] ]
   },
   {
@@ -1175,6 +1254,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
     "components": [ [ [ "mushroom_morel", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
@@ -1195,6 +1275,7 @@
     ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "dahlia_root", 1 ] ] ]
   },
   {
@@ -1216,6 +1297,7 @@
     ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "salsify_raw", 1 ] ] ]
   },
   {
@@ -1232,6 +1314,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1248,6 +1331,12 @@
     "//": "Small amounts of oil will be absorbed by the batter, real fried food 8-25% by weight",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [ [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "raw_dandelion", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
@@ -1272,6 +1361,7 @@
     },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1295,6 +1385,12 @@
     },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [ [ [ "raw_burdock", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
@@ -1319,6 +1415,12 @@
     "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [
       [ [ "raw_dandelion", 1 ] ],
       [ [ "raw_burdock", 1 ] ],
@@ -1340,6 +1442,7 @@
     "batch_time_factors": [ 30, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "acorns", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
@@ -1367,6 +1470,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "pumpkin", 1 ], [ "irradiated_pumpkin", 1 ] ] ]
   },
   {
@@ -1410,6 +1514,11 @@
     "//": "Even assuming the crafter is reusing oil, some still gets absorbed into the potato.",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
+      { "proficiency": "prof_frying" }
+    ],
     "components": [
       [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
@@ -1445,6 +1554,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "tortilla_corn", 5 ] ], [ [ "fry_oil", 2, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
   },
   {
@@ -1459,6 +1569,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ], [ [ "nachos", 3 ] ] ]
   },
   {
@@ -1473,6 +1584,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ], [ [ "nachos", 3 ] ] ]
   },
   {
@@ -1487,6 +1599,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
@@ -1505,6 +1618,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "can_beans", 2 ], [ "beans_cooked", 2 ] ], [ [ "nachos", 3 ] ] ]
   },
   {
@@ -1519,6 +1633,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "can_beans", 2 ], [ "beans_cooked", 2 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
@@ -1538,6 +1653,11 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
+      { "proficiency": "prof_frying" }
+    ],
     "components": [
       [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
@@ -1555,6 +1675,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ], [ [ "fries", 1 ], [ "fresh_fries", 1 ] ] ]
   },
   {
@@ -1765,6 +1886,11 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_forage_cooking" }
+    ],
     "components": [ [ [ "chicory_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1788,6 +1914,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1812,6 +1939,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "lotus", 1 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
   },
   {
@@ -1835,6 +1963,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "spurge", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1851,6 +1980,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "sugar", 5 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
@@ -1883,6 +2013,7 @@
     "batch_time_factors": [ 90, 1 ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "coffee_pod", 1 ] ] ]
   },
   {
@@ -1951,6 +2082,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "coffee_raw_kentucky", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -1969,6 +2101,7 @@
     "tools": [ [ [ "rag", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
@@ -1986,6 +2119,7 @@
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
@@ -2001,6 +2135,7 @@
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 25, 2 ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "soybean", 2 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
@@ -2015,6 +2150,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_preservation" } ],
     "components": [ [ [ "milk_raw", 1 ] ] ]
   },
   {
@@ -2070,6 +2206,12 @@
     "book_learn": [ [ "manual_sealing", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_preservation" },
+      { "proficiency": "prof_food_canning" }
+    ],
     "components": [ [ [ "coconut", 2 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
@@ -2083,6 +2225,7 @@
     "time": "12 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "coffee_raw", 3 ] ],

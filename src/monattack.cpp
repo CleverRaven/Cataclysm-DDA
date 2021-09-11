@@ -49,7 +49,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
-#include "location.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -159,8 +158,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
@@ -310,7 +307,7 @@ bool mattack::eat_crop( monster *z )
     int num_targets = 1;
     map &here = get_map();
     for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( "PLANT", p ) && one_in( num_targets ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
@@ -328,11 +325,11 @@ bool mattack::eat_food( monster *z )
     map &here = get_map();
     for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
-        if( here.has_flag( "PLANT", p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             continue;
         }
         // Don't snap up food RIGHT under the player's nose.
-        if( z->friendly && rl_dist( get_player_location().pos(), p ) <= 2 ) {
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
             continue;
         }
         map_stack items = here.i_at( p );
@@ -1080,7 +1077,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
         z->use_mech_power( -5 );
     }
-    z->set_goal( target->pos() );
+    z->set_dest( target->get_location() );
     smash( z );
 }
 
@@ -1400,8 +1397,8 @@ bool mattack::growplants( monster *z )
     for( const auto &p : here.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( here.has_flag_ter( TFLAG_DIGGABLE, p ) ||
-               here.has_flag_ter( "TREE", p ) ||
+        if( !( here.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, p ) ||
+               here.has_flag_ter( ter_furn_flag::TFLAG_TREE, p ) ||
                here.ter( p ) == t_tree_young ) ) {
             continue;
         }
@@ -1491,7 +1488,7 @@ bool mattack::growplants( monster *z )
 bool mattack::grow_vine( monster *z )
 {
     if( z->friendly ) {
-        if( rl_dist( get_player_location().pos(), z->pos() ) <= 3 ) {
+        if( rl_dist( get_player_character().pos(), z->pos() ) <= 3 ) {
             // Friendly vines keep the area around you free, so you can move.
             return false;
         }
@@ -1502,24 +1499,32 @@ bool mattack::grow_vine( monster *z )
         if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.
-            vine->set_goal( z->pos() );
+            vine->set_dest( z->get_location() );
         }
     }
 
     return true;
 }
 
+// Return true if the creeper hub that spawned the vine is still there
+static bool has_vine_parent( monster *z )
+{
+    if( !z->has_dest() || !get_map().inbounds( z->get_dest() ) ) {
+        return false;
+    }
+    const monster *parent = get_creature_tracker().creature_at<monster>( z->get_dest() );
+    return parent != nullptr && parent->type->id == mon_creeper_hub;
+}
+
 bool mattack::vine( monster *z )
 {
-    int vine_neighbors = 0;
-    map &here = get_map();
-    bool parent_out_of_range = !here.inbounds( z->move_target() );
-    creature_tracker &creatures = get_creature_tracker();
-    monster *parent = creatures.creature_at<monster>( z->move_target() );
-    if( !parent_out_of_range && ( parent == nullptr || parent->type->id != mon_creeper_hub ) ) {
+    if( !has_vine_parent( z ) ) {
         // TODO: Should probably die instead.
         return true;
     }
+    int vine_neighbors = 0;
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     z->moves -= 100;
     for( const tripoint &dest : here.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = creatures.creature_at( dest );
@@ -1551,7 +1556,7 @@ bool mattack::vine( monster *z )
         }
     }
     // Calculate distance from nearest hub
-    int dist_from_hub = rl_dist( z->pos(), z->move_target() );
+    int dist_from_hub = rl_dist( z->get_location(), z->get_dest() );
     if( dist_from_hub > 20 || vine_neighbors > 5 || one_in( 7 - vine_neighbors ) ||
         !one_in( dist_from_hub ) ) {
         return true;
@@ -1560,7 +1565,7 @@ bool mattack::vine( monster *z )
         vine->make_ally( *z );
         vine->reset_special( "VINE" );
         // Store position of parent hub in vine goal point.
-        vine->set_goal( z->move_target() );
+        vine->set_dest( z->get_dest() );
     }
 
     return true;
@@ -2217,7 +2222,7 @@ bool mattack::plant( monster *z )
     map &here = get_map();
     fungal_effects fe;
     const tripoint monster_position = z->pos();
-    const bool is_fungi = here.has_flag_ter( TFLAG_FUNGUS, monster_position );
+    const bool is_fungi = here.has_flag_ter( ter_furn_flag::TFLAG_FUNGUS, monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -2393,9 +2398,9 @@ bool mattack::callblobs( monster *z )
     // if we want to deal with NPCS and friendly monsters as well.
     // The strategy is to send about 1/3 of the available blobs after the player,
     // and keep the rest near the brain blob for protection.
-    tripoint enemy = get_player_location().pos();
+    const tripoint_abs_ms enemy = get_player_character().get_location();
+    const std::vector<tripoint_abs_ms> nearby_points = closest_points_first( z->get_location(), 3 );
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_SLIME ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2408,7 +2413,7 @@ bool mattack::callblobs( monster *z )
     int guards = 0;
     for( std::list<monster *>::iterator ally = allies.begin();
          ally != allies.end(); ++ally, ++guards ) {
-        tripoint post = enemy;
+        tripoint_abs_ms post = enemy;
         if( guards < num_guards ) {
             // Each guard is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = ( nearby_points.size() * guards ) / num_guards;
@@ -2427,8 +2432,8 @@ bool mattack::callblobs( monster *z )
 bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
+    const std::vector<tripoint_abs_ms> nearby_points = closest_points_first( z->get_location(), 3 );
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -2440,7 +2445,7 @@ bool mattack::jackson( monster *z )
     int dancers = 0;
     bool converted = false;
     for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
-        tripoint post = z->pos();
+        tripoint_abs_ms post = z->get_location();
         if( dancers < num_dancers ) {
             // Each dancer is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = ( nearby_points.size() * dancers ) / num_dancers;
@@ -3057,7 +3062,7 @@ bool mattack::nurse_operate( monster *z )
         z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = here.find_furnitures_with_flag_in_radius( z->pos(), 10,
-                                        flag_AUTODOC_COUCH );
+                                        ter_furn_flag::TFLAG_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
@@ -3065,7 +3070,7 @@ bool mattack::nurse_operate( monster *z )
             return false;
         }
         // Should designate target as the attack_target
-        z->set_dest( target->pos() );
+        z->set_dest( target->get_location() );
 
         // Check if target is already grabbed by something else
         if( target->has_effect( effect_grabbed ) ) {
@@ -5765,8 +5770,12 @@ bool mattack::zombie_fuse( monster *z )
     add_msg_if_player_sees( *z, _( "The %1$s fuses with the %2$s." ),
                             critter->name(), z->name() );
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 10_days, true,
-                   critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    if( z->get_size() < creature_size::huge ) {
+        z->add_effect( effect_grown_of_fuse, 10_days, true,
+                       std::min( critter->get_hp_max(),
+                                 ( 80 * ( critter->get_volume() / 62500_ml ) ) )
+                       + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    }
     z->heal( critter->get_hp(), true );
     if( mission::on_creature_fusion( *z, *critter ) ) {
         z->mission_fused.emplace_back( critter->name() );

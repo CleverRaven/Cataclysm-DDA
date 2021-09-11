@@ -357,7 +357,7 @@ class mission
         std::string name() const;
         mission_type_id mission_id() const;
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         mission();
         /** Getters, they mostly return the member directly, mostly. */

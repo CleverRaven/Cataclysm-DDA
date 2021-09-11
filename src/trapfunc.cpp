@@ -721,9 +721,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         }
         return true;
     }
-    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-    cata_assert( false );
-    return false;
+    cata_fatal( "c must be either a monster or a Character" );
 }
 
 bool trapfunc::dissector( const tripoint &p, Creature *c, item * )

@@ -87,9 +87,6 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_TREE( "TREE" );
-
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
@@ -630,7 +627,8 @@ void talk_function::basecamp_mission( npc &p )
             mgr.cache_vzones();
         }
         tripoint src_loc;
-        const tripoint abspos = p.global_square_location().raw();
+        // TODO: fix point types
+        const tripoint abspos = p.get_location().raw();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -2305,7 +2303,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter->has_flag( flag_PLOWABLE );
+        return farm_ter->has_flag( ter_furn_flag::TFLAG_PLOWABLE );
     };
 
     std::set<std::string> plant_names;
@@ -2823,7 +2821,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
+    recruit->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
     recruit->mission = NPC_MISSION_NULL;
@@ -3144,7 +3142,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.ter( p ).obj().has_flag( flag_TREE ) && rng( 0, 100 ) < chance ) {
+        if( target_bay.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
             if( estimate ) {
                 continue;

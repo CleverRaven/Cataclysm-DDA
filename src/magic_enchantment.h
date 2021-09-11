@@ -204,7 +204,7 @@ class enchantment
             bool was_loaded = false;
 
             void serialize( JsonOut &jsout ) const;
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &jo );
             void load( const JsonObject &jo );
         };
     private:

@@ -145,6 +145,44 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
+void avatar::control_npc( npc &np )
+{
+    if( !np.is_player_ally() ) {
+        debugmsg( "control_npc() called on non-allied npc %s", np.name );
+        return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    npc tmp;
+    // move avatar character data into shadow npc
+    swap_character( *shadow_npc, tmp );
+    // swap target npc with shadow npc
+    swap_npc( *shadow_npc, np, tmp );
+    // move shadow npc character data into avatar
+    swap_character( *shadow_npc, tmp );
+    // the avatar character is no longer a follower NPC
+    g->remove_npc_follower( getID() );
+    // the previous avatar character is now a follower
+    g->add_npc_follower( np.getID() );
+    np.set_fac( faction_id( "your_followers" ) );
+    // perception and mutations may have changed, so reset light level caches
+    g->reset_light_level();
+    // center the map on the new avatar character
+    g->vertical_shift( posz() );
+    g->update_map( *this );
+}
+
 void avatar::toggle_map_memory()
 {
     show_map_memory = !show_map_memory;
@@ -1449,7 +1487,7 @@ void avatar::daily_calories::save_activity( JsonOut &json ) const
     json.end_array();
 }
 
-void avatar::daily_calories::read_activity( JsonObject &data )
+void avatar::daily_calories::read_activity( const JsonObject &data )
 {
     if( data.has_array( "activity" ) ) {
         double act_level;
@@ -1568,16 +1606,24 @@ void avatar::randomize_hobbies()
     int random = rng( 0, 5 );
 
     if( random >= 1 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 3 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 5 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
+    }
+}
+
+void avatar::add_random_hobby( std::vector<profession_id> &choices )
+{
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_id &trait : hobby->get_locked_traits() ) {
+        toggle_trait( trait );
     }
 }
 
@@ -1784,7 +1830,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -1831,7 +1877,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( here.has_flag_ter( TFLAG_SWIMMABLE, pos() ) ) {
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }

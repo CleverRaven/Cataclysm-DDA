@@ -59,6 +59,7 @@ void stop_guard( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );
+void drop_items_in_place( npc &p );
 void follow( npc & );                // p becomes a member of your_followers
 void follow_only( npc & );           // p starts following you
 void deny_follow( npc & );           // p gets "asked_to_follow"
