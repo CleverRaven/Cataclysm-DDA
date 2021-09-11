@@ -4155,8 +4155,11 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
-        you->practice( studying.skill(), xp, studying.get_difficulty() );
-
+        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty(), true );
+        if( leveled_up && studying.get_difficulty() < you->get_skill_level( studying.skill() ) ) {
+            you->handle_skill_warning( studying.skill(),
+                                       true ); // show the skill warning on level up, since we suppress it in practice() above
+        }
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
