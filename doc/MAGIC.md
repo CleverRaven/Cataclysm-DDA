@@ -127,7 +127,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `remove_effect` | Removes `effect_str` effects from all creatures in aoe
 | `emit` | Causes an emit at the target
 | `fungalize` | Fungalizes the target
-| `effect_on_condition` | Runs the effect_on_condition found in `effect_str` on all valid targets.  `effect_str` can be either a string id or an effect_on_condition object.  For the run eoc the target will be u and the caster will be npc.
+| `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 

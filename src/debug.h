@@ -79,6 +79,13 @@ inline void realDebugmsg( const char *const filename, const char *const line,
                          std::forward<Args>( args )... ) );
 }
 
+// Fatal error with a message
+#define cata_fatal(...) \
+    do { \
+        debugmsg(__VA_ARGS__); \
+        std::abort(); \
+    } while( false )
+
 // A fatal error for use in constexpr functions
 // This exists for compatibility reasons.  On gcc 5.3 we need a
 // different implementation that is messier.

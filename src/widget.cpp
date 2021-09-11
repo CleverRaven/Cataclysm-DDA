@@ -134,8 +134,7 @@ std::string enum_to_string<widget_var>( widget_var data )
         case widget_var::last:
             break;
     }
-    debugmsg( "Invalid widget_var" );
-    abort();
+    cata_fatal( "Invalid widget_var" );
 }
 
 } // namespace io

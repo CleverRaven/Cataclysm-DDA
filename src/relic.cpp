@@ -48,8 +48,7 @@ namespace io
         case relic_procgen_data::type::passive_enchantment_mult: return "passive_enchantment_mult";
         case relic_procgen_data::type::last: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
     // *INDENT-ON*
 template<>
@@ -63,8 +62,7 @@ std::string enum_to_string<relic_recharge>( relic_recharge type )
         case relic_recharge::num: break;
     }
     // *INDENT-ON*
-    debugmsg( "Invalid relic recharge type" );
-    abort();
+    cata_fatal( "Invalid relic recharge type" );
 }
 } // namespace io
 
