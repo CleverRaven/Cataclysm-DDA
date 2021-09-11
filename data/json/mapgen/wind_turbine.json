@@ -59,7 +59,7 @@
         "                        ",
         "           ###          ",
         "          ## ##         ",
-        "          #   #         ",
+        "          #I  #         ",
         "          ##H##         ",
         "           ###          ",
         "                        ",
@@ -73,7 +73,14 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_open_air", "H": "t_ladder_up_down", "=": "t_metal_floor_no_roof", "#": "t_wall_metal" }
+      "terrain": {
+        " ": "t_open_air",
+        "H": "t_ladder_up_down",
+        "=": "t_metal_floor_no_roof",
+        "I": "t_metal_floor_no_roof",
+        "#": "t_wall_metal"
+      },
+      "furniture": { "I": "f_electrical_conduit" }
     }
   },
   {
@@ -94,7 +101,7 @@
         "                        ",
         "           ###          ",
         "          ##=##         ",
-        "          #===#         ",
+        "          #I==#         ",
         "          ##H##         ",
         "           ###          ",
         "                        ",
@@ -108,7 +115,14 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_open_air", "H": "t_ladder_up_down", "=": "t_metal_floor_no_roof", "#": "t_wall_metal" }
+      "terrain": {
+        " ": "t_open_air",
+        "H": "t_ladder_up_down",
+        "=": "t_metal_floor_no_roof",
+        "I": "t_metal_floor_no_roof",
+        "#": "t_wall_metal"
+      },
+      "furniture": { "I": "f_electrical_conduit" }
     }
   },
   {
@@ -129,7 +143,7 @@
         "          ##|##         ",
         "          #&&&#         ",
         "          #E|=#         ",
-        "          #=|=#         ",
+        "          #I|=#         ",
         "          #H&&#         ",
         "          #&&&#         ",
         "          #####         ",
@@ -151,9 +165,16 @@
         "&": "t_metal_floor_no_roof",
         "E": "t_metal_floor_no_roof",
         "|": "t_metal_floor_no_roof",
+        "I": "t_metal_floor_no_roof",
         "#": "t_wall_metal"
       },
-      "furniture": { "E": "f_machinery_electronic", "&": "f_generator_broken", "+": "f_generator_broken", "|": "f_machinery_heavy" }
+      "furniture": {
+        "E": "f_machinery_electronic",
+        "I": "f_electrical_conduit",
+        "&": "f_generator_broken",
+        "+": "f_generator_broken",
+        "|": "f_machinery_heavy"
+      }
     }
   },
   {
@@ -176,7 +197,7 @@
         "          =====         ",
         "          =====         ",
         "          =H===         ",
-        "          ===?=         ",
+        "          =>=?=         ",
         "          =====         ",
         "                        ",
         "                        ",
@@ -193,9 +214,10 @@
         "H": "t_ladder_down",
         "+": "t_open_air",
         "=": "t_metal_floor_no_roof",
+        ">": "t_metal_floor_no_roof",
         "?": "t_metal_floor_no_roof"
       },
-      "furniture": { "?": "f_cellphone_booster" }
+      "furniture": { ">": "f_wind_vane", "?": "f_cellphone_booster" }
     }
   }
 ]
