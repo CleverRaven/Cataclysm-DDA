@@ -1478,7 +1478,7 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 void inventory_selector::add_character_items( Character &character, bool include_hidden )
 {
     character.visit_items( [ this, &character, &include_hidden ]( item * it, item * ) {
-        if( it == &character.get_wielded_item() ) {
+        if( it == character.get_wielded_item() ) {
             add_item( own_gear_column, item_location( character, it ),
                       &item_category_id( "WEAPON_HELD" ).obj(), include_hidden );
         } else if( character.is_worn( *it ) ) {
