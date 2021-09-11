@@ -6,7 +6,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_TAILORING",
     "name": "leatherworking (beginner)",
-    "description": "Practice basic principles of tailoring with leathers, furs, and hides.",
+    "description": "Practice basic leatherworking skills by cutting and punching holes in leather, and stitching together leather patches.",
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
