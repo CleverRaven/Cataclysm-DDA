@@ -109,6 +109,11 @@ class avatar : public Character
         void set_save_id( const std::string &id ) {
             save_id = id;
         }
+        /**
+         * Makes the avatar "take over" the given NPC, while the current avatar character
+         * becomes an NPC.
+         */
+        void control_npc( npc & );
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
@@ -322,6 +327,7 @@ class avatar : public Character
 
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
+        std::set<character_id> follower_ids;
 
     private:
         // the encumbrance on your limbs reducing your dodging ability
@@ -370,6 +376,12 @@ class avatar : public Character
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /**
+         * The NPC that would control the avatar's character in the avatar's absence.
+         * The Character data in this object is not relevant/used.
+         */
+        std::unique_ptr<npc> shadow_npc;
 };
 
 avatar &get_avatar();

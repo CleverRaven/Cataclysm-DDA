@@ -41,8 +41,7 @@ std::string enum_to_string<damage_type>( damage_type data )
         case damage_type::NUM:
             break;
     }
-    debugmsg( "Invalid damage_type" );
-    abort();
+    cata_fatal( "Invalid damage_type" );
 }
 
 } // namespace io

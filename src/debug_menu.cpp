@@ -149,6 +149,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
+        case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
         case debug_menu::debug_menu_index::MAP_EDITOR: return "MAP_EDITOR";
@@ -256,6 +257,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
+        { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
         uilist_initializer.emplace_back( uilist_entry( debug_menu_index::CHANGE_SPELLS, true, 'S',
@@ -650,7 +652,7 @@ static void spell_description(
     std::get<2>( spl_data ) = description.str();
 }
 
-void change_spells( Character &character )
+static void change_spells( Character &character )
 {
     if( spell_type::get_all().empty() ) {
         add_msg( m_info, _( "There are no spells to change." ) );
@@ -1036,7 +1038,7 @@ void change_spells( Character &character )
     }
 }
 
-void teleport_short()
+static void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
     const Character &player_character = get_player_character();
@@ -1048,7 +1050,7 @@ void teleport_short()
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
-void teleport_long()
+static void teleport_long()
 {
     const tripoint_abs_omt where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
@@ -1058,7 +1060,7 @@ void teleport_long()
     add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
-void teleport_overmap( bool specific_coordinates )
+static void teleport_overmap( bool specific_coordinates = false )
 {
     Character &player_character = get_player_character();
     tripoint_abs_omt where;
@@ -1107,7 +1109,7 @@ void teleport_overmap( bool specific_coordinates )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
-void spawn_nested_mapgen()
+static void spawn_nested_mapgen()
 {
     uilist nest_menu;
     std::vector<std::string> nest_str;
@@ -1144,7 +1146,30 @@ void spawn_nested_mapgen()
     }
 }
 
-void character_edit_menu()
+static void control_npc_menu()
+{
+    std::vector<shared_ptr_fast<npc>> followers;
+    uilist charmenu;
+    int charnum = 0;
+    for( const auto &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            followers.emplace_back( follower );
+            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
+        }
+    }
+    if( followers.empty() ) {
+        return;
+    }
+    charmenu.w_y_setup = 0;
+    charmenu.query();
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
+        return;
+    }
+    get_avatar().control_npc( *followers.at( charmenu.ret ) );
+}
+
+static void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uilist charmenu;
@@ -1172,19 +1197,15 @@ void character_edit_menu()
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-        data << np->myclass.obj().get_name() << "; " <<
-             npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
-             << "; " <<
-             "api: " << np->get_faction_ver() << std::endl;
+        data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
+             np->myclass->get_name() << std::endl;
+        data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
+                               np->get_faction_ver() ) << "; "
+             << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
                      overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
-        } else {
-            data << _( "No destination." ) << std::endl;
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
@@ -1984,7 +2005,7 @@ void mission_debug::edit_mission( mission &m )
     }
 }
 
-void draw_benchmark( const int max_difference )
+static void draw_benchmark( const int max_difference )
 {
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
@@ -2402,7 +2423,11 @@ void debug()
         break;
 
         case debug_menu_index::EDIT_PLAYER:
-            debug_menu::character_edit_menu();
+            character_edit_menu();
+            break;
+
+        case debug_menu_index::CONTROL_NPC:
+            control_npc_menu();
             break;
 
         case debug_menu_index::SPAWN_ARTIFACT:

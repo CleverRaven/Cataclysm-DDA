@@ -1,0 +1,23 @@
+[
+  {
+    "type": "speed_description",
+    "id": "mon_test_speed_desc_A",
+    "values": [
+      { "value": 1.7, "descriptions": "Monster speed 150" },
+      { "value": 1.12, "descriptions": "Monster speed 100" },
+      { "value": 0.5, "descriptions": [ "Monster speed 50" ] },
+      { "value": 0.25, "descriptions": "Monster speed 25" },
+      { "value": 0.0, "descriptions": "Monster immobile" }
+    ]
+  },
+  {
+    "type": "speed_description",
+    "id": "mon_test_speed_desc_B",
+    "values": [
+      {
+        "value": 0.0,
+        "descriptions": [ "A Monster speed description A", "B Monster speed description B", "C Monster speed description C" ]
+      }
+    ]
+  }
+]

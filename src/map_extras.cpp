@@ -162,8 +162,7 @@ std::string enum_to_string<map_extra_method>( map_extra_method data )
         case map_extra_method::num_map_extra_methods: break;
         // *INDENT-ON*
     }
-    debugmsg( "Invalid map_extra_method" );
-    abort();
+    cata_fatal( "Invalid map_extra_method" );
 }
 
 } // namespace io

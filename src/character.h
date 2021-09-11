@@ -2260,7 +2260,6 @@ class Character : public Creature, public visitable
         int focus_pool = 0;
     public:
         int cash = 0;
-        std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
@@ -3082,6 +3081,9 @@ class Character : public Creature, public visitable
         Character();
         Character( Character && ) noexcept( map_is_noexcept );
         Character &operator=( Character && ) noexcept( list_is_noexcept );
+        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
+        // Leaves "tmp" in an undefined state.
+        void swap_character( Character &other, Character &tmp );
     public:
         struct trait_data {
             /** Whether the mutation is activated. */

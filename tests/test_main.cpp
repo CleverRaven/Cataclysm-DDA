@@ -89,7 +89,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 {
     if( !assure_dir_exist( user_dir ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make user_dir directory.  Check permissions." );
+        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -98,17 +98,17 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make config directory.  Check permissions." );
+        cata_fatal( "Unable to make config directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make save directory.  Check permissions." );
+        cata_fatal( "Unable to make save directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make templates directory.  Check permissions." );
+        cata_fatal( "Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();

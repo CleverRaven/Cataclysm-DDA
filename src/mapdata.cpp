@@ -252,8 +252,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::NUM_TFLAG_FLAGS:
             break;
     }
-    debugmsg( "Invalid ter_furn_flag" );
-    abort();
+    cata_fatal( "Invalid ter_furn_flag" );
 }
 
 } // namespace io
@@ -1267,8 +1266,7 @@ std::string enum_to_string<season_type>( season_type data )
         case season_type::NUM_SEASONS:
             break;
     }
-    debugmsg( "Invalid season_type" );
-    abort();
+    cata_fatal( "Invalid season_type" );
 }
 } // namespace io
 
