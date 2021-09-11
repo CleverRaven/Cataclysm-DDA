@@ -70,7 +70,7 @@ jobs:
         vcpkg.exe --version
         vcpkg.exe install yasm-tool:x86-windows
         echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/b/vcpkg" -Recurse
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
         echo =================================================
 
     - name: Dump vcpkg logs if vcpkg build failed
