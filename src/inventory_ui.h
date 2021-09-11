@@ -853,6 +853,7 @@ class inventory_examiner : public inventory_selector
 {
     private:
         int examine_window_scroll;
+        int scroll_item_info_lines;
     protected:
         item_location selected_item;
         catacurses::window w_examine;
@@ -866,20 +867,17 @@ class inventory_examiner : public inventory_selector
             selected_item = item_location::nowhere;
         }
         /**
-         * Overloaded method from inventory_selector for showing details of sitem
-         *
-         * If fit_to_window is false, is a wrapper for inventory_selector::action_examine().
-         * Otherwise, creates a panel taking up the right 2/3rds of the screen showing the
-         * details of sitem.
+         * Draw the details of sitem in the w_examine window
         **/
-        void action_examine( const item_location sitem, const bool fit_to_window );
+        void draw_item_details( const item_location &sitem );
 
         /**
          * Method to display the inventory_examiner menu.
          *
-         * Calls inventory_examiner::action_examine() with the currently selected item to display item details
-         * Passes essentially everything else back to inventory_selector for handling.
-         **/
+        * Sets up ui_adaptor callbacks for w_examine to draw the item detail pane and allow it to be resized
+         * Figures out which item is currently selected and calls draw_item_details
+               * Passes essentially everything else back to inventory_selector for handling.
+               **/
         item_location execute();
 };
 

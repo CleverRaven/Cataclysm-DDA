@@ -3049,21 +3049,17 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
                u.max_single_item_volume() );
 }
  
-void inventory_examiner::action_examine( const item_location sitem, const bool fit_to_window )
+void inventory_examiner::draw_item_details( const item_location &sitem )
 {
-    if( !fit_to_window ) {
-        inventory_selector::action_examine( sitem );
-    } else {
-        std::vector<iteminfo> vThisItem;
-        std::vector<iteminfo> vDummy;
+    std::vector<iteminfo> vThisItem;
+    std::vector<iteminfo> vDummy;
 
-        sitem->info( true, vThisItem );
+    sitem->info( true, vThisItem );
 
-        item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll );
-        data.without_getch = true;
+    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll );
+    data.without_getch = true;
 
-        draw_item_info( w_examine, data );
-    }
+    draw_item_info( w_examine, data );
 }
 
 item_location inventory_examiner::execute()
@@ -3085,6 +3081,8 @@ item_location inventory_examiner::execute()
         point start_position = point( ( inv_column_width + border_width + 1 ),
                                       get_header_height() + 1 );
 
+        scroll_item_info_lines = TERMY / 2;
+
         w_examine = catacurses::newwin( height, width, start_position );
         ui_examine.position_from_window( w_examine );
     } );
@@ -3098,17 +3096,16 @@ item_location inventory_examiner::execute()
                 examine_window_scroll = 0;
                 selected_item = selected.any_item();
             }
-            action_examine( selected_item, true );
+            draw_item_details( selected_item );
         }
     } );
 
     while( true ) {
+        /* Since ui_examine is the most recently created ui_adaptor, it will always be redrawn.
+         The item list will only be redrawn when specifically invalidated */
         ui_manager::redraw();
 
         const inventory_input input = get_input();
-
-        //Basically anything the player can do at this point will invalidate the examine screen
-        ui_examine.invalidate_ui();
 
         if( input.entry != nullptr ) {
             if( select( input.entry->any_item() ) ) {
@@ -3116,8 +3113,6 @@ item_location inventory_examiner::execute()
             }
             return input.entry->any_item();
         }
-
-        const int scroll_item_info_lines = TERMY / 2;
 
         if( input.action == "QUIT" ) {
             return item_location();
