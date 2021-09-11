@@ -96,3 +96,17 @@ jobs:
       run: |
           cd msvc-object_creator
           msbuild -m -p:Configuration=Release -p:Platform=x64 ObjectCreator-vcpkg-static.sln
+
+    - name: Dump vcpkg logs if vcpkg build failed
+      if: failure()
+      run: |
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
+        Foreach-Object {
+            Get-ChildItem $_.FullName -Filter *.log |
+            Foreach-Object {
+              echo =================================================
+              echo $_.FullName
+              echo =================================================
+              type $_.FullName
+            }
+        }
