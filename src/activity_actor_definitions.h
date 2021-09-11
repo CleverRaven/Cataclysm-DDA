@@ -300,7 +300,7 @@ class hacksaw_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)

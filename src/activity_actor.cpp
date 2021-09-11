@@ -1149,7 +1149,7 @@ void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &jsin )
 {
     hacksaw_activity_actor actor( {}, {} );
     JsonObject data = jsin.get_object();
