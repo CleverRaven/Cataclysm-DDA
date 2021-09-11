@@ -39,7 +39,7 @@
   },
   {
     "type": "snippet",
-    "category": "AMBIENT_SUBWAY",
+    "category": "<AMBIENT_SUBWAY>",
     "text": [
       "The trains have long grown still, and your echoing footsteps are the only thing breaking the silence.  For now.",
       "The rails are slick here with a grey, quivering ooze welling up from below.",
@@ -57,6 +57,7 @@
     "type": "snippet",
     "category": "AMBIENT_LAB_SUBWAY",
     "text": [
+      "<AMBIENT_SUBWAY>",
       "These tunnels look even more utilitarian than those of the normal line, with barely any emergency lights - not that they'd help you without power, of course.",
       "Do you still know where you're going?  Did you ever?",
       "You could swear you already saw this spot already.  Did you get turned around, or did the tunnels shift with you?",
