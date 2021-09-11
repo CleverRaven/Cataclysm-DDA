@@ -2562,6 +2562,10 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     ui.show();
     for( const auto &e : available ) {
         const MOD_INFORMATION &mod = *e;
+        restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+        if( mod.ident.str() == "test_data" ) {
+            check_plural = check_plural_t::none;
+        }
         load_data_from_dir( mod.path, mod.ident.str(), ui );
 
         ui.proceed();
