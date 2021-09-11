@@ -68,8 +68,7 @@ std::string enum_to_string<moon_phase>( moon_phase phase_num )
         case moon_phase::MOON_WANING_GIBBOUS: return "MOON_WANING_GIBBOUS";
         case moon_phase::MOON_PHASE_MAX: break;
     }
-    debugmsg( "Invalid moon_phase %d", phase_num );
-    abort();
+    cata_fatal( "Invalid moon_phase %d", phase_num );
 }
 // *INDENT-ON*
 } // namespace io

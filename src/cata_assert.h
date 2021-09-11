@@ -19,7 +19,7 @@
         } \
         fprintf( stderr, "%s at %s:%d: Assertion `%s` failed.\n", __func__, __FILE__, __LINE__, #expression ); \
         std::abort(); \
-    } while( false );
+    } while( false )
 #else
 #include <cassert>
 #define cata_assert(expression) assert(expression)

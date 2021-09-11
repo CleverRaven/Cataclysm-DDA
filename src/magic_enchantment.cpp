@@ -29,8 +29,7 @@ namespace io
         case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
 
     template<>
@@ -44,8 +43,7 @@ namespace io
         case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
-        debugmsg( "Invalid enchantment::condition" );
-        abort();
+        cata_fatal( "Invalid enchantment::condition" );
     }
 
     template<>
@@ -130,8 +128,7 @@ namespace io
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchant_vals::mod" );
-        abort();
+        cata_fatal( "Invalid enchant_vals::mod" );
     }
     // *INDENT-ON*
 } // namespace io

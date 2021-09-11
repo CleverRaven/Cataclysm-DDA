@@ -95,8 +95,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::field: return "field";
         case spell_target::num_spell_targets: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 template<>
 std::string enum_to_string<spell_shape>( spell_shape data )
@@ -107,8 +106,7 @@ std::string enum_to_string<spell_shape>( spell_shape data )
         case spell_shape::line: return "line";
         case spell_shape::num_shapes: break;
     }
-    debugmsg( "Invalid spell_shape" );
-    abort();
+    cata_fatal( "Invalid spell_shape" );
 }
 template<>
 std::string enum_to_string<spell_flag>( spell_flag data )
@@ -146,8 +144,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::LAST: break;
     }
-    debugmsg( "Invalid spell_flag" );
-    abort();
+    cata_fatal( "Invalid spell_flag" );
 }
 template<>
 std::string enum_to_string<magic_energy_type>( magic_energy_type data )
@@ -160,8 +157,7 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
     case magic_energy_type::stamina: return "STAMINA";
     case magic_energy_type::last: break;
     }
-    debugmsg( "Invalid magic_energy_type" );
-    abort();
+    cata_fatal( "Invalid magic_energy_type" );
 }
 // *INDENT-ON*
 

@@ -991,8 +991,7 @@ static tripoint displace( cube_direction d )
         case cube_direction::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
-    abort();
+    cata_fatal( "Invalid cube_direction" );
 }
 
 namespace io
@@ -1009,8 +1008,7 @@ std::string enum_to_string<overmap_special_subtype>( overmap_special_subtype dat
         case overmap_special_subtype::last:
             break;
     }
-    debugmsg( "Invalid overmap_special_subtype" );
-    abort();
+    cata_fatal( "Invalid overmap_special_subtype" );
 }
 
 template<>
@@ -1028,8 +1026,7 @@ std::string enum_to_string<cube_direction>( cube_direction data )
         case cube_direction::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
-    abort();
+    cata_fatal( "Invalid cube_direction" );
 }
 
 } // namespace io
@@ -1269,8 +1266,7 @@ struct pos_dir {
             case cube_direction::last:
                 break;
         }
-        debugmsg( "Invalid cube_direction" );
-        abort();
+        cata_fatal( "Invalid cube_direction" );
     }
 
     friend bool operator==( const pos_dir &l, const pos_dir &r ) {
@@ -1680,8 +1676,7 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
             result.push_back( mutable_data_->root_as_overmap_special_terrain() );
             break;
         case overmap_special_subtype::last:
-            debugmsg( "invalid overmap_special_subtype" );
-            abort();
+            cata_fatal( "invalid overmap_special_subtype" );
     }
     return result;
 }
@@ -1701,8 +1696,7 @@ std::vector<overmap_special_locations> overmap_special::required_locations() con
         case overmap_special_subtype::last:
             break;
     }
-    debugmsg( "invalid overmap_special_subtype" );
-    abort();
+    cata_fatal( "invalid overmap_special_subtype" );
 }
 
 const fixed_overmap_special_data &overmap_special::get_fixed_data() const
@@ -5198,8 +5192,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
             result = special.get_mutable_data().place( *this, p );
             break;
         case overmap_special_subtype::last:
-            debugmsg( "Invalid overmap_special_subtype" );
-            abort();
+            cata_fatal( "Invalid overmap_special_subtype" );
     }
     for( const tripoint_om_omt &location : result ) {
         overmap_special_placements[location] = special.id;
@@ -5749,8 +5742,7 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
         case ot_match_type::num_ot_match_type:
             break;
     }
-    debugmsg( "Invalid ot_match_type" );
-    abort();
+    cata_fatal( "Invalid ot_match_type" );
 }
 } // namespace io
 

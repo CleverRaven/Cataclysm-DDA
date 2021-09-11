@@ -364,8 +364,7 @@ std::string enum_to_string<butcher_type>( butcher_type data )
     case butcher_type::SKIN: return "SKIN";
     case butcher_type::NUM_TYPES: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 

@@ -58,8 +58,7 @@ std::string enum_to_string<side>( side data )
         case side::num_sides:
             break;
     }
-    debugmsg( "Invalid side" );
-    abort();
+    cata_fatal( "Invalid side" );
 }
 
 template<>
@@ -82,8 +81,7 @@ std::string enum_to_string<body_part_type::type>( body_part_type::type data )
         case body_part_type::type::num_types:
             break;
     }
-    debugmsg( "Invalid body part type." );
-    abort();
+    cata_fatal( "Invalid body part type." );
 }
 
 } // namespace io
