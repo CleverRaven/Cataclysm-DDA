@@ -2311,7 +2311,7 @@
     "color": "white",
     "aggression": -99,
     "morale": -10,
-    "special_attacks": [ "EAT_CROP", 30 ],
+    "special_attacks": [ [ "EAT_CROP", 30 ] ],
     "armor_bash": 5,
     "armor_cut": 6,
     "armor_bullet": 3,
@@ -2384,7 +2384,7 @@
     "mountable_weight_ratio": 6,
     "vision_day": 14,
     "vision_night": 12,
-    "harvest": "arachnid",
+    "harvest": "arachnid_beetle",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "special_attacks": [
@@ -2436,6 +2436,7 @@
       }
     ],
     "weakpoints": [ { "name": "a foul scar in the chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 } ],
+    "harvest": "arachnid_beetle_mega",
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 364 },
     "upgrades": false
   },
