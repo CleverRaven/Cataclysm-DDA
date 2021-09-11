@@ -391,6 +391,16 @@ void talker_npc::add_debt( const int cost )
     me_npc->op_of_u.owed += cost;
 }
 
+int talker_npc::sold() const
+{
+    return me_npc->op_of_u.sold;
+}
+
+void talker_npc::add_sold( const int value )
+{
+    me_npc->op_of_u.sold += value;
+}
+
 int talker_npc::cash_to_favor( const int value ) const
 {
     return npc_trading::cash_to_favor( *me_npc, value );
@@ -561,6 +571,8 @@ std::string talker_npc::give_item_to( const bool to_use )
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
             reason = _( "Thanks, I'll carry that now." );
+            // set the item given to be favorited so it's not dropped automatically
+            given.set_favorite( true );
             taken = true;
             me_npc->i_add( given );
         } else {
@@ -878,10 +890,9 @@ std::string talker_npc::opinion_text() const
     return me_npc->opinion_text();
 }
 
-void talker_npc::add_opinion( const int trust, const int fear, const int value,
-                              const int anger, const int debt )
+void talker_npc::add_opinion( const npc_opinion &op )
 {
-    me_npc->op_of_u += npc_opinion( trust, fear, value, anger, debt );
+    me_npc->op_of_u += op;
 }
 
 bool talker_npc::enslave_mind()

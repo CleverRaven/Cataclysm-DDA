@@ -66,13 +66,13 @@ std::unique_ptr<mattack_actor> leap_actor::clone() const
 
 bool leap_actor::call( monster &z ) const
 {
-    if( !z.can_act() || !z.move_effects( false ) ) {
+    if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
     }
 
     std::vector<tripoint> options;
-    tripoint target = z.move_target();
-    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
+    const tripoint_abs_ms target_abs = z.get_dest();
+    const float best_float = rl_dist( z.get_location(), target_abs );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -84,6 +84,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
+    const tripoint target = here.getlocal( target_abs );
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {

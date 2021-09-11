@@ -16,6 +16,7 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -268,6 +269,19 @@ enum edible_rating {
     NO_TOOL
 };
 
+struct queued_eoc {
+    public:
+        effect_on_condition_id eoc;
+        bool recurring = false;
+        time_point time;
+};
+
+struct eoc_compare {
+    bool operator()( const queued_eoc &lhs, const queued_eoc &rhs ) const {
+        return lhs.time > rhs.time;
+    }
+};
+
 struct aim_type {
     std::string name;
     std::string action;
@@ -292,7 +306,7 @@ struct consumption_event {
         component_hash = food.make_component_hash();
     }
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct stat_mod {
@@ -318,45 +332,6 @@ enum class character_stat : char {
     INTELLIGENCE,
     PERCEPTION,
     DUMMY_STAT
-};
-
-/**
- * Records a batch of unsealed containers and handles spilling at once. This
- * is preferred over handling containers right after unsealing because the latter
- * can cause items to be invalidated when later code still needs to access them.
- * See @ref `Character::handle_contents_changed` for more detail.
- */
-class contents_change_handler
-{
-    public:
-        contents_change_handler() = default;
-        /**
-         * Add an already unsealed container to the list. This item location
-         * should remain valid when `handle_by` is called.
-         */
-        void add_unsealed( const item_location &loc );
-        /**
-         * Unseal the pocket containing `loc` and add `loc`'s parent to the list.
-         * Does nothing if `loc` does not have a parent container. The parent of
-         * `loc` should remain valid when `handle_by` is called, but `loc` only
-         * needs to be valid here (for example, the item may be consumed afterwards).
-         */
-        void unseal_pocket_containing( const item_location &loc );
-        /**
-         * Let the guy handle any container that needs spilling. This may invalidate
-         * items in and out of the list of containers. The list is cleared after handling.
-         */
-        void handle_by( Character &guy );
-        /**
-         * Serialization for activities
-         */
-        void serialize( JsonOut &jsout ) const;
-        /**
-         * Deserialization for activities
-         */
-        void deserialize( JsonIn &jsin );
-    private:
-        std::vector<item_location> unsealed;
 };
 
 enum class customize_appearance_choice : int {
@@ -408,11 +383,10 @@ class Character : public Creature, public visitable
             return false;    // Overloaded for NPCs in npc.h
         }
         // populate variables, inventory items, and misc from json object
-        virtual void deserialize( JsonIn &jsin ) = 0;
+        virtual void deserialize( const JsonObject &jsobj ) = 0;
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
-
 
         character_id getID() const;
         /// sets the ID, will *only* succeed when the current id is not valid
@@ -1035,7 +1009,7 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
+        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -1207,17 +1181,6 @@ class Character : public Creature, public visitable
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
-        }
-        inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
-        }
-        inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
-        }
-        void setpos( const tripoint &p ) override;
-
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -1230,6 +1193,7 @@ class Character : public Creature, public visitable
         std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
     protected:
 
+        void on_move( const tripoint_abs_ms &old_pos ) override;
         void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
@@ -2026,9 +1990,6 @@ class Character : public Creature, public visitable
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
-        /** Returns the player's skill rust rate */
-        int rust_rate() const;
-
         // Mental skills and stats
         /** Returns the player's reading speed */
         int read_speed( bool return_stat_effect = true ) const;
@@ -2245,7 +2206,7 @@ class Character : public Creature, public visitable
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name; // Save file name, pre-cataclysm name, invariable
+        std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
         cata::optional<std::string> play_name;
         bool male = false;
@@ -2304,7 +2265,6 @@ class Character : public Creature, public visitable
         int focus_pool = 0;
     public:
         int cash = 0;
-        std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
@@ -2312,6 +2272,9 @@ class Character : public Creature, public visitable
         std::set<tripoint_abs_omt> camps;
 
         std::vector <addiction> addictions;
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
+
         /** Adds an addiction to the player */
         void add_addiction( add_type type, int strength );
         /** Removes an addition from the player */
@@ -3123,6 +3086,9 @@ class Character : public Creature, public visitable
         Character();
         Character( Character && ) noexcept( map_is_noexcept );
         Character &operator=( Character && ) noexcept( list_is_noexcept );
+        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
+        // Leaves "tmp" in an undefined state.
+        void swap_character( Character &other, Character &tmp );
     public:
         struct trait_data {
             /** Whether the mutation is activated. */
@@ -3136,7 +3102,7 @@ class Character : public Creature, public visitable
              */
             int charge = 0;
             void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &data );
         };
 
         /** Bonuses to stats, calculated each turn */
@@ -3178,6 +3144,9 @@ class Character : public Creature, public visitable
 
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
+
+        // Our weariness level last turn, so we know when we transition
+        int old_weary_level = 0;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
@@ -3254,26 +3223,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** suffer() subcalls */
-        void suffer_water_damage( const trait_id &mut_id );
-        void suffer_mutation_power( const trait_id &mut_id );
-        void suffer_while_underwater();
-        void suffer_from_addictions();
-        void suffer_while_awake( int current_stim );
-        void suffer_from_chemimbalance();
-        void suffer_from_schizophrenia();
-        void suffer_from_asthma( int current_stim );
-        void suffer_from_pain();
-        void suffer_in_sunlight();
-        void suffer_from_sunburn();
-        void suffer_from_other_mutations();
-        void suffer_from_item_dropping();
-        void suffer_from_radiation();
-        void suffer_from_bad_bionics();
-        void suffer_from_stimulants( int current_stim );
-        void suffer_from_exertion();
-        void suffer_without_sleep( int sleep_deprivation );
-        void suffer_from_tourniquet();
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visibility
@@ -3300,9 +3249,6 @@ class Character : public Creature, public visitable
 
         units::energy power_level;
         units::energy max_power_level;
-
-        // Our weariness level last turn, so we know when we transition
-        int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)

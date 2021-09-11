@@ -252,8 +252,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::NUM_TFLAG_FLAGS:
             break;
     }
-    debugmsg( "Invalid ter_furn_flag" );
-    abort();
+    cata_fatal( "Invalid ter_furn_flag" );
 }
 
 } // namespace io
@@ -439,7 +438,7 @@ furn_t null_furniture_t()
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
     new_furniture.set_flag( ter_furn_flag::TFLAG_TRANSPARENT );
-    new_furniture.examine_func = iexamine_function_from_string( "none" );
+    new_furniture.examine_func = iexamine_functions_from_string( "none" );
     new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_furniture;
 }
@@ -461,7 +460,7 @@ ter_t null_terrain_t()
     new_terrain.transparent = true;
     new_terrain.set_flag( ter_furn_flag::TFLAG_TRANSPARENT );
     new_terrain.set_flag( ter_furn_flag::TFLAG_DIGGABLE );
-    new_terrain.examine_func = iexamine_function_from_string( "none" );
+    new_terrain.examine_func = iexamine_functions_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
 }
@@ -496,14 +495,14 @@ std::string map_data_common_t::name() const
     return name_.translated();
 }
 
-bool map_data_common_t::can_examine() const
+bool map_data_common_t::can_examine( const tripoint &examp ) const
 {
-    return !has_examine( iexamine::none );
+    return examine_func.can_examine( examp );
 }
 
-bool map_data_common_t::has_examine( iexamine_function_ref func ) const
+bool map_data_common_t::has_examine( iexamine_examine_function func ) const
 {
-    return examine_func == &func;
+    return examine_func.examine == func;
 }
 
 bool map_data_common_t::has_examine( const std::string &action ) const
@@ -511,15 +510,15 @@ bool map_data_common_t::has_examine( const std::string &action ) const
     return examine_actor && examine_actor->type == action;
 }
 
-void map_data_common_t::set_examine( iexamine_function_ref func )
+void map_data_common_t::set_examine( iexamine_functions func )
 {
-    examine_func = &func;
+    examine_func = func;
 }
 
 void map_data_common_t::examine( Character &you, const tripoint &examp ) const
 {
     if( !examine_actor ) {
-        examine_func( you, examp );
+        examine_func.examine( you, examp );
         return;
     }
     examine_actor->call( you, examp );
@@ -1267,8 +1266,7 @@ std::string enum_to_string<season_type>( season_type data )
         case season_type::NUM_SEASONS:
             break;
     }
-    debugmsg( "Invalid season_type" );
-    abort();
+    cata_fatal( "Invalid season_type" );
 }
 } // namespace io
 
@@ -1298,13 +1296,13 @@ void init_mapdata()
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_string( "examine_action" ) ) {
-        examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+        examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
     } else {
-        examine_func = iexamine_function_from_string( "none" );
+        examine_func = iexamine_functions_from_string( "none" );
     }
 
     if( jo.has_array( "harvest_by_season" ) ) {
@@ -1553,18 +1551,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
     if( jo.has_float( "surgery_skill_multiplier" ) ) {
         surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
-    }
-}
-
-void map_data_common_t::check() const
-{
-    if( examine_actor ) {
-        examine_actor->finalize();
-    }
-    for( const string_id<harvest_list> &harvest : harvest_by_season ) {
-        if( !harvest.is_null() && !can_examine() ) {
-            debugmsg( "Harvest data defined without examine function for %s", name_ );
-        }
     }
 }
 

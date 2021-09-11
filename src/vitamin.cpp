@@ -60,7 +60,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
     jo.read( "excess", vit.excess_ );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
-    vit.rate_ = read_from_json_string<time_duration>( *jo.get_raw( "rate" ), time_duration::units );
+    vit.rate_ = read_from_json_string<time_duration>( jo.get_member( "rate" ), time_duration::units );
 
     if( !jo.has_string( "vit_type" ) ) {
         jo.throw_error( "vitamin must have a vitamin type", "vit_type" );
@@ -126,7 +126,6 @@ std::string enum_to_string<vitamin_type>( vitamin_type data )
         case vitamin_type::num_vitamin_types:
             break;
     }
-    debugmsg( "Invalid vitamin_type" );
-    abort();
+    cata_fatal( "Invalid vitamin_type" );
 }
 } // namespace io

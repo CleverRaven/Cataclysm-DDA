@@ -7,7 +7,7 @@
     "description": "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
     "starting_trait": true,
     "changes_to": [ "FLEET2" ],
-    "category": [ "SPIDER", "MOUSE" ],
+    "category": [ "SPIDER", "MOUSE", "RABBIT" ],
     "types": [ "RUNNING" ],
     "movecost_flatground_modifier": 0.85
   },
@@ -172,7 +172,7 @@
     "points": 1,
     "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
     "starting_trait": true,
-    "category": [ "ALPHA", "MOUSE", "ELFA" ],
+    "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT" ],
     "cancels": [ "BADHEARING" ],
     "hearing_modifier": 1.25
   },
@@ -231,8 +231,8 @@
     "valid": false,
     "prereqs": [ "GOODCARDIO" ],
     "cancels": [ "BADCARDIO" ],
-    "threshreq": [ "THRESH_MOUSE" ],
-    "category": [ "MOUSE" ],
+    "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
+    "category": [ "MOUSE", "RABBIT" ],
     "max_stamina_modifier": 1.4
   },
   {
@@ -242,7 +242,7 @@
     "points": 3,
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ]
   },
   {
@@ -303,8 +303,8 @@
     "description": "Your body's demanding energy needs mean you can fall asleep just about anywhere.",
     "prereqs": [ "MET_RAT" ],
     "cancels": [ "INSOMNIA" ],
-    "threshreq": [ "THRESH_MOUSE" ],
-    "category": [ "MOUSE" ],
+    "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
+    "category": [ "MOUSE", "RABBIT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
   },
   {
@@ -489,7 +489,7 @@
     "points": 1,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
-    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE" ]
+    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -691,7 +691,7 @@
     "type": "mutation",
     "id": "CANNIBAL",
     "name": { "str": "Cannibal" },
-    "points": 3,
+    "points": 2,
     "//": "Feral humans vastly increase the cannibal meat supply, therefore this trait needs to increase in cost.",
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
@@ -853,7 +853,7 @@
     "ugliness": -2,
     "description": "You are a sight to behold.  People who care about such things will react more kindly to you.",
     "starting_trait": true,
-    "category": [ "ALPHA", "FELINE", "LUPINE" ],
+    "category": [ "ALPHA", "FELINE", "LUPINE", "RABBIT" ],
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "changes_to": [ "BEAUTIFUL" ]
   },
@@ -953,7 +953,7 @@
     "changes_to": [ "SLEEPY2", "MET_RAT" ],
     "starting_trait": true,
     "types": [ "SLEEP" ],
-    "category": [ "BEAST", "CHIMERA", "MOUSE" ],
+    "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT" ],
     "fatigue_modifier": 0.333,
     "fatigue_regen_modifier": 0.333
   },
@@ -1132,7 +1132,7 @@
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
     "vitamins_absorb_multi": [ [ "junk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA" ]
+    "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -1186,7 +1186,7 @@
     "social_modifiers": { "lie": -5 },
     "skill_rust_multiplier": 0.66,
     "starting_trait": true,
-    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
+    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
     "cancels": [ "GOODMEMORY" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ] } ]
   },
@@ -1208,7 +1208,7 @@
     "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
     "starting_trait": true,
     "valid": false,
-    "category": [ "MEDICAL", "MOUSE" ],
+    "category": [ "MEDICAL", "MOUSE", "RABBIT" ],
     "cancels": [ "NONADDICTIVE" ]
   },
   {
@@ -1261,7 +1261,7 @@
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
     "cancels": [ "ANIMALEMPATH" ],
     "prereqs": [ "ANIMALDISCORD" ],
-    "category": [ "MOUSE" ]
+    "category": [ "MOUSE", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -1312,7 +1312,7 @@
     "description": "When very hungry or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
     "valid": false,
-    "category": [ "MEDICAL", "MOUSE" ]
+    "category": [ "MEDICAL", "MOUSE", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -1412,7 +1412,7 @@
     "description": "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and sunglasses when going out in the sun.",
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
-    "category": [ "TROGLOBITE", "MOUSE" ],
+    "category": [ "TROGLOBITE", "MOUSE", "RABBIT" ],
     "types": [ "skin_tone" ]
   },
   {
@@ -1425,7 +1425,7 @@
     "valid": false,
     "social_modifiers": { "intimidate": -2 },
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "category": [ "MOUSE", "ELFA" ],
+    "category": [ "MOUSE", "ELFA", "RABBIT" ],
     "changes_to": [ "FLIMSY2" ],
     "hp_modifier": -0.25
   },
@@ -1517,6 +1517,19 @@
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
     "flags": [ "EYE_MEMBRANE" ],
     "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MANSBESTFRIEND",
+    "name": { "str": "Man's Best Friend" },
+    "points": 1,
+    "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
+    "valid": false,
+    "prereqs": [ "LIGHTFUR" ],
+    "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
+    "category": [ "LUPINE" ],
+    "mixed_effect": true,
+    "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
   },
   {
     "type": "mutation",
@@ -1786,9 +1799,9 @@
     "ugliness": 3,
     "description": "Your big teeth have grown in.  Folks had best show some more respect.",
     "types": [ "TEETH" ],
-    "prereqs": [ "MUZZLE_RAT" ],
-    "threshreq": [ "THRESH_RAT" ],
-    "category": [ "RAT" ],
+    "prereqs": [ "MUZZLE_RAT", "RABBIT_NOSE" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
+    "category": [ "RAT", "RABBIT" ],
     "attacks": {
       "attack_text_u": "You bite into %s with your ratlike incisors",
       "attack_text_npc": "%1$s bites %2$s with their ratlike incisors",
@@ -2046,7 +2059,7 @@
     "points": 2,
     "mixed_effect": true,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
-    "category": [ "MOUSE" ],
+    "category": [ "MOUSE", "RABBIT" ],
     "changes_to": [ "HOLLOW_BONES" ],
     "movecost_modifier": 0.9,
     "attackcost_modifier": 0.9,
@@ -2100,7 +2113,7 @@
     "category": [ "SPIDER", "MOUSE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR" ]
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ]
   },
   {
     "type": "mutation",
@@ -3289,10 +3302,10 @@
     "name": { "str": "Grazer" },
     "points": 3,
     "description": "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush and shrubs.  Eat either one by activating this, standing over your target, and pressing E.",
-    "prereqs": [ "RUMINANT" ],
-    "threshreq": [ "THRESH_CATTLE" ],
+    "prereqs": [ "RUMINANT", "INCISORS" ],
+    "threshreq": [ "THRESH_CATTLE", "THRESH_RABBIT" ],
     "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
-    "category": [ "CATTLE" ],
+    "category": [ "CATTLE", "RABBIT" ],
     "active": true,
     "cost": 0
   },
@@ -3331,9 +3344,10 @@
     "valid": false,
     "purifiable": false,
     "description": "Your tough paws allow you to dig through dirt and rubble with ease.",
-    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE" ],
-    "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE" ],
-    "category": [ "RAT", "LUPINE", "URSINE" ],
+    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE", "PAWS_LITTLE" ],
+    "prereqs2": [ "INCISORS" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RABBIT" ],
+    "category": [ "RAT", "LUPINE", "URSINE", "RABBIT" ],
     "active": true
   },
   {
@@ -3854,7 +3868,7 @@
       "THRESH_LIZARD",
       "THRESH_SPIDER"
     ],
-    "cancels": [ "PACIFIST" ],
+    "cancels": [ "PACIFIST", "MANSBESTFRIEND" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "PRED1" ]
   },
@@ -4214,9 +4228,9 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "description": "You have a handsome set of feline whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
+    "description": "You have a handsome set of whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
     "types": [ "WHISKERS" ],
-    "category": [ "FELINE" ]
+    "category": [ "FELINE", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -4413,7 +4427,7 @@
     "description": "You are nimbler.  Dexterity + 2",
     "prereqs": [ "DEX_UP" ],
     "changes_to": [ "DEX_UP_3" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT" ],
     "passive_mods": { "dex_mod": 2 }
   },
   {
@@ -4631,7 +4645,7 @@
     "description": "You've noticeably shrunk in size.  You're able to move with increased litheness, but your smaller stature prevents you from carrying as much.",
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL2" ],
-    "category": [ "MOUSE" ],
+    "category": [ "MOUSE", "RABBIT" ],
     "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.05,
     "dodge_modifier": 1,
@@ -4880,6 +4894,7 @@
     "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "PRETTY" ],
+    "category": [ "RABBIT" ],
     "changes_to": [ "BEAUTIFUL2" ]
   },
   {
@@ -4914,7 +4929,18 @@
     "visibility": 4,
     "ugliness": 3,
     "description": "Your face and jaw have begun… changing.  Masks and such fit OK, but you're noticeably mutated.",
-    "changes_to": [ "BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" ],
+    "changes_to": [
+      "BEAK",
+      "BEAK_HUM",
+      "BEAK_PECK",
+      "PROBOSCIS",
+      "MINOTAUR",
+      "MUZZLE",
+      "MUZZLE_BEAR",
+      "MUZZLE_LONG",
+      "MUZZLE_RAT",
+      "RABBIT_NOSE"
+    ],
     "category": [ "FELINE" ]
   },
   {
@@ -5071,6 +5097,31 @@
   },
   {
     "type": "mutation",
+    "id": "PERSISTENCE_HUNTER",
+    "name": { "str": "Persistence Hunter" },
+    "points": 2,
+    "description": "You can pursue prey for miles and miles at a variety of paces until they stop from exhauastion.",
+    "types": [ "METABOLISM" ],
+    "changes_to": [ "PERSISTENCE_HUNTER2" ],
+    "category": [ "LUPINE" ],
+    "fatigue_modifier": -0.1,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "PERSISTENCE_HUNTER2",
+    "name": { "str": "Extreme Persistence Hunter" },
+    "points": 10,
+    "description": "You can pursue prey for days until they literally die from exhaustion.  It's too bad zombies don't fatigue either.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "PERSISTENCE_HUNTER" ],
+    "threshreq": [ "THRESH_LUPINE" ],
+    "category": [ "LUPINE" ],
+    "fatigue_modifier": -0.2,
+    "stamina_regen_modifier": 0.2
+  },
+  {
+    "type": "mutation",
     "id": "HUNGER",
     "name": { "str": "Fast Metabolism" },
     "points": -2,
@@ -5078,7 +5129,7 @@
     "starting_trait": true,
     "types": [ "METABOLISM" ],
     "changes_to": [ "HUNGER2", "MET_RAT" ],
-    "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE" ],
+    "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE", "RABBIT" ],
     "metabolism_modifier": 0.5,
     "stamina_regen_modifier": 0.1
   },
@@ -5093,7 +5144,7 @@
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
     "prereqs": [ "HUNGER" ],
     "prereqs2": [ "SLEEPY" ],
-    "category": [ "RAT", "MOUSE" ],
+    "category": [ "RAT", "MOUSE", "RABBIT" ],
     "healing_awake": 0.2,
     "healing_resting": 0.5,
     "fatigue_modifier": 0.5,
@@ -7045,6 +7096,111 @@
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
     "dodge_modifier": 3
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_RABBIT",
+    "name": { "str": "Lagomorph" },
+    "points": 1,
+    "description": "You really want to eat some carrots.  Welcome to the Lagomorpha family.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "RABBIT_EARS",
+    "name": { "str": "Rabbit Ears" },
+    "points": 1,
+    "visibility": 9,
+    "ugliness": -1,
+    "description": "Your ears have grown into tall, flexible and pretty rabbit ears.  They're are slender and enhance your hearing beyond the normal range.",
+    "valid": false,
+    "types": [ "EARS" ],
+    "category": [ "RABBIT" ],
+    "hearing_modifier": 1.8
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_RABBIT",
+    "name": { "str": "Rabbit Tail" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": -1,
+    "description": "Your stubby tail has become fuzzy and more round.  It looks adorable, but doesn't seem to serve another purpose beyond that.",
+    "types": [ "TAIL" ],
+    "cancels": [ "TAIL_STUB" ],
+    "category": [ "RABBIT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RABBIT_FUR",
+    "name": { "str": "Rabbit Fur" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,
+    "bodytemp_modifiers": [ 750, 1500 ],
+    "bodytemp_sleep": 500,
+    "description": "Your fur keeps you covered in winter, maintaining heat and allowing you to better tolerate cold temperatures.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "LIGHTFUR" ],
+    "category": [ "RABBIT" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "bash": 1
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "RABBIT_FEET",
+    "name": { "str": "Rabbit Feet" },
+    "points": -1,
+    "visibility": 2,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
+    "types": [ "LEGS" ],
+    "category": [ "RABBIT" ],
+    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "bodytemp_modifiers": [ 25, 50 ],
+    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
+    "attacks": {
+      "attack_text_u": "You kick %s with your large feet",
+      "attack_text_npc": "%1$s kicks %2$s with their large feet",
+      "chance": 15,
+      "strength_damage": { "damage_type": "bash", "amount": 1.5 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "RABBIT_NOSE",
+    "name": { "str": "Rabbit Nose" },
+    "points": -1,
+    "visibility": 6,
+    "ugliness": 1,
+    "description": "Your nose has morphed into a cute bunny nose, along with the snout.  It's extremely twitchy too.",
+    "types": [ "MUZZLE" ],
+    "prereqs": [ "SNOUT" ],
+    "category": [ "RABBIT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAWS_LITTLE",
+    "name": { "str": "Little Paws" },
+    "points": -1,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, but you can still probably manage.",
+    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
+    "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
+    "types": [ "HANDS" ],
+    "prereqs": [ "NAILS" ],
+    "cancels": [ "TALONS" ],
+    "category": [ "RABBIT" ]
   },
   {
     "type": "mutation",

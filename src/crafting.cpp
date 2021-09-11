@@ -2535,7 +2535,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover  recover %2$s from the %3$s." ),
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2$s from the %3$s." ),
                                         this->disp_name( false, true ), newit.tname(), dis_item.tname() );
             }
             continue;

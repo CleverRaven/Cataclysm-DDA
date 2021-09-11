@@ -604,7 +604,7 @@ void uilist::setup()
 
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
-        abort();
+        cata_fatal( "Failed to create uilist window" );
     }
 
     if( !started ) {

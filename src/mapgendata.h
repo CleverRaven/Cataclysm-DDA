@@ -5,10 +5,10 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coordinates.h"
-#include "json.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class JsonValue;
 class map;
 class mission;
 struct point;
@@ -24,7 +24,7 @@ struct mapgen_arguments {
 
     void merge( const mapgen_arguments & );
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonValue &ji );
 };
 
 namespace mapgendata_detail

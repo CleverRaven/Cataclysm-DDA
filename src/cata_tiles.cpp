@@ -6,7 +6,6 @@
 #include <bitset>
 #include <cmath>
 #include <cstdint>
-#include <fstream>
 #include <iterator>
 #include <set>
 #include <stdexcept>
@@ -30,6 +29,7 @@
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -256,7 +256,11 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
 
 tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_tile_type )
 {
-    auto inserted = tile_ids.insert( std::make_pair( id, new_tile_type ) ).first;
+    // Must overwrite existing tile
+    // TODO: c++17 - replace [] + find() with insert_or_assign()
+    tile_ids[id] = std::move( new_tile_type );
+    auto inserted = tile_ids.find( id );
+
     const std::string &inserted_id = inserted->first;
     tile_type &inserted_tile = inserted->second;
 
@@ -589,7 +593,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     std::string img_path = tileset_root + '/' + tileset_path;
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    std::ifstream config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream config_file( fs::u8path( json_path ), std::ifstream::in | std::ifstream::binary );
 
     if( !config_file.good() ) {
         throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
@@ -632,8 +636,8 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-        std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in |
-                                       std::ifstream::binary );
+        cata::ifstream mod_config_file( fs::u8path( json_path ), std::ifstream::in |
+                                        std::ifstream::binary );
 
         if( !mod_config_file.good() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
@@ -976,6 +980,9 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
  */
 tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
 {
+    if( ts.find_tile_type( id ) ) {
+        ts.duplicate_ids.insert( id );
+    }
     tile_type curr_subtile;
 
     load_tile_spritelists( entry, curr_subtile.fg, "fg" );
@@ -2187,6 +2194,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             // offset by log_rand so that everything does not blink at the same time:
             animation_frame += loc_rand;
             int frames_in_loop = display_tile.fg.get_weight();
+            if( frames_in_loop == 1 ) {
+                frames_in_loop = display_tile.bg.get_weight();
+            }
             // loc_rand is actually the weighed index of the selected tile, and
             // for animations the "weight" is the number of frames to show the tile for:
             loc_rand = animation_frame % frames_in_loop;
@@ -3653,7 +3663,7 @@ void cata_tiles::draw_weather_frame()
 void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings )
 {
     const bool use_font = get_option<bool>( "ANIMATION_SCT_USE_FONT" );
-    tripoint player_pos = get_player_location().pos();
+    tripoint player_pos = get_player_character().pos();
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const point iD( iter->getPosX(), iter->getPosY() );
@@ -3698,7 +3708,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
 void cata_tiles::draw_zones_frame()
 {
-    tripoint player_pos = get_player_location().pos();
+    tripoint player_pos = get_player_character().pos();
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( "highlight", C_NONE, empty_string,
@@ -3730,6 +3740,23 @@ void cata_tiles::draw_footsteps_frame( const tripoint &center )
     }
 }
 /* END OF ANIMATION FUNCTIONS */
+
+void cata_tiles::tile_loading_report_dups()
+{
+
+    std::vector<std::string> dups_list;
+    const std::unordered_set<std::string> &dups_set = tileset_ptr->get_duplicate_ids();
+    std::copy( dups_set.begin(), dups_set.end(), std::back_inserter( dups_list ) );
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
+    std::sort( dups_list.begin(), dups_list.end() );
+
+    std::string res;
+    for( const std::string &s : dups_list ) {
+        res += s;
+        res += " ";
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Have duplicates: " << res;
+}
 
 void cata_tiles::init_light()
 {
@@ -3980,6 +4007,7 @@ void cata_tiles::do_tile_loading_report()
     tile_loading_report( vpart_info::all(), C_VEHICLE_PART, "vp_" );
     tile_loading_report<trap>( trap::count(), C_TRAP, "" );
     tile_loading_report<field_type>( field_type::count(), C_FIELD, "" );
+    tile_loading_report_dups();
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );

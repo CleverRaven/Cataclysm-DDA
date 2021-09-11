@@ -34,6 +34,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -705,7 +706,7 @@ static effect_data load_effect_data( const JsonObject &e )
 {
     time_duration time;
     if( e.has_string( "duration" ) ) {
-        time = read_from_json_string<time_duration>( *e.get_raw( "duration" ), time_duration::units );
+        time = read_from_json_string<time_duration>( e.get_member( "duration" ), time_duration::units );
     } else {
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
@@ -4001,7 +4002,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         }
     }
 
-    if( p.has_bionic( bid ) ) {
+    if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );

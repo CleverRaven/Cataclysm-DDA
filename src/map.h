@@ -747,6 +747,7 @@ class map
         * @param p Tile to check for vehicle
         */
         optional_vpart_position veh_at( const tripoint &p ) const;
+        optional_vpart_position veh_at( const tripoint_abs_ms &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
@@ -1636,6 +1637,7 @@ class map
          * Output is in the same scale, but in global system.
          */
         tripoint getabs( const tripoint &p ) const;
+        tripoint_abs_ms getglobal( const tripoint &p ) const;
         point getabs( const point &p ) const {
             return getabs( tripoint( p, abs_sub.z ) ).xy();
         }
@@ -1643,10 +1645,12 @@ class map
          * Inverse of @ref getabs
          */
         tripoint getlocal( const tripoint &p ) const;
+        tripoint getlocal( const tripoint_abs_ms &p ) const;
         point getlocal( const point &p ) const {
             return getlocal( tripoint( p, abs_sub.z ) ).xy();
         }
         virtual bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint_abs_ms &p ) const;
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
@@ -1696,7 +1700,8 @@ class map
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
-        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight );
+        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
+                                          const tripoint_abs_sm &submap_pos, bool ignore_sight );
 
     protected:
         void saven( const tripoint &grid );

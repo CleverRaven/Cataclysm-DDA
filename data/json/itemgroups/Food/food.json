@@ -102,6 +102,7 @@
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_daintydishes", "prob": 20 },
       { "item": "cookbook_liverforkids", "prob": 12 },
+      { "item": "sweets_book", "prob": 6 },
       { "item": "family_cookbook", "prob": 6 },
       { "item": "brewing_cookbook", "prob": 4 },
       { "group": "ketchup_sealed_rng", "prob": 35 },

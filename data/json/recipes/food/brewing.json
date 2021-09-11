@@ -139,7 +139,6 @@
     "result": "brew_moonshine",
     "id_suffix": "pumpkin",
     "result_mult": 15,
-    "byproducts": [ [ "chem_methanol", 275 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
