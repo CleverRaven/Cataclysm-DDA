@@ -83,7 +83,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dragon suit" },
-    "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will take you as their own if you wear this.  The wings may be a bit more encumbering though.",
+    "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will take you as their own if you wear this.  The wings may be a bit too encumbering though.",
     "weight": "7033 g",
     "volume": "12 L",
     "price": 250000,
