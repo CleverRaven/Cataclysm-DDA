@@ -1327,7 +1327,8 @@ void monster::process_triggers()
     // It's hard to ever see it in action
     // and even harder to balance it without making it exploitable
 
-    if( morale != type->morale && one_in( 10 ) ) {
+    if( morale != type->morale && one_in( 4 ) &&
+        ( ( std::abs( morale - type->morale ) >= 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
             morale++;
         } else {
@@ -1335,7 +1336,8 @@ void monster::process_triggers()
         }
     }
 
-    if( anger != type->agro && one_in( 10 ) ) {
+    if( anger != type->agro && one_in( 4 ) &&
+        ( ( std::abs( anger - type->agro ) >= 15 ) || one_in( 2 ) ) ) {
         if( anger < type->agro ) {
             anger++;
         } else {
@@ -2699,10 +2701,10 @@ void monster::process_effects()
             morale = type->morale;
             anger = type->agro;
         }
-        if( morale <= type->morale ) {
+        if( morale < type->morale ) {
             morale += 1;
         }
-        if( anger <= type->agro ) {
+        if( anger < type->agro ) {
             anger += 1;
         }
         if( morale < 0 ) {
