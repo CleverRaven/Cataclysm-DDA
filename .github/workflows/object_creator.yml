@@ -69,13 +69,9 @@ jobs:
       run: |
         vcpkg.exe --version
         vcpkg.exe install yasm-tool:x86-windows
-        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/packages" |
-        Foreach-Object {
-            Get-ChildItem $_.FullName -Filter *.log |
-            Foreach-Object {
-              echo $_.FullName
-            }
-        }
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg" -Recurse
+        echo =================================================
         vcpkg.exe install --triplet x64-windows-static sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 
     - name: Dump vcpkg logs if vcpkg build failed
