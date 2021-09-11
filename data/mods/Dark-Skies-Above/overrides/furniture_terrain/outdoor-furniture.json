@@ -3,6 +3,7 @@
     "type": "furniture",
     "id": "f_mutpoppy",
     "copy-from": "f_mutpoppy",
+	"examine_action": "flower_poppy",
     "name": "poppy bush",
     "symbol": "f",
     "color": "light_red",
