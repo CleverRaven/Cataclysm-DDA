@@ -692,29 +692,29 @@ void avatar::identify( const item &item )
                  reading->time );
     }
 
-    std::vector<std::string> recipe_list;
+    std::vector<std::string> crafting_recipes;
+    std::vector<std::string> practice_recipes;
     for( const auto &elem : reading->recipes ) {
-        // Practice recipes are hidden. They're not written down in the book, they're
-        // just things that the avatar can figure out with help from the book.
-        if( elem.recipe->is_practice() ) {
-            continue;
-        }
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
         }
-        recipe_list.push_back( elem.name() );
+        if( elem.recipe->is_practice() ) {
+            practice_recipes.emplace_back( elem.recipe->result_name() );
+        } else {
+            crafting_recipes.emplace_back( elem.name() );
+        }
     }
-    if( !recipe_list.empty() ) {
-        std::string recipe_line =
-            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                     "This book contains %1$zu crafting recipes: %2$s",
-                                     recipe_list.size() ),
-                           recipe_list.size(),
-                           enumerate_as_string( recipe_list ) );
-        add_msg( m_info, recipe_line );
+    if( !crafting_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you craft: %s" ),
+                                        enumerate_as_string( crafting_recipes ) ) );
     }
-    if( recipe_list.size() != reading->recipes.size() ) {
+    if( !practice_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you practice: %s" ),
+                                        enumerate_as_string( practice_recipes ) ) );
+    }
+    const std::size_t num_total_recipes = crafting_recipes.size() + practice_recipes.size();
+    if( num_total_recipes < reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
 }
