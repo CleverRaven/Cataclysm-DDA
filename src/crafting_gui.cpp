@@ -566,7 +566,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 void recipe_result_info_cache::insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec )
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
-};
+}
 
 void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec )
 {
@@ -574,7 +574,7 @@ void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<itemi
       to the previously calculated value so that this won't break if the calculation changes. */
     info_vec.emplace_back( "DESCRIPTION", std::string( std::min( TERMX,
                            FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
-};
+}
 
 
 const recipe *select_crafting_recipe( int &batch_size_out )
