@@ -394,7 +394,7 @@
       "When you sever the vestigial wings, a spurt of mud-thick fluid gushes up and every leg twitches",
       "Prying off the elytra is easier than you thought it would be, but a thicker duplicate lies beneath, melted into the veiny wings",
       "You hack off the legs, finding them surprisingly light once the knotted veins within are drained",
-      "The thick chitin is difficult to saw through, and rooted so deeply in fat that each panel you pull off comes with dangling ropes of sinew and grease.",
+      "The thick chitin is difficult to saw through, and rooted so deeply in fat that each panel you pull off comes with dangling ropes of sinew and grease",
       "Each leg bears too many hooks and outcrops to count, and they look far too much like teeth for your liking",
       "The eyes are easily pulled loose, though with them spills out numerous coiled ropes of nerve, sinew, and something halfway between"
     ]
@@ -418,7 +418,7 @@
       "A small landslide of flesh and gristle buries you to the waist at one point, and you could swear something was slithering near your ankles",
       "When you grab one particularly bristled organ, it writhes and nearly escapes your grasp before you can smash it.  You find developing wings in the paste",
       "A much smaller second shell lies buried deep inside the beetle, an entomological matryoshka that contains within itself... oh, fecal matter",
-      "Chunks of meat, bone, and fabric inside one of the digestive tracts are still easy to identify, and you wonder what their name was.",
+      "Chunks of meat, bone, and fabric inside one of the digestive tracts are still easy to identify, and you wonder what their name was",
       "A bundle of gigantic wasp eggs is buried in the beast, but all are pierced with wirey tubes draining nutrients and fluid from their fetal husks",
       "You finish up, coming to grips with the fact that toxins suffuse every inch of the truckload of meat you just pulled from this mutant beetle"
     ]
@@ -581,7 +581,7 @@
   {
     "type": "snippet",
     "category": "<ground_beetle_mega_harvest>",
-    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_beetle_mega>." ]
+    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_ground_beetle_mega>." ]
   },
   {
     "type": "snippet",
