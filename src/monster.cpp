@@ -1328,7 +1328,7 @@ void monster::process_triggers()
     // and even harder to balance it without making it exploitable
 
     if( morale != type->morale && one_in( 4 ) &&
-        ( ( std::abs( morale - type->morale ) >= 15 ) || one_in( 2 ) ) ) {
+        ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
             morale++;
         } else {
@@ -1337,7 +1337,7 @@ void monster::process_triggers()
     }
 
     if( anger != type->agro && one_in( 4 ) &&
-        ( ( std::abs( anger - type->agro ) >= 15 ) || one_in( 2 ) ) ) {
+        ( ( std::abs( anger - type->agro ) > 15 ) || one_in( 2 ) ) ) {
         if( anger < type->agro ) {
             anger++;
         } else {
@@ -3133,6 +3133,51 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
+
+    if( morale != type->morale ) { // if works, will put into helper function
+        int dt_left_m = to_turns<int>( dt );
+
+        if( std::abs( morale - type->morale ) > 15 ) {
+            const int adjust_by_m = std::min( ( dt_left_m / 4 ), ( std::abs( morale - type->morale ) - 15 ) );
+            dt_left_m -= adjust_by_m * 4;
+            if( morale < type->morale ) {
+                morale += adjust_by_m;
+            } else {
+                morale -= adjust_by_m;
+            }
+        }
+
+        if( morale <
+            type->morale ) { // Avoiding roll_remainder - PC out of situation, monster can calm down
+            morale += std::min( static_cast<int>( std::ceil( dt_left_m / 8.0 ) ),
+                                std::abs( morale - type->morale ) );
+        } else {
+            morale -= std::min( ( dt_left_m / 8 ), std::abs( morale - type->morale ) );
+        }
+    }
+    if( anger != type->agro ) {
+        int dt_left_a = to_turns<int>( dt );
+
+        if( std::abs( anger - type->agro ) > 15 ) {
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ), ( std::abs( anger - type->agro ) - 15 ) );
+            dt_left_a -= adjust_by_a * 4;
+            if( anger < type->agro ) {
+                anger += adjust_by_a;
+            } else {
+                anger -= adjust_by_a;
+            }
+        }
+
+        if( anger > type->agro ) {
+            anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
+                               std::abs( anger - type->agro ) );
+        } else {
+            anger += std::min( ( dt_left_a / 8 ), std::abs( anger - type->agro ) );
+        }
+    }
+
+
+    // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
