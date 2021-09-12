@@ -1661,6 +1661,7 @@
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
+      [ "breadboard", 50 ],
       [ "circuit", 35 ],
       [ "small_lcd_screen", 10 ],
       [ "large_lcd_screen", 10 ],

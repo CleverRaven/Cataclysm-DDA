@@ -3,6 +3,7 @@
     "type": "item_group",
     "id": "electronics",
     "items": [
+      [ "breadboard", 50 ],
       { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
       [ "superglue", 30 ],
@@ -63,6 +64,7 @@
       [ "mag_electronics", 15 ],
       [ "antenna", 18 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
+      [ "breadboard", 50 ],
       { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
       [ "solder_wire", 70 ],
       [ "solar_cell", 5 ],
