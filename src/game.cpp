@@ -557,6 +557,15 @@ void game::reload_tileset()
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
+    try {
+        overmap_tilecontext->reinit();
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/false, /*force=*/true,
+                                           /*pump_events=*/true );
+        overmap_tilecontext->do_tile_loading_report();
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+    }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
 #endif // TILES
