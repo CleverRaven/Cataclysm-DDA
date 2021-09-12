@@ -160,6 +160,9 @@ std::vector<const recipe *> recipe_subset::search(
                 return !lcmatch( r->result_name(), txt );
 
             case search_type::skill: {
+                if( r->skill_used && lcmatch( r->skill_used->name(), txt ) ) {
+                    return true;
+                }
                 const auto &skills = r->required_skills;
                 return std::any_of( skills.begin(), skills.end(), [&]( const std::pair<skill_id, int> &e ) {
                     return lcmatch( e.first->name(), txt );
