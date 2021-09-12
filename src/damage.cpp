@@ -41,8 +41,7 @@ std::string enum_to_string<damage_type>( damage_type data )
         case damage_type::NUM:
             break;
     }
-    debugmsg( "Invalid damage_type" );
-    abort();
+    cata_fatal( "Invalid damage_type" );
 }
 
 } // namespace io
@@ -179,7 +178,7 @@ bool damage_instance::operator==( const damage_instance &other ) const
     return damage_units == other.damage_units;
 }
 
-void damage_instance::deserialize( JsonIn &jsin )
+void damage_instance::deserialize( const JsonValue &jsin )
 {
     // TODO: Clean up
     if( jsin.test_object() ) {
@@ -188,7 +187,7 @@ void damage_instance::deserialize( JsonIn &jsin )
     } else if( jsin.test_array() ) {
         damage_units = load_damage_instance( jsin.get_array() ).damage_units;
     } else {
-        jsin.error( "Expected object or array for damage_instance" );
+        jsin.throw_error( "Expected object or array for damage_instance" );
     }
 }
 
@@ -487,9 +486,8 @@ void damage_over_time_data::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void damage_over_time_data::deserialize( JsonIn &jsin )
+void damage_over_time_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     std::string tmp_string = jo.get_string( "damage_type" );
     // Remove after 0.F, migrating DT_TRUE to DT_PURE
     if( tmp_string == "true" ) {

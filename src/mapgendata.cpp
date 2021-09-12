@@ -1,6 +1,7 @@
 #include "mapgendata.h"
 
 #include "debug.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "omdata.h"
@@ -20,7 +21,7 @@ void mapgen_arguments::serialize( JsonOut &jo ) const
     jo.write( map );
 }
 
-void mapgen_arguments::deserialize( JsonIn &ji )
+void mapgen_arguments::deserialize( const JsonValue &ji )
 {
     ji.read( map, true );
 }

@@ -65,8 +65,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::_LAST:
             break;
     }
-    debugmsg( "Invalid mon_trigger" );
-    abort();
+    cata_fatal( "Invalid mon_trigger" );
 }
 
 template<>
@@ -84,8 +83,7 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
         case mdeath_type::LAST:
             break;
     }
-    debugmsg( "Invalid mdeath_type" );
-    abort();
+    cata_fatal( "Invalid mdeath_type" );
 }
 
 template<>
@@ -189,10 +187,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
-        case MF_CATFOOD: return "CATFOOD";
         case MF_CANPLAY: return "CANPLAY";
-        case MF_CATTLEFODDER: return "CATTLEFODDER";
-        case MF_BIRDFOOD: return "BIRDFOOD";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
@@ -215,8 +210,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case m_flag::MF_MAX:
             break;
     }
-    debugmsg( "Invalid m_flag" );
-    abort();
+    cata_fatal( "Invalid m_flag" );
 }
 
 } // namespace io
@@ -726,6 +720,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
+    optional( jo, was_loaded, "petfood", petfood );
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
@@ -807,6 +803,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         shearing = shearing_data( entries );
     }
 
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
     optional( jo, was_loaded, "death_function", mdeath_effect );
 
     if( jo.has_array( "emit_fields" ) ) {
@@ -1366,7 +1363,19 @@ void monster_death_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
 }
 
-void monster_death_effect::deserialize( JsonIn &jsin )
+void monster_death_effect::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void pet_food_data::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "feed", feed );
+    optional( jo, was_loaded, "pet", pet );
+}
+
+void pet_food_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     load( data );

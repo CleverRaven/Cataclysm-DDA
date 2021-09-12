@@ -10,6 +10,7 @@
 
 class JsonIn;
 class JsonOut;
+class JsonValue;
 struct lat_long;
 struct rl_vec2d;
 class time_duration;
@@ -185,7 +186,7 @@ class time_duration
         time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Named constructors to get a duration representing a multiple of the named time
@@ -454,7 +455,7 @@ class time_point
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int );
 
         // TODO: try to get rid of this
         template<typename T>

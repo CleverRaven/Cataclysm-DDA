@@ -131,8 +131,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::order: return "order";
     case sounds::sound_t::_LAST: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 } // namespace io
@@ -189,8 +188,7 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::_LAST:
             break;
     }
-    debugmsg( "Invalid sound_t category" );
-    abort();
+    cata_fatal( "Invalid sound_t category" );
 }
 
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,

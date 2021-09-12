@@ -991,7 +991,7 @@ class drop_or_stash_item_info
             : _loc( _loc ), _count( _count ) {}
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jsobj );
 
         const item_location &loc() const {
             return _loc;
@@ -1401,10 +1401,13 @@ class play_with_pet_activity_actor : public activity_actor
 {
     private:
         std::string pet_name;
+        std::string playstr;
     public:
         play_with_pet_activity_actor() = default;
         explicit play_with_pet_activity_actor( const std::string &pet_name ) :
-            pet_name( pet_name ) {}
+            pet_name( pet_name ) {};
+        explicit play_with_pet_activity_actor( const std::string &pet_name, const std::string &playstr ) :
+            pet_name( pet_name ), playstr( playstr ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_PLAY_WITH_PET" );
         }

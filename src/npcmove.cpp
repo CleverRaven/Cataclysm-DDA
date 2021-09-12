@@ -22,6 +22,8 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -253,7 +255,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
-        const tripoint &abs_pos = global_square_location().raw();
+        const tripoint abs_pos = get_location().raw();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
@@ -286,7 +288,7 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-        const tripoint &pt = pos() + direction_XY( pt_dir );
+        const tripoint pt = pos() + direction_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
@@ -1190,8 +1192,9 @@ void npc::execute_action( npc_action action )
         }
 
         case npc_look_for_player:
-            if( saw_player_recently() && last_player_seen_pos && sees( *last_player_seen_pos ) ) {
-                update_path( *last_player_seen_pos );
+            if( saw_player_recently() && last_player_seen_pos &&
+                sees( here.getlocal( *last_player_seen_pos ) ) ) {
+                update_path( here.getlocal( *last_player_seen_pos ) );
                 move_to_next();
             } else {
                 look_for_player( player_character );
@@ -2451,7 +2454,7 @@ void npc::move_to_next()
 void npc::avoid_friendly_fire()
 {
     // TODO: To parameter
-    const tripoint &tar = current_target()->pos();
+    const tripoint tar = current_target()->pos();
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
@@ -2570,20 +2573,23 @@ void npc::worker_downtime()
         move_pause();
         return;
     }
-    //  already know of a chair, go there
-    if( chair_pos != tripoint_min ) {
-        if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, here.getlocal( chair_pos ) ) ) {
-            update_path( here.getlocal( chair_pos ) );
-            if( pos() == here.getlocal( chair_pos ) || path.empty() ) {
+    //  already know of a chair, go there - if there isn't already another creature there.
+    //  this is a bit of behind the scene omniscience for the npc, since ideally the npc
+    //  should walk to the chair and then change their destination due to the seat being taken.
+    tripoint local_chair_pos = here.getlocal( *chair_pos );
+    if( chair_pos && !creatures.creature_at( local_chair_pos ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, local_chair_pos ) ) {
+            update_path( local_chair_pos );
+            if( get_location() == *chair_pos || path.empty() ) {
                 move_pause();
                 path.clear();
             } else {
                 move_to_next();
             }
-            wander_pos = tripoint_min;
+            wander_pos = cata::nullopt;
             return;
         } else {
-            chair_pos = tripoint_min;
+            chair_pos = cata::nullopt;
         }
     } else {
         // find a chair
@@ -2593,7 +2599,7 @@ void npc::worker_downtime()
                     could_move_onto( elem ) &&
                     here.point_within_camp( here.getabs( elem ) ) ) {
                     // this one will do
-                    chair_pos = here.getabs( elem );
+                    chair_pos = here.getglobal( elem );
                     return;
                 }
             }
@@ -2601,13 +2607,13 @@ void npc::worker_downtime()
     }
     // we got here if there are no chairs available.
     // wander back to near the bulletin board of the camp.
-    if( wander_pos != tripoint_min ) {
-        update_path( here.getlocal( wander_pos ) );
-        if( pos() == here.getlocal( wander_pos ) || path.empty() ) {
+    if( wander_pos ) {
+        update_path( here.getlocal( *wander_pos ) );
+        if( get_location() == *wander_pos || path.empty() ) {
             move_pause();
             path.clear();
             if( one_in( 30 ) ) {
-                wander_pos = tripoint_min;
+                wander_pos = cata::nullopt;
             }
         } else {
             move_to_next();
@@ -2633,7 +2639,7 @@ void npc::worker_downtime()
             pts.push_back( elem );
         }
         if( !pts.empty() ) {
-            wander_pos = here.getabs( random_entry( pts ) );
+            wander_pos = here.getglobal( random_entry( pts ) );
             return;
         }
     }
@@ -2846,7 +2852,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint abs_p = global_square_location().raw() - pos() + p;
+        const tripoint abs_p = get_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         const map_stack m_stack = here.i_at( p );
@@ -3230,8 +3236,8 @@ bool npc::find_corpse_to_pulp()
     const int range = 6;
 
     const item *corpse = nullptr;
-    if( pulp_location && square_dist( pos(), *pulp_location ) <= range ) {
-        corpse = check_tile( *pulp_location );
+    if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {
+        corpse = check_tile( here.getlocal( *pulp_location ) );
     }
 
     // Find the old target to avoid spamming
@@ -3239,13 +3245,13 @@ bool npc::find_corpse_to_pulp()
 
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
-        const tripoint &around = is_walking_with() ? player_character.pos() : pos();
+        const tripoint around = is_walking_with() ? player_character.pos() : pos();
         for( const item_location &location : here.get_active_items_in_radius( around, range,
                 special_item_type::corpse ) ) {
             corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {
-                pulp_location.emplace( location.position() );
+                pulp_location = here.getglobal( location.position() );
                 break;
             }
 
@@ -3268,13 +3274,13 @@ bool npc::do_pulp()
         return false;
     }
 
-    if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
+    if( rl_dist( *pulp_location, get_location() ) > 1 || pulp_location->z() != posz() ) {
         return false;
     }
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = get_map().getabs( *pulp_location );
+    activity.placement = pulp_location->raw();
     activity.do_turn( *this );
     return moves != old_moves;
 }
@@ -4046,7 +4052,7 @@ void npc::reach_omt_destination()
     }
     map &here = get_map();
     if( is_travelling() ) {
-        guard_pos = here.getabs( pos() );
+        guard_pos = get_location();
         goal = no_goal_point;
         if( is_player_ally() ) {
             Character &player_character = get_player_character();
@@ -4079,7 +4085,7 @@ void npc::reach_omt_destination()
     }
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
-    if( guard_pos == here.getabs( pos() ) ) {
+    if( guard_pos && *guard_pos == get_location() ) {
         // This is the specific point
         return;
     }
@@ -4087,11 +4093,11 @@ void npc::reach_omt_destination()
     if( path.size() > 1 ) {
         // No point recalculating the path to get home
         move_to_next();
-    } else if( guard_pos != tripoint_min ) {
-        update_path( here.getlocal( guard_pos ) );
+    } else if( guard_pos ) {
+        update_path( here.getlocal( *guard_pos ) );
         move_to_next();
     } else {
-        guard_pos = here.getabs( pos() );
+        guard_pos = get_location();
     }
 }
 
@@ -4256,7 +4262,7 @@ void npc::go_to_omt_destination()
 void npc::guard_current_pos()
 {
     goal = global_omt_location();
-    guard_pos = get_map().getabs( pos() );
+    guard_pos = get_location();
 }
 
 std::string npc_action_name( npc_action action )

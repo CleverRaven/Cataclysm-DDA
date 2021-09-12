@@ -32,10 +32,10 @@ class save_t
         explicit save_t( const std::string &name );
 
     public:
-        std::string player_name() const;
+        std::string decoded_name() const;
         std::string base_path() const;
 
-        static save_t from_player_name( const std::string &name );
+        static save_t from_save_id( const std::string &save_id );
         static save_t from_base_path( const std::string &base_path );
 
         bool operator==( const save_t &rhs ) const {
