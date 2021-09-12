@@ -3155,7 +3155,8 @@ void monster::on_load()
         int dt_left_m = to_turns<int>( dt );
 
         if( std::abs( morale - type->morale ) > 15 ) {
-            const int adjust_by_m = std::min( ( dt_left_m / 4 ), ( std::abs( morale - type->morale ) - 15 ) );
+            const int adjust_by_m = std::min( ( dt_left_m / 4 ),
+                                              ( std::abs( morale - type->morale ) - 15 ) );
             dt_left_m -= adjust_by_m * 4;
             if( morale < type->morale ) {
                 morale += adjust_by_m;
@@ -3164,19 +3165,21 @@ void monster::on_load()
             }
         }
 
-        if( morale <
-            type->morale ) { // Avoiding roll_remainder - PC out of situation, monster can calm down
+        // Avoiding roll_remainder - PC out of situation, monster can calm down
+        if( morale < type->morale ) {
             morale += std::min( static_cast<int>( std::ceil( dt_left_m / 8.0 ) ),
                                 std::abs( morale - type->morale ) );
         } else {
-            morale -= std::min( ( dt_left_m / 8 ), std::abs( morale - type->morale ) );
+            morale -= std::min( ( dt_left_m / 8 ),
+                                std::abs( morale - type->morale ) );
         }
     }
     if( anger != type->agro ) {
         int dt_left_a = to_turns<int>( dt );
 
         if( std::abs( anger - type->agro ) > 15 ) {
-            const int adjust_by_a = std::min( ( dt_left_a / 4 ), ( std::abs( anger - type->agro ) - 15 ) );
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ),
+                                              ( std::abs( anger - type->agro ) - 15 ) );
             dt_left_a -= adjust_by_a * 4;
             if( anger < type->agro ) {
                 anger += adjust_by_a;
@@ -3189,7 +3192,8 @@ void monster::on_load()
             anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
                                std::abs( anger - type->agro ) );
         } else {
-            anger += std::min( ( dt_left_a / 8 ), std::abs( anger - type->agro ) );
+            anger += std::min( ( dt_left_a / 8 ),
+                               std::abs( anger - type->agro ) );
         }
     }
 
