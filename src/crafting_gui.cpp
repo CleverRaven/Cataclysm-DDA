@@ -434,7 +434,7 @@ class recipe_result_info_cache
 
         void get_byproducts_data( const recipe *rec, const int count, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
-        void get_item_details( const item &dummy_result, const int count,
+        void get_item_details( const item &dummy_item, const int count,
                                std::vector<iteminfo> &details_info, const std::string &classification );
         void insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec );
         void insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec );
