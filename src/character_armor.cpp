@@ -12,8 +12,6 @@
 static const bionic_id bio_ads( "bio_ads" );
 static const efftype_id effect_onfire( "onfire" );
 
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
