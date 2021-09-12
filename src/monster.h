@@ -508,6 +508,8 @@ class monster : public Creature
         bool is_nemesis() const;
         // If we're unique
         std::string unique_name;
+        // Player given nickname
+        std::string nickname;
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;

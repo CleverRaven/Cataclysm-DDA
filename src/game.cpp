@@ -6436,6 +6436,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     ctxt.register_action( "LEVEL_UP" );
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
+    ctxt.register_action( "CHANGE_MONSTER_NAME" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
     ctxt.register_action( "SELECT" );
     if( peeking ) {
@@ -6480,6 +6481,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             draw_border( w_info );
 
             center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
+
+
+            creature_tracker &creatures = get_creature_tracker();
+            monster *const mon = creatures.creature_at<monster>( lp, true );
+            if( mon ) {
+                std::string mon_name_text = string_format( _( "%s - %s" ),
+                                            ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
+                                            ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
+                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 2 ), c_red, mon_name_text );
+            }
 
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
@@ -6615,6 +6626,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
+        } else if( action == "CHANGE_MONSTER_NAME" ) {
+            creature_tracker &creatures = get_creature_tracker();
+            monster *const mon = creatures.creature_at<monster>( lp, true );
+            if( mon ) {
+                string_input_popup popup;
+                popup
+                .title( _( "Nickname:" ) )
+                .width( 85 )
+                .edit( mon->nickname );
+            }
         } else if( action == "CENTER" ) {
             center = u.pos();
             lp = u.pos();
