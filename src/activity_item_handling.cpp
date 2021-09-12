@@ -1386,7 +1386,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
-        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
+        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -1399,7 +1399,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 // Are the requirements fulfilled?
                 const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
                                   i.components.front().typeId() : i.typeId() );
-                const auto &req = r.disassembly_requirements();
+                req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
                 req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {
                 return cur.empty() ||
@@ -2648,7 +2648,6 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-
             you.add_msg_player_or_npc( m_info,
                                        _( "The required items are not available to complete this task." ),
                                        _( "The required items are not available to complete this task." ) );
