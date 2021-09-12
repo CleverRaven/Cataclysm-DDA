@@ -23,7 +23,10 @@ struct weakpoint_attack {
     item *weapon;
 
     // The primary skill used to make the attack.
-    skill_id skill;
+    skill_id skill_type;
+
+    // The Creature's skill in hitting weak points.
+    float wp_skill;
 };
 
 struct weakpoint {
