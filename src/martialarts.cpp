@@ -392,6 +392,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
+            int_decay_remove = false;
             name.push_back( buff.name );
             desc.push_back( buff.description );
             rating = e_good;
