@@ -203,7 +203,7 @@
     "id": "rabbit_foot",
     "symbol": "q",
     "color": "brown",
-    "name": { "str": "rabbit foot" },
+    "name": { "str": "rabbit foot", "str_pl": "rabbit feet" },
     "description": "A tiny paw that came off of a rabbit.  Please, no luck jokes.",
     "price": 1000,
     "price_postapoc": 10,
