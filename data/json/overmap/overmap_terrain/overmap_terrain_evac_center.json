@@ -11,6 +11,7 @@
     "abstract": "generic_evac_center_road",
     "copy-from": "generic_evac_center",
     "name": "road",
+    "looks_like": "road",
     "color": "dark_gray"
   },
   {
