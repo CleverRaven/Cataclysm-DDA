@@ -123,8 +123,10 @@ void talk_function::mission_success( npc &p )
     }
 
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.value = 1 + miss_val / 5;
+    op.anger = -1;
+    p.op_of_u += op;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
@@ -142,8 +144,11 @@ void talk_function::mission_failure( npc &p )
         debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( -1, 0, -1, 1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.trust = -1;
+    op.value = -1;
+    op.anger = 1;
+    p.op_of_u += op;
     miss->fail();
 }
 
@@ -355,7 +360,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -419,7 +424,7 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );

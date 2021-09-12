@@ -30,6 +30,7 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -2871,7 +2872,7 @@ void Character::add_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 
     invalidate_pseudo_items();
 }
@@ -2918,7 +2919,7 @@ void Character::remove_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 int Character::num_bionics() const
@@ -3142,9 +3143,8 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void bionic::deserialize( JsonIn &jsin )
+void bionic::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );

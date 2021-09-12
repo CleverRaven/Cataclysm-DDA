@@ -81,7 +81,7 @@ class avatar : public Character
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
 
@@ -103,6 +103,17 @@ class avatar : public Character
             return this;
         }
 
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
+        }
+        /**
+         * Makes the avatar "take over" the given NPC, while the current avatar character
+         * becomes an NPC.
+         */
+        void control_npc( npc & );
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
@@ -280,9 +291,7 @@ class avatar : public Character
 
                 json.end_object();
             }
-            void deserialize( JsonIn &jsin ) {
-                JsonObject data = jsin.get_object();
-
+            void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
                 if( data.has_member( "activity" ) ) {
@@ -300,7 +309,7 @@ class avatar : public Character
             }
 
             void save_activity( JsonOut &json ) const;
-            void read_activity( JsonObject &data );
+            void read_activity( const JsonObject &data );
 
         };
         // called once a day; adds a new daily_calories to the
@@ -312,15 +321,20 @@ class avatar : public Character
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
         void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
 
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
+        std::set<character_id> follower_ids;
 
     private:
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
+
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
 
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
@@ -362,6 +376,12 @@ class avatar : public Character
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /**
+         * The NPC that would control the avatar's character in the avatar's absence.
+         * The Character data in this object is not relevant/used.
+         */
+        std::unique_ptr<npc> shadow_npc;
 };
 
 avatar &get_avatar();

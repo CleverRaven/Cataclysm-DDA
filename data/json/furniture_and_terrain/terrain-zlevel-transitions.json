@@ -151,6 +151,7 @@
     "name": "ladder",
     "description": "A ladder leading up.",
     "symbol": "<",
+    "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
@@ -161,9 +162,20 @@
     "name": "ladder",
     "description": "A ladder leading down.",
     "symbol": ">",
+    "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ladder_up_down",
+    "name": "ladder",
+    "description": "A ladder leading up and down.",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
   },
   {
     "type": "terrain",

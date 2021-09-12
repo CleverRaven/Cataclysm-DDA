@@ -28,6 +28,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -2191,16 +2192,6 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     };
 }
 
-
-void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
-                                      bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_pain( iov.evaluate( d.actor( is_npc ) ) );
-    };
-}
-
 void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -2236,19 +2227,6 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
                 }
                 sfx::play_variant_sound( id, variant, local_volume, random_direction() );
             }
-        }
-    };
-}
-
-void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &member,
-                                       bool is_npc )
-{
-    units::energy amount;
-    assign( jo, member, amount, false );
-    function = [is_npc, amount]( const dialogue & d ) {
-        Character *target = d.actor( is_npc )->get_character();
-        if( target ) {
-            target->mod_power_level( amount );
         }
     };
 }
@@ -2510,9 +2488,15 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_per_max( input );
             };
         } else if( checked_value == "var" ) {
+            bool global;
+            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+            return [is_npc, var_name, global]( const dialogue & d, int input ) {
+                if( global ) {
+                    get_talker_for( get_player_character() )->set_value( var_name, std::to_string( input ) );
+                } else {
+                    d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+                }
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
@@ -2530,10 +2514,18 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             jo.throw_error( "altering cash this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "owed" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const dialogue & d, int input ) {
                     d.actor( true )->add_debt( input - d.actor( true )->debt() );
+                };
+            }
+        } else if( checked_value == "sold" ) {
+            if( is_npc ) {
+                jo.throw_error( "sold amount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return []( const dialogue & d, int input ) {
+                    d.actor( true )->add_sold( input - d.actor( true )->sold() );
                 };
             }
         } else if( checked_value == "skill_level" ) {
@@ -2572,8 +2564,6 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 // Energy in milijoule
                 d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
             };
-        } else if( checked_value == "morale" ) {
-            jo.throw_error( "altering morale this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "focus" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
@@ -2607,6 +2597,42 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "stim" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stim( input );
+            };
+        } else if( checked_value == "pkill" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pkill( input );
+            };
+        } else if( checked_value == "rad" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_rad( input );
+            };
+        } else if( checked_value == "fatigue" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_fatigue( input );
+            };
+        } else if( checked_value == "stamina" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stamina( input );
+            };
+        } else if( checked_value == "sleep_deprivation" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_sleep_deprivation( input );
+            };
+        } else if( checked_value == "anger" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_anger( input );
+            };
+        } else if( checked_value == "morale" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_morale( input );
+            };
+        } else if( checked_value == "friendly" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_friendly( input );
+            };
         }
     }
     jo.throw_error( "error setting interger destination in " + jo.str() );
@@ -2623,15 +2649,6 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
-    };
-}
-
-void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string &member,
-        bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_fatigue( iov.evaluate( d.actor( is_npc ) ) );
     };
 }
 
@@ -2770,15 +2787,6 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
     };
 }
 
-void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &member,
-                                       bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_focus( iov.evaluate( d.actor( is_npc ) ) );
-    };
-}
-
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
@@ -2868,15 +2876,6 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_mod_radiation( const JsonObject &jo, const std::string &member,
-        bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member, true );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_rad( iov.evaluate( d.actor( is_npc ) ) );
-    };
-}
-
 void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
@@ -2939,20 +2938,20 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
 {
     if( d.has_beta ) {
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
-        mission *miss = d.actor( true )->selected_mission();
+        const mission *miss = d.actor( true )->selected_mission();
         for( const talk_effect_fun_t &effect : effects ) {
             effect( d );
         }
-        d.actor( true )->add_opinion( opinion.trust, opinion.fear, opinion.value, opinion.anger,
-                                      opinion.owed );
+        d.actor( true )->add_opinion( opinion );
         if( miss && ( mission_opinion.trust || mission_opinion.fear ||
                       mission_opinion.value || mission_opinion.anger ) ) {
-            int m_value = d.actor( true )->cash_to_favor( miss->get_value() );
-            d.actor( true )->add_opinion( mission_opinion.trust ? m_value / mission_opinion.trust : 0,
-                                          mission_opinion.fear ? m_value / mission_opinion.fear : 0,
-                                          mission_opinion.value ? m_value / mission_opinion.value : 0,
-                                          mission_opinion.anger ? m_value / mission_opinion.anger : 0,
-                                          0 );
+            const int m_value = d.actor( true )->cash_to_favor( miss->get_value() );
+            npc_opinion op;
+            op.trust = mission_opinion.trust ? m_value / mission_opinion.trust : 0;
+            op.fear = mission_opinion.fear ? m_value / mission_opinion.fear : 0;
+            op.value = mission_opinion.value ? m_value / mission_opinion.value : 0;
+            op.anger = mission_opinion.anger ? m_value / mission_opinion.anger : 0;
+            d.actor( true )->add_opinion( op );
         }
         if( d.actor( true )->turned_hostile() ) {
             d.actor( true )->make_angry();
@@ -3149,24 +3148,12 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_string( "npc_message" ) ) {
         subeffect_fun.set_message( jo, "npc_message", true );
-    } else if( jo.has_int( "u_mod_pain" ) || jo.has_object( "u_mod_pain" ) ) {
-        subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
-    } else if( jo.has_int( "npc_mod_pain" ) || jo.has_object( "npc_mod_pain" ) ) {
-        subeffect_fun.set_mod_pain( jo, "npc_mod_pain", false );
     } else if( jo.has_int( "u_add_wet" ) || jo.has_object( "u_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
-    } else if( jo.has_member( "u_add_power" ) ) {
-        subeffect_fun.set_add_power( jo, "u_add_power", false );
-    } else if( jo.has_member( "npc_add_power" ) ) {
-        subeffect_fun.set_add_power( jo, "npc_add_power", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
-    } else if( jo.has_int( "u_mod_fatigue" ) || jo.has_object( "u_mod_fatigue" ) ) {
-        subeffect_fun.set_mod_fatigue( jo, "u_mod_fatigue", false );
-    } else if( jo.has_int( "npc_mod_fatigue" ) || jo.has_object( "npc_mod_fatigue" ) ) {
-        subeffect_fun.set_mod_fatigue( jo, "npc_mod_fatigue", true );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
@@ -3179,10 +3166,6 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
-    } else if( jo.has_int( "u_mod_focus" ) || jo.has_object( "u_mod_focus" ) ) {
-        subeffect_fun.set_mod_focus( jo, "u_mod_focus", false );
-    } else if( jo.has_int( "npc_mod_focus" ) || jo.has_object( "npc_mod_focus" ) ) {
-        subeffect_fun.set_mod_focus( jo, "npc_mod_focus", true );
     } else if( jo.has_string( "u_add_morale" ) ) {
         subeffect_fun.set_add_morale( jo, "u_add_morale", false );
     } else if( jo.has_string( "npc_add_morale" ) ) {
@@ -3201,10 +3184,6 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_spawn_monster( jo, "u_set_spawn_monster", false );
     } else if( jo.has_string( "npc_set_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "npc_set_spawn_monster", true );
-    } else if( jo.has_int( "u_mod_radiation" ) || jo.has_object( "u_mod_radiation" ) ) {
-        subeffect_fun.set_mod_radiation( jo, "u_mod_radiation", false );
-    } else if( jo.has_int( "npc_mod_radiation" ) || jo.has_object( "npc_mod_radiation" ) ) {
-        subeffect_fun.set_mod_radiation( jo, "npc_mod_radiation", true );
     } else if( jo.has_string( "u_set_field" ) ) {
         subeffect_fun.set_field( jo, "u_set_field", false );
     } else if( jo.has_string( "npc_set_field" ) ) {
@@ -3333,14 +3312,14 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "opinion" );
+        JsonValue jv = jo.get_member( "opinion" );
         // Same format as when saving a game (-:
-        opinion.deserialize( *ji );
+        opinion.deserialize( jv );
     }
     if( jo.has_member( "mission_opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "mission_opinion" );
+        JsonValue jv = jo.get_member( "mission_opinion" );
         // Same format as when saving a game (-:
-        mission_opinion.deserialize( *ji );
+        mission_opinion.deserialize( jv );
     }
     if( !jo.has_member( member_name ) ) {
         return;

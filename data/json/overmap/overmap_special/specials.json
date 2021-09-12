@@ -913,6 +913,27 @@
   },
   {
     "type": "overmap_special",
+    "id": "Wind Turbine",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wind_turbine_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wind_turbine_pillar_platform_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "wind_turbine_pillar_platform_north" },
+      { "point": [ 0, 0, 8 ], "overmap": "wind_turbine_nacelle_north" },
+      { "point": [ 0, 0, 9 ], "overmap": "wind_turbine_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 10, 40 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Wasp Tower",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "wasp_tower_north" },

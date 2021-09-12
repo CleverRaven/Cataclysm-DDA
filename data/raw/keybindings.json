@@ -1726,6 +1726,20 @@
   },
   {
     "type": "keybinding",
+    "id": "HIDE_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SHOW_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
@@ -3074,10 +3088,16 @@
   },
   {
     "type": "keybinding",
-    "id": "DROP_NON_FAVORITE",
+    "id": "TOGGLE_NON_FAVORITE",
     "category": "INVENTORY",
     "name": "Mark/unmark non-favorite items in multidrop menu",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_WITH_COUNT",
+    "category": "INVENTORY",
+    "name": "Mark a specific amount of selected item"
   },
   {
     "type": "keybinding",

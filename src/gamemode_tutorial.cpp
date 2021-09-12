@@ -125,8 +125,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::NUM_LESSONS:
             break;
     }
-    debugmsg( "Invalid tut_lesson" );
-    abort();
+    cata_fatal( "Invalid tut_lesson" );
 }
 } // namespace io
 
@@ -170,8 +169,7 @@ bool tutorial_game::init()
     player_character.set_skill_level( skill_melee, 5 );
     player_character.set_skill_level( skill_throwing, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );
-    player_character.setx( 2 );
-    player_character.sety( 2 );
+    player_character.move_to( project_to<coords::ms>( lp_abs ) + point( 2, 2 ) );
 
     // This shifts the view to center the players pos
     g->update_map( player_character );

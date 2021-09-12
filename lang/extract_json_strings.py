@@ -1007,6 +1007,14 @@ def extract_snippets(item):
             writestr(outfile, snip["text"])
 
 
+def extract_speed_description(item):
+    outfile = get_outfile("speed_description")
+    values = item.get("values", [])
+    for value in values:
+        if 'description' in value:
+            writestr(outfile, value['description'])
+
+
 def extract_vehicle_part_category(item):
     outfile = get_outfile("vehicle_part_categories")
     name = item.get("name")
@@ -1055,6 +1063,7 @@ extract_specials = {
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "snippet": extract_snippets,
+    "speed_description": extract_speed_description,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,

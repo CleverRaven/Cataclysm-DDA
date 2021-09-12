@@ -305,7 +305,7 @@
       "need_charges_msg": "The helmet's batteries are dead."
     },
     "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet",
+    "looks_like": "afs_hev_helmet_on",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -335,46 +335,7 @@
     "turns_per_charge": 20,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
     "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet"
-  },
-  {
-    "id": "afs_survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
-    "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" }
-  },
-  {
-    "id": "survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (sheath)", "str_pl": "survivor utility belts (sheath)" }
-  },
-  {
-    "id": "afs_mbr_titanium",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "MBR vest (titanium)", "str_pl": "MBR vests (titanium)" },
-    "description": "A Modular Bullet Resistant Vest.  Titanium scraps have been inserted to improve its protection.  It has four pouches capable of carrying magazines.",
-    "weight": "3108 g",
-    "volume": "6 L",
-    "price": 110000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar", "titanium" ],
-    "symbol": "[",
-    "looks_like": "kevlar",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
-    ],
-    "warmth": 15,
-    "material_thickness": 3,
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 85, "covers": [ "torso" ] } ]
+    "looks_like": "afs_hev_helmet"
   },
   {
     "id": "afs_sunesthesia",

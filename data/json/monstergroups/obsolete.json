@@ -54,20 +54,5 @@
       { "monster": "mon_zombie_predator", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_zombie_ears", "freq": 10, "cost_multiplier": 2 }
     ]
-  },
-  {
-    "name": "GROUP_COFFEE_SHOP_SPITTER",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_spitter", "freq": 65, "cost_multiplier": 5 } ]
-  },
-  {
-    "name": "WASP_UPGRADE",
-    "type": "monstergroup",
-    "default": "mon_wasp",
-    "monsters": [
-      { "monster": "mon_wasp", "freq": 200, "cost_multiplier": 1 },
-      { "monster": "mon_dermatik", "freq": 100, "cost_multiplier": 1 }
-    ]
   }
 ]

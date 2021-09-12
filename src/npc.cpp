@@ -27,6 +27,7 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -133,12 +134,10 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
 {
     last_updated = calendar::turn;
-    submap_coords = point_zero;
-    set_pos_only( tripoint( -1, -1, 500 ) );
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = tripoint_min;
+    guard_pos = cata::nullopt;
     goal = tripoint_abs_omt( tripoint_min );
     fetching_item = false;
     has_new_items = true;
@@ -511,6 +510,9 @@ void npc::randomize( const npc_class_id &type )
             sp.gain_level();
         }
     }
+
+    // Add eocs
+    effect_on_conditions::load_new_character( *this );
 }
 
 void npc::randomize_from_faction( faction *fac )
@@ -740,13 +742,11 @@ void npc::set_known_to_u( bool known )
     }
 }
 
-void npc::setpos( const tripoint &pos )
+void npc::on_move( const tripoint_abs_ms &old_pos )
 {
-    Character::setpos( pos );
-    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
-    submap_coords = get_map().get_abs_sub().xy() + point( pos.x / SEEX, pos.y / SEEY );
-    // TODO: fix point types
-    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
+    Character::on_move( old_pos );
+    const point_abs_om pos_om_old = project_to<coords::om>( old_pos.xy() );
+    const point_abs_om pos_om_new = project_to<coords::om>( get_location().xy() );
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old );
         overmap &om_new = overmap_buffer.get( pos_om_new );
@@ -791,30 +791,11 @@ void npc::spawn_at_omt( const tripoint_abs_omt &p )
 
 void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    point_abs_sm quotient;
-    tripoint_sm_ms remainder;
-    std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
-    submap_coords = quotient.raw();
-    set_pos_only( remainder.raw() );
-}
-
-tripoint_abs_ms npc::global_square_location() const
-{
-    return tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
-                            0 ) + tripoint( posx() % SEEX, posy() % SEEY, posz() );
+    set_location( p );
 }
 
 void npc::place_on_map()
 {
-    // The global absolute position (in map squares) of the npc is *always*
-    // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
-    // The main map assumes that pos is in its own (local to the main map)
-    // coordinate system. We have to change pos to match that assumption
-    const point dm( submap_coords - get_map().get_abs_sub().xy() );
-    const point offset( posx() % SEEX, posy() % SEEY );
-    // value of "submap_coords.x * SEEX + posx()" is unchanged
-    setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
-
     if( g->is_empty( pos() ) || is_mounted() ) {
         return;
     }
@@ -2452,13 +2433,6 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
-{
-    if( pos ) {
-        *pos += d;
-    }
-}
-
 static void maybe_shift( tripoint &pos, const point &d )
 {
     if( pos != tripoint_min ) {
@@ -2469,12 +2443,8 @@ static void maybe_shift( tripoint &pos, const point &d )
 void npc::shift( const point &s )
 {
     const point shift = sm_to_ms_copy( s );
-
-    setpos( pos() - shift );
-
+    // TODO: convert these to absolute coords and get rid of shift()
     maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
-    maybe_shift( last_player_seen_pos, point( -shift.x, -shift.y ) );
-    maybe_shift( pulp_location, point( -shift.x, -shift.y ) );
     path.clear();
 }
 
@@ -2495,7 +2465,7 @@ void npc::reboot()
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = tripoint_min;
+    guard_pos = cata::nullopt;
     goal = no_goal_point;
     fetching_item = false;
     has_new_items = true;
@@ -2828,6 +2798,7 @@ void npc::on_load()
     if( has_trait( trait_HALLUCINATION ) ) {
         hallucination = true;
     }
+    effect_on_conditions::load_existing_character( *this );
 }
 
 constexpr tripoint_abs_omt npc::no_goal_point;

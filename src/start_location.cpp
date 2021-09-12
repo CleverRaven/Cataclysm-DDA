@@ -294,14 +294,12 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
     return area;
 }
 
-void start_location::place_player( avatar &you ) const
+void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart ) const
 {
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.setx( HALF_MAPSIZE_X );
-    you.sety( HALF_MAPSIZE_Y );
-    you.setz( here.get_abs_sub().z );
+    you.move_to( midpoint( project_bounds<coords::ms>( omtstart ) ) );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
