@@ -997,7 +997,7 @@ class Character : public Creature, public visitable
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                                           const damage_instance &d, const weakpoint_attack& attack = weakpoint_attack()) override;
+                                           const damage_instance &d, const weakpoint_attack &attack = weakpoint_attack() ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 
@@ -1010,7 +1010,8 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        std::string absorb_hit( const weakpoint_attack& attack, const bodypart_id &bp, damage_instance &dam ) override;
+        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                damage_instance &dam ) override;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).

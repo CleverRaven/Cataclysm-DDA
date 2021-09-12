@@ -1077,7 +1077,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 }
 
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &dam, const weakpoint_attack& attack )
+        const damage_instance &dam, const weakpoint_attack &attack )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();

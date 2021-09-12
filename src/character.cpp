@@ -6746,7 +6746,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d, const weakpoint_attack& attack )
+        const damage_instance &d, const weakpoint_attack &attack )
 {
     if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         return dealt_damage_instance();

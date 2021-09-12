@@ -79,5 +79,5 @@ void weakpoints::load( const JsonArray &ja )
     std::sort( weakpoint_list.begin(), weakpoint_list.end(),
     []( const weakpoint & a, const weakpoint & b ) {
         return a.coverage < b.coverage;
-    });
+    } );
 }

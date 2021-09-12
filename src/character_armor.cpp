@@ -329,7 +329,8 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
-std::string Character::absorb_hit( const weakpoint_attack&, const bodypart_id &bp, damage_instance &dam )
+std::string Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
+                                   damage_instance &dam )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
