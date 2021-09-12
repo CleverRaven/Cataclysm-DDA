@@ -1693,6 +1693,7 @@
       [ "mag_electronics", 60 ],
       [ "manual_electronics", 50 ],
       [ "advanced_electronics", 35 ],
+      [ "ic_reference_electronics", 20 ],
       [ "textbook_electronics", 30 ],
       [ "radio_book", 40 ]
     ]
