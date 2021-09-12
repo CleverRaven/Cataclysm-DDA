@@ -6046,8 +6046,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         eink.set_var( "EIPC_MUSIC", old_songs + new_songs );
     }
 
-    if( !mc.get_var( "MC_RECIPE" ).empty() )
-    {
+    if( !mc.get_var( "MC_RECIPE" ).empty() ) {
         const std::string category = mc.get_var( "MC_RECIPE" );
         const bool science = category == "SCIENCE";
         int recipe_num = std::rand() % 3 + 1;
