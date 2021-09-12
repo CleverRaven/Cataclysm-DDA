@@ -1,0 +1,51 @@
+[
+  {
+    "id": "prac_fletching",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "fletching",
+    "description": "Practice fletching by modifying and testing the aerodynamics of some arrows or bolts.",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 1 ] ],
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 3, "skill_limit": 4 },
+    "proficiencies": [ { "proficiency": "prof_fletching", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "//": "Modifying so much the arrows/bolts will cause them to eventually lose their shape",
+    "components": [ 
+	[ 
+        [ "arrow_metal", 10 ],
+        [ "arrow_metal_bodkin", 10 ],
+        [ "arrow_metal_target", 10 ],
+        [ "arrow_cf", 10 ],
+        [ "arrow_fire_hardened_fletched", 10 ],
+        [ "arrow_wood_heavy", 10 ],
+        [ "arrow_metal_sharpened_fletched", 10 ],
+        [ "arrow_heavy_fire_hardened_fletched", 10 ],
+        [ "arrow_small_game_fletched", 10 ],
+        [ "arrow_field_point_fletched", 10 ],
+        [ "arrow_wood", 10 ],
+        [ "arrow_plastic", 10 ],
+        [ "arrow_heavy_field_point_fletched", 10 ],
+        [ "bolt_steel", 10 ],
+        [ "bolt_steel_bodkin", 10 ],
+        [ "bolt_steel_target", 10 ],
+        [ "bolt_cf", 10 ],
+        [ "bolt_crude", 10 ],
+        [ "bolt_makeshift", 10 ],
+        [ "bolt_metal", 10 ],
+        [ "bolt_simple_wood", 10 ],
+        [ "bolt_simple_small_game", 10 ],
+        [ "bolt_wood_bodkin", 10 ],
+        [ "bolt_wood", 10 ],
+        [ "bolt_wood_small_game", 10 ] 
+	],
+	[ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+    [ [ "fletching", 1, "LIST" ] ] 
+    ],
+    "autolearn": [ [ "fabrication", 3 ] ],
+    "book_learn": [ [ "recipe_arrows", 1 ] ]
+  }
+]
