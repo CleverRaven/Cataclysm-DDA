@@ -434,6 +434,7 @@
     "id": "rehydrated_eggs",
     "copy-from": "egg_bird",
     "name": { "str": "rehydrated egg" },
+    "weight": "50 g",
     "color": "yellow",
     "symbol": "%",
     "looks_like": "powder_eggs",
