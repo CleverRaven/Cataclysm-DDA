@@ -408,10 +408,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "rabbit_foot",
-        "type": "bionic_group"
-      },
+      { "drop": "rabbit_foot", "type": "bionic_group" },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
