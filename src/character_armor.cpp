@@ -329,6 +329,42 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
+static void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
+{
+    switch( du.type ) {
+        case damage_type::ACID:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ACID );
+            break;
+        case damage_type::BASH:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BASH );
+            break;
+        case damage_type::BIOLOGICAL:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BIO );
+            break;
+        case damage_type::COLD:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_COLD );
+            break;
+        case damage_type::CUT:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_CUT );
+            break;
+        case damage_type::ELECTRIC:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ELEC );
+            break;
+        case damage_type::HEAT:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_HEAT );
+            break;
+        case damage_type::STAB:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_STAB );
+            break;
+        case damage_type::BULLET:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BULLET );
+            break;
+        default:
+            return;
+    }
+    du.amount = std::max( 0.0f, du.amount );
+}
+
 const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
                                         damage_instance &dam )
 {
