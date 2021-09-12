@@ -247,6 +247,7 @@
     "id": "rock",
     "//": "This is old rock type, new one (below) will replace it in new overmaps",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
