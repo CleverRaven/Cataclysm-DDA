@@ -668,7 +668,7 @@
     "vision_day": 50,
     "vision_night": 15,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_rabbit",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
   },
   {
