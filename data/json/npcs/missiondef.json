@@ -663,7 +663,7 @@
     "id": "MISSION_RECRUIT_TRACKER",
     "type": "mission_definition",
     "name": { "str": "Recruit Tracker" },
-    "goal": "MGOAL_RECRUIT_NPC_CLASS",
+    "goal": "MGOAL_RECRUIT_NPC",
     "difficulty": 5,
     "value": 70000,
     "start": {
