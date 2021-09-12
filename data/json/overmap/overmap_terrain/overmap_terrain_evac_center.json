@@ -89,6 +89,7 @@
     "abstract": "generic_refctr",
     "see_cost": 2,
     "name": "field",
+    "looks_like": "field",
     "sym": ".",
     "color": "brown"
   },
