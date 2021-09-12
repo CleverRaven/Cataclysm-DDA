@@ -437,10 +437,11 @@ void suffer::from_chemimbalance( Character &you )
 void suffer::from_schizophrenia( Character &you )
 {
     std::string i_name_w;
-    if( !you.weapon.is_null() ) {
-        i_name_w = you.weapon.has_var( "item_label" ) ? you.weapon.get_var( "item_label" ) :
+    if( !you.get_wielded_item()->is_null() ) {
+        i_name_w = you.get_wielded_item()->has_var( "item_label" ) ?
+                   you.get_wielded_item()->get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), you.weapon.type_name() );
+                   string_format( _( "your %1$s" ), you.get_wielded_item()->type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -497,14 +498,14 @@ void suffer::from_schizophrenia( Character &you )
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !you.weapon.is_null() ) {
+    if( one_turn_in( 2_days ) && !you.get_wielded_item()->is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         std::string str = string_format( snip, i_name_w );
         str[0] = toupper( str[0] );
 
         you.add_msg_if_player( m_bad, "%s", str );
-        item_location loc( you, &you.weapon );
+        item_location loc( you, you.get_wielded_item() );
         you.drop( loc, you.pos() );
         return;
     }
@@ -580,7 +581,7 @@ void suffer::from_schizophrenia( Character &you )
     }
 
     // Talking weapon
-    if( !you.weapon.is_null() ) {
+    if( !you.get_wielded_item()->is_null() ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
@@ -608,7 +609,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( you.weapon.damage() >= you.weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
+        } else if( you.get_wielded_item()->damage() >= you.get_wielded_item()->max_damage() / 3 &&
+                   one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -856,7 +858,7 @@ void suffer::from_sunburn( Character &you )
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( you.weapon.has_flag( flag_RAIN_PROTECT ) ) {
+    if( you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) ) {
         return;
     }
 
@@ -1202,14 +1204,14 @@ void suffer::from_bad_bionics( Character &you )
         you.moves -= 150;
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( you.weapon.typeId() == itype_e_handcuffs && you.weapon.charges > 0 ) {
-            you.weapon.charges -= rng( 1, 3 ) * 50;
-            if( you.weapon.charges < 1 ) {
-                you.weapon.charges = 1;
+        if( you.get_wielded_item()->typeId() == itype_e_handcuffs && you.get_wielded_item()->charges > 0 ) {
+            you.get_wielded_item()->charges -= rng( 1, 3 ) * 50;
+            if( you.get_wielded_item()->charges < 1 ) {
+                you.get_wielded_item()->charges = 1;
             }
 
             you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                                   you.weapon.tname() );
+                                   you.get_wielded_item()->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
