@@ -5996,7 +5996,7 @@ static void init_memory_card_with_random_stuff( item &it )
         //add random recipes
         if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
             const std::string recipe_category[6] = { "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" };
-            int cc_random = std::rand() % 6;
+            int cc_random = rng( 0, 5 );
             it.set_var( "MC_RECIPE", recipe_category[cc_random] );
         }
 
@@ -6047,12 +6047,12 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
     }
 
     if( !mc.get_var( "MC_RECIPE" ).empty() ) {
-        const std::string category = mc.get_var( "MC_RECIPE" );
+        std::string category = mc.get_var( "MC_RECIPE" );
         const bool science = category == "SCIENCE";
-        int recipe_num = std::rand() % 3 + 1;
+        int recipe_num = rng( 1, 3 );
 
         if( category == "SIMPLE" ) {
-            category == "CC_FOOD";
+            category = "CC_FOOD";
         }
 
         mc.erase_var( "MC_RECIPE" );
