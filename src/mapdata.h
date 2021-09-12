@@ -31,9 +31,6 @@ struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( Character &, const tripoint & );
-using iexamine_function_ref = void( & )( Character &, const tripoint & );
-
 template <typename E> struct enum_traits;
 
 struct map_bash_info {
