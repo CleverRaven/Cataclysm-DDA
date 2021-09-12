@@ -453,15 +453,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         passive_absorb_hit( bp, elem );
 
-        if( elem.type == damage_type::BASH ) {
-            if( has_trait( trait_LIGHT_BONES ) ) {
-                elem.amount *= 1.4;
-            }
-            if( has_trait( trait_HOLLOW_BONES ) ) {
-                elem.amount *= 1.8;
-            }
-        }
-
+        post_absorbed_damage_enchantment_adjust( *this, elem );
         elem.amount = std::max( elem.amount, 0.0f );
     }
     map &here = get_map();
