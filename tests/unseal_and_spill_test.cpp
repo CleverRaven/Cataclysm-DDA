@@ -423,7 +423,7 @@ void test_scenario::run()
         }
         case container_location::wielded: {
             REQUIRE( guy.wield( it ) );
-            it_loc = item_location( guy, &guy.weapon );
+            it_loc = item_location( guy, guy.get_wielded_item() );
             break;
         }
         case container_location::vehicle: {
@@ -449,7 +449,7 @@ void test_scenario::run()
             return;
         }
     }
-    if( guy.weapon.is_null() ) {
+    if( guy.get_wielded_item()->is_null() ) {
         // so the guy does not wield spilled solid items
         item rag( test_rag );
         REQUIRE( guy.wield( rag ) );
@@ -864,7 +864,7 @@ void test_scenario::run()
     match( guy, guy.worn, worn_results );
     INFO( "checking wielded item" );
     if( wielded_results ) {
-        match( item_location( guy, &guy.weapon ), *wielded_results );
+        match( item_location( guy, guy.get_wielded_item() ), *wielded_results );
     } else {
         REQUIRE( !guy.is_armed() );
     }

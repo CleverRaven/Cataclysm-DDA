@@ -352,8 +352,9 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
+    const item *weapon = u.get_wielded_item();
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << weapon->invlet << " - " << weapon->tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;

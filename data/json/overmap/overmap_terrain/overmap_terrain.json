@@ -364,6 +364,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "name": "wind turbine",
+    "sym": "Y",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
     "name": "wooden fort",
     "sym": "+",

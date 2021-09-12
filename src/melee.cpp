@@ -2150,7 +2150,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.weapon.is_two_handed( u ) || !u.has_two_arms_lifting() ||
+        if( u.get_wielded_item().is_two_handed( u ) || !u.has_two_arms_lifting() ||
             u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
@@ -2572,13 +2572,13 @@ void avatar::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item &it = target.weapon;
-
+    item &it = *target.get_wielded_item();
+    const item *weapon = get_wielded_item();
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
+        mod_moves( -100 - stumble( *this, *weapon ) - attack_speed( *weapon ) );
         target.on_attacked( *this );
         return;
     }
@@ -2613,7 +2613,7 @@ void avatar::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( weapon ) );
+    mod_moves( -100 - attack_speed( *get_wielded_item() ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.get_name(), it.tname() );
