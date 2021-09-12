@@ -1,5 +1,6 @@
 #include "weakpoint.h"
 
+#include <algorithm>
 #include <string>
 #include <utility>
 
@@ -44,17 +45,17 @@ void weakpoint::apply_to( resistances &resistances ) const
     }
 }
 
-float weakpoint::hit_chance( Creature * ) const
+float weakpoint::hit_chance( const weakpoint_attack & ) const
 {
     // TODO: scale the hit chance based on the source's skill / stats
     return coverage;
 }
 
-const weakpoint *weakpoints::select_weakpoint( Creature *source ) const
+const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
-        float hit_chance = weakpoint.hit_chance( source );
+        float hit_chance = weakpoint.hit_chance( attack );
         if( idx < hit_chance ) {
             return &weakpoint;
         }
@@ -75,4 +76,8 @@ void weakpoints::load( const JsonArray &ja )
         tmp.load( jo );
         weakpoint_list.push_back( std::move( tmp ) );
     }
+    std::sort( weakpoint_list.begin(), weakpoint_list.end(),
+    []( const weakpoint & a, const weakpoint & b ) {
+        return a.coverage < b.coverage;
+    });
 }
