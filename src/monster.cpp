@@ -1580,7 +1580,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
     dealt_damage_instance dealt_dam;
 
     if( hitspread >= 0 ) {
-        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        weakpoint_attack attack;
+        attack.source = this;
+        attack.wp_skill = type->melee_skill;
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }
 
     const int total_dealt = dealt_dam.total_damage();
