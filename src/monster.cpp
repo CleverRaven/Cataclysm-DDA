@@ -2945,8 +2945,10 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
+    // This should probably be replaced by something based on difficulty,
+    // at least for smarter critters using it for evaluation.
     float ret = get_size() - 2.0f; // Zed gets 1, cat -1, hulk 3
-    ret += has_flag( MF_ELECTRONIC ) ? 2.0f : 0.0f; // Robots tend to have guns
+    ret += is_ranged_attacker() ? 2.0f : 0.0f;
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;
