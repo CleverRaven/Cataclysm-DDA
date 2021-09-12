@@ -1176,7 +1176,9 @@ bool talk_trial::roll( dialogue &d ) const
     }
     const int chance = calc_chance( d );
     const bool success = rng( 0, 99 ) < chance;
-    if( d.actor( false )->get_character() ) {
+    const bool speech_trial = type == TALK_TRIAL_PERSUADE || type == TALK_TRIAL_INTIMIDATE ||
+                              type == TALK_TRIAL_LIE;
+    if( speech_trial && d.actor( false )->get_character() ) {
         Character &u = *d.actor( false )->get_character();
         if( success ) {
             u.practice( skill_speech, ( 100 - chance ) / 10 );
