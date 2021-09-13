@@ -33,5 +33,24 @@
     "max_level": 3,
     "intelligence": 3,
     "time": "15 m"
+  },
+  {
+    "id": "swimming_book",
+    "type": "BOOK",
+    "name": { "str": "A Life in the Water", "str_pl": "copies of A Life in the Water" },
+    "description": "The memories of an experienced swimmer, it has many insights in the graceful art of swimming.",
+    "weight": "1500 g",
+    "volume": "1500 ml",
+    "price": 800,
+    "price_postapoc": 1000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "swimming",
+	"required_level": 3,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "20 m",
+    "fun": 1
   }
 ]
