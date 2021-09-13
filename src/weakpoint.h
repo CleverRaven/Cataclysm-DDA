@@ -21,8 +21,8 @@ struct weakpoint_attack {
     // The weapon used to make the attack.
     const item *weapon;
 
-    // The primary skill used to make the attack.
-    skill_id skill_type;
+    // Weather the attack is a melee attack.
+    bool is_melee;
 
     // The Creature's skill in hitting weak points.
     float wp_skill;
