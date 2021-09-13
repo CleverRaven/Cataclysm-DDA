@@ -1,6 +1,7 @@
 #include "weakpoint.h"
 
 #include <algorithm>
+#include <cmath>
 #include <string>
 #include <utility>
 
@@ -94,19 +95,43 @@ float weakpoint::hit_chance( const weakpoint_attack & ) const
     return coverage;
 }
 
+// Reweighs the probability distribution of hitting a weakpoint.
+//
+// The value returned is the probability of sampling at least one value less than `base`
+// from `rolls` uniform distributions over [0, 1]. 
+//
+// For hard to hit weak points, this multiplies their hit chance by `rolls`. A 1% base
+// combined with 5 rolls has a 4.9% weight. However, even at high `rolls`, the attacker
+// still has a chance of hitting armor. A 75% chance of not hitting a weak point becomes
+// a 23.7% chance with 5 rolls.
+float reweigh(float base, float rolls) {
+    return 1.0f - pow(1.0f - base, rolls);
+}
+
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     add_msg_debug( debugmode::DF_MONSTER,
-                   "Source: %s :: Weapon %s :: Skill %.3f",
+                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f",
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
                    attack.wp_skill );
+    float rolls = 1.0f + attack.wp_skill / 2.5f;
+    // The base probability of hitting a more preferable weak point.
+    float base = 0.0f;
+    // The reweighed probability of hitting a more preferable weak point.
+    float reweighed = 0.0f;
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
-        float hit_chance = weakpoint.hit_chance( attack );
+        float new_base = base + weakpoint.hit_chance( attack );
+        float new_reweighed = 100.0f * reweigh(new_base / 100.0f, rolls);
+        float hit_chance = new_reweighed - reweighed;
+        add_msg_debug(debugmode::DF_MONSTER, 
+                    "Weakpoint Selection: weakpoint %s, hit_chance %.4f", weakpoint.name, hit_chance);
         if( idx < hit_chance ) {
             return &weakpoint;
         }
+        base = new_base;
+        reweighed = new_reweighed;
         idx -= hit_chance;
     }
     return &default_weakpoint;
@@ -124,6 +149,7 @@ void weakpoints::load( const JsonArray &ja )
         tmp.load( jo );
         weakpoint_list.push_back( std::move( tmp ) );
     }
+    // Prioritizes weakpoints based on their coverage.
     std::sort( weakpoint_list.begin(), weakpoint_list.end(),
     []( const weakpoint & a, const weakpoint & b ) {
         return a.coverage < b.coverage;
