@@ -360,4 +360,5 @@
       { "drop": "feather", "type": "skin", "mass_ratio": 0.005 },
       { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
+  }
 ]
