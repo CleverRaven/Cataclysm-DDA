@@ -116,7 +116,7 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
                    attack.wp_skill );
-    float rolls = 1.0f + attack.wp_skill / 2.5f;
+    float rolls = max( 1.0f, 1.0f + attack.wp_skill / 2.5f );
     // The base probability of hitting a more preferable weak point.
     float base = 0.0f;
     // The reweighed probability of hitting a more preferable weak point.
