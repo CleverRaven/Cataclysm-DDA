@@ -13,9 +13,7 @@
     "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "//": "One could use other wooden items to practice carving, but the stick and plank are the most easily adquired.",
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ]
-    ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ],
     "byproducts": [ [ "splinter", 5 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
   },
@@ -33,10 +31,7 @@
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "//": "You destroy the wood with your practice, and the nails are now unusable.",
-    "components": [
-      [ [ "stick", 4 ], [ "2x4", 2 ] ],
-      [ [ "nail", 20 ] ]
-    ],
+    "components": [ [ [ "stick", 4 ], [ "2x4", 2 ] ], [ [ "nail", 20 ] ] ],
     "byproducts": [ [ "splinter", 15 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
   }
