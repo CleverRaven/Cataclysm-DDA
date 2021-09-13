@@ -156,6 +156,9 @@ using skill_displayType_id = string_id<SkillDisplayType>;
 struct species_type;
 using species_id = string_id<species_type>;
 
+class speed_description;
+using speed_description_id = string_id<speed_description>;
+
 class spell_type;
 using spell_id = string_id<spell_type>;
 

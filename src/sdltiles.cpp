@@ -101,6 +101,7 @@
 //***********************************
 
 std::unique_ptr<cata_tiles> tilecontext;
+std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -1009,7 +1010,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              lit_level::LOW, true );
     }
     if( uistate.place_special ) {
-        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
@@ -1021,7 +1022,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
                 draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
-                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0,
+                                     rotation, lit_level::LOW, true );
             }
         }
     }
@@ -1524,7 +1526,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // Special font for the terrain window
         update = draw_window( map_font, w );
     } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
-        tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center, overmap_ui::redraw_info.blink );
+        overmap_tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center,
+                                      overmap_ui::redraw_info.blink );
         update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
@@ -3579,6 +3582,20 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/true, /*force=*/false,
+                                           /*pump_events=*/true );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
 
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
@@ -3614,6 +3631,13 @@ void load_tileset()
                                /*precheck=*/false, /*force=*/false,
                                /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
+
+    if( overmap_tilecontext ) {
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/false, /*force=*/false,
+                                           /*pump_events=*/true );
+        overmap_tilecontext->do_tile_loading_report();
+    }
 }
 
 //Ends the terminal, destroy everything

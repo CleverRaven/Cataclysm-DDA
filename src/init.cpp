@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include <cstddef>
-#include <fstream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -86,6 +85,7 @@
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
+#include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -259,6 +259,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "speed_description", &speed_description::load_speed_descriptions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -470,7 +471,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream tmp( path.c_str(), std::ios::in );
+        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway

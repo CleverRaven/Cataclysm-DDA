@@ -28,6 +28,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "contents_change_handler.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
@@ -3428,7 +3429,7 @@ void veh_interact::complete_vehicle( Character &you )
                 here.destroy_vehicle( veh );
             } else {
                 point mount = veh->part( vehicle_part ).mount;
-                const tripoint &part_pos = veh->global_part_pos3( vehicle_part );
+                const tripoint part_pos = veh->global_part_pos3( vehicle_part );
                 veh->remove_part( vehicle_part );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh->part_removal_cleanup();

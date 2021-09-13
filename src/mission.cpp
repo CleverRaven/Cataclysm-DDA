@@ -831,8 +831,7 @@ std::string enum_to_string<mission::mission_status>( mission::mission_status dat
             break;
 
     }
-    debugmsg( "Invalid mission_status" );
-    abort();
+    cata_fatal( "Invalid mission_status" );
 }
 
 } // namespace io

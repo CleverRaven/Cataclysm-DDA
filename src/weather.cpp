@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -406,7 +407,7 @@ void wet_character( Character &target, int amount )
 {
     if( amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( json_flag_RAIN_PROTECT ) ||
+        target.get_wielded_item()->has_flag( json_flag_RAIN_PROTECT ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
@@ -845,7 +846,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return get_map().has_flag( TFLAG_BLOCK_WIND, location );
+    return get_map().has_flag( ter_furn_flag::TFLAG_BLOCK_WIND, location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
@@ -938,7 +939,7 @@ void weather_manager::update_weather()
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.global_square_location().raw(), calendar::turn,
+        w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
@@ -969,7 +970,7 @@ void weather_manager::update_weather()
             here.set_seen_cache_dirty( tripoint_zero );
         }
         if( weather_id != old_weather ) {
-            effect_on_conditions::process_reactivate();
+            effect_on_conditions::process_reactivate( get_player_character() );
         }
     }
 }

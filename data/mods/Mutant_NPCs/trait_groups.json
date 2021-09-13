@@ -887,7 +887,7 @@
         "distribution": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ],
         "prob": 10
       },
-      { "distribution": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ], "prob": 10 },
+      { "distribution": [ { "trait": "GOODCARDIO" }, { "trait": "BADKNEES" } ], "prob": 10 },
       { "distribution": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ], "prob": 10 },
       {
         "distribution": [

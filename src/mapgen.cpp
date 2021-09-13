@@ -469,7 +469,8 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset )
+load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
+                      const point &total )
 {
     int mgweight = jio.get_int( "weight", 1000 );
     std::shared_ptr<mapgen_function> ret;
@@ -490,7 +491,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
         ret = std::make_shared<mapgen_function_json>(
-                  jsrc, mgweight, "mapgen " + id_base, offset );
+                  jsrc, mgweight, "mapgen " + id_base, offset, total );
         oter_mapgen.add( id_base, ret );
     } else {
         jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
@@ -545,13 +546,17 @@ static void load_update_mapgen( const JsonObject &jio, const std::string &id_bas
  */
 void load_mapgen( const JsonObject &jo )
 {
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    static constexpr point point_one( 1, 1 );
+
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
             point offset;
+            point total( ja.get_array( 0 ).size(), ja.size() );
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
-                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset );
+                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset, total );
                     if( mgfunc ) {
                         oter_mapgen.add( mapgenid, mgfunc );
                     }
@@ -567,7 +572,7 @@ void load_mapgen( const JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero );
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero, point_one );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
                         oter_mapgen.add( i, mgfunc );
@@ -576,7 +581,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero );
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
@@ -647,14 +652,15 @@ mapgen_function_json_base::mapgen_function_json_base(
     , context_( context )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
-    , objects( m_offset, mapgensize )
+    , total_size( mapgensize )
+    , objects( m_offset, mapgensize, total_size )
 {
 }
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
 mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc, const int w,
-        const std::string &context, const point &grid_offset )
+        const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( w )
     , mapgen_function_json_base( jsrcloc, context )
     , fill_ter( t_null )
@@ -662,7 +668,9 @@ mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc,
 {
     m_offset.x = grid_offset.x * mapgensize.x;
     m_offset.y = grid_offset.y * mapgensize.y;
-    objects = jmapgen_objects( m_offset, mapgensize );
+    total_size.x = grid_total.x * mapgensize.x;
+    total_size.y = grid_total.y * mapgensize.y;
+    objects = jmapgen_objects( m_offset, mapgensize, total_size );
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
@@ -1292,7 +1300,7 @@ class mapgen_value
             return source_->all_possible_results( params );
         }
 
-        void deserialize( JsonIn &jsin ) {
+        void deserialize( const JsonValue &jsin ) {
             if( jsin.test_object() ) {
                 *this = mapgen_value( jsin.get_object() );
             } else {
@@ -1334,9 +1342,8 @@ mapgen_parameter::mapgen_parameter( const mapgen_value<std::string> &def, cata_v
     , default_( make_shared_fast<mapgen_value<std::string>>( def ) )
 {}
 
-void mapgen_parameter::deserialize( JsonIn &jsin )
+void mapgen_parameter::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     optional( jo, false, "scope", scope_, mapgen_parameter_scope::overmap_special );
     jo.read( "type", type_, true );
     default_ = make_shared_fast<mapgen_value<std::string>>( jo.get_member( "default" ) );
@@ -2330,10 +2337,10 @@ class jmapgen_terrain : public jmapgen_piece
             }
             dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
-            if( dat.m.has_flag_ter( TFLAG_WALL, point( x.get(), y.get() ) ) ) {
+            if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, point( x.get(), y.get() ) ) ) {
                 dat.m.furn_set( point( x.get(), y.get() ), f_null );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
-                if( !dat.m.has_flag_ter( "PLACE_ITEM", point( x.get(), y.get() ) ) ) {
+                if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
                 }
             }
@@ -2518,7 +2525,7 @@ class jmapgen_sealed_item : public jmapgen_piece
 
                 const furn_t &furn = *f;
 
-                if( furn.has_flag( "PLANT" ) ) {
+                if( furn.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
                     // plant furniture requires exactly one seed item within it
                     if( item_spawner && item_group_spawner ) {
                         debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
@@ -2819,9 +2826,10 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize )
+jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize, const point &tot_size )
     : m_offset( offset )
     , mapgensize( mapsize )
+    , total_size( tot_size )
 {}
 
 bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject &jso )
@@ -3323,6 +3331,7 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
             // Non-square sizes not implemented yet
             jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
         }
+        total_size = mapgensize;
     } else {
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }
@@ -3423,6 +3432,11 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
                                                expected_dim.y, parray.size() ) );
         }
+        if( static_cast<int>( parray.size() ) != total_size.y ) {
+            parray.throw_error(
+                string_format( "format: rows: must have %d rows, not %d; check mapgensize if applicable",
+                               total_size.y, parray.size() ) );
+        }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const std::string row = parray.get_string( c );
             std::vector<map_key> row_keys;
@@ -3433,6 +3447,11 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 parray.throw_error(
                     string_format( "  format: row %d must have at least %d columns, not %d",
                                    c + 1, expected_dim.x, row_keys.size() ) );
+            }
+            if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
+                parray.throw_error(
+                    string_format( "  format: row %d must have %d columns, not %d; check mapgensize if applicable",
+                                   c + 1, total_size.x, row_keys.size() ) );
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
@@ -3531,7 +3550,7 @@ void mapgen_function_json_nested::check() const
 static bool check_furn( const furn_id &id, const std::string &context )
 {
     const furn_t &furn = id.obj();
-    if( furn.has_flag( "PLANT" ) ) {
+    if( furn.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
         debugmsg( "json mapgen for %s specifies furniture %s, which has flag "
                   "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
                   context, furn.id.str() );
@@ -4088,8 +4107,8 @@ void map::draw_lab( mapgendata &dat )
                     // We determine if a border isn't handled by checking the east-facing
                     // border space where the door normally is -- it should be a wall or door.
                     tripoint east_border( 23, 11, abs_sub.z );
-                    if( !has_flag_ter( TFLAG_WALL, east_border ) &&
-                        !has_flag_ter( "DOOR", east_border ) ) {
+                    if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
+                        !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
                         ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
@@ -4337,7 +4356,8 @@ void map::draw_lab( mapgendata &dat )
                     if( i + j > 10 && i + j < 36 && std::abs( i - j ) < 13 ) {
                         // Doors and walls get sometimes destroyed:
                         // 100% at the edge, usually in a central cross, occasionally elsewhere.
-                        if( ( has_flag_ter( "DOOR", point( i, j ) ) || has_flag_ter( TFLAG_WALL, point( i, j ) ) ) ) {
+                        if( ( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) ||
+                              has_flag_ter( ter_furn_flag::TFLAG_WALL, point( i, j ) ) ) ) {
                             if( ( i == 0 || j == 0 || i == 23 || j == 23 ) ||
                                 ( !one_in( 3 ) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
                                 one_in( 4 ) ) {
@@ -4350,8 +4370,8 @@ void map::draw_lab( mapgendata &dat )
                             }
                             // and then randomly destroy 5% of the remaining nonstairs.
                         } else if( one_in( 20 ) &&
-                                   !has_flag_ter( TFLAG_GOES_DOWN, p2 ) &&
-                                   !has_flag_ter( TFLAG_GOES_UP, p2 ) ) {
+                                   !has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p2 ) &&
+                                   !has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p2 ) ) {
                             destroy( { i, j, abs_sub.z } );
                             // bashed squares can create dirt & floors, but we want rock floors.
                             if( t_dirt == ter( point( i, j ) ) || t_floor == ter( point( i, j ) ) ) {
@@ -4429,7 +4449,7 @@ void map::draw_lab( mapgendata &dat )
                                                    t_strconc_floor == ter( point( i, j ) ) ||
                                                    t_thconc_floor_olight == ter( point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), fluid_type );
-                            } else if( has_flag_ter( "DOOR", point( i, j ) ) && !one_in( 3 ) ) {
+                            } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { i, j, abs_sub.z } );
                                 ter_set( point( i, j ), fluid_type );
@@ -4454,7 +4474,7 @@ void map::draw_lab( mapgendata &dat )
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
                                 t_thconc_floor_olight == ter( p ) ) {
                                 ter_set( p, fluid_type );
-                            } else if( has_flag_ter( "DOOR", p ) ) {
+                            } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { p, abs_sub.z } );
                                 ter_set( p, fluid_type );
@@ -4494,9 +4514,9 @@ void map::draw_lab( mapgendata &dat )
                         ARTPROP_GLOWING
                     };
                     draw_rough_circle( [this]( const point & p ) {
-                        if( has_flag_ter( TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( "CONSOLE", p ) ) {
+                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
+                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
+                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z } );
@@ -4510,7 +4530,7 @@ void map::draw_lab( mapgendata &dat )
                 // radioactive accident.
                 case 6: {
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-                    if( has_flag_ter( TFLAG_WALL, center.xy() ) ) {
+                    if( has_flag_ter( ter_furn_flag::TFLAG_WALL, center.xy() ) ) {
                         // just skip it, we don't want to risk embedding radiation out of sight.
                         break;
                     }
@@ -4527,9 +4547,9 @@ void map::draw_lab( mapgendata &dat )
                         set_radiation( p, 50 );
                     }, center.xy(), 1 );
                     draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( "CONSOLE", p ) ) {
+                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
+                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
+                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z } );
@@ -4559,14 +4579,14 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( TFLAG_FLAT, point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && ( has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
-                                if( has_flag_furn( "ORGANIC", point( i, j ) ) ) {
+                                if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
                                 }
-                            } else if( has_flag_ter( "DOOR", point( i, j ) ) && !one_in( 5 ) ) {
+                            } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
-                            } else if( has_flag_ter( TFLAG_WALL, point( i, j ) ) && one_in( 3 ) ) {
+                            } else if( has_flag_ter( ter_furn_flag::TFLAG_WALL, point( i, j ) ) && one_in( 3 ) ) {
                                 ter_set( point( i, j ), t_fungus_wall );
                             }
                         }
@@ -4575,12 +4595,12 @@ void map::draw_lab( mapgendata &dat )
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
                     draw_rough_circle( [this]( const point & p ) {
-                        if( has_flag_ter( TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( "CONSOLE", p ) ) {
+                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
+                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
+                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
                             return; // spare stairs and consoles.
                         }
-                        if( has_flag_ter( TFLAG_WALL, p ) ) {
+                        if( has_flag_ter( ter_furn_flag::TFLAG_WALL, p ) ) {
                             ter_set( p, t_fungus_wall );
                         } else {
                             ter_set( p, t_fungus_floor_in );
@@ -4629,7 +4649,8 @@ void map::draw_lab( mapgendata &dat )
             // We determine if a border isn't handled by checking the east-facing
             // border space where the door normally is -- it should be a wall or door.
             tripoint east_border( 23, 11, abs_sub.z );
-            if( !has_flag_ter( TFLAG_WALL, east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
+            if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
+                !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                 ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                 ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
@@ -5808,9 +5829,9 @@ std::vector<item *> map::place_items(
         auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
             const ter_t &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
-                   !terrain.has_flag( "PLACE_ITEM" ) &&
+                   !terrain.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM ) &&
                    !ongrass                                   &&
-                   !terrain.has_flag( TFLAG_FLAT );
+                   !terrain.has_flag( ter_furn_flag::TFLAG_FLAT );
         };
 
         tripoint p;
@@ -5977,7 +5998,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         const tripoint p = veh->global_part_pos3( *part );
 
         //Don't spawn anything in water
-        if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
+        if( has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) && !can_float ) {
             return nullptr;
         }
 
@@ -6117,7 +6138,7 @@ void map::rotate( int turns, const bool setpos_safe )
         if( skip_npc_rotation() ) {
             break;
         }
-        const tripoint sq = np.global_square_location().raw();
+        const tripoint sq = np.get_location().raw();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );
         // Note: We are rotating the entire overmap square (2x2 of submaps)

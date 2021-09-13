@@ -43,6 +43,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -59,7 +60,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
-#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -110,6 +110,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 #include "weighted_list.h"
+#include "worldfactory.h"
 
 static const efftype_id effect_asthma( "asthma" );
 
@@ -144,9 +145,11 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
         case debug_menu::debug_menu_index::CHANGE_SKILLS: return "CHANGE_SKILLS";
+        case debug_menu::debug_menu_index::CHANGE_THEORY: return "CHANGE_THEORY";
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
+        case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
         case debug_menu::debug_menu_index::MAP_EDITOR: return "MAP_EDITOR";
@@ -180,7 +183,6 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
-        case debug_menu::debug_menu_index::WRITE_EOCS: return "WRITE_EOCS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -225,17 +227,37 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
+static std::string first_word( const std::string &str )
+{
+    const size_t space_pos = str.find( ' ' );
+    if( space_pos == std::string::npos || space_pos == 0 ) {
+        return str;
+    }
+    return str.substr( 0, space_pos );
+}
+
+static bool is_debug_character()
+{
+    static const std::unordered_set<std::string> debug_names = {
+        "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
+    };
+    return debug_names.count( first_word( get_player_character().name ) ) ||
+           debug_names.count( first_word( world_generator->active_world->world_name ) );
+}
+
 static int player_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
+        { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
         uilist_initializer.emplace_back( uilist_entry( debug_menu_index::CHANGE_SPELLS, true, 'S',
@@ -279,7 +301,6 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_EOCS, true, 'C', _( "Write effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -386,7 +407,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
     }
 
     std::string msg;
-    if( display_all_entries ) {
+    if( display_all_entries && !is_debug_character() ) {
         msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
     } else {
         msg = _( "Debug Functions" );
@@ -631,7 +652,7 @@ static void spell_description(
     std::get<2>( spl_data ) = description.str();
 }
 
-void change_spells( Character &character )
+static void change_spells( Character &character )
 {
     if( spell_type::get_all().empty() ) {
         add_msg( m_info, _( "There are no spells to change." ) );
@@ -1017,19 +1038,19 @@ void change_spells( Character &character )
     }
 }
 
-void teleport_short()
+static void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    location &player_location = get_player_location();
-    if( !where || *where == player_location.pos() ) {
+    const Character &player_character = get_player_character();
+    if( !where || *where == player_character.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_location.pos() );
+    const tripoint new_pos( player_character.pos() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
-void teleport_long()
+static void teleport_long()
 {
     const tripoint_abs_omt where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
@@ -1039,7 +1060,7 @@ void teleport_long()
     add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
-void teleport_overmap( bool specific_coordinates )
+static void teleport_overmap( bool specific_coordinates = false )
 {
     Character &player_character = get_player_character();
     tripoint_abs_omt where;
@@ -1088,7 +1109,7 @@ void teleport_overmap( bool specific_coordinates )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
-void spawn_nested_mapgen()
+static void spawn_nested_mapgen()
 {
     uilist nest_menu;
     std::vector<std::string> nest_str;
@@ -1125,7 +1146,30 @@ void spawn_nested_mapgen()
     }
 }
 
-void character_edit_menu()
+static void control_npc_menu()
+{
+    std::vector<shared_ptr_fast<npc>> followers;
+    uilist charmenu;
+    int charnum = 0;
+    for( const auto &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            followers.emplace_back( follower );
+            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
+        }
+    }
+    if( followers.empty() ) {
+        return;
+    }
+    charmenu.w_y_setup = 0;
+    charmenu.query();
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
+        return;
+    }
+    get_avatar().control_npc( *followers.at( charmenu.ret ) );
+}
+
+static void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uilist charmenu;
@@ -1153,25 +1197,22 @@ void character_edit_menu()
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-        data << np->myclass.obj().get_name() << "; " <<
-             npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
-             << "; " <<
-             "api: " << np->get_faction_ver() << std::endl;
+        data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
+             np->myclass->get_name() << std::endl;
+        data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
+                               np->get_faction_ver() ) << "; "
+             << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
                      overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
-        } else {
-            data << _( "No destination." ) << std::endl;
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
              << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << std::endl;
+        data << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << " "
+             << string_format( _( "Sold: %d" ), np->op_of_u.sold ) << std::endl;
 
         data << string_format( _( "Aggression: %d" ),
                                static_cast<int>( np->personality.aggression ) ) << " "
@@ -1179,10 +1220,11 @@ void character_edit_menu()
              << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
              << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
-        data << _( "Needs:" ) << std::endl;
+        data << _( "Needs:" );
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << " " << npc::get_need_str_id( need );
         }
+        data << std::endl;
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
         nmenu.text = data.str();
@@ -1191,13 +1233,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS, D_WRITE_EOCS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
     nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
@@ -1219,6 +1262,9 @@ void character_edit_menu()
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
+    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
+    nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
+                    _( "[w]rite effect_on_condition(s) to eocs.output." ) );
     if( you.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
@@ -1229,6 +1275,9 @@ void character_edit_menu()
     switch( nmenu.ret ) {
         case D_SKILLS:
             wishskill( &you );
+            break;
+        case D_THEORY:
+            wishskill( &you, true );
             break;
         case D_STATS: {
             uilist smenu;
@@ -1294,8 +1343,9 @@ void character_edit_menu()
                 you.on_item_wear( to_wear );
                 you.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                you.weapon = to_wear;
-                get_event_bus().send<event_type::character_wields_item>( you.getID(), you.weapon.typeId() );
+                you.set_wielded_item( to_wear );
+                get_event_bus().send<event_type::character_wields_item>( you.getID(),
+                        you.get_wielded_item()->typeId() );
             }
         }
         break;
@@ -1397,6 +1447,7 @@ void character_edit_menu()
             smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+            smenu.addentry( 5, true, 'd', "%s: %d", _( "sold" ), np->op_of_u.sold );
 
             smenu.query();
             int value;
@@ -1429,6 +1480,11 @@ void character_edit_menu()
                         np->op_of_u.owed = value;
                     }
                     break;
+                case 5:
+                    if( query_int( value, _( "Set sold to?  Currently: %d" ), np->op_of_u.sold ) ) {
+                        np->op_of_u.sold = value;
+                    }
+                    break;
             }
         }
         break;
@@ -1437,17 +1493,32 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
-            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
-            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
-            smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
+            if( you.is_avatar() ) {
+                smenu.addentry( 0, true, 's', "%s: %s", _( "Current save file name" ), get_avatar().get_save_id() );
+            }
+            smenu.addentry( 1, true, 'n', "%s: %s", _( "Current pre-Cataclysm name" ), you.name );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
+            smenu.addentry( 3, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
+            smenu.addentry( 4, true, 'b', "%s: %s", _( "Current blood type" ), current_bloodt );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
+                    std::string filterstring = get_avatar().get_save_id();
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename save file (WARNING: this will duplicate the save):" ) )
+                    .width( 85 )
+                    .edit( filterstring );
+                    if( popup.confirmed() ) {
+                        get_avatar().set_save_id( filterstring );
+                    }
+                }
+                break;
+                case 1: {
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename save file:" ) )
+                    .title( _( "Rename character:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1455,7 +1526,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 1: {
+                case 2: {
                     string_input_popup popup;
                     popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
                     .text( string_format( "%d", you.base_age() ) )
@@ -1466,7 +1537,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 2: {
+                case 3: {
                     string_input_popup popup;
                     popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
                                                 Character::min_height(),
@@ -1479,7 +1550,7 @@ void character_edit_menu()
                     }
                 }
                 break;
-                case 3: {
+                case 4: {
                     uilist btype;
                     btype.text = _( "Select blood type" );
                     btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
@@ -1737,6 +1808,25 @@ void character_edit_menu()
             you.add_effect( effect_asthma, 10_minutes );
             break;
         }
+        case D_PRINT_VARS: {
+            write_to_file( "var_list.output", [&you]( std::ostream & testfile ) {
+                testfile << "Character Name: " + you.get_name() << std::endl;
+                testfile << "|;key;value;" << std::endl;
+
+                for( const auto &value : you.get_values() ) {
+                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+                }
+
+            }, "var_list" );
+
+            popup( _( "Var list written to var_list.output" ) );
+            break;
+        }
+        case D_WRITE_EOCS: {
+            effect_on_conditions::write_eocs_to_file( you );
+            popup( _( "effect_on_condition list written to eocs.output" ) );
+        }
+        break;
     }
 }
 
@@ -1916,7 +2006,7 @@ void mission_debug::edit_mission( mission &m )
     }
 }
 
-void draw_benchmark( const int max_difference )
+static void draw_benchmark( const int max_difference )
 {
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
@@ -2174,7 +2264,8 @@ void debug()
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
     };
-    bool should_disable_achievements = action && !non_cheaty_options.count( *action );
+    const bool should_disable_achievements = action && !is_debug_character() &&
+            !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
         static const std::string query(
             translate_marker(
@@ -2225,7 +2316,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2306,6 +2397,11 @@ void debug()
         }
         break;
 
+        case debug_menu_index::CHANGE_THEORY: {
+            debug_menu::wishskill( &player_character, true );
+        }
+        break;
+
         case debug_menu_index::LEARN_MA:
             add_msg( m_info, _( "Martial arts debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
@@ -2328,7 +2424,11 @@ void debug()
         break;
 
         case debug_menu_index::EDIT_PLAYER:
-            debug_menu::character_edit_menu();
+            character_edit_menu();
+            break;
+
+        case debug_menu_index::CONTROL_NPC:
+            control_npc_menu();
             break;
 
         case debug_menu_index::SPAWN_ARTIFACT:
@@ -2718,11 +2818,7 @@ void debug()
         }
         break;
 
-        case debug_menu_index::WRITE_EOCS: {
-            effect_on_conditions::write_eocs_to_file();
-            popup( _( "effect_on_condition list written to eocs.output" ) );
-        }
-        break;
+
 
         case debug_menu_index::SAVE_SCREENSHOT: {
 #if defined(TILES)

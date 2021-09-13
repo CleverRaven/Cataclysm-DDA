@@ -113,6 +113,10 @@
     "armor_bash": 5,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 15,
     "vision_night": 3,
@@ -261,6 +265,10 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 4,
     "harvest": "zombie",
@@ -312,6 +320,10 @@
     "armor_cut": 14,
     "armor_bullet": 8,
     "armor_stab": 8,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -366,6 +378,10 @@
     "armor_bash": 8,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 40,
@@ -467,6 +483,10 @@
     "armor_bash": 15,
     "armor_cut": 15,
     "armor_bullet": 15,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "vision_night": 8,
     "harvest": "zombie",
@@ -612,6 +632,10 @@
     "armor_cut": 4,
     "armor_bullet": 10,
     "armor_stab": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
@@ -649,6 +673,10 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 4,
@@ -737,6 +765,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -770,6 +802,10 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "weakpoints": [
+      { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
@@ -803,7 +839,8 @@
       "REVIVES",
       "PUSH_MON",
       "SWIMS",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -832,6 +869,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 5,
@@ -1026,6 +1067,10 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 45,
     "vision_night": 15,
@@ -1318,6 +1363,10 @@
     "armor_cut": 8,
     "armor_stab": 8,
     "armor_bullet": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "dodge": 7,
     "armor_fire": 5,
@@ -1437,7 +1486,8 @@
       "SWIMS",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -1466,6 +1516,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1514,6 +1568,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1545,6 +1603,10 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 5,
     "harvest": "zombie_thorny",

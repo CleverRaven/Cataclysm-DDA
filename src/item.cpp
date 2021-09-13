@@ -172,9 +172,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
-// terrain-furniture flags
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-
 static const matec_id RAPID( "RAPID" );
 
 class npc_class;
@@ -1652,7 +1649,12 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon->absorb_hit( bodypart_id( "torso" ), dealt_damage );
+        // TODO: Modify DPS calculation to consider weakpoints.
+        resistances r = resistances( *static_cast<monster *>( temp_mon ) );
+        for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
+            dmg_unit.amount -= std::min( r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+        }
+
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1675,7 +1677,11 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon->absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
+            // TODO: Modify DPS calculation to consider weakpoints.
+            resistances rs_r = resistances( *static_cast<monster *>( temp_rs_mon ) );
+            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+                dmg_unit.amount -= std::min( rs_r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+            }
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
@@ -3433,103 +3439,80 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             };
             const std::string profs = string_format(
                                           _( "This book can help with the following proficiencies: %s" ),
-                                          enumerate_as_string(
-                                              book.proficiencies.begin(),
-                                              book.proficiencies.end(),
-                                              enumerate_profs ) );
+                                          enumerate_as_string( book.proficiencies, enumerate_profs ) );
             info.emplace_back( "BOOK", profs );
         }
 
         if( parts->test( iteminfo_parts::BOOK_INCLUDED_RECIPES ) ) {
             std::vector<std::string> known_recipe_list;
             std::vector<std::string> learnable_recipe_list;
+            std::vector<std::string> practice_recipe_list;
             std::vector<std::string> unlearnable_recipe_list;
             for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
-                // Practice recipes are hidden. They're not written down in the book, they're
-                // just things that the avatar can figure out with help from the book.
-                if( elem.recipe->is_practice() ) {
-                    continue;
-                }
                 const bool knows_it = player_character.knows_recipe( elem.recipe );
-                const bool can_learn = player_character.get_skill_level( elem.recipe->skill_used ) >=
-                                       elem.skill_level;
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
                     continue;
                 }
-                if( knows_it ) {
+                const bool can_learn = player_character.get_knowledge_level( elem.recipe->skill_used ) >=
+                                       elem.skill_level;
+                if( elem.recipe->is_practice() ) {
+                    const char *const format = can_learn ? "<dark>%s</dark>" : "<color_brown>%s</color>";
+                    practice_recipe_list.emplace_back( string_format( format, elem.recipe->result_name() ) );
+                } else if( knows_it ) {
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
-                    const std::string name = elem.recipe->result_name( /*decorated=*/true );
-                    known_recipe_list.push_back( "<bold>" + name + "</bold>" );
+                    known_recipe_list.emplace_back( string_format( "<bold>%s</bold>", elem.recipe->result_name() ) );
                 } else if( !can_learn ) {
-                    unlearnable_recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
+                    unlearnable_recipe_list.emplace_back( string_format( "<color_brown>%s</color>", elem.name() ) );
                 } else {
-                    learnable_recipe_list.push_back( "<dark>" + elem.name() + "</dark>" );
+                    learnable_recipe_list.emplace_back( string_format( "<dark>%s</dark>", elem.name() ) );
                 }
             }
 
-            int total_recipes = known_recipe_list.size() + learnable_recipe_list.size() +
-                                unlearnable_recipe_list.size();
-
-            if( ( !known_recipe_list.empty() || !learnable_recipe_list.empty() ||
-                  !unlearnable_recipe_list.empty() ) &&
-                parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
-                std::string recipe_line =
-                    string_format( ngettext( "This book contains %1$d crafting recipe:",
-                                             "This book contains %1$d crafting recipes:",
-                                             total_recipes ), total_recipes );
-
-                insert_separation_line( info );
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
-
+            const std::size_t num_crafting_recipes = known_recipe_list.size() + learnable_recipe_list.size() +
+                    unlearnable_recipe_list.size();
+            const std::size_t num_total_recipes = num_crafting_recipes + practice_recipe_list.size();
+            if( num_total_recipes > 0 && parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
+                std::vector<std::string> lines;
+                if( num_crafting_recipes > 0 ) {
+                    lines.emplace_back(
+                        string_format( ngettext( "This book contains %u crafting recipe.",
+                                                 "This book contains %u crafting recipes.",
+                                                 num_crafting_recipes ), num_crafting_recipes ) );
+                }
                 if( !known_recipe_list.empty() ) {
-                    std::string recipe_line =
-                        string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
-                                                 "\nYou already know %1$d recipes:\n%2$s",
-                                                 known_recipe_list.size() ),
-                                       known_recipe_list.size(),
-                                       enumerate_as_string( known_recipe_list ) );
-
-                    info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                    lines.emplace_back( _( "You already know how to craft:" ) );
+                    lines.emplace_back( enumerate_as_string( known_recipe_list ) );
                 }
-
                 if( !learnable_recipe_list.empty() ) {
-                    std::string recipe_line =
-                        string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
-                                                 "\nYou have the skills to craft %1$d recipes:\n%2$s",
-                                                 learnable_recipe_list.size() ),
-                                       learnable_recipe_list.size(),
-                                       enumerate_as_string( learnable_recipe_list ) );
-
-                    info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                    lines.emplace_back( _( "You understand how to craft:" ) );
+                    lines.emplace_back( enumerate_as_string( learnable_recipe_list ) );
                 }
-
                 if( !unlearnable_recipe_list.empty() ) {
-                    std::string recipe_line =
-                        string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
-                                                 "\nYou lack the skills to craft %1$d recipes:\n%2$s",
-                                                 unlearnable_recipe_list.size() ),
-                                       unlearnable_recipe_list.size(),
-                                       enumerate_as_string( unlearnable_recipe_list ) );
-
-                    info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                    lines.emplace_back( _( "You lack the skills to understand:" ) );
+                    lines.emplace_back( enumerate_as_string( unlearnable_recipe_list ) );
+                }
+                if( !practice_recipe_list.empty() ) {
+                    lines.emplace_back( _( "This book can help you practice:" ) );
+                    lines.emplace_back( enumerate_as_string( practice_recipe_list ) );
+                }
+                insert_separation_line( info );
+                for( const std::string &recipe_line : lines ) {
+                    info.emplace_back( "DESCRIPTION", recipe_line );
                 }
             }
 
-            if( total_recipes != static_cast<int>( book.recipes.size() ) &&
+            if( num_total_recipes < book.recipes.size() &&
                 parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
-                info.emplace_back( iteminfo( "DESCRIPTION",
-                                             _( "It might help you figuring out some <good>more "
-                                                "recipes</good>." ) ) );
+                info.emplace_back( "DESCRIPTION",
+                                   _( "It might help you figuring out some <good>more recipes</good>." ) );
             }
         }
 
     } else {
         if( parts->test( iteminfo_parts::BOOK_UNREAD ) ) {
-            info.emplace_back( "BOOK",
-                               _( "You need to <info>read this book to see its "
-                                  "contents</info>." ) );
+            info.emplace_back( "BOOK", _( "You need to <info>read this book to see its contents</info>." ) );
         }
     }
 }
@@ -3559,6 +3542,8 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
 void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                       bool /*debug*/ ) const
 {
+    avatar &player_character = get_avatar();
+
     if( !is_tool() ) {
         return;
     }
@@ -3669,6 +3654,201 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
         feedback = _( "<bold>Fuel</bold>: " ) + feedback;
         info.emplace_back( "DESCRIPTION", feedback );
+    }
+
+    // Display e-ink tablet copied recipes from SD cards
+    if( has_var( "EIPC_RECIPES" ) ) {
+        std::vector<std::string> known_recipe_list;
+        std::vector<std::string> learnable_recipe_list;
+        std::vector<std::string> unlearnable_recipe_list;
+
+        const std::string recipes = get_var( "EIPC_RECIPES" );
+        // Capture the index one past the delimiter, i.e. start of target string.
+        size_t first_string_index = recipes.find_first_of( ',' ) + 1;
+        while( first_string_index != std::string::npos ) {
+            size_t next_string_index = recipes.find_first_of( ',', first_string_index );
+            if( next_string_index == std::string::npos ) {
+                break;
+            }
+            std::string new_recipe = recipes.substr( first_string_index,
+                                     next_string_index - first_string_index );
+
+            const recipe *r = &recipe_id( new_recipe ).obj();
+
+            const bool knows_it = player_character.knows_recipe( r );
+            const bool can_learn = player_character.get_skill_level( r->skill_used ) >= r->difficulty;
+
+            // In case the recipe is known, but has a different name in the item, use the
+            // real name to avoid confusing the player.
+            const std::string name = r->result_name();
+
+            if( knows_it ) {
+                known_recipe_list.emplace_back( "<bold>" + name + "</bold>" );
+            } else if( !can_learn ) {
+                unlearnable_recipe_list.emplace_back( "<color_brown>" + name + "</color>" );
+            } else {
+                learnable_recipe_list.emplace_back( "<dark>" + name + "</dark>" );
+            }
+
+            first_string_index = next_string_index + 1;
+        }
+
+        int total_recipes = known_recipe_list.size() + learnable_recipe_list.size() +
+                            unlearnable_recipe_list.size();
+
+        if( ( !known_recipe_list.empty() || !learnable_recipe_list.empty() ||
+              !unlearnable_recipe_list.empty() ) &&
+            parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
+            std::string recipe_line =
+                string_format( ngettext( "Contains %1$d copied crafting recipe:",
+                                         "Contains %1$d copied crafting recipes:",
+                                         total_recipes ), total_recipes );
+
+            insert_separation_line( info );
+            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+
+            if( !known_recipe_list.empty() ) {
+                std::vector<std::string> sorted_known_recipes = known_recipe_list;
+                std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
+                std::string recipe_line =
+                    string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
+                                             "\nYou already know %1$d recipes:\n%2$s",
+                                             known_recipe_list.size() ),
+                                   known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
+
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            }
+
+            if( !learnable_recipe_list.empty() ) {
+                std::vector<std::string> sorted_learnable_recipes = learnable_recipe_list;
+                std::sort( sorted_learnable_recipes.begin(), sorted_learnable_recipes.end(), localized_compare );
+                std::string recipe_line =
+                    string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
+                                             "\nYou have the skills to craft %1$d recipes:\n%2$s",
+                                             learnable_recipe_list.size() ),
+                                   learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
+
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            }
+
+            if( !unlearnable_recipe_list.empty() ) {
+                std::vector<std::string> sorted_unlearnable_recipes = unlearnable_recipe_list;
+                std::sort( sorted_unlearnable_recipes.begin(), sorted_unlearnable_recipes.end(),
+                           localized_compare );
+                std::string recipe_line =
+                    string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
+                                             "\nYou lack the skills to craft %1$d recipes:\n%2$s",
+                                             unlearnable_recipe_list.size() ),
+                                   unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
+
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            }
+        }
+    }
+
+    // Display e-ink tablet ebook recipes
+    if( is_ebook_storage() ) {
+        std::vector<std::string> known_recipe_list;
+        std::vector<std::string> learnable_recipe_list;
+        std::vector<std::string> unlearnable_recipe_list;
+        std::vector<const item *> book_list = ebooks();
+        int total_ebooks = book_list.size();
+
+        for( auto iter = book_list.begin(); iter != book_list.end(); ++iter ) {
+            const item *ebook = *iter;
+
+            const islot_book &book = *ebook->type->book;
+            for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
+                const bool knows_it = player_character.knows_recipe( elem.recipe );
+                const bool can_learn = player_character.get_skill_level( elem.recipe->skill_used ) >=
+                                       elem.skill_level;
+                // If the player knows it, they recognize it even if it's not clearly stated.
+                if( elem.is_hidden() && !knows_it ) {
+                    continue;
+                }
+
+                // In case the recipe is known, but has a different name in the book, use the
+                // real name to avoid confusing the player.
+                const std::string name = elem.recipe->result_name( /*decorated=*/true );
+
+                if( knows_it ) {
+                    std::string recipe_formated = "<bold>" + name + "</bold>";
+                    if( known_recipe_list.end() == std::find( known_recipe_list.begin(), known_recipe_list.end(),
+                            name ) ) {
+                        known_recipe_list.emplace_back( "<bold>" + name + "</bold>" );
+                    }
+                } else if( !can_learn ) {
+                    std::string recipe_formated = "<color_brown>" + elem.name() + "</color>";
+                    if( unlearnable_recipe_list.end() == std::find( unlearnable_recipe_list.begin(),
+                            unlearnable_recipe_list.end(), recipe_formated ) ) {
+                        unlearnable_recipe_list.emplace_back( recipe_formated );
+                    }
+                } else {
+                    std::string recipe_formated = "<dark>" + elem.name() + "</dark>";
+                    if( learnable_recipe_list.end() == std::find( learnable_recipe_list.begin(),
+                            learnable_recipe_list.end(), recipe_formated ) ) {
+                        learnable_recipe_list.emplace_back( "<dark>" + elem.name() + "</dark>" );
+                    }
+                }
+            }
+        }
+
+        int total_recipes = known_recipe_list.size() + learnable_recipe_list.size() +
+                            unlearnable_recipe_list.size();
+
+        if( ( !known_recipe_list.empty() || !learnable_recipe_list.empty() ||
+              !unlearnable_recipe_list.empty() ) &&
+            parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
+            std::string recipe_line =
+                string_format( ngettext( "Contains %1$d unique crafting recipe,",
+                                         "Contains %1$d unique crafting recipes,",
+                                         total_recipes ), total_recipes );
+            std::string source_line =
+                string_format( ngettext( "from %1$d stored ebook:",
+                                         "from %1$d stored ebooks:",
+                                         total_ebooks ), total_ebooks );
+
+            insert_separation_line( info );
+            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            info.emplace_back( iteminfo( "DESCRIPTION", source_line ) );
+
+            if( !known_recipe_list.empty() ) {
+                std::vector<std::string> sorted_known_recipes = known_recipe_list;
+                std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
+                std::string recipe_line =
+                    string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
+                                             "\nYou already know %1$d recipes:\n%2$s",
+                                             known_recipe_list.size() ),
+                                   known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
+
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            }
+
+            if( !learnable_recipe_list.empty() ) {
+                std::vector<std::string> sorted_learnable_recipes = learnable_recipe_list;
+                std::sort( sorted_learnable_recipes.begin(), sorted_learnable_recipes.end(), localized_compare );
+                std::string recipe_line =
+                    string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
+                                             "\nYou have the skills to craft %1$d recipes:\n%2$s",
+                                             learnable_recipe_list.size() ),
+                                   learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
+
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            }
+
+            if( !unlearnable_recipe_list.empty() ) {
+                std::vector<std::string> sorted_unlearnable_recipes = unlearnable_recipe_list;
+                std::sort( sorted_unlearnable_recipes.begin(), sorted_unlearnable_recipes.end(),
+                           localized_compare );
+                std::string recipe_line =
+                    string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
+                                             "\nYou lack the skills to craft %1$d recipes:\n%2$s",
+                                             unlearnable_recipe_list.size() ),
+                                   unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
+
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            }
+        }
     }
 }
 
@@ -4312,8 +4492,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
         info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
                            enumerate_as_string( holsters.begin(), holsters.end(),
-        []( const itype * e ) {
-            return e->nname( 1 );
+        [&]( const itype * e ) {
+            bool is_worn = player_character.is_wearing( e->get_id() );
+            return ( is_worn ? "<good>" : "" ) + e->nname( 1 ) + ( is_worn ? "</good>" : "" );
         } ) );
         info.back().sName += ".";
     }
@@ -5313,7 +5494,7 @@ std::string item::display_name( unsigned int quantity ) const
         get_option<bool>( "AMMO_IN_NAMES" ) ) {
         if( !ammo_current().is_null() ) {
             // Loaded with ammo
-            ammotext = find_type( ammo_current() )->ammo->type->name();
+            ammotext = ammo_current()->nname( 1 );
         } else if( !ammo_types().empty() ) {
             // Is not loaded but can be loaded
             ammotext = ammotype( *ammo_types().begin() )->name();
@@ -5537,9 +5718,7 @@ units::length item::length() const
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
-    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        max = std::max( it->length(), max );
-    }
+    max = std::max( contents.item_length_modifier(), max );
     return max;
 }
 
@@ -7878,12 +8057,8 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
-        // NPCs don't need to identify books
-        // TODO: remove this cast
-        if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
-            if( !a->has_identified( typeId() ) ) {
-                return recipe_entries;
-            }
+        if( !u.has_identified( typeId() ) ) {
+            return {};
         }
 
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
@@ -9239,7 +9414,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
         std::string *err ) const
 {
-    const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
+    const bool allow_bucket = this == &p.get_wielded_item() || !p.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 ) {
@@ -10393,8 +10568,8 @@ bool item::process_litcig( Character *carrier, const tripoint &pos )
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
-                here.has_flag( TFLAG_FLAMMABLE, pos ) ||
-                here.has_flag( TFLAG_FLAMMABLE_ASH, pos ) ) {
+                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
+                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
                 here.add_field( pos, fd_fire, 1 );
             }
         }
@@ -10448,11 +10623,11 @@ bool item::process_extinguish( Character *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && !in_veh && here.has_flag( TFLAG_DEEP_WATER, pos ) ) {
+    if( in_inv && !in_veh && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( TFLAG_LIQUID, pos ) && !here.veh_at( pos ) ) ||
+    if( ( !in_inv && here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) && !here.veh_at( pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
@@ -10462,7 +10637,7 @@ bool item::process_extinguish( Character *carrier, const tripoint &pos )
         extinguish = true;
     }
     if( !extinguish ||
-        ( in_inv && precipitation && carrier->weapon.has_flag( flag_RAIN_PROTECT ) ) ) {
+        ( in_inv && precipitation && carrier->get_wielded_item()->has_flag( flag_RAIN_PROTECT ) ) ) {
         return false; //nothing happens
     }
     if( carrier != nullptr ) {
@@ -11071,7 +11246,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
-    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
+    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) &&
         !has_own_flag( flag_DIRTY ) ) {
         set_flag( flag_DIRTY );
     }

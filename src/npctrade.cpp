@@ -116,12 +116,13 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         }
     }
 
+    item *weapon = np.get_wielded_item();
     if(
         np.will_exchange_items_freely() &&
-        !np.weapon.is_null() &&
-        !np.weapon.has_flag( json_flag_NO_UNWIELD )
+        !weapon->is_null() &&
+        !weapon->has_flag( json_flag_NO_UNWIELD )
     ) {
-        result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
+        result.emplace_back( np, *weapon, np.value( *weapon ), false );
     }
 
     return result;
@@ -141,7 +142,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) -
                                       buyer.get_skill_level( skill_speech ) );
-    return( std::max( adjust, 1.0 ) );
+    return ( std::max( adjust, 1.0 ) );
 }
 
 template <typename T, typename Callback>
@@ -324,12 +325,14 @@ void trading_window::update_win( npc &np, const std::string &deal )
                     _( "Trading with %s.\n"
                        "%s to switch lists, letters to pick items, "
                        "%s to finalize, %s to quit, "
-                       "%s to get information on an item." ),
+                       "%s to get information on an item, "
+                       "%s to mark selected items as favorite" ),
                     np.disp_name(),
                     ctxt.get_desc( "SWITCH_LISTS" ),
                     ctxt.get_desc( "CONFIRM" ),
                     ctxt.get_desc( "QUIT" ),
-                    ctxt.get_desc( "EXAMINE" ) );
+                    ctxt.get_desc( "EXAMINE" ),
+                    ctxt.get_desc( "TOGGLE_FAVORITE" ) );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
@@ -337,7 +340,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     }
     // End of line drawings
 
-    mvwprintz( w_head, point( 2, 3 ),  npc_out_of_space ?  c_red : c_green,
+    mvwprintz( w_head, point( 2, 3 ), npc_out_of_space ? c_red : c_green,
                _( "Volume: %s %s, Weight: %.1f %s" ),
                format_volume( volume_left ), volume_units_abbr(),
                convert_weight( weight_left ), weight_units() );
@@ -377,7 +380,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
             const item_pricing &ip = list[i];
             const item *it = ip.loc.get_item();
-            nc_color color = it == &person.weapon ? c_yellow : c_light_gray;
+            nc_color color = it == &person.get_wielded_item() ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
             std::string itname = it->display_name();
@@ -411,8 +414,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
             hotkey = ctxt.next_unassigned_hotkey( hotkeys, hotkey );
 
             std::string price_str = format_money( ip.price );
-            nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
-                                   c_light_gray );
+            nc_color price_color = np.will_exchange_items_freely()
+                                   ? c_dark_gray
+                                   : ( ip.selected ? c_white : c_light_gray );
             mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
                        price_color, price_str );
         }
@@ -530,6 +534,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // action to mark item(s) as favorite for the npc so they never drop it
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "ANY_INPUT" );
 
     ui_adaptor ui;
@@ -566,7 +572,6 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             show_item_data( offset, target_list );
         } else if( action == "CONFIRM" ) {
             if( !npc_will_accept_trade( np ) ) {
-
                 if( np.max_credit_extended() == 0 ) {
                     popup( _( "You'll need to offer me more than that." ) );
                 } else {
@@ -581,7 +586,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
                 const bool trade_ok = query_yn(
-                                          _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                          _(
+                                              "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                                           format_money( np.max_willing_to_owe() )
                                       );
 
@@ -598,6 +604,14 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         } else if( action == "QUIT" ) {
             exit = true;
             confirm = false;
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            // toggle the favorite status for each item that is selected currently
+            for( item_pricing &list_item : target_list ) {
+                if( list_item.selected ) {
+                    item_location &item = list_item.loc;
+                    item->set_favorite( !item->is_favorite );
+                }
+            }
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
             if( evt.sequence.empty() ) {
@@ -651,6 +665,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 int delta_price = ip.price * change_amount;
                 if( !np.will_exchange_items_freely() ) {
                     your_balance -= delta_price;
+                    if( ip.selected != focus_them ) {
+                        your_sale_value -= delta_price;
+                    }
                 }
                 if( ip.loc.where() == item_location::type::character ) {
                     volume_left += ip.vol * change_amount;
@@ -689,6 +706,7 @@ int trading_window::calc_npc_owes_you( const npc &np ) const
 void trading_window::update_npc_owed( npc &np )
 {
     np.op_of_u.owed = calc_npc_owes_you( np );
+    np.op_of_u.sold += your_sale_value;
 }
 
 // Oh my aching head

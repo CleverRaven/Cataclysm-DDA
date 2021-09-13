@@ -30,6 +30,7 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -552,7 +553,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    weapon = real_weapon;
+    set_wielded_item( real_weapon );
     cbm_weapon_index = -1;
 }
 
@@ -582,6 +583,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
+    item *weapon = get_wielded_item();
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -596,19 +598,19 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        int ammo_count = weapon.ammo_remaining( this );
-        const int ups_drain = weapon.get_gun_ups_drain();
+        int ammo_count = weapon->ammo_remaining( this );
+        const int ups_drain = weapon->get_gun_ups_drain();
         if( ups_drain > 0 ) {
             ammo_count = ammo_count / ups_drain;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
-            real_weapon = weapon;
-            weapon = cbm_weapon;
+        if( weapon_value( *weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+            real_weapon = *weapon;
+            set_wielded_item( cbm_weapon );
             cbm_weapon_index = index;
         }
-    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon->has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
 
         if( !bio.has_weapon() ) {
@@ -618,12 +620,12 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
 
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( *weapon );
         }
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
 
-        weapon = bio.get_weapon();
+        set_wielded_item( bio.get_weapon() );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -637,6 +639,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 // share functions....
 bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 {
+
+    item *weapon = get_wielded_item();
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
@@ -646,9 +650,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.typeId().str() == bio_claws_weapon.str() &&
+    if( ( weapon->typeId().str() == bio_claws_weapon.str() &&
           bio.id == bio_claws_weapon ) ||
-        ( weapon.typeId().str() == bio_blade_weapon.str() &&
+        ( weapon->typeId().str() == bio_blade_weapon.str() &&
           bio.id == bio_blade_weapon ) ) {
         return deactivate_bionic( b );
     }
@@ -724,7 +728,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             return false;
         }
 
-        if( weapon.has_flag( flag_NO_UNWIELD ) ) {
+        if( weapon->has_flag( flag_NO_UNWIELD ) ) {
             cata::optional<int> active_bio_weapon_index = active_bionic_weapon_index();
             if( active_bio_weapon_index && deactivate_bionic( *active_bio_weapon_index, eff_only ) ) {
                 // restore state and try again
@@ -734,15 +738,15 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                 return activate_bionic( b, eff_only, close_bionics_ui );
             }
 
-            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon->tname() );
             refund_power();
             bio.powered = false;
             return false;
         }
 
-        if( !weapon.is_null() ) {
-            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        if( !weapon->is_null() ) {
+            const std::string query = string_format( _( "Stop wielding %s?" ), weapon->tname() );
+            if( !dispose_item( item_location( *this, weapon ), query ) ) {
                 refund_power();
                 bio.powered = false;
                 return false;
@@ -750,8 +754,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
 
         add_msg_activate();
-        weapon = bio.get_weapon();
-        weapon.invlet = '#';
+
+        set_wielded_item( bio.get_weapon() );
+        get_wielded_item()->invlet = '#';
         //if( bio.ammo_count > 0 ) {
         //    weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
         //    avatar_action::fire_wielded_weapon( player_character );
@@ -943,7 +948,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         std::vector<std::pair<item, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
-            if( p == pos() || !here.has_items( p ) || here.has_flag( TFLAG_SEALED, p ) ) {
+            if( p == pos() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
                 continue;
             }
 
@@ -1140,6 +1145,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
 cata::optional<int> Character::active_bionic_weapon_index() const
 {
+    const item weapon = get_wielded_item();
     if( weapon.is_null() ) {
         return cata::nullopt;
     }
@@ -1209,20 +1215,20 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-
+    const item &w_weapon = *get_wielded_item();
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !bio.info().fake_weapon.is_empty() ) {
-        if( weapon.typeId() == bio.info().fake_weapon ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( w_weapon.typeId() == bio.info().fake_weapon ) {
+            add_msg_if_player( _( "You withdraw your %s." ), w_weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
                 if( male ) {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), w_weapon.tname() );
                 } else {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), w_weapon.tname() );
                 }
             }
-            bio.set_weapon( weapon );
-            weapon = item();
+            bio.set_weapon( *get_wielded_item() );
+            set_wielded_item( item() );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
@@ -2740,6 +2746,40 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     return desc;
 }
 
+std::vector<bionic_id> Character::get_bionics() const
+{
+    std::vector<bionic_id> result;
+    for( const bionic &b : *my_bionics ) {
+        result.push_back( b.id );
+    }
+    return result;
+}
+
+bool Character::has_bionic( const bionic_id &b ) const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid == b ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_active_bionic( const bionic_id &b ) const
+{
+    for( const bionic &i : *my_bionics ) {
+        if( i.id == b ) {
+            return ( i.powered && i.incapacitated_time == 0_turns );
+        }
+    }
+    return false;
+}
+
+bool Character::has_any_bionic() const
+{
+    return !get_bionics().empty();
+}
+
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
@@ -2837,7 +2877,7 @@ void Character::add_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 
     invalidate_pseudo_items();
 }
@@ -2884,7 +2924,7 @@ void Character::remove_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 int Character::num_bionics() const
@@ -3108,9 +3148,8 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void bionic::deserialize( JsonIn &jsin )
+void bionic::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
@@ -3221,3 +3260,228 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
         fall_asleep( duration );
     }
 }
+
+bool Character::can_fuel_bionic_with( const item &it ) const
+{
+    // the item needs fuel data, or it needs to be a magazine with an item with fuel data.
+    if( !it.is_fuel() ) {
+        if( it.is_magazine() ) {
+            if( !item( it.ammo_current() ).is_fuel() ) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
+                return true;
+            }
+            if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+                return true;
+            }
+        }
+
+    }
+    return false;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ||
+                ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const material_id &mat ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == mat ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_fueled_bionics() const
+{
+    std::vector<bionic_id> bionics;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( !bid->fuel_opts.empty() ) {
+            bionics.emplace_back( bid );
+        }
+    }
+    return bionics;
+}
+
+bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
+{
+    float temp_eff = 0.0f;
+    bionic_id bio( "null" );
+    for( const bionic_id &bid : bids ) {
+        if( bid->fuel_efficiency > temp_eff ) {
+            temp_eff = bid->fuel_efficiency;
+            bio = bid;
+        }
+    }
+    return bio;
+}
+
+bionic_id Character::get_remote_fueled_bionic() const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->is_remote_fueled ) {
+            return bid;
+        }
+    }
+    return bionic_id();
+}
+
+std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) const
+{
+    std::vector<material_id> stored_fuels;
+    for( const material_id &fuel : bio->fuel_opts ) {
+        if( !get_value( fuel.str() ).empty() || fuel->get_fuel_data().is_perpetual_fuel ) {
+            stored_fuels.emplace_back( fuel );
+        }
+    }
+    return stored_fuels;
+}
+
+int Character::get_fuel_capacity( const material_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    int capacity = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
+                if( fl == fuel ) {
+                    capacity += bid->fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity - amount_stored;
+}
+
+int Character::get_total_fuel_capacity( const material_id &fuel ) const
+{
+    int capacity = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
+                if( fl == fuel ) {
+                    capacity += bid->fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity;
+}
+
+void Character::update_fuel_storage( const material_id &fuel )
+{
+
+    if( get_value( fuel.str() ).empty() ) {
+        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
+            remove_value( bid.c_str() );
+        }
+        return;
+    }
+
+    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
+    if( bids.empty() ) {
+        return;
+    }
+    int amount_fuel_loaded = std::stoi( get_value( fuel.str() ) );
+    std::vector<bionic_id> loaded_bio;
+
+    // Sort bionic in order of decreasing capacity
+    // To fill the bigger ones firts.
+    bool swap = true;
+    while( swap ) {
+        swap = false;
+        for( size_t i = 0; i < bids.size() - 1; i++ ) {
+            if( bids[i + 1]->fuel_capacity > bids[i]->fuel_capacity ) {
+                std::swap( bids[i + 1], bids[i] );
+                swap = true;
+            }
+        }
+    }
+
+    for( const bionic_id &bid : bids ) {
+        remove_value( bid.c_str() );
+        if( bid->fuel_capacity <= amount_fuel_loaded ) {
+            amount_fuel_loaded -= bid->fuel_capacity;
+            loaded_bio.emplace_back( bid );
+        } else if( amount_fuel_loaded != 0 ) {
+            loaded_bio.emplace_back( bid );
+            break;
+        }
+    }
+
+    for( const bionic_id &bd : loaded_bio ) {
+        set_value( bd.str(), fuel.str() );
+    }
+
+}
+
+int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
+{
+    int ret = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto St_bn = bid->stat_bonus.find( Stat );
+        if( St_bn != bid->stat_bonus.end() ) {
+            ret += St_bn->second;
+        }
+    }
+    return ret;
+}
+
+float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+{
+    float result = 0.0f;
+    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto cut_prot = bid->cut_protec.find( bp.id() );
+            if( cut_prot != bid->cut_protec.end() ) {
+                result += cut_prot->second;
+            }
+        }
+    } else if( dt == damage_type::BASH ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bash_prot = bid->bash_protec.find( bp.id() );
+            if( bash_prot != bid->bash_protec.end() ) {
+                result += bash_prot->second;
+            }
+        }
+    } else if( dt == damage_type::BULLET ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
+            if( bullet_prot != bid->bullet_protec.end() ) {
+                result += bullet_prot->second;
+            }
+        }
+    }
+
+    return result;
+}
+
