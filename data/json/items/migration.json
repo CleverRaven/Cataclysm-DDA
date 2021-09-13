@@ -1557,5 +1557,10 @@
     "id": "tool_improvised_barrel_bomb",
     "type": "MIGRATION",
     "replace": "full_barrel_bomb"
+  },
+  {
+    "id": "manual_computers",
+    "type": "MIGRATION",
+    "replace": "manual_computer"
   }
 ]
