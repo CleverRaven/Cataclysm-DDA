@@ -696,6 +696,11 @@ bool game::start_game()
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
+    // Make sure the items are added after the calendar is started
+    u.add_profession_items();
+    // Move items from the inventory. eventually the inventory should not contain items at all.
+    u.migrate_items_to_storage( true );
+
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     const tripoint_abs_omt omtstart = start_loc.find_player_initial_location();
