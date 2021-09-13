@@ -15,9 +15,10 @@
 #include "mtype.h"
 #include "rng.h"
 
+static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_marksmanship( "marksmanship" );
-static const skill_id skill_throwing( "throwing" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_unarmed( "unarmed" );
 
 class JsonArray;
 class JsonObject;
@@ -27,25 +28,32 @@ float monster::weakpoint_skill()
     return type->melee_skill;
 }
 
-float Character::melee_weakpoint_skill( const item & )
+float Character::melee_weakpoint_skill( const item &item )
 {
-    float skill = ( get_skill_level( skill_melee ) + get_skill_level( item.melee_skill() ) ) / 2.0;
+    skill_id melee_skill = item.is_null() ? skill_unarmed : item.melee_skill();
+    float skill = (get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
-float Character::ranged_weakpoint_skill( const item & )
+float Character::ranged_weakpoint_skill( const item &item )
 {
-    float skill = ( get_skill_level( skill_marksmanship ) + get_skill_level( item.gun_skill() ) ) / 2.0;
+    float skill = ( get_skill_level( skill_gun ) + get_skill_level( item.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
 float Character::throw_weakpoint_skill()
 {
-    float skill = get_skill_level( skill_throwing );
+    float skill = get_skill_level( skill_throw );
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
+}
+
+weakpoint_attack::weakpoint_attack()
+{
+    source = nullptr;
+    weapon = &null_item_reference();
 }
 
 weakpoint::weakpoint()
@@ -89,7 +97,7 @@ float weakpoint::hit_chance( const weakpoint_attack & ) const
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     add_msg_debug( debugmode::DF_MONSTER,
-                   "Source: %s :: Weapon %s :: Skill %1.f",
+                   "Source: %s :: Weapon %s :: Skill %.3f",
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
                    attack.wp_skill );

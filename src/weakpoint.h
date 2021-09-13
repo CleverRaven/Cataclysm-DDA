@@ -26,6 +26,8 @@ struct weakpoint_attack {
 
     // The Creature's skill in hitting weak points.
     float wp_skill;
+
+    weakpoint_attack();
 };
 
 struct weakpoint {
