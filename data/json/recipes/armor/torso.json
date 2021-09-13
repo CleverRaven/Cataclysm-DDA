@@ -146,7 +146,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 9 ] ] ],
+    "components": [ [ [ "rag", 9 ], [ "sheet_cotton", 9 ], [ "sheet_cotton_patchwork", 9 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
