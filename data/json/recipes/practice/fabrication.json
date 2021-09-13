@@ -15,9 +15,9 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "//": "Modifying so much the arrows/bolts will cause them to eventually lose their shape",
     "components": [ 
-    [ [ "arrow_fire_hardened_fletched", 4 ], [ "bolt_crude", 4 ] ],
-    [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-    [ [ "fletching", 1, "LIST" ] ] 
+      [ [ "arrow_fire_hardened_fletched", 4 ], [ "bolt_crude", 4 ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "fletching", 1, "LIST" ] ] 
     ],
     "autolearn": [ [ "fabrication", 3 ] ],
     "book_learn": [ [ "recipe_arrows", 1 ] ]
