@@ -39,7 +39,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "bashing (beginner)",
-    "description": "Practice the use of batons and similar weapons of all kind against an imaginary opponent.",
+    "description": "Practice the use of batons and similar weapons against an imaginary opponent.",
     "skill_used": "bashing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
