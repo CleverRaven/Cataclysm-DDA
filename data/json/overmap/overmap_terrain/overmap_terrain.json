@@ -36,6 +36,7 @@
     "id": "deep_rock",
     "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
@@ -681,6 +682,7 @@
     "type": "overmap_terrain",
     "id": "airliner_2c_-1",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5

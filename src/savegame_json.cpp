@@ -2182,6 +2182,7 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
+    data.read( "nickname", nickname );
     data.read( "goal", goal );
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
@@ -2329,6 +2330,7 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
+    json.member( "nickname", nickname );
     json.member( "goal", goal );
     json.member( "wander_pos", wander_pos );
     json.member( "wandf", wandf );

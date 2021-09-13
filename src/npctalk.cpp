@@ -2165,7 +2165,8 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
         std::string translated_message;
         if( snippet ) {
-            translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
+            translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                    translation() ).translated() );
         } else {
             translated_message = _( message );
         }

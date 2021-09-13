@@ -103,6 +103,8 @@ class avatar : public Character
             return this;
         }
 
+        mfaction_id get_monster_faction() const override;
+
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
         }

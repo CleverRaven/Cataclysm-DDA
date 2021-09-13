@@ -1671,13 +1671,26 @@ class map
             return zlevels;
         }
 
-        // Not protected/private for mapgen_functions.cpp access
+        // Not protected/private for mapgen.cpp and mapgen_functions.cpp access
         // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
         // @param turns number of 90 clockwise turns to make
         // @param setpos_safe if true, being used outside of mapgen and can use setpos to
         // set NPC positions.  if false, cannot use setpos
         void rotate( int turns, bool setpos_safe = false );
+
+        // Not protected/private for mapgen.cpp access
+        // Mirrors the current map horizontally and/or vertically (both is technically
+        // equivalent to a 180 degree rotation, while neither is a null operation).
+        // Intended to base recipe usage to allow recipes to specify the mirroring of
+        // a common blueprint. Note that the operation is NOT safe to use for purposes
+        // other than mirroring the map, place assets on it, and then mirroring it
+        // back (so the asset modification takes place in between calls to this
+        // operation). This allows us to skip the shuffling of NPCs and zones
+        // that the rotate operation above has to deal with.
+        // @param mirror_horizontal causes horizontal mirroring of the map
+        // @param mirror_vertical causes vertical mirroring of the map
+        void mirror( bool mirror_horizontal, bool mirror_vertical );
 
         // Monster spawning:
     public:

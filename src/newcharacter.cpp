@@ -745,11 +745,6 @@ bool avatar::create( character_type type, const std::string &tempname )
         starting_vehicle = prof->vehicle();
     }
 
-    add_profession_items();
-
-    // Move items from the inventory. eventually the inventory should not contain items at all.
-    migrate_items_to_storage( true );
-
     std::vector<addiction> prof_addictions = prof->addictions();
     for( const addiction &iter : prof_addictions ) {
         addictions.push_back( iter );
