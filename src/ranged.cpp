@@ -791,7 +791,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         wp_attack.source = this;
         wp_attack.weapon = &gun;
         wp_attack.is_melee = false;
-        wp_attack.wp_skill = ranged_weakpoint_skill(gun);
+        wp_attack.wp_skill = ranged_weakpoint_skill( gun );
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
                                        dispersion, this, in_veh, wp_attack );
         curshot++;
