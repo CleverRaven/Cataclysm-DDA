@@ -189,8 +189,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "manual_computer", "count": [ 1, 4 ], "prob": 70 },
-      { "item": "hackerman_computer", "count": [ 1, 4], "prob": 50 },
-      { "item": "webbasics_computer", "count": [ 1, 4], "prob": 70 },
+      { "item": "hackerman_computer", "count": [ 1, 4 ], "prob": 50 },
+      { "item": "webbasics_computer", "count": [ 1, 4 ], "prob": 70 },
       { "item": "textbook_computer", "count": [ 1, 4 ], "prob": 80 },
       { "item": "computer_science", "count": [ 1, 4 ], "prob": 80 },
       { "item": "SICP", "prob": 70 }
@@ -204,8 +204,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "manual_computer", "count": [ 0, 2 ], "prob": 20 },
-      { "item": "hackerman_computer", "count": [ 1, 4], "prob": 10 },
-      { "item": "webbasics_computer", "count": [ 1, 4], "prob": 30 },
+      { "item": "hackerman_computer", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "webbasics_computer", "count": [ 1, 4 ], "prob": 30 },
       { "item": "textbook_computer", "count": [ 0, 2 ], "prob": 30 },
       { "item": "computer_science", "count": [ 0, 2 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },

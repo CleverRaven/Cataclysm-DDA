@@ -19,7 +19,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       { "item": "file", "prob": 10 },
       { "item": "manual_computer", "prob": 20 },
-      { "item": "hackerman_computer", "prob": 20},
+      { "item": "hackerman_computer", "prob": 20 },
       { "item": "textbook_computer", "prob": 8 },
       { "item": "textbook_anarch", "prob": 4 },
       { "item": "computer_science", "prob": 7 },

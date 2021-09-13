@@ -132,11 +132,11 @@
     "looks_like": "textbook_traps",
     "color": "green",
     "skill": "computer",
-	"required_level": 1,
+    "required_level": 1,
     "max_level": 3,
     "intelligence": 7,
     "time": "20 m",
-	"fun": -1
+    "fun": -1
   },
   {
     "id": "hackerman_computer",
@@ -153,10 +153,10 @@
     "looks_like": "textbook_traps",
     "color": "red",
     "skill": "computer",
-	"required_level": 2,
+    "required_level": 2,
     "max_level": 4,
     "intelligence": 8,
     "time": "30 m",
-	"fun": -2
+    "fun": -2
   }
 ]
