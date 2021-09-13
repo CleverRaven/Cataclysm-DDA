@@ -509,6 +509,9 @@ std::string monster::name( unsigned int quantity ) const
         return std::string();
     }
     std::string result = type->nname( quantity );
+    if( !nickname.empty() ) {
+        return nickname;
+    }
     if( !unique_name.empty() ) {
         //~ %1$s: monster name, %2$s: unique name
         result = string_format( pgettext( "unique monster name", "%1$s: %2$s" ),
