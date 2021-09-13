@@ -5,6 +5,7 @@
     "items": [
       [ "breadboard", 50 ],
       { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 10, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
       [ "superglue", 30 ],
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
