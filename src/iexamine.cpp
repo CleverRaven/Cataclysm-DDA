@@ -227,9 +227,10 @@ bool iexamine::always_false( const tripoint &/*examp*/ )
     return false;
 }
 
-bool iexamine::false_and_debugmsg( const tripoint &/*examp*/ )
+bool iexamine::false_and_debugmsg( const tripoint &examp )
 {
-    debugmsg( "Called false_and_debugmsg - was a terrain with an actor configured incorrectly?" );
+    debugmsg( "Called false_and_debugmsg on %s - was a terrain with an actor configured incorrectly?",
+              get_map().tername( examp ) );
     return false;
 }
 
