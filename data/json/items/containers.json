@@ -762,7 +762,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "volume": "503 ml"
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
@@ -772,7 +772,7 @@
     "looks_like": "2lcanteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": "155 g",
-    "volume": "1503 ml",
+    "volume": "1575 ml",
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
@@ -829,7 +829,7 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
     "weight": "268 g",
-    "volume": "253 ml",
+    "volume": "295 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -855,7 +855,7 @@
     "looks_like": "bowl_clay",
     "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
     "weight": "1955 g",
-    "volume": "15003 ml",
+    "volume": "17700 ml",
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -882,7 +882,7 @@
     "looks_like": "bowl_clay",
     "description": "A bulky and heavy clay pot with a waterproofed hide lid, meant to store water, but can carry other liquids in a pinch.",
     "weight": "4887 g",
-    "volume": "37500 ml",
+    "volume": "44250 ml",
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -2,
@@ -894,7 +894,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "37490 ml",
+        "max_contains_volume": "37500 ml",
         "max_contains_weight": "50 kg"
       }
     ],
