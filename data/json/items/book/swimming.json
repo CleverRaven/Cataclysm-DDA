@@ -47,7 +47,7 @@
     "symbol": "?",
     "color": "blue",
     "skill": "swimming",
-	"required_level": 3,
+    "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "20 m",
