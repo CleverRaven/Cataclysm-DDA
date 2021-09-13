@@ -62,7 +62,6 @@
     "harvest": "orc",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
-  ,
   {
     "type": "MONSTER",
     "id": "mon_owlbear_zombie",
