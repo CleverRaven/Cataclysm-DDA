@@ -2231,6 +2231,7 @@ enum class repeat_type : int {
     FOREVER,     // Repeat for as long as possible
     FULL,        // Repeat until damage==0
     EVENT,       // Repeat until something interesting happens
+    REFIT,       // Only focus on refitting
     CANCEL,      // Stop repeating
 };
 
@@ -2250,7 +2251,8 @@ static constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
     return static_cast<I>( lhs ) - static_cast<I>( rhs );
 }
 
-static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+static repeat_type repeat_menu( const std::string &title, repeat_type last_selection,
+                                const bool can_refit )
 {
     uilist rmenu;
     rmenu.text = title;
@@ -2262,12 +2264,13 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
                     _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
                     _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '5', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT ), can_refit, '5', _( "Focus on refitting" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '6', _( "Back to item selection" ) );
 
     rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
 
-    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::EVENT ) {
+    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::REFIT ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
@@ -2365,7 +2368,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         // Remember our level: we want to stop retrying on level up
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
-                fix_location );
+                fix_location, repeat == repeat_type::REFIT );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), you );
@@ -2396,11 +2399,14 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
                                     attempt == repair_item_actor::AS_SUCCESS ||
                                     old_level != you->get_skill_level( actor->used_skill );
+        const bool can_refit = !destroyed && fix_location->has_flag( flag_VARSIZE ) &&
+                               !fix_location->has_flag( flag_FIT );
 
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
+            ( repeat == repeat_type::REFIT && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
         }
@@ -2427,6 +2433,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
     }
 
     const item &fix = *act->targets[1];
+    const bool can_refit = fix.has_flag( flag_VARSIZE ) && !fix.has_flag( flag_FIT );
     if( repeat == repeat_type::INIT ) {
         const int level = you->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
@@ -2498,7 +2505,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             act->values.resize( 1 );
         }
         do {
-            repeat = repeat_menu( title, repeat );
+            repeat = repeat_menu( title, repeat, can_refit );
 
             if( repeat == repeat_type::CANCEL ) {
                 act->set_to_null();
