@@ -74,6 +74,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -786,8 +787,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        weakpoint_attack wp_attack;
+        wp_attack.source = this;
+        wp_attack.weapon = &gun;
+        wp_attack.is_melee = false;
+        wp_attack.wp_skill = ranged_weakpoint_skill(gun);
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
-                                       dispersion, this, in_veh );
+                                       dispersion, this, in_veh, wp_attack );
         curshot++;
         if( shot.hit_critter ) {
             hits++;
@@ -1161,8 +1167,12 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    weakpoint_attack wp_attack;
+    wp_attack.source = this;
+    wp_attack.is_melee = false;
+    wp_attack.wp_skill = throw_weakpoint_skill();
     dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this );
+                                           this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {

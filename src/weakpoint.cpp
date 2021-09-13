@@ -34,7 +34,7 @@ float Character::melee_weakpoint_skill( const item & )
     return skill + stat;
 }
 
-float Character::range_weakpoint_skill( const item & )
+float Character::ranged_weakpoint_skill( const item & )
 {
     float skill = ( get_skill_level( skill_marksmanship ) + get_skill_level( item.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
