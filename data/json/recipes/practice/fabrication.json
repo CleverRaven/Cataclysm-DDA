@@ -9,7 +9,7 @@
     "description": "Practice fletching by modifying, studying and testing the aerodynamics of some arrows or bolts.",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 1 ] ],
-    "practice_data": { "min_difficulty": 1, "max_difficulty": 3, "skill_limit": 4 },
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "proficiencies": [ { "proficiency": "prof_fletching", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
@@ -19,7 +19,7 @@
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ],
-    "autolearn": [ [ "fabrication", 3 ] ],
+    "autolearn": [ [ "fabrication", 2 ] ],
     "book_learn": [ [ "recipe_arrows", 1 ] ]
   }
 ]
