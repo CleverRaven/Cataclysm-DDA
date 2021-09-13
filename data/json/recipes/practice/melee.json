@@ -111,7 +111,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "dodge (beginner)",
-    "description": "Practice dodging some objects thrown at you, a basketball or similar objects should suffice, just throw them to a wall and dodge.",
+    "description": "Practice your dodging by throwing a ball at a wall and dodging it when it bounces off.",
     "skill_used": "dodge",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
