@@ -29,17 +29,23 @@ float monster::weakpoint_skill()
 
 float Character::melee_weakpoint_skill( const item& )
 {
-    return 5.0f;
+    float skill = (get_skill_level(skill_melee) + get_skill_level(item.melee_skill())) / 2.0;
+    float stat = (get_dex() - 8) / 8.0 + (get_per() - 8) / 8.0;
+    return skill + stat;
 }
 
 float Character::range_weakpoint_skill( const item& )
 {
-    return 0.0f;
+    float skill = (get_skill_level(skill_marksmanship) + get_skill_level(item.gun_skill())) / 2.0;
+    float stat = (get_dex() - 8) / 8.0 + (get_per() - 8) / 8.0;
+    return skill + stat;
 }
 
 float Character::throw_weakpoint_skill()
 {
-    return 0.0f;
+    float skill = get_skill_level(skill_throwing);
+    float stat = (get_dex() - 8) / 8.0 + (get_per() - 8) / 8.0;
+    return skill + stat;
 }
 
 weakpoint::weakpoint()
