@@ -20,7 +20,7 @@
       [ [ "fletching", 1, "LIST" ] ]
     ],
     "autolearn": [ [ "fabrication", 3 ] ],
-    "book_learn": [ [ "recipe_arrows", 1 ] ]
+      "book_learn": [ [ "recipe_arrows", 1 ] ]
   }
 ]
 
