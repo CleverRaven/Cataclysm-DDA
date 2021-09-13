@@ -18,6 +18,7 @@
 #include "type_id.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "game.h"
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
@@ -25,6 +26,7 @@ static void reset_caches( int a_zlev, int t_zlev )
 {
     Character &you = get_player_character();
     map &here = get_map();
+    g->reset_light_level();
     // Why twice? See vision_test.cpp
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
@@ -171,32 +173,58 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
 
 TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
 {
+    float expected_average_damage_at_range[] = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map();
+    map &here = get_map();
+    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    calendar::turn = sunrise( calendar::turn );
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
     const tripoint target_location = { 65, 65, 0 };
-    const tripoint attacker_location = { 65, 67, 0 };
     // You got a player
     Character &you = get_player_character();
     clear_avatar();
+    you.dodges_left = 1;
+    REQUIRE( Approx( you.get_dodge() ) == 4.0 );
     you.setpos( target_location );
-    // and you got a monster
+    const tripoint_abs_ms abs_target_location = you.get_location();
+    reset_caches( target_location.z, target_location.z );
+    REQUIRE( g->natural_light_level( 0 ) > 50.0 );
+    CHECK( here.ambient_light_at( target_location ) > 50.0 );
     const std::string monster_type = "mon_feral_human_pipe";
-    monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    test_monster.set_dest( you.get_location() );
-    const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
-    reset_caches( attacker_location.z, target_location.z );
-    statistics<int> damage_dealt;
-    do {
-        you.set_all_parts_hp_to_max();
-        int prev_hp = you.get_hp();
-        // monster shoots the player
-        REQUIRE( attack->call( test_monster ) == true );
-        // how much damage did it do?
-        // Player-centric test in throwing_test.cpp ranges from 2 - 8 damage at point-blank range.
-        int current_hp = you.get_hp();
-        damage_dealt.add( prev_hp - current_hp );
-        test_monster.ammo[ itype_id( "rock" ) ]++;
-    } while( damage_dealt.n() < 100 );
-    INFO( "Avg total damage: " << damage_dealt.avg() );
-    INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
-    CHECK( damage_dealt.test_threshold( epsilon_threshold{ 5, 3 } ) );
+    for( int distance = 2; distance <= 5; ++distance ) {
+        float expected_damage = expected_average_damage_at_range[ distance ];
+        // and you got a monster
+        const tripoint attacker_location = target_location + tripoint_east * distance;
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        test_monster.set_dest( you.get_location() );
+        const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
+        REQUIRE( test_monster.get_dest() == abs_target_location );
+        REQUIRE( test_monster.sees( target_location ) );
+        Creature *target = test_monster.attack_target();
+        REQUIRE( target );
+        REQUIRE( test_monster.sees( *target ) );
+        REQUIRE( rl_dist( test_monster.pos(), target->pos() ) <= 5 );
+        statistics<int> damage_dealt;
+        statistics<bool> hits;
+        do {
+            you.set_all_parts_hp_to_max();
+            you.dodges_left = 1;
+            int prev_hp = you.get_hp();
+            // monster shoots the player
+            REQUIRE( attack->call( test_monster ) == true );
+            // how much damage did it do?
+            // Player-centric test in throwing_test.cpp ranges from 2 - 8 damage at point-blank range.
+            int current_hp = you.get_hp();
+            hits.add( current_hp < prev_hp );
+            damage_dealt.add( prev_hp - current_hp );
+            test_monster.ammo[ itype_id( "rock" ) ]++;
+        } while( damage_dealt.n() < 100 );
+        clear_creatures();
+        CAPTURE( expected_damage );
+        CAPTURE( distance );
+        INFO( "Hit rate: " << hits.avg() );
+        INFO( "Avg total damage: " << damage_dealt.avg() );
+        INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
+        CHECK( damage_dealt.test_threshold( epsilon_threshold{ expected_damage, 2.5 } ) );
+    }
 }
