@@ -5995,7 +5995,9 @@ static void init_memory_card_with_random_stuff( item &it )
 
         //add random recipes
         if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
-            it.set_var( "MC_RECIPE", "SIMPLE" );
+            const std::string recipe_category[6] = { "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" };
+            int cc_random = rng( 0, 5 );
+            it.set_var( "MC_RECIPE", recipe_category[cc_random] );
         }
 
         if( it.has_flag( flag_MC_SCIENCE_STUFF ) ) {
@@ -6045,7 +6047,13 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
     }
 
     if( !mc.get_var( "MC_RECIPE" ).empty() ) {
-        const bool science = mc.get_var( "MC_RECIPE" ) == "SCIENCE";
+        std::string category = mc.get_var( "MC_RECIPE" );
+        const bool science = category == "SCIENCE";
+        int recipe_num = rng( 1, 3 );
+
+        if( category == "SIMPLE" ) {
+            category = "CC_FOOD";
+        }
 
         mc.erase_var( "MC_RECIPE" );
 
@@ -6057,33 +6065,52 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 continue;
             }
             if( science ) {
-                if( r.difficulty >= 3 && one_in( r.difficulty + 1 ) ) {
+                if( r.difficulty >= 6 && r.category == "CC_CHEM" ) {
                     candidates.push_back( &r );
                 }
             } else {
-                if( r.category == "CC_FOOD" ) {
-                    if( r.difficulty <= 3 && one_in( r.difficulty ) ) {
-                        candidates.push_back( &r );
-                    }
+                if( r.difficulty <= 5 && ( r.category == category ) ) {
+                    candidates.push_back( &r );
                 }
-
             }
-
         }
 
         if( !candidates.empty() ) {
+            std::vector<const recipe *> new_recipes;
 
-            const recipe *r = random_entry( candidates );
+            for( int i = 0; i < recipe_num; i++ ) {
+                const recipe *r = random_entry( candidates );
+                if( std::find( new_recipes.begin(), new_recipes.end(), r ) != new_recipes.end() ) {
+                    // Avoid duplicate. Try again.
+                    i--;
+                } else {
+                    new_recipes.push_back( r );
+                }
+            }
 
-            bool rec_added = eink.eipc_recipe_add( r->ident() );
+            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
+                const recipe *r = *rec;
+                const recipe_id &rident = r->ident();
 
-            if( rec_added ) {
-                something_downloaded = true;
-                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                     r->result_name() );
-            } else {
-                p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
-                                     r->result_name() );
+                const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
+                if( old_recipes.empty() ) {
+                    something_downloaded = true;
+                    eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
+
+                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                                         r->result_name() );
+                } else {
+                    if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
+                        something_downloaded = true;
+                        eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
+
+                        p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                                             r->result_name() );
+                    } else {
+                        p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the tablet's memory." ),
+                                             r->result_name() );
+                    }
+                }
             }
         }
     }
