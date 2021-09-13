@@ -27,24 +27,24 @@ float monster::weakpoint_skill()
     return type->melee_skill;
 }
 
-float Character::melee_weakpoint_skill( const item& )
+float Character::melee_weakpoint_skill( const item & )
 {
-    float skill = (get_skill_level(skill_melee) + get_skill_level(item.melee_skill())) / 2.0;
-    float stat = (get_dex() - 8) / 8.0 + (get_per() - 8) / 8.0;
+    float skill = ( get_skill_level( skill_melee ) + get_skill_level( item.melee_skill() ) ) / 2.0;
+    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
-float Character::range_weakpoint_skill( const item& )
+float Character::range_weakpoint_skill( const item & )
 {
-    float skill = (get_skill_level(skill_marksmanship) + get_skill_level(item.gun_skill())) / 2.0;
-    float stat = (get_dex() - 8) / 8.0 + (get_per() - 8) / 8.0;
+    float skill = ( get_skill_level( skill_marksmanship ) + get_skill_level( item.gun_skill() ) ) / 2.0;
+    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
 float Character::throw_weakpoint_skill()
 {
-    float skill = get_skill_level(skill_throwing);
-    float stat = (get_dex() - 8) / 8.0 + (get_per() - 8) / 8.0;
+    float skill = get_skill_level( skill_throwing );
+    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
@@ -89,10 +89,10 @@ float weakpoint::hit_chance( const weakpoint_attack & ) const
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     add_msg_debug( debugmode::DF_MONSTER,
-                    "Source: %s :: Weapon %s :: Skill %1.f",
-                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
-                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
-                    attack.wp_skill);
+                   "Source: %s :: Weapon %s :: Skill %1.f",
+                   attack.source == nullptr ? "nullptr" : attack.source->get_name(),
+                   attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
+                   attack.wp_skill );
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
         float hit_chance = weakpoint.hit_chance( attack );

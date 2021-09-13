@@ -660,7 +660,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                damage_instance dam, dealt_damage_instance &dealt_dam,
-                               const weakpoint_attack& attack )
+                               const weakpoint_attack &attack )
 {
     if( source == nullptr || source->is_hallucination() ) {
         dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();

@@ -419,7 +419,7 @@ class Creature : public viewer
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                      damage_instance dam, dealt_damage_instance &dealt_dam,
-                                     const weakpoint_attack& attack = weakpoint_attack() );
+                                     const weakpoint_attack &attack = weakpoint_attack() );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.

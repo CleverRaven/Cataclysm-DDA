@@ -1014,8 +1014,8 @@ class Character : public Creature, public visitable
         std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                 damage_instance &dam ) override;
         /** The character's skill in hitting a weakpoint */
-        float melee_weakpoint_skill( const item& weapon );
-        float range_weakpoint_skill( const item& weapon );
+        float melee_weakpoint_skill( const item &weapon );
+        float range_weakpoint_skill( const item &weapon );
         float throw_weakpoint_skill();
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
