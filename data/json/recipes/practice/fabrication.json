@@ -5,7 +5,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
-    "name": "Carving",
+    "name": "carving",
     "description": "Practice carving different forms and shapes in a piece of wood.",
     "skill_used": "fabrication",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
@@ -17,6 +17,27 @@
       [ [ "stick", 1 ], [ "2x4", 1 ] ]
     ],
     "byproducts": [ [ "splinter", 5 ] ],
+    "autolearn": [ [ "fabrication", 0 ] ]
+  },
+  {
+    "id": "prac_carpentry_basic",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "basic carpentry",
+    "description": "Practice basic carpentry by cutting, shaping and uniting some planks or sticks with nails.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "//": "You destroy the wood with your practice, and most of the nails are now unusable.",
+    "components": [
+      [ [ "stick", 4 ], [ "2x4", 2 ] ],
+      [ [ "nail", 20 ] ]
+    ],
+    "byproducts": [ [ "splinter", 15 ], [ "nail", 5 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
   }
 ]
