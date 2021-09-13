@@ -71,8 +71,6 @@ class map_extra;
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int BUILDINGCHANCE = 4;
-static constexpr int MIN_ANT_SIZE = 8;
-static constexpr int MAX_ANT_SIZE = 20;
 static constexpr int MIN_GOO_SIZE = 1;
 static constexpr int MAX_GOO_SIZE = 2;
 
@@ -731,6 +729,20 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
     }
 }
 
+int oter_t::get_rotation() const
+{
+    if( is_linear() ) {
+        const om_lines::type &t = om_lines::all[line];
+        // It turns out the rotation used for linear things is the opposite of
+        // the rotation used for other things.  Sigh.
+        return ( 4 - t.rotation ) % 4;
+    }
+    if( is_rotatable() ) {
+        return static_cast<int>( get_dir() );
+    }
+    return 0;
+}
+
 bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
 {
     return type->id.id() == type_id;
@@ -755,8 +767,6 @@ bool oter_t::is_hardcoded() const
 {
     // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
-        "acid_anthill",
-        "anthill",
         "ants_lab",
         "ants_lab_stairs",
         "ice_lab",
@@ -2457,9 +2467,6 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
                 sewer_points.emplace_back( i, j );
-            } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
-                const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
-                ant_points.emplace_back( p.xy(), size );
             } else if( oter_above == "slimepit_down" || oter_above == "slimepit_bottom" ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.emplace_back( p.xy(), size );
@@ -2642,19 +2649,6 @@ bool overmap::generate_sub( const int z )
 
     for( auto &i : mine_points ) {
         build_mine( tripoint_om_omt( i.pos, z ), i.size );
-    }
-
-    for( auto &i : ant_points ) {
-        const tripoint_om_omt p_loc( i.pos, z );
-        if( ter( p_loc ) != "empty_rock" && ter( p_loc ) != "solid_earth" ) {
-            continue;
-        }
-        mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
-                               "GROUP_ANT" : "GROUP_ANT_ACID" );
-        spawn_mon_group(
-            mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
-                      ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( p_loc, i.size, ter( p_loc + tripoint_above ) == "anthill" );
     }
 
     return requires_sub;
@@ -4279,117 +4273,6 @@ bool overmap::build_lab(
     }
 
     return numstairs > 0;
-}
-
-void overmap::build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants )
-{
-    for( om_direction::type dir : om_direction::all ) {
-        build_tunnel( p, s - rng( 0, 3 ), dir, ordinary_ants );
-    }
-
-    // TODO: This should follow the tunnel network,
-    // as of now it can pick a tile from an adjacent ant network.
-    std::vector<tripoint_om_omt> queenpoints;
-    for( int i = -s; i <= s; i++ ) {
-        for( int j = -s; j <= s; j++ ) {
-            const tripoint_om_omt qp = p + point( i, j );
-            if( check_ot( "ants", ot_match_type::type, qp ) ) {
-                queenpoints.push_back( qp );
-            }
-        }
-    }
-    if( queenpoints.empty() ) {
-        debugmsg( "No queenpoints when building anthill, anthill over %s", ter( p ).id().str() );
-    }
-    const tripoint_om_omt target = random_entry( queenpoints );
-    ter_set( target, ordinary_ants ? oter_id( "ants_queen" ) : oter_id( "ants_queen_acid" ) );
-
-    const oter_id root_id( "ants_isolated" );
-
-    for( int i = -s; i <= s; i++ ) {
-        for( int j = -s; j <= s; j++ ) {
-            const tripoint_om_omt root = p + point( i, j );
-            if( !inbounds( root ) ) {
-                continue;
-            }
-            if( root_id == ter( root )->id ) {
-                const oter_id &oter = ter( root );
-                for( om_direction::type dir : om_direction::all ) {
-                    const tripoint_om_omt neighbor = root + om_direction::displace( dir );
-                    if( check_ot( "ants", ot_match_type::prefix, neighbor ) ) {
-                        size_t line = oter->get_line();
-                        line = om_lines::set_segment( line, dir );
-                        if( line != oter->get_line() ) {
-                            ter_set( root, oter->get_type_id()->get_linear( line ) );
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
-                            bool ordinary_ants )
-{
-    if( s <= 0 ) {
-        return;
-    }
-    if( !inbounds( p ) ) {
-        return;
-    }
-
-    const oter_id root_id( "ants_isolated" );
-    if( root_id != ter( p )->id ) {
-        if( check_ot( "ants", ot_match_type::type, p ) ) {
-            return;
-        }
-        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) &&
-            !is_ot_match( "solid_earth", ter( p ), ot_match_type::type ) ) {
-            return;
-        }
-    }
-
-    ter_set( p, oter_id( root_id ) );
-
-    std::vector<om_direction::type> valid;
-    valid.reserve( om_direction::size );
-    for( om_direction::type r : om_direction::all ) {
-        const tripoint_om_omt cand = p + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::type, cand ) && (
-                is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ||
-                is_ot_match( "solid_earth", ter( cand ), ot_match_type::type ) ) ) {
-            valid.push_back( r );
-        }
-    }
-
-    const oter_id ants_food( "ants_food" );
-    const oter_id ants_larvae( "ants_larvae" );
-    const oter_id ants_larvae_acid( "ants_larvae_acid" );
-    const tripoint_om_omt next =
-        s != 1 ? p + om_direction::displace( dir ) : tripoint_om_omt( -1, -1, -1 );
-
-    for( om_direction::type r : valid ) {
-        const tripoint_om_omt cand = p + om_direction::displace( r );
-        if( !inbounds( cand ) ) {
-            continue;
-        }
-
-        if( cand.xy() != next.xy() ) {
-            if( one_in( s * 2 ) ) {
-                // Spawn a special chamber
-                if( one_in( 2 ) ) {
-                    ter_set( cand, ants_food );
-                } else {
-                    ter_set( cand, ordinary_ants ? ants_larvae : ants_larvae_acid );
-                }
-            } else if( one_in( 5 ) ) {
-                // Branch off a side tunnel
-                build_tunnel( cand, s - rng( 1, 3 ), r, ordinary_ants );
-            }
-        }
-    }
-    build_tunnel( next, s - 1, dir, ordinary_ants );
 }
 
 bool overmap::build_slimepit( const tripoint_om_omt &origin, int s )

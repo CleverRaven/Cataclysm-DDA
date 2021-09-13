@@ -487,6 +487,9 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
+        if( !jio.has_object( "object" ) ) {
+            jio.throw_error( R"(mapgen with method "json" must define key "object")" );
+        }
         JsonObject jo = jio.get_object( "object" );
         const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
@@ -3779,6 +3782,8 @@ void mapgen_function_json::generate( mapgendata &md )
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
+    const oter_t &ter = *md.terrain_type();
+
     if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
         mapgendata predecessor_mapgen_dat( md, predecessor_mapgen );
         run_mapgen_func( predecessor_mapgen.id().str(), predecessor_mapgen_dat );
@@ -3793,8 +3798,8 @@ void mapgen_function_json::generate( mapgendata &md )
 
         m->rotate( ( -rotation.get() + 4 ) % 4 );
 
-        if( md.terrain_type()->is_rotatable() ) {
-            m->rotate( ( -static_cast<int>( md.terrain_type()->get_dir() ) + 4 ) % 4 );
+        if( ter.is_rotatable() || ter.is_linear() ) {
+            m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
         }
     }
 
@@ -3810,8 +3815,8 @@ void mapgen_function_json::generate( mapgendata &md )
 
     m->rotate( rotation.get() );
 
-    if( md.terrain_type()->is_rotatable() ) {
-        mapgen_rotate( m, md.terrain_type(), false );
+    if( ter.is_rotatable() || ter.is_linear() ) {
+        m->rotate( ter.get_rotation() );
     }
 }
 
@@ -3907,8 +3912,6 @@ void map::draw_map( mapgendata &dat )
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
             draw_mine( dat );
-        } else if( is_ot_match( "anthill", terrain_type, ot_match_type::contains ) ) {
-            draw_anthill( dat );
         } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
             draw_lab( dat );
         } else {
@@ -5459,24 +5462,6 @@ void map::draw_spider_pit( const mapgendata &dat )
     }
 }
 
-void map::draw_anthill( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "anthill" || terrain_type == "acid_anthill" ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( i < 8 || j < 8 || i > SEEX * 2 - 9 || j > SEEY * 2 - 9 ) {
-                    ter_set( point( i, j ), dat.groundcover() );
-                } else if( ( i == 11 || i == 12 ) && ( j == 11 || j == 12 ) ) {
-                    ter_set( point( i, j ), t_slope_down );
-                } else {
-                    ter_set( point( i, j ), t_dirtmound );
-                }
-            }
-        }
-    }
-}
-
 void map::draw_slimepit( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -5636,14 +5621,6 @@ void map::draw_connections( const mapgendata &dat )
             }
             ter_set( point( SEEX - 3, SEEY ), t_door_metal_c );
             ter_set( point( SEEX - 3, SEEY - 1 ), t_door_metal_c );
-        }
-    } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
-        if( dat.above() == "anthill" ) {
-            if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_dirt;
-            } ) ) {
-                ter_set( *p, t_slope_up );
-            }
         }
     }
 

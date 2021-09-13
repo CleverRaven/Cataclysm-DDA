@@ -66,15 +66,6 @@ void mapgen_sewer_curved( mapgendata &dat );
 void mapgen_sewer_four_way( mapgendata &dat );
 void mapgen_sewer_straight( mapgendata &dat );
 void mapgen_sewer_tee( mapgendata &dat );
-void mapgen_ants_curved( mapgendata &dat );
-void mapgen_ants_four_way( mapgendata &dat );
-void mapgen_ants_straight( mapgendata &dat );
-void mapgen_ants_tee( mapgendata &dat );
-void mapgen_ants_food( mapgendata &dat );
-void mapgen_ants_larvae( mapgendata &dat );
-void mapgen_ants_larvae_acid( mapgendata &dat );
-void mapgen_ants_queen( mapgendata &dat );
-void mapgen_ants_queen_acid( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );
 

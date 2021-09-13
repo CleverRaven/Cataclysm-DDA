@@ -198,24 +198,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "anthill",
-    "name": "anthill",
-    "sym": "%",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "acid_anthill",
-    "name": "sulfurous anthill",
-    "sym": "%",
-    "color": "green",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "slimepit",
     "name": "slime pit",
     "sym": "~",
@@ -279,41 +261,6 @@
     "color": "light_red",
     "see_cost": 2,
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants",
-    "name": "ant tunnel",
-    "color": "brown",
-    "see_cost": 5,
-    "flags": [ "LINEAR" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_food",
-    "name": "ant food storage",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "ants_larvae", "ants_larvae_acid" ],
-    "name": "ant larva chamber",
-    "sym": "O",
-    "color": "white",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "ants_queen", "ants_queen_acid" ],
-    "name": "ant queen chamber",
-    "sym": "O",
-    "color": "red",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
