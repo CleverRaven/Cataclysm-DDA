@@ -1334,6 +1334,8 @@ class joins_tracker
 
                 if( resolved_position_index.count( other_side ) ) {
                     erase_unresolved( this_side );
+                } else if( postponed_points.count( pos ) ) {
+                    postponed.push_back( { other_side, join, 0 } );
                 } else {
                     add_unresolved( other_side, join );
                 }
@@ -1367,6 +1369,7 @@ class joins_tracker
                 auto it = unresolved_position_index.find( p );
                 if( it != unresolved_position_index.end() ) {
                     postponed.push_back( *it->second );
+                    postponed_points.insert( pos );
                     erase_unresolved( p );
                 }
             }
@@ -1375,6 +1378,7 @@ class joins_tracker
             for( const join &conn : postponed ) {
                 add_unresolved( conn.where, conn.join_id );
             }
+            postponed_points.clear();
             postponed.clear();
         }
     private:
@@ -1436,6 +1440,7 @@ class joins_tracker
         std::list<join> resolved;
         std::unordered_map<pos_dir, iterator> resolved_position_index;
 
+        std::unordered_set<tripoint_om_omt> postponed_points;
         std::vector<join> postponed;
 
         std::vector<join> orphaned;
