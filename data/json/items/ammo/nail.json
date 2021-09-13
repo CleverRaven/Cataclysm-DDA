@@ -34,6 +34,6 @@
     "range": 3,
     "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
     "dispersion": 180,
-    "effects": [ "NON_FOULING", "HURT_ON_WIELDED" ]
+    "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ]
   }
 ]
