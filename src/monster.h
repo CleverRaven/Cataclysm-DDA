@@ -328,6 +328,9 @@ class monster : public Creature
 
         std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                 damage_instance &dam ) override;
+        // The monster's skill in hitting a weakpoint
+        float weakpoint_skill();
+
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );

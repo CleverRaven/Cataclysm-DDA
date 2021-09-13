@@ -6,21 +6,20 @@
 #include <string>
 #include <vector>
 
-#include "creature.h"
 #include "damage.h"
-#include "item.h"
 #include "type_id.h"
 
+class Creature;
 class JsonArray;
 class JsonObject;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
     // The source of the attack.
-    Creature *source;
+    const Creature *source;
 
     // The weapon used to make the attack.
-    item *weapon;
+    const item *weapon;
 
     // The primary skill used to make the attack.
     skill_id skill_type;

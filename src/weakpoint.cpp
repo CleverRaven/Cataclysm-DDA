@@ -5,13 +5,42 @@
 #include <utility>
 
 #include "assign.h"
+#include "character.h"
 #include "creature.h"
 #include "damage.h"
+#include "debug.h"
 #include "item.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "rng.h"
+
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_marksmanship( "marksmanship" );
+static const skill_id skill_throwing( "throwing" );
 
 class JsonArray;
 class JsonObject;
+
+float monster::weakpoint_skill()
+{
+    return type->melee_skill;
+}
+
+float Character::melee_weakpoint_skill( const item& )
+{
+    return 5.0f;
+}
+
+float Character::range_weakpoint_skill( const item& )
+{
+    return 0.0f;
+}
+
+float Character::throw_weakpoint_skill()
+{
+    return 0.0f;
+}
 
 weakpoint::weakpoint()
 {
@@ -53,6 +82,11 @@ float weakpoint::hit_chance( const weakpoint_attack & ) const
 
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
+    add_msg_debug( debugmode::DF_MONSTER,
+                    "Source: %s :: Weapon %s :: Skill %1.f",
+                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
+                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
+                    attack.wp_skill);
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
         float hit_chance = weakpoint.hit_chance( attack );

@@ -707,7 +707,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     }
 
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d );
+    dealt_dam = deal_damage( source, bp_hit, d, attack );
     dealt_dam.bp_hit = bp_hit;
 
     // Bashing critical
