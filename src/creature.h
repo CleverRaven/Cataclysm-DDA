@@ -267,6 +267,7 @@ class Creature : public viewer
         virtual const monster *as_monster() const {
             return nullptr;
         }
+	virtual mfaction_id get_monster_faction() const = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
