@@ -984,7 +984,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
  * @param print_messages enables message printing by default.
  */
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                       bool print_messages )
+                                       bool print_messages, const weakpoint_attack &wp_attack )
 {
     const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const double missed_by = attack.missed_by;
@@ -998,7 +998,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
+                mons->mounted_player->deal_projectile_attack( source, attack, print_messages, wp_attack );
                 return;
             }
         }
@@ -1060,7 +1060,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact );
+    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
     // Retrieve the selected weakpoint from the damage instance.

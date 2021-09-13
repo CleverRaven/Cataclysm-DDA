@@ -424,7 +424,7 @@ class Creature : public viewer
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                             bool print_messages = true );
+                                             bool print_messages = true, const weakpoint_attack &wp_attack = weakpoint_attack() );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
