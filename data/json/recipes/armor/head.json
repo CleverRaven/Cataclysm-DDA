@@ -1137,7 +1137,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 9 ] ],
-    "components": [ [ [ "rag", 12 ] ] ]
+    "components": [ [ [ "rag", 12 ], [ "sheet_cotton", 12 ], [ "sheet_cotton_patchwork", 12 ], [ "cotton_patchwork", 12 ] ] ]
   },
   {
     "result": "mask_filter",
@@ -1533,7 +1533,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 3 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "rag", 4 ], [ "sheet_cotton", 4 ], [ "sheet_cotton_patchwork", 4 ], [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "pot_helmet",
@@ -1817,7 +1817,8 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 8 ], [ "sheet_cotton", 8 ], [ "sheet_cotton_patchwork", 8 ], [ "cotton_patchwork", 8 ] ] ],
+    "components": [ [ [ "rag", 8 ], [ "sheet_cotton", 8 ], [ "sheet_cotton_patchwork", 8 ] ] ],
+    "components": [ [ [ "rag", 8 ], [ "sheet_cotton", 8 ], [ "sheet_cotton_patchwork", 8 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
