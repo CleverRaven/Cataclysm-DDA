@@ -2874,6 +2874,7 @@
     "stack_size": 50,
     "material": [ "steel" ],
     "symbol": ".",
+    "flags": [ "HURT_WHEN_WIELDED" ],
     "color": "white",
     "ammo_type": "components"
   },
