@@ -192,7 +192,6 @@ static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_spike( "spike" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 
