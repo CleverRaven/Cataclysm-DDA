@@ -64,7 +64,17 @@
     "autolearn": [ [ "stabbing", 1 ] ],
     "book_learn": [ [ "mag_stabbing", 0 ], [ "manual_stabbing", 0 ] ],
     "//": "Only training weapons or light and easy to use weapons.",
-    "tools": [ [ [ "spear_wood", -1 ], [ "spear_knife_superior", -1 ], [ "spear_stone", -1 ], [ "spear_spike", -1 ], [ "fencing_foil", -1 ], [ "fencing_epee", -1 ], [ "fencing_sabre", -1 ] ] ]
+    "tools": [
+      [
+        [ "spear_wood", -1 ],
+        [ "spear_knife_superior", -1 ],
+        [ "spear_stone", -1 ],
+        [ "spear_spike", -1 ],
+        [ "fencing_foil", -1 ],
+        [ "fencing_epee", -1 ],
+        [ "fencing_sabre", -1 ]
+      ]
+    ]
   },
   {
     "id": "prac_unarmed_beg",
