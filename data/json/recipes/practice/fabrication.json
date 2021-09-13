@@ -6,7 +6,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
     "name": "fletching",
-    "description": "Practice fletching by modifying and testing the aerodynamics of some arrows or bolts.",
+    "description": "Practice fletching by modifying, studying and testing the aerodynamics of some arrows or bolts.",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 1 ] ],
     "practice_data": { "min_difficulty": 1, "max_difficulty": 3, "skill_limit": 4 },
@@ -15,7 +15,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "//": "Modifying so much the arrows/bolts will cause them to eventually lose their shape",
     "components": [ 
-    [ [ "arrow_fire_hardened_fletched", 10 ], [ "bolt_crude", 10 ] ],
+    [ [ "arrow_fire_hardened_fletched", 4 ], [ "bolt_crude", 4 ] ],
     [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
     [ [ "fletching", 1, "LIST" ] ] 
     ],
