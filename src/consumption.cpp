@@ -805,14 +805,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
-        !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) ) {
-        add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
-    }
-
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) &&
-        !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
+    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+                                     ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+                                       !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) );
+    if( food_is_human_flesh  && !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1178,7 +1175,10 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    if( food.has_flag( flag_CANNIBALISM ) ) {
+    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+                                     ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+                                       !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) );
+    if( food_is_human_flesh ) {
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
