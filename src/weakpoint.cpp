@@ -32,7 +32,7 @@ float monster::weakpoint_skill()
 float Character::melee_weakpoint_skill( const item &item )
 {
     skill_id melee_skill = item.is_null() ? skill_unarmed : item.melee_skill();
-    float skill = (get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
+    float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
@@ -98,14 +98,15 @@ float weakpoint::hit_chance( const weakpoint_attack & ) const
 // Reweighs the probability distribution of hitting a weakpoint.
 //
 // The value returned is the probability of sampling at least one value less than `base`
-// from `rolls` uniform distributions over [0, 1]. 
+// from `rolls` uniform distributions over [0, 1].
 //
 // For hard to hit weak points, this multiplies their hit chance by `rolls`. A 1% base
 // combined with 5 rolls has a 4.9% weight. However, even at high `rolls`, the attacker
 // still has a chance of hitting armor. A 75% chance of not hitting a weak point becomes
 // a 23.7% chance with 5 rolls.
-float reweigh(float base, float rolls) {
-    return 1.0f - pow(1.0f - base, rolls);
+float reweigh( float base, float rolls )
+{
+    return 1.0f - pow( 1.0f - base, rolls );
 }
 
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
@@ -123,10 +124,11 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
         float new_base = base + weakpoint.hit_chance( attack );
-        float new_reweighed = 100.0f * reweigh(new_base / 100.0f, rolls);
+        float new_reweighed = 100.0f * reweigh( new_base / 100.0f, rolls );
         float hit_chance = new_reweighed - reweighed;
-        add_msg_debug(debugmode::DF_MONSTER, 
-                    "Weakpoint Selection: weakpoint %s, hit_chance %.4f", weakpoint.name, hit_chance);
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Weakpoint Selection: weakpoint %s, hit_chance %.4f",
+                       weakpoint.name, hit_chance );
         if( idx < hit_chance ) {
             return &weakpoint;
         }
