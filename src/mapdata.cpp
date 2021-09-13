@@ -1301,7 +1301,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
-        examine_func = iexamine_functions_from_string( "none" );
+        examine_func = iexamine_functions_from_string( "invalid" );
     } else {
         examine_func = iexamine_functions_from_string( "none" );
     }
