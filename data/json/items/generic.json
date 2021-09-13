@@ -732,6 +732,7 @@
     "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
+    "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -2
   },
   {
