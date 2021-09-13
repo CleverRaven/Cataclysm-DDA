@@ -104,7 +104,7 @@ float weakpoint::hit_chance( const weakpoint_attack & ) const
 // combined with 5 rolls has a 4.9% weight. However, even at high `rolls`, the attacker
 // still has a chance of hitting armor. A 75% chance of not hitting a weak point becomes
 // a 23.7% chance with 5 rolls.
-float reweigh( float base, float rolls )
+static float reweigh( float base, float rolls )
 {
     return 1.0f - pow( 1.0f - base, rolls );
 }
