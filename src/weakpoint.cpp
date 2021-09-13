@@ -29,17 +29,17 @@ float monster::weakpoint_skill()
     return type->melee_skill;
 }
 
-float Character::melee_weakpoint_skill( const item &item )
+float Character::melee_weakpoint_skill( const item &weapon )
 {
-    skill_id melee_skill = item.is_null() ? skill_unarmed : item.melee_skill();
+    skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
     float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
-float Character::ranged_weakpoint_skill( const item &item )
+float Character::ranged_weakpoint_skill( const item &weapon )
 {
-    float skill = ( get_skill_level( skill_gun ) + get_skill_level( item.gun_skill() ) ) / 2.0;
+    float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
@@ -116,7 +116,7 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
                    attack.wp_skill );
-    float rolls = max( 1.0f, 1.0f + attack.wp_skill / 2.5f );
+    float rolls = std::max( 1.0f, 1.0f + attack.wp_skill / 2.5f );
     // The base probability of hitting a more preferable weak point.
     float base = 0.0f;
     // The reweighed probability of hitting a more preferable weak point.
