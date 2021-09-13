@@ -78,7 +78,7 @@
     "time": "8 m"
   },
   {
-    "id": "manual_computers",
+    "id": "manual_computer",
     "type": "BOOK",
     "name": { "str": "Computer Science 101", "str_pl": "copies of Computer Science 101" },
     "//": "College-level textbooks are Cheap at $60.",
@@ -118,10 +118,10 @@
     "fun": -2
   },
   {
-    "id": "webbasics_computers",
+    "id": "webbasics_computer",
     "type": "BOOK",
     "name": { "str": "Web Design Basics", "str_pl": "copies of Web Design Basics" },
-    "//": "A thick glossy paperback instructional manual for aspiring web designers. Includes a teaching guide for younger students.",
+    "//": "A thick glossy paperback instructional manual for aspiring web designers. Includes a teaching guide for young students.",
     "description": "An entry-level book for younger coders that includes real coding practice.",
     "weight": "907 g",
     "volume": "500 ml",
@@ -135,11 +135,11 @@
 	"required_level": 1,
     "max_level": 3,
     "intelligence": 7,
-    "time": "20 m"
+    "time": "20 m",
 	"fun": -1
   },
   {
-    "id": "hackerman_computers",
+    "id": "hackerman_computer",
     "type": "BOOK",
     "name": { "str": "Pro Hacker Secrets", "str_pl": "copies of Pro Hacker Secrets" },
     "//": "A thinly veiled attempt at teaching kids coding skills. Not nearly as exciting as the authors might have hoped, but there's some real knowledge in here.",
@@ -156,7 +156,7 @@
 	"required_level": 2,
     "max_level": 4,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
 	"fun": -2
   }
 ]

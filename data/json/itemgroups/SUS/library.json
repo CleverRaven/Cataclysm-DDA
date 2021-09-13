@@ -148,7 +148,7 @@
       {
         "collection": [
           { "item": "textbook_robots", "count": [ 1, 2 ], "prob": 70 },
-          { "item": "manual_computers", "count": [ 1, 3 ], "prob": 60 },
+          { "item": "manual_computer", "count": [ 1, 3 ], "prob": 60 },
           { "item": "computer_science", "count": [ 1, 3 ], "prob": 70 }
         ],
         "prob": 30
@@ -171,7 +171,7 @@
       {
         "collection": [
           { "item": "textbook_robots", "count": [ 0, 1 ], "prob": 20 },
-          { "item": "manual_computers", "count": [ 0, 2 ], "prob": 15 },
+          { "item": "manual_computer", "count": [ 0, 2 ], "prob": 15 },
           { "item": "computer_science", "count": [ 0, 2 ], "prob": 20 }
         ],
         "prob": 10
@@ -188,7 +188,9 @@
     "//2": "This group is for a set of computer science and programming textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "manual_computers", "count": [ 1, 4 ], "prob": 70 },
+      { "item": "manual_computer", "count": [ 1, 4 ], "prob": 70 },
+      { "item": "hackerman_computer", "count": [ 1, 4], "prob": 50 },
+      { "item": "webbasics_computer", "count": [ 1, 4], "prob": 70 },
       { "item": "textbook_computer", "count": [ 1, 4 ], "prob": 80 },
       { "item": "computer_science", "count": [ 1, 4 ], "prob": 80 },
       { "item": "SICP", "prob": 70 }
@@ -201,7 +203,9 @@
     "//2": "This group is for a set of computer science and programming textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "manual_computers", "count": [ 0, 2 ], "prob": 20 },
+      { "item": "manual_computer", "count": [ 0, 2 ], "prob": 20 },
+      { "item": "hackerman_computer", "count": [ 1, 4], "prob": 10 },
+      { "item": "webbasics_computer", "count": [ 1, 4], "prob": 30 },
       { "item": "textbook_computer", "count": [ 0, 2 ], "prob": 30 },
       { "item": "computer_science", "count": [ 0, 2 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
