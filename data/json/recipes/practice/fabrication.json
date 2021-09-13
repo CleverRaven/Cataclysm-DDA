@@ -32,12 +32,12 @@
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "//": "You destroy the wood with your practice, and most of the nails are now unusable.",
+    "//": "You destroy the wood with your practice, and the nails are now unusable.",
     "components": [
       [ [ "stick", 4 ], [ "2x4", 2 ] ],
       [ [ "nail", 20 ] ]
     ],
-    "byproducts": [ [ "splinter", 15 ], [ "nail", 5 ] ],
+    "byproducts": [ [ "splinter", 15 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
   }
 ]
