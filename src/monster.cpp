@@ -222,11 +222,6 @@ monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
 monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
-mfaction_id monster::get_monster_faction() const
-{
-    return faction.id();
-}
-
 void monster::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );

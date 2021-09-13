@@ -103,7 +103,9 @@ class monster : public Creature
             return this;
         }
 
-        mfaction_id get_monster_faction() const override;
+        mfaction_id get_monster_faction() const override {
+            return faction.id();
+        }
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
