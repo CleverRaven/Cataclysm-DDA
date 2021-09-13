@@ -68,6 +68,15 @@
   },
   {
     "type": "mutation_category",
+    "id": "GASTROPOD",
+    "name": "Gastropod",
+    "threshold_mut": "THRESH_GASTROPOD",
+    "mutagen_message": "Are you dancing a descending spiral?",
+    "iv_message": "The gaps between your body shrink.",
+    "memorial_message": "Left a trail."
+  },
+  {
+    "type": "mutation_category",
     "id": "RAT",
     "name": "Rat",
     "threshold_mut": "THRESH_RAT",

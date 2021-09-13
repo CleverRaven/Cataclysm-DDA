@@ -279,7 +279,7 @@
     "cancels": [ "MET_RAT" ],
     "types": [ "METABOLISM" ],
     "changes_to": [ "GIZZARD", "COLDBLOOD" ],
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "GASTROPOD" ],
     "metabolism_modifier": -0.333
   },
   {
@@ -292,7 +292,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT" ],
+    "category": [ "MOUSE", "INSECT", "GASTROPOD" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
   },
   {
@@ -406,7 +406,7 @@
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
-    "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
+    "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
     "cancels": [ "THINSKIN" ],
     "armor": [
       {
@@ -1015,7 +1015,7 @@
     "points": -2,
     "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
     "starting_trait": true,
-    "category": [ "PLANT" ],
+    "category": [ "PLANT", "GASTROPOD" ],
     "cancels": [ "GOODHEARING" ],
     "changes_to": [ "DEAF" ],
     "hearing_modifier": 0.5
@@ -1132,7 +1132,7 @@
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
     "vitamins_absorb_multi": [ [ "junk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA", "RABBIT" ]
+    "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -2901,6 +2901,18 @@
   },
   {
     "type": "mutation",
+    "id": "SLIME_SPRAY",
+    "name": { "str": "Slime Spray" },
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": "You exude slime from your pores.  You can spread that slime on an opponent in melee range.",
+    "spells_learned": [ [ "spell_slime_spray", 1 ] ],
+    "prereqs": [ "VISCOUS", "AMORPHOUS" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
     "id": "TALONS",
     "name": { "str": "Large Talons" },
     "points": 2,
@@ -3016,7 +3028,7 @@
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
     "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3059,7 +3071,7 @@
     "prereqs": [ "POISRESIST" ],
     "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3130,6 +3142,54 @@
     "category": [ "SLIME" ],
     "passive_mods": { "dex_mod": 4, "str_mod": -4 },
     "hp_adjustment": 6
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_EXTREMITY1",
+    "name": { "str": "Muscle Consolidation" },
+    "points": 1,
+    "visibility": 1,
+    "description": "Your extremities have gained strength but lost fine motor skills.  -1 Dexterity +2 Strength.",
+    "changes_to": [ "GASTROPOD_EXTREMITY2" ],
+    "category": [ "GASTROPOD" ],
+    "passive_mods": { "dex_mod": -1, "str_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_EXTREMITY2",
+    "name": { "str": "Rasping Tongue" },
+    "visibility": 1,
+    "description": "You've developed an extremely long and mobile tongue capped with teeth.  You may use it to attack your enemies.",
+    "changes_to": [ "GASTROPOD_EXTREMITY3" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ],
+    "cancels": [ "FANGS", "MANDIBLES" ],
+    "attacks": {
+      "attack_text_u": "You tear into %s with your rasping tongue.",
+      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue.",
+      "body_part": "mouth",
+      "chance": 15,
+      "base_damage": { "damage_type": "stab", "amount": 15 },
+      "strength_damage": { "damage_type": "stab", "amount": 2 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_EXTREMITY2",
+    "name": { "str": "Harpoon Tongue" },
+    "visibility": 5,
+    "ugliness": 5,
+    "description": "You've tongue has increased it's length and mobility.",
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ],
+    "attacks": {
+      "attack_text_u": "You tear into %s with your harpoon tongue.",
+      "attack_text_npc": "%1$s tears into %2$s with their harpoon tongue.",
+      "body_part": "mouth",
+      "chance": 25,
+      "base_damage": { "damage_type": "stab", "amount": 15 },
+      "strength_damage": { "damage_type": "stab", "amount": 3 }
+    }
   },
   {
     "type": "mutation",
@@ -3237,7 +3297,7 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "category": [ "TROGLOBITE", "CHIMERA" ],
+    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -4088,6 +4148,83 @@
   },
   {
     "type": "mutation",
+    "id": "GASTROPOD_FOOT",
+    "name": { "str": "Gastropod Foot" },
+    "points": 1,
+    "mixed_effect": true,
+    "description": "Your legs have consolidated into a single muscular 'foot' that goes up into your belly.  You move about a fourth of your previous speed and can no longer wear pants or shoes, on the other hand you make significantly less noise.  In addition to being harder to knock down, you can move through sludge-covered surfaces easily.",
+    "category": [ "GASTROPOD" ],
+    "prereqs": [ "SLIMY" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "types": [ "RUNNING", "LEGS" ],
+    "visibility": 8,
+    "ugliness": 9,
+    "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "movecost_flatground_modifier": 1.25,
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "noise_modifier": 0.25,
+    "destroys_gear": true
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_BALANCE",
+    "name": { "str": "Gastropod Balance" },
+    "points": 1,
+    "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.",
+    "prereqs": [ "GASTROPOD_FOOT" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUCUS_SECRETION",
+    "name": { "str": "Mucus Secretion" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers evrerything you come into contact with but now you can move through slime you didn't create with ease.",
+    "prereqs": [ "GASTROPOD_FOOT" ],
+    "cancels": [ "WEB_SPINNER" ],
+    "leads_to": [ "MUCUS_SECRETION2" ],
+    "changes_to": [ "SNAIL_TRAIL" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUCUS_SECRETION2",
+    "name": { "str": "Acidic Secretion" },
+    "points": 3,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "You're mucus has developed an acidic component that seems to soften your prey up.",
+    "attacks": {
+      "attack_text_u": "You smear slime on %s",
+      "attack_text_npc": "%1$s smears slime on %2$s",
+      "body_part": "torso",
+      "chance": 23,
+      "base_damage": { "damage_type": "acid", "amount": 6 }
+    },
+    "prereqs": [ "MUCUS_SECRETION" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SNAIL_TRAIL",
+    "name": { "str": "Snail Trail" },
+    "points": 3,
+    "visibility": 4,
+    "ugliness": 4,
+    "description": "You've developed some ability to control your slime emissions.  As a result of this you can leave trails of slime anywhere you walk.",
+    "prereqs": [ "MUCUS_SECRETION" ],
+    "category": [ "GASTROPOD" ],
+    "active": true,
+    "cost": 20,
+    "time": 100,
+    "thirst": true,
+    "hunger": true
+  },
+  {
+    "type": "mutation",
     "id": "CANINE_EARS",
     "name": { "str": "Canine Ears" },
     "points": 1,
@@ -4755,7 +4892,22 @@
     "ugliness": 4,
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
-    "changes_to": [ "COMPOUND_EYES" ]
+    "changes_to": [ "COMPOUND_EYES", "EYESTALKS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EYESTALKS",
+    "name": { "str": "Eyestalks" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.  Perception +2",
+    "category": [ "GASTROPOD" ],
+    "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
+    "restricts_gear": [ "eyes" ],
+    "allow_soft_gear" : true,
+    "passive_mods": { "per_mod": 2 }
   },
   {
     "type": "mutation",
@@ -4870,7 +5022,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "DEFORMED" ],
     "changes_to": [ "DEFORMED3" ],
-    "category": [ "BEAST", "URSINE", "PLANT" ]
+    "category": [ "BEAST", "URSINE", "PLANT", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -5186,7 +5338,7 @@
     "starting_trait": true,
     "changes_to": [ "THIRST2" ],
     "cancels": [ "NO_THIRST" ],
-    "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA" ],
+    "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD" ],
     "thirst_modifier": 0.5
   },
   {
@@ -5526,7 +5678,7 @@
     "description": "Your body is coated with a fine slime.  Protects from long-term effects of acid, though not short-term ones.  Greatly increases wet benefits.",
     "leads_to": [ "SLIME_HANDS" ],
     "changes_to": [ "VISCOUS" ],
-    "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD" ],
+    "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [
       { "part": "head", "neutral": 3, "good": 4 },
       { "part": "leg_l", "neutral": 7, "good": 14 },
@@ -5550,8 +5702,8 @@
     "description": "Your body's slime output has become sticky and gel-like.  Somewhat protects from acid.  Greatly increases wet benefits.",
     "leads_to": [ "AMORPHOUS" ],
     "prereqs": [ "SLIMY" ],
-    "threshreq": [ "THRESH_SLIME" ],
-    "category": [ "SLIME" ],
+    "threshreq": [ "THRESH_SLIME", "THRESH_GASTROPOD" ],
+    "category": [ "SLIME", "GASTROPOD" ],
     "wet_protection": [
       { "part": "head", "neutral": 4, "good": 5 },
       { "part": "leg_l", "neutral": 8, "good": 15 },
@@ -5841,7 +5993,7 @@
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
+    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -6159,10 +6311,10 @@
     "visibility": 8,
     "ugliness": 3,
     "description": "You have grown a thick shell over your torso, providing excellent armor, but you cannot wear anything on your torso.  Somewhat reduces wet effects.",
-    "prereqs": [ "CHITIN" ],
+    "prereqs": [ "CHITIN", "THICKSKIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
-    "category": [ "CEPHALOPOD" ],
+    "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
@@ -6180,14 +6332,34 @@
     "mixed_effect": true,
     "description": "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth and shelter.",
     "encumbrance_always": [ [ "torso", 10 ] ],
+    "changes_to": [ "SHELL3" ],
     "prereqs": [ "SHELL" ],
-    "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "category": [ "CEPHALOPOD" ],
+    "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_GASTROPOD" ],
+    "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
     "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 6 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHELL3",
+    "name": { "str": "Nacreous Shell" },
+    "points": -1,
+    "visibility": 10,
+    "ugliness": -2,
+    "mixed_effect": true,
+    "description": "Your protective shell has developed increased strength and hardness and a mother of pearl sheen.",
+    "encumbrance_always": [ [ "torso", 15 ] ],
+    "prereqs": [ "SHELL" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ],
+    "wet_protection": [ { "part": "torso", "ignored": 45 } ],
+    "active": true,
+    "restricts_gear": [ "torso" ],
+    "destroys_gear": true,
+    "armor": [ { "parts": "torso", "bash": 18, "cut": 32, "bullet": 9 } ]
   },
   {
     "type": "mutation",
@@ -6231,6 +6403,16 @@
     "name": { "str": "Lizard" },
     "points": 1,
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_GASTROPOD",
+    "name": { "str": "Gastropod" },
+    "points": 1,
+    "description": "You feel bad for all the creatures that don't carry their home on their back.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6527,7 +6709,7 @@
     "name": { "str": "Toxic Flesh" },
     "points": 1,
     "description": "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
-    "category": [ "FISH" ],
+    "category": [ "FISH", "GASTROPOD" ],
     "threshreq": [ "THRESH_FISH" ],
     "purifiable": false
   },

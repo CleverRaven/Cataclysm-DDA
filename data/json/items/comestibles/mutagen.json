@@ -226,6 +226,15 @@
     "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" }
   },
   {
+    "id": "iv_mutagen_snail",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "snail serum" },
+    "description": "A super-concentrated mutagen with the consistency of snot.  You need a syringe to inject it… if you really want to?",
+    "color": "light_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
+  },
+  {
     "id": "iv_mutagen_troglobite",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
@@ -408,6 +417,14 @@
     "type": "COMESTIBLE",
     "name": { "str": "spider mutagen" },
     "use_action": { "type": "mutagen", "mutation_category": "SPIDER" }
+  },
+  {
+    "id": "mutagen_snail",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "snail mutagen" },
+    "description": "A mutagen that looks awfully like the slime from an old children's network.",
+    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" }
   },
   {
     "id": "mutagen_troglobite",

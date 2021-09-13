@@ -540,6 +540,20 @@
     ]
   },
   {
+    "id": "achievement_mutation_threshold_troglobite",
+    "type": "achievement",
+    "name": "Carrying your home on your back",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "GASTROPOD" ],
+        "description": "crossed gastropod mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "achievement_mutation_threshold_alpha",
     "type": "achievement",
     "name": "Thus spake zombiethustra",

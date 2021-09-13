@@ -306,6 +306,7 @@
     "desc": [ "You're knocked to the ground.  You have to get up before you can move." ],
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
+    "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true
   },
   {
@@ -420,6 +421,7 @@
     "name": [ "Unstable footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
     "rating": "bad"
   },
   {

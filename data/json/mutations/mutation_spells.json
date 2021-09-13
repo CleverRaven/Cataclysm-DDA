@@ -19,5 +19,22 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET", "NO_PROJECTILE" ],
     "energy_source": "NONE",
     "damage_type": "biological"
+  },
+  {
+    "id": "spell_slime_spray",
+    "type": "SPELL",
+    "name": { "str": "Slime Spray" },
+    "description": "Spray slime onto an enemy to slow them down.",
+    "shape": "blast",
+    "effect": "mod_moves",
+    "valid_targets": [ "hostile" ],
+    "min_damage": -90,
+    "max_damage": -335,
+    "min_range": 1,
+    "max_range": 1,
+    "spell_class": "NONE",
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
+    "energy_source": "NONE",
+    "damage_type": "biological"
   }
 ]

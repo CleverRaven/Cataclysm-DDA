@@ -241,6 +241,7 @@
     "half_life": "30 minutes",
     "phase": "liquid",
     "display_field": true,
+    "immunity_data": { "traits": [ "GASTROPOD_FOOT" ] },
     "looks_like": "fd_sap"
   },
   {

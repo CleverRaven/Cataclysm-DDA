@@ -1,0 +1,17 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "snail_sample",
+    "symbol": "q",
+    "color": "brown",
+    "name": { "str": "snail sample" },
+    "description": "A sample of things that make up key parts of being a snail.  You will probably need to find a very large snail.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  }
+]
