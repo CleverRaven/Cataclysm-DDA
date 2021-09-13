@@ -25,7 +25,7 @@ repository: CleverRaven/Cataclysm-DDA
 # Build settings
 markdown: kramdown
 theme: minima
-gems:
+plugins:
   - jekyll-feed
 exclude:
   - Gemfile
