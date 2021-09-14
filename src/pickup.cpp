@@ -148,11 +148,11 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     amenu.text = explain;
 
     offered_swap = true;
-    const item *weapon = u.get_wielded_item();
+    const item &weapon = u.get_wielded_item();
     // TODO: Gray out if not enough hands
     if( u.has_wield_conflicts( it ) ) {
-        amenu.addentry( WIELD, u.can_unwield( *weapon ).success(), 'w',
-                        _( "Dispose of %s and wield %s" ), weapon->display_name(),
+        amenu.addentry( WIELD, u.can_unwield( weapon ).success(), 'w',
+                        _( "Dispose of %s and wield %s" ), weapon.display_name(),
                         it.display_name() );
     } else {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
@@ -310,12 +310,12 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             const auto wield_check = player_character.can_wield( newit );
             if( wield_check.success() ) {
                 picked_up = player_character.wield( newit );
-                const item *weapon = player_character.get_wielded_item();
-                if( weapon->invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), weapon->invlet,
-                             weapon->display_name() );
+                const item &weapon = player_character.get_wielded_item();
+                if( weapon.invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), weapon.invlet,
+                             weapon.display_name() );
                 } else {
-                    add_msg( m_info, _( "Wielding - %s" ), player_character.get_wielded_item()->display_name() );
+                    add_msg( m_info, _( "Wielding - %s" ), player_character.get_wielded_item().display_name() );
                 }
             } else {
                 add_msg( m_neutral, wield_check.c_str() );
@@ -344,9 +344,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
-                    item *weapon = player_character.get_wielded_item();
-                    if( weapon->can_contain_partial( newit ) ) {
-                        int used_charges = weapon->fill_with( newit, remaining_charges );
+                    item &weapon = player_character.get_wielded_item();
+                    if( weapon.can_contain_partial( newit ) ) {
+                        int used_charges = weapon.fill_with( newit, remaining_charges );
                         remaining_charges -= used_charges;
                     }
                     for( item &i : player_character.worn ) {

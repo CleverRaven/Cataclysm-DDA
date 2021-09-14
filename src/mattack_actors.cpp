@@ -622,7 +622,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),
-                            tmp.get_wielded_item()->tname() );
+                            tmp.get_wielded_item().tname() );
 
     if( throwing ) {
         tmp.throw_item( target.pos(), item( ammo, calendar::turn, 1 ) );

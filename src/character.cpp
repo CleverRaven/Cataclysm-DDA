@@ -527,9 +527,9 @@ const item &Character::get_wielded_item() const
     return weapon;
 }
 
-item *Character::get_wielded_item()
+item &Character::get_wielded_item()
 {
-    return &weapon;
+    return weapon;
 }
 
 void Character::set_wielded_item( const item &to_wield )
@@ -1283,14 +1283,14 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
-    item *weapon = get_wielded_item();
+    item &weapon = get_wielded_item();
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
         auto *mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
-            remove_item( *weapon );
+            remove_item( weapon );
         }
         mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
@@ -1395,13 +1395,13 @@ void Character::dismount()
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
         }
-        item *weapon = get_wielded_item();
+        item &weapon = get_wielded_item();
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
-            weapon->typeId() == critter->type->mech_weapon ) {
-            remove_item( *weapon );
+            weapon.typeId() == critter->type->mech_weapon ) {
+            remove_item( weapon );
         }
         avatar &player_character = get_avatar();
         if( is_avatar() && player_character.get_grab_type() != object_type::NONE ) {
@@ -1455,10 +1455,10 @@ void Character::on_dodge( Creature *source, float difficulty )
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
-    const item *weapon = get_wielded_item();
+    const item &weapon = get_wielded_item();
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
-    if( is_armed() && weapon->is_gun() ) {
-        recoil += std::max( weapon->volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+    if( is_armed() && weapon.is_gun() ) {
+        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
         recoil = std::min( MAX_RECOIL, recoil );
     }
 

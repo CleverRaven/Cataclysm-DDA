@@ -1501,7 +1501,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
                 // Colorize wielded weapon and move it to the front of the list
                 Character &player_character = get_player_character();
-                if( item::nname( wid ) == player_character.get_wielded_item()->display_name() )
+                if( item::nname( wid ) == player_character.get_wielded_item().display_name() )
                 {
                     return colorize( item::nname( wid ) + _( " (wielded)" ), c_light_cyan );
                 } else

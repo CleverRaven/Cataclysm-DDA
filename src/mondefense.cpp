@@ -200,11 +200,11 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
             // ...and weapon, everything based on turret's properties
             tmp.set_wielded_item( item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
                                   m.ammo[ gunactor->ammo_type ] ) );
-            const item *weapon = tmp.get_wielded_item();
-            const int burst = std::max( weapon->gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
+            const item &weapon = tmp.get_wielded_item();
+            const int burst = std::max( weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
 
             // Fire the weapon and consume ammo
-            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * weapon->ammo_required();
+            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * weapon.ammo_required();
         }
     }
 }

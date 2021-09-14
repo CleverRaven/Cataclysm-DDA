@@ -10637,7 +10637,7 @@ bool item::process_extinguish( Character *carrier, const tripoint &pos )
         extinguish = true;
     }
     if( !extinguish ||
-        ( in_inv && precipitation && carrier->get_wielded_item()->has_flag( flag_RAIN_PROTECT ) ) ) {
+        ( in_inv && precipitation && carrier->get_wielded_item().has_flag( flag_RAIN_PROTECT ) ) ) {
         return false; //nothing happens
     }
     if( carrier != nullptr ) {

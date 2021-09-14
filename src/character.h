@@ -2232,7 +2232,7 @@ class Character : public Creature, public visitable
         item weapon;
     public:
         const item &get_wielded_item() const;
-        item *get_wielded_item();
+        item &get_wielded_item();
         void set_wielded_item( const item &to_wield );
 
         int scent = 0;
