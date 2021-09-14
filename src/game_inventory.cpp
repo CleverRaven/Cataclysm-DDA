@@ -81,7 +81,7 @@ namespace
 /**
  * Return digits in base 10 ignoring minus sign.
  *
- * It exists as faster alternative to *_justify for justifiing integers.
+ * It exists as a faster alternative to *_justify for justifying integers.
  * source: https://stackoverflow.com/a/4143288/5057078
  */
 int n_digits( int i )
@@ -116,7 +116,7 @@ int n_digits( int i )
     if( i < 1000000000 ) {
         return 9;
     }
-    return 10;
+    return log10( i ) + 1;
 }
 
 std::string good_bad_none( int value )

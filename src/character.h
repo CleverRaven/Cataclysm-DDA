@@ -2971,7 +2971,7 @@ class Character : public Creature, public visitable
         /**
          * Handles the enjoyability value for a comestible.
          *
-         * If `ignore_already_ate`, fun isn't affected by eating the food in past.
+         * If `ignore_already_ate`, fun isn't affected by past consumption.
          * Return First value is enjoyability, second is cap.
          */
         std::pair<int, int> fun_for( const item &comest, bool ignore_already_ate = false ) const;
