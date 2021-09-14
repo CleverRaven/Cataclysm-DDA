@@ -9,23 +9,23 @@
     "start": {
       "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
       "assign_mission_target": {
-        "om_terrain": "haz_sar_1_1",
+        "om_terrain": "haz_sar_b_4",
         "om_special": "Hazardous Waste Sarcophagus",
-        "reveal_radius": 3,
+        "reveal_radius": 1,
         "search_range": 240,
         "min_distance": 60
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "haz_sar_b_1",
+    "destination": "haz_sar_b_4",
     "dialogue": {
       "describe": "You wouldn't believe what I found…",
       "offer": "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  Check this out, it was on its approach to pick up a team sent to secure and destroy something called a 'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded message for the team leader, I guess.  If we want to join up with what remains of the government then now may be our only chance.",
       "accepted": "Fuck ya, America!",
       "rejected": "Are you going to forfeit your duty when the country needs you the most?",
       "advice": "If there is a military team down there then we better go in prepared if we want to impress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second bird coming to pick them up.",
-      "inquire": "Having any trouble following the map?",
-      "success": "We got this shit!",
+      "inquire": "Having any trouble following the map?  Remember to search underground.",
+      "success": "Maybe these things are what remains of the team we were searching for…",
       "success_lie": "What?!  I out'ta whip your ass.",
       "failure": "Damn, we were so close."
     }
@@ -663,7 +663,7 @@
     "id": "MISSION_RECRUIT_TRACKER",
     "type": "mission_definition",
     "name": { "str": "Recruit Tracker" },
-    "goal": "MGOAL_RECRUIT_NPC_CLASS",
+    "goal": "MGOAL_RECRUIT_NPC",
     "difficulty": 5,
     "value": 70000,
     "start": {

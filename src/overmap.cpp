@@ -71,8 +71,6 @@ class map_extra;
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int BUILDINGCHANCE = 4;
-static constexpr int MIN_ANT_SIZE = 8;
-static constexpr int MAX_ANT_SIZE = 20;
 static constexpr int MIN_GOO_SIZE = 1;
 static constexpr int MAX_GOO_SIZE = 2;
 
@@ -536,7 +534,8 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
     register_mapgen_function( fmapkey );
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
-            load_mapgen_function( jio, fmapkey, point_zero );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            load_mapgen_function( jio, fmapkey, point_zero, point( 1, 1 ) );
         }
     }
 }
@@ -730,6 +729,20 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
     }
 }
 
+int oter_t::get_rotation() const
+{
+    if( is_linear() ) {
+        const om_lines::type &t = om_lines::all[line];
+        // It turns out the rotation used for linear things is the opposite of
+        // the rotation used for other things.  Sigh.
+        return ( 4 - t.rotation ) % 4;
+    }
+    if( is_rotatable() ) {
+        return static_cast<int>( get_dir() );
+    }
+    return 0;
+}
+
 bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
 {
     return type->id.id() == type_id;
@@ -754,8 +767,6 @@ bool oter_t::is_hardcoded() const
 {
     // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
-        "acid_anthill",
-        "anthill",
         "ants_lab",
         "ants_lab_stairs",
         "ice_lab",
@@ -942,7 +953,7 @@ static constexpr cube_direction operator-( const cube_direction d, int i )
         case cube_direction::last:
             break;
     }
-    return cube_direction::last;
+    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
 }
 
 static constexpr cube_direction operator+( const cube_direction l, const om_direction::type r )
@@ -960,7 +971,7 @@ static constexpr cube_direction operator+( const cube_direction l, const om_dire
         case cube_direction::last:
             break;
     }
-    return cube_direction::last;
+    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
 }
 
 static_assert( cube_direction::north - 0 == cube_direction::north, "" );
@@ -990,8 +1001,7 @@ static tripoint displace( cube_direction d )
         case cube_direction::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
-    abort();
+    cata_fatal( "Invalid cube_direction" );
 }
 
 namespace io
@@ -1008,8 +1018,7 @@ std::string enum_to_string<overmap_special_subtype>( overmap_special_subtype dat
         case overmap_special_subtype::last:
             break;
     }
-    debugmsg( "Invalid overmap_special_subtype" );
-    abort();
+    cata_fatal( "Invalid overmap_special_subtype" );
 }
 
 template<>
@@ -1027,8 +1036,7 @@ std::string enum_to_string<cube_direction>( cube_direction data )
         case cube_direction::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
-    abort();
+    cata_fatal( "Invalid cube_direction" );
 }
 
 } // namespace io
@@ -1075,6 +1083,10 @@ struct mutable_overmap_placement_rule {
 
     int get_weight() const {
         return std::min( max, weight );
+    }
+
+    bool is_exhausted() const {
+        return get_weight() == 0;
     }
 
     void decrement() {
@@ -1124,11 +1136,25 @@ struct placement_constraints {
 struct mutable_overmap_phase {
     std::vector<mutable_overmap_placement_rule> rules;
 
-    using ter_rule_and_dir =
-        std::tuple<const mutable_overmap_terrain *, mutable_overmap_placement_rule *,
-        om_direction::type>;
+    struct satisfy_result {
+        const mutable_overmap_terrain *terrain;
+        om_direction::type dir;
+        mutable_overmap_placement_rule *rule;
+        // For debugging purposes it's really handy to have a record of exactly
+        // what happened during placement of a mutable special when it fails,
+        // so to aid that we provide a human-readable description here which is
+        // only used in the event of a placement error.
+        std::string description;
+    };
 
-    ter_rule_and_dir satisfy(
+    bool all_rules_exhausted() const {
+        return std::all_of( rules.begin(), rules.end(),
+        []( const mutable_overmap_placement_rule & rule ) {
+            return rule.is_exhausted();
+        } );
+    }
+
+    satisfy_result satisfy(
         const std::unordered_map<std::string, mutable_overmap_terrain> &overmaps,
         const std::unordered_map<std::string, mutable_overmap_join *> &joins,
         const overmap &om, const tripoint_om_omt &pos, const placement_constraints &constraints ) {
@@ -1136,7 +1162,7 @@ struct mutable_overmap_phase {
         const oter_id &existing_terrain = om.ter( pos );
         std::array<placement_constraints, 4> all_constraints = constraints.all_rotations();
 
-        weighted_int_list<ter_rule_and_dir> options;
+        weighted_int_list<satisfy_result> options;
         for( mutable_overmap_placement_rule &rule : rules ) {
             auto it = overmaps.find( rule.overmap );
             if( it == overmaps.end() ) {
@@ -1184,53 +1210,43 @@ struct mutable_overmap_phase {
             }
 
             if( auto chosen_dir = random_entry_opt( dir_options ) ) {
-                options.add( ter_rule_and_dir( &ter, &rule, *chosen_dir ), rule.get_weight() );
+                options.add( satisfy_result{ &ter, *chosen_dir, &rule, {} }, rule.get_weight() );
             }
         }
-        if( ter_rule_and_dir *picked = options.pick() ) {
-#if CATA_DEBUG_MUTABLE_OVERMAP_PLACEMENT
-            auto dir = std::get<2>( *picked );
-            const placement_constraints &constraints = all_constraints[static_cast<int>( dir )];
-            std::string joins = enumerate_as_string( constraints.joins,
-            []( const std::pair<cube_direction, std::string> &p ) {
-                return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
-            } );
-            std::string message = string_format(
-                                      "At %s chose %s rot %d with neighbours N:%s E:%s S:%s W:%s and rotated "
-                                      "constraints %s",
-                                      pos.to_string(),
-                                      std::get<0>( *picked )->terrain.str(), static_cast<int>( dir ),
-                                      om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
-                                      om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
-                                      joins );
-            printf( "%s\n", message.c_str() );
-#endif
-            std::get<1>( *picked )->decrement();
+        std::string joins_s = enumerate_as_string( constraints.joins,
+        []( const std::pair<cube_direction, std::string> &p ) {
+            return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
+        } );
+        if( satisfy_result *picked = options.pick() ) {
+            om_direction::type dir = picked->dir;
+            picked->description =
+                string_format(
+                    "At %s chose %s rot %d with neighbours N:%s E:%s S:%s W:%s and constraints %s",
+                    pos.to_string(),
+                    picked->terrain->terrain.str(), static_cast<int>( dir ),
+                    om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
+                    om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
+                    joins_s );
+            picked->rule->decrement();
             return *picked;
         } else {
-#if CATA_DEBUG_MUTABLE_OVERMAP_PLACEMENT
-            std::string joins = enumerate_as_string( constraints.joins,
-            []( const std::pair<cube_direction, std::string> &p ) {
-                return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
-            } );
             std::string rules_s = enumerate_as_string( rules,
             []( const mutable_overmap_placement_rule & rule ) {
-                if( rule.get_weight() ) {
-                    return rule.overmap;
-                } else {
+                if( rule.is_exhausted() ) {
                     return string_format( "(%s)", rule.overmap );
+                } else {
+                    return rule.overmap;
                 }
             } );
-            std::string message = string_format(
-                                      "At %s failed to match with neighbours N:%s E:%s S:%s W:%s and constraints %s "
-                                      "from amongst rules %s",
-                                      pos.to_string(),
-                                      om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
-                                      om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
-                                      joins, rules_s );
-            printf( "%s\n", message.c_str() );
-#endif
-            return ter_rule_and_dir { nullptr, nullptr, om_direction::type::invalid };
+            std::string message =
+                string_format(
+                    "At %s failed to match with neighbours N:%s E:%s S:%s W:%s and constraints %s "
+                    "from amongst rules %s",
+                    pos.to_string(),
+                    om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
+                    om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
+                    joins_s, rules_s );
+            return { nullptr, om_direction::type::invalid, nullptr, std::move( message ) };
         }
     }
 
@@ -1268,8 +1284,7 @@ struct pos_dir {
             case cube_direction::last:
                 break;
         }
-        debugmsg( "Invalid cube_direction" );
-        abort();
+        cata_fatal( "Invalid cube_direction" );
     }
 
     friend bool operator==( const pos_dir &l, const pos_dir &r ) {
@@ -1329,6 +1344,8 @@ class joins_tracker
 
                 if( resolved_position_index.count( other_side ) ) {
                     erase_unresolved( this_side );
+                } else if( postponed_points.count( pos ) ) {
+                    postponed.push_back( { other_side, join, 0 } );
                 } else {
                     add_unresolved( other_side, join );
                 }
@@ -1362,15 +1379,16 @@ class joins_tracker
                 auto it = unresolved_position_index.find( p );
                 if( it != unresolved_position_index.end() ) {
                     postponed.push_back( *it->second );
+                    postponed_points.insert( pos );
                     erase_unresolved( p );
                 }
             }
         }
         void restore_postponed() {
-            cata_assert( unresolved.empty() );
             for( const join &conn : postponed ) {
                 add_unresolved( conn.where, conn.join_id );
             }
+            postponed_points.clear();
             postponed.clear();
         }
     private:
@@ -1432,6 +1450,7 @@ class joins_tracker
         std::list<join> resolved;
         std::unordered_map<pos_dir, iterator> resolved_position_index;
 
+        std::unordered_set<tripoint_om_omt> postponed_points;
         std::vector<join> postponed;
 
         std::vector<join> orphaned;
@@ -1529,6 +1548,10 @@ struct mutable_overmap_special_data {
         const mutable_overmap_terrain &root_omt = it->second;
         om.ter_set( origin, root_omt.terrain );
 
+        // This is for debugging only, it tracks a human-readable description
+        // of what happened to be put in the debugmsg in the event of failure.
+        std::vector<std::string> descriptions;
+
         joins_tracker unresolved( joins );
         unresolved.add_joins_for( root_omt, origin, om_direction::type::none );
 
@@ -1540,11 +1563,12 @@ struct mutable_overmap_special_data {
             placement_constraints next;
             std::tie( p_d, next ) = unresolved.pick_top_priority();
             const tripoint_om_omt &p = p_d.p;
-            const mutable_overmap_terrain *ter;
-            om_direction::type rot;
-            std::tie( ter, std::ignore, rot ) =
+            mutable_overmap_phase::satisfy_result satisfy_result =
                 phase_remaining.satisfy( overmaps, joins, om, p, next );
+            descriptions.push_back( std::move( satisfy_result.description ) );
+            const mutable_overmap_terrain *ter = satisfy_result.terrain;
             if( ter ) {
+                om_direction::type rot = satisfy_result.dir;
                 const oter_id tid = ter->terrain->get_rotated( rot );
                 om.ter_set( p, tid );
                 unresolved.add_joins_for( *ter, p, rot );
@@ -1552,7 +1576,7 @@ struct mutable_overmap_special_data {
             } else {
                 unresolved.postpone( p );
             }
-            if( !unresolved.any_unresolved() ) {
+            if( !unresolved.any_unresolved() || phase_remaining.all_rules_exhausted() ) {
                 ++current_phase;
                 if( current_phase == phases.end() ) {
                     break;
@@ -1579,8 +1603,9 @@ struct mutable_overmap_special_data {
             } );
 
             debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
-                      "at %s was %s; joins were %s", parent_id.str(), p.to_string(),
-                      current_terrain.id().str(), joins );
+                      "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
+                      parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
+                      join( descriptions, "\n" ) );
         }
 
         return result;
@@ -1679,8 +1704,7 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
             result.push_back( mutable_data_->root_as_overmap_special_terrain() );
             break;
         case overmap_special_subtype::last:
-            debugmsg( "invalid overmap_special_subtype" );
-            abort();
+            cata_fatal( "invalid overmap_special_subtype" );
     }
     return result;
 }
@@ -1700,8 +1724,7 @@ std::vector<overmap_special_locations> overmap_special::required_locations() con
         case overmap_special_subtype::last:
             break;
     }
-    debugmsg( "invalid overmap_special_subtype" );
-    abort();
+    cata_fatal( "invalid overmap_special_subtype" );
 }
 
 const fixed_overmap_special_data &overmap_special::get_fixed_data() const
@@ -2444,9 +2467,6 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
                 sewer_points.emplace_back( i, j );
-            } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
-                const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
-                ant_points.emplace_back( p.xy(), size );
             } else if( oter_above == "slimepit_down" || oter_above == "slimepit_bottom" ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.emplace_back( p.xy(), size );
@@ -2629,19 +2649,6 @@ bool overmap::generate_sub( const int z )
 
     for( auto &i : mine_points ) {
         build_mine( tripoint_om_omt( i.pos, z ), i.size );
-    }
-
-    for( auto &i : ant_points ) {
-        const tripoint_om_omt p_loc( i.pos, z );
-        if( ter( p_loc ) != "empty_rock" && ter( p_loc ) != "solid_earth" ) {
-            continue;
-        }
-        mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
-                               "GROUP_ANT" : "GROUP_ANT_ACID" );
-        spawn_mon_group(
-            mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
-                      ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( p_loc, i.size, ter( p_loc + tripoint_above ) == "anthill" );
     }
 
     return requires_sub;
@@ -4268,117 +4275,6 @@ bool overmap::build_lab(
     return numstairs > 0;
 }
 
-void overmap::build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants )
-{
-    for( om_direction::type dir : om_direction::all ) {
-        build_tunnel( p, s - rng( 0, 3 ), dir, ordinary_ants );
-    }
-
-    // TODO: This should follow the tunnel network,
-    // as of now it can pick a tile from an adjacent ant network.
-    std::vector<tripoint_om_omt> queenpoints;
-    for( int i = -s; i <= s; i++ ) {
-        for( int j = -s; j <= s; j++ ) {
-            const tripoint_om_omt qp = p + point( i, j );
-            if( check_ot( "ants", ot_match_type::type, qp ) ) {
-                queenpoints.push_back( qp );
-            }
-        }
-    }
-    if( queenpoints.empty() ) {
-        debugmsg( "No queenpoints when building anthill, anthill over %s", ter( p ).id().str() );
-    }
-    const tripoint_om_omt target = random_entry( queenpoints );
-    ter_set( target, ordinary_ants ? oter_id( "ants_queen" ) : oter_id( "ants_queen_acid" ) );
-
-    const oter_id root_id( "ants_isolated" );
-
-    for( int i = -s; i <= s; i++ ) {
-        for( int j = -s; j <= s; j++ ) {
-            const tripoint_om_omt root = p + point( i, j );
-            if( !inbounds( root ) ) {
-                continue;
-            }
-            if( root_id == ter( root )->id ) {
-                const oter_id &oter = ter( root );
-                for( om_direction::type dir : om_direction::all ) {
-                    const tripoint_om_omt neighbor = root + om_direction::displace( dir );
-                    if( check_ot( "ants", ot_match_type::prefix, neighbor ) ) {
-                        size_t line = oter->get_line();
-                        line = om_lines::set_segment( line, dir );
-                        if( line != oter->get_line() ) {
-                            ter_set( root, oter->get_type_id()->get_linear( line ) );
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
-                            bool ordinary_ants )
-{
-    if( s <= 0 ) {
-        return;
-    }
-    if( !inbounds( p ) ) {
-        return;
-    }
-
-    const oter_id root_id( "ants_isolated" );
-    if( root_id != ter( p )->id ) {
-        if( check_ot( "ants", ot_match_type::type, p ) ) {
-            return;
-        }
-        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) &&
-            !is_ot_match( "solid_earth", ter( p ), ot_match_type::type ) ) {
-            return;
-        }
-    }
-
-    ter_set( p, oter_id( root_id ) );
-
-    std::vector<om_direction::type> valid;
-    valid.reserve( om_direction::size );
-    for( om_direction::type r : om_direction::all ) {
-        const tripoint_om_omt cand = p + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::type, cand ) && (
-                is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ||
-                is_ot_match( "solid_earth", ter( cand ), ot_match_type::type ) ) ) {
-            valid.push_back( r );
-        }
-    }
-
-    const oter_id ants_food( "ants_food" );
-    const oter_id ants_larvae( "ants_larvae" );
-    const oter_id ants_larvae_acid( "ants_larvae_acid" );
-    const tripoint_om_omt next =
-        s != 1 ? p + om_direction::displace( dir ) : tripoint_om_omt( -1, -1, -1 );
-
-    for( om_direction::type r : valid ) {
-        const tripoint_om_omt cand = p + om_direction::displace( r );
-        if( !inbounds( cand ) ) {
-            continue;
-        }
-
-        if( cand.xy() != next.xy() ) {
-            if( one_in( s * 2 ) ) {
-                // Spawn a special chamber
-                if( one_in( 2 ) ) {
-                    ter_set( cand, ants_food );
-                } else {
-                    ter_set( cand, ordinary_ants ? ants_larvae : ants_larvae_acid );
-                }
-            } else if( one_in( 5 ) ) {
-                // Branch off a side tunnel
-                build_tunnel( cand, s - rng( 1, 3 ), r, ordinary_ants );
-            }
-        }
-    }
-    build_tunnel( next, s - 1, dir, ordinary_ants );
-}
-
 bool overmap::build_slimepit( const tripoint_om_omt &origin, int s )
 {
     const oter_id slimepit_down( "slimepit_down" );
@@ -5197,8 +5093,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
             result = special.get_mutable_data().place( *this, p );
             break;
         case overmap_special_subtype::last:
-            debugmsg( "Invalid overmap_special_subtype" );
-            abort();
+            cata_fatal( "Invalid overmap_special_subtype" );
     }
     for( const tripoint_om_omt &location : result ) {
         overmap_special_placements[location] = special.id;
@@ -5748,8 +5643,7 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
         case ot_match_type::num_ot_match_type:
             break;
     }
-    debugmsg( "Invalid ot_match_type" );
-    abort();
+    cata_fatal( "Invalid ot_match_type" );
 }
 } // namespace io
 

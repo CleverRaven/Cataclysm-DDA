@@ -732,6 +732,7 @@
     "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
+    "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -2
   },
   {
@@ -2873,6 +2874,7 @@
     "stack_size": 50,
     "material": [ "steel" ],
     "symbol": ".",
+    "flags": [ "HURT_WHEN_WIELDED" ],
     "color": "white",
     "ammo_type": "components"
   },

@@ -103,6 +103,9 @@ class monster : public Creature
             return this;
         }
 
+        mfaction_id get_monster_faction() const override {
+            return faction.id();
+        }
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
@@ -508,6 +511,8 @@ class monster : public Creature
         bool is_nemesis() const;
         // If we're unique
         std::string unique_name;
+        // Player given nickname
+        std::string nickname;
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;

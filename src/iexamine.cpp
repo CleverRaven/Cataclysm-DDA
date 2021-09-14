@@ -227,6 +227,13 @@ bool iexamine::always_false( const tripoint &/*examp*/ )
     return false;
 }
 
+bool iexamine::false_and_debugmsg( const tripoint &examp )
+{
+    debugmsg( "Called false_and_debugmsg on %s - was a terrain with an actor configured incorrectly?",
+              get_map().tername( examp ) );
+    return false;
+}
+
 bool iexamine::always_true( const tripoint &/*examp*/ )
 {
     return true;
@@ -6227,6 +6234,11 @@ void iexamine::workout( Character &you, const tripoint &examp )
     you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
 }
 
+void iexamine::invalid( Character &/*you*/, const tripoint &examp )
+{
+    debugmsg( "Called invalid iexamine function on %s!", get_map().tername( examp ) );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6313,7 +6325,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
-            { "workout", &iexamine::workout }
+            { "workout", &iexamine::workout },
+            { "invalid", &iexamine::invalid },
         }
     };
 
@@ -6330,6 +6343,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         iexamine_examine_function func = iter->second;
         if( function_name == "none" ) {
             return iexamine_functions{&iexamine::always_false, func};
+        } else if( function_name == "invalid" ) {
+            return iexamine_functions{&iexamine::false_and_debugmsg, func};
         } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
             return iexamine_functions{&iexamine::harvestable_now, func};
         } else {

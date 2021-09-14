@@ -55,6 +55,7 @@ Use the `Home` key to return to the top.
       - [`cbms`](#cbms)
       - [`traits`](#traits)
     - [Recipes](#recipes)
+      - [Practice recipes](#practice-recipes)
       - [Recipe requirements](#recipe-requirements)
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
@@ -67,6 +68,7 @@ Use the `Home` key to return to the top.
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
     - [Skills](#skills)
+    - [Speed Description](#speed-description)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
@@ -1306,6 +1308,13 @@ Crafting recipes are defined as a JSON object with the following fields:
 ]
 ```
 
+#### Practice recipes
+
+Recipes may instead be defined with type "practice", to make them appear in the "PRACTICE" tab of
+the crafting menu.  These recipes do not have a "result", but they may define "byproducts". See
+[PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
+
+
 #### Recipe requirements
 
 The tool quality and component requirements for a recipe may be expressed in a combination of
@@ -2330,7 +2339,7 @@ See also VEHICLE_JSON.md
 "name": {
     "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
-    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_sp" can be used if the singular and plural forms are the same
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_pl" may also be needed if the unit test cannot determine if the correct plural form can be formed by simply appending "s". "str_sp" should be used instead of "str" or "str_pl" if the singular and plural forms are the same.
 },
 "conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
     "type": "COMPONENT_ID",       // The condition type.

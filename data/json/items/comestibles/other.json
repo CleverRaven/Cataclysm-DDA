@@ -454,6 +454,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "soybean",
     "name": { "str_sp": "soybeans" },
     "volume": "250 ml",
@@ -474,6 +475,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "raw_edamame",
     "name": { "str": "raw edamame" },
     "volume": "250 ml",

@@ -913,7 +913,7 @@ class npc : public Character
         void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
-        mfaction_id get_monster_faction() const;
+        mfaction_id get_monster_faction() const override;
         // What happens when the player makes a request
         // How closely do we follow the player?
         int follow_distance() const;

@@ -399,8 +399,7 @@ std::string enum_to_string<blood_type>( blood_type data )
         case blood_type::num_bt:
             break;
     }
-    debugmsg( "Invalid blood_type" );
-    abort();
+    cata_fatal( "Invalid blood_type" );
 }
 
 } // namespace io
@@ -508,12 +507,34 @@ character_id Character::getID() const
     return this->id;
 }
 
+void Character::swap_character( Character &other, Character &tmp )
+{
+    tmp = std::move( other );
+    other = std::move( *this );
+    *this = std::move( tmp );
+}
+
 void Character::randomize_height()
 {
     // Height distribution data is taken from CDC distributes statistics for the US population
     // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-861339732
     const int x = std::round( normal_roll( 168.35, 15.50 ) );
     init_height = clamp( x, Character::min_height(), Character::max_height() );
+}
+
+const item &Character::get_wielded_item() const
+{
+    return weapon;
+}
+
+item *Character::get_wielded_item()
+{
+    return &weapon;
+}
+
+void Character::set_wielded_item( const item &to_wield )
+{
+    weapon = to_wield;
 }
 
 void Character::randomize_blood()
@@ -1262,13 +1283,14 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
+    item *weapon = get_wielded_item();
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
         auto *mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
-            remove_item( weapon );
+            remove_item( *weapon );
         }
         mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
@@ -1373,12 +1395,13 @@ void Character::dismount()
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
         }
+        item *weapon = get_wielded_item();
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
-            weapon.typeId() == critter->type->mech_weapon ) {
-            remove_item( weapon );
+            weapon->typeId() == critter->type->mech_weapon ) {
+            remove_item( *weapon );
         }
         avatar &player_character = get_avatar();
         if( is_avatar() && player_character.get_grab_type() != object_type::NONE ) {
@@ -1432,10 +1455,10 @@ void Character::on_dodge( Creature *source, float difficulty )
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
-
+    const item *weapon = get_wielded_item();
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
-    if( is_armed() && weapon.is_gun() ) {
-        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+    if( is_armed() && weapon->is_gun() ) {
+        recoil += std::max( weapon->volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
@@ -2284,12 +2307,13 @@ void Character::conduct_blood_analysis()
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
+    const item weapon = get_wielded_item();
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
     //If the item is thrown, override with the thrown item instead.
-    const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
+    const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
     return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
 }
@@ -2326,6 +2350,7 @@ std::vector<item_location> Character::nearby( const
 
     return res;
 }
+
 
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
@@ -2461,6 +2486,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
 
     // Wielded item
+    const item weapon = get_wielded_item();
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
@@ -2524,6 +2550,7 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     }
 
     // Wielded item
+    const item weapon = get_wielded_item();
     if( !without.count( &weapon ) ) {
         ret += weapon.get_contents_volume_with_tweaks( without );
     }
@@ -2571,6 +2598,7 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
+    const item weapon = get_wielded_item();
     if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
@@ -2632,6 +2660,7 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
+
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
@@ -2650,7 +2679,6 @@ void Character::invalidate_inventory_validity_cache()
 {
     cache_inventory_is_valid = false;
 }
-
 bool Character::is_wielding( const item &target ) const
 {
     return &weapon == &target;
@@ -3483,7 +3511,7 @@ std::string enum_to_string<character_stat>( character_stat data )
         case character_stat::DUMMY_STAT:
             break;
     }
-    abort();
+    cata_fatal( "Invalid character_stat" );
 }
 } // namespace io
 
@@ -6491,6 +6519,7 @@ ret_val<bool> Character::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
+    const item weapon = get_wielded_item();
     if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );

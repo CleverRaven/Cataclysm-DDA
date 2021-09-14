@@ -1176,7 +1176,9 @@ bool talk_trial::roll( dialogue &d ) const
     }
     const int chance = calc_chance( d );
     const bool success = rng( 0, 99 ) < chance;
-    if( d.actor( false )->get_character() ) {
+    const bool speech_trial = type == TALK_TRIAL_PERSUADE || type == TALK_TRIAL_INTIMIDATE ||
+                              type == TALK_TRIAL_LIE;
+    if( speech_trial && d.actor( false )->get_character() ) {
         Character &u = *d.actor( false )->get_character();
         if( success ) {
             u.practice( skill_speech, ( 100 - chance ) / 10 );
@@ -1288,20 +1290,22 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             return;
         }
 
+        const item &u_weapon = u.get_wielded_item();
+        const item &me_weapon = me.get_wielded_item();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u.weapon.tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u_weapon.tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me.weapon.tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
             }
         } else if( tag == "<ammo>" ) {
-            if( !me.weapon.is_gun() ) {
+            if( !me_weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me_weapon.ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -2161,7 +2165,8 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
         std::string translated_message;
         if( snippet ) {
-            translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
+            translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                    translation() ).translated() );
         } else {
             translated_message = _( message );
         }

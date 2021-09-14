@@ -1472,7 +1472,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( &it == p.get_wielded_item() ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -2377,6 +2377,11 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
             return cata::nullopt;
         }
         study_spell.moves_total = study_time;
+        spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
+        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+            p.handle_skill_warning( studying.skill(),
+                                    true ); // show the skill warning on start reading, since we don't show it during
+        }
     }
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {

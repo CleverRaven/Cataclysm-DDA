@@ -17,6 +17,7 @@
 #include "ammo.h"
 #include "assign.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -1970,8 +1971,7 @@ std::string enum_to_string<layer_level>( layer_level data )
         case layer_level::NUM_LAYER_LEVELS:
             break;
     }
-    debugmsg( "Invalid layer_level" );
-    abort();
+    cata_fatal( "Invalid layer_level" );
 }
 } // namespace io
 
@@ -2627,6 +2627,14 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         return;
     }
 
+    // Thing uses no ammo
+    if( def.magazine && def.magazine->type.empty() ) {
+        return;
+    }
+    if( def.tool && def.tool->ammo_id.empty() ) {
+        return;
+    }
+
     pocket_data mag_data;
     mag_data.holster = true;
     mag_data.volume_capacity = 200_liter;
@@ -2672,6 +2680,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         }
     }
     def.pockets.push_back( mag_data );
+    debugmsg( _( "%s needs pocket definitions" ), def.get_id().str() );
 }
 
 void Item_factory::add_special_pockets( itype &def )
@@ -2744,8 +2753,7 @@ std::string enum_to_string<grip_val>( grip_val val )
         case grip_val::WEAPON: return "weapon";
         default: break;
     }
-    debugmsg( "Invalid grip val" );
-    abort();
+    cata_fatal( "Invalid grip val" );
 }
 
 template<>
@@ -2757,8 +2765,7 @@ std::string enum_to_string<length_val>( length_val val )
         case length_val::LONG: return "long";
         default: break;
     }
-    debugmsg( "Invalid length val" );
-    abort();
+    cata_fatal( "Invalid length val" );
 }
 
 template<>
@@ -2771,8 +2778,7 @@ std::string enum_to_string<surface_val>( surface_val val )
         case surface_val::EVERY: return "every";
         default: break;
     }
-    debugmsg( "Invalid surface val" );
-    abort();
+    cata_fatal( "Invalid surface val" );
 }
 
 template<>
@@ -2785,8 +2791,7 @@ std::string enum_to_string<balance_val>( balance_val val )
         case balance_val::GOOD: return "good";
         default: break;
     }
-    debugmsg( "Invalid balance val" );
-    abort();
+    cata_fatal( "Invalid balance val" );
 }
 
 struct acc_data {
@@ -2855,6 +2860,11 @@ static void migrate_mag_from_pockets( itype &def )
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
+
+    restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+    if( jo.has_string( "abstract" ) ) {
+        check_plural = check_plural_t::none;
+    }
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0_gram );
@@ -3798,8 +3808,7 @@ std::string enum_to_string<phase_id>( phase_id data )
         case phase_id::num_phases:
             break;
     }
-    debugmsg( "Invalid phase" );
-    abort();
+    cata_fatal( "Invalid phase" );
 }
 } // namespace io
 

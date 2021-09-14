@@ -556,7 +556,7 @@ static int calculate_cumulative_experience( int level )
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    weapon = item();
+    set_wielded_item( item() );
 
     prof = profession::generic();
     set_scenario( scenario::generic() );
@@ -693,7 +693,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    weapon = item();
+    set_wielded_item( item() );
 
     // Grab skills from profession and increment level
     // We want to do this before the recipes
@@ -744,11 +744,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     } else {
         starting_vehicle = prof->vehicle();
     }
-
-    add_profession_items();
-
-    // Move items from the inventory. eventually the inventory should not contain items at all.
-    migrate_items_to_storage( true );
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( const addiction &iter : prof_addictions ) {

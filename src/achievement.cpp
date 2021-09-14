@@ -101,8 +101,7 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
         case achievement_comparison::last:
             break;
     }
-    debugmsg( "Invalid achievement_comparison" );
-    abort();
+    cata_fatal( "Invalid achievement_comparison" );
 }
 
 template<>
@@ -116,8 +115,7 @@ std::string enum_to_string<achievement::time_bound::epoch>( achievement::time_bo
         case achievement::time_bound::epoch::last:
             break;
     }
-    debugmsg( "Invalid epoch" );
-    abort();
+    cata_fatal( "Invalid epoch" );
 }
 
 template<>
@@ -133,8 +131,7 @@ std::string enum_to_string<requirement_visibility>( requirement_visibility data 
         case requirement_visibility::last:
             break;
     }
-    debugmsg( "Invalid requirement_visibility" );
-    abort();
+    cata_fatal( "Invalid requirement_visibility" );
 }
 
 } // namespace io
@@ -151,8 +148,7 @@ static nc_color color_from_completion( bool is_conduct, achievement_completion c
         case achievement_completion::last:
             break;
     }
-    debugmsg( "Invalid achievement_completion" );
-    abort();
+    cata_fatal( "Invalid achievement_completion" );
 }
 
 struct achievement_requirement {
@@ -193,8 +189,7 @@ struct achievement_requirement {
             case achievement_comparison::last:
                 break;
         }
-        debugmsg( "Invalid achievement_comparison" );
-        abort();
+        cata_fatal( "Invalid achievement_comparison" );
     }
 
     void check( const achievement_id &id ) const {
@@ -230,8 +225,7 @@ struct achievement_requirement {
             case achievement_comparison::last:
                 break;
         }
-        debugmsg( "Invalid achievement_requirement comparison value" );
-        abort();
+        cata_fatal( "Invalid achievement_requirement comparison value" );
     }
 
     bool is_visible( achievement_completion ach_completed, bool req_completed ) const {
@@ -247,8 +241,7 @@ struct achievement_requirement {
             case requirement_visibility::last:
                 break;
         }
-        debugmsg( "Invalid requirement_visibility value" );
-        abort();
+        cata_fatal( "Invalid requirement_visibility value" );
     }
 };
 
@@ -262,8 +255,7 @@ static time_point epoch_to_time_point( achievement::time_bound::epoch e )
         case achievement::time_bound::epoch::last:
             break;
     }
-    debugmsg( "Invalid epoch" );
-    abort();
+    cata_fatal( "Invalid epoch" );
 }
 
 void achievement::time_bound::deserialize( const JsonObject &jo )
@@ -317,8 +309,7 @@ achievement_completion achievement::time_bound::completed() const
         case achievement_comparison::last:
             break;
     }
-    debugmsg( "Invalid achievement_comparison" );
-    abort();
+    cata_fatal( "Invalid achievement_comparison" );
 }
 
 bool achievement::time_bound::becomes_false() const
@@ -335,8 +326,7 @@ bool achievement::time_bound::becomes_false() const
         case achievement_comparison::last:
             break;
     }
-    debugmsg( "Invalid achievement_comparison" );
-    abort();
+    cata_fatal( "Invalid achievement_comparison" );
 }
 
 std::string achievement::time_bound::ui_text( bool is_conduct ) const
@@ -355,8 +345,7 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
             case epoch::last:
                 break;
         }
-        debugmsg( "Invalid epoch" );
-        abort();
+        cata_fatal( "Invalid epoch" );
     };
 
     std::string message = [&]() {
@@ -382,16 +371,14 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
                     case achievement_comparison::last:
                         break;
                 }
-                debugmsg( "Invalid achievement_comparison" );
-                abort();
+                cata_fatal( "Invalid achievement_comparison" );
             case achievement_completion::failed:
                 return string_format( _( "Within %s of %s (passed)" ),
                                       to_string( period_ ), translate_epoch( epoch_ ) );
             case achievement_completion::last:
                 break;
         }
-        debugmsg( "Invalid achievement_completion" );
-        abort();
+        cata_fatal( "Invalid achievement_completion" );
     }
     ();
 
@@ -579,8 +566,7 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
         case achievement_completion::last:
             break;
     }
-    debugmsg( "Invalid achievement_completion" );
-    abort();
+    cata_fatal( "Invalid achievement_completion" );
 }
 
 } // namespace io

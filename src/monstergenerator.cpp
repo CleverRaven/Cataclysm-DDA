@@ -65,8 +65,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::_LAST:
             break;
     }
-    debugmsg( "Invalid mon_trigger" );
-    abort();
+    cata_fatal( "Invalid mon_trigger" );
 }
 
 template<>
@@ -84,8 +83,7 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
         case mdeath_type::LAST:
             break;
     }
-    debugmsg( "Invalid mdeath_type" );
-    abort();
+    cata_fatal( "Invalid mdeath_type" );
 }
 
 template<>
@@ -212,8 +210,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case m_flag::MF_MAX:
             break;
     }
-    debugmsg( "Invalid m_flag" );
-    abort();
+    cata_fatal( "Invalid m_flag" );
 }
 
 } // namespace io
@@ -732,21 +729,21 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
-    if( !was_loaded || jo.has_member( "regeneration_modifers" ) ) {
+    if( !was_loaded || jo.has_member( "regeneration_modifiers" ) ) {
         regeneration_modifiers.clear();
-        add_regeneration_modifiers( jo, "regeneration_modifers", src );
+        add_regeneration_modifiers( jo, "regeneration_modifiers", src );
     } else {
         // Note: regeneration_modifers left as is, new modifiers are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
-            add_regeneration_modifiers( tmp, "regeneration_modifers", src );
+            add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
-            remove_regeneration_modifiers( tmp, "regeneration_modifers", src );
+            remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
     }
 
