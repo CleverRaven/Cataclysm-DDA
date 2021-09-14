@@ -1,88 +1,10 @@
 [
   {
-    "type": "overmap_terrain",
-    "id": "exo_safehouse_stone_0",
-    "name": "unusual stone barn",
-    "sym": "^",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "exo_safehouse_stone_1",
-    "name": "unusual stone barn",
-    "sym": "^",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "exo_safehouse_stone_2",
-    "name": "unusual stone barn roof",
-    "sym": "^",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Out-of-place Stone Barn",
-    "//": "Exodii safehouse built in a medieval stone barn",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "exo_safehouse_stone_0_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "exo_safehouse_stone_1_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "exo_safehouse_stone_2_north" }
-    ],
-    "locations": [ "forest_without_trail", "land", "wilderness" ],
-    "city_distance": [ 0, -1 ],
-    "city_sizes": [ 0, 16 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "EXODII", "CBM" ]
-  },
-  {
-    "type": "palette",
-    "id": "exodii_stone_palette",
-    "//": "For medieval buildings the exodii have repurposed.",
-    "terrain": {
-      " ": [ [ "t_region_groundcover", 500 ], "t_region_tree" ],
-      ".": "t_glassed_sand",
-      ",": [ [ "t_glassed_sand", 3 ], "t_sandmound", "t_sand" ],
-      ";": "t_sand",
-      "#": "t_drystone_wall",
-      "_": "t_dirtfloor",
-      "'": "t_junk_floor",
-      "<": "t_ladder_up",
-      ">": "t_ladder_down",
-      "^": "t_tile_flat_roof",
-      "|": "t_junk_wall",
-      "M": "t_door_metal_c",
-      "v": "t_open_space",
-      "x": "t_drystone_wall_half",
-      "4": "t_sand"
-    },
-    "monsters": { "1": "mon_exodii_turret", "3": "mon_exodii_worker" },
-    "furniture": {
-      "c": [ "f_metal_crate_r", "f_metal_crate_c" ],
-      "C": [ "f_metal_crate_r", "f_metal_crate_c" ],
-      "g": "f_capacitor",
-      "{": "f_ground_cable",
-      ".": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ] ],
-      ",": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ], [ "f_boulder_small", 12 ], "f_boulder_medium" ]
-    },
-    "items": {
-      "c": [ { "item": "SUS_exodii_storage_medvalue", "chance": 50 } ],
-      "C": [ { "item": "SUS_exodii_storage_highvalue", "chance": 50 } ]
-    }
-  },
-  {
     "om_terrain": "exo_safehouse_stone_0",
     "//": "A medieval stone barn from the exodii's most recently visited world, converted to a safehouse for their scouts to hole up in, and transported to our world during the portal storms.",
     "type": "mapgen",
     "weight": 100,
     "method": "json",
-    "fill_ter": "t_dirtfloor",
     "object": {
       "rows": [
         "        .........       ",
@@ -95,13 +17,13 @@
         "..,,;;#|ccc|ccc|#;;,,,..",
         ".,,,;;#_3____{{g#;;;,,..",
         ".,,;;;#_|__|{{||#;;;,,..",
-        ".,,;;;#<___I____#;;;,,..",
-        ".,,;;;#|______1|#;;;,,..",
-        ".,,;;;#C________#;;;,,..",
-        ".,,;;;#C_____3__#;;;,,..",
-        ".,,;;;#C________#;;;,,..",
-        "..,,;;#||_____||#;;;,,..",
-        "..,,;;#1_______1#;;,,,..",
+        ".,,;;;#<---I----#;;;,,..",
+        ".,,;;;#|------1|#;;;,,..",
+        ".,,;;;#C--------#;;;,,..",
+        ".,,;;;#C-----3--#;;;,,..",
+        ".,,;;;#C--------#;;;,,..",
+        "..,,;;#||-----||#;;;,,..",
+        "..,,;;#1-------1#;;,,,..",
         " .,,;x####MMM####x;,,.. ",
         " .,,;;x;;;;;;;;;x;,,,.. ",
         " ..,,;x;;;;;;;;;x;,,,.. ",
@@ -110,6 +32,7 @@
         "    ....,,,,,,,,....    ",
         "       ..........       "
       ],
+      "fill_ter": "t_dirtfloor",
       "palettes": [ "exodii_stone_palette" ],
       "place_monster": [
 	    {
@@ -161,8 +84,8 @@
     "type": "mapgen",
     "weight": 100,
     "method": "json",
-    "fill_ter": "t_junk_floor",
     "object": {
+      "fill_ter": "t_junk_floor",
       "rows": [
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -198,8 +121,8 @@
     "type": "mapgen",
     "weight": 100,
     "method": "json",
-    "fill_ter": "t_tile_flat_roof",
     "object": {
+      "fill_ter": "t_tile_flat_roof",
       "rows": [
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",

@@ -1,6 +1,33 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "exo_safehouse_stone_0",
+    "name": "unusual stone barn",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_safehouse_stone_1",
+    "name": "unusual stone barn",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_safehouse_stone_2",
+    "name": "unusual stone barn roof",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "slimepit_bottom", "slimepit_top" ],
     "name": "slime pit",
     "sym": "~",
