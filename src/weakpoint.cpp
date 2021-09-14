@@ -51,11 +51,12 @@ float Character::throw_weakpoint_skill()
     return skill + stat;
 }
 
-weakpoint_attack::weakpoint_attack()
-{
-    source = nullptr;
-    weapon = &null_item_reference();
-}
+weakpoint_attack::weakpoint_attack()  :
+    source( nullptr ),
+    weapon( &null_item_reference() ),
+    is_melee( false ),
+    wp_skill( 0.0f ) {}
+
 
 weakpoint::weakpoint()
 {
