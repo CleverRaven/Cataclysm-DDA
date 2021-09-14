@@ -30,6 +30,7 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -552,7 +553,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    weapon = real_weapon;
+    set_wielded_item( real_weapon );
     cbm_weapon_index = -1;
 }
 
@@ -582,6 +583,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
+    item *weapon = get_wielded_item();
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -596,19 +598,19 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        int ammo_count = weapon.ammo_remaining( this );
-        const int ups_drain = weapon.get_gun_ups_drain();
+        int ammo_count = weapon->ammo_remaining( this );
+        const int ups_drain = weapon->get_gun_ups_drain();
         if( ups_drain > 0 ) {
             ammo_count = ammo_count / ups_drain;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
-            real_weapon = weapon;
-            weapon = cbm_weapon;
+        if( weapon_value( *weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+            real_weapon = *weapon;
+            set_wielded_item( cbm_weapon );
             cbm_weapon_index = index;
         }
-    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon->has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
 
         if( !bio.has_weapon() ) {
@@ -618,12 +620,12 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
 
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( *weapon );
         }
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
 
-        weapon = bio.get_weapon();
+        set_wielded_item( bio.get_weapon() );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -637,6 +639,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 // share functions....
 bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 {
+
+    item *weapon = get_wielded_item();
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
@@ -646,9 +650,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.typeId().str() == bio_claws_weapon.str() &&
+    if( ( weapon->typeId().str() == bio_claws_weapon.str() &&
           bio.id == bio_claws_weapon ) ||
-        ( weapon.typeId().str() == bio_blade_weapon.str() &&
+        ( weapon->typeId().str() == bio_blade_weapon.str() &&
           bio.id == bio_blade_weapon ) ) {
         return deactivate_bionic( b );
     }
@@ -724,7 +728,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             return false;
         }
 
-        if( weapon.has_flag( flag_NO_UNWIELD ) ) {
+        if( weapon->has_flag( flag_NO_UNWIELD ) ) {
             cata::optional<int> active_bio_weapon_index = active_bionic_weapon_index();
             if( active_bio_weapon_index && deactivate_bionic( *active_bio_weapon_index, eff_only ) ) {
                 // restore state and try again
@@ -734,15 +738,15 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                 return activate_bionic( b, eff_only, close_bionics_ui );
             }
 
-            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon->tname() );
             refund_power();
             bio.powered = false;
             return false;
         }
 
-        if( !weapon.is_null() ) {
-            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        if( !weapon->is_null() ) {
+            const std::string query = string_format( _( "Stop wielding %s?" ), weapon->tname() );
+            if( !dispose_item( item_location( *this, weapon ), query ) ) {
                 refund_power();
                 bio.powered = false;
                 return false;
@@ -750,8 +754,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
 
         add_msg_activate();
-        weapon = bio.get_weapon();
-        weapon.invlet = '#';
+
+        set_wielded_item( bio.get_weapon() );
+        get_wielded_item()->invlet = '#';
         //if( bio.ammo_count > 0 ) {
         //    weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
         //    avatar_action::fire_wielded_weapon( player_character );
@@ -1140,6 +1145,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
 cata::optional<int> Character::active_bionic_weapon_index() const
 {
+    const item weapon = get_wielded_item();
     if( weapon.is_null() ) {
         return cata::nullopt;
     }
@@ -1209,20 +1215,20 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-
+    const item &w_weapon = *get_wielded_item();
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !bio.info().fake_weapon.is_empty() ) {
-        if( weapon.typeId() == bio.info().fake_weapon ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( w_weapon.typeId() == bio.info().fake_weapon ) {
+            add_msg_if_player( _( "You withdraw your %s." ), w_weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
                 if( male ) {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), w_weapon.tname() );
                 } else {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), w_weapon.tname() );
                 }
             }
-            bio.set_weapon( weapon );
-            weapon = item();
+            bio.set_weapon( *get_wielded_item() );
+            set_wielded_item( item() );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
@@ -2871,7 +2877,7 @@ void Character::add_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 
     invalidate_pseudo_items();
 }
@@ -2918,7 +2924,7 @@ void Character::remove_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 int Character::num_bionics() const
@@ -3142,9 +3148,8 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void bionic::deserialize( JsonIn &jsin )
+void bionic::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );

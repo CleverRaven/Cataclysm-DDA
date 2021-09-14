@@ -60,7 +60,6 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
 static const skill_id skill_survival( "survival" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const flag_id json_flag_TACK( "TACK" );
@@ -339,7 +338,9 @@ void play_with( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
+    const std::string &petstr = z.type->petfood.pet;
+    player_character.assign_activity(
+        player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
 }
 
 void add_leash( monster &z )
@@ -574,10 +575,6 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool is_zombie = z.type->in_species( species_ZOMBIE );
-    if( is_zombie ) {
-        pet_name = _( "zombie slave" );
-    }
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
@@ -629,8 +626,7 @@ bool monexamine::pet_menu( monster &z )
         }
     }
 
-    if( z.has_flag( MF_BIRDFOOD ) || z.has_flag( MF_CATFOOD ) || z.has_flag( MF_DOGFOOD ) ||
-        z.has_flag( MF_CANPLAY ) ) {
+    if( z.has_flag( MF_CANPLAY ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_flag( MF_MILKABLE ) ) {
@@ -694,9 +690,9 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( player_character.weapon.is_null() && z.battery_item ) {
+        if( player_character.get_wielded_item()->is_null() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !player_character.weapon.is_null() ) {
+        } else if( !player_character.get_wielded_item()->is_null() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );

@@ -78,8 +78,7 @@ std::string enum_to_string<game_message_type>( game_message_type data )
         case game_message_type::num_game_message_type:
             break;
     }
-    debugmsg( "Invalid game_message_type" );
-    abort();
+    cata_fatal( "Invalid game_message_type" );
 }
 
 template<>

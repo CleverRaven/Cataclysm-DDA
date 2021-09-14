@@ -556,7 +556,7 @@ static int calculate_cumulative_experience( int level )
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    weapon = item();
+    set_wielded_item( item() );
 
     prof = profession::generic();
     set_scenario( scenario::generic() );
@@ -601,9 +601,9 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     auto nameExists = [&]( const std::string & name ) {
-        return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
-               !query_yn( _( "A character with the name '%s' already exists in this world.\n"
-                             "Saving will override the already existing character.\n\n"
+        return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
+               !query_yn( _( "A save with the name '%s' already exists in this world.\n"
+                             "Saving will overwrite the already existing character.\n\n"
                              "Continue anyways?" ), name );
     };
     set_body();
@@ -693,7 +693,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    weapon = item();
+    set_wielded_item( item() );
 
     // Grab skills from profession and increment level
     // We want to do this before the recipes
@@ -744,11 +744,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     } else {
         starting_vehicle = prof->vehicle();
     }
-
-    add_profession_items();
-
-    // Move items from the inventory. eventually the inventory should not contain items at all.
-    migrate_items_to_storage( true );
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( const addiction &iter : prof_addictions ) {
@@ -1011,19 +1006,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    // There is no map loaded currently, so any access to the map will
-    // fail (player::suffer, called from player::reset_stats), might access
-    // the map:
-    // There are traits that check/change the radioactivity on the map,
-    // that check if in sunlight...
-    // Setting the position to -1 ensures that the INBOUNDS check in
-    // map.cpp is triggered. This check prevents access to invalid position
-    // on the map (like -1,0) and instead returns a dummy default value.
-    u.setx( -1 );
     u.reset();
-    // set position back to 0 to prevent out-of-bound access to lightmap
-    // array in map::build_seen_cache()
-    u.setx( 0 );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -4194,7 +4177,7 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
             }
         }
 
-        deserialize( jsin );
+        deserialize( jsin.get_object() );
 
         // If stored_calories the template is under a million (kcals < 1000), assume it predates the
         // kilocalorie-to-literal-calorie conversion and is off by a factor of 1000.

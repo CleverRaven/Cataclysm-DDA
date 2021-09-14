@@ -14,9 +14,11 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -803,14 +805,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
-        !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) ) {
-        add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
-    }
-
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) &&
-        !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
+    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+                                     ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+                                       !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) );
+    if( food_is_human_flesh  && !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -892,10 +891,7 @@ static bool eat( item &food, Character &you, bool force )
 
     int charges_used = 0;
     if( food.type->has_use() ) {
-        if( !food.type->can_use( "DOGFOOD" ) &&
-            !food.type->can_use( "CATFOOD" ) &&
-            !food.type->can_use( "BIRDFOOD" ) &&
-            !food.type->can_use( "CATTLEFODDER" ) ) {
+        if( !food.type->can_use( "PETFOOD" ) ) {
             charges_used = food.type->invoke( you, food, you.pos() ).value_or( 0 );
             if( charges_used <= 0 ) {
                 return false;
@@ -1179,7 +1175,10 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    if( food.has_flag( flag_CANNIBALISM ) ) {
+    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+                                     ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+                                       !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) );
+    if( food_is_human_flesh ) {
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons

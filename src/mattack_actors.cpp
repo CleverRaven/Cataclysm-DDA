@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -66,13 +67,13 @@ std::unique_ptr<mattack_actor> leap_actor::clone() const
 
 bool leap_actor::call( monster &z ) const
 {
-    if( !z.can_act() || !z.move_effects( false ) ) {
+    if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
     }
 
     std::vector<tripoint> options;
-    tripoint target = z.move_target();
-    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
+    const tripoint_abs_ms target_abs = z.get_dest();
+    const float best_float = rl_dist( z.get_location(), target_abs );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -84,6 +85,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
+    const tripoint target = here.getlocal( target_abs );
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
@@ -629,18 +631,25 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     tmp.worn.emplace_back( "backpack" );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
+  
     tmp.recoil = inital_recoil; // set inital recoil
+    bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
+        throwing |= pr.first == skill_id( "throw" );
     }
 
-    tmp.weapon = gun;
+    tmp.set_wielded_item( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(), tmp.weapon.tname() );
+    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),
+                            tmp.get_wielded_item()->tname() );
 
-
-    z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
-
+    if( throwing ) {
+        tmp.throw_item( target.pos(), item( ammo, calendar::turn, 1 ) );
+        z.ammo[ammo]--;
+    } else {
+        z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
+    }
 }
 

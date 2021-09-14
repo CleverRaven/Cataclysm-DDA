@@ -21,9 +21,6 @@
     * [Set things at a "point"](#set-things-at-a-point)
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
-  * [Spawn item or monster groups with "place_groups"](#spawn-item-or-monster-groups-with-place_groups)
-    * [Spawn monsters from a group with "monster"](#spawn-monsters-from-a-group-with-monster)
-    * [Spawn items from a group with "item"](#spawn-items-from-a-group-with-item)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
@@ -221,6 +218,18 @@ Example:
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four
 apartments_mod_tower overmap terrain ids specified.
 
+### "om_terrain" for linear terrain
+
+Some overmap terrains are *linear*.  This is used for things like roads,
+tunnels, etc. where they form lines which can connect in various ways.  Such
+terrains are defined with the `LINEAR` flag in their `overmap_terrain`
+definition (see the [OVERMAP docs](OVERMAP.md)).
+
+When defining the JSON mapgen for such terrain, you must define several
+instances, for each type of connection that might exist.  Each gets a suffix
+added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
+`_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
+in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -473,60 +482,6 @@ Example:
 | id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
-
-
-## Spawn item or monster groups with "place_groups"
-**optional** Spawn items or monsters from item_groups.json and monster_groups.json
-
-Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
-
-### Spawn monsters from a group with "monster"
-
-| Field   | Description
-| ---     | ---
-| monster | (required) Value: `"MONSTER_GROUP"`. The monster group id, which picks random critters from a list
-| x, y    | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-| density | (optional) Floating-point multiplier to "chance" (see below).
-| chance  | (optional) One-in-N chance to spawn
-
-Example:
-
-```json
-{ "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
-```
-
-When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
-be used by `map::place_spawns`. Each monster generated from the monster group will be placed in a different random
-location within the rectangle. The values in the above example will produce a rectangle for `map::place_spawns` from (
-13, 15 ) to ( 15, 15 ) inclusive.
-
-The optional "density" is a floating-point multiplier to the "chance" value. If the result is bigger than 100% it
-guarantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
-spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap
-densities within a square of radius 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
-this. The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
-
-
-
-### Spawn items from a group with "item"
-
-| Field  | Description
-| ---    | ---
-| item   | (required) Value: "ITEM_GROUP". The item group id, which picks random stuff from a list.
-| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-| chance | (required) Percentage chance to spawn.
-
-Example:
-
-```json
-{ "item": "livingroom", "x": 12, "y": [ 5, 15 ], "chance": 50 }
-```
-
-When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
-be used by `map::place_items`. Each item from the item group will be placed in a different random location within the
-rectangle. These values in the above example will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 )
-inclusive.
-
 
 ## Spawn a single monster with "place_monster"
 

@@ -129,7 +129,7 @@ static const efftype_id effect_amigara( "amigara" );
 static const species_id species_HUMAN( "HUMAN" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
-                                Creature &t, int dam, bool crit = false );
+                                Creature &t, int dam, bool crit = false, bool technique = false, std::string wp_hit = {} );
 static int  stumble( Character &u, const item &weap );
 static std::string melee_message( const ma_technique &tec, Character &p,
                                   const dealt_damage_instance &ddi );
@@ -763,7 +763,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             // Treat monster as seen if we see it before or after the attack
             if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
-                player_hit_message( this, message, t, dam, critical_hit );
+                player_hit_message( this, message, t, dam, critical_hit, technique.id != tec_none,
+                                    dealt_dam.wp_hit );
             } else {
                 add_msg_player_or_npc( m_good, _( "You hit something." ),
                                        _( "<npcname> hits something." ) );
@@ -2149,7 +2150,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.weapon.is_two_handed( u ) || !u.has_two_arms_lifting() ||
+        if( u.get_wielded_item().is_two_handed( u ) || !u.has_two_arms_lifting() ||
             u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
@@ -2369,12 +2370,19 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         index = cutting ? 8 : 5;
     }
 
+    std::string message;
     if( dominant_type == damage_type::STAB ) {
-        return npc ? _( npc_stab[index] ) : _( player_stab[index] );
+        message = npc ? _( npc_stab[index] ) : _( player_stab[index] );
     } else if( dominant_type == damage_type::CUT ) {
-        return npc ? _( npc_cut[index] ) : _( player_cut[index] );
+        message = npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type == damage_type::BASH ) {
-        return npc ? _( npc_bash[index] ) : _( player_bash[index] );
+        message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
+    }
+    if( ddi.wp_hit.empty() ) {
+        return message;
+    } else {
+        //~ %1$s: "Somone hit something", %2$s: the weakpoint that was hit
+        return string_format( _( "%1$s in %2$s" ), message, ddi.wp_hit );
     }
 
     return _( "The bugs attack %s" );
@@ -2382,7 +2390,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
 
 // display the hit message for an attack
 void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit )
+                         Creature &t, int dam, bool crit, bool technique, std::string wp_hit )
 {
     std::string msg;
     game_message_type msgtype = m_good;
@@ -2404,6 +2412,10 @@ void player_hit_message( Character *attacker, const std::string &message,
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
+        } else if( technique && !wp_hit.empty() ) {
+            //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
+            msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s.  Critical!" ), message, dam,
+                                 wp_hit );
         } else {
             //~ someone hits something for %d damage (critical)
             msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
@@ -2414,6 +2426,9 @@ void player_hit_message( Character *attacker, const std::string &message,
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
+        } else if( technique && !wp_hit.empty() ) {
+            //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
+            msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s." ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage
             msg = string_format( _( "%s for %d damage." ), message, dam );
@@ -2557,13 +2572,13 @@ void avatar::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item &it = target.weapon;
-
+    item &it = *target.get_wielded_item();
+    const item *weapon = get_wielded_item();
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
+        mod_moves( -100 - stumble( *this, *weapon ) - attack_speed( *weapon ) );
         target.on_attacked( *this );
         return;
     }
@@ -2598,7 +2613,7 @@ void avatar::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( weapon ) );
+    mod_moves( -100 - attack_speed( *get_wielded_item() ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.get_name(), it.tname() );

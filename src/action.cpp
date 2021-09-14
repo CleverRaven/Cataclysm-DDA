@@ -645,7 +645,7 @@ bool can_examine_at( const tripoint &p )
     if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
         return true;
     }
-    if( here.has_items( p ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) {
         return true;
     }
     const furn_t &xfurn_t = here.furn( p ).obj();
@@ -675,7 +675,7 @@ static bool can_pickup_at( const tripoint &p )
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return here.has_items( p ) || veh_has_items;
+    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -732,8 +732,9 @@ action_id handle_action_menu()
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
+        const item *weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( weapon->is_gun() || weapon->has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }

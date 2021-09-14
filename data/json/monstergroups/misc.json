@@ -193,6 +193,11 @@
       { "monster": "mon_chicken", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_chipmunk", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_crow", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_raven", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_bluejay", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_cardinal", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_sparrow", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_robin", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_pigeon", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_deer", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_duck", "freq": 10, "cost_multiplier": 1 },
@@ -244,7 +249,8 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_crow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_crow", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "mon_raven", "freq": 75, "cost_multiplier": 1 },
       {
         "monster": "mon_pigeon",
         "freq": 100,

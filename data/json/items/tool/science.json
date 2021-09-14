@@ -1371,7 +1371,7 @@
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
           "effect": [
             { "u_message": "You feel incredibly focused!" },
-            { "u_mod_focus": 30 },
+            { "arithmetic": [ { "u_val": "focus" }, { "u_val": "focus" }, { "const": 30 } ], "op": "+" },
             { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
         },
@@ -1380,7 +1380,7 @@
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "pain" },
           "effect": [
             { "u_message": "You feel your aches and pains fade away!" },
-            { "u_mod_pain": -30 },
+            { "arithmetic": [ { "u_val": "pain" }, { "u_val": "pain" }, { "const": 30 } ], "op": "-" },
             { "npc_add_var": "PAIN", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
         },
@@ -1389,7 +1389,7 @@
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
           "effect": [
             { "u_message": "You instantly feel more awake!" },
-            { "u_mod_fatigue": -30 },
+            { "arithmetic": [ { "u_val": "fatigue" }, { "u_val": "fatigue" }, { "const": 30 } ], "op": "-" },
             { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
         }

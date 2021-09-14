@@ -92,3 +92,33 @@ std::string talker_monster::short_description() const
 {
     return me_mon->type->get_description();
 }
+
+int talker_monster::get_anger() const
+{
+    return me_mon->anger;
+}
+
+void talker_monster::set_anger( int new_val )
+{
+    me_mon->anger = new_val;
+}
+
+int talker_monster::morale_cur() const
+{
+    return me_mon->morale;
+}
+
+void talker_monster::set_morale( int new_val )
+{
+    me_mon->morale = new_val;
+}
+
+int talker_monster::get_friendly() const
+{
+    return me_mon->friendly;
+}
+
+void talker_monster::set_friendly( int new_val )
+{
+    me_mon->friendly = new_val;
+}

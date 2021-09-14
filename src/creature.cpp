@@ -110,6 +110,7 @@ Creature::Creature()
     killer = nullptr;
     speed_base = 100;
     underwater = false;
+    location = tripoint_abs_ms( 20, 10, -500 ); // Some arbitrary position that will cause debugmsgs
 
     Creature::reset_bonuses();
 
@@ -123,15 +124,36 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+tripoint Creature::pos() const
+{
+    return get_map().getlocal( location );
+}
+
 void Creature::setpos( const tripoint &p )
 {
+    const tripoint_abs_ms old_loc = get_location();
     set_pos_only( p );
+    on_move( old_loc );
+}
+
+void Creature::move_to( const tripoint_abs_ms &loc )
+{
+    const tripoint_abs_ms old_loc = get_location();
+    set_location( loc );
+    on_move( old_loc );
 }
 
 void Creature::set_pos_only( const tripoint &p )
 {
-    position = p;
+    location = get_map().getglobal( p );
 }
+
+void Creature::set_location( const tripoint_abs_ms &loc )
+{
+    location = loc;
+}
+
+void Creature::on_move( const tripoint_abs_ms & ) {}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
@@ -609,8 +631,8 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
     // The square above must have no floor.
     // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
-    const tripoint &up   = target_above ? target->pos() : pos();
-    const tripoint &down = target_above ? pos() : target->pos();
+    const tripoint up = target_above ? target->pos() : pos();
+    const tripoint down = target_above ? pos() : target->pos();
     const tripoint above{ down.xy(), up.z };
     return ( !here.has_floor( up ) || here.ter( up )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) &&
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
@@ -826,6 +848,7 @@ struct projectile_attack_results {
     game_message_type gmtSCTcolor = m_neutral;
     double damage_mult = 1.0;
     bodypart_id bp_hit;
+    std::string wp_hit;
 
     explicit projectile_attack_results( const projectile &proj ) {
         max_damage = proj.impact.total_damage();
@@ -928,14 +951,25 @@ void Creature::messaging_projectile_attack( const Creature *source,
                 } else {
                     SCT.removeCreatureHP();
                 }
-
-                //~ %1$s: creature name, %2$d: damage value
-                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
-                         disp_name(), total_damage );
+                if( hit_selection.wp_hit.empty() ) {
+                    //~ %1$s: creature name, %2$d: damage value
+                    add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
+                             disp_name(), total_damage );
+                } else {
+                    //~ %1$s: creature name, %2$s: weakpoint hit, %3$d: damage value
+                    add_msg( m_good, _( "You hit %1$s in %2$s for %3$d damage." ),
+                             disp_name(), hit_selection.wp_hit, total_damage );
+                }
             } else if( u_see_this ) {
-                //~ 1$ - shooter, 2$ - target
-                add_msg( _( "%1$s shoots %2$s." ),
-                         source->disp_name(), disp_name() );
+                if( hit_selection.wp_hit.empty() ) {
+                    //~ 1$ - shooter, 2$ - target
+                    add_msg( _( "%1$s shoots %2$s." ),
+                             source->disp_name(), disp_name() );
+                } else {
+                    //~ 1$ - shooter, 2$ - target, 3$ - weakpoint
+                    add_msg( _( "%1$s shoots %2$s in %3$s." ),
+                             source->disp_name(), disp_name(), hit_selection.wp_hit );
+                }
             }
         }
     }
@@ -1026,7 +1060,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     dealt_dam = deal_damage( source, hit_selection.bp_hit, impact );
+    // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
+    // Retrieve the selected weakpoint from the damage instance.
+    hit_selection.wp_hit = dealt_dam.wp_hit;
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
 
@@ -1050,7 +1087,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    absorb_hit( bp, d );
+    dealt_dams.wp_hit = absorb_hit( source, bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -1196,7 +1233,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             // If we do, mod the duration, factoring in the mod value
             e.mod_duration( dur * e.get_dur_add_perc() / 100 );
             // Limit to max duration
-            if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
+            if( e.get_duration() > e.get_max_duration() ) {
                 e.set_duration( e.get_max_duration() );
             }
             // Adding a permanent effect makes it permanent
@@ -1245,7 +1282,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         // Now we can make the new effect for application
         effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
         // Bound to max duration
-        if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
+        if( e.get_duration() > e.get_max_duration() ) {
             e.set_duration( e.get_max_duration() );
         }
 
@@ -2662,19 +2699,19 @@ void Creature::describe_specials( std::vector<std::string> &buf ) const
     buf.emplace_back( _( "You sense a creature here." ) );
 }
 
-tripoint_abs_ms Creature::global_square_location() const
+tripoint_abs_ms Creature::get_location() const
 {
-    return tripoint_abs_ms( get_map().getabs( pos() ) );
+    return location;
 }
 
 tripoint_abs_sm Creature::global_sm_location() const
 {
-    return project_to<coords::sm>( global_square_location() );
+    return project_to<coords::sm>( location );
 }
 
 tripoint_abs_omt Creature::global_omt_location() const
 {
-    return project_to<coords::omt>( global_square_location() );
+    return project_to<coords::omt>( location );
 }
 
 std::unique_ptr<talker> get_talker_for( Creature &me )

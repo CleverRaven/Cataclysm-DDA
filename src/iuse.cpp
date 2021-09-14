@@ -1591,127 +1591,94 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
     return it->type->charges_to_use();
 }
 
-// Types of petfood for taming each different monster.
-enum Petfood {
-    DOGFOOD,
-    CATFOOD,
-    CATTLEFODDER,
-    BIRDFOOD
-};
-
-static int feedpet( Character &p, monster &mon, item &it, m_flag food_flag, const char *message )
+cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint & )
 {
-    if( mon.has_flag( food_flag ) ) {
-        p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, true );
-        p.consume_charges( it, 1 );
-        return 0;
-    } else {
-        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
-        return 0;
-    }
-}
-
-static cata::optional<int> petfood( Character &p, item &it, Petfood animal_food_type )
-{
-    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                          it.tname() ) );
-    if( !pnt_ ) {
-        return 0;
-    }
-    const tripoint pnt = *pnt_;
-    p.moves -= to_moves<int>( 1_seconds );
-
-    creature_tracker &creatures = get_creature_tracker();
-    // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD && creatures.creature_at<npc>( pnt ) != nullptr ) {
-        if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
-            npc &person = *person_;
-            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
-                p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
-                                     person.get_name() );
-                if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
-                    person.say(
-                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                    p.consume_charges( it, 1 );
-                    return 0;
-                } else {
-                    p.add_msg_if_player( _( "%s knocks it from your hand!" ), person.get_name() );
-                    person.make_angry();
-                    p.consume_charges( it, 1 );
-                    return 0;
-                }
-            } else {
-                p.add_msg_if_player( _( "Never mind." ) );
-                return cata::nullopt;
-            }
-        }
-        // Then monsters.
-    } else if( monster *const mon_ptr = creatures.creature_at<monster>( pnt, true ) ) {
-        monster &mon = *mon_ptr;
-
-        if( mon.is_hallucination() ) {
-            p.add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
-                                 mon.type->nname(), it.tname() );
-            mon.die( nullptr );
-            return 0;
-        }
-
-        // This switch handles each petfood for each type of tameable monster.
-        switch( animal_food_type ) {
-            case DOGFOOD:
-                if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
-                    p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                    if( one_in( 5 ) ) {
-                        p.add_msg_if_player(
-                            _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
-                        p.consume_charges( it, 1 );
-                        return 0;
-                    }
-                } else {
-                    return feedpet( p, mon, it, MF_DOGFOOD,
-                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-                }
-                break;
-            case CATFOOD:
-                return feedpet( p, mon, it, MF_CATFOOD,
-                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
-            case CATTLEFODDER:
-                return feedpet( p, mon, it, MF_CATTLEFODDER,
-                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-            case BIRDFOOD:
-                return feedpet( p, mon, it, MF_BIRDFOOD,
-                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
-        }
-
-    } else {
-        p.add_msg_if_player( _( "There is nothing to be fed here." ) );
+    if( !it->is_comestible() ) {
+        p->add_msg_if_player( _( "You doubt someone would want to eat %1$s." ), it->tname() );
         return cata::nullopt;
     }
 
-    return 1;
-}
+    const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
+                                         it->tname() ) );
+    if( !pnt ) {
+        return cata::nullopt;;
+    }
 
-cata::optional<int> iuse::dogfood( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, DOGFOOD );
-}
+    creature_tracker &creatures = get_creature_tracker();
+    // First a check to see if we are trying to feed a NPC dog food.
+    if( npc *const who = creatures.creature_at<npc>( *pnt ) ) {
+        if( query_yn( _( "Are you sure you want to feed a person %1$s?" ), it->tname() ) ) {
+            p->mod_moves( -to_moves<int>( 1_seconds ) );
+            p->add_msg_if_player( _( "You put your %1$s into %2$s mouth!" ),
+                                  it->tname(), who->disp_name( true ) );
+            if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
+                who->say(
+                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+            } else {
+                p->add_msg_if_player( _( "%s knocks it from your hand!" ), who->disp_name() );
+                who->make_angry();
+            }
+            p->consume_charges( *it, 1 );
+            return cata::nullopt;
+        } else {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return cata::nullopt;
+        }
+        // Then monsters.
+    } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
+        p->mod_moves( -to_moves<int>( 1_seconds ) );
 
-cata::optional<int> iuse::catfood( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATFOOD );
-}
+        if( mon->is_hallucination() ) {
+            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
+                                  mon->type->nname(), it->tname() );
+            mon->die( nullptr );
+            return cata::nullopt;
+        }
 
-cata::optional<int> iuse::feedcattle( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATTLEFODDER );
-}
 
-cata::optional<int> iuse::feedbird( Character *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, BIRDFOOD );
+        bool can_feed = false;
+        const pet_food_data &petfood = mon->type->petfood;
+        const std::set<std::string> &itemfood = it->get_comestible()->petfood;
+        if( !petfood.food.empty() ) {
+            for( const std::string &food : petfood.food ) {
+                if( itemfood.find( food ) != itemfood.end() ) {
+                    can_feed = true;
+                    break;
+                }
+            }
+        }
+
+        if( !can_feed ) {
+            p->add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon->get_name() );
+            return cata::nullopt;
+        }
+
+        if( mon->type->id == mon_dog_thing ) {
+            p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player(
+                    _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
+                p->consume_charges( *it, 1 );
+            }
+            return cata::nullopt;
+        }
+
+        p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
+
+        if( petfood.feed.empty() ) {
+            p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
+        } else {
+            p->add_msg_if_player( m_good, petfood.feed, mon->get_name() );
+        }
+
+        mon->friendly = -1;
+        mon->add_effect( effect_pet, 1_turns, true );
+        p->consume_charges( *it, 1 );
+        return cata::nullopt;
+    }
+    p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::radio_mod( Character *p, item *, bool, const tripoint & )
@@ -6028,7 +5995,9 @@ static void init_memory_card_with_random_stuff( item &it )
 
         //add random recipes
         if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
-            it.set_var( "MC_RECIPE", "SIMPLE" );
+            const std::string recipe_category[6] = { "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" };
+            int cc_random = rng( 0, 5 );
+            it.set_var( "MC_RECIPE", recipe_category[cc_random] );
         }
 
         if( it.has_flag( flag_MC_SCIENCE_STUFF ) ) {
@@ -6078,7 +6047,13 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
     }
 
     if( !mc.get_var( "MC_RECIPE" ).empty() ) {
-        const bool science = mc.get_var( "MC_RECIPE" ) == "SCIENCE";
+        std::string category = mc.get_var( "MC_RECIPE" );
+        const bool science = category == "SCIENCE";
+        int recipe_num = rng( 1, 3 );
+
+        if( category == "SIMPLE" ) {
+            category = "CC_FOOD";
+        }
 
         mc.erase_var( "MC_RECIPE" );
 
@@ -6090,33 +6065,52 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 continue;
             }
             if( science ) {
-                if( r.difficulty >= 3 && one_in( r.difficulty + 1 ) ) {
+                if( r.difficulty >= 6 && r.category == "CC_CHEM" ) {
                     candidates.push_back( &r );
                 }
             } else {
-                if( r.category == "CC_FOOD" ) {
-                    if( r.difficulty <= 3 && one_in( r.difficulty ) ) {
-                        candidates.push_back( &r );
-                    }
+                if( r.difficulty <= 5 && ( r.category == category ) ) {
+                    candidates.push_back( &r );
                 }
-
             }
-
         }
 
         if( !candidates.empty() ) {
+            std::vector<const recipe *> new_recipes;
 
-            const recipe *r = random_entry( candidates );
+            for( int i = 0; i < recipe_num; i++ ) {
+                const recipe *r = random_entry( candidates );
+                if( std::find( new_recipes.begin(), new_recipes.end(), r ) != new_recipes.end() ) {
+                    // Avoid duplicate. Try again.
+                    i--;
+                } else {
+                    new_recipes.push_back( r );
+                }
+            }
 
-            bool rec_added = eink.eipc_recipe_add( r->ident() );
+            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
+                const recipe *r = *rec;
+                const recipe_id &rident = r->ident();
 
-            if( rec_added ) {
-                something_downloaded = true;
-                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                     r->result_name() );
-            } else {
-                p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
-                                     r->result_name() );
+                const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
+                if( old_recipes.empty() ) {
+                    something_downloaded = true;
+                    eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
+
+                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                                         r->result_name() );
+                } else {
+                    if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
+                        something_downloaded = true;
+                        eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
+
+                        p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                                             r->result_name() );
+                    } else {
+                        p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the tablet's memory." ),
+                                             r->result_name() );
+                    }
+                }
             }
         }
     }
@@ -6543,20 +6537,20 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
     return 0;
 }
 
-struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
+struct extended_photo_def {
     int quality = 0;
     std::string name;
     std::string description;
 
     extended_photo_def() = default;
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
+
+    void deserialize( const JsonObject &obj ) {
         quality = obj.get_int( "quality" );
         name = obj.get_string( "name" );
         description = obj.get_string( "description" );
     }
 
-    void serialize( JsonOut &jsout ) const override {
+    void serialize( JsonOut &jsout ) const {
         jsout.start_object();
         jsout.member( "quality", quality );
         jsout.member( "name", name );
@@ -7671,7 +7665,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
-            if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
@@ -7703,7 +7697,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -8712,7 +8706,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                     return cata::nullopt;
                 }
             }
-            const tripoint &abspos = here.getabs( posp );
+            const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );
@@ -9179,27 +9173,25 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
     return 0;
 }
 
-cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint &pos )
+cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )
 {
     if( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
         p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it." ),
                               it->tname() );
         return cata::nullopt;
     }
-    const cata::optional<tripoint> posp_ = choose_adjacent( _( "Choose hologram direction." ) );
-    if( !posp_ ) {
+    const cata::optional<tripoint> posp = choose_adjacent( _( "Choose hologram direction." ) );
+    if( !posp ) {
         return cata::nullopt;
     }
-    const tripoint posp = *posp_;
+    const tripoint delta = *posp - get_player_character().pos();
 
-    monster *const hologram = g->place_critter_at( mon_hologram, posp );
+    monster *const hologram = g->place_critter_at( mon_hologram, *posp );
     if( !hologram ) {
         p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
         return cata::nullopt;
     }
-    tripoint target = pos;
-    target.x = p->posx() + 4 * SEEX * ( posp.x - p->posx() );
-    target.y = p->posy() + 4 * SEEY * ( posp.y - p->posy() );
+    tripoint_abs_ms target = p->get_location() + delta * ( 4 * SEEX );
     hologram->friendly = -1;
     hologram->add_effect( effect_docile, 1_hours );
     hologram->wandf = -30;
@@ -9612,7 +9604,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
                 return nullptr;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &p->weapon;
+            return p->get_wielded_item();
         } else {
             return nullptr;
         }

@@ -608,7 +608,6 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" },
       { "level": 1, "name": "speech" },
       { "level": 1, "name": "traps" }
     ],
@@ -1814,7 +1813,7 @@
     "name": "Day Driver",
     "description": "You love driving and making a living with it.  On your way to pick up someone with your car, you start to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  All that's left is your car.",
     "points": 4,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 4, "name": "driving" } ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 4, "name": "driving" } ],
     "vehicle": "car",
     "items": {
       "both": {
@@ -1894,7 +1893,7 @@
     "name": "Bus Driver",
     "description": "You are making a living with delivering noisy brats to their schools, where you wish with every delivery, that they don't break a seat or window for you.  On your way to pick up the first row of brats, you start to notice all the chaos happening around you.  By the time you arrive at the station, all the brats look like zombies, so you took a long detour to safety, only to find yourself in a different place.  At last you have been freed of the hellish noises they release, but new ones are on the merge.",
     "points": 4,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 3, "name": "driving" } ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 3, "name": "driving" } ],
     "vehicle": "schoolbus",
     "items": {
       "both": {
@@ -4020,6 +4019,42 @@
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "mafia_boss",
+    "name": "Mafia boss",
+    "description": "Born into poverty, you joined one of the organized crime families to make a living.  There, you quickly made it to the top and became the boss.  The government was building a RICO case against you, but the doomsday arrived first.  Your crew is gone, but your past life prepared you for a world where violence is common currency.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "smg" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 4, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tux",
+          "fedora",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "gold_watch",
+          "diamond_ring",
+          "cigar",
+          "gold_bracelet",
+          "knuckle_brass"
+        ],
+        "entries": [
+          { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
+          { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     },
     "traits": [ "LIAR" ]
   }

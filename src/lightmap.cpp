@@ -199,7 +199,7 @@ bool map::build_vision_transparency_cache( const int zlev )
     memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
 
     Character &player_character = get_player_character();
-    const tripoint &p = player_character.pos();
+    const tripoint p = player_character.pos();
 
     if( p.z != zlev ) {
         return false;
@@ -504,7 +504,7 @@ void map::generate_lightmap( const int zlev )
         if( critter.is_hallucination() ) {
             continue;
         }
-        const tripoint &mp = critter.pos();
+        const tripoint mp = critter.pos();
         if( inbounds( mp ) ) {
             if( critter.has_effect( effect_onfire ) ) {
                 apply_light_source( mp, 8 );

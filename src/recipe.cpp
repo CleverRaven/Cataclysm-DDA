@@ -1141,9 +1141,9 @@ void recipe::incorporate_build_reqs()
     reqs_internal.emplace_back( req_id, 1 );
 }
 
-void recipe_proficiency::deserialize( JsonIn &jsin )
+void recipe_proficiency::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void recipe_proficiency::load( const JsonObject &jo )
@@ -1156,9 +1156,9 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "max_experience", max_experience );
 }
 
-void book_recipe_data::deserialize( JsonIn &jsin )
+void book_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void book_recipe_data::load( const JsonObject &jo )
@@ -1168,9 +1168,9 @@ void book_recipe_data::load( const JsonObject &jo )
     jo.read( "hidden", hidden );
 }
 
-void practice_recipe_data::deserialize( JsonIn &jsin )
+void practice_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void practice_recipe_data::load( const JsonObject &jo )

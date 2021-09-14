@@ -24,7 +24,6 @@
 #include "value_ptr.h"
 
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class Trait_group;
 class item;
@@ -125,7 +124,7 @@ struct reflex_activation_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct mutation_branch {

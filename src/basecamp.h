@@ -21,8 +21,8 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
+class JsonObject;
 class character_id;
 class npc;
 class time_duration;
@@ -337,7 +337,7 @@ class basecamp
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
 
         static constexpr int inv_range = 20;

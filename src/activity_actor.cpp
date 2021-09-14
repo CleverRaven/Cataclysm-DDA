@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -296,7 +297,7 @@ item *aim_activity_actor::get_weapon()
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = &get_player_character().weapon;
+        item *weapon = get_player_character().get_wielded_item();
         return weapon->is_null() ? nullptr : weapon;
     }
 }
@@ -3281,9 +3282,8 @@ void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
     jsobj.read( "loc", _loc );
     jsobj.read( "count", _count );
 }
@@ -3873,7 +3873,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                        reloadable_name );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
-                               _( "Dispose of %s and wield %s" ), who.weapon.display_name(),
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item()->display_name(),
                                reloadable_name );
     } else {
         reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );
@@ -4569,6 +4569,11 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+
+    if( !playstr.empty() ) {
+        who.add_msg_if_player( m_good, playstr, pet_name );
+    }
+
     who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                            pet_name );
     act.set_to_null();
@@ -4577,19 +4582,17 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
 void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-
     jsout.member( "pet_name", pet_name );
-
+    jsout.member( "playstr", playstr );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
-
     JsonObject data = jsin.get_object();
-
     data.read( "pet_name", actor.pet_name );
+    data.read( "playstr", actor.playstr );
     return actor.clone();
 }
 

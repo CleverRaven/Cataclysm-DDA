@@ -49,7 +49,7 @@ class CataModule : public ClangTidyModule
                 llvm::report_fatal_error(
                     Twine( "clang version mismatch in CataTidyModule.  Compiled against "
                            CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
-                abort();
+                abort(); // NOLINT(cata-assert)
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );
             CheckFactories.registerCheck<AssertCheck>( "cata-assert" );

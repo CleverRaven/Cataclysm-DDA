@@ -34,6 +34,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -1471,7 +1472,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( &it == p.get_wielded_item() ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -2376,6 +2377,11 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
             return cata::nullopt;
         }
         study_spell.moves_total = study_time;
+        spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
+        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+            p.handle_skill_warning( studying.skill(),
+                                    true ); // show the skill warning on start reading, since we don't show it during
+        }
     }
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
@@ -4001,14 +4007,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         }
     }
 
-    bool can_dupe = false;
-    for( const bionic &bio : *p.my_bionics ) {
-        if( bio.id == bid && bio.info().dupes_allowed ) {
-            can_dupe = true;
-        }
-    }
-
-    if( p.has_bionic( bid ) && !can_dupe ) {
+    if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );

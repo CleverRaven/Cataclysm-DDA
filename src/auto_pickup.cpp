@@ -817,9 +817,8 @@ void rule_list::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void rule::deserialize( JsonIn &jsin )
+void rule::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );
@@ -832,7 +831,7 @@ void rule_list::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         rule tmp;
-        tmp.deserialize( jsin );
+        tmp.deserialize( jsin.get_object() );
         push_back( tmp );
     }
 }

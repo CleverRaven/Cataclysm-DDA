@@ -227,6 +227,13 @@ bool iexamine::always_false( const tripoint &/*examp*/ )
     return false;
 }
 
+bool iexamine::false_and_debugmsg( const tripoint &examp )
+{
+    debugmsg( "Called false_and_debugmsg on %s - was a terrain with an actor configured incorrectly?",
+              get_map().tername( examp ) );
+    return false;
+}
+
 bool iexamine::always_true( const tripoint &/*examp*/ )
 {
     return true;
@@ -794,7 +801,11 @@ class atm_menu
                 popup( _( "Destination card is full." ) );
                 return false;
             }
-            item_location( you, cash_item ).remove_item();
+            if( cash_item->charges > 1 ) {
+                cash_item->charges--;
+            } else {
+                item_location( you, cash_item ).remove_item();
+            }
             dst->ammo_set( dst->ammo_default(), dst->ammo_remaining() + value );
             you.assign_activity( ACT_ATM, 0, exchange_cash );
             you.activity.targets.emplace_back( you, dst );
@@ -3919,7 +3930,7 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-void iexamine::reload_furniture( Character &you, const tripoint &examp )
+static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
@@ -3931,16 +3942,15 @@ void iexamine::reload_furniture( Character &you, const tripoint &examp )
     }
     map_stack items_here = here.i_at( examp );
     const int amount_in_furn = count_charges_in_list( ammo, items_here );
-    const int amount_in_inv = you.charges_of( ammo->get_id() );
-    if( amount_in_furn > 0 ) {
+    const int amount_in_inv = you.crafting_inventory().charges_of( ammo->get_id() );
+    if( allow_unload && amount_in_furn > 0 ) {
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                           ammo->nname( amount_in_furn ) ) ) {
-            Character &player_character = get_player_character();
             map_stack items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
-                    player_character.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, player_character.pos() ) ) );
+                    you.assign_activity( player_activity( pickup_activity_actor(
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos() ) ) );
                     return;
                 }
             }
@@ -3971,27 +3981,37 @@ void iexamine::reload_furniture( Character &you, const tripoint &examp )
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
-    you.use_charges( ammo->get_id(), amount );
-    map_stack items = here.i_at( examp );
-    for( auto &itm : items ) {
-        if( itm.type == ammo ) {
-            itm.charges += amount;
-            amount = 0;
-            break;
+
+    std::list<item> moved = you.consume_items( { { ammo->get_id(), amount } } );
+    auto place_item = [&]( const item & it ) {
+        for( item &e : here.i_at( examp ) ) {
+            if( e.merge_charges( it ) ) {
+                return;
+            }
         }
-    }
-    if( amount != 0 ) {
-        item it( ammo, calendar::turn, amount );
+
         here.add_item( examp, it );
+    };
+
+    for( const item &m : moved ) {
+        // We can't use map::add_item_or_charges here since the furniture has NO_ITEM
+        place_item( m );
+        you.mod_moves( -you.item_handling_cost( m ) );
     }
 
-    const int amount_in_furn_after_placing = count_charges_in_list( ammo, items );
+    const int amount_in_furn_after_placing = count_charges_in_list( ammo, here.i_at( examp ) );
     //~ %1$s - furniture, %2$d - number, %3$s items.
     add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
              ammo->nname( amount_in_furn_after_placing ) );
 
     add_msg( _( "You reload the %s." ), here.furnname( examp ) );
-    you.moves -= to_moves<int>( 5_seconds );
+
+    you.invalidate_crafting_inventory();
+}
+
+void iexamine::reload_furniture( Character &you, const tripoint &examp )
+{
+    return reload_furniture( you, examp, true );
 }
 
 void iexamine::curtains( Character &you, const tripoint &examp )
@@ -5862,14 +5882,19 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
         }
     }
 
+    const furn_t &f = here.furn( examp ).obj();
+    const itype *type = f.crafting_pseudo_item_type();
+    const itype *ammo = f.crafting_ammo_item_type();
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto remaining_capacity_portable = sm_rack::MAX_FOOD_VOLUME_PORTABLE - f_volume;
-    const bool has_coal_in_inventory = you.charges_of( itype_charcoal ) > 0;
+    const bool has_coal_in_inventory = you.crafting_inventory().charges_of( itype_charcoal ) > 0;
     const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
     const int need_charges = get_charcoal_charges( f_volume );
+    const int max_charges = type == nullptr || ammo == nullptr ||
+                            !ammo->ammo ? 0 : item( type ).ammo_capacity( ammo->ammo->type );
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 
@@ -5910,9 +5935,10 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             smenu.addentry( 4, f_check, 'e', _( "Remove food from smoking rack" ) );
         }
 
-        smenu.addentry_desc( 3, has_coal_in_inventory, 'r',
+        smenu.addentry_desc( 3, has_coal_in_inventory && coal_charges < max_charges, 'r',
                              !has_coal_in_inventory ? _( "Reload with charcoal… you don't have any" ) :
-                             _( "Reload with charcoal" ),
+                             ( coal_charges >= max_charges ? _( "Reload with charcoal… at maximum capacity" ) :
+                               _( "Reload with charcoal" ) ),
                              string_format(
                                  _( "You need %d charges of charcoal for %s %s of food.  Minimal amount of charcoal is %d charges." ),
                                  sm_rack::CHARCOAL_PER_LITER, format_volume( 1_liter ), volume_units_long(),
@@ -5986,7 +6012,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             break;
         case 3:
             // load charcoal
-            reload_furniture( you, examp );
+            reload_furniture( you, examp, false );
             break;
         case 4:
             // remove food
@@ -6208,6 +6234,11 @@ void iexamine::workout( Character &you, const tripoint &examp )
     you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
 }
 
+void iexamine::invalid( Character &/*you*/, const tripoint &examp )
+{
+    debugmsg( "Called invalid iexamine function on %s!", get_map().tername( examp ) );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6294,7 +6325,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
-            { "workout", &iexamine::workout }
+            { "workout", &iexamine::workout },
+            { "invalid", &iexamine::invalid },
         }
     };
 
@@ -6311,6 +6343,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         iexamine_examine_function func = iter->second;
         if( function_name == "none" ) {
             return iexamine_functions{&iexamine::always_false, func};
+        } else if( function_name == "invalid" ) {
+            return iexamine_functions{&iexamine::false_and_debugmsg, func};
         } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
             return iexamine_functions{&iexamine::harvestable_now, func};
         } else {
