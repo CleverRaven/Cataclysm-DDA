@@ -1241,12 +1241,13 @@ monster_attitude monster::attitude( const Character *u ) const
                 effective_anger -= 10;
             }
         }
-        auto *u_fac = u->get_faction();
-        if( u_fac && u_fac->mon_faction && faction == u_fac->mon_faction &&
-            faction.obj().attitude( u_fac->mon_faction ) == MFA_FRIENDLY ) {
+
+        if( int_id<monfaction>( faction.id() ) == u->get_monster_faction() &&
+            faction.obj().attitude( u->get_monster_faction() ) == MFA_FRIENDLY ) {
             return MATT_FRIEND;
         }
 
+        // Is _everything_ in the FUNGUS species part of the Mycus?
         if( type->in_species( species_FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                 u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1269,21 +1270,20 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( u_fac ) {
-            switch( faction.obj().attitude( u_fac->mon_faction ) ) {
-                case MFA_FRIENDLY:
-                    return MATT_FRIEND;
-                case MFA_HATE:
-                    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
-                        return MATT_FLEE;
-                    }
-                    return MATT_ATTACK;
-                case MFA_NEUTRAL:
-                    return MATT_IGNORE;
-                case MFA_BY_MOOD:
-                default:
-                    break;
-            }
+        switch( faction.obj().attitude( u->get_monster_faction() ) ) {
+            case MFA_FRIENDLY:
+                return MATT_FRIEND;
+            case MFA_HATE:
+                if( has_flag( MF_KEEP_DISTANCE ) &&
+                    rl_dist( get_location(), get_dest() ) < type->tracking_distance ) {
+                    return MATT_FLEE;
+                }
+                return MATT_ATTACK;
+            case MFA_NEUTRAL:
+                return MATT_IGNORE;
+            case MFA_BY_MOOD:
+            default:
+                break;
         }
 
         if( u->has_trait( trait_TERRIFYING ) ) {
