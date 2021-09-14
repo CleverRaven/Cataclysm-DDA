@@ -24,6 +24,7 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "distribution.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -1076,7 +1077,7 @@ struct mutable_overmap_terrain {
     }
 };
 
-struct mutable_overmap_placement_rule {
+struct mutable_overmap_placement_rule_remainder {
     std::string overmap;
     int max = INT_MAX;
     int weight = INT_MAX;
@@ -1092,13 +1093,23 @@ struct mutable_overmap_placement_rule {
     void decrement() {
         --max;
     }
+};
+
+struct mutable_overmap_placement_rule {
+    std::string overmap;
+    int_distribution max = int_distribution( INT_MAX );
+    int weight = INT_MAX;
+
+    mutable_overmap_placement_rule_remainder realise() const {
+        return { overmap, max.sample(), weight };
+    }
 
     void deserialize( JsonIn &jin ) {
         JsonObject jo = jin.get_object();
         jo.read( "overmap", overmap, true );
         jo.read( "max", max );
         jo.read( "weight", weight );
-        if( max == INT_MAX && weight == INT_MAX ) {
+        if( !jo.has_member( "max" ) && weight == INT_MAX ) {
             jo.throw_error( R"(placement rule must specify at least one of "max" or "weight")" );
         }
     }
@@ -1133,13 +1144,13 @@ struct placement_constraints {
     }
 };
 
-struct mutable_overmap_phase {
-    std::vector<mutable_overmap_placement_rule> rules;
+struct mutable_overmap_phase_remainder {
+    std::vector<mutable_overmap_placement_rule_remainder> rules;
 
     struct satisfy_result {
         const mutable_overmap_terrain *terrain;
         om_direction::type dir;
-        mutable_overmap_placement_rule *rule;
+        mutable_overmap_placement_rule_remainder *rule;
         // For debugging purposes it's really handy to have a record of exactly
         // what happened during placement of a mutable special when it fails,
         // so to aid that we provide a human-readable description here which is
@@ -1149,7 +1160,7 @@ struct mutable_overmap_phase {
 
     bool all_rules_exhausted() const {
         return std::all_of( rules.begin(), rules.end(),
-        []( const mutable_overmap_placement_rule & rule ) {
+        []( const mutable_overmap_placement_rule_remainder & rule ) {
             return rule.is_exhausted();
         } );
     }
@@ -1163,7 +1174,7 @@ struct mutable_overmap_phase {
         std::array<placement_constraints, 4> all_constraints = constraints.all_rotations();
 
         weighted_int_list<satisfy_result> options;
-        for( mutable_overmap_placement_rule &rule : rules ) {
+        for( mutable_overmap_placement_rule_remainder &rule : rules ) {
             auto it = overmaps.find( rule.overmap );
             if( it == overmaps.end() ) {
                 debugmsg( "invalid overmap %s", rule.overmap );
@@ -1231,7 +1242,7 @@ struct mutable_overmap_phase {
             return *picked;
         } else {
             std::string rules_s = enumerate_as_string( rules,
-            []( const mutable_overmap_placement_rule & rule ) {
+            []( const mutable_overmap_placement_rule_remainder & rule ) {
                 if( rule.is_exhausted() ) {
                     return string_format( "(%s)", rule.overmap );
                 } else {
@@ -1248,6 +1259,18 @@ struct mutable_overmap_phase {
                     joins_s, rules_s );
             return { nullptr, om_direction::type::invalid, nullptr, std::move( message ) };
         }
+    }
+};
+
+struct mutable_overmap_phase {
+    std::vector<mutable_overmap_placement_rule> rules;
+
+    mutable_overmap_phase_remainder realise() const {
+        std::vector<mutable_overmap_placement_rule_remainder> realised_rules;
+        for( const mutable_overmap_placement_rule &rule : rules ) {
+            realised_rules.push_back( rule.realise() );
+        }
+        return { realised_rules };
     }
 
     void deserialize( JsonIn &jin ) {
@@ -1606,9 +1629,10 @@ struct mutable_overmap_special_data {
                     debugmsg( "phases specifies overmap %s which is not defined for %s",
                               rule.overmap, context );
                 }
-                if( rule.max <= 0 ) {
-                    debugmsg( "phase of %s specifies max of %d; this should be a positive number",
-                              context, rule.max );
+                int min_max = rule.max.minimum();
+                if( min_max < 0 ) {
+                    debugmsg( "phase of %s specifies max which might be as low as %d; this should "
+                              "be a positive number", context, min_max );
                 }
             }
         }
@@ -1643,14 +1667,14 @@ struct mutable_overmap_special_data {
         unresolved.add_joins_for( root_omt, origin, om_direction::type::none );
 
         auto current_phase = phases.begin();
-        mutable_overmap_phase phase_remaining = *current_phase;
+        mutable_overmap_phase_remainder phase_remaining = current_phase->realise();
 
         while( unresolved.any_unresolved() ) {
             pos_dir p_d;
             placement_constraints next;
             std::tie( p_d, next ) = unresolved.pick_top_priority();
             const tripoint_om_omt &p = p_d.p;
-            mutable_overmap_phase::satisfy_result satisfy_result =
+            mutable_overmap_phase_remainder::satisfy_result satisfy_result =
                 phase_remaining.satisfy( overmaps, joins, om, p, next );
             descriptions.push_back( std::move( satisfy_result.description ) );
             const mutable_overmap_terrain *ter = satisfy_result.terrain;
@@ -1670,7 +1694,7 @@ struct mutable_overmap_special_data {
                 }
                 descriptions.push_back(
                     string_format( "## Entering phase %td", current_phase - phases.begin() ) );
-                phase_remaining = *current_phase;
+                phase_remaining = current_phase->realise();
                 unresolved.restore_postponed();
             }
         }
