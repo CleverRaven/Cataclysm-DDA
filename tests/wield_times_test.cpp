@@ -34,7 +34,7 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     guy.set_moves( 1000 );
     const int old_moves = guy.moves;
     REQUIRE( guy.wield( item_loc ) );
-    CAPTURE( guy.weapon.typeId() );
+    CAPTURE( guy.get_wielded_item()->typeId() );
     int move_cost = old_moves - guy.moves;
 
     INFO( "Strength:" << guy.get_str() );
@@ -95,9 +95,9 @@ TEST_CASE( "Wield time test", "[wield]" )
         clear_character( guy );
         REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
-        wield_check_from_inv( guy, itype_id( "aspirin" ), 375 );
+        wield_check_from_inv( guy, itype_id( "aspirin" ), 500 );
         clear_character( guy );
-        wield_check_from_inv( guy, itype_id( "knife_combat" ), 412 );
+        wield_check_from_inv( guy, itype_id( "knife_combat" ), 537 );
         clear_character( guy );
         wield_check_from_ground( guy, itype_id( "metal_tank" ), 300 );
         clear_character( guy );

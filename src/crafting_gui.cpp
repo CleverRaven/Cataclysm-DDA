@@ -25,6 +25,7 @@
 #include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -34,6 +35,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -136,6 +138,19 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
+static bool cannot_gain_skill_or_prof( const Character &player, const recipe &recp )
+{
+    if( recp.skill_used && player.get_skill_level( recp.skill_used ) <= recp.get_skill_cap() ) {
+        return false;
+    }
+    for( const proficiency_id &prof : recp.used_proficiencies() ) {
+        if( !player.has_proficiency( prof ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 namespace
 {
 struct availability {
@@ -145,18 +160,19 @@ struct availability {
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
         const deduped_requirement_data &req = r->deduped_requirements();
+        has_all_skills = r->skill_used.is_null() ||
+                         player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
         has_proficiencies = r->character_has_required_proficiencies( player );
-        can_craft = req.can_make_with_inventory(
-                        inv, all_items_filter, batch_size, craft_flags::start_only ) && has_proficiencies;
-        can_craft_non_rotten = req.can_make_with_inventory(
-                                   inv, no_rotten_filter, batch_size, craft_flags::start_only );
+        can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                    req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+        would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
+                           craft_flags::start_only );
+        would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
         const requirement_data &simple_req = r->simple_requirements();
-        apparently_craftable = simple_req.can_make_with_inventory(
-                                   inv, all_items_filter, batch_size, craft_flags::start_only );
+        apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                               simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
         proficiency_time_maluses = r->proficiency_time_maluses( player );
         proficiency_failure_maluses = r->proficiency_failure_maluses( player );
-        has_all_skills = r->skill_used.is_null() ||
-                         player.get_skill_level( r->skill_used ) >= r->difficulty;
         for( const std::pair<const skill_id, int> &e : r->required_skills ) {
             if( player.get_skill_level( e.first ) < e.second ) {
                 has_all_skills = false;
@@ -165,7 +181,8 @@ struct availability {
         }
     }
     bool can_craft;
-    bool can_craft_non_rotten;
+    bool would_use_rotten;
+    bool would_not_benefit;
     bool apparently_craftable;
     bool has_proficiencies;
     bool has_all_skills;
@@ -175,7 +192,7 @@ struct availability {
     nc_color selected_color() const {
         if( !can_craft ) {
             return h_dark_gray;
-        } else if( !can_craft_non_rotten ) {
+        } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills ? h_brown : h_red;
         } else {
             return has_all_skills ? h_white : h_yellow;
@@ -185,7 +202,7 @@ struct availability {
     nc_color color( bool ignore_missing_skills = false ) const {
         if( !can_craft ) {
             return c_dark_gray;
-        } else if( !can_craft_non_rotten ) {
+        } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills || ignore_missing_skills ? c_brown : c_red;
         } else {
             return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
@@ -205,15 +222,16 @@ static std::vector<std::string> recipe_info(
 {
     std::ostringstream oss;
 
-    oss << string_format( _( "Primary skill: %s\n" ),
-                          recp.primary_skill_string( &guy, false ) );
+    oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
 
-    oss << string_format( _( "Other skills: %s\n" ),
-                          recp.required_skills_string( &guy, false, false ) );
+    if( !recp.required_skills.empty() ) {
+        oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
+    }
 
-    oss << string_format( _( "Proficiencies Required: %s\n" ),
-                          recp.required_proficiencies_string( &guy ) );
-
+    const std::string req_profs = recp.required_proficiencies_string( &guy );
+    if( !req_profs.empty() ) {
+        oss << string_format( _( "Proficiencies Required: %s\n" ), req_profs );
+    }
     const std::string used_profs = recp.used_proficiencies_string( &guy );
     if( !used_profs.empty() ) {
         oss << string_format( _( "Proficiencies Used: %s\n" ), used_profs );
@@ -228,11 +246,13 @@ static std::vector<std::string> recipe_info(
     oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
                           to_string( time_duration::from_turns( expected_turns ) ) );
 
-    oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ),
-                          recp.batch_savings_string() );
+    const std::string batch_savings = recp.batch_savings_string();
+    if( !batch_savings.empty() ) {
+        oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ), batch_savings );
+    }
 
     oss << string_format( _( "Activity level: <color_cyan>%s</color>\n" ),
-                          activity_level::activity_level_str( recp.exertion_level() ) );
+                          display::activity_level_str( recp.exertion_level() ) );
 
     const int makes = recp.makes_amount();
     if( makes > 1 ) {
@@ -244,21 +264,23 @@ static std::vector<std::string> recipe_info(
                           recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    std::string nearby_string;
     const inventory &crafting_inv = guy.crafting_inventory();
-    const int nearby_amount = crafting_inv.count_item( recp.result() );
-    if( nearby_amount == 0 ) {
-        nearby_string = "<color_light_gray>0</color>";
-    } else if( nearby_amount > 9000 ) {
-        // at some point you get too many to count at a glance and just know you have a lot
-        nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
-    } else {
-        nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+    if( recp.result() ) {
+        const int nearby_amount = crafting_inv.count_item( recp.result() );
+        std::string nearby_string;
+        if( nearby_amount == 0 ) {
+            nearby_string = "<color_light_gray>0</color>";
+        } else if( nearby_amount > 9000 ) {
+            // at some point you get too many to count at a glance and just know you have a lot
+            nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+        } else {
+            nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+        }
+        oss << string_format( _( "Nearby: %s\n" ), nearby_string );
     }
-    oss << string_format( _( "Nearby: %s\n" ), nearby_string );
 
     const bool can_craft_this = avail.can_craft;
-    if( can_craft_this && !avail.can_craft_non_rotten ) {
+    if( can_craft_this && avail.would_use_rotten ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
     }
     const bool too_complex = recp.deduped_requirements().is_too_complex();
@@ -267,7 +289,7 @@ static std::vector<std::string> recipe_info(
                   "recipe <color_yellow>may appear to be craftable "
                   "when it is not</color>.\n" );
     }
-    if( !can_craft_this && avail.apparently_craftable && avail.has_proficiencies ) {
+    if( !can_craft_this && avail.apparently_craftable ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components</color>\n" );
     }
@@ -312,17 +334,64 @@ static std::vector<std::string> recipe_info(
     if( !guy.knows_recipe( &recp ) ) {
         oss << _( "Recipe not memorized yet\n" );
         const std::set<itype_id> books_with_recipe = guy.get_books_for_recipe( crafting_inv, &recp );
-        const std::string enumerated_books =
-            enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-        []( const itype_id & type_id ) {
-            return colorize( item::nname( type_id ), c_cyan );
-        } );
-        oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+        if( !books_with_recipe.empty() ) {
+            const std::string enumerated_books = enumerate_as_string( books_with_recipe,
+            []( const itype_id & type_id ) {
+                return colorize( item::nname( type_id ), c_cyan );
+            } );
+            oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+        } else {
+            std::vector<const npc *> knowing_helpers;
+            for( const npc *helper : guy.get_crafting_helpers() ) {
+                if( helper->knows_recipe( &recp ) ) {
+                    knowing_helpers.push_back( helper );
+                }
+            }
+            if( !knowing_helpers.empty() ) {
+                const std::string enumerated_helpers = enumerate_as_string( knowing_helpers,
+                []( const npc * helper ) {
+                    return colorize( helper->get_name(), c_cyan );
+                } );
+                oss << string_format( _( "Known by: %s\n" ), enumerated_helpers );
+            }
+        }
     }
     std::vector<std::string> tmp = foldstring( oss.str(), fold_width );
     result.insert( result.end(), tmp.begin(), tmp.end() );
 
     return result;
+}
+
+static std::string practice_recipe_description( const recipe &recp,
+        const Character &player_character )
+{
+    std::ostringstream oss;
+    oss << recp.description.translated() << "\n\n";
+    if( recp.practice_data->min_difficulty != recp.practice_data->max_difficulty ) {
+        std::string txt = string_format( _( "Difficulty range: %d to %d" ),
+                                         recp.practice_data->min_difficulty, recp.practice_data->max_difficulty );
+        oss << txt << "\n";
+    }
+    if( recp.skill_used ) {
+        const int player_skill_level = player_character.get_all_skills().get_skill_level( recp.skill_used );
+        if( player_skill_level < recp.practice_data->min_difficulty ) {
+            std::string txt = string_format(
+                                  _( "You do not possess the minimum <color_cyan>%s</color> skill level required to practice this." ),
+                                  recp.skill_used->name() );
+            txt = string_format( "<color_red>%s</color>", txt );
+            oss << txt << "\n";
+        }
+        if( recp.practice_data->skill_limit != MAX_SKILL ) {
+            std::string txt = string_format(
+                                  _( "This practice action will not increase your <color_cyan>%s</color> skill above %d." ),
+                                  recp.skill_used->name(), recp.practice_data->skill_limit );
+            if( player_skill_level >= recp.practice_data->skill_limit ) {
+                txt = string_format( "<color_brown>%s</color>", txt );
+            }
+            oss << txt << "\n";
+        }
+    }
+    return oss.str();
 }
 
 static input_context make_crafting_context( bool highlight_unread_recipes )
@@ -712,12 +781,22 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
-            item_info_data data = item_info_data_from_recipe( current[line], batch_size, item_info_scroll );
-            data.without_getch = true;
-            data.without_border = true;
-            data.scrollbar_left = false;
-            data.use_full_win = true;
-            draw_item_info( w_iteminfo, data );
+            const recipe *cur_recipe = current[line];
+            if( cur_recipe->is_practice() ) {
+                const std::string desc = practice_recipe_description( *cur_recipe, player_character );
+                werase( w_iteminfo );
+                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
+                            w_iteminfo ) ).apply( w_iteminfo );
+                wnoutrefresh( w_iteminfo );
+            } else {
+                item_info_data data = item_info_data_from_recipe( cur_recipe, batch_size, item_info_scroll );
+                data.without_getch = true;
+                data.without_border = true;
+                data.scrollbar_left = false;
+                data.use_full_win = true;
+                draw_item_info( w_iteminfo, data );
+            }
         }
 
         if( cursor_pos ) {
@@ -762,6 +841,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     popup.message( _( "Searching… %3.0f%%\n" ), percent );
                     ui_manager::redraw();
                     refresh_display();
+                    inp_mngr.pump_events();
                 };
 
                 std::vector<const recipe *> picking;
@@ -1492,19 +1572,6 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     }
 
     wnoutrefresh( w );
-}
-
-template<typename T>
-bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter )
-{
-    for( auto &list : list_of_list ) {
-        for( auto &comp : list ) {
-            if( lcmatch( item::nname( comp.type ), filter ) ) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 const std::vector<std::string> *subcategories_for_category( const std::string &category )

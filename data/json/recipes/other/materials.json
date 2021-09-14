@@ -53,6 +53,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "skills_required": [ "survival", 4 ],
+    "charges": 50,
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
@@ -74,7 +75,16 @@
     "using": [ [ "forging_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "tin", 12 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [
+      [
+        [ "tin", 12 ],
+        [ "material_aluminium_ingot", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "chem_aluminium_powder", 15 ],
+        [ "can_drink", 2 ]
+      ],
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -383,11 +393,14 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
+    "//time1": "this time seems excessive to me but I have no actual experience tailoring",
+    "//time2": "also this was probably created originally before the proficiencies system",
+    "//time3": "so that might explain the time, not sure which proficiencies it should use though",
     "time": "270 m",
     "charges": 4,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 5 ] ], [ [ "filament", 15, "LIST" ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
@@ -632,30 +645,55 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "button_wood",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "skills_required": [ "fabrication", 1 ],
     "difficulty": 3,
     "time": "2 h",
     "charges": 50,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 } ],
+    "qualities": [
+      { "id": "SAW_W", "level": 1 },
+      [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+      { "id": "CUT", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "fail_multiplier": 1.125 } ],
-    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ] ] ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ], [ "rosin", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "button_plastic",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "1 h 30 m",
-    "charges": 50,
+    "charges": 25,
     "autolearn": true,
-    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "button_steel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "batch_time_factors": [ 85, 2 ],
+    "charges": 5,
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "FILE", "level": 1 } ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "nail", -1 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "cannonball_4lb",

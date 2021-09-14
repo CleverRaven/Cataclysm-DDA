@@ -19,7 +19,6 @@
 #include "map_selector.h"
 #include "options_helpers.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -203,32 +202,32 @@ static std::string test_action_desc(
     return ss.str();
 }
 
-static void assign_invlet( player &p, item &it, const char invlet, const invlet_state invstate )
+static void assign_invlet( avatar &you, item &it, const char invlet, const invlet_state invstate )
 {
-    p.reassign_item( it, '\0' );
+    you.reassign_item( it, '\0' );
     switch( invstate ) {
         case NONE:
             break;
         case CACHED:
             // assigning it twice makes it a cached but non-player-assigned invlet
-            p.reassign_item( it, invlet );
-            p.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
             break;
         case ASSIGNED:
-            p.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
             break;
         default:
             FAIL( "unimplemented" );
     }
 }
 
-static invlet_state check_invlet( player &p, item &it, const char invlet )
+static invlet_state check_invlet( Character &you, item &it, const char invlet )
 {
     if( it.invlet == '\0' ) {
         return NONE;
     } else if( it.invlet == invlet ) {
-        if( p.inv->assigned_invlet.find( invlet ) != p.inv->assigned_invlet.end() &&
-            p.inv->assigned_invlet[invlet] == it.typeId() ) {
+        if( you.inv->assigned_invlet.find( invlet ) != you.inv->assigned_invlet.end() &&
+            you.inv->assigned_invlet[invlet] == it.typeId() ) {
             return ASSIGNED;
         } else {
             return CACHED;
@@ -237,82 +236,82 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
     return UNEXPECTED;
 }
 
-static void drop_at_feet( player &p, const int id )
+static void drop_at_feet( Character &you, const int id )
 {
-    size_t size_before = get_map().i_at( p.pos() ).size();
+    size_t size_before = get_map().i_at( you.pos() ).size();
 
-    item *found = retrieve_item( p, id );
+    item *found = retrieve_item( you, id );
     REQUIRE( found );
-    item_location loc( p, found );
-    p.moves = 100;
-    p.drop( loc, p.pos() );
-    p.activity.do_turn( p );
+    item_location loc( you, found );
+    you.moves = 100;
+    you.drop( loc, you.pos() );
+    you.activity.do_turn( you );
 
-    REQUIRE( get_map().i_at( p.pos() ).size() == size_before + 1 );
+    REQUIRE( get_map().i_at( you.pos() ).size() == size_before + 1 );
 }
 
-static void pick_up_from_feet( player &p, int id )
+static void pick_up_from_feet( Character &you, int id )
 {
-    map_stack items = get_map().i_at( p.pos() );
+    map_stack items = get_map().i_at( you.pos() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( p.pos() ), id );
+    item *found = retrieve_item( map_cursor( you.pos() ), id );
     REQUIRE( found );
 
-    p.moves = 100;
-    p.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( p.pos() ), found ) }, { 0 },
-                                        p.pos() ) ) );
-    p.activity.do_turn( p );
+    you.moves = 100;
+    you.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( you.pos() ), found ) }, { 0 },
+                                          you.pos() ) ) );
+    you.activity.do_turn( you );
 
     REQUIRE( items.size() == size_before - 1 );
 }
 
-static void wear_from_feet( player &p, int id )
+static void wear_from_feet( Character &you, int id )
 {
-    map_stack items = get_map().i_at( p.pos() );
+    map_stack items = get_map().i_at( you.pos() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( p.pos() ), id );
+    item *found = retrieve_item( map_cursor( you.pos() ), id );
     REQUIRE( found );
 
-    p.wear_item( *found, false );
-    get_map().i_rem( p.pos(), found );
+    you.wear_item( *found, false );
+    get_map().i_rem( you.pos(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
 
-static void wield_from_feet( player &p, int id )
+static void wield_from_feet( Character &you, int id )
 {
-    map_stack items = get_map().i_at( p.pos() );
+    map_stack items = get_map().i_at( you.pos() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( p.pos() ), id );
+    item *found = retrieve_item( map_cursor( you.pos() ), id );
     REQUIRE( found );
 
-    p.wield( *found );
-    get_map().i_rem( p.pos(), found );
+    you.wield( *found );
+    get_map().i_rem( you.pos(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
 
-static void add_item( player &p, item &it, const inventory_location loc )
+static void add_item( Character &you, item &it, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
-            get_map().add_item( p.pos(), it );
+            get_map().add_item( you.pos(), it );
             break;
         case INVENTORY:
-            p.i_add( it );
+            you.i_add( it );
             break;
         case WORN:
-            p.wear_item( it );
+            you.wear_item( it );
             break;
         case WIELDED_OR_WORN:
-            if( !p.is_armed() ) {
-                p.wield( it );
+            if( !you.is_armed() ) {
+                you.wield( it );
             } else {
                 // since we can only wield one item, wear the item instead
-                p.wear_item( it );
+                you.wear_item( it );
             }
             break;
         default:
@@ -321,18 +320,18 @@ static void add_item( player &p, item &it, const inventory_location loc )
     }
 }
 
-static item &item_at( player &p, const int id, const inventory_location loc )
+static item &item_at( Character &you, const int id, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND: {
-            item *found = retrieve_item( map_cursor( p.pos() ), id );
+            item *found = retrieve_item( map_cursor( you.pos() ), id );
             REQUIRE( found );
             return *found;
         }
         case INVENTORY:
         case WORN:
         case WIELDED_OR_WORN: {
-            item *found = retrieve_item( p, id );
+            item *found = retrieve_item( you, id );
             REQUIRE( found );
             return *found;
         }
@@ -343,7 +342,7 @@ static item &item_at( player &p, const int id, const inventory_location loc )
     return null_item_reference();
 }
 
-static void move_item( player &p, const int id, const inventory_location from,
+static void move_item( Character &you, const int id, const inventory_location from,
                        const inventory_location to )
 {
     switch( from ) {
@@ -354,17 +353,17 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case INVENTORY:
-                    pick_up_from_feet( p, id );
+                    pick_up_from_feet( you, id );
                     break;
                 case WORN:
-                    wear_from_feet( p, id );
+                    wear_from_feet( you, id );
                     break;
                 case WIELDED_OR_WORN:
-                    if( p.weapon.is_null() ) {
-                        wield_from_feet( p, id );
+                    if( you.get_wielded_item()->is_null() ) {
+                        wield_from_feet( you, id );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        wear_from_feet( p, id );
+                        wear_from_feet( you, id );
                     }
                     break;
             }
@@ -372,21 +371,21 @@ static void move_item( player &p, const int id, const inventory_location from,
         case INVENTORY:
             switch( to ) {
                 case GROUND:
-                    drop_at_feet( p, id );
+                    drop_at_feet( you, id );
                     break;
                 case INVENTORY:
                 default:
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
+                    you.wear( item_location( *you.as_character(), &item_at( you, id, from ) ), false );
                     break;
                 case WIELDED_OR_WORN:
-                    if( p.weapon.is_null() ) {
-                        p.wield( item_at( p, id, from ) );
+                    if( you.get_wielded_item()->is_null() ) {
+                        you.wield( item_at( you, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
+                        you.wear( item_location( *you.as_character(), &item_at( you, id, from ) ), false );
                     }
                     break;
             }
@@ -394,10 +393,10 @@ static void move_item( player &p, const int id, const inventory_location from,
         case WORN:
             switch( to ) {
                 case GROUND:
-                    drop_at_feet( p, id );
+                    drop_at_feet( you, id );
                     break;
                 case INVENTORY:
-                    p.takeoff( item_location( p, &item_at( p, id, from ) ) );;
+                    you.takeoff( item_location( you, &item_at( you, id, from ) ) );;
                     break;
                 case WORN:
                 case WIELDED_OR_WORN:
@@ -409,21 +408,21 @@ static void move_item( player &p, const int id, const inventory_location from,
         case WIELDED_OR_WORN:
             switch( to ) {
                 case GROUND:
-                    drop_at_feet( p, id );
-                    if( !p.is_armed() && !p.worn.empty() ) {
+                    drop_at_feet( you, id );
+                    if( !you.is_armed() && !you.worn.empty() ) {
                         // wield the first worn item
-                        p.wield( p.worn.front() );
+                        you.wield( you.worn.front() );
                     }
                     break;
                 case INVENTORY:
-                    if( p.is_wielding( item_at( p, id, from ) ) ) {
-                        p.i_add( p.i_rem( &item_at( p, id, from ) ) );
+                    if( you.is_wielding( item_at( you, id, from ) ) ) {
+                        you.i_add( you.i_rem( &item_at( you, id, from ) ) );
                     } else {
-                        p.takeoff( item_location( p, &item_at( p, id, from ) ) );
+                        you.takeoff( item_location( you, &item_at( you, id, from ) ) );
                     }
-                    if( !p.is_armed() && !p.worn.empty() ) {
+                    if( !you.is_armed() && !you.worn.empty() ) {
                         // wield the first worn item
-                        p.wield( p.worn.front() );
+                        you.wield( you.worn.front() );
                     }
                     break;
                 case WORN:
@@ -439,7 +438,7 @@ static void move_item( player &p, const int id, const inventory_location from,
     }
 }
 
-static void invlet_test( player &dummy, const inventory_location from, const inventory_location to )
+static void invlet_test( avatar &dummy, const inventory_location from, const inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -530,7 +529,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
     }
 }
 
-static void stack_invlet_test( player &dummy, inventory_location from, inventory_location to )
+static void stack_invlet_test( avatar &dummy, inventory_location from, inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -584,7 +583,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     assign_invlet( dummy, item_at( dummy, 2, from ), invlet, NONE );
 }
 
-static void swap_invlet_test( player &dummy, inventory_location loc )
+static void swap_invlet_test( avatar &dummy, inventory_location loc )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -655,7 +654,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     assign_invlet( dummy, item_at( dummy, 2, loc ), invlet_1, NONE );
 }
 
-static void merge_invlet_test( player &dummy, inventory_location from )
+static void merge_invlet_test( avatar &dummy, inventory_location from )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -750,7 +749,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
-    player &dummy = get_avatar();
+    avatar &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );

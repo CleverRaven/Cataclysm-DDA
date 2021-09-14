@@ -271,6 +271,21 @@ int manhattan_dist( const point &loc1, const point &loc2 )
     return d.x + d.y;
 }
 
+int octile_dist( const point &loc1, const point &loc2, int multiplier )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    // sqrt(2) is approximately 99 / 70
+    return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
+}
+
+float octile_dist_exact( const point &loc1, const point &loc2 )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    return d.x + d.y - 2 * mind + mind * M_SQRT2;
+}
+
 units::angle atan2( const point &p )
 {
     return units::atan2( p.y, p.x );

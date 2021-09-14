@@ -523,9 +523,9 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
 
             THEN( "pocket cannot contain it, because it does not have the flag" ) {
-                expect_cannot_contain( pocket_belt, rag, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rag, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
-                expect_cannot_contain( pocket_belt, rock, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rock, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
             }
         }
@@ -1331,7 +1331,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "nato_assault_rifle" );
+    item m4a1( "m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );

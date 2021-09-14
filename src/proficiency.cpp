@@ -57,10 +57,8 @@ void proficiency::load_proficiencies( const JsonObject &jo, const std::string &s
     proficiency_factory.load( jo, src );
 }
 
-void proficiency_bonus::deserialize( JsonIn &jsin )
+void proficiency_bonus::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
-
     mandatory( jo, false, "type", type );
     mandatory( jo, false, "value", value );
 }
@@ -80,6 +78,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+    optional( jo, was_loaded, "ignore_focus", _ignore_focus );
 
     optional( jo, was_loaded, "bonuses", _bonuses );
 }
@@ -92,6 +91,11 @@ const std::vector<proficiency> &proficiency::get_all()
 bool proficiency::can_learn() const
 {
     return _can_learn;
+}
+
+bool proficiency::ignore_focus() const
+{
+    return _ignore_focus;
 }
 
 proficiency_id proficiency::prof_id() const
@@ -398,10 +402,8 @@ void proficiency_set::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void proficiency_set::deserialize( JsonIn &jsin )
+void proficiency_set::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
-
     jsobj.read( "known", known );
     jsobj.read( "learning", learning );
 }
@@ -423,18 +425,14 @@ void learning_proficiency::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void learning_proficiency::deserialize( JsonIn &jsin )
+void learning_proficiency::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
-
     jo.read( "id", id );
     jo.read( "practiced", practiced );
 }
 
-void book_proficiency_bonus::deserialize( JsonIn &jsin )
+void book_proficiency_bonus::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
-
     mandatory( jo, was_loaded, "proficiency", id );
     optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
     optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );

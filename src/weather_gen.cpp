@@ -12,7 +12,6 @@
 #include "cata_utility.h"
 #include "condition.h"
 #include "dialogue.h"
-#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
@@ -182,10 +181,7 @@ weather_type_id weather_generator::get_weather_conditions( const tripoint &locat
 weather_type_id weather_generator::get_weather_conditions( const w_point & ) const
 {
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     for( const std::string &weather_type : weather_types ) {
         weather_type_id type = weather_type_id( weather_type );
 
@@ -270,7 +266,8 @@ void weather_generator::test_weather( unsigned seed ) const
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
-    w_point weatherPoint = *g->weather.weather_precise;
+    const weather_manager &weather = get_weather_const();
+    w_point weatherPoint = *weather.weather_precise;
     write_to_file( "weather.output", [&]( std::ostream & testfile ) {
         testfile <<
                  "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
@@ -281,7 +278,7 @@ void weather_generator::test_weather( unsigned seed ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w );
-            *g->weather.weather_precise = w;
+            *weather.weather_precise = w;
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -300,7 +297,7 @@ void weather_generator::test_weather( unsigned seed ) const
         }
 
     }, "weather test file" );
-    *g->weather.weather_precise = weatherPoint;
+    *weather.weather_precise = weatherPoint;
 }
 
 weather_generator weather_generator::load( const JsonObject &jo )

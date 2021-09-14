@@ -80,9 +80,8 @@ std::string memorial_log_entry::to_string() const
     }
 }
 
-void memorial_log_entry::deserialize( JsonIn &jsin )
+void memorial_log_entry::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     if( jo.read( "preformatted", preformatted_ ) ) {
         return;
     }
@@ -209,9 +208,8 @@ void memorial_logger::write_text_memorial( std::ostream &file,
         profession_name = string_format( _( "a %s" ), u.prof->gender_appropriate_name( u.male ) );
     }
 
-    // TODO: fix point types
     const std::string locdesc =
-        overmap_buffer.get_description_at( tripoint_abs_sm( u.global_sm_location() ) );
+        overmap_buffer.get_description_at( u.global_sm_location() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -221,7 +219,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
                            getVersionString() ) << eol;
     file << eol;
-    file << string_format( _( "In memory of: %s" ), u.name ) << eol;
+    file << string_format( _( "In memory of: %s" ), u.get_name() ) << eol;
     if( !epitaph.empty() ) {  //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
         file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
@@ -354,8 +352,9 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
+    const item *weapon = u.get_wielded_item();
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << weapon->invlet << " - " << weapon->tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;

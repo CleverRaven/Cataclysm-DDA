@@ -11,6 +11,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -25,8 +26,8 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -36,6 +37,7 @@
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
@@ -65,13 +67,13 @@ std::unique_ptr<mattack_actor> leap_actor::clone() const
 
 bool leap_actor::call( monster &z ) const
 {
-    if( !z.can_act() || !z.move_effects( false ) ) {
+    if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
     }
 
     std::vector<tripoint> options;
-    tripoint target = z.move_target();
-    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
+    const tripoint_abs_ms target_abs = z.get_dest();
+    const float best_float = rl_dist( z.get_location(), target_abs );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -83,6 +85,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
+    const tripoint target = here.getlocal( target_abs );
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
@@ -185,7 +188,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     }
 
     std::string target_name;
-    if( const Creature *target_monster = g->critter_at( target ) ) {
+    if( const Creature *target_monster = get_creature_tracker().creature_at( target ) ) {
         target_name = target_monster->disp_name();
     }
 
@@ -356,6 +359,7 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
+        z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
         target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
@@ -369,7 +373,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+        sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==
                                  Creature::Attitude::FRIENDLY ?
@@ -608,16 +612,24 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim
 
+    bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
+        throwing |= pr.first == skill_id( "throw" );
     }
 
-    tmp.weapon = gun;
+    tmp.set_wielded_item( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(), tmp.weapon.tname() );
+    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),
+                            tmp.get_wielded_item()->tname() );
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
+    if( throwing ) {
+        tmp.throw_item( target.pos(), item( ammo, calendar::turn, 1 ) );
+        z.ammo[ammo]--;
+    } else {
+        z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
+    }
 
     if( require_targeting ) {
         z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );

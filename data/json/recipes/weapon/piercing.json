@@ -244,6 +244,7 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "scrap_bronze", 4 ] ],
       [ [ "stick_long", 1 ] ],
@@ -267,6 +268,7 @@
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -947,5 +949,22 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "result": "knuckle_skewer",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_articulation" }
+    ]
   }
 ]

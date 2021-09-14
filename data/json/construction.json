@@ -2237,6 +2237,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_metal_trashcan",
+    "group": "build_metal_trashcan",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_trashcan"
+  },
+  {
+    "type": "construction",
     "id": "constr_mailbox",
     "group": "build_mailbox",
     "category": "FURN",
@@ -3423,7 +3435,7 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
+      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "makeshift_pillow", 19 ], [ "mattress", 4 ] ],
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
     "pre_terrain": "t_floor",
@@ -3438,7 +3450,7 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
+      [ [ "pillow", 4 ], [ "down_pillow", 4 ], [ "makeshift_pillow", 4 ] ],
       [ [ "down_blanket", 2 ], [ "blanket", 2 ], [ "fur_blanket", 2 ] ],
       [ [ "box_large", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],

@@ -89,7 +89,7 @@
         "_": "t_pavement",
         "+": "t_door_c",
         "4": "t_gutter_downspout",
-        "<": "t_stairs_up",
+        "<": "t_ladder_up",
         "w": "t_window"
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
@@ -114,7 +114,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "          aaaa ,        ",
-        "          a><a ,        ",
+        "          a≷,a ,        ",
         "          Raaa,R        ",
         "                        ",
         "                        ",
@@ -133,7 +133,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -150,7 +150,7 @@
         "        :a,,,,,,aX      ",
         "         a,,::,,a       ",
         "         a,,::,,a       ",
-        "        :a,<>,,,aX      ",
+        "        :a,≷,,,,aX      ",
         "         aR,,,,Ra       ",
         "         aaaaaaaa       ",
         "            :           ",
@@ -169,7 +169,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -186,7 +186,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "         Xaaaa ,        ",
-        "         Xa<>a ,:       ",
+        "         Xa≷,a ,:       ",
         "         XRaaa,R        ",
         "                        ",
         "                        ",
@@ -205,7 +205,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -222,7 +222,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "         Xaaaa ,        ",
-        "         Xa><a ,:       ",
+        "         Xa≷,a ,:       ",
         "         XRaaa,R        ",
         "                        ",
         "                        ",
@@ -241,7 +241,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -277,7 +277,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_stairs_down" },
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [

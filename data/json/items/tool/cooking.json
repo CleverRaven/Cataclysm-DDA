@@ -86,15 +86,13 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -129,8 +127,6 @@
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 75 } } ],
-    "initial_charges": 75,
-    "max_charges": 75,
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -152,8 +148,6 @@
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 300 } } ],
-    "initial_charges": 300,
-    "max_charges": 300,
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -175,7 +169,6 @@
     "color": "light_gray",
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 375 } } ],
-    "max_charges": 375,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -196,8 +189,6 @@
     "ammo": [ "charcoal" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -276,10 +267,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -303,10 +292,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -352,8 +339,6 @@
     "ammo": [ "esbit" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
@@ -406,10 +391,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -430,8 +413,6 @@
     "ammo": [ "gasoline" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -492,10 +473,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -520,10 +499,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -552,10 +529,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -642,10 +617,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
       }
     ]
   },
@@ -688,10 +661,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",
@@ -729,8 +700,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 800,
-    "max_charges": 800,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -793,8 +762,6 @@
     "ammo": [ "conc_alcohol" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -924,7 +891,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
@@ -968,10 +934,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -1014,18 +978,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   }

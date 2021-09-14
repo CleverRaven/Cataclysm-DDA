@@ -24,8 +24,8 @@
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
-using trait_reader = auto_flags_reader<trait_id>;
-using flag_reader = auto_flags_reader<json_character_flag>;
+using trait_reader = string_id_reader<::mutation_branch>;
+using flag_reader = string_id_reader<::json_flag>;
 
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
@@ -305,8 +305,7 @@ namespace io
         case trigger_type::TIME: return "TIME";
         case trigger_type::num_trigger: return "undefined trigger";
         }
-        debugmsg("Invalid trigger_type %d", trigger_num);
-        abort();
+        cata_fatal("Invalid trigger_type %d", trigger_num);
     }
     // *INDENT-ON*
 } // namespace io
@@ -336,9 +335,8 @@ void reflex_activation_data::load( const JsonObject &jsobj )
     }
 }
 
-void reflex_activation_data::deserialize( JsonIn &jsin )
+void reflex_activation_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 
@@ -395,6 +393,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
+    optional( jo, was_loaded, "vanity", vanity, false );
 
     for( JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),

@@ -114,30 +114,22 @@ struct pathfinder {
     }
 };
 
-// Modifies `t` to be a tile with `flag` in the overmap tile that `t` was originally on
+// Modifies `t` to point to a tile with `flag` in a 1-submap radius of `t`'s original value,
+// searching nearest points first (starting with `t` itself).
 // return false if it could not find a suitable point
-template<ter_bitflags flag>
-bool vertical_move_destination( const map &m, tripoint &t )
+static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoint &t )
 {
     if( !m.has_zlevels() ) {
         return false;
     }
 
-    constexpr point omtilesz( SEEX * 2, SEEY * 2 );
-    real_coords rc( m.getabs( t.xy() ) );
-    const point omtile_align_start(
-        m.getlocal( rc.begin_om_pos() )
-    );
-
     const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
-    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtilesz.x; x++ ) {
-        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtilesz.y; y++ ) {
-            if( pf_cache.special[x][y] & PF_UPDOWN ) {
-                const tripoint p( x, y, t.z );
-                if( m.has_flag( flag, p ) ) {
-                    t = p;
-                    return true;
-                }
+    for( const point &p : closest_points_first( t.xy(), SEEX ) ) {
+        if( pf_cache.special[p.x][p.y] & PF_UPDOWN ) {
+            const tripoint t2( p, t.z );
+            if( m.has_flag( flag, t2 ) ) {
+                t = t2;
+                return true;
             }
         }
     }
@@ -146,7 +138,7 @@ bool vertical_move_destination( const map &m, tripoint &t )
 }
 
 template<class Set1, class Set2>
-bool is_disjoint( const Set1 &set1, const Set2 &set2 )
+static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
 {
     if( set1.empty() || set2.empty() ) {
         return true;
@@ -328,7 +320,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // Climbing fences
                         newg += climb_cost;
                     } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
+                               ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ||
+                                 !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ||
                                  !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
@@ -387,12 +380,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
                     if( !trp.is_benign() ) {
                         // For now make them detect all traps
-                        if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                        if( has_zlevels() && terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
                             if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
                                 tripoint below( p.xy(), p.z - 1 );
-                                if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
+                                if( !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
                                     // Otherwise this would have been a huge fall
                                     auto &layer = pf.get_layer( p.z - 1 );
                                     // From cur, not p, because we won't be walking on air
@@ -432,25 +425,27 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = parent_tile.get_ter_t();
-        if( settings.allow_climb_stairs && cur.z > min.z && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
+        if( settings.allow_climb_stairs && cur.z > min.z &&
+            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
             tripoint dest( cur.xy(), cur.z - 1 );
-            if( vertical_move_destination<TFLAG_GOES_UP>( *this, dest ) ) {
+            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
                               cur, dest );
             }
         }
-        if( settings.allow_climb_stairs && cur.z < max.z && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
+        if( settings.allow_climb_stairs && cur.z < max.z &&
+            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
             tripoint dest( cur.xy(), cur.z + 1 );
-            if( vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest ) ) {
+            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
                               cur, dest );
             }
         }
-        if( cur.z < max.z && parent_terrain.has_flag( TFLAG_RAMP ) &&
+        if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
             valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
             auto &layer = pf.get_layer( cur.z + 1 );
             for( size_t it = 0; it < 8; it++ ) {
@@ -460,7 +455,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                               cur, above );
             }
         }
-        if( cur.z < max.z && parent_terrain.has_flag( TFLAG_RAMP_UP ) &&
+        if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
             valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
             auto &layer = pf.get_layer( cur.z + 1 );
             for( size_t it = 0; it < 8; it++ ) {
@@ -470,7 +465,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                               cur, above );
             }
         }
-        if( cur.z > min.z && parent_terrain.has_flag( TFLAG_RAMP_DOWN ) &&
+        if( cur.z > min.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
             valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
             auto &layer = pf.get_layer( cur.z - 1 );
             for( size_t it = 0; it < 8; it++ ) {

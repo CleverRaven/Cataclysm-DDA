@@ -1,8 +1,19 @@
 cmake_minimum_required(VERSION 3.1.4)
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/third-party)
+
 set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
 set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
+
+if (WIN32)
+    set(RSRC_RC_DEP "${CMAKE_SOURCE_DIR}/data/cataicon.ico")
+    set(RSRC_RC_DEP "${RSRC_RC_DEP};${CMAKE_SOURCE_DIR}/data/application_manifest.xml")
+    set_source_files_properties(
+            ${RESOURCE_RC}
+            PROPERTIES
+            OBJECT_DEPENDS "${RSRC_RC_DEP}")
+endif ()
 
 file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
@@ -32,6 +43,8 @@ if (TILES)
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+
+    target_link_libraries(cataclysm-tiles-common third-party)
 
     if (WIN32)
         add_definitions(-DUSE_WINMAIN)
@@ -129,6 +142,8 @@ if (CURSES)
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+
+    target_link_libraries(cataclysm-common third-party)
 
     if (WIN32)
         add_executable(cataclysm

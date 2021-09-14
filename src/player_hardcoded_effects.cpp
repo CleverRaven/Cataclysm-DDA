@@ -1,7 +1,7 @@
-#include "player.h" // IWYU pragma: associated
-
+#include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
@@ -37,17 +38,6 @@
 #include "vitamin.h"
 #include "weather.h"
 #include "weather_type.h"
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
-#include <algorithm>
-#include <functional>
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
@@ -213,7 +203,7 @@ static void eff_fun_fungus( Character &u, effect &it )
 
                 u.moves = -500;
                 map &here = get_map();
-                fungal_effects fe( *g, here );
+                fungal_effects fe;
                 for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
                     if( sporep == u.pos() ) {
                         continue;
@@ -538,6 +528,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
     if( dur > 6_hours ) {
         // 12 teleports
         if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            creature_tracker &creatures = get_creature_tracker();
             tripoint dest( 0, 0, u.posz() );
             int &x = dest.x;
             int &y = dest.y;
@@ -549,7 +540,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 if( tries >= 10 ) {
                     break;
                 }
-            } while( g->critter_at( dest ) );
+            } while( creatures.creature_at( dest ) );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
@@ -922,11 +913,9 @@ static void eff_fun_sleep( Character &u, effect &it )
     map &here = get_map();
 
     u.set_moves( 0 );
-#if defined(TILES)
     if( u.is_avatar() ) {
-        SDL_PumpEvents();
+        inp_mngr.pump_events();
     }
-#endif // TILES
 
     if( intense < 1 ) {
         it.set_intensity( 1 );
@@ -973,7 +962,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
-            if( here.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ) {
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
                 if( u.get_fatigue() >= 0 ) {
                     u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
                 }
@@ -1107,7 +1096,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                     if( mp == u.pos() ) {
                         continue;
                     }
-                    if( here.has_flag( "FLAT", mp ) &&
+                    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, mp ) &&
                         here.pl_sees( mp, 2 ) ) {
                         g->spawn_hallucination( mp );
                         if( ++count > max_count ) {
@@ -1170,6 +1159,7 @@ void Character::hardcoded_effects( effect &it )
     bool sleeping = has_effect( effect_sleep );
     map &here = get_map();
     Character &player_character = get_player_character();
+    creature_tracker &creatures = get_creature_tracker();
     if( id == effect_dermatik ) {
         bool triggered = false;
         int formication_chance = 3600;
@@ -1221,7 +1211,7 @@ void Character::hardcoded_effects( effect &it )
                 player_character.cancel_activity();
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), name,
+                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             moves -= 150;
@@ -1244,7 +1234,7 @@ void Character::hardcoded_effects( effect &it )
                 dest.x = posx() + rng( -4, 4 );
                 dest.y = posy() + rng( -4, 4 );
                 tries++;
-            } while( g->critter_at( dest ) && tries < 10 );
+            } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
@@ -1362,7 +1352,7 @@ void Character::hardcoded_effects( effect &it )
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = g->critter_at<monster>( dest );
+            const monster *const mon = creatures.creature_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }
@@ -1615,7 +1605,7 @@ void Character::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_drop( weapon ).success() ) {
+                        if( is_armed() && can_drop( *get_wielded_item() ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );

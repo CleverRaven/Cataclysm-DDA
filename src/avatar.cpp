@@ -32,6 +32,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "help.h"
@@ -58,8 +59,8 @@
 #include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -68,16 +69,20 @@
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
+static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_soporific( "bio_soporific" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
@@ -99,20 +104,29 @@ static const itype_id itype_guidebook( "guidebook" );
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
-static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
+static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
@@ -130,6 +144,44 @@ avatar::~avatar() = default;
 avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
+
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
+void avatar::control_npc( npc &np )
+{
+    if( !np.is_player_ally() ) {
+        debugmsg( "control_npc() called on non-allied npc %s", np.name );
+        return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    npc tmp;
+    // move avatar character data into shadow npc
+    swap_character( *shadow_npc, tmp );
+    // swap target npc with shadow npc
+    swap_npc( *shadow_npc, np, tmp );
+    // move shadow npc character data into avatar
+    swap_character( *shadow_npc, tmp );
+    // the avatar character is no longer a follower NPC
+    g->remove_npc_follower( getID() );
+    // the previous avatar character is now a follower
+    g->add_npc_follower( np.getID() );
+    np.set_fac( faction_id( "your_followers" ) );
+    // perception and mutations may have changed, so reset light level caches
+    g->reset_light_level();
+    // center the map on the new avatar character
+    g->vertical_shift( posz() );
+    g->update_map( *this );
+}
 
 void avatar::toggle_map_memory()
 {
@@ -259,7 +311,7 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-bool avatar::read( item_location &book )
+bool avatar::read( item_location &book, item_location ereader )
 {
     if( !book ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -267,7 +319,7 @@ bool avatar::read( item_location &book )
     }
 
     std::vector<std::string> fail_messages;
-    const player *reader = get_book_reader( *book, fail_messages );
+    const Character *reader = get_book_reader( *book, fail_messages );
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
@@ -300,6 +352,7 @@ bool avatar::read( item_location &book )
                 read_activity_actor(
                     time_taken,
                     book,
+                    ereader,
                     false
                 ) ) );
 
@@ -383,7 +436,7 @@ bool avatar::read( item_location &book )
 
         auto get_text =
         [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem ) {
-            const int lvl = elem.first->get_skill_level( skill );
+            const int lvl = elem.first->get_knowledge_level( skill );
             const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
             const std::string name_text = elem.first->disp_name() + elem.second;
             return string_format( "%s%s", left_justify( name_text, max_length( m ) ), lvl_text );
@@ -404,7 +457,7 @@ bool avatar::read( item_location &book )
 
         menu.addentry( 0, true, '0', _( "Read once" ) );
 
-        const int lvl = get_skill_level( skill );
+        const int lvl = get_knowledge_level( skill );
         menu.addentry( 2 + getID().get_value(), lvl < type->level, '1',
                        string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
 
@@ -514,7 +567,7 @@ bool avatar::read( item_location &book )
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < intelligence ? reader : this;
+    const Character *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
@@ -533,6 +586,7 @@ bool avatar::read( item_location &book )
             read_activity_actor(
                 time_taken,
                 book,
+                ereader,
                 continuous,
                 learner_id
             ) ) );
@@ -607,10 +661,10 @@ void avatar::identify( const item &item )
 
     add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
     if( skill && get_skill_level_object( skill ).can_train() ) {
-        add_msg( m_info, _( "Can bring your %s skill to %d." ),
+        add_msg( m_info, _( "Can bring your %s knowledge to %d." ),
                  skill.obj().name(), reading->level );
         if( reading->req != 0 ) {
-            add_msg( m_info, _( "Requires %s level %d to understand." ),
+            add_msg( m_info, _( "Requires %s knowledge level %d to understand." ),
                      skill.obj().name(), reading->req );
         }
     }
@@ -638,24 +692,29 @@ void avatar::identify( const item &item )
                  reading->time );
     }
 
-    std::vector<std::string> recipe_list;
+    std::vector<std::string> crafting_recipes;
+    std::vector<std::string> practice_recipes;
     for( const auto &elem : reading->recipes ) {
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
         }
-        recipe_list.push_back( elem.name() );
+        if( elem.recipe->is_practice() ) {
+            practice_recipes.emplace_back( elem.recipe->result_name() );
+        } else {
+            crafting_recipes.emplace_back( elem.name() );
+        }
     }
-    if( !recipe_list.empty() ) {
-        std::string recipe_line =
-            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                     "This book contains %1$zu crafting recipes: %2$s",
-                                     recipe_list.size() ),
-                           recipe_list.size(),
-                           enumerate_as_string( recipe_list ) );
-        add_msg( m_info, recipe_line );
+    if( !crafting_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you craft: %s" ),
+                                        enumerate_as_string( crafting_recipes ) ) );
     }
-    if( recipe_list.size() != reading->recipes.size() ) {
+    if( !practice_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you practice: %s" ),
+                                        enumerate_as_string( practice_recipes ) ) );
+    }
+    const std::size_t num_total_recipes = crafting_recipes.size() + practice_recipes.size();
+    if( num_total_recipes < reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
 }
@@ -732,8 +791,18 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 {
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
-                                    name ) - 1;
+                                    get_name() ) - 1;
 }
+
+
+mfaction_id avatar::get_monster_faction() const
+{
+    // Can't be a static int_id, because mods add factions
+    static const string_id<monfaction> player_fac( "player" );
+
+    return player_fac.id();
+}
+
 
 void avatar::disp_morale()
 {
@@ -767,9 +836,9 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item *book = activity.targets[0].get_item();
-        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
-            auto &bt = book->type->book;
+        const item_location book = activity.targets[0];
+        if( book && book->is_book() ) {
+            const cata::value_ptr<islot_book> &bt = book->type->book;
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt->skill );
             if( skill_level.can_train() && skill_level < bt->level ) {
@@ -866,15 +935,32 @@ void avatar::update_mental_focus()
     // calc_focus_change() returns percentile focus, applying it directly
     // to focus pool is an implicit / 100.
     focus_pool += 10 * calc_focus_change();
+}
 
-    // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.id() == ACT_READ ) {
-        const item *book = activity.targets[0].get_item();
-        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
-            activity.set_to_null();
-        }
+int avatar::limb_dodge_encumbrance() const
+{
+    float leg_encumbrance = 0.0f;
+    float torso_encumbrance = 0.0f;
+    const std::vector<bodypart_id> legs =
+        get_all_body_parts_of_type( body_part_type::type::leg );
+    const std::vector<bodypart_id> torsos =
+        get_all_body_parts_of_type( body_part_type::type::torso );
+
+    for( const bodypart_id &leg : legs ) {
+        leg_encumbrance += encumb( leg );
     }
+    if( !legs.empty() ) {
+        leg_encumbrance /= legs.size() * 10.0f;
+    }
+
+    for( const bodypart_id &torso : torsos ) {
+        torso_encumbrance += encumb( torso );
+    }
+    if( !torsos.empty() ) {
+        torso_encumbrance /= torsos.size() * 10.0f;
+    }
+
+    return std::floor( torso_encumbrance + leg_encumbrance );
 }
 
 void avatar::reset_stats()
@@ -988,9 +1074,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
-                         bodypart_id( "torso" ) ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1193,6 +1277,14 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::toggle_prone_mode()
+{
+    if( is_prone() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
+    } else {
+        set_movement_mode( move_mode_id( "prone" ) );
+    }
+}
 void avatar::activate_crouch_mode()
 {
     if( !is_crouching() ) {
@@ -1237,7 +1329,8 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
-    if( weapon.has_item( target ) ) {
+    item *weapon = get_wielded_item();
+    if( weapon->has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
@@ -1246,7 +1339,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    bool combine_stacks = target.can_combine( weapon );
+    bool combine_stacks = target.can_combine( *weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
@@ -1273,27 +1366,28 @@ bool avatar::wield( item &target, const int obtain_cost )
     if( has_item( target ) ) {
         item removed = i_rem( &target );
         if( combine_stacks ) {
-            weapon.combine( removed );
+            weapon->combine( removed );
         } else {
-            weapon = removed;
+            set_wielded_item( removed );
+
         }
     } else {
         if( combine_stacks ) {
-            weapon.combine( target );
+            weapon->combine( target );
         } else {
-            weapon = target;
+            set_wielded_item( target );
         }
     }
 
-    last_item = weapon.typeId();
+    last_item = weapon->typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this );
+    weapon->on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv->update_invlet( weapon );
-    inv->update_cache_with_item( weapon );
+    inv->update_invlet( *weapon );
+    inv->update_cache_with_item( *weapon );
 
     return true;
 }
@@ -1405,7 +1499,7 @@ void avatar::daily_calories::save_activity( JsonOut &json ) const
     json.end_array();
 }
 
-void avatar::daily_calories::read_activity( JsonObject &data )
+void avatar::daily_calories::read_activity( const JsonObject &data )
 {
     if( data.has_array( "activity" ) ) {
         double act_level;
@@ -1516,89 +1610,332 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
-points_left::points_left()
+void avatar::randomize_hobbies()
 {
-    limit = MULTI_POOL;
-    init_from_options();
+    hobbies.clear();
+    std::vector<profession_id> choices = profession::get_all_hobbies();
+
+    int random = rng( 0, 5 );
+
+    if( random >= 1 ) {
+        add_random_hobby( choices );
+    }
+    if( random >= 3 ) {
+        add_random_hobby( choices );
+    }
+    if( random >= 5 ) {
+        add_random_hobby( choices );
+    }
 }
 
-void points_left::init_from_options()
+void avatar::add_random_hobby( std::vector<profession_id> &choices )
 {
-    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_id &trait : hobby->get_locked_traits() ) {
+        toggle_trait( trait );
+    }
 }
 
-// Highest amount of points to spend on stats without points going invalid
-int points_left::stat_points_left() const
+void avatar::reassign_item( item &it, int invlet )
 {
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return std::min( trait_points_left(),
-                             stat_points + std::min( 0, trait_points + skill_points ) );
-        case TRANSFER:
-            return 0;
+    bool remove_old = true;
+    if( invlet ) {
+        item *prev = invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            inv->reassign_item( *prev, it.invlet, remove_old );
+        }
     }
 
-    return 0;
-}
-
-int points_left::trait_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return stat_points + trait_points + std::min( 0, skill_points );
-        case TRANSFER:
-            return 0;
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        const auto iter = inv->assigned_invlet.find( it.invlet );
+        bool found = iter != inv->assigned_invlet.end();
+        if( found ) {
+            inv->assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
+            inv->assigned_invlet[invlet] = it.typeId();
+        }
+        inv->reassign_item( it, invlet, remove_old );
     }
-
-    return 0;
 }
 
-int points_left::skill_points_left() const
+void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
 {
-    return stat_points + trait_points + skill_points;
-}
-
-bool points_left::is_freeform()
-{
-    return limit == FREEFORM;
-}
-
-bool points_left::is_valid()
-{
-    return is_freeform() ||
-           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-             skill_points_left() >= 0 );
-}
-
-bool points_left::has_spare()
-{
-    return !is_freeform() && is_valid() && skill_points_left() > 0;
-}
-
-std::string points_left::to_string()
-{
-    if( limit == MULTI_POOL ) {
-        return string_format(
-                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                   trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                   skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-    } else if( limit == ONE_POOL ) {
-        return string_format( _( "Points left: %4d" ), skill_points_left() );
-    } else if( limit == TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
+    if( has_trait( trait_NOPAIN ) ) {
+        return;
+    }
+    if( bp == bodypart_id( "bp_null" ) ) {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your body is wracked with pain!" ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your body pains you!" ) );
+        } else {
+            add_msg_if_player( _( "Your body aches." ) );
+        }
     } else {
-        return _( "Freeform" );
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your %s is wracked with pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your %s pains you!" ),
+                               body_part_name_accusative( bp ) );
+        } else {
+            add_msg_if_player( _( "Your %s aches." ),
+                               body_part_name_accusative( bp ) );
+        }
     }
+}
+
+// ids of martial art styles that are available with the bio_cqb bionic.
+static const std::vector<matype_id> bio_cqb_styles{ {
+        matype_id{ "style_aikido" },
+        matype_id{ "style_biojutsu" },
+        matype_id{ "style_boxing" },
+        matype_id{ "style_capoeira" },
+        matype_id{ "style_crane" },
+        matype_id{ "style_dragon" },
+        matype_id{ "style_judo" },
+        matype_id{ "style_karate" },
+        matype_id{ "style_krav_maga" },
+        matype_id{ "style_leopard" },
+        matype_id{ "style_muay_thai" },
+        matype_id{ "style_ninjutsu" },
+        matype_id{ "style_pankration" },
+        matype_id{ "style_snake" },
+        matype_id{ "style_taekwondo" },
+        matype_id{ "style_tai_chi" },
+        matype_id{ "style_tiger" },
+        matype_id{ "style_wingchun" },
+        matype_id{ "style_zui_quan" }
+    }};
+
+bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
+{
+    enum style_selection {
+        KEEP_HANDS_FREE = 0,
+        STYLE_OFFSET
+    };
+
+    // If there are style already, cursor starts there
+    // if no selected styles, cursor starts from no-style
+
+    // Any other keys quit the menu
+    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
+                bio_cqb ) ? bio_cqb_styles :
+            ma_styles;
+
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
+    uilist kmenu;
+    kmenu.text = string_format( _( "Select a style.\n"
+                                   "\n"
+                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
+                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
+    kmenu.callback = &callback;
+    kmenu.input_category = "MELEE_STYLE_PICKER";
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
+    kmenu.desc_enabled = true;
+    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
+                         keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
+                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+
+    kmenu.selected = STYLE_OFFSET;
+
+    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
+        const auto &style = selectable_styles[i].obj();
+        //Check if this style is currently selected
+        const bool selected = selectable_styles[i] == style_selected;
+        std::string entry_text = style.name.translated();
+        if( selected ) {
+            kmenu.selected = i + STYLE_OFFSET;
+            entry_text = colorize( entry_text, c_pink );
+        }
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
+    }
+
+    kmenu.query();
+    int selection = kmenu.ret;
+
+    if( selection >= STYLE_OFFSET ) {
+        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        martialart_use_message( you );
+    } else if( selection == KEEP_HANDS_FREE ) {
+        keep_hands_free = !keep_hands_free;
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
+bool avatar::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
+{
+    // if index not specified and container has multiple items then ask the player to choose one
+    if( internal_item == nullptr ) {
+        std::vector<std::string> opts;
+        std::list<item *> container_contents = container.all_items_top();
+        std::transform( container_contents.begin(), container_contents.end(),
+        std::back_inserter( opts ), []( const item * elem ) {
+            return elem->display_name();
+        } );
+        if( opts.size() > 1 ) {
+            int pos = uilist( _( "Wield what?" ), opts );
+            if( pos < 0 ) {
+                return false;
+            }
+            internal_item = *std::next( container_contents.begin(), pos );
+        } else {
+            internal_item = container_contents.front();
+        }
+    }
+
+    return Character::wield_contents( container, internal_item, penalties, base_cost );
+}
+
+void avatar::try_to_sleep( const time_duration &dur )
+{
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( pos() );
+    const trap &trap_at_pos = here.tr_at( pos() );
+    const ter_id ter_at_pos = here.ter( pos() );
+    const furn_id furn_at_pos = here.furn( pos() );
+    bool plantsleep = false;
+    bool fungaloid_cosplay = false;
+    bool websleep = false;
+    bool webforce = false;
+    bool websleeping = false;
+    bool in_shell = false;
+    bool watersleep = false;
+    if( has_trait( trait_CHLOROMORPH ) ) {
+        plantsleep = true;
+        if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
+              ter_at_pos == t_grass ) && !vp &&
+            furn_at_pos == f_null ) {
+            add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
+        } else if( vp ) {
+            add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
+        } else if( furn_at_pos != f_null ) {
+            add_msg_if_player( m_bad,
+                               _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
+        } else { // Floor problems
+            add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
+        }
+    } else if( has_trait( trait_M_SKIN3 ) ) {
+        fungaloid_cosplay = true;
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
+            add_msg_if_player( m_good,
+                               _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
+        }
+    }
+    if( has_trait( trait_WEB_WALKER ) ) {
+        websleep = true;
+    }
+    // Not sure how one would get Arachnid w/o web-making, but Just In Case
+    if( has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
+            ( has_trait( trait_WEB_WEAVER ) ) ) ) {
+        webforce = true;
+    }
+    if( websleep || webforce ) {
+        int web = here.get_field_intensity( pos(), fd_web );
+        if( !webforce ) {
+            // At this point, it's kinda weird, but surprisingly comfy...
+            if( web >= 3 ) {
+                add_msg_if_player( m_good,
+                                   _( "These thick webs support your weight, and are strangely comfortable…" ) );
+                websleeping = true;
+            } else if( web > 0 ) {
+                add_msg_if_player( m_info,
+                                   _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
+                here.remove_field( pos(), fd_web );
+            }
+        } else {
+            // Here, you're just not comfortable outside a nice thick web.
+            if( web >= 3 ) {
+                add_msg_if_player( m_good, _( "You relax into your web." ) );
+                websleeping = true;
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to sleep, but you feel exposed and your spinnerets keep twitching." ) );
+                add_msg_if_player( m_info, _( "Maybe a nice thick web would help you sleep." ) );
+            }
+        }
+    }
+    if( has_active_mutation( trait_SHELL2 ) ) {
+        // Your shell's interior is a comfortable place to sleep.
+        in_shell = true;
+    }
+    if( has_trait( trait_WATERSLEEP ) ) {
+        if( underwater ) {
+            add_msg_if_player( m_good,
+                               _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
+            watersleep = true;
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
+            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
+            watersleep = true;
+        }
+    }
+    if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
+                         ter_at_pos == t_improvised_shelter ||
+                         trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
+                         in_shell || websleeping || watersleep ||
+                         vp.part_with_feature( "SEAT", true ) ||
+                         vp.part_with_feature( "BED", true ) ) ) {
+        add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
+    } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
+        if( !vp && ter_at_pos != t_floor ) {
+            add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
+                               _( "It's a little hard to get to sleep on this %s." ) :
+                               _( "It's hard to get to sleep on this %s." ),
+                               ter_at_pos.obj().name() );
+        } else if( vp ) {
+            if( vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+                add_msg_if_player(
+                    //~ %1$s: vehicle name, %2$s: vehicle part name
+                    _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
+                    vp->vehicle().disp_name(),
+                    vp->part_with_feature( VPFLAG_AISLE, true )->part().name( false ) );
+            } else {
+                add_msg_if_player(
+                    //~ %1$s: vehicle name
+                    _( "It's hard to get to sleep in %1$s." ),
+                    vp->vehicle().disp_name() );
+            }
+        }
+    }
+    add_msg_if_player( _( "You start trying to fall asleep." ) );
+    if( has_active_bionic( bio_soporific ) ) {
+        bio_soporific_powered_at_last_sleep_check = has_power();
+        if( bio_soporific_powered_at_last_sleep_check ) {
+            // The actual bonus is applied in sleep_spot( p ).
+            add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
+        } else {
+            add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
+        }
+    }
+    assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+}
+
+bool avatar::query_yn( const std::string &mes ) const
+{
+    return ::query_yn( mes );
 }

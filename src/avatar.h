@@ -19,7 +19,6 @@
 #include "json.h"
 #include "magic_teleporter_list.h"
 #include "memory_fast.h"
-#include "player.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -49,7 +48,7 @@ namespace debug_menu
 class mission_debug;
 }  // namespace debug_menu
 struct mtype;
-struct points_left;
+enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -67,7 +66,7 @@ struct monster_visible_info {
     bool dangerous[8] = {};
 };
 
-class avatar : public player
+class avatar : public Character
 {
     public:
         avatar();
@@ -82,16 +81,17 @@ class avatar : public player
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
-        void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        bool load_template( const std::string &template_name, points_left &points );
-        void save_template( const std::string &name, const points_left &points );
+        void randomize( bool random_scenario, bool play_now = false );
+        bool load_template( const std::string &template_name, pool_type & );
+        void save_template( const std::string &name, pool_type );
+        void character_to_template( const std::string &name );
 
         bool is_avatar() const override {
             return true;
@@ -102,6 +102,22 @@ class avatar : public player
         const avatar *as_avatar() const override {
             return this;
         }
+
+        mfaction_id get_monster_faction() const override;
+
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
+        }
+        /**
+         * Makes the avatar "take over" the given NPC, while the current avatar character
+         * becomes an NPC.
+         */
+        void control_npc( npc & );
+        using Character::query_yn;
+        bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
         bool should_show_map_memory();
@@ -169,15 +185,25 @@ class avatar : public player
          * @param target Target NPC to disarm
          */
         void disarm( npc &target );
-
+        /**
+         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         * @param container Container containing the item to be wielded
+         * @param internal_item reference to contained item to wield.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
+        void try_to_sleep( const time_duration &dur );
         /** Handles reading effects and returns true if activity started */
-        bool read( item_location &book );
+        bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
 
-        void wake_up();
+        void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
@@ -190,6 +216,8 @@ class avatar : public player
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        /** Reassign letter. */
+        void reassign_item( item &it, int invlet );
 
         teleporter_list translocators;
 
@@ -224,6 +252,8 @@ class avatar : public player
         void toggle_run_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
+        // Toggles lying down on/off.
+        void toggle_prone_mode();
         // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
 
@@ -252,7 +282,7 @@ class avatar : public player
             int total() const {
                 return gained - spent;
             }
-            std::map<float, int> activity_levels;
+            std::map<float, int> activity_levels; // NOLINT(cata-serialize)
 
             void serialize( JsonOut &json ) const {
                 json.start_object();
@@ -263,9 +293,7 @@ class avatar : public player
 
                 json.end_object();
             }
-            void deserialize( JsonIn &jsin ) {
-                JsonObject data = jsin.get_object();
-
+            void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
                 if( data.has_member( "activity" ) ) {
@@ -283,7 +311,7 @@ class avatar : public player
             }
 
             void save_activity( JsonOut &json ) const;
-            void read_activity( JsonObject &data );
+            void read_activity( const JsonObject &data );
 
         };
         // called once a day; adds a new daily_calories to the
@@ -293,8 +321,23 @@ class avatar : public player
         void add_gained_calories( int cal ) override;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
+        //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
+        void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
+
+        int movecounter = 0;
+
+        vproto_id starting_vehicle;
+        std::vector<mtype_id> starting_pets;
+        std::set<character_id> follower_ids;
 
     private:
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
+
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
 
@@ -335,34 +378,16 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /**
+         * The NPC that would control the avatar's character in the avatar's absence.
+         * The Character data in this object is not relevant/used.
+         */
+        std::unique_ptr<npc> shadow_npc;
 };
 
 avatar &get_avatar();
 std::unique_ptr<talker> get_talker_for( avatar &me );
 std::unique_ptr<talker> get_talker_for( avatar *me );
-
-struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL,
-        TRANSFER,
-    } limit;
-
-    points_left();
-    void init_from_options();
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const;
-    int trait_points_left() const;
-    int skill_points_left() const;
-    bool is_freeform();
-    bool is_valid();
-    bool has_spare();
-    std::string to_string();
-};
 
 #endif // CATA_SRC_AVATAR_H

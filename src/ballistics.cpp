@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -38,7 +39,7 @@
 
 static const efftype_id effect_bounced( "bounced" );
 
-static const std::string flag_LIQUID( "LIQUID" );
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
@@ -140,7 +141,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         if( effects.count( "HEAVY_HIT" ) ) {
-            if( here.has_flag( flag_LIQUID, pt ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
@@ -201,12 +202,23 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     double range = rl_dist( source, target_arg );
 
-    Creature *target_critter = g->critter_at( target_arg );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
     double target_size = target_critter != nullptr ?
                          target_critter->ranged_target_size() :
                          here.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
+
+    if( target_critter && target_critter->as_character() &&
+        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+
+        projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
+        // if the target's lucky they're more likely to be missed
+        if( lucky_aim.missed_by > aim.missed_by ) {
+            aim = lucky_aim;
+        }
+    }
 
     // TODO: move to-hit roll back in here
 
@@ -236,7 +248,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // If we were targeting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
-                              ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );
+                              ( creatures.creature_at( target_arg ) == nullptr && here.passable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
@@ -355,7 +367,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
-        Creature *critter = g->critter_at( tp );
+        Creature *critter = creatures.creature_at( tp );
         if( origin == critter ) {
             // No hitting self with "weird" attacks.
             critter = nullptr;

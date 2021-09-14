@@ -48,12 +48,14 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
             const overmap_special *special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
-            CHECK( special->occurrences.min <= special_placement.instances_placed );
+            int min_occur = special->get_constraints().occurrences.min;
+            CHECK( min_occur <= special_placement.instances_placed );
         }
         if( --overmaps_to_construct <= 0 ) {
             break;
         }
     }
+    overmap_buffer.clear();
 }
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
@@ -75,7 +77,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     }
 
     // Make this mandatory special impossible to place.
-    mandatory.city_size.min = 999;
+    const_cast<int &>( mandatory.get_constraints().city_size.min ) = 999;
 
     // Construct our own overmap_special_batch containing only our single mandatory
     // and single optional special, so we can make some assertions.
@@ -105,6 +107,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
 
     INFO( "Failed to place optional special on origin " );
     CHECK( found_optional == true );
+    overmap_buffer.clear();
 }
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )

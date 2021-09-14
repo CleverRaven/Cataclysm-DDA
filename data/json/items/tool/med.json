@@ -38,10 +38,8 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",
@@ -65,7 +63,6 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "light_blue",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -75,7 +72,6 @@
         "ammo_restriction": { "albuterol": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "INHALER" ]
@@ -93,9 +89,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "ampoule" ],
-    "initial_charges": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
-    "max_charges": 2,
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ]
   },
@@ -133,11 +127,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 12,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 12 } }
     ],
-    "max_charges": 12,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
@@ -189,11 +181,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 24 } }
     ],
-    "max_charges": 24,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
