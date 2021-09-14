@@ -2420,10 +2420,24 @@ static void draw_compass( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static void draw_compass_compact( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    display::print_mon_info( u, w, 0, true );
+    wnoutrefresh( w );
+}
+
 static void draw_compass_padding( avatar &u, const catacurses::window &w )
 {
     werase( w );
     display::print_mon_info( u, w, 1 );
+    wnoutrefresh( w );
+}
+
+static void draw_compass_padding_compact( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    display::print_mon_info( u, w, 1, true );
     wnoutrefresh( w );
 }
 
@@ -2781,6 +2795,9 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
@@ -2824,6 +2841,9 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", to_translation( "Compass" ),
                                     8, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
@@ -2874,6 +2894,9 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 32, false ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
@@ -2928,6 +2951,9 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
