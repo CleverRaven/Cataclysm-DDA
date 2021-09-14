@@ -166,6 +166,15 @@
   },
   {
     "type": "mutation_category",
+    "id": "BATRACHIAN",
+    "name": "Batrachian",
+    "threshold_mut": "THRESH_BATRACHIAN",
+    "mutagen_message": "An involuntary hop and a croak.",
+    "iv_message": "Like a tadpole you must transform.",
+    "memorial_message": "Found a bigger pond."
+  },
+  {
+    "type": "mutation_category",
     "id": "TROGLOBITE",
     "name": "Troglobite",
     "threshold_mut": "THRESH_TROGLOBITE",

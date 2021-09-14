@@ -235,6 +235,15 @@
     "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
   },
   {
+    "id": "iv_mutagen_batrachian",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "batrachian serum" },
+    "description": "A super-concentrated mutagen with that looks like pond water… are the shadows in it moving?  You need a syringe to inject it… if you really want to?",
+    "color": "light_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
+  },
+  {
     "id": "iv_mutagen_troglobite",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
@@ -417,6 +426,14 @@
     "type": "COMESTIBLE",
     "name": { "str": "spider mutagen" },
     "use_action": { "type": "mutagen", "mutation_category": "SPIDER" }
+  },
+  {
+    "id": "mutagen_batrachian",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "batrachian mutagen" },
+    "description": "A shadowy mutagen that looks like might be full of tiny swimming tadpoles.",
+    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" }
   },
   {
     "id": "mutagen_snail",
