@@ -9347,10 +9347,6 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
 cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
 {
     map &here = get_map();
-    if( !here.has_zlevels() ) {
-        debugmsg( "Ladder can't be used in non-z-level mode" );
-        return cata::nullopt;
-    }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;

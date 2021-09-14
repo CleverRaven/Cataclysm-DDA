@@ -461,10 +461,6 @@ static void pldrive( const tripoint &p )
             player_character.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
             return;
         }
-        if( !here.has_zlevels() ) {
-            player_character.add_msg_if_player( m_info, _( "This vehicle cannot be flown without z levels." ) );
-            return;
-        }
     }
     if( p.z == -1 ) {
         if( veh->check_heli_descend( player_character ) ) {
