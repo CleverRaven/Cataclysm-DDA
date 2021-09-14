@@ -1329,8 +1329,8 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
-    item *weapon = get_wielded_item();
-    if( weapon->has_item( target ) ) {
+    item &weapon = get_wielded_item();
+    if( weapon.has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
@@ -1339,7 +1339,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    bool combine_stacks = target.can_combine( *weapon );
+    bool combine_stacks = target.can_combine( weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
@@ -1366,28 +1366,28 @@ bool avatar::wield( item &target, const int obtain_cost )
     if( has_item( target ) ) {
         item removed = i_rem( &target );
         if( combine_stacks ) {
-            weapon->combine( removed );
+            weapon.combine( removed );
         } else {
             set_wielded_item( removed );
 
         }
     } else {
         if( combine_stacks ) {
-            weapon->combine( target );
+            weapon.combine( target );
         } else {
             set_wielded_item( target );
         }
     }
 
-    last_item = weapon->typeId();
+    last_item = weapon.typeId();
     recoil = MAX_RECOIL;
 
-    weapon->on_wield( *this );
+    weapon.on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv->update_invlet( *weapon );
-    inv->update_cache_with_item( *weapon );
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
 
     return true;
 }

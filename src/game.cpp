@@ -1662,7 +1662,7 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
+        const hint_rating rate_drop_item = u.get_wielded_item().has_flag( flag_NO_UNWIELD ) ?
                                            hint_rating::cant :
                                            hint_rating::good;
 
@@ -2274,7 +2274,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
             return false;
         }
 
-        if( !u.get_wielded_item()->is_gun() ) {
+        if( !u.get_wielded_item().is_gun() ) {
             add_msg( m_info, _( "You are not wielding a ranged weapon." ) );
             return false;
         }
@@ -7569,7 +7569,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     } );
     ui.mark_resize();
 
-    const int max_gun_range = u.get_wielded_item()->gun_range( &u );
+    const int max_gun_range = u.get_wielded_item().gun_range( &u );
 
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
@@ -8549,12 +8549,12 @@ void game::reload_item()
 
 void game::reload_wielded( bool prompt )
 {
-    item *weapon = u.get_wielded_item();
-    if( weapon->is_null() || !weapon->is_reloadable() ) {
+    item &weapon = u.get_wielded_item();
+    if( weapon.is_null() || !weapon.is_reloadable() ) {
         add_msg( _( "You aren't holding something you can reload." ) );
         return;
     }
-    item_location item_loc = item_location( u, weapon );
+    item_location item_loc = item_location( u, &weapon );
     reload( item_loc, prompt );
 }
 
@@ -8580,9 +8580,9 @@ void game::reload_weapon( bool try_everything )
             return true;
         }
         // Second sort by affiliation with wielded gun
-        const std::set<itype_id> compatible_magazines = this->u.get_wielded_item()->magazine_compatible();
-        const bool mag_ap = this->u.get_wielded_item()->can_contain( *ap, true ).success();
-        const bool mag_bp = this->u.get_wielded_item()->can_contain( *bp, true ).success();
+        const std::set<itype_id> compatible_magazines = this->u.get_wielded_item().magazine_compatible();
+        const bool mag_ap = this->u.get_wielded_item().can_contain( *ap, true ).success();
+        const bool mag_bp = this->u.get_wielded_item().can_contain( *bp, true ).success();
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }
@@ -8630,8 +8630,8 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
-    const item *weapon = u.get_wielded_item();
-    if( weapon != &*loc && weapon->has_item( *loc ) ) {
+    const item &weapon = u.get_wielded_item();
+    if( &weapon != &*loc && weapon.has_item( *loc ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return;
     }

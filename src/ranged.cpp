@@ -717,7 +717,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, *get_wielded_item() );
+    return fire_gun( target, shots, get_wielded_item() );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
