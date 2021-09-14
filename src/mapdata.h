@@ -318,6 +318,11 @@ enum ter_connects : int {
     TERCONN_RAIL,
     TERCONN_COUNTER,
     TERCONN_CANVAS_WALL,
+    TERCONN_SAND,
+    TERCONN_PIT_DEEP,
+    TERCONN_LINOLEUM,
+    TERCONN_CARPET,
+    TERCONN_CONCRETE,
 };
 
 struct activity_byproduct {
