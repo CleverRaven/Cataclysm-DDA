@@ -803,10 +803,10 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         item it_hacksaw( itype_test_hacksaw );
 
         dummy.wield( it_hacksaw );
-        REQUIRE( dummy.weapon.typeId() == itype_test_hacksaw );
+        REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
         REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
 
-        return item_location{dummy, &dummy.weapon};
+        return item_location{dummy, &dummy.get_wielded_item()};
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
@@ -930,10 +930,10 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             it_hacksaw_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_hacksaw_elec );
-            REQUIRE( dummy.weapon.typeId() == itype_test_hacksaw_elec );
+            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
             REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
 
-            item_location hacksaw_elec{dummy, &dummy.weapon};
+            item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
 
             setup_activity( hacksaw_elec );
             REQUIRE( dummy.activity.id() == ACT_HACKSAW );
