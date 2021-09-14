@@ -75,14 +75,36 @@
     "responses": [
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "//": "--- the following require you to have done merchant_new first ---" },
-      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
+      {
+        "text": "What've you got for trade?",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
       {
         "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
-        "topic": "TALK_EXODII_MERCHANT_Exodus"
+        "topic": "TALK_EXODII_MERCHANT_Exodus",
+        "condition": {
+          "and": [ { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }, { "u_has_int": 9 } ]
+        }
       },
-      { "text": "What kind of base is this?", "topic": "TALK_EXODII_MERCHANT_Base" },
-      { "text": "What are you doing here?", "topic": "TALK_EXODII_MERCHANT_Purpose" },
-      { "text": "[per 6] Some of this tech looks… weird.", "topic": "TALK_EXODII_MERCHANT_Tech" },
+      {
+        "text": "What kind of base is this?",
+        "topic": "TALK_EXODII_MERCHANT_Base",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "What are you doing here?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "[per 6] Some of this tech looks… weird.",
+        "topic": "TALK_EXODII_MERCHANT_Tech",
+        "condition": {
+          "and": [ { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }, { "u_has_per": 6 } ]
+        }
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
