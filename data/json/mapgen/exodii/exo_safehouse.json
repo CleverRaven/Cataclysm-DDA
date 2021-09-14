@@ -35,7 +35,7 @@
       "fill_ter": "t_dirtfloor",
       "palettes": [ "exodii_stone_palette" ],
       "place_monster": [
-	    {
+        {
           "monster": "mon_exodii_quad",
           "x": [ 10, 11 ],
           "y": [ 19, 22 ],
@@ -55,25 +55,13 @@
           "monster": "mon_exodii_quad",
           "x": 11,
           "y": 12,
-          "spawn_data": {
-            "patrol": [
-              { "x": 12, "y": 16 },
-              { "x": 7, "y": 10 },
-              { "x": 12, "y": 13 },
-              { "x": 8, "y": 12 }
-            ]
-          }
+          "spawn_data": { "patrol": [ { "x": 12, "y": 16 }, { "x": 7, "y": 10 }, { "x": 12, "y": 13 }, { "x": 8, "y": 12 } ] }
         },
         {
           "monster": "mon_exodii_worker",
           "x": 7,
           "y": 8,
-          "spawn_data": {
-            "patrol": [
-              { "x": 14, "y": 8 },
-              { "x": 7, "y": 8 }
-            ]
-          }
+          "spawn_data": { "patrol": [ { "x": 14, "y": 8 }, { "x": 7, "y": 8 } ] }
         }
       ],
       "furniture": { "Y": "f_scrap_antenna", "I": "f_exodii_lamp" }
