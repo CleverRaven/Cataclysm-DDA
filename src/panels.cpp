@@ -2263,7 +2263,7 @@ void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_pa
     const auto &dangerous = mon_visible.dangerous;
 
     const int width = getmaxx( w ) - 2 * hor_padding;
-    const int maxheight = getmaxy( w );
+    const int maxheight = getmaxy( w ) - 1;
 
     const int startrow = 0;
 
