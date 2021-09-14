@@ -2254,7 +2254,8 @@ static void draw_mminimap( avatar &, const catacurses::window &w )
 #endif
 
 // Print monster info to the given window
-void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_padding )
+void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_padding,
+                              bool compact )
 {
     const monster_visible_info &mon_visible = u.get_mon_visible();
     const auto &unique_types = mon_visible.unique_types;
@@ -2357,9 +2358,13 @@ void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_pa
         mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
     }
 
-    // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
-    // is blank.
-    point pr( hor_padding, 4 + startrow );
+    // Rows 0-2 are for labels.
+    // Start monster names on row 3
+    point pr( hor_padding, 3 + startrow );
+    // In non-compact mode, leave a blank line
+    if( !compact ) {
+        pr.y++;
+    }
 
     // Print monster names, starting with those at location 8 (nearby).
     for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {

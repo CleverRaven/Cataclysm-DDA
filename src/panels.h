@@ -109,7 +109,8 @@ nc_color encumb_color( const int level );
 std::string weight_string( const Character &u );
 
 // Prints a list of nearby monsters
-void print_mon_info( avatar &u, const catacurses::window &, int hor_padding = 0 );
+void print_mon_info( avatar &u, const catacurses::window &, int hor_padding = 0,
+                     bool compact = false );
 } // namespace display
 
 namespace overmap_ui
