@@ -631,7 +631,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     tmp.worn.emplace_back( "backpack" );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
-  
+
     tmp.recoil = inital_recoil; // set inital recoil
     bool throwing = false;
     for( const auto &pr : fake_skills ) {
