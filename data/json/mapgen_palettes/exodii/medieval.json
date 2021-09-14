@@ -23,7 +23,12 @@
       "x": "t_drystone_wall_half",
       "4": "t_sand"
     },
-    "monster": { "1": { "monster": "mon_exodii_turret" }, "2": { "monster": "mon_exodii_turret" }, "3": { "monster": "mon_exodii_worker" }, "5": { "monster": "mon_exodii_worker" } },
+    "monster": {
+      "1": { "monster": "mon_exodii_turret" },
+      "2": { "monster": "mon_exodii_turret" },
+      "3": { "monster": "mon_exodii_worker" },
+      "5": { "monster": "mon_exodii_worker" }
+    },
     "furniture": {
       "c": [ "f_metal_crate_r", "f_metal_crate_c" ],
       "C": [ "f_metal_crate_r", "f_metal_crate_c" ],
