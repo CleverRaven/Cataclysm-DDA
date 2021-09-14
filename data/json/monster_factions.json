@@ -433,7 +433,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "fungus",
-    "neutral": [ "bot", "fish" ]
+    "neutral": [ "bot", "fish" ],
+    "hate": "triffid"
   },
   {
     "type": "MONSTER_FACTION",
@@ -479,7 +480,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "triffid",
-    "base_faction": "plant"
+    "base_faction": "plant",
+    "hate": "fungus"
   },
   {
     "type": "MONSTER_FACTION",
