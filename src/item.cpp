@@ -7256,8 +7256,19 @@ bool item::possible_itype_variant( const std::string &test ) const
 
 bool item::has_itype_variant( bool check_option ) const
 {
-    return  _itype_variant != nullptr &&
-            ( !check_option || get_option<bool>( "SHOW_GUN_VARIANTS" ) );
+    if( _itype_variant == nullptr ) {
+        return false;
+    } else if( !check_option ) {
+        return true;
+    }
+
+    switch( type->variant_kind ) {
+        case itype_variant_kind::gun:
+            return get_option<bool>( "SHOW_GUN_VARIANTS" );
+        default:
+            return true;
+    }
+    return false;
 }
 
 const itype_variant_data &item::itype_variant() const

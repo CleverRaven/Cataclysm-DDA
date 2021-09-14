@@ -2881,6 +2881,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         mandatory( jo, was_loaded, "to_hit", temp );
         def.m_to_hit = temp.sum_values();
     }
+    optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
     optional( jo, false, "variants", def.variants );
     assign( jo, "container", def.default_container );
     assign( jo, "sealed", def.default_container_sealed );

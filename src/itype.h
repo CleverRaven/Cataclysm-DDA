@@ -472,6 +472,17 @@ struct islot_wheel {
         void deserialize( const JsonObject &jo );
 };
 
+enum class itype_variant_kind : int {
+    gun,
+    generic,
+    last
+};
+
+template<>
+struct enum_traits<itype_variant_kind> {
+    static constexpr itype_variant_kind last = itype_variant_kind::last;
+};
+
 struct itype_variant_data {
     std::string id;
     translation alt_name;
@@ -891,6 +902,8 @@ struct itype {
 
         // Potential variant items that exist of this type (same stats, different name and desc)
         std::vector<itype_variant_data> variants;
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;

@@ -45,6 +45,21 @@ std::string enum_to_string<condition_type>( condition_type data )
     }
     cata_fatal( "Invalid condition_type" );
 }
+
+template<>
+std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
+{
+    switch( data ) {
+        case itype_variant_kind::gun:
+            return "gun";
+        case itype_variant_kind::generic:
+            return "generic";
+        case itype_variant_kind::last:
+            debugmsg( "Invalid variant type!" );
+            return "";
+    }
+    return "";
+}
 } // namespace io
 
 std::string itype::nname( unsigned int quantity ) const

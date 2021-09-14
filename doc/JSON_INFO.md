@@ -2374,6 +2374,7 @@ See also VEHICLE_JSON.md
   "surface": "point",                        // the item's striking surface value
   "balance": "neutral"                       // the item's balance value
 },
+"variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
 "variants": [              // Cosmetic variants this item can have
   {
     "id": "varianta",                           // id used in spawning to spawn this variant specifically
