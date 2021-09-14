@@ -371,6 +371,22 @@
     "legacy_make_rubble": true
   },
   {
+    "id": "fd_biolum",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "6", "color": "cyan", "light_emitted": 4 },
+      { "name": "glow", "color": "cyan", "light_emitted": 9 },
+      { "name": "shine", "color": "blue", "light_emitted": 20 }
+    ],
+    "description_affix": "illuminated_by",
+    "has_elec": true,
+    "priority": 4,
+    "half_life": "6 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
+  },
+  {
     "id": "fd_smoke",
     "type": "field_type",
     "legacy_enum_id": 12,

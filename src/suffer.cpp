@@ -1027,8 +1027,8 @@ void suffer::from_other_mutations( Character &you )
 
     }
 
-    if( has_active_mutation( trait_SNAIL_TRAIL ) && !in_vehicle ) {
-        here.add_field( pos(), fd_sludge, 1 );
+    if( you.has_active_mutation( trait_SNAIL_TRAIL ) && !you.in_vehicle ) {
+        here.add_field( position, fd_sludge, 1 );
 
     }
 
@@ -1056,8 +1056,8 @@ void suffer::from_other_mutations( Character &you )
         here.add_field( position, fd_web, 1 );
     }
 
-    if( has_trait( trait_MUCUS_SECRETION ) && !in_vehicle && one_in( 2033 ) ) {
-        here.add_field( pos(), fd_sludge, 1 );
+    if( you.has_trait( trait_MUCUS_SECRETION ) && !you.in_vehicle && one_in( 2033 ) ) {
+        here.add_field( position, fd_sludge, 1 );
     }
 
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&

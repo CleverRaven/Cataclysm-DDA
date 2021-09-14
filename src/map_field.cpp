@@ -1466,7 +1466,7 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
-            if( !u.has_trait( trait_GASTROPOD_FOOT ) && ( !u.in_vehicle ) ) {
+            if( !you.has_trait( trait_GASTROPOD_FOOT ) && ( !you.in_vehicle ) ) {
                 you.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
                 you.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );

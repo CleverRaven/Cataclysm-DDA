@@ -72,7 +72,7 @@
     "name": "Gastropod",
     "threshold_mut": "THRESH_GASTROPOD",
     "mutagen_message": "Are you dancing a descending spiral?",
-    "iv_message": "The gaps between your body shrink.",
+    "iv_message": "Your split lower body starts to come back together.",
     "memorial_message": "Left a trail."
   },
   {
