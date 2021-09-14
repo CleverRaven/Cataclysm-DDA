@@ -59,7 +59,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_root_cellar",
     "blueprint_name": "root cellar",
-    "blueprint_provides": [ { "id": "pantry" }, { "id": "fbmc_radio_tower_root_cellar" } ],
+    "blueprint_provides": [ { "id": "pantry" }, { "id": "trapping" }, { "id": "fbmc_radio_tower_root_cellar" } ],
     "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_radio_tower" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_root_cellar" } ]
   },
@@ -73,7 +73,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_water_well",
     "blueprint_name": "water well",
-    "blueprint_provides": [ { "id": "fbmc_radio_tower_water_well" } ],
+    "blueprint_provides": [ { "id": "relaying" }, { "id": "fbmc_radio_tower_water_well" } ],
     "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_radio_tower" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_water_well" } ]
   },
@@ -88,7 +88,13 @@
     "construction_blueprint": "fbmc_radio_tower_fix_controls",
     "blueprint_name": "fix radio tower and controls",
     "blueprint_requires": [ { "id": "fbmc_radio_tower_water_well" }, { "id": "fbmc_radio_tower_root_cellar" } ],
-    "blueprint_provides": [ { "id": "fbmc_radio_tower_fix_controls" }, { "id": "recruiting" }, { "id": "radio" } ],
+    "blueprint_provides": [
+      { "id": "fbmc_radio_tower_fix_controls" },
+      { "id": "recruiting" },
+      { "id": "scouting" },
+      { "id": "patrolling" },
+      { "id": "radio" }
+    ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_fix_controls" } ],
     "blueprint_needs": {
       "time": "10 h",
@@ -156,7 +162,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_0_palisade",
-    "blueprint_provides": [ { "id": "fbmc_radio_tower_0_palisade" }, { "id": "fbmc_radio_tower_palisade" } ],
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_0_palisade" }, { "id": "fbmc_radio_tower_palisade" }, { "id": "walls" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower_0_prepalisade" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_palisade" } ],
     "blueprint_name": "build palisade"
@@ -170,7 +176,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_1_palisade",
-    "blueprint_provides": [ { "id": "fbmc_radio_tower_1_palisade" }, { "id": "fbmc_radio_tower_palisade" } ],
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_1_palisade" }, { "id": "fbmc_radio_tower_palisade" }, { "id": "walls" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower_1_prepalisade" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_palisade" } ],
     "blueprint_name": "build palisade"

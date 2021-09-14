@@ -413,6 +413,21 @@ void overmap::convert_terrain(
             ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
             ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
             ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
+        } else if( old == "anthill" ||
+                   old == "acid_anthill" ||
+                   old == "ants_larvae" ||
+                   old == "ants_larvae_acid" ||
+                   old == "ants_queen" ||
+                   old == "ants_queen_acid" ||
+                   old == "ants_food" ) {
+            std::string new_ = old;
+            if( string_ends_with( new_, "_acid" ) ) {
+                new_.erase( new_.end() - 5, new_.end() );
+            }
+            if( string_starts_with( new_, "acid_" ) ) {
+                new_.erase( new_.begin(), new_.begin() + 5 );
+            }
+            ter_set( pos, oter_id( new_ + "_north" ) );
         }
 
         for( const auto &conv : nearby ) {

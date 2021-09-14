@@ -589,7 +589,7 @@ class inventory_selector
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
-        int query_count( std::string init );
+        int query_count();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
@@ -762,7 +762,6 @@ class inventory_multiselector : public inventory_selector
         void set_chosen_count( inventory_entry &entry, size_t count );
         void deselect_contained_items();
         void toggle_entries( const toggle_mode mode = toggle_mode::SELECTED, int count = 0 );
-        int get_count( const inventory_input input, bool no_mark_count_bound );
         std::vector<std::pair<item_location, int>> to_use;
         std::vector<item_location> usable_locs;
         bool allow_select_contained;

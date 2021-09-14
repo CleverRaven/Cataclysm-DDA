@@ -1808,18 +1808,19 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
+    const item *weapon = you->get_wielded_item();
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( you->weapon.damage_melee( damage_type::CUT ),
-                                    you->weapon.damage_melee( damage_type::STAB ) / 2 );
+    const int cut_power = std::max( weapon->damage_melee( damage_type::CUT ),
+                                    weapon->damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + you->weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->str_cur + weapon->damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
-    float pulp_effort = you->str_cur + you->weapon.damage_melee( damage_type::BASH );
+    float pulp_effort = you->str_cur + weapon->damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
 
-    const int mess_radius = you->weapon.has_flag( flag_MESSY ) ? 2 : 1;
+    const int mess_radius = weapon->has_flag( flag_MESSY ) ? 2 : 1;
 
     int moves = 0;
     // use this to collect how many corpse are pulped
@@ -4155,8 +4156,11 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
-        you->practice( studying.skill(), xp, studying.get_difficulty() );
-
+        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty(), true );
+        if( leveled_up && studying.get_difficulty() < you->get_skill_level( studying.skill() ) ) {
+            you->handle_skill_warning( studying.skill(),
+                                       true ); // show the skill warning on level up, since we suppress it in practice() above
+        }
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );

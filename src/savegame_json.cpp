@@ -870,7 +870,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item();
+    set_wielded_item( item() );
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -1047,6 +1047,10 @@ void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
 
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
+
     // stat
     json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
@@ -1196,10 +1200,6 @@ void Character::store( JsonOut &json ) const
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv->json_save_items( json );
-
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
-    }
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
@@ -2182,6 +2182,7 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
+    data.read( "nickname", nickname );
     data.read( "goal", goal );
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
@@ -2329,6 +2330,7 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
+    json.member( "nickname", nickname );
     json.member( "goal", goal );
     json.member( "wander_pos", wander_pos );
     json.member( "wandf", wandf );

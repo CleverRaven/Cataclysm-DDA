@@ -225,11 +225,11 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
 | `flags`           | See `Overmap terrains` in [JSON_FLAGS.md](JSON_FLAGS.md).                                        |
 | `mapgen`          | Specify a C++ mapgen function. Don't do this--use JSON.                                          |
-| `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_end`      | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
+| `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_end`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 
 ### Example
 

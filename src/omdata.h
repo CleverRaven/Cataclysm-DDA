@@ -300,6 +300,9 @@ struct oter_t {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }
 
+        // dir is only meaningful for rotatable, non-linear terrain.  If you
+        // need an answer that also works for linear terrain, call
+        // get_rotation() instead.
         om_direction::type get_dir() const {
             return dir;
         }
@@ -308,6 +311,7 @@ struct oter_t {
             return line;
         }
         void get_rotation_and_subtile( int &rotation, int &subtile ) const;
+        int get_rotation() const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;

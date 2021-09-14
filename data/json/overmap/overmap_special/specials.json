@@ -697,7 +697,7 @@
   {
     "type": "overmap_special",
     "id": "Lab with Anthill",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" }, { "point": [ 3, 1, 0 ], "overmap": "anthill" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" }, { "point": [ 3, 1, 0 ], "overmap": "anthill_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
@@ -908,6 +908,27 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 20 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wind Turbine",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wind_turbine_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wind_turbine_pillar_platform_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "wind_turbine_pillar_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "wind_turbine_pillar_platform_north" },
+      { "point": [ 0, 0, 8 ], "overmap": "wind_turbine_nacelle_north" },
+      { "point": [ 0, 0, 9 ], "overmap": "wind_turbine_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 10, 40 ],
     "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -1208,28 +1229,6 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "WILDERNESS" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Anthill",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "anthill" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "ANT", "UNIQUE" ],
-    "rotate": false,
-    "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
-  },
-  {
-    "type": "overmap_special",
-    "id": "Acid Anthill",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "acid_anthill" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "ANT", "UNIQUE" ],
-    "rotate": false,
-    "spawns": { "group": "GROUP_ANT_ACID", "population": [ 800, 1600 ], "radius": [ 10, 30 ] }
   },
   {
     "type": "overmap_special",

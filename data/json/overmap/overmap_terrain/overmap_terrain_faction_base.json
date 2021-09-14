@@ -192,6 +192,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_farm_2_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "farm survey_2",
+    "color": "i_brown",
+    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_helipad_garage_0",
     "copy-from": "faction_base_camp_0",
     "name": "military helipad garage",
