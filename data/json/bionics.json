@@ -49,7 +49,7 @@
     "cut_protec": [ [ "arm_l", 6 ], [ "arm_r", 6 ], [ "hand_l", 4 ], [ "hand_r", 4 ] ],
     "bullet_protec": [ [ "arm_l", 6 ], [ "arm_r", 6 ], [ "hand_l", 4 ], [ "hand_r", 4 ] ],
     "encumbrance": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
-    "cant_remove_reason": "The Alloy Plating is part of %1$s arms now.  Removing it would leave %2$s with no skin.",	
+    "cant_remove_reason": "The Alloy Plating is part of %1$s arms now.  Removing it would leave %2$s with no skin.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -130,10 +130,10 @@
       "CLAWS_RAT",
       "CLAWS_ST",
       "WEBBED",
-	    "PATCHSKIN1",
-	    "PATCHSKIN2",
-	    "RABBIT_FUR",
-	    "PAWS_LITTLE"	  
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "PAWS_LITTLE"
     ]
   },
   {
@@ -146,7 +146,7 @@
     "bash_protec": [ [ "eyes", 4 ] ],
     "cut_protec": [ [ "eyes", 4 ] ],
     "bullet_protec": [ [ "eyes", 4 ] ],
-    "encumbrance": [ [ "eyes", 1 ] ],		
+    "encumbrance": [ [ "eyes", 1 ] ],
     "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE" ],
     "social_modifiers": { "intimidate": 10 }
   },
@@ -160,7 +160,7 @@
     "cut_protec": [ [ "head", 6 ], [ "mouth", 6 ] ],
     "bullet_protec": [ [ "head", 6 ], [ "mouth", 6 ] ],
     "encumbrance": [ [ "head", 2 ] ],
-    "cant_remove_reason": "The Alloy Plating is part of %1$s head now.  Removing it would leave %2$s with no skin.",	    
+    "cant_remove_reason": "The Alloy Plating is part of %1$s head now.  Removing it would leave %2$s with no skin.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -247,18 +247,18 @@
       "BEAK_PECK",
       "BEAK_HUM",
       "GIZZARD",
-	    "FELINE_EARS",
-	    "CANINE_EARS",
-	    "LUPINE_EARS",
-	    "RABBIT_EARS",	  
-	    "MOUSE_EARS",
-	    "PATCHSKIN1",
-	    "PATCHSKIN2",
-	    "RABBIT_FUR",
-	    "RABBIT_NOSE",
-	    "SLIT_NOSTRILS",
-	    "WHISKERS",
-	    "WHISKERS_RAT"	  
+      "FELINE_EARS",
+      "CANINE_EARS",
+      "LUPINE_EARS",
+      "RABBIT_EARS",
+      "MOUSE_EARS",
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "RABBIT_NOSE",
+      "SLIT_NOSTRILS",
+      "WHISKERS",
+      "WHISKERS_RAT"
     ]
   },
   {
@@ -271,7 +271,7 @@
     "cut_protec": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "encumbrance": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "cant_remove_reason": "The Alloy Plating is part of %1$s legs now.  Removing it would leave %2$s with no skin.",	    
+    "cant_remove_reason": "The Alloy Plating is part of %1$s legs now.  Removing it would leave %2$s with no skin.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -344,11 +344,11 @@
       "RAP_TALONS",
       "HOOVES",
       "PADDED_FEET",
-	    "PATCHSKIN1",
-	    "PATCHSKIN2",
-	    "RABBIT_FUR",
-	    "TAIL_RABBIT",
-	    "RABBIT_FEET"		
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "TAIL_RABBIT",
+      "RABBIT_FEET"
     ]
   },
   {
@@ -360,9 +360,9 @@
     "bash_protec": [ [ "torso", 7 ] ],
     "cut_protec": [ [ "torso", 7 ] ],
     "bullet_protec": [ [ "torso", 7 ] ],
-    "encumbrance": [ [ "torso", 3 ] ],		
+    "encumbrance": [ [ "torso", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "cant_remove_reason": "The Alloy Plating is part of %1$s torso now.  Removing it would leave %2$s with no skin.",	    
+    "cant_remove_reason": "The Alloy Plating is part of %1$s torso now.  Removing it would leave %2$s with no skin.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -428,9 +428,9 @@
       "CLAWS_TENTACLES",
       "SHELL",
       "SHELL2",
-	    "PATCHSKIN1",
-	    "PATCHSKIN2",
-	    "RABBIT_FUR"	
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR"
     ]
   },
   {
