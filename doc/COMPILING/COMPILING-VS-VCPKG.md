@@ -33,35 +33,6 @@ cd vcpkg
 .\vcpkg integrate install
 ```
 
-4. Install a necessary pre-requisite package:
-
-#### Install YASM-tool:
-
-```cmd
-.\vcpkg --triplet x86-windows install yasm-tool yasm-tool-helper
-```
-
-5. Install the dependencies for your desired architecture.
-
-
-#### 64-bit dependencies:
-
-```cmd
-.\vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
-```
-
-#### 32-bit dependencies:
-
-```cmd
-.\vcpkg --triplet x86-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
-```
-
-#### upgrade all dependencies:
-
-```cmd
-.\vcpkg upgrade
-```
-
 ## Cloning and compilation:
 
 1. Clone Cataclysm-DDA repository with following command line:
@@ -79,7 +50,7 @@ cd Cataclysm-DDA
 
 This will configure Visual Studio to compile the release version, with support for Sound, Tiles, and Localization (note, however, that language files themselves are not automatically compiled; this will be done later).
 
-4. Start the build process by selecting either `Build > Build Solution` or `Build > Build > 1 Cataclysm-vcpkg-static`. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+4. Start the build process by selecting either `Build > Build Solution` or `Build > Build > 1 Cataclysm-vcpkg-static`. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :) The first build of each architecture will also download and install dependencies through vcpkg, which can take an especially long time.
 
 5. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
 
