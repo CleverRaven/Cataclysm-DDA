@@ -2231,7 +2231,8 @@ enum class repeat_type : int {
     FOREVER,     // Repeat for as long as possible
     FULL,        // Repeat until damage==0
     EVENT,       // Repeat until something interesting happens
-    REFIT,       // Only focus on refitting
+    REFIT_ONCE,  // Try refitting once
+    REFIT_FULL,  // Reapeat until item fits
     CANCEL,      // Stop repeating
 };
 
@@ -2264,13 +2265,16 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
                     _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
                     _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT ), can_refit, '5', _( "Focus on refitting" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '6', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '5',
+                    _( "Attempt to refit once" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '6',
+                    _( "Repeat until refitted" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '7', _( "Back to item selection" ) );
 
     rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
 
-    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::REFIT ) {
+    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::REFIT_FULL ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
@@ -2368,7 +2372,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         // Remember our level: we want to stop retrying on level up
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
-                fix_location, repeat == repeat_type::REFIT );
+                fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), you );
@@ -2406,7 +2410,8 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
             ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
-            ( repeat == repeat_type::REFIT && !can_refit );
+            ( repeat == repeat_type::REFIT_ONCE ) ||
+            ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
         }
