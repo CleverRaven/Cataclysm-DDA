@@ -3351,7 +3351,7 @@ bool npc::wield_better_weapon()
     item &weapon = get_wielded_item();
 
     // Check if there's something better to wield
-    item best = weapon;
+    item *best = &weapon;
     double best_value = -100.0;
 
     const int ups_charges = available_ups();
@@ -3373,7 +3373,7 @@ bool npc::wield_better_weapon()
         }
 
         if( val > best_value ) {
-            best = const_cast<item &>( it );
+            best = const_cast<item *>( &it );
             best_value = val;
         }
     };
@@ -3401,17 +3401,17 @@ bool npc::wield_better_weapon()
     // Needs to check reload speed, RELOAD_ONE etc.
     // Until then, the NPCs should reload the guns as a last resort
 
-    if( &best == &weapon ) {
+    if( best == &weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
-                       best.type->get_id().str(),
+                       best->type->get_id().str(),
                        best_value );
         return false;
     }
 
-    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", best.type->get_id().str(),
+    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", best->type->get_id().str(),
                    best_value );
 
-    wield( best );
+    wield( *best );
     return true;
 }
 
