@@ -646,10 +646,10 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
                             tmp.get_wielded_item()->tname() );
 
     if( throwing ) {
-        tmp.throw_item( target.pos(), item( ammo, calendar::turn, 1 ) );
+        tmp.throw_item( target, item( ammo, calendar::turn, 1 ) );
         z.ammo[ammo]--;
     } else {
-        z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
+        z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
 }
 
