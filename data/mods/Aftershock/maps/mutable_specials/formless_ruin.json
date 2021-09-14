@@ -1,0 +1,51 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "mutable_ruinfield",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 2 ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ 0, -1, 0 ], [ "land" ] ],
+      [ [ -1, 0, 0 ], [ "land" ] ]
+    ],
+    "joins": [ "ruin_to_ruin" ],
+    "overmaps": {
+      "ruin_core": {
+        "overmap": "afs_formless_ruins_dynamic_north",
+        "north": "ruin_to_ruin",
+        "east": "ruin_to_ruin",
+        "south": "ruin_to_ruin",
+        "west": "ruin_to_ruin"
+      },
+      "ruin_line": { "overmap": "afs_formless_ruins_dynamic_north", "north": "ruin_to_ruin", "south": "ruin_to_ruin" },
+      "linear_termination": { "overmap": "afs_formless_ruins_dynamic_north", "north": "ruin_to_ruin" },
+      "corner_termination": { "overmap": "afs_formless_ruins_dynamic_north", "north": "ruin_to_ruin", "east": "ruin_to_ruin" },
+      "tee_termination": {
+        "overmap": "afs_formless_ruins_dynamic_north",
+        "north": "ruin_to_ruin",
+        "south": "ruin_to_ruin",
+        "east": "ruin_to_ruin"
+      }
+    },
+    "root": "ruin_core",
+    "phases": [
+      [ { "overmap": "ruin_core", "max": 1 } ],
+      [ { "overmap": "ruin_core", "max": 2 }, { "overmap": "ruin_line", "max": 10 } ],
+      [ { "overmap": "ruin_core", "max": 5 }, { "overmap": "ruin_line", "max": 10 } ],
+      [ { "overmap": "linear_termination", "weight": 1000 } ],
+      [
+        { "overmap": "linear_termination", "weight": 2000 },
+        { "overmap": "corner_termination", "weight": 1000 },
+        { "overmap": "tee_termination", "weight": 1000 },
+        { "overmap": "ruin_line", "weight": 100 },
+        { "overmap": "ruin_core", "weight": 1 }
+      ]
+    ]
+  }
+]
