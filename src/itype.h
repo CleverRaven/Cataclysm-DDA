@@ -902,8 +902,6 @@ struct itype {
 
         // Potential variant items that exist of this type (same stats, different name and desc)
         std::vector<itype_variant_data> variants;
-        // Type of the variant - so people can turn off certain types of variants
-        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
@@ -951,6 +949,10 @@ struct itype {
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
+
+        // Needs to go so far away because padding!
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
