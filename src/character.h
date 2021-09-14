@@ -2325,7 +2325,7 @@ class Character : public Creature, public visitable
         * @param qty Number of charges (kJ)
         * @return amount of UPS consumed which will be between 0 and qty
         */
-        int consume_ups( int qty, int radius = -1 );
+        int consume_ups( int64_t qty, int radius = -1 );
 
         /**
         * Use charges in character inventory.

@@ -4002,7 +4002,8 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+        } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+                   p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }

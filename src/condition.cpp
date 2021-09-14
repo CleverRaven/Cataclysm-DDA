@@ -1083,7 +1083,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 if( power_max == 0 ) {
                     return 0; //Default value if character does not have power, avoids division with 0.
                 } else {
-                    return ( d.actor( is_npc )->power_cur().value() * 100 ) / power_max;
+                    return static_cast<int>( d.actor( is_npc )->power_cur().value() * 100 ) / power_max;
                 }
             };
         } else if( checked_value == "morale" ) {
