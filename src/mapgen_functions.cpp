@@ -2538,6 +2538,14 @@ void mapgen_ants_queen_acid( mapgendata &dat )
     dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
+/**
+* Generates a natural, default, and biome-appropriate forest.
+*
+* In addition to randomly populating using biome (or region) appropriate
+* features, also blends into adjacent tiles using biome or region data.
+*
+* @param dat The map to apply the generated forest to.
+*/
 void mapgen_forest( mapgendata &dat )
 {
     map *const m = &dat.m;
