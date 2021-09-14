@@ -235,7 +235,7 @@ Intensities are used to control effect effects, names, and descriptions. They ar
 
     "int_decay_step": -2,    - Int, default -1, intensity levels removed every decay tick
     "int_decay_tick": 10     - Int, seconds between intensity decay (no decay at the default of 0)
-    "int_decay_remove": true - Bool, default true, removes the intensity if decay would decrease it to zero
+    "int_decay_remove": true - Bool, default false, removes the intensity if decay would decrease it to zero
     or
     "int_dur_factor": 700
 ```
