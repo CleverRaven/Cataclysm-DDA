@@ -119,10 +119,6 @@ struct pathfinder {
 // return false if it could not find a suitable point
 static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoint &t )
 {
-    if( !m.has_zlevels() ) {
-        return false;
-    }
-
     const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
     for( const point &p : closest_points_first( t.xy(), SEEX ) ) {
         if( pf_cache.special[p.x][p.y] & PF_UPDOWN ) {
@@ -133,7 +129,6 @@ static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoin
             }
         }
     }
-
     return false;
 }
 
@@ -375,12 +370,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     }
                 }
 
-                if( trapavoid && p_special & PF_TRAP ) {
+                if( trapavoid && ( p_special & PF_TRAP ) ) {
                     const auto &ter_trp = terrain.trap.obj();
                     const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
                     if( !trp.is_benign() ) {
                         // For now make them detect all traps
-                        if( has_zlevels() && terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
+                        if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
                             if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
@@ -418,7 +413,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
 
-        if( !has_zlevels() || !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
+        if( !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
             // The part below is only for z-level pathing
             continue;
         }
