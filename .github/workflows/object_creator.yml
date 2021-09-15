@@ -10,7 +10,10 @@ on:
     - 'data/**'
     - 'doc/**'
     - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
     - 'lgtm/**'
+    - 'tests/**'
     - 'tools/**'
     - 'utilities/**'
   pull_request:
@@ -22,7 +25,12 @@ on:
     - 'data/**'
     - 'doc/**'
     - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
     - 'lgtm/**'
+    - 'tests/**'
+    - 'src/**'
+    - '!src/messages.*'
     - 'tools/**'
     - 'utilities/**'
 
