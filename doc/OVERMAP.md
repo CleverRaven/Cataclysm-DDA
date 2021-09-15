@@ -482,7 +482,7 @@ Depending on the subtype, there are further relevant fields:
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
         { "overmap": "straight_tunnel", "max": 20 },
-        { "overmap": "corner", "max": 5 },
+        { "overmap": "corner", "max": { "poisson": 5 } },
         { "overmap": "tee", "max": 10 }
       ],
       [ { "overmap": "queen", "max": 1 } ],
@@ -529,6 +529,12 @@ phases are processed strictly in order.
 
 Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
 integer `max` and/or `weight`.
+
+Weight must always be a simple integer, but `max` may also be an object
+defining a probability distribution over integers.  Each time the special is
+spawned, a value is sampled from that distribution.  Currently only a Poisson
+distribution is supported, specified via an object such as `{ "poisson": 5 }`
+where 5 will be the mean of the distribution (λ).
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
