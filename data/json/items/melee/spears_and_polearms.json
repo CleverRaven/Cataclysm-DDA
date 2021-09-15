@@ -245,7 +245,7 @@
     "type": "GENERIC",
     "id": "spear_pipe",
     "name": { "str": "pipe spear" },
-    "description": "Three pipes hastily fit together with one end bashed down into a semi-sharp point.",
+    "description": "Three pipes hastily fit together with one end cut down to a point.",
     "weight": "3890 g",
     "to_hit": -1,
     "price_postapoc": 50,
@@ -256,7 +256,7 @@
     "volume": "1130 ml",
     "longest_side": "185 cm",
     "bashing": 6,
-    "cutting": 29,
+    "cutting": 34,
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
