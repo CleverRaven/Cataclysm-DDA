@@ -1791,6 +1791,32 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
     };
 }
 
+void talk_effect_fun_t::set_u_spawn_item( const itype_id &item_name, int count,
+        const std::string &container_name )
+{
+    function = [item_name, count, container_name]( const dialogue & d ) {
+        if( container_name.empty() ) {
+            item new_item = item( item_name, calendar::turn );
+            if( new_item.count_by_charges() ) {
+                new_item.mod_charges( count - 1 );
+                d.actor( false )->i_add( new_item );
+            } else {
+                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                    if( !new_item.ammo_default().is_null() ) {
+                        new_item.ammo_set( new_item.ammo_default() );
+                    }
+                    d.actor( false )->i_add( new_item );
+                }
+            }
+        } else {
+            item container( container_name, calendar::turn );
+            container.put_in( item( item_name, calendar::turn, count ),
+                              item_pocket::pocket_type::CONTAINER );
+            d.actor( false )->i_add( container );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
                                         const std::string &container_name )
 {
@@ -3032,6 +3058,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
+               jo.has_string( "u_spawn_item" ) ||
                jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
                jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
         int cost = 0;
@@ -3054,6 +3081,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             itype_id item_name;
             jo.read( "u_buy_item", item_name, true );
             subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
+        } else if( jo.has_string( "u_spawn_item" ) ) {
+            itype_id item_name;
+            jo.read( "u_spawn_item", item_name, true );
+            subeffect_fun.set_u_spawn_item( item_name, count, container_name );
         } else if( jo.has_string( "u_consume_item" ) ) {
             subeffect_fun.set_consume_item( jo, "u_consume_item", count );
         } else if( jo.has_string( "npc_consume_item" ) ) {
