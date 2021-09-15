@@ -13,6 +13,7 @@ on:
     - 'msvc-object_creator/**'
     - 'tools/**'
     - 'utilities/**'
+    - 'data/**'
   pull_request:
     branches:
     - master
@@ -25,6 +26,7 @@ on:
     - 'msvc-object_creator/**'
     - 'tools/**'
     - 'utilities/**'
+    - 'data/**'
 
 env:
   # There's not enough disk space to build both release and debug versions of
