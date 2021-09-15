@@ -1709,7 +1709,7 @@ bool npc::recharge_cbm()
 
                 if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-                } else if( std::find(fuel_op.begin(), fuel_op.end(), material_alcohol) != fuel_op.end() ) {
+                } else if( std::find( fuel_op.begin(), fuel_op.end(), material_alcohol ) != fuel_op.end() ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
                 } else {
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
