@@ -54,5 +54,40 @@
         { "overmap": "crossroads", "weight": 1 }
       ]
     ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "test_crater",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ],
+      [ [ -1, 0, 0 ], [ "land" ] ],
+      [ [ 0, -1, 0 ], [ "land" ] ]
+    ],
+    "joins": [ "crater_to_crater" ],
+    "overmaps": {
+      "crater_all": {
+        "overmap": "crater",
+        "north": "crater_to_crater",
+        "east": "crater_to_crater",
+        "south": "crater_to_crater",
+        "west": "crater_to_crater"
+      },
+      "crater_edge": {
+        "overmap": "crater",
+        "north": "crater_to_crater",
+        "east": { "id": "crater_to_crater", "type": "available" },
+        "south": { "id": "crater_to_crater", "type": "available" },
+        "west": { "id": "crater_to_crater", "type": "available" }
+      }
+    },
+    "root": "crater_all",
+    "phases": [ [ { "overmap": "crater_all", "max": { "poisson": 5 } } ], [ { "overmap": "crater_edge", "weight": 1 } ] ]
   }
 ]

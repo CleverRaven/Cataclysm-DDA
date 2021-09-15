@@ -1,15 +1,6 @@
 [
   {
     "type": "overmap_special",
-    "id": "Crater",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "crater" } ],
-    "locations": [ "land" ],
-    "occurrences": [ 0, 6 ],
-    "rotate": false,
-    "flags": [ "BLOB", "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "motel-twd",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "motel_twd_1_north" },
