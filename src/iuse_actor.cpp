@@ -3069,7 +3069,7 @@ static bool damage_item( Character &pl, item_location &fix )
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &tool,
-        item_location &fix ) const
+        item_location &fix, bool refit_only ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
@@ -3079,7 +3079,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     }
 
     const int current_skill_level = pl.get_skill_level( used_skill );
-    const repair_item_actor::repair_type action = default_action( *fix, current_skill_level );
+    repair_item_actor::repair_type action;
+    if( refit_only ) {
+        if( fix->has_flag( flag_FIT ) ) {
+            pl.add_msg_if_player( m_warning, _( "The %s already fits!" ), fix->tname() );
+            return AS_CANT;
+        } else if( !fix->has_flag( flag_VARSIZE ) ) {
+            pl.add_msg_if_player( m_bad, _( "This %s cannot be refitted!" ), fix->tname() );
+            return AS_CANT;
+        } else {
+            action = RT_REFIT;
+        }
+    } else {
+        action = default_action( *fix, current_skill_level );
+    }
     const auto chance = repair_chance( pl, *fix, action );
     int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
