@@ -297,8 +297,8 @@ item *aim_activity_actor::get_weapon()
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = get_player_character().get_wielded_item();
-        return weapon->is_null() ? nullptr : weapon;
+        item &weapon = get_player_character().get_wielded_item();
+        return weapon.is_null() ? nullptr : &weapon;
     }
 }
 
@@ -3873,7 +3873,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                        reloadable_name );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
-                               _( "Dispose of %s and wield %s" ), who.get_wielded_item()->display_name(),
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item().display_name(),
                                reloadable_name );
     } else {
         reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );

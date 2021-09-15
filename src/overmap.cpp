@@ -1240,7 +1240,7 @@ struct mutable_overmap_phase {
             } );
             std::string message =
                 string_format(
-                    "At %s failed to match with neighbours N:%s E:%s S:%s W:%s and constraints %s "
+                    "At %s FAILED to match with neighbours N:%s E:%s S:%s W:%s and constraints %s "
                     "from amongst rules %s",
                     pos.to_string(),
                     om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
@@ -1290,6 +1290,10 @@ struct pos_dir {
     friend bool operator==( const pos_dir &l, const pos_dir &r ) {
         return l.p == r.p && l.dir == r.dir;
     }
+
+    friend bool operator<( const pos_dir &l, const pos_dir &r ) {
+        return std::tie( l.p, l.dir ) < std::tie( r.p, r.dir );
+    }
 };
 
 namespace std
@@ -1320,6 +1324,7 @@ class joins_tracker
             unsigned join_priority;
         };
         using iterator = std::list<join>::iterator;
+        using const_iterator = std::list<join>::const_iterator;
 
         bool any_unresolved() const {
             return !unresolved.empty();
@@ -1329,8 +1334,30 @@ class joins_tracker
             return !postponed.empty();
         }
 
+        void consistency_check() const {
+#if 0 // Enable this to check the class invariants, at the cost of more runtime
+            // verify that there are no positions in common between the
+            // resolved and postponed lists
+            for( const join &j : postponed ) {
+                auto j_pos = j.where.p;
+                if( unresolved.any_at( j_pos ) ) {
+                    std::vector<iterator> unr = unresolved.all_at( j_pos );
+                    if( unr.empty() ) {
+                        cata_fatal( "inconcistency between all_at and any_at" );
+                    } else {
+                        const join &unr_j = *unr.front();
+                        cata_fatal( "postponed and unresolved should be disjoint but are not at "
+                                    "%s where unresolved has %s: %s",
+                                    j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join_id );
+                    }
+                }
+            }
+#endif
+        }
+
         void add_joins_for( const mutable_overmap_terrain &ter, const tripoint_om_omt &pos,
                             om_direction::type rot ) {
+            consistency_check();
             for( const std::pair<const cube_direction, std::string> &p : ter.joins ) {
                 cube_direction dir = p.first + rot;
                 const std::string &join = p.second;
@@ -1338,75 +1365,151 @@ class joins_tracker
                 pos_dir this_side{ pos, dir };
                 pos_dir other_side = this_side.opposite();
                 if( !other_side.inbounds() ) {
-                    orphaned.push_back( { this_side, join, 0 } );
+                    debugmsg( "out of bounds join" );
                     continue;
                 }
 
-                if( resolved_position_index.count( other_side ) ) {
+                if( resolved.count( other_side ) ) {
                     erase_unresolved( this_side );
-                } else if( postponed_points.count( pos ) ) {
-                    postponed.push_back( { other_side, join, 0 } );
                 } else {
+                    // If there were postponed joins pointing into this point,
+                    // so we need to un-postpone them because it might now be
+                    // possible to satisfy them.
+                    restore_postponed_at( other_side.p );
                     add_unresolved( other_side, join );
                 }
-                add_resolved( this_side, join );
+                resolved.add( *this, this_side, join );
             }
+            consistency_check();
         }
 
         std::pair<pos_dir, placement_constraints> pick_top_priority() const {
             cata_assert( any_unresolved() );
-            auto priority_it = std::find_if(
-                                   unresolved_priority_index.begin(), unresolved_priority_index.end(),
+            auto priority_it =
+                std::find_if( unresolved_priority_index.begin(), unresolved_priority_index.end(),
             []( const cata::flat_set<iterator, compare_iterators> &its ) {
                 return !its.empty();
             } );
             cata_assert( priority_it != unresolved_priority_index.end() );
             auto it = random_entry( *priority_it );
             const tripoint_om_omt &pos = it->where.p;
+            cata_assert( !postponed.any_at( pos ) );
             std::pair<pos_dir, placement_constraints> result( it->where, {} );
-            for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                pos_dir key{ pos, dir };
-                auto pos_it = unresolved_position_index.find( key );
-                if( pos_it != unresolved_position_index.end() ) {
-                    result.second.joins.emplace_back( dir, pos_it->second->join_id );
-                }
+            for( iterator it : unresolved.all_at( pos ) ) {
+                result.second.joins.emplace_back( it->where.dir, it->join_id );
             }
             return result;
         }
         void postpone( const tripoint_om_omt &pos ) {
-            for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                pos_dir p{ pos, dir };
-                auto it = unresolved_position_index.find( p );
-                if( it != unresolved_position_index.end() ) {
-                    postponed.push_back( *it->second );
-                    postponed_points.insert( pos );
-                    erase_unresolved( p );
-                }
+            consistency_check();
+            for( iterator it : unresolved.all_at( pos ) ) {
+                postponed.add( *it );
+                erase_unresolved( it->where );
             }
+            consistency_check();
+        }
+        void restore_postponed_at( const tripoint_om_omt &pos ) {
+            for( iterator it : postponed.all_at( pos ) ) {
+                add_unresolved( it->where, it->join_id );
+                postponed.erase( it );
+            }
+            consistency_check();
         }
         void restore_postponed() {
-            for( const join &conn : postponed ) {
-                add_unresolved( conn.where, conn.join_id );
+            consistency_check();
+            for( const join &j : postponed ) {
+                add_unresolved( j.where, j.join_id );
             }
-            postponed_points.clear();
             postponed.clear();
         }
     private:
-        unsigned priority_of( const std::string &conn ) {
-            auto it = joins->find( conn );
+        unsigned priority_of( const std::string &join_id ) const {
+            auto it = joins->find( join_id );
             if( it == joins->end() ) {
-                debugmsg( "priority for join_id %s not known", conn );
+                debugmsg( "priority for join_id %s not known", join_id );
                 return 0;
             }
             return it->second->priority;
         }
 
-        void add_unresolved( const pos_dir &p, const std::string &conn ) {
-            unsigned priority = priority_of( conn );
-            unresolved.push_front( { p, conn, priority } );
-            auto it = unresolved.begin();
-            auto insert_result = unresolved_position_index.emplace( p, it );
-            cata_assert( insert_result.second );
+        struct indexed_joins {
+            std::list<join> joins;
+            std::unordered_map<pos_dir, iterator> position_index;
+
+            iterator begin() {
+                return joins.begin();
+            }
+
+            iterator end() {
+                return joins.end();
+            }
+
+            const_iterator begin() const {
+                return joins.begin();
+            }
+
+            const_iterator end() const {
+                return joins.end();
+            }
+
+            bool empty() const {
+                return joins.empty();
+            }
+
+            bool count( const pos_dir &p ) const {
+                return position_index.count( p );
+            }
+
+            bool any_at( const tripoint_om_omt &pos ) const {
+                for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                    if( count( pos_dir{ pos, dir } ) ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            std::vector<iterator> all_at( const tripoint_om_omt &pos ) const {
+                std::vector<iterator> result;
+                for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                    pos_dir key{ pos, dir };
+                    auto pos_it = position_index.find( key );
+                    if( pos_it != position_index.end() ) {
+                        result.push_back( pos_it->second );
+                    }
+                }
+                return result;
+            }
+
+            iterator add( const joins_tracker &tracker, const pos_dir &p,
+                          const std::string &join_id ) {
+                unsigned priority = tracker.priority_of( join_id );
+                return add( { p, join_id, priority } );
+            }
+
+            iterator add( const join &j ) {
+                joins.push_front( j );
+                auto it = joins.begin();
+                auto insert_result = position_index.emplace( j.where, it );
+                cata_assert( insert_result.second );
+                return it;
+            }
+
+            void erase( const iterator it ) {
+                size_t erased = position_index.erase( it->where );
+                cata_assert( erased );
+                joins.erase( it );
+            }
+
+            void clear() {
+                joins.clear();
+                position_index.clear();
+            }
+        };
+
+        void add_unresolved( const pos_dir &p, const std::string &join_id ) {
+            iterator it = unresolved.add( *this, p, join_id );
+            unsigned priority = it->join_priority;
             if( unresolved_priority_index.size() <= priority ) {
                 unresolved_priority_index.resize( priority + 1 );
             }
@@ -1415,45 +1518,29 @@ class joins_tracker
         }
 
         void erase_unresolved( const pos_dir &p ) {
-            auto pos_it = unresolved_position_index.find( p );
-            cata_assert( pos_it != unresolved_position_index.end() );
+            auto pos_it = unresolved.position_index.find( p );
+            cata_assert( pos_it != unresolved.position_index.end() );
             iterator it = pos_it->second;
             unsigned priority = it->join_priority;
             cata_assert( priority < unresolved_priority_index.size() );
             size_t erased = unresolved_priority_index[priority].erase( it );
             cata_assert( erased );
-            unresolved_position_index.erase( pos_it );
             unresolved.erase( it );
-        }
-
-        void add_resolved( const pos_dir &p, const std::string &conn ) {
-            unsigned priority = priority_of( conn );
-            resolved.push_front( { p, conn, priority } );
-            auto it = resolved.begin();
-            bool inserted = resolved_position_index.emplace( p, it ).second;
-            cata_assert( inserted );
         }
 
         struct compare_iterators {
             bool operator()( iterator l, iterator r ) {
-                std::less<> c;
-                return c( &*l, &*r );
+                return l->where < r->where;
             }
         };
 
         const std::unordered_map<std::string, mutable_overmap_join *> *joins;
 
-        std::list<join> unresolved;
-        std::unordered_map<pos_dir, iterator> unresolved_position_index;
+        indexed_joins unresolved;
         std::vector<cata::flat_set<iterator, compare_iterators>> unresolved_priority_index;
 
-        std::list<join> resolved;
-        std::unordered_map<pos_dir, iterator> resolved_position_index;
-
-        std::unordered_set<tripoint_om_omt> postponed_points;
-        std::vector<join> postponed;
-
-        std::vector<join> orphaned;
+        indexed_joins resolved;
+        indexed_joins postponed;
 };
 
 struct mutable_overmap_special_data {
@@ -1480,12 +1567,12 @@ struct mutable_overmap_special_data {
             }
         }
         for( size_t i = 0; i != joins_vec.size(); ++i ) {
-            mutable_overmap_join &conn = joins_vec[i];
-            if( conn.into_locations.empty() ) {
-                conn.into_locations = default_locations;
+            mutable_overmap_join &join = joins_vec[i];
+            if( join.into_locations.empty() ) {
+                join.into_locations = default_locations;
             }
-            conn.priority = i;
-            joins.emplace( conn.id, &conn );
+            join.priority = i;
+            joins.emplace( join.id, &join );
         }
     }
 
@@ -1504,9 +1591,9 @@ struct mutable_overmap_special_data {
                 }
             }
             for( const std::pair<const cube_direction, std::string> &p : ter.joins ) {
-                const std::string &conn = p.second;
-                if( !joins.count( conn ) ) {
-                    debugmsg( "invalid join id %s in %s", conn, context );
+                const std::string &join_id = p.second;
+                if( !joins.count( join_id ) ) {
+                    debugmsg( "invalid join id %s in %s", join_id, context );
                 }
             }
         }
@@ -1581,6 +1668,8 @@ struct mutable_overmap_special_data {
                 if( current_phase == phases.end() ) {
                     break;
                 }
+                descriptions.push_back(
+                    string_format( "## Entering phase %td", current_phase - phases.begin() ) );
                 phase_remaining = *current_phase;
                 unresolved.restore_postponed();
             }

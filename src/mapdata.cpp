@@ -497,7 +497,7 @@ std::string map_data_common_t::name() const
 
 bool map_data_common_t::can_examine( const tripoint &examp ) const
 {
-    return examine_func.can_examine( examp );
+    return examine_actor || examine_func.can_examine( examp );
 }
 
 bool map_data_common_t::has_examine( iexamine_examine_function func ) const
@@ -1301,6 +1301,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
+        examine_func = iexamine_functions_from_string( "invalid" );
     } else {
         examine_func = iexamine_functions_from_string( "none" );
     }

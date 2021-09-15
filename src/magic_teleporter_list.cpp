@@ -77,7 +77,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
 
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
 {
-    tinymap omt_dest( 2, true );
+    tinymap omt_dest;
     tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
     omt_dest.load( sm_dest, true );
     cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );

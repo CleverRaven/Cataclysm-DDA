@@ -61,6 +61,7 @@
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -4661,11 +4662,52 @@ cata::optional<int> iuse::vortex( Character *p, item *it, bool, const tripoint &
 
 cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripoint & )
 {
+    if( !p->is_avatar() ) {
+        return cata::nullopt;
+    }
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return cata::nullopt;
     }
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
+
+    std::array<std::string, 4> messages_friendly_or_neutral = {
+        _( "What is this unbearable sound!?" ),
+        _( "STOP.  MY EARS" ),
+        _( "I'm not a dog…" ),
+        _( "Would you kindly not do that?" )
+    };
+
+    std::array<std::string, 5> messages_hostile = {
+        _( "I WILL MURDER YOU" ),
+        _( "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT" ),
+        _( "You're seriously pissing me off…" ),
+        _( "I'm not a dog…" ),
+        _( "What is this unbearable sound!?" ),
+    };
+
+    // Can the Character hear the dog whistle?
+    auto hearing_check = [p]( const Character & who ) -> bool {
+        return !who.is_deaf() && p->sees( who ) &&
+        who.has_trait( STATIC( trait_id( "THRESH_LUPINE" ) ) );
+    };
+
+    for( const npc &subject : g->all_npcs() ) {
+        if( !( one_in( 3 ) && hearing_check( subject ) ) ) {
+            continue;
+        }
+
+        if( p->attitude_to( subject ) == Creature::Attitude::HOSTILE ) {
+            subject.say( random_entry( messages_hostile ) );
+        } else {
+            subject.say( random_entry( messages_friendly_or_neutral ) );
+        }
+    }
+
+    if( hearing_check( *p ) && one_in( 3 ) ) {
+        p->add_msg_if_player( m_info, _( "You hate this loud sound." ) );
+    }
+
     for( monster &critter : g->all_monsters() ) {
         if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
             bool u_see = get_player_view().sees( critter );
@@ -7665,7 +7707,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
-            if( p->has_item( *it ) && p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
@@ -7697,7 +7739,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -9347,10 +9389,6 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
 cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
 {
     map &here = get_map();
-    if( !here.has_zlevels() ) {
-        debugmsg( "Ladder can't be used in non-z-level mode" );
-        return cata::nullopt;
-    }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
@@ -9604,7 +9642,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
                 return nullptr;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return p->get_wielded_item();
+            return &p->get_wielded_item();
         } else {
             return nullptr;
         }
