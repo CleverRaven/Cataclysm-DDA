@@ -245,7 +245,7 @@ class overmapbuffer
         cata::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
-         * Only npcs on the given z-level are considered.
+         * All z-levels are considered.
          * Uses square_dist for distance calculation.
          * @param p Central point in submap coordinates.
          * @param radius Maximal distance of npc from (x,y). If the npc
@@ -262,9 +262,9 @@ class overmapbuffer
         std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs( int range = 100 );
         /**
          * Uses overmap terrain coordinates, this also means radius is
-         * in overmap terrain.
+         * in overmap terrain. All z-levels are considered.
          * A radius of 0 returns all npcs that are on that specific
-         * overmap terrain tile.
+         * overmap terrain tile or above/below.
          */
         std::vector<shared_ptr_fast<npc>> get_npcs_near_omt( const tripoint_abs_omt &p, int radius );
         /**

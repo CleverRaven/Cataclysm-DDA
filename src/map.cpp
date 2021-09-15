@@ -137,10 +137,9 @@ units::volume map_stack::max_volume() const
 
 // Map class methods.
 
-map::map( int mapsize, bool zlev )
+map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 {
-    my_MAPSIZE = mapsize;
-    zlevels = zlev;
+
     if( zlevels ) {
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
     } else {
@@ -8167,11 +8166,6 @@ size_t map::get_nonant( const tripoint &gridp ) const
     } else {
         return gridp.x + gridp.y * my_MAPSIZE;
     }
-}
-
-tinymap::tinymap( int mapsize, bool zlevels )
-    : map( mapsize, zlevels )
-{
 }
 
 void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )

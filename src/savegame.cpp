@@ -95,8 +95,6 @@ void game::serialize( std::ostream &fout )
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
-    json.member( "stair_monsters", coming_to_stairs );
-    json.member( "monstairz", monstairz );
 
     json.member( "driving_view_offset", driving_view_offset );
     json.member( "turnssincelastmon", turnssincelastmon );
@@ -211,13 +209,8 @@ void game::unserialize( std::istream &fin, const std::string &path )
         }
         data.read( "active_monsters", *critter_tracker );
 
-        coming_to_stairs.clear();
-        for( JsonValue elem : data.get_array( "stair_monsters" ) ) {
-            monster stairtmp;
-            elem.read( stairtmp );
-            coming_to_stairs.push_back( stairtmp );
-        }
-        data.read( "monstairz", monstairz );
+        data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
+        data.has_null( "monstairz" ); // TEMPORARY until 0.G
 
         data.read( "driving_view_offset", driving_view_offset );
         data.read( "turnssincelastmon", turnssincelastmon );
@@ -682,7 +675,7 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" ) > 0;
+                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {

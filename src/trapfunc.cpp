@@ -1160,32 +1160,6 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
-    if( !here.has_zlevels() ) {
-        if( c->is_avatar() ) {
-            add_msg( m_warning, _( "You fall down a level!" ) );
-            g->vertical_move( -1, true );
-            if( c->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                    c->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
-                add_msg( _( "You flap your wings and flutter down gracefully." ) );
-            } else if( c->as_character()->has_active_bionic( bio_shock_absorber ) ) {
-                add_msg( m_info,
-                         _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
-            } else {
-                c->as_avatar()->impact( 20, p );
-            }
-        } else {
-            c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-            tripoint dest = c->pos();
-            dest.z--;
-            c->impact( 20, dest );
-            c->setpos( dest );
-            if( m != nullptr ) {
-                g->despawn_monster( *m );
-            }
-        }
-
-        return true;
-    }
 
     int height = 0;
     tripoint where = p;

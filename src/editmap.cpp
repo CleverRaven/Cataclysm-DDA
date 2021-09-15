@@ -661,7 +661,7 @@ void editmap::draw_main_ui_overlay()
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
                                                 point_zero );
                     }
-                    g->draw_below_override( map_p, here.has_zlevels() &&
+                    g->draw_below_override( map_p,
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }

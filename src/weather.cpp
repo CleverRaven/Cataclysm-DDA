@@ -407,7 +407,7 @@ void wet_character( Character &target, int amount )
 {
     if( amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
-        target.get_wielded_item()->has_flag( json_flag_RAIN_PROTECT ) ||
+        target.get_wielded_item().has_flag( json_flag_RAIN_PROTECT ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
