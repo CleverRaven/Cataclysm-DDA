@@ -207,10 +207,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "pipe", 3 ] ], [ [ "pipe_fittings", 1] ] ]
   },
   {
     "result": "grip_hook",
