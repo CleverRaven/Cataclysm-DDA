@@ -324,7 +324,7 @@ std::vector<npc_attack_rating> npc_attack_melee::all_evaluations( const npc &sou
 bool npc_attack_melee::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( weapon ).success();
+    return source.is_wielding( weapon ) || source.can_wield( weapon ).success();
 }
 
 int npc_attack_melee::base_time_penalty( const npc &source ) const
