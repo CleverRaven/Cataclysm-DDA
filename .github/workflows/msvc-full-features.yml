@@ -9,10 +9,15 @@ on:
     - 'build-data/osx/**'
     - 'doc/**'
     - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
     - 'lgtm/**'
     - 'msvc-object_creator/**'
+    - 'object_creator/**'
     - 'tools/**'
     - 'utilities/**'
+    - 'data/**'
+    - 'tests/**'
   pull_request:
     branches:
     - master
@@ -21,10 +26,15 @@ on:
     - 'build-data/osx/**'
     - 'doc/**'
     - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
     - 'lgtm/**'
     - 'msvc-object_creator/**'
+    - 'object_creator/**'
     - 'tools/**'
     - 'utilities/**'
+    - 'data/**'
+    - 'tests/**'
 
 env:
   # There's not enough disk space to build both release and debug versions of
