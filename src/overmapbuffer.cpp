@@ -547,18 +547,18 @@ void overmapbuffer::process_mongroups()
     }
 }
 
-void overmapbuffer::move_hordes()
+void overmapbuffer::do_tick( bool has_nemesis )
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
     const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    for( overmap *om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
+        om->update_nodes();
     }
-}
-
-void overmapbuffer::move_nemesis()
-{
+    if( !has_nemesis ) {
+        return;
+    }
     for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
         omp.second->move_nemesis();
         fix_nemesis( *omp.second );
@@ -573,6 +573,26 @@ void overmapbuffer::remove_nemesis()
             break;
         }
     }
+}
+
+overmap_node *overmapbuffer::nearby_node( const tripoint_abs_omt &p )
+{
+    // arbitrary radius to include nearby overmaps (aside from the current one)
+    const int radius = MAPSIZE * 20;
+    // TODO: Make this return a list of all the nodes in range.
+    overmap_node *nearest_node = nullptr;
+    int nearest_node_distance = radius * 2;
+    tripoint_abs_sm sm_p = project_to<coords::sm>( p );
+    for( overmap *om : get_overmaps_near( sm_p, radius ) ) {
+        for( overmap_node &node : om->nodes ) {
+            int distance = rl_dist( node.origin, p );
+            if( distance < nearest_node_distance && distance < node.radius() ) {
+                nearest_node = &node;
+                nearest_node_distance = distance;
+            }
+        }
+    }
+    return nearest_node;
 }
 
 std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )

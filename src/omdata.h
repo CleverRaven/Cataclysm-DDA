@@ -165,6 +165,43 @@ struct overmap_static_spawns : public overmap_spawns {
     }
 };
 
+// Defines an area on the overmap that can grow and adjust terrain autonomously.
+struct overmap_node_type {
+    // How often the area grows, this occurs independently of player presence.
+    time_duration spread_rate;
+    // Map from existing terrain to a terrain type to transform them into,
+    // Make terrain_type a from:to map
+    ter_id spread_terrain_type;
+    // A new overmap-scale terrain type to apply once an area has been spread to.
+    // Essentially this updates the symbol and name shown to the player on the overmap.
+    oter_type_str_id spread_overmap_type;
+    // The OMT that is the origin of this entry, used as a label for lookup in serialization.
+    oter_type_str_id parent;
+};
+
+// Holds the instance data for the above autonomously growing zone.
+struct overmap_node {
+    overmap_node( const tripoint_abs_omt &p, const overmap_node_type *new_type ) :
+        origin( p ), type( new_type ), last_spread( calendar::start_of_cataclysm ), area( 0 ) {}
+    const tripoint_abs_omt origin;
+    const overmap_node_type *type;
+    time_point last_spread;
+    // The number of tiles worth of terrain adjustments that have been accumulated.
+    // Terrain alterations only occur when the player approaches.
+    int area;
+    // Tracks terrain tiles allocated to different OMTs in the area.
+    std::map<tripoint_abs_omt, int> omt_coverage;
+    // Tracks terrain tiles lost from player action, these get prioritized for replenishment.
+    std::map<tripoint_abs_omt, int> lost_coverage;
+    // Tracks tiles reserved for placement after being destroyed.
+    std::map<tripoint_abs_omt, int> omt_regrowth;
+    // Radius of affected area in tiles, calculated by working backwards from the affected area,
+    float radius() {
+        return std::sqrt( area / M_PI );
+    }
+    bool can_grow_on_tile( const tripoint_abs_ms &abs_location, ter_id target_terrain_type );
+};
+
 //terrain flags enum! this is for tracking the indices of each flag.
 enum class oter_flags : int {
     known_down = 0,
@@ -268,10 +305,15 @@ struct oter_type_t {
             return has_connections() && connect_group == other->connect_group;
         }
 
+        const cata::optional<overmap_node_type> &get_node() const {
+            return node_type;
+        }
+
     private:
         enum_bitset<oter_flags> flags;
         std::vector<oter_id> directional_peers;
         std::string connect_group; // Group for connection when rendering overmap tiles
+        cata::optional<overmap_node_type> node_type;
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
@@ -391,6 +433,10 @@ struct oter_t {
 
         bool is_ravine_edge() const {
             return type->has_flag( oter_flags::ravine_edge );
+        }
+
+        const cata::optional<overmap_node_type> &get_node() const {
+            return type->get_node();
         }
 
     private:

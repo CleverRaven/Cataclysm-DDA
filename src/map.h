@@ -65,6 +65,7 @@ class vehicle;
 class zone_data;
 struct fragment_cloud;
 struct maptile;
+struct overmap_node;
 struct partial_con;
 struct spawn_data;
 struct trap;
@@ -541,6 +542,16 @@ class map
          */
         void vertical_shift( int newz );
 
+        /**
+         * Updates the designated map area to catch up with new state from the overmap node.
+         */
+        void apply_node_update( overmap_node &node );
+    private:
+        /**
+         * Updates the specified node with information from the map.
+         */
+        void update_node( overmap_node &node, const tripoint_abs_omt &grid_abs_omt );
+    public:
         void clear_spawns();
         void clear_traps();
 
@@ -1735,7 +1746,7 @@ class map
 
         // This doesn't mean erase from memory, the submap is owned by mapbuffer.
         // This means handle any cleanup we need when a submap leves the active area.
-        void unload_submap( const tripoint &p );
+        void unload_submap( const tripoint &abs, tripoint grid );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.

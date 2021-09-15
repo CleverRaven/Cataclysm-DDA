@@ -299,6 +299,8 @@ class overmap
         void add_extra( const tripoint_om_omt &p, const string_id<map_extra> &id );
         void delete_extra( const tripoint_om_omt &p );
 
+        // Add an active overmap entity that will be periodically updated.
+        void add_node( const tripoint_om_omt &p, const overmap_node_type &node_type );
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
@@ -401,6 +403,7 @@ class overmap
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
 
+        std::vector<overmap_node> nodes;
         // Records the locations where a given overmap special was placed, which
         // can be used after placement to lookup whether a given location was created
         // as part of a special.
@@ -469,6 +472,8 @@ class overmap
         void move_nemesis();
         void place_nemesis( const tripoint_abs_omt p );
         bool remove_nemesis(); // returns true if nemesis found and removed
+
+        void update_nodes();
 
         static bool obsolete_terrain( const std::string &ter );
         void convert_terrain(

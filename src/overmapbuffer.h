@@ -417,10 +417,11 @@ class overmapbuffer
          */
         void process_mongroups();
         /**
-         * Let hordes move a step. Note that this may move monster groups inside the reality bubble,
+         * Advance any active entities at overmap scale by a tick.
+         * Note that this may move monster groups inside the reality bubble,
          * therefore you should probably call @ref map::spawn_monsters to spawn them.
          */
-        void move_hordes();
+        void do_tick( bool has_nemesis );
         /**
          * Signal nemesis horde to player location
          * @param p is the player's location, which functions as the signal origin
@@ -432,14 +433,13 @@ class overmapbuffer
          */
         void add_nemesis( const tripoint_abs_omt &p );
         /**
-         * moves 'nemesis' horde spawned by the "hunted" trait across every overmap
-         * regardless of distance from player
-         */
-        void move_nemesis();
-        /**
          * removes 'nemesis' horde spawned by the "hunted" on player death
          */
         void remove_nemesis();
+        /**
+         * Return the nearest node that overlaps the current location, if any.
+         */
+        overmap_node *nearby_node( const tripoint_abs_omt &p );
         // hordes -- this uses overmap terrain coordinates!
         std::vector<mongroup *> monsters_at( const tripoint_abs_omt &p );
         /**

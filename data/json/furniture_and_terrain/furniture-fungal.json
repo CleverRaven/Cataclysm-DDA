@@ -8,7 +8,7 @@
     "color": "cyan",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "TINY", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "FUNGUS", "TINY", "NOCOLLIDE" ],
     "examine_action": "flower_marloss",
     "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
   },
@@ -21,7 +21,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "NOCOLLIDE" ],
     "examine_action": "fungus",
     "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
   },
@@ -34,7 +34,7 @@
     "bgcolor": "dark_gray",
     "move_cost_mod": -10,
     "required_str": -1,
-    "flags": [ "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
+    "flags": [ "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FUNGUS", "MOUNTABLE", "SHORT" ],
     "bash": { "str_min": 6, "str_max": 30, "sound": "poof.", "sound_fail": "poof." }
   },
   {
@@ -46,7 +46,7 @@
     "bgcolor": "light_gray",
     "move_cost_mod": 3,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FUNGUS", "MOUNTABLE", "SHORT" ],
     "bash": { "str_min": 6, "str_max": 20, "sound": "poof.", "sound_fail": "poof." }
   },
   {
@@ -59,7 +59,7 @@
     "bgcolor": "light_gray",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "FUNGUS" ],
+    "flags": [ "FUNGUS" ],
     "bash": { "str_min": 26, "str_max": 50, "sound": "poof.", "sound_fail": "squelch." }
   }
 ]

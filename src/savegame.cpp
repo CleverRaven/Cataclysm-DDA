@@ -495,6 +495,15 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
     }
 }
 
+// Define a specialized template instnce that can decode a tripoint_abs_omt.
+// TODO: generalize for all the coordinate types?
+template<>
+struct key_from_json_string<tripoint_abs_omt, void> {
+    tripoint_abs_omt operator()( const std::string &s ) {
+        return tripoint_abs_omt( tripoint::from_string( s ) );
+    }
+};
+
 // throws std::exception
 void overmap::unserialize( std::istream &fin )
 {
@@ -726,6 +735,51 @@ void overmap::unserialize( std::istream &fin )
                         }
                     }
                 }
+            }
+        } else if( name == "overmap_node" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                tripoint_abs_omt origin;
+                const overmap_node_type *type = nullptr;
+                time_point last_spread = calendar::start_of_cataclysm;
+                int area = 0;
+                std::map<tripoint_abs_omt, int> omt_coverage;
+                std::map<tripoint_abs_omt, int> lost_coverage;
+                std::map<tripoint_abs_omt, int> omt_regrowth;
+
+                jsin.start_object();
+                while( !jsin.end_object() ) {
+                    const std::string node_member_name = jsin.get_member_name();
+                    if( node_member_name == "origin" ) {
+                        jsin.read( origin );
+                    } else if( node_member_name == "parent" ) {
+                        // TODO: Bundle up the more robust ter loading from
+                        std::string parent = jsin.get_string();
+                        oter_str_id omt_id( parent );
+                        if( omt_id.is_valid() && omt_id->get_node() ) {
+                            type = &*omt_id->get_node();
+                        } else {
+                            debugmsg( "Bad OMT id %s in overmap node loading.", parent.c_str() );
+                        }
+                    } else if( node_member_name == "last_spread" ) {
+                        jsin.read( last_spread );
+                    } else if( node_member_name == "area" ) {
+                        jsin.read( area );
+                    } else if( node_member_name == "omt_coverage" ) {
+                        jsin.read( omt_coverage );
+                    } else if( node_member_name == "lost_coverage" ) {
+                        jsin.read( lost_coverage );
+                    } else if( node_member_name == "omt_regrowth" ) {
+                        jsin.read( omt_regrowth );
+                    }
+                }
+                overmap_node node( origin, type );
+                node.last_spread = last_spread;
+                node.area = area;
+                node.omt_coverage = omt_coverage;
+                node.lost_coverage = lost_coverage;
+                node.omt_regrowth = omt_regrowth;
+                nodes.push_back( node );
             }
         } else if( name == "mapgen_arg_storage" ) {
             jsin.read( mapgen_arg_storage, true );
@@ -1147,6 +1201,37 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    if( !nodes.empty() ) {
+        json.member( "overmap_node" );
+        json.start_array();
+        for( const overmap_node &node : nodes ) {
+            json.start_object();
+            json.member( "origin", node.origin );
+            json.member( "last_spread", node.last_spread );
+            json.member( "area", node.area );
+            json.member( "omt_coverage" );
+            json.start_object();
+            for( const std::pair<const tripoint_abs_omt, int> &coverage : node.omt_coverage ) {
+                json.member( coverage.first.to_string_writable(), coverage.second );
+            }
+            json.end_object();
+            json.member( "lost_coverage" );
+            json.start_object();
+            for( const std::pair<const tripoint_abs_omt, int> &lost : node.lost_coverage ) {
+                json.member( lost.first.to_string_writable(), lost.second );
+            }
+            json.end_object();
+            json.member( "omt_regrowth" );
+            json.start_object();
+            for( const std::pair<const tripoint_abs_omt, int> &regrowth : node.omt_regrowth ) {
+                json.member( regrowth.first.to_string_writable(), regrowth.second );
+            }
+            json.end_object();
+            json.member( "parent", node.type->parent.str() );
+            json.end_object();
+        }
+        json.end_array();
+    }
     json.member( "mapgen_arg_storage", mapgen_arg_storage );
     fout << std::endl;
     json.member( "mapgen_arg_index" );

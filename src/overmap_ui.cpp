@@ -1011,6 +1011,11 @@ static void draw_om_sidebar(
             }
         }
     }
+    // TODO: Mask this with a flag so we're not always scanning for it.
+    overmap_node *node = overmap_buffer.nearby_node( center );
+    if( node && node->origin != center ) {
+        node = nullptr;
+    }
 
     // Draw the vertical line
     for( int j = 0; j < TERMY; j++ ) {
@@ -1027,7 +1032,17 @@ static void draw_om_sidebar(
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
     if( center_seen && !viewing_weather ) {
-        if( !mgroups.empty() ) {
+        if( node ) {
+            int line_number = 6;
+            mvwprintz( wbar, point( 3, line_number++ ),
+                       c_blue, "  area: %d", node->area );
+            mvwprintz( wbar, point( 3, line_number++ ),
+                       c_blue, "  covered omt area: %d", node->omt_coverage.size() );
+            mvwprintz( wbar, point( 3, line_number++ ),
+                       c_blue, "  damaged omts: %d", node->lost_coverage.size() );
+            mvwprintz( wbar, point( 3, line_number++ ),
+                       c_blue, "  regrowing omts: %d", node->omt_regrowth.size() );
+        } else if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
                 mvwprintz( wbar, point( 3, line_number++ ),

@@ -1,12 +1,23 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "fungal_wasteland",
+    "name": "fungal wasteland",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": 2,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "fungal_tower",
     "name": "fungal tower",
     "sym": "T",
     "color": "yellow",
     "see_cost": 3,
     "extras": "marloss",
+    "node": { "spread": { "rate": "1 minute", "terrain_type": "t_fungus", "overmap_terrain": "fungal_wasteland" } },
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {

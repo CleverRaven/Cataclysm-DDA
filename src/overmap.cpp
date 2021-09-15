@@ -31,6 +31,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "line.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
@@ -616,6 +617,17 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "spawns", static_spawns, strict );
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
+
+    if( jo.has_member( "node" ) ) {
+        overmap_node_type node;
+        JsonObject node_jo = jo.get_object( "node" );
+        JsonObject spread_jo = node_jo.get_object( "spread" );
+        assign( spread_jo, "rate", node.spread_rate, strict );
+        assign( spread_jo, "terrain_type", node.spread_terrain_type, strict );
+        assign( spread_jo, "overmap_terrain", node.spread_overmap_type, strict );
+        node.parent = id;
+        node_type = node;
+    }
 
     if( jo.has_member( "looks_like" ) ) {
         std::vector<std::string> ll;
@@ -2808,6 +2820,12 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
     return extra_locations;
 }
 
+void overmap::add_node( const tripoint_om_omt &p, const overmap_node_type &node_type )
+{
+    tripoint_abs_omt node_origin( project_combine( pos(), p ) );
+    nodes.emplace_back( node_origin, &node_type );
+}
+
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
 {
     static constexpr tripoint_om_omt overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
@@ -3592,6 +3610,98 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 mg.set_interest( min_capped_inter );
                 add_msg_debug( debugmode::DF_OVERMAP, "horde set interest %d dist %d", min_capped_inter, dist );
             }
+        }
+    }
+}
+
+// function object that initializes with a point as its input
+struct point_hash_generator {
+    typedef unsigned int result_type;
+    point p;
+    unsigned int operator()() const {
+        return mixed_hash( std::hash<point> {}( p ) );
+    }
+    unsigned int min() {
+        return std::numeric_limits<unsigned int>::min();
+    }
+    unsigned int max() {
+        return std::numeric_limits<unsigned int>::max();
+    }
+};
+
+static int point_rng( point p, int lo, int hi )
+{
+    static std::uniform_int_distribution<int> rng_int_dist;
+    point_hash_generator gen{ p };
+    return rng_int_dist( gen, std::uniform_int_distribution<>::param_type( lo, hi ) );
+}
+
+bool overmap_node::can_grow_on_tile( const tripoint_abs_ms &abs_location,
+                                     ter_id target_terrain_type )
+{
+    if( type->spread_terrain_type == target_terrain_type ) {
+        return false;
+    }
+    tripoint_abs_ms node_origin = project_to<coords::ms>( origin ) + point( SEEX, SEEY );
+    float distance = rl_dist_exact( node_origin.raw(), abs_location.raw() );
+    // The hash function applies some noise to the outer edge of the area.
+    int point_percentage = point_rng( abs_location.xy().raw(), 1, 100 );
+    float node_radius = radius();
+    // TODO: Make this continuous instead of piecewise.
+    return ( point_percentage <= 10 && distance <= node_radius * sqrt( 1.5 ) ) ||
+           ( point_percentage <= 30 && distance <= node_radius * sqrt( 1.3 ) ) ||
+           ( point_percentage <= 50 && distance <= node_radius * sqrt( 1.1 ) ) ||
+           ( point_percentage <= 70 && distance <= node_radius * sqrt( 0.9 ) ) ||
+           ( point_percentage <= 90 && distance <= node_radius * sqrt( 0.7 ) ) ||
+           distance <= node_radius * sqrt( 0.5 );
+}
+
+void overmap::update_nodes()
+{
+    map &m = get_map();
+    for( overmap_node &node : nodes ) {
+        int num_ticks = ( calendar::turn - node.last_spread ) / node.type->spread_rate;
+        unsigned int growth = num_ticks;
+        if( num_ticks > 0 ) {
+            node.last_spread += node.type->spread_rate * num_ticks;
+        }
+        // This performs https://en.wikipedia.org/wiki/Reservoir_sampling to select
+        // up to growth elements from the lost_coverage set.
+        std::vector<tripoint_abs_omt> selected_points;
+        int global_index = 0;
+        for( std::pair<const tripoint_abs_omt, int> &local_lost_coverage : node.lost_coverage ) {
+            int index = 0;
+            for( ; index < local_lost_coverage.second &&
+                 selected_points.size() <= growth; ++index, ++global_index ) {
+                // First fill up the vector.
+                selected_points.push_back( local_lost_coverage.first );
+            }
+            for( ; index < local_lost_coverage.second; ++index, ++global_index ) {
+                unsigned int replacement = rng( 0, global_index - 1 );
+                if( replacement < growth ) {
+                    selected_points[ replacement + 1 ] = local_lost_coverage.first;
+                }
+            }
+        }
+        // Once we've selected our candidates, we transfer globally available capacity into
+        // capacity reserved for a particular OMT.
+        for( const tripoint_abs_omt &selected_point : selected_points ) {
+            growth--;
+            node.omt_regrowth[selected_point]++;
+            auto loss = node.lost_coverage.find( selected_point );
+            if( loss->second == node.omt_regrowth[ selected_point ] ) {
+                node.lost_coverage.erase( loss );
+                node.omt_regrowth.erase( selected_point );
+            }
+        }
+        node.area += growth;
+        tripoint_abs_ms ms_origin = project_to<coords::ms>( node.origin ) + point( SEEX, SEEY );
+        int node_radius = node.radius();
+        tripoint_abs_ms ms_min = ms_origin + point( -node_radius, -node_radius );
+        tripoint_abs_ms ms_max = ms_origin + point( node_radius, node_radius );
+        cuboid<tripoint_abs_ms> node_bounds( ms_min, ms_max );
+        if( m.overlaps( node_bounds ) ) {
+            m.apply_node_update( node );
         }
     }
 }
@@ -5491,6 +5601,9 @@ static std::vector<tripoint_om_omt> place_fixed_overmap_special(
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         om.ter_set( location, tid );
+        if( tid->get_node() ) {
+            om.add_node( location, *tid->get_node() );
+        }
 
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {

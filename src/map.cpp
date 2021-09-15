@@ -6641,9 +6641,132 @@ shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
 template void
 shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
 
-void map::unload_submap( const tripoint &p )
+void map::update_node( overmap_node &node, const tripoint_abs_omt &grid_abs_omt )
 {
-    submaps_with_active_items.erase( p );
+    tripoint omt_sm_origin = project_to<coords::sm>( grid_abs_omt ).raw();
+    std::array<tripoint, 4> submap_locations = {
+        omt_sm_origin, omt_sm_origin + point_east,
+        omt_sm_origin + point_south, omt_sm_origin + point_south_east
+    };
+    int new_coverage = 0;
+    for( tripoint submap_location : submap_locations ) {
+        submap *cur_submap = MAPBUFFER.lookup_submap( submap_location );
+        for( int x = 0; x < SEEX; ++x ) {
+            for( int y = 0; y < SEEY; ++y ) {
+                if( cur_submap->get_ter( point( x, y ) ) == node.type->spread_terrain_type ) {
+                    new_coverage++;
+                }
+            }
+        }
+    }
+    int previous_coverage = node.omt_coverage[grid_abs_omt];
+    int change_in_coverage = previous_coverage - new_coverage;
+    node.omt_coverage[grid_abs_omt] = new_coverage;
+    if( change_in_coverage > 0 ) {
+        node.lost_coverage[grid_abs_omt] += change_in_coverage;
+    } else if( change_in_coverage < 0 ) {
+        debugmsg( "Node coverage unexpectedly increased at %d/%d/%d from %d to %d.",
+                  grid_abs_omt.x(), grid_abs_omt.y(), grid_abs_omt.z(),
+                  previous_coverage, new_coverage );
+    }
+}
+
+void map::unload_submap( const tripoint &abs, tripoint grid )
+{
+    const tripoint_abs_sm p( abs + grid );
+    submaps_with_active_items.erase( p.raw() );
+    // Rationalize actual remaining invasive terrain numbers with numbers stored in the overmap node.
+    tripoint_abs_omt grid_abs_omt = project_to<coords::omt>( p );
+    // Round-tripping gets us the origin of the OMT.
+    tripoint_abs_ms omt_ms_origin = project_to<coords::ms>( grid_abs_omt );
+    tripoint_abs_ms omt_end = omt_ms_origin + point( 24, 24 );
+    cuboid<tripoint_abs_ms> omt_bounds( omt_ms_origin, omt_end );
+    overmap_node *node = overmap_buffer.nearby_node( grid_abs_omt );
+    // Since node data is tracked at an OMT scale, only tally up this data when
+    // the entire OMT has left the map.
+    if( node && p.z() == node->origin.z() && !overlaps( omt_bounds ) ) {
+        update_node( *node, grid_abs_omt );
+    }
+}
+
+void map::apply_node_update( overmap_node &node )
+{
+    tripoint_abs_ms origin( sm_to_ms_copy( abs_sub ) );
+    tripoint_abs_ms end( origin + point( getmapsize() * SEEX, getmapsize() * SEEY ) );
+    // Two passes because I can't see a way to keep node application consistent
+    // if we don't have an accurate tally from the start.
+    // Tally up existing converted terrain tiles.
+    tripoint_abs_omt map_origin = project_to<coords::omt>( tripoint_abs_sm( abs_sub ) );
+    tripoint_abs_omt map_end = project_to<coords::omt>(
+                                   tripoint_abs_sm( abs_sub + point( MAPSIZE - 1, MAPSIZE - 1 ) ) );
+    for( tripoint_abs_omt cursor = map_origin; cursor.x() <= map_end.x(); cursor += point_east ) {
+        for( cursor.y() = map_origin.y(); cursor.y() <= map_end.y(); cursor += point_south ) {
+            update_node( node, cursor );
+        }
+    }
+    // Apply repairs if any.
+    for( tripoint_abs_omt omt_location = map_origin; omt_location.x() <= map_end.x();
+         omt_location += point_east ) {
+        for( omt_location.y() = map_origin.y(); omt_location.y() <= map_end.y();
+             omt_location += point_south ) {
+            auto loss = node.lost_coverage.find( omt_location );
+            auto regrowth = node.omt_regrowth.find( omt_location );
+            bool damaged = false;
+            if( loss != node.lost_coverage.end() ) {
+                if( regrowth == node.omt_regrowth.end() || regrowth->second == 0 ) {
+                    // If we have lost coverage but no allocated regrowth, just bail out.
+                    continue;
+                }
+                damaged = true;
+            }
+            auto coverage = node.omt_coverage.find( omt_location );
+            tripoint_abs_ms maptile_location = project_to<coords::ms>( omt_location );
+            std::vector<tripoint> regrowth_candidates;
+            point omt_start = point_zero;
+            if( maptile_location.x() < origin.x() ) {
+                omt_start.x = origin.x() - maptile_location.x();
+            }
+            if( maptile_location.y() < origin.y() ) {
+                omt_start.y = origin.y() - maptile_location.y();
+            }
+            point omt_end = point( SEEX * 2, SEEY * 2 );
+            if( maptile_location.x() + omt_end.x > end.x() ) {
+                omt_end.x = end.x() - maptile_location.x() + omt_end.x;
+            }
+            if( maptile_location.y() + omt_end.y > end.y() ) {
+                omt_end.y = end.y() - maptile_location.y() + omt_end.y;
+            }
+            // TODO: Clamp this to be inbounds for the map.
+            for( point omt_offset = omt_start; omt_offset.x < omt_end.y; ++omt_offset.x ) {
+                for( omt_offset.y = omt_start.y; omt_offset.y < omt_end.y; ++omt_offset.y ) {
+                    tripoint_abs_ms abs_location = maptile_location + omt_offset;
+                    tripoint local_location = getlocal( abs_location );
+                    if( node.can_grow_on_tile( abs_location, ter( local_location ) ) ) {
+                        if( damaged ) {
+                            regrowth_candidates.push_back( local_location );
+                            continue;
+                        }
+                        if( ter_set( local_location, node.type->spread_terrain_type ) ) {
+                            coverage->second++;
+                        }
+                    }
+                }
+            }
+            if( regrowth != node.omt_regrowth.end() &&
+                regrowth->second < static_cast<int>( regrowth_candidates.size() ) ) {
+                // Pick some regrowth candidates
+                std::shuffle( regrowth_candidates.begin(), regrowth_candidates.end(), rng_get_engine() );
+                regrowth_candidates.erase( regrowth_candidates.begin() + regrowth->second,
+                                           regrowth_candidates.end() );
+            }
+            for( const tripoint &candidate : regrowth_candidates ) {
+                ter_set( candidate, node.type->spread_terrain_type );
+                coverage->second++;
+                loss->second--;
+                regrowth->second--;
+            }
+        }
+    }
 }
 
 void map::shift( const point &sp )
@@ -6691,7 +6814,7 @@ void map::shift( const point &sp )
                 if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                         if( ( sp.x > 0 && gridx == 0 ) || ( sp.y > 0 && gridy == 0 ) ) {
-                            unload_submap( { abs.x + gridx, abs.y + gridy, gridz } );
+                            unload_submap( abs, { gridx, gridy, gridz } );
                         }
                         if( gridx + sp.x < my_MAPSIZE && gridy + sp.y < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
@@ -6710,7 +6833,7 @@ void map::shift( const point &sp )
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
                         if( ( sp.x > 0 && gridx == 0 ) || gridy == my_MAPSIZE - 1 ) {
-                            unload_submap( { abs.x + gridx, abs.y + gridy, gridz } );
+                            unload_submap( abs, { gridx, gridy, gridz } );
                         }
                         if( gridx + sp.x < my_MAPSIZE && gridy + sp.y >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
@@ -6733,7 +6856,7 @@ void map::shift( const point &sp )
                 if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                         if( gridx == my_MAPSIZE - 1 || ( sp.y > 0 && gridy == 0 ) ) {
-                            unload_submap( { abs.x + gridx, abs.y + gridy, gridz } );
+                            unload_submap( abs, { gridx, gridy, gridz } );
                         }
                         if( gridx + sp.x >= 0 && gridy + sp.y < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
@@ -6752,7 +6875,7 @@ void map::shift( const point &sp )
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
                         if( gridx == my_MAPSIZE - 1 || gridy == my_MAPSIZE - 1 ) {
-                            unload_submap( { abs.x + gridx, abs.y + gridy, gridz } );
+                            unload_submap( abs, { gridx, gridy, gridz } );
                         }
                         if( gridx + sp.x >= 0 && gridy + sp.y >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
@@ -6773,6 +6896,11 @@ void map::shift( const point &sp )
         }
 
     }
+    // Call up to overmap scale to catch up nodes and
+    // call back into map to apply results as needed.
+    // Hacky, replace by refactoring OMB to expose a method to just do node ticks.
+    overmap_buffer.do_tick( false );
+
     rebuild_vehicle_level_caches();
 
     g->setremoteveh( remoteveh );
@@ -6880,6 +7008,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
     const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
     abs_sub.z = grid.z;
+    const tripoint_abs_omt grid_abs_omt( sm_to_omt_copy( grid_abs_sub ) );
 
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
@@ -6889,7 +7018,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
         // TODO: fix point types
-        const tripoint_abs_omt grid_abs_omt( sm_to_omt_copy( grid_abs_sub ) );
         const tripoint grid_abs_sub_rounded = omt_to_sm_copy( grid_abs_omt.raw() );
 
         const oter_id terrain_type = overmap_buffer.ter( grid_abs_omt );
