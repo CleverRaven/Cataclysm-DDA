@@ -160,13 +160,7 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ]
   },
   {
@@ -354,5 +348,21 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan"
+  },
+  {
+    "id": "casting_mold",
+    "type": "TOOL",
+    "name": { "str": "sand casting mold" },
+    "description": "A mold for casting molten metals into different shapes",
+    "weight": "540 g",
+    "volume": "400 ml",
+    "longest_side": "100 cm",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "clay", "wood" ],
+    "symbol": ";",
+    "color": "brown"
   }
 ]

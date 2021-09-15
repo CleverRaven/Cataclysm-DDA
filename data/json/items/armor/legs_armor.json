@@ -48,10 +48,11 @@
     "type": "ARMOR",
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
-    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 }
+    "relative": { "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "bunker_pants",
@@ -348,6 +349,26 @@
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "improvised_legguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
+    "description": "Leg guards made of thick chunks of tire held together with duct tape.",
+    "weight": "4800 g",
+    "volume": "4000 ml",
+    "price": 2300,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "legguard_scrap",
     "type": "ARMOR",
     "category": "armor",
@@ -377,6 +398,35 @@
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "legguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "5 L",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "legguard_metal",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "xl_legguard_tire",
+    "type": "ARMOR",
+    "copy-from": "legguard_tire",
+    "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE" ]
   },
   {
     "id": "lsurvivor_pants",

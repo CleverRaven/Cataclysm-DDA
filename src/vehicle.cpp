@@ -29,6 +29,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enum_traits.h"
@@ -392,6 +393,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
+    // Make engine faults more likely
+    destroyEngine = destroyEngine || one_in( 3 );
 
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
@@ -534,7 +537,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 // If possible set an engine fault rather than destroying the engine outright
                 if( destroyEngine && pt.faults_potential().empty() ) {
                     set_hp( pt, 0 );
-                } else if( destroyEngine || one_in( 3 ) ) {
+                } else if( destroyEngine ) {
                     do {
                         pt.fault_set( random_entry( pt.faults_potential() ) );
                     } while( one_in( 3 ) );
@@ -777,6 +780,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
+    creature_tracker &creatures = get_creature_tracker();
     for( const point &pt_elem : points_to_check ) {
         point elem = here.getlocal( pt_elem );
         if( stop ) {
@@ -797,8 +801,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             }
         }
         bool its_a_pet = false;
-        if( g->critter_at( tripoint( elem, sm_pos.z ) ) ) {
-            npc *guy = g->critter_at<npc>( tripoint( elem, sm_pos.z ) );
+        if( creatures.creature_at( tripoint( elem, sm_pos.z ) ) ) {
+            npc *guy = creatures.creature_at<npc>( tripoint( elem, sm_pos.z ) );
             if( guy && !guy->in_vehicle ) {
                 stop = true;
                 break;
@@ -1847,6 +1851,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
+    remove_dependent_part( "HANDHELD_BATTERY_MOUNT", "NEEDS_HANDHELD_BATTERY_MOUNT" );
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
@@ -1924,7 +1929,7 @@ void vehicle::part_removal_cleanup()
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
-            const tripoint &pt = global_part_pos3( *it );
+            const tripoint pt = global_part_pos3( *it );
             here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;
@@ -2258,7 +2263,6 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
         }
-        new_vehicle->last_fluid_check = last_fluid_check;
 
         std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
@@ -2444,7 +2448,7 @@ cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &
 {
     for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
         const vpart_reference vp( vehicle(), idx );
-        if( vp.part().is_available() && vp.info().has_tool( tool_type ) ) {
+        if( !vp.part().is_broken() && vp.info().has_tool( tool_type ) ) {
             return vp;
         }
     }
@@ -3104,8 +3108,9 @@ std::vector<int> vehicle::boarded_parts() const
 std::vector<rider_data> vehicle::get_riders() const
 {
     std::vector<rider_data> res;
+    creature_tracker &creatures = get_creature_tracker();
     for( const vpart_reference &vp : get_avail_parts( VPFLAG_BOARDABLE ) ) {
-        Creature *rider = g->critter_at( vp.pos() );
+        Creature *rider = creatures.creature_at( vp.pos() );
         if( rider ) {
             rider_data r;
             r.prt = vp.part_index();
@@ -3129,7 +3134,7 @@ monster *vehicle::get_monster( int p ) const
 {
     p = part_with_feature( p, VPFLAG_BOARDABLE, false );
     if( p >= 0 ) {
-        return g->critter_at<monster>( global_part_pos3( p ), true );
+        return get_creature_tracker().creature_at<monster>( global_part_pos3( p ), true );
     }
     return nullptr;
 }
@@ -3222,7 +3227,8 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
+int vehicle::fuel_left( const itype_id &ftype, bool recurse,
+                        const std::function<bool( const vehicle_part & )> &filter ) const
 {
     int fl = 0;
 
@@ -3231,7 +3237,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
             ( !part.base.empty() && part.is_tank() &&
-              part.base.legacy_front().made_of( phase_id::SOLID ) ) ) {
+              part.base.legacy_front().made_of( phase_id::SOLID ) ) || !filter( part ) ) {
             continue;
         }
         fl += part.ammo_remaining();
@@ -3263,7 +3269,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&
                       ( player_character.get_working_leg_count() >= 2 ) ) ||
                     ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      ( player_character.get_working_arm_count() >= 2 ) ) ) {
+                      ( player_character.has_two_arms_lifting() ) ) ) {
                     fl += 10;
                 }
             }
@@ -3314,7 +3320,8 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     return total_energy / total_mass;
 }
 
-int vehicle::drain( const itype_id &ftype, int amount )
+int vehicle::drain( const itype_id &ftype, int amount,
+                    const std::function<bool( vehicle_part & )> &filter )
 {
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
@@ -3330,6 +3337,9 @@ int vehicle::drain( const itype_id &ftype, int amount )
 
     int drained = 0;
     for( vehicle_part &p : parts ) {
+        if( !filter( p ) ) {
+            continue;
+        }
         if( amount <= 0 ) {
             break;
         }
@@ -3465,7 +3475,7 @@ bool vehicle::can_use_rails() const
     bool is_wheel_on_rail = false;
     for( int part_index : rail_wheelcache ) {
         // at least one wheel should be on track
-        if( here.has_flag_ter_or_furn( TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
             is_wheel_on_rail = true;
             break;
         }
@@ -6850,8 +6860,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
         return false;
     }
 
-    return ( sm->get_ter( p ).obj().has_flag( TFLAG_CURRENT ) ||
-             sm->get_furn( p ).obj().has_flag( TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
@@ -6870,8 +6880,8 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
         return false;
     }
 
-    return !( sm->get_ter( p ).obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( p ).obj().has_flag( TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
@@ -7184,9 +7194,9 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
         } else if( !adjust_pos &&  parts_to_move.find( index ) != parts_to_move.end() ) {
             prt.precalc[0].z += dp.z;
         }
-        if( here.has_flag( TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
             prt.precalc[0].z += 1;
-        } else if( here.has_flag( TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
             prt.precalc[0].z -= 1;
         }
         prt.precalc[0].z -= ramp_offset;

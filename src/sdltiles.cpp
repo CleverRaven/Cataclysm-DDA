@@ -101,6 +101,7 @@
 //***********************************
 
 std::unique_ptr<cata_tiles> tilecontext;
+std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -1009,7 +1010,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              lit_level::LOW, true );
     }
     if( uistate.place_special ) {
-        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
@@ -1021,7 +1022,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
                 draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
-                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0,
+                                     rotation, lit_level::LOW, true );
             }
         }
     }
@@ -1044,10 +1046,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     if( blink ) {
         // Draw path for auto-travel
-        for( auto &elem : you.omt_path ) {
-            tripoint_abs_omt pos( elem.xy(), you.posz() );
-            draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
-                                 false );
+        for( const tripoint_abs_omt &pos : you.omt_path ) {
+            if( pos.z() == center_abs_omt.z() ) {
+                draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+                                     false );
+            }
         }
 
         // reduce the area where the map cursor is drawn so it doesn't get cut off
@@ -1127,7 +1130,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
-                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }
@@ -1522,6 +1525,10 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         }
         // Special font for the terrain window
         update = draw_window( map_font, w );
+    } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
+        overmap_tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center,
+                                      overmap_ui::redraw_info.blink );
+        update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = draw_window( overmap_font, w );
@@ -2257,7 +2264,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( player_character.weapon.invlet == key ) {
+                    if( player_character.get_wielded_item().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2392,8 +2399,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( player_character.weapon.invlet == key ) {
-                        hint_text = player_character.weapon.display_name();
+                    if( player_character.get_wielded_item().invlet == key ) {
+                        hint_text = player_character.get_wielded_item().display_name();
                     }
                 }
             } else {
@@ -2766,7 +2773,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
+                    if( player_character.get_wielded_item().is_gun() ||
+                        player_character.get_wielded_item().has_flag( flag_REACH_ATTACK ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -3575,6 +3583,20 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/true, /*force=*/false,
+                                           /*pump_events=*/true );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
 
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
@@ -3610,6 +3632,13 @@ void load_tileset()
                                /*precheck=*/false, /*force=*/false,
                                /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
+
+    if( overmap_tilecontext ) {
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/false, /*force=*/false,
+                                           /*pump_events=*/true );
+        overmap_tilecontext->do_tile_loading_report();
+    }
 }
 
 //Ends the terminal, destroy everything
@@ -3673,11 +3702,17 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 #endif
 
     previously_pressed_key = 0;
+
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
-
-    wrefresh( catacurses::stdscr );
+    // however, the refresh call has not effect when nothing has been drawn, so
+    // we can skip screen update if `needupdate` is false to improve performance during mouse
+    // move events.
+    wnoutrefresh( catacurses::stdscr );
+    if( needupdate ) {
+        refresh_display();
+    }
 
     if( inputdelay < 0 ) {
         do {
@@ -3707,9 +3742,8 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         CheckMessages();
     }
 
-    if( last_input.type == input_event_t::mouse ) {
-        SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
-    } else if( last_input.type == input_event_t::keyboard_char ) {
+    SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
+    if( last_input.type == input_event_t::keyboard_char ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
         android_vibrate();

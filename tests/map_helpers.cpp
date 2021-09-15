@@ -16,7 +16,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
-#include "location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -144,7 +143,7 @@ void clear_map_and_put_player_underground()
 {
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    get_player_location().setpos( { 0, 0, -2 } );
+    get_player_character().setpos( { 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )

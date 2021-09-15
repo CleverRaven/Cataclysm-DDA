@@ -6,6 +6,7 @@
 
 #include "debug.h"
 #include "enum_traits.h"
+#include "optional.h"
 
 namespace io
 {
@@ -52,9 +53,8 @@ std::unordered_map<std::string, E> build_enum_lookup_map()
         E e = static_cast<E>( i );
         auto inserted = result.emplace( enum_to_string( e ), e );
         if( !inserted.second ) {
-            debugmsg( "repeated enum string %s (%d and %d)", inserted.first->first,
-                      static_cast<Int>( inserted.first->second ), i );
-            abort();
+            cata_fatal( "repeated enum string %s (%d and %d)", inserted.first->first,
+                        static_cast<Int>( inserted.first->second ), i );
         }
     }
 
@@ -85,6 +85,24 @@ template<typename E>
 E string_to_enum( const std::string &data )
 {
     return string_to_enum_look_up( get_enum_lookup_map<E>(), data );
+}
+
+// Helper function to do the lookup in an associative container
+template<typename C, typename E = typename C::mapped_type>
+inline cata::optional<E> string_to_enum_look_up_optional( const C &container,
+        const std::string &data )
+{
+    const auto iter = container.find( data );
+    if( iter == container.end() ) {
+        return cata::nullopt;
+    }
+    return iter->second;
+}
+
+template<typename E>
+cata::optional<E> string_to_enum_optional( const std::string &data )
+{
+    return string_to_enum_look_up_optional( get_enum_lookup_map<E>(), data );
 }
 
 template<typename E>

@@ -215,6 +215,18 @@
   },
   {
     "type": "effect_type",
+    "id": "leashed",
+    "name": [ "Has Leash" ],
+    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "led_by_leash",
+    "name": [ "Being Led By Leash" ],
+    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -237,6 +249,17 @@
     "id": "bounced",
     "name": [ "Bounced" ],
     "desc": [ "AI tag used for bouncing ammo targeting.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "frenzy",
+    "name": [ "Frenzied" ],
+    "desc": [ "Monster effect used to buff allies.  This is a bug if you have it." ],
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "max_duration": "15 m",
+    "base_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 0.5 ] }
   },
   {
     "type": "effect_type",
@@ -609,6 +632,7 @@
     "int_add_val": 1,
     "int_decay_step": -1,
     "int_decay_tick": 90,
+    "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] }
@@ -920,9 +944,11 @@
     "rating": "bad",
     "miss_messages": [ [ "The webs restrict your movement.", 4 ] ],
     "max_intensity": 3,
+    "int_add_val": 1,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "show_intensity": false
   },
   {
     "type": "effect_type",
@@ -1165,7 +1191,9 @@
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
     "miss_messages": [ [ "You tremble", 4 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] }
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
+    "max_duration": 7200,
+    "dur_add_perc": 30
   },
   {
     "type": "effect_type",
@@ -1912,6 +1940,11 @@
   },
   {
     "type": "effect_type",
+    "id": "robofac_surveillance",
+    "max_duration": "14 days"
+  },
+  {
+    "type": "effect_type",
     "name": [ "Playing an instrument" ],
     "desc": [ "You're playing an instrument.\nFocusing on playing music distracts you, slowing you down." ],
     "id": "playing_instrument",
@@ -1951,21 +1984,6 @@
     "dur_add_perc": 20,
     "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ] },
     "show_in_info": true
-  },
-  {
-    "type": "effect_type",
-    "id": "hypocalcemia",
-    "name": [ "Hypocalcemia", "Weak bones", "Brittle bones" ],
-    "desc": [ "A lack of calcium in your diet will make your bones progressively weaker." ],
-    "apply_message": "Your bones are becoming more brittle.",
-    "remove_message": "Your bones regain their usual strength.",
-    "decay_messages": [
-      [ "Your calcium deficiency is nearly resolved.", "good" ],
-      [ "Your bones become stronger as your calcium deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Hypocalcemia"
   },
   {
     "type": "effect_type",
@@ -2044,36 +2062,6 @@
   },
   {
     "type": "effect_type",
-    "id": "hypovitA",
-    "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
-    "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
-    "apply_message": "You start struggling to make out the finer details.",
-    "remove_message": "Your normal visual acuity returns.",
-    "decay_messages": [
-      [ "Your vitamin A deficiency is nearly resolved.", "good" ],
-      [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin A Deficiency"
-  },
-  {
-    "type": "effect_type",
-    "id": "hypovitB",
-    "name": [ "B12 deficiency", "Slow healing", "No healing" ],
-    "desc": [ "A lack of vitamin B12 in your diet will affect your ability to heal." ],
-    "apply_message": "Simple wounds are starting to concern you more than usual.",
-    "remove_message": "Your wounds now heal normally.",
-    "decay_messages": [
-      [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
-      [ "Your ability to heal returns as your Vitamin B12 deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin B Deficiency"
-  },
-  {
-    "type": "effect_type",
     "id": "scurvy",
     "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
     "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
@@ -2084,6 +2072,27 @@
       [ "Your scurvy lessens as your Vitamin C deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
+    "base_mods": {
+      "pain_max_val": [ 35 ],
+      "pain_chance": [ 900 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 5 ],
+      "fatigue_chance": [ 900 ],
+      "fatigue_max_val": [ 500, 200 ],
+      "fatigue_min": [ 10 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "pain_chance": [ -150 ],
+      "fatigue_chance": [ -200 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -100 ],
+      "h_mod_chance": [ -300 ],
+      "str_mod": [ -0.5 ],
+      "speed_mod": [ -2 ]
+    },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
   },
@@ -2397,17 +2406,11 @@
     "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
-    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
-    "//3": "/160 HP: +1 size",
-    "max_intensity": 480,
-    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
-    "scaling_mods": {
-      "hit_mod": [ 0.0104 ],
-      "dodge_mod": [ 0.0104 ],
-      "speed_mod": [ 0.1042 ],
-      "bash_mod": [ 0.08333 ],
-      "size_mod": [ 0.00625 ]
-    },
+    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/250 HP: +1 size",
+    "max_intensity": 500,
+    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
     "int_decay_step": 0
   },
   {

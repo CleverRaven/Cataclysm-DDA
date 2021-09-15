@@ -20,7 +20,6 @@
 
 class Character;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class JsonValue;
@@ -292,7 +291,7 @@ struct requirement_data {
          * Serialize custom created requirement objects for fetch activities
          */
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
@@ -383,7 +382,7 @@ struct requirement_data {
         void dump( JsonOut &jsout ) const;
 
     private:
-        requirement_id id_ = requirement_id::NULL_ID();
+        requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 

@@ -12,6 +12,10 @@ num_jobs=3
 export PATH=$HOME/.local/bin:$PATH
 
 $COMPILER --version
+if [ -n "$CROSS_COMPILATION" ]
+then
+    "$CROSS_COMPILATION$COMPILER" --version
+fi
 
 if [ -n "$TEST_STAGE" ]
 then
@@ -41,7 +45,7 @@ function run_test
 {
     set -eo pipefail
     test_exit_code=0 sed_exit_code=0 exit_code=0
-    $WINE $1 --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "$2" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$3"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
+    $WINE $1 --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS $4 $5 "$2" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$3"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
     if [ "$test_exit_code" -ne "0" ]
     then
         echo "$3test exited with code $test_exit_code"
@@ -179,8 +183,8 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' {} '('{}')=> ' --user-dir=test_user_dir_{#}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {} '('{}')=> ' --user-dir=test_user_dir_{#}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -201,10 +205,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> ' --user-dir=test_user_dir_{#}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]
     then
-        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test '$(printf %q "${MODS}") {} 'Mods-('{}')=> ' --user-dir=modded_{#}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]
@@ -216,7 +220,7 @@ else
         ./build-scripts/get_all_mods.py | \
             while read mods
             do
-                run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
+                run_test './tests/cata_test '~*' ' --user-dir=all_modded --mods='"${mods}"'
             done
     fi
 fi

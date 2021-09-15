@@ -21,9 +21,6 @@
     * [Set things at a "point"](#set-things-at-a-point)
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
-  * [Spawn item or monster groups with "place_groups"](#spawn-item-or-monster-groups-with-place_groups)
-    * [Spawn monsters from a group with "monster"](#spawn-monsters-from-a-group-with-monster)
-    * [Spawn items from a group with "item"](#spawn-items-from-a-group-with-item)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
@@ -53,6 +50,8 @@
   * [Mapgen parameters](#mapgen-parameters)
   * [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
   * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
+* [Palettes](#palettes)
+  * [Palette ids as mapgen values](#palette-ids-as-mapgen-values)
 * [Using update_mapgen](#using-update_mapgen)
   * [Overmap tile specification](#overmap-tile-specification)
     * ["assign_mission_target"](#assign_mission_target)
@@ -219,6 +218,18 @@ Example:
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four
 apartments_mod_tower overmap terrain ids specified.
 
+### "om_terrain" for linear terrain
+
+Some overmap terrains are *linear*.  This is used for things like roads,
+tunnels, etc. where they form lines which can connect in various ways.  Such
+terrains are defined with the `LINEAR` flag in their `overmap_terrain`
+definition (see the [OVERMAP docs](OVERMAP.md)).
+
+When defining the JSON mapgen for such terrain, you must define several
+instances, for each type of connection that might exist.  Each gets a suffix
+added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
+`_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
+in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -471,60 +482,6 @@ Example:
 | id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
-
-
-## Spawn item or monster groups with "place_groups"
-**optional** Spawn items or monsters from item_groups.json and monster_groups.json
-
-Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
-
-### Spawn monsters from a group with "monster"
-
-| Field   | Description
-| ---     | ---
-| monster | (required) Value: `"MONSTER_GROUP"`. The monster group id, which picks random critters from a list
-| x, y    | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-| density | (optional) Floating-point multiplier to "chance" (see below).
-| chance  | (optional) One-in-N chance to spawn
-
-Example:
-
-```json
-{ "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
-```
-
-When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
-be used by `map::place_spawns`. Each monster generated from the monster group will be placed in a different random
-location within the rectangle. The values in the above example will produce a rectangle for `map::place_spawns` from (
-13, 15 ) to ( 15, 15 ) inclusive.
-
-The optional "density" is a floating-point multiplier to the "chance" value. If the result is bigger than 100% it
-guarantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
-spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap
-densities within a square of radius 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
-this. The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
-
-
-
-### Spawn items from a group with "item"
-
-| Field  | Description
-| ---    | ---
-| item   | (required) Value: "ITEM_GROUP". The item group id, which picks random stuff from a list.
-| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-| chance | (required) Percentage chance to spawn.
-
-Example:
-
-```json
-{ "item": "livingroom", "x": 12, "y": [ 5, 15 ], "chance": 50 }
-```
-
-When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
-be used by `map::place_items`. Each item from the item group will be placed in a different random location within the
-rectangle. These values in the above example will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 )
-inclusive.
-
 
 ## Spawn a single monster with "place_monster"
 
@@ -1061,6 +1018,22 @@ For example, the default value of a parameter, or a terrain id in the
   times, and if a new parameter is added to the definition part way through the
   generation then the value of that parameter will be missing and the fallback
   will be used.
+* A switch statement to select different values depending on the value of some
+  other mapgen value.  This would most often be used to switch on the value of
+  a mapgen parameter, so as to allow two parts of the mapgen to be consistent.
+  For example, the following switch would match a fence gate type to a fence
+  type chosen by a mapgen parameter `fence_type`:
+```json
+{
+    "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+    "cases": {
+        "t_splitrail_fence": "t_splitrail_fencegate_c",
+        "t_chainfence": "t_chaingate_c",
+        "t_fence_barbed": "t_gate_metal_c",
+        "t_privacy_fence": "t_privacy_fencegate_c"
+    }
+}
+```
 
 
 ## Mapgen parameters
@@ -1068,7 +1041,7 @@ For example, the default value of a parameter, or a terrain id in the
 (Note that this feature is under development and functionality may not line up exactly
 with the documentation.)
 
-Another entry within a mapgen definition or palette can be a `"parameters"`
+Another entry within a mapgen definition or [palette](#palettes) can be a `"parameters"`
 key.  For example:
 ```
 "parameters": {
@@ -1108,6 +1081,19 @@ single overmap tile.  Then a default value will be chosen independently for
 each OMT.  This has the advantage that you are no longer forced to select a
 `"fallback"` value when using that parameter in mapgen.
 
+The third option for scope is `"scope": "nest"`.  This only makes sense when
+used in nested mapgen (although it is not an error to use it elsewhere, so that
+the same palette may be used for nested and non-nested mapgen).  When the scope
+is `nest`, the value of the parameter is chosen for a particular nested chunk.
+For example, suppose a nest defines a carpet across several tiles, you can use
+a parameter to ensure that the carpet is the same colour for all the tiles
+within that nest, but another instance of the same `nested_mapgen_id` elsewhere
+in the same OMT might choose a different colour.
+
+To help you debug mapgen parameters and their effect on mapgen, you can see the
+chosen values for `overmap_special`-scoped parameters in the overmap editor
+(accessible via the debug menu).
+
 
 ## Rotate the map with "rotation"
 
@@ -1129,7 +1115,60 @@ the cabin fit in) which leads to them being out of sync when the generation of t
 Example: `"predecessor_mapgen": "forest"`
 
 
-# Using update_mapgen
+# Palettes
+
+A **palette** provides a way to use the same symbol definitions for different
+pieces of mapgen.  For example, most of the houses defined in CDDA us the
+`standard_domestic_palette`.  That palette, for example, defines `h` as meaning
+`f_chair`, so all the house mapgen can use `h` in its `"rows"` array without
+needing to repeat this definition everywhere.  It simply requires a reference
+to the palette, achieved by adding
+
+```json
+"palettes": [ "standard_domestic_palette" ]
+```
+
+to the definition of each house.
+
+Each piece of mapgen can refer to multiple palettes.  When two palettes both
+define meanings for the same symbol, both are applied.  In some cases (such as
+spawning items) you can see the results of both in the final output.  In other
+cases (such as setting terrain or furniture) one result must override the
+others.  The rule is that the last palette listed overrides earlier ones, and
+definitions in the outer mapgen override anything in the palettes within.
+
+Palette definitions can contain any of the JSON described above for the [JSON
+object definition](#json-object-definition) where it is defining a meaning for
+a symbol.  They cannot specify anything for a particular location (using `"x"`
+and `"y"` coordinates.
+
+Palettes can themselves include other palettes via a `"palettes"` key.  So if
+two or more palettes would have many of the same symbols with the same meanings
+that common part can be pulled out into a new palette which each of them
+includes, so that the definitions need not be repeated.
+
+
+## Palette ids as mapgen values
+
+The values in the `"palettes"` list need not be simple strings.  They can be
+any [mapgen value](#mapgen-values) as described above.  Most importantly, this
+means that they can use a `"distribution"` to select from a set of palettes at
+random.
+
+This selection works as if it were an overmap special-scoped [mapgen
+parameter](#mapgen-parameters).  So, all OMTs within a special will use the
+same palette.  Moreover, you can see which palette was chosen by looking at the
+overmap special arguments displayed in the overmap editor (accessible via the
+debug menu).
+
+For example, the following JSON used in a cabin mapgen definition
+```json
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+```
+causes half the cabins generated to use the regular `cabin_palette` and the
+other half to use `cabin_palette_abandoned`.
+
+# Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes.  Currently, it only works within

@@ -524,32 +524,136 @@ void translation::make_plural()
     cached_translation = nullptr;
 }
 
+// return { true, suggested plural } if no irregular form is detected,
+// { false, suggested plural } otherwise. do have false positive/negatives.
+static std::pair<bool, std::string> possible_plural_of( const std::string &raw )
+{
+    const std::string plural = raw + "s";
+#ifndef CATA_IN_TOOL
+    if( !test_mode || check_plural == check_plural_t::none ) {
+        return { true, plural };
+    }
+    bool certainly_irregular = false;
+    bool possibly_irregular = false;
+    if( !raw.empty() &&
+        ( raw.back() < 'a' || raw.back() > 'z' ) &&
+        ( raw.back() < 'A' || raw.back() > 'Z' ) ) {
+        // not ending with English alphabets
+        possibly_irregular = true;
+    }
+    // endings with possible irregular forms
+    // false = possibly irregular, true = certainly irregular
+    static const std::vector<std::pair<std::string, bool>> irregular_endings = {
+        { "ch", false },
+        { "f", false },
+        { "fe", false },
+        { "o", false },
+        { "s", true },
+        { "sh", true },
+        { "x", true },
+        { "y", false },
+        { ")", true },
+    };
+    for( const std::pair<std::string, bool> &ending : irregular_endings ) {
+        if( string_ends_with( raw, ending.first ) ) {
+            if( ending.second ) {
+                certainly_irregular = true;
+            } else {
+                possibly_irregular = true;
+            }
+        }
+    }
+    // magiclysm enchantments
+    for( auto it = raw.rbegin(); it < raw.rend(); ++it ) {
+        if( *it < '0' || *it > '9' ) {
+            if( *it == '+' && it != raw.rbegin() ) {
+                certainly_irregular = true;
+            }
+            break;
+        }
+    }
+    // compound words
+    // false = possibly irregular, true = certainly irregular
+    static const std::vector<std::pair<std::string, bool>> irregular_patterns = {
+        { " of ", false },
+        { " with ", true },
+        { " for ", true },
+        { ",", false },
+    };
+    for( const std::pair<std::string, bool> &pattern : irregular_patterns ) {
+        if( raw.find( pattern.first ) != std::string::npos ) {
+            if( pattern.second ) {
+                certainly_irregular = true;
+            } else {
+                possibly_irregular = true;
+            }
+        }
+    }
+    const bool report_as_irregular = certainly_irregular
+                                     || ( possibly_irregular && check_plural == check_plural_t::possible );
+    return { !report_as_irregular, plural };
+#else
+    return { true, plural };
+#endif
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
     // reset the cache
     cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_num = 0;
     cached_translation = nullptr;
+    int end_offset = jsin.tell();
 
     if( jsin.test_string() ) {
         ctxt = nullptr;
-        // if plural form is enabled
-        if( raw_pl ) {
+#ifndef CATA_IN_TOOL
+        const bool check_style = test_mode;
+#else
+        const bool check_style = false;
+#endif
+        if( raw_pl || !check_style ) {
             // strings with plural forms are currently only simple names, and
             // need no text style check.
             raw = jsin.get_string();
-            raw_pl = cata::make_value<std::string>( raw + "s" );
+            end_offset = jsin.tell();
         } else {
+            // We know it's a string, we need to save the offset after the string.
+            JsonValue jv = jsin.get_value();
+            jv.get_string();
+            end_offset = jsin.tell();
             raw = text_style_check_reader( text_style_check_reader::allow_object::no )
-                  .get_next( jsin );
+                  .get_next( jv );
+        }
+        // if plural form is enabled
+        if( raw_pl ) {
+            const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+            raw_pl = cata::make_value<std::string>( suggested_pl.second );
+#ifndef CATA_IN_TOOL
+            if( !suggested_pl.first && check_style ) {
+                try {
+                    jsin.error( "Cannot autogenerate plural form.  "
+                                "Please specify the plural form explicitly." );
+                } catch( const JsonError &e ) {
+                    debugmsg( "(json-error)\n%s", e.what() );
+                }
+            }
+#endif
         }
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
+        end_offset = jsin.tell();
         if( jsobj.has_member( "ctxt" ) ) {
             ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {
             ctxt = nullptr;
         }
+#ifndef CATA_IN_TOOL
+        const bool check_style = test_mode && !jsobj.has_member( "//NOLINT(cata-text-style)" );
+#else
+        const bool check_style = false;
+#endif
         if( jsobj.has_member( "str_sp" ) ) {
             // same singular and plural forms
             // strings with plural forms are currently only simple names, and
@@ -558,6 +662,20 @@ void translation::deserialize( JsonIn &jsin )
             // if plural form is enabled
             if( raw_pl ) {
                 raw_pl = cata::make_value<std::string>( raw );
+#ifndef CATA_IN_TOOL
+                if( check_style ) {
+                    try {
+                        const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+                        if( suggested_pl.first && *raw_pl == suggested_pl.second ) {
+                            jsobj.throw_error( "\"str_sp\" is not necessary here since the "
+                                               "plural form can be automatically generated.",
+                                               "str_sp" );
+                        }
+                    } catch( const JsonError &e ) {
+                        debugmsg( "(json-error)\n%s", e.what() );
+                    }
+                }
+#endif
             } else {
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
@@ -566,18 +684,13 @@ void translation::deserialize( JsonIn &jsin )
                 }
             }
         } else {
-#ifndef CATA_IN_TOOL
-            const bool check_style = test_mode && !jsobj.has_member( "//NOLINT(cata-text-style)" );
-#else
-            const bool check_style = false;
-#endif
             if( raw_pl || !check_style ) {
                 // strings with plural forms are currently only simple names, and
                 // need no text style check.
                 raw = jsobj.get_string( "str" );
             } else {
                 raw = text_style_check_reader( text_style_check_reader::allow_object::no )
-                      .get_next( *jsobj.get_raw( "str" ) );
+                      .get_next( jsobj.get_member( "str" ) );
             }
             // if plural form is enabled
             if( raw_pl ) {
@@ -586,7 +699,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
                     if( check_style ) {
                         try {
-                            if( *raw_pl == raw + "s" ) {
+                            const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+                            if( suggested_pl.first && *raw_pl == suggested_pl.second ) {
                                 jsobj.throw_error( "\"str_pl\" is not necessary here since the "
                                                    "plural form can be automatically generated.",
                                                    "str_pl" );
@@ -601,7 +715,19 @@ void translation::deserialize( JsonIn &jsin )
                     }
 #endif
                 } else {
-                    raw_pl = cata::make_value<std::string>( raw + "s" );
+                    const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+                    raw_pl = cata::make_value<std::string>( suggested_pl.second );
+#ifndef CATA_IN_TOOL
+                    if( !suggested_pl.first && check_style ) {
+                        try {
+                            jsobj.throw_error( "Cannot autogenerate plural form.  "
+                                               "Please specify the plural form explicitly.",
+                                               "str" );
+                        } catch( const JsonError &e ) {
+                            debugmsg( "(json-error)\n%s", e.what() );
+                        }
+                    }
+#endif
                 }
             } else if( jsobj.has_member( "str_pl" ) ) {
                 try {
@@ -613,6 +739,7 @@ void translation::deserialize( JsonIn &jsin )
         }
         needs_translation = true;
     }
+    jsin.seek( end_offset );
 }
 
 std::string translation::translated( const int num ) const
@@ -741,36 +868,24 @@ text_style_check_reader::text_style_check_reader( const allow_object object_allo
 {
 }
 
-std::string text_style_check_reader::get_next( JsonIn &jsin ) const
+std::string text_style_check_reader::get_next( JsonValue jv ) const
 {
-#ifndef CATA_IN_TOOL
-    int origin = 0;
-#endif
+    const JsonValue &jsin = jv;
     std::string raw;
     bool check_style = true;
     if( object_allowed == allow_object::yes && jsin.test_object() ) {
         JsonObject jsobj = jsin.get_object();
-#ifndef CATA_IN_TOOL
-        if( test_mode ) {
-            origin = jsobj.get_raw( "str" )->tell();
-        }
-#endif
         raw = jsobj.get_string( "str" );
         if( jsobj.has_member( "//NOLINT(cata-text-style)" ) ) {
             check_style = false;
         }
     } else {
-#ifndef CATA_IN_TOOL
-        if( test_mode ) {
-            origin = jsin.tell();
-        }
-#endif
         raw = jsin.get_string();
     }
 #ifndef CATA_IN_TOOL
     if( test_mode && check_style ) {
         const auto text_style_callback =
-            [&jsin, origin]
+            [&jsin]
             ( const text_style_fix type, const std::string & msg,
               const std::u32string::const_iterator & beg, const std::u32string::const_iterator & /*end*/,
               const std::u32string::const_iterator & /*at*/,
@@ -796,16 +911,11 @@ std::string text_style_check_reader::get_next( JsonIn &jsin ) const
                           + "    At the following position (marked with caret)";
                     break;
             }
-            const int previous_pos = jsin.tell();
             try {
-                jsin.seek( origin );
                 jsin.string_error( err, std::distance( beg, to ) );
             } catch( const JsonError &e ) {
                 debugmsg( "(json-error)\n%s", e.what() );
             }
-            // seek to previous pos (end of string) so subsequent json input
-            // can continue.
-            jsin.seek( previous_pos );
         };
 
         const std::u32string raw32 = utf8_to_utf32( raw );

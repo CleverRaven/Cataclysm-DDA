@@ -111,10 +111,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
     ]
   },
@@ -136,6 +134,7 @@
     "revert_to": "dab_pen",
     "charges_per_use": 1,
     "use_action": {
+      "ammo_scale": 0,
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",
       "active": false,
@@ -147,10 +146,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
     ]
   },
@@ -388,11 +385,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "magazine_well": "2 L",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
       }
     ]
   },
@@ -406,7 +401,13 @@
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
-    "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "large_space_heater",
+      "msg": "You turn off the heater.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    }
   },
   {
     "id": "lifestraw",
@@ -456,7 +457,7 @@
     "//": "gasket sizes range from 1in diameter to 6in.",
     "price": 150,
     "price_postapoc": 50,
-    "to_hit": 10,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
     "bashing": 1,
     "material": [ "plastic" ]
   },
@@ -575,11 +576,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -593,7 +592,13 @@
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",
-    "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "small_space_heater",
+      "msg": "You turn off the heater.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    }
   },
   {
     "id": "spray_can",

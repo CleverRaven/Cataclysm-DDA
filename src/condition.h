@@ -47,7 +47,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field"
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int"
     }
 };
 } // namespace dialogue_data
@@ -56,11 +56,17 @@ struct int_or_var {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
     cata::optional<int> default_val;
+    bool global = false;
     int evaluate( talker *talk ) const {
         if( int_val.has_value() ) {
             return int_val.value();
         } else if( var_val.has_value() ) {
-            std::string val = talk->get_value( var_val.value() );
+            std::string val;
+            if( global ) {
+                val = get_talker_for( get_player_character() )->get_value( var_val.value() );
+            } else {
+                val = talk->get_value( var_val.value() );
+            }
             if( !val.empty() ) {
                 return std::stoi( val );
             }
@@ -72,9 +78,40 @@ struct int_or_var {
     }
 };
 
+struct duration_or_var {
+    cata::optional<time_duration> dur_val;
+    cata::optional<std::string> var_val;
+    cata::optional<time_duration> default_val;
+    bool global = false;
+    time_duration evaluate( talker *talk ) const {
+        if( dur_val.has_value() ) {
+            return dur_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val;
+            if( global ) {
+                val = get_talker_for( get_player_character() )->get_value( var_val.value() );
+            } else {
+                val = talk->get_value( var_val.value() );
+            }
+            if( !val.empty() ) {
+                time_duration ret_val;
+                ret_val = time_duration::from_turns( std::stoi( val ) );
+                return ret_val;
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return 0_seconds;
+        }
+    }
+};
+
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value = true );
-int_or_var get_variable_or_int( const JsonObject &jo, std::string member );
+int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
+                           int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+                                     time_duration default_val = 0_seconds );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
@@ -112,19 +149,12 @@ struct conditional_t {
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_pain( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_power( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, const std::string &member );
         void set_x_in_y_chance( const JsonObject &jo, const std::string &member );
-        void set_is_temperature( const JsonObject &jo, const std::string &member );
-        void set_is_height( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_is_windpower( const JsonObject &jo, const std::string &member );
         void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_is_humidity( const JsonObject &jo, const std::string &member );
-        void set_is_pressure( const JsonObject &jo, const std::string &member );
         void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
                                         bool is_npc = false );
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -180,8 +210,9 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
-        void set_has_morale( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_focus( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_compare_int( const JsonObject &jo, const std::string &member );
+        static std::function<int( const T & )> get_get_int( const JsonObject &jo );
+
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;

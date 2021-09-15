@@ -86,6 +86,25 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "honeydew",
+    "name": { "str": "honeydew" },
+    "description": "A sugar-rich sticky substance, produced by aphids from plant sap.  Ants and bees love it.",
+    "weight": "22 g",
+    "color": "green",
+    "symbol": "~",
+    "material": [ "honey" ],
+    "quench": 4,
+    "calories": 67,
+    "charges": 16,
+    "fun": 2,
+    "comestible_type": "FOOD",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "mutant_toxin", 6 ] ],
+    "//": "It takes about 30 portions of honeydew to feed an adult (~2000 kkal). 2000 kkal is about 10 raw chunks of mutant meat, which is 250% toxins. Honeydew probably isn't as toxic as meat, so 30 portions of it would give you 180% of toxins.",
+    "volume": "250 ml"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "marloss_berry",
     "name": { "str": "marloss berry", "str_pl": "marloss berries" },
     "weight": "177 g",
@@ -435,6 +454,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "soybean",
     "name": { "str_sp": "soybeans" },
     "volume": "250 ml",
@@ -455,6 +475,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "raw_edamame",
     "name": { "str": "raw edamame" },
     "volume": "250 ml",
@@ -672,7 +693,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
-    "use_action": [ "CATTLEFODDER" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATTLEFOOD", "DINOFOOD_C" ]
   },
   {
     "id": "birdfood",
@@ -694,7 +716,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
-    "use_action": [ "BIRDFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "BIRDFOOD" ]
   },
   {
     "id": "dogfood",
@@ -718,7 +741,8 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": [ "DOGFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "dogfood_dry",
@@ -743,7 +767,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": [ "DOGFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "catfood",
@@ -767,7 +792,8 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": [ "CATFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "id": "catfood_dry",
@@ -792,7 +818,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": [ "CATFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "type": "COMESTIBLE",

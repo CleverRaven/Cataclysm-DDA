@@ -2,7 +2,7 @@
   {
     "type": "overmap_special",
     "id": "lab_mutagen_6_level",
-    "//": "6 floor lab",
+    "//": "6 floor lab.  Has a small transition hallway that goes down to -7z",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 1, -2, 1 ], "overmap": "full_basic_lab_roof_north" },
@@ -116,6 +116,8 @@
       { "point": [ 1, 0, -5 ], "overmap": "underground_lab_central_-5E_east" },
       { "point": [ 0, 0, -6 ], "overmap": "underground_lab_central_-6W_east" },
       { "point": [ 1, 0, -6 ], "overmap": "underground_lab_central_-6E_east" },
+      { "point": [ 0, 0, -7 ], "overmap": "underground_lab_central_-7W_east" },
+      { "point": [ 1, 0, -7 ], "overmap": "underground_lab_central_-7E_east" },
       { "point": [ 0, 1, -5 ], "overmap": "lab_2x2_MUT_tier_1_NW_north" },
       { "point": [ 1, 1, -5 ], "overmap": "lab_2x2_MUT_tier_1_NE_north" },
       { "point": [ 0, 2, -5 ], "overmap": "lab_2x2_MUT_tier_1_SW_north" },
@@ -128,6 +130,6 @@
     "connections": [ { "point": [ -4, 0, 0 ], "connection": "local_road", "terrain": "road", "existing": false } ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
-    "occurrences": [ 0, 0 ]
+    "occurrences": [ 1, 3 ]
   }
 ]

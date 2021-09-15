@@ -3,7 +3,7 @@
     "id": "mon_frog_mother",
     "type": "MONSTER",
     "name": { "str": "frog mother" },
-    "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  It is covered in an oily greenish-black residue and large, white pustules that seem ready to pop.",
+    "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  Drenched in an oily greenish-black substance, its flesh seems to rapidly decompose and reconstitute itself, and it is covered by large, white pustules that seem ready to pop.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "AMPHIBIAN" ],
     "volume": "240 L",
@@ -113,6 +113,10 @@
     "armor_bash": 5,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 15,
     "vision_night": 3,
@@ -261,6 +265,10 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 4,
     "harvest": "zombie",
@@ -312,6 +320,10 @@
     "armor_cut": 14,
     "armor_bullet": 8,
     "armor_stab": 8,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -366,6 +378,10 @@
     "armor_bash": 8,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 40,
@@ -439,6 +455,61 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "FILTHY"
+    ]
+  },
+  {
+    "id": "mon_zombie_nemesis",
+    "type": "MONSTER",
+    "name": { "str": "relentless hulk" },
+    "description": "A hulking zombie swollen to the size of six men.  Its inky black eyes are locked on you.  No matter how far you run, it always seems to find you.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "volume": "875000 ml",
+    "weight": "1000 kg",
+    "hp": 480,
+    "speed": 95,
+    "material": [ "flesh" ],
+    "symbol": "H",
+    "color": "light_blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 8,
+    "melee_cut": 0,
+    "armor_bash": 15,
+    "armor_cut": 15,
+    "armor_bullet": 15,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
+    "vision_day": 50,
+    "vision_night": 8,
+    "harvest": "zombie",
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "death_drops": "mon_zombie_hulk_death_drops",
+    "regenerates": 15,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "KEENNOSE",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "DESTROYS",
+      "POISON",
+      "CLIMBS",
+      "NO_BREATHE",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "NEMESIS",
+      "LOUDMOVES",
       "FILTHY"
     ]
   },
@@ -561,6 +632,10 @@
     "armor_cut": 4,
     "armor_bullet": 10,
     "armor_stab": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
@@ -598,6 +673,10 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 4,
@@ -686,6 +765,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -719,6 +802,10 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "weakpoints": [
+      { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
@@ -752,7 +839,8 @@
       "REVIVES",
       "PUSH_MON",
       "SWIMS",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -781,6 +869,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 5,
@@ -975,6 +1067,10 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 45,
     "vision_night": 15,
@@ -1094,11 +1190,12 @@
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "human",
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "BRANDISH", 10 ] ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shrieker",
@@ -1266,6 +1363,10 @@
     "armor_cut": 8,
     "armor_stab": 8,
     "armor_bullet": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "dodge": 7,
     "armor_fire": 5,
@@ -1385,7 +1486,8 @@
       "SWIMS",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -1414,6 +1516,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1462,6 +1568,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1493,6 +1603,10 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 5,
     "harvest": "zombie_thorny",

@@ -41,6 +41,7 @@ git_files_list = {os.path.normpath(i) for i in {
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
+    "data/json/flags/trap.json",
     "data/json/npcs/npc.json",
     "data/json/overmap_terrain.json",
     "data/json/statistics.json",
@@ -665,6 +666,8 @@ def extract_recipes(item):
             for (k, v) in item["book_learn"].items():
                 if type(v) is dict and "recipe_name" in v:
                     writestr(outfile, v["recipe_name"])
+    if "name" in item:
+        writestr(outfile, item["name"])
     if "description" in item:
         writestr(outfile, item["description"])
     if "blueprint_name" in item:
@@ -1004,6 +1007,14 @@ def extract_snippets(item):
             writestr(outfile, snip["text"])
 
 
+def extract_speed_description(item):
+    outfile = get_outfile("speed_description")
+    values = item.get("values", [])
+    for value in values:
+        if 'description' in value:
+            writestr(outfile, value['description'])
+
+
 def extract_vehicle_part_category(item):
     outfile = get_outfile("vehicle_part_categories")
     name = item.get("name")
@@ -1012,6 +1023,14 @@ def extract_vehicle_part_category(item):
     short_comment = "(short name, optimal 1 symbol) " + comment
     writestr(outfile, name, comment=comment)
     writestr(outfile, short_name, comment=short_comment)
+
+
+def extract_widget(item):
+    outfile = get_outfile("widget")
+    if "label" in item:
+        writestr(outfile, item["label"])
+    if "strings" in item:
+        writestr(outfile, item["strings"])
 
 
 # these objects need to have their strings specially extracted
@@ -1037,12 +1056,14 @@ extract_specials = {
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
     "palette": extract_palette,
+    "practice": extract_recipes,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "snippet": extract_snippets,
+    "speed_description": extract_speed_description,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,
@@ -1051,6 +1072,7 @@ extract_specials = {
     "ter_furn_transform": extract_ter_furn_transform_messages,
     "skill_display_type": extract_skill_display_type,
     "vehicle_part_category": extract_vehicle_part_category,
+    "widget": extract_widget,
 }
 
 #
