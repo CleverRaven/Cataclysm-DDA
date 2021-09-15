@@ -259,7 +259,7 @@ item::item() : bday( calendar::start_of_cataclysm )
     type = nullitem();
     charges = 0;
     contents = item_contents( type->pockets );
-    select_gun_variant();
+    select_itype_variant();
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -289,7 +289,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
-    select_gun_variant();
+    select_itype_variant();
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
@@ -1035,9 +1035,9 @@ bool item::same_for_rle( const item &rhs ) const
     if( !contents.empty_real() || !rhs.contents.empty_real() ) {
         return false;
     }
-    if( has_gun_variant( false ) != rhs.has_gun_variant( false ) ||
-        ( has_gun_variant( false ) && rhs.has_gun_variant( false ) &&
-          gun_variant().id != rhs.gun_variant().id ) ) {
+    if( has_itype_variant( false ) != rhs.has_itype_variant( false ) ||
+        ( has_itype_variant( false ) && rhs.has_itype_variant( false ) &&
+          itype_variant().id != rhs.itype_variant().id ) ) {
         return false;
     }
     return stacks_with( rhs, true, false );
@@ -1051,9 +1051,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
-    if( has_gun_variant() != rhs.has_gun_variant() ||
-        ( has_gun_variant() && rhs.has_gun_variant() &&
-          gun_variant().id != rhs.gun_variant().id ) ) {
+    if( has_itype_variant() != rhs.has_itype_variant() ||
+        ( has_itype_variant() && rhs.has_itype_variant() &&
+          itype_variant().id != rhs.itype_variant().id ) ) {
         return false;
     }
     if( ammo_remaining() != 0 && rhs.ammo_remaining() != 0 && is_money() ) {
@@ -1806,8 +1806,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
-        } else if( has_gun_variant() ) {
-            info.emplace_back( "DESCRIPTION", gun_variant().alt_description.translated() );
+        } else if( has_itype_variant() ) {
+            info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.emplace_back( "DESCRIPTION",
@@ -4635,8 +4635,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         ascii_art_id art = type->picture_id;
-        if( has_gun_variant() && gun_variant().art.is_valid() ) {
-            art = gun_variant().art;
+        if( has_itype_variant() && itype_variant().art.is_valid() ) {
+            art = itype_variant().art;
         }
         if( art.is_valid() ) {
             for( const std::string &line : art->picture ) {
@@ -7219,19 +7219,11 @@ bool item::is_gun() const
     return !!type->gun;
 }
 
-void item::select_gun_variant()
+void item::select_itype_variant()
 {
     weighted_int_list<std::string> variants;
-    if( is_gun() ) {
-        for( const gun_variant_data &gv : type->gun->variants ) {
-            variants.add( gv.id, gv.weight );
-        }
-    } else if( !!type->magazine ) {
-        for( const gun_variant_data &gv : type->magazine->variants ) {
-            variants.add( gv.id, gv.weight );
-        }
-    } else {
-        return;
+    for( const itype_variant_data &iv : type->variants ) {
+        variants.add( iv.id, iv.weight );
     }
 
     const std::string *selected = variants.pick();
@@ -7240,82 +7232,69 @@ void item::select_gun_variant()
         return;
     }
 
-    set_gun_variant( *selected );
+    set_itype_variant( *selected );
 }
 
-bool item::can_have_gun_variant() const
+bool item::can_have_itype_variant() const
 {
-    if( is_gun() ) {
-        return !type->gun->variants.empty();
-    } else if( !!type->magazine ) {
-        return !type->magazine->variants.empty();
-    }
-    return false;
+    return !type->variants.empty();
 }
 
-bool item::possible_gun_variant( const std::string &test ) const
+bool item::possible_itype_variant( const std::string &test ) const
 {
-    if( !can_have_gun_variant() ) {
+    if( !can_have_itype_variant() ) {
         return false;
     }
 
-    const auto variant_looking_for = [&test]( const gun_variant_data & variant ) {
+    const auto variant_looking_for = [&test]( const itype_variant_data & variant ) {
         return variant.id == test;
     };
 
-    if( is_gun() ) {
-        return std::find_if( type->gun->variants.begin(), type->gun->variants.end(),
-                             variant_looking_for ) != type->gun->variants.end();
-    } else if( !!type->magazine ) {
-        return std::find_if( type->magazine->variants.begin(), type->magazine->variants.end(),
-                             variant_looking_for ) != type->magazine->variants.end();
+    return std::find_if( type->variants.begin(), type->variants.end(),
+                         variant_looking_for ) != type->variants.end();
+}
+
+bool item::has_itype_variant( bool check_option ) const
+{
+    if( _itype_variant == nullptr ) {
+        return false;
+    } else if( !check_option ) {
+        return true;
     }
 
+    switch( type->variant_kind ) {
+        case itype_variant_kind::gun:
+            return get_option<bool>( "SHOW_GUN_VARIANTS" );
+        default:
+            return true;
+    }
     return false;
 }
 
-bool item::has_gun_variant( bool check_option ) const
+const itype_variant_data &item::itype_variant() const
 {
-    return  _gun_variant != nullptr &&
-            ( !check_option || get_option<bool>( "SHOW_GUN_VARIANTS" ) );
+    return *_itype_variant;
 }
 
-const gun_variant_data &item::gun_variant() const
+void item::set_itype_variant( const std::string &variant )
 {
-    return *_gun_variant;
-}
-
-void item::set_gun_variant( const std::string &variant )
-{
-    if( variant.empty() || ( is_gun() && type->gun->variants.empty() ) || ( !!type->magazine &&
-            type->magazine->variants.empty() ) ) {
+    if( variant.empty() || type->variants.empty() ) {
         return;
     }
 
-    if( is_gun() ) {
-        for( const gun_variant_data &option : type->gun->variants ) {
-            if( option.id == variant ) {
-                _gun_variant = &option;
-                return;
-            }
+    for( const itype_variant_data &option : type->variants ) {
+        if( option.id == variant ) {
+            _itype_variant = &option;
+            return;
         }
-    } else if( !!type->magazine ) {
-        for( const gun_variant_data &option : type->magazine->variants ) {
-            if( option.id == variant ) {
-                _gun_variant = &option;
-                return;
-            }
-        }
-    } else {
-        return;
     }
 
-    debugmsg( "Gun %s has no variant %s!", typeId().str(), variant );
+    debugmsg( "item '%s' has no variant '%s'!", typeId().str(), variant );
 }
 
-void item::clear_gun_variant()
+void item::clear_itype_variant()
 {
-    _gun_variant = nullptr;
+    _itype_variant = nullptr;
 }
 
 bool item::is_firearm() const
@@ -11101,8 +11080,8 @@ std::string item::type_name( unsigned int quantity ) const
         }
     } else if( iter != item_vars.end() ) {
         return iter->second;
-    } else if( has_gun_variant() ) {
-        ret_name = gun_variant().brand_name.translated();
+    } else if( has_itype_variant() ) {
+        ret_name = itype_variant().alt_name.translated();
     } else {
         ret_name = type->nname( quantity );
     }

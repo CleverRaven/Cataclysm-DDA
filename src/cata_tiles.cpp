@@ -2885,8 +2885,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
             const maptile &tile = here.maptile_at( p );
             const item &itm = tile.get_uppermost_item();
-            if( itm.has_gun_variant() ) {
-                variant = itm.gun_variant().id;
+            if( itm.has_itype_variant() ) {
+                variant = itm.itype_variant().id;
             }
             const mtype *const mon = itm.get_mtype();
             it_id = itm.typeId();
