@@ -287,15 +287,14 @@
     "difficulty": 4,
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 90 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "fabric_standard_nostretch", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [
       [ [ "tunic", 1 ] ],
       [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ] ],
       [ [ "ragpouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
-      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
-      [ [ "rag", 20 ] ]
+      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ]
     ]
   },
   {
@@ -371,7 +370,7 @@
     "difficulty": 9,
     "time": "9 h 20 m",
     "book_learn": [ [ "textbook_armeast", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
+    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ], [ "fabric_standard_nostretch", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -382,7 +381,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ], [ [ "rag", 10 ] ] ]
+    "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ] ]
   },
   {
     "result": "armor_scavenger",
@@ -592,7 +591,7 @@
     "skills_required": [ "electronics", 3 ],
     "time": "180 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
-    "using": [ [ "chainmail_standard", 20 ] ],
+    "using": [ [ "chainmail_standard", 20 ], [ "fabric_standard_nostretch", 26 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_shock_weapons" } ],
     "components": [
       [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
@@ -602,8 +601,7 @@
       [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
       [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
       [ [ "chain_link", 500 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "rag", 26 ] ]
+      [ [ "wire", 5 ] ]
     ]
   },
   {
@@ -617,8 +615,7 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "using": [ [ "sewing_standard", 18 ], [ "fabric_standard_nostretch", 20 ] ],
   },
   {
     "result": "cloak_fur",
@@ -719,7 +716,7 @@
     "time": "12 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 4 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -727,7 +724,6 @@
       { "proficiency": "prof_polymerworking" }
     ],
     "components": [
-      [ [ "rag", 4 ] ],
       [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
@@ -750,10 +746,9 @@
     "type": "recipe",
     "copy-from": "fsurvivor_suit",
     "time": "13 h 50 m",
-    "using": [ [ "sewing_standard", 300 ] ],
+    "using": [ [ "sewing_standard", 300 ], [ "fabric_standard_nostretch", 8 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
     "components": [
-      [ [ "rag", 8 ] ],
       [ [ "xl_nomex_suit", 1 ], [ "xl_entry_suit", 1 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
@@ -782,7 +777,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -793,7 +788,6 @@
     ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 10 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "faux_fur", 20 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -817,11 +811,10 @@
     "copy-from": "wsurvivor_suit_nofur",
     "time": "18 h",
     "type": "recipe",
-    "using": [ [ "sewing_standard", 300 ] ],
+    "using": [ [ "sewing_standard", 300 ], [ "fabric_standard_nostretch", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
     "components": [
-      [ [ "rag", 20 ] ],
       [ [ "leather", 30 ], [ "tanned_hide", 6 ] ],
       [ [ "faux_fur", 30 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
@@ -903,16 +896,14 @@
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 26 ] ] ]
+    "using": [ [ "sewing_standard", 30 ], [ "fabric_standard_nostretch", 26 ] ],
   },
   {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "rag", 62 ] ] ]
+    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 62 ] ]
   },
   {
     "result": "h20survivor_suit",
@@ -925,7 +916,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "14 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -933,7 +924,6 @@
     ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "rag", 10 ] ],
       [ [ "wetsuit", 1 ], [ "wetsuit_spring", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -961,7 +951,7 @@
     "skills_required": [ "fabrication", 7 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -974,7 +964,6 @@
     ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "rag", 20 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1003,8 +992,7 @@
     "difficulty": 2,
     "time": "48 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 20 ] ]
   },
   {
     "result": "jumpsuit_xl",
@@ -1016,8 +1004,7 @@
     "difficulty": 2,
     "time": "54 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "rag", 30 ] ] ]
+    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 20 ] ]
   },
   {
     "result": "jumpsuit_xl",
@@ -1030,8 +1017,8 @@
     "difficulty": 2,
     "time": "38 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "jumpsuit", 1 ] ], [ [ "rag", 10 ] ] ]
+    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 10 ] ],
+    "components": [ [ [ "jumpsuit", 1 ] ] ]
   },
   {
     "result": "kimono",
@@ -1043,8 +1030,7 @@
     "difficulty": 4,
     "time": "2 h 30 m",
     "book_learn": [ [ "tailor_japanese", 4 ] ],
-    "using": [ [ "sewing_standard", 35 ] ],
-    "components": [ [ [ "rag", 25 ] ] ]
+    "using": [ [ "sewing_standard", 35 ], [ "fabric_standard_nostretch", 25 ] ]
   },
   {
     "result": "lsurvivor_suit",
@@ -1057,7 +1043,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
+    "using": [ [ "sewing_standard", 100 ], [ "fabric_standard_nostretch", 30 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1065,7 +1051,6 @@
     ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 30 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -1087,10 +1072,9 @@
     "type": "recipe",
     "copy-from": "lsurvivor_suit",
     "time": "9 h",
-    "using": [ [ "sewing_standard", 150 ] ],
+    "using": [ [ "sewing_standard", 150 ], [ "fabric_standard_nostretch", 45 ] ],
     "tools": [ [ [ "welder", 36 ], [ "welder_crude", 58 ], [ "soldering_iron", 58 ], [ "toolset", 58 ] ] ],
     "components": [
-      [ [ "rag", 45 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
         [ "tacvest", 1 ],
@@ -1159,7 +1143,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "9 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ] ],
+    "using": [ [ "sewing_standard", 150 ], [ "fabric_standard_nostretch", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -1170,7 +1154,6 @@
     ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 20 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
@@ -1199,9 +1182,9 @@
     "skills_required": [ "tailor", 2 ],
     "time": "7 h",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "sewing_standard", 52 ], [ "soldering_standard", 100 ] ],
+    "using": [ [ "sewing_standard", 52 ], [ "fabric_standard_nostretch", 40 ], [ "soldering_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "rag", 40 ] ], [ [ "element", 18 ] ], [ [ "cable", 37 ] ] ]
+    "components": [ [ [ "element", 18 ] ], [ [ "cable", 37 ] ] ]
   },
   {
     "result": "thermal_outfit",
@@ -1238,7 +1221,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "soldering_standard", 60 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "rag", 30 ], [ "union_suit", 1 ] ], [ [ "element", 12 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "rag", 30 ], [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ], [ "union_suit", 1 ] ], [ [ "element", 12 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "result": "tunic_rag",
@@ -1295,10 +1278,10 @@
     "difficulty": 3,
     "time": "7 h 30 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
-    "components": [ [ [ "neoprene", 8 ] ], [ [ "rag", 8 ] ] ]
+    "components": [ [ [ "neoprene", 8 ] ] ]
   },
   {
     "result": "wool_suit",
@@ -1324,7 +1307,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -1336,7 +1319,6 @@
     ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 10 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1360,11 +1342,10 @@
     "copy-from": "wsurvivor_suit",
     "time": "13 h 30 m",
     "type": "recipe",
-    "using": [ [ "sewing_standard", 300 ] ],
+    "using": [ [ "sewing_standard", 300 ], [ "fabric_standard_nostretch", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
     "components": [
-      [ [ "rag", 20 ] ],
       [ [ "leather", 30 ], [ "tanned_hide", 6 ] ],
       [ [ "fur", 30 ], [ "tanned_pelt", 6 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
@@ -1394,7 +1375,7 @@
     "skills_required": [ "fabrication", 8 ],
     "time": "22 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 30 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -1407,7 +1388,6 @@
     ],
     "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
     "components": [
-      [ [ "rag", 30 ] ],
       [ [ "leather", 40 ], [ "tanned_hide", 7 ] ],
       [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
@@ -1437,7 +1417,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "10 h 10 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 30 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -1448,7 +1428,6 @@
     ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "rag", 30 ] ],
       [ [ "leather", 40 ], [ "tanned_hide", 7 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
@@ -1477,8 +1456,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "book_learn": [ [ "tailor_japanese", 3 ] ],
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "rag", 16 ] ] ]
+    "using": [ [ "sewing_standard", 18 ] [ "fabric_standard_nostretch", 16 ] ]
   },
   {
     "result": "zentai",
@@ -1492,6 +1470,6 @@
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
-    "components": [ [ [ "lycra_patch", 34 ] ] ]
+    "components": [ [ "lycra_patch", 34 ], [ "sheet_lycra", 34 ] ]
   }
 ]

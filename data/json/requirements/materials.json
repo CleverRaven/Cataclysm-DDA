@@ -99,25 +99,154 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [
+      [
+        [ "rag", 1 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "sheet_lycra", 1 ],
+        [ "lycra_patch", 1 ],
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+        [ "leather", 1 ],
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ],
+        [ "neoprene", 1 ],
+        [ "sheet_neoprene", 1 ]
+      ]
+    ]
   },
   {
     "id": "fabric_standard_permeable",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [
+      [
+        [ "rag", 1 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "lycra_patch", 1 ],
+        [ "sheet_lycra", 1 ],
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ]
+      ]
+    ]
   },
   {
     "id": "fabric_standard_nostretch",
     "type": "requirement",
     "//": "Materials used for crafting or repairing non-form fitting clothing",
-    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [
+      [
+        [ "rag", 1 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "fabric_felt",
+    "type": "requirement",
+    "//": "Materials used for crafting felt clothing",
+    "components": [
+      [
+        [ "felt", 1 ],
+        [ "sheet_felt_patchwork", 1 ],
+        [ "sheet_felt", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_fauxfur",
+    "type": "requirement",
+    "//": "Materials used for faux fur clothing",
+    "components": [
+      [
+        [ "faux_fur", 1 ],
+        [ "sheet_faux_fur_patchwork", 1 ],
+        [ "sheet_faux_fur", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_fur",
+    "type": "requirement",
+    "//": "Materials used for crafting fur clothing",
+    "components": [
+      [
+        [ "fur", 1 ],
+        [ "sheet_fur_patchwork", 1 ],
+        [ "sheet_fur", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_nomex",
+    "type": "requirement",
+    "//": "Materials used for crafting nomex clothing",
+    "components": [
+      [
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_nylon",
+    "type": "requirement",
+    "//": "Materials used for crafting nylon clothing",
+    "components": [
+      [
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_neoprene",
+    "type": "requirement",
+    "//": "Materials used for crafting fur clothing",
+    "components": [
+      [
+        [ "neoprene", 1 ],
+        [ "sheet_neoprene_patchwork", 1 ],
+        [ "sheet_neoprene", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_lycra",
+    "type": "requirement",
+    "//": "Materials used for crafting lycra clothing",
+    "components": [
+      [
+        [ "lycra_patch", 1 ],
+        [ "sheet_lycra", 1 ],
+        [ "sheet_lycra_patchwork", 1 ],
+      ]
+    ]
   },
   {
     "id": "filament",
     "type": "requirement",
     "//": "Materials for use when sewing items",
-    "components": [ [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ] ] ]
+    "components": [
+      [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ], [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ]
+    ]
   },
   {
     "id": "glazing",

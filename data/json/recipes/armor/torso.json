@@ -146,7 +146,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 9 ], [ "sheet_cotton", 9 ], [ "sheet_cotton_patchwork", 9 ], [ "cotton_patchwork", 9 ] ] ],
+    "using": [ [ "fabric_standard_nostretch", 9 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -201,8 +201,8 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ],
+    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 11 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -214,8 +214,8 @@
     "type": "recipe",
     "copy-from": "coat_fur",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 40 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 17 ] ], [ [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
+    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 17 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
     "result": "coat_faux_fur",
@@ -228,8 +228,8 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "reversible": true,
-    "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 11 ] ], [ [ "faux_fur", 12 ] ] ],
+    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 17 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -241,8 +241,8 @@
     "type": "recipe",
     "copy-from": "coat_faux_fur",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 40 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 17 ] ], [ [ "faux_fur", 18 ] ] ]
+    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 17 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "faux_fur", 18 ] ] ]
   },
   {
     "result": "coat_gut",
@@ -270,8 +270,8 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "fastener_large", 1 ] ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ],
+    "using": [ [ "fastener_large", 1 ], [ "fabric_standard_nostretch", 10 ] ],
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -388,8 +388,7 @@
     "time": "8 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 32 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 24 ] ] ],
+    "using": [ [ "sewing_standard", 32 ], [ "fabric_standard_nostretch", 24 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -397,8 +396,7 @@
     "type": "recipe",
     "copy-from": "duster",
     "time": "9 h",
-    "using": [ [ "sewing_standard", 48 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 36 ] ] ]
+    "using": [ [ "sewing_standard", 48 ], [ "fabric_standard_nostretch", 36 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "duster_fur",
@@ -454,8 +452,8 @@
     "type": "recipe",
     "copy-from": "duster_faux_fur",
     "time": "11 h 15 m",
-    "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 30 ] ] ]
+    "using": [ [ "sewing_standard", 80 ], [ "fabric_standard_nostretch", 25 ], [ "fastener_large", 1 ] ],
+    "components": [ [ "faux_fur", 30 ] ] 
   },
   {
     "result": "duster_leather",
@@ -497,12 +495,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "12 h 10 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 135 ] ],
+    "using": [ [ "sewing_standard", 135 ], [ "fabric_standard_nostretch", 19 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 16 ] ],
-      [ [ "rag", 19 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -527,12 +524,11 @@
     "type": "recipe",
     "copy-from": "duster_survivor",
     "time": "13 h 40 m",
-    "using": [ [ "sewing_standard", 175 ] ],
+    "using": [ [ "sewing_standard", 175 ],  [ "fabric_standard_nostretch", 26 ] ],
     "components": [
       [ [ "coat_rain", 2 ] ],
       [ [ "jacket_army", 2 ], [ "xl_duster", 1 ] ],
       [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "sheet_kevlar_layered", 32 ] ],
-      [ [ "rag", 26 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -608,8 +604,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 14 ] ],
-    "components": [ [ [ "rag", 12 ] ] ]
+    "using": [ [ "sewing_standard", 14 ], [ "fabric_standard_nostretch", 12 ] ]
   },
   {
     "result": "house_coat",
@@ -622,8 +617,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "rag", 15 ] ] ]
+    "using": [ [ "sewing_standard", 15 ],  [ "fabric_standard_nostretch", 15 ] ]
   },
   {
     "result": "jacket_leather",
@@ -719,8 +713,7 @@
     "time": "1 h 45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "rag", 10 ] ] ]
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ]
   },
   {
     "result": "long_undertop_sleeveless",
@@ -733,8 +726,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 13 ] ],
-    "components": [ [ [ "rag", 8 ] ] ]
+    "using": [ [ "sewing_standard", 13 ], [ "fabric_standard_nostretch", 8 ] ]
   },
   {
     "result": "long_undertop_sleeveless",
@@ -776,10 +768,9 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "14 h 45 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 60 ] ],
+    "using": [ [ "sewing_standard", 60 ],  [ "fabric_standard_nostretch", 15 ] ],
     "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
     "components": [
-      [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -802,10 +793,9 @@
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
     "time": "16 h 35 m",
-    "using": [ [ "sewing_standard", 90 ] ],
+    "using": [ [ "sewing_standard", 90 ],  [ "fabric_standard_nostretch", 22 ] ],
     "tools": [ [ [ "welder", 24 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 22 ] ],
       [ [ "coat_rain", 2 ] ],
       [
         [ "tacvest", 1 ],
@@ -920,8 +910,7 @@
     "time": "6 h 48 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 27 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 19 ] ] ],
+    "using": [ [ "sewing_standard", 27 ], [ "fabric_standard_nostretch", 19 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -974,8 +963,8 @@
     "time": "8 h 30 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ],
+    "using": [ [ "sewing_standard", 50 ], [ "fabric_standard_nostretch", 20 ], [ "fastener_large", 1 ] ],
+    "components": [ [ "faux_fur", 12 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1081,12 +1070,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "10 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 115 ] ],
+    "using": [ [ "sewing_standard", 115 ], [ "fabric_standard_nostretch", 14 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 13 ] ],
-      [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1134,8 +1122,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 16 ] ] ],
+    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 16 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1204,8 +1191,8 @@
     "time": "7 h 45 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 38 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "faux_fur", 10 ] ] ],
+    "using": [ [ "sewing_standard", 38 ], [ "fabric_standard_nostretch", 10 ], [ "fastener_large", 1 ] ],
+    "components": [ [ "faux_fur", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1263,12 +1250,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "11 h 45 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 85 ] ],
+    "using": [ [ "sewing_standard", 85 ], [ "fabric_standard_nostretch", 11 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 10 ] ],
-      [ [ "rag", 11 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1330,8 +1316,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "rag", 8 ] ] ]
+    "using": [ [ "sewing_standard", 8 ], [ "fabric_standard_nostretch", 8 ] ]
   },
   {
     "result": "sports_bra",
@@ -1345,7 +1330,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 2 ] ] ],
+    "components": [ [ [ "lycra_patch", 2 ], [ "sheet_lycra_patchwork", 2 ], [ "sheet_lycra", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1376,7 +1361,7 @@
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+
   },
   {
     "result": "maid_dress",
@@ -1388,8 +1373,7 @@
     "time": "3 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "rag", 10 ] ] ]
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ],
   },
   {
     "result": "sweater",
@@ -1446,8 +1430,7 @@
     "time": "38 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 4 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "sewing_standard", 4 ], [ "fabric_standard_nostretch", 4 ] ]
   },
   {
     "result": "tireplate",
@@ -1488,8 +1471,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 23 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 18 ] ] ],
+    "using": [ [ "sewing_standard", 23 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {

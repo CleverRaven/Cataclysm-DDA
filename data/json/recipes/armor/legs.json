@@ -460,8 +460,7 @@
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "cordage_short", 1 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "using": [ [ "cordage_short", 1 ], [ "fabric_standard_nostretch", 2 ] ]
   },
   {
     "result": "loincloth_fur",
