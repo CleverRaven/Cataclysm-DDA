@@ -1384,6 +1384,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         boltcut->load( jo.get_object( "boltcut" ) );
     }
 
+    hacksaw = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
+    }
+
     optional( jo, was_loaded, "emissions", emissions );
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
@@ -1537,6 +1542,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
+    hacksaw = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );

@@ -3478,7 +3478,21 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "deconstruct": "TODO",
     "max_volume": "1000 L",
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
+    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" },
+    "boltcut": {
+      "result": "f_safe_open",
+      "duration": "1 seconds",
+      "message": "The safe opens.",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 3 } ]
+    },
+    "hacksaw": {
+      "result": "f_safe_open",
+      "duration": "12 seconds",
+      "message": "The safe is hacksawed open!",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 13 } ]
+    }
 }
 ```
 
@@ -3549,6 +3563,26 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 }
 ```
 
+#### `hacksaw`
+(Optional) Data for using with an hacksaw.
+```cpp
+"hacksaw": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
@@ -3596,7 +3630,21 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "transforms_into": "t_tree_harvested",
     "harvest_season": "WINTER",
     "roof": "t_roof",
-    "examine_action": "pit"
+    "examine_action": "pit",
+    "boltcut": {
+      "result": "t_door_unlocked",
+      "duration": "1 seconds",
+      "message": "The door opens.",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "2x4": 3 } ]
+    },
+    "hacksaw": {
+      "result": "t_door_unlocked",
+      "duration": "12 seconds",
+      "message": "The door is hacksawed open!",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "2x4": 13 } ]
+    }
 }
 ```
 
@@ -3666,6 +3714,26 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
     "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
     "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
     "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `hacksaw`
+(Optional) Data for using with an hacksaw.
+```cpp
+"hacksaw": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
     "byproducts": [ // ( optional ) list of items that will be spawned when finished
         {
             "item": "item_id",
