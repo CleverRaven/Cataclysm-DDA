@@ -7,24 +7,24 @@ on:
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
+    - 'data/**'
     - 'doc/**'
     - 'doxygen_doc/**'
     - 'lgtm/**'
     - 'tools/**'
     - 'utilities/**'
-    - 'data/**'
   pull_request:
     branches:
     - master
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
+    - 'data/**'
     - 'doc/**'
     - 'doxygen_doc/**'
     - 'lgtm/**'
     - 'tools/**'
     - 'utilities/**'
-    - 'data/**'
 
 env:
   # There's not enough disk space to build both release and debug versions of
