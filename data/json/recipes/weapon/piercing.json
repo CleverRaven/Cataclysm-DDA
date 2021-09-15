@@ -208,7 +208,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "pipe", 3 ] ], [ [ "pipe_fittings", 1] ] ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
     "result": "grip_hook",
