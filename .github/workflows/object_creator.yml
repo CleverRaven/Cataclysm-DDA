@@ -28,9 +28,9 @@ on:
     - 'gfx/**'
     - 'lang/**'
     - 'lgtm/**'
-    - 'tests/**'
     - 'src/**'
     - '!src/messages.*'
+    - 'tests/**'
     - 'tools/**'
     - 'utilities/**'
 
