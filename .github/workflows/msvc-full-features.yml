@@ -14,10 +14,10 @@ on:
     - 'lgtm/**'
     - 'msvc-object_creator/**'
     - 'object_creator/**'
-    - 'tests/**'
     - 'tools/**'
     - 'utilities/**'
     - 'data/**'
+    - 'tests/**'
   pull_request:
     branches:
     - master
@@ -31,10 +31,10 @@ on:
     - 'lgtm/**'
     - 'msvc-object_creator/**'
     - 'object_creator/**'
-    - 'tests/**'
     - 'tools/**'
     - 'utilities/**'
     - 'data/**'
+    - 'tests/**'
 
 env:
   # There's not enough disk space to build both release and debug versions of
