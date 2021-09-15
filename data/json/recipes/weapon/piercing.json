@@ -207,7 +207,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "60 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 3 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
