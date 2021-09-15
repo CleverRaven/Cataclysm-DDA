@@ -119,11 +119,17 @@ std::string talk_trial::name() const
     return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
-/** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
-           1_seconds * p.get_skill_level( skill );
+    return calc_skill_training_time_char( p, get_player_character(), skill );
+}
+
+/** Time (in turns) and cost (in cent) for training: */
+time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
+        const skill_id &skill )
+{
+    return 1_minutes + 30_seconds * student.get_skill_level( skill ) -
+           1_seconds * teacher.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -131,14 +137,23 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
     if( p.is_player_ally() ) {
         return 0;
     }
+    return calc_skill_training_cost_char( get_player_character(), skill );
+}
 
-    int skill_level = get_player_character().get_knowledge_level( skill );
+int calc_skill_training_cost_char( const Character &student, const skill_id &skill )
+{
+    int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
 
-time_duration calc_proficiency_training_time( const npc &, const proficiency_id &proficiency )
+time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
 {
     return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
+}
+
+int calc_proficiency_training_cost( const proficiency_id &proficiency )
+{
+    return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
 }
 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
@@ -147,13 +162,19 @@ int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficie
         return 0;
     }
 
-    return to_seconds<int>( calc_proficiency_training_time( p, proficiency ) );
+    return calc_proficiency_training_cost( proficiency );
+}
+
+
+time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+{
+    return calc_ma_style_training_time( /*p, get_player_character()*/ );
 }
 
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+time_duration calc_ma_style_training_time( /*const Character &teacher, const Character &student*/ )
 {
     return 30_minutes;
 }
@@ -163,7 +184,11 @@ int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
     if( p.is_player_ally() ) {
         return 0;
     }
+    return calc_ma_style_training_cost( /*p, get_player_character()*/ );
+}
 
+int calc_ma_style_training_cost( /*const Character &teacher, const Character &student*/ )
+{
     return 800;
 }
 
@@ -172,6 +197,11 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
     if( is_player_ally() ) {
         return 0;
     }
+    return calc_spell_training_cost_gen( knows, difficulty, level );
+}
+
+int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
+{
     int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
     if( !knows ) {
         ret = ret * 2;
@@ -3501,6 +3531,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( player_weapon_drop ),
             WRAP( lead_to_safety ),
             WRAP( start_training ),
+            WRAP( start_training_npc ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
             WRAP( npc_die ),

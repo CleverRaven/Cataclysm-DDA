@@ -987,36 +987,76 @@ bool npc_trading::pay_npc( npc &np, int cost )
     return npc_trading::trade( np, cost, _( "Pay:" ) );
 }
 
+void talk_function::start_training_npc( npc &p )
+{
+    teach_domain d;
+    d.skill = p.chatbin.skill;
+    d.style = p.chatbin.style;
+    d.spell = p.chatbin.dialogue_spell;
+    d.prof = p.chatbin.proficiency;
+    start_training_gen( get_player_character(), p, d );
+}
+
 void talk_function::start_training( npc &p )
+{
+    teach_domain d;
+    d.skill = p.chatbin.skill;
+    d.style = p.chatbin.style;
+    d.spell = p.chatbin.dialogue_spell;
+    d.prof = p.chatbin.proficiency;
+    start_training_gen( p, get_player_character(), d );
+}
+
+void talk_function::start_training_gen( Character &teacher, Character &student, teach_domain &d )
 {
     int cost;
     time_duration time = 0_turns;
     std::string name;
-    const skill_id &skill = p.chatbin.skill;
-    const matype_id &style = p.chatbin.style;
-    const spell_id &sp_id = p.chatbin.dialogue_spell;
-    const proficiency_id &proficiency = p.chatbin.proficiency;
+    const skill_id &skill = d.skill;
+    const matype_id &style = d.style;
+    const spell_id &sp_id = d.spell;
+    const proficiency_id &proficiency = d.prof;
     int expert_multiplier = 1;
-    Character &you = get_player_character();
     if( skill != skill_id() &&
-        you.get_knowledge_level( skill ) < p.get_knowledge_level( skill ) ) {
-        cost = calc_skill_training_cost( p, skill );
-        time = calc_skill_training_time( p, skill );
+        student.get_knowledge_level( skill ) < teacher.get_knowledge_level( skill ) ) {
+        if( teacher.is_npc() && student.is_avatar() ) {
+            cost = calc_skill_training_cost( static_cast<npc &>( teacher ), skill );
+        } else if( student.is_npc() && teacher.is_avatar() ) {
+            cost = 0;
+        } else {
+            cost = calc_skill_training_cost_char( student, skill );
+        }
+        time = calc_skill_training_time_char( teacher, student, skill );
         name = skill.str();
-    } else if( p.chatbin.style != matype_id() &&
-               !you.martial_arts_data->has_martialart( style ) ) {
-        cost = calc_ma_style_training_cost( p, style );
-        time = calc_ma_style_training_time( p, style );
-        name = p.chatbin.style.str();
+    } else if( style != matype_id() &&
+               !student.martial_arts_data->has_martialart( style ) ) {
+        if( teacher.is_npc() && student.is_avatar() ) {
+            cost = calc_ma_style_training_cost( static_cast<npc &>( teacher ), style );
+            time = calc_ma_style_training_time( static_cast<npc &>( teacher ), style );
+        } else if( student.is_npc() && teacher.is_avatar() ) {
+            cost = 0;
+            time = calc_ma_style_training_time( /*teacher, student*/ );
+        } else {
+            cost = calc_ma_style_training_cost( /*teacher, student*/ );
+            time = calc_ma_style_training_time( /*teacher, student*/ );
+        }
+        name = style.str();
         // already checked if can learn this spell in npctalk.cpp
-    } else if( p.chatbin.dialogue_spell != spell_id() ) {
-        const spell &temp_spell = p.magic->get_spell( sp_id );
-        const bool knows = you.magic->knows_spell( sp_id );
-        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
-                                           temp_spell.get_level() );
+    } else if( sp_id != spell_id() ) {
+        const spell &temp_spell = teacher.magic->get_spell( sp_id );
+        const bool knows = student.magic->knows_spell( sp_id );
+        if( teacher.is_npc() && student.is_avatar() ) {
+            cost = static_cast<npc &>( teacher ).calc_spell_training_cost( knows,
+                    temp_spell.get_difficulty(), temp_spell.get_level() );
+        } else if( student.is_npc() && teacher.is_avatar() ) {
+            cost = 0;
+        } else {
+            cost = calc_spell_training_cost_gen( knows, temp_spell.get_difficulty(),
+                                                 temp_spell.get_level() );
+        }
         name = temp_spell.id().str();
         expert_multiplier = knows ? temp_spell.get_level() -
-                            you.magic->get_spell( sp_id ).get_level() : 1;
+                            student.magic->get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -1026,32 +1066,43 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            const int time_int = you.magic->time_to_learn_spell( you, sp_id ) / 50;
+            const int time_int = student.magic->time_to_learn_spell( student, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
 
     } else if( proficiency != proficiency_id() ) {
         name = proficiency.str();
-        cost = calc_proficiency_training_cost( p, proficiency );
-        time = calc_proficiency_training_time( p, proficiency );
+        if( teacher.is_npc() && student.is_avatar() ) {
+            cost = calc_proficiency_training_cost( static_cast<npc &>( teacher ), proficiency );
+        } else if( student.is_npc() && teacher.is_avatar() ) {
+            cost = 0;
+        } else {
+            cost = calc_proficiency_training_cost( proficiency );
+        }
+        time = calc_proficiency_training_time( proficiency );
     } else {
         debugmsg( "start_training with no valid skill or style set" );
         return;
     }
 
+    npc &p = static_cast<npc &>( teacher.is_avatar() ? student : teacher );
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == you.getID() &&
-        miss->is_complete( you.getID() ) ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == student.getID() &&
+        miss->is_complete( student.getID() ) ) {
         clear_mission( p );
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
     player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
-                                           p.getID().get_value(), 0, name );
+                                           teacher.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
-    you.assign_activity( act );
+    if( !teacher.is_avatar() && !student.is_avatar() ) {
+        student.assign_activity( act );
+    } else {
+        get_player_character().assign_activity( act );
+    }
 
-    p.add_effect( effect_asked_to_train, 6_hours );
+    teacher.add_effect( effect_asked_to_train, 6_hours );
 }
 
 npc *pick_follower()
