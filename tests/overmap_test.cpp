@@ -13,7 +13,7 @@
 #include "overmapbuffer.h"
 #include "type_id.h"
 
-TEST_CASE( "set_and_get_overmap_scents" )
+TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
 
@@ -34,7 +34,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
     REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).initial_strength == 90 );
 }
 
-TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
+TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
 {
     int overmaps_to_construct = 10;
     for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
@@ -58,7 +58,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
     overmap_buffer.clear();
 }
 
-TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
+TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[overmap][slow]" )
 {
     const point_abs_om origin{};
 
@@ -179,3 +179,29 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
     }
 }
 
+TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
+{
+    for( int j = 0; j < 100; ++j ) {
+        overmap om{ point_abs_om( point_zero ) };
+
+        om_direction::type dir = om_direction::type::north;
+        const overmap_special &anthill = *overmap_special_id( "test_anthill" );
+        const city cit;
+
+        constexpr int num_trials = 100;
+        int successes = 0;
+
+        for( int i = 0; i < num_trials; ++i ) {
+            tripoint_om_omt try_pos( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
+
+            if( om.can_place_special( anthill, try_pos, dir, false ) ) {
+                std::vector<tripoint_om_omt> placed_points =
+                    om.place_special( anthill, try_pos, dir, cit, false, false );
+                CHECK( !placed_points.empty() );
+                ++successes;
+            }
+        }
+
+        CHECK( successes > 50 );
+    }
+}
