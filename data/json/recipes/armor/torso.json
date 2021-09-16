@@ -47,8 +47,8 @@
     "time": "13 h 30 m",
     "using": [ [ "sewing_standard", 96 ], [ "fabric_standard_nostretch", 6 ], [ "fabric_leather_fur_hide", 9 ] ],
     "components": [
-      [ [ "cordage_superior", 6, "LIST" ] ],
-    ]
+    [ [ "cordage_superior", 6, "LIST" ] ]
+    ],
   },
   {
     "result": "bikini_top",
