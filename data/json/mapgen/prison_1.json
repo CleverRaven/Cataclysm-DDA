@@ -212,10 +212,10 @@
         { "monster": "mon_zombie_technician", "x": [ 57, 59 ], "y": [ 110, 115 ], "chance": 100 }
       ],
       "place_vehicles": [
-        { "vehicle": "prison_vehicles", "x": 7, "y": [ 12, 14 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "prison_vehicles", "x": 15, "y": [ 12, 14 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "prison_vehicles", "x": 24, "y": [ 12, 14 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "prison_vehicles", "x": 31, "y": [ 12, 14 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "prison_vehicles", "x": 7, "y": [ 12, 14 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "prison_vehicles", "x": 15, "y": [ 12, 14 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "prison_vehicles", "x": 24, "y": [ 12, 14 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "prison_vehicles", "x": 31, "y": [ 12, 14 ], "chance": 25, "rotation": 90 }
       ]
     }
   },
