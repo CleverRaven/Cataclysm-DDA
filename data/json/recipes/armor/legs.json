@@ -466,7 +466,7 @@
     "result": "loincloth_fur",
     "type": "recipe",
     "copy-from": "loincloth",
-    "components": [ [ [ "fur", 2 ] ] ]
+    "using": [ [ "fabric_fur", 2 ] ]
   },
   {
     "result": "loincloth_leather",
@@ -478,7 +478,7 @@
     "result": "loincloth_wool",
     "type": "recipe",
     "copy-from": "loincloth",
-    "components": [ [ [ "felt_patch", 2 ] ] ]
+    "using": [ [ "fabric_felt", 2 ] ]
   },
   {
     "result": "long_underpants",
