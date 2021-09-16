@@ -160,122 +160,61 @@
     "id": "fabric_felt",
     "type": "requirement",
     "//": "Materials used for crafting felt clothing",
-    "components": [
-      [
-        [ "felt", 1 ],
-        [ "sheet_felt_patchwork", 1 ],
-        [ "sheet_felt", 1 ]
-      ]
-    ]
+    "components": [ [ [ "felt", 1 ], [ "sheet_felt_patchwork", 1 ], [ "sheet_felt", 1 ] ] ]
   },
   {
     "id": "fabric_fauxfur",
     "type": "requirement",
     "//": "Materials used for faux fur clothing",
-    "components": [
-      [
-        [ "faux_fur", 1 ],
-        [ "sheet_faux_fur_patchwork", 1 ],
-        [ "sheet_faux_fur", 1 ]
-      ]
-    ]
+    "components": [ [ [ "faux_fur", 1 ], [ "sheet_faux_fur_patchwork", 1 ], [ "sheet_faux_fur", 1 ] ] ]
   },
   {
     "id": "fabric_fur",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing",
-    "components": [
-      [
-        [ "fur", 1 ],
-        [ "sheet_fur_patchwork", 1 ],
-        [ "sheet_fur", 1 ]
-      ]
-    ]
+    "components": [ [ [ "fur", 1 ], [ "sheet_fur_patchwork", 1 ], [ "sheet_fur", 1 ] ] ]
   },
   {
     "id": "fabric_fur_pelt",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing, when tanned pelts are available it seems to roughly be a 1:6 ratio",
-    "components": [
-      [
-        [ "fur", 6 ],
-        [ "sheet_fur_patchwork", 6 ],
-        [ "sheet_fur", 6 ],
-        [ "tanned_pelt", 1 ]
-      ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "sheet_fur_patchwork", 6 ], [ "sheet_fur", 6 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_leather_hide",
     "type": "requirement",
     "//": "Materials used for crafting leather clothing, when tanned hides are available it seems to roughly be a 1:6 ratio",
-    "components": [
-      [
-        [ "leather", 6 ],
-        [ "tanned_hide", 1 ]
-      ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "id": "fabric_leather_fur_hide",
     "type": "requirement",
     "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:6 ratio",
-    "components": [
-      [
-        [ "fur", 6 ],
-        [ "leather", 6 ],
-        [ "tanned_hide", 1 ],
-        [ "tanned_pelt", 1 ]
-      ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_nomex",
     "type": "requirement",
     "//": "Materials used for crafting nomex clothing",
-    "components": [
-      [
-        [ "nomex", 1 ],
-        [ "sheet_nomex_patchwork", 1 ],
-        [ "sheet_nomex", 1 ]
-      ]
-    ]
+    "components": [ [ [ "nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
   },
   {
     "id": "fabric_nylon",
     "type": "requirement",
     "//": "Materials used for crafting nylon clothing",
-    "components": [
-      [
-        [ "nylon", 1 ],
-        [ "sheet_nylon_patchwork", 1 ],
-        [ "sheet_nylon", 1 ]
-      ]
-    ]
+    "components": [ [ [ "nylon", 1 ], [ "sheet_nylon_patchwork", 1 ], [ "sheet_nylon", 1 ] ] ]
   },
   {
     "id": "fabric_neoprene",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing",
-    "components": [
-      [
-        [ "neoprene", 1 ],
-        [ "sheet_neoprene_patchwork", 1 ],
-        [ "sheet_neoprene", 1 ]
-      ]
-    ]
+    "components": [ [ [ "neoprene", 1 ], [ "sheet_neoprene_patchwork", 1 ], [ "sheet_neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_lycra",
     "type": "requirement",
     "//": "Materials used for crafting lycra clothing",
-    "components": [
-      [
-        [ "lycra_patch", 1 ],
-        [ "sheet_lycra", 1 ],
-        [ "sheet_lycra_patchwork", 1 ]
-      ]
-    ]
+    "components": [ [ [ "lycra_patch", 1 ], [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ] ] ]
   },
   {
     "id": "filament",
