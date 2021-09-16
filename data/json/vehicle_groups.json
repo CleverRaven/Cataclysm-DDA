@@ -842,12 +842,6 @@
   {
     "type": "vehicle_group",
     "id": "prison_vehicles",
-    "vehicles": [
-      [ "policecar", 15 ],
-      [ "policesuv", 15 ],
-      [ "truck_swat", 5 ],
-      [ "bus_prison", 25 ],
-      [ "ambulance", 10 ]
-    ]
+    "vehicles": [ [ "policecar", 15 ], [ "policesuv", 15 ], [ "truck_swat", 5 ], [ "bus_prison", 25 ], [ "ambulance", 10 ] ]
   }
 ]
