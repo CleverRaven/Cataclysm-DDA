@@ -193,6 +193,43 @@
     ]
   },
   {
+    "id": "fabric_fur_pelt",
+    "type": "requirement",
+    "//": "Materials used for crafting fur clothing, when tanned pelts are available it seems to roughly be a 1:6 ratio",
+    "components": [
+      [
+        [ "fur", 6 ],
+        [ "sheet_fur_patchwork", 6 ],
+        [ "sheet_fur", 6 ],
+        [ "tanned_pelt", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_leather_hide",
+    "type": "requirement",
+    "//": "Materials used for crafting leather clothing, when tanned hides are available it seems to roughly be a 1:6 ratio",
+    "components": [
+      [
+        [ "leather", 6 ],
+        [ "tanned_hide", 1 ],
+      ]
+    ]
+  },
+  {
+    "id": "fabric_leather_fur_hide",
+    "type": "requirement",
+    "//": "Materials used for crafting leather clothing, when tanned hides, pelts are available it seems to roughly be a 1:6 ratio",
+    "components": [
+      [
+        [ "fur", 6 ],
+        [ "leather", 6 ],
+        [ "tanned_hide", 1 ],
+        [ "tanned_pelt", 1 ],
+      ]
+    ]
+  },
+  {
     "id": "fabric_nomex",
     "type": "requirement",
     "//": "Materials used for crafting nomex clothing",
