@@ -201,7 +201,7 @@
         [ "fur", 6 ],
         [ "sheet_fur_patchwork", 6 ],
         [ "sheet_fur", 6 ],
-        [ "tanned_pelt", 1 ],
+        [ "tanned_pelt", 1 ]
       ]
     ]
   },
@@ -212,7 +212,7 @@
     "components": [
       [
         [ "leather", 6 ],
-        [ "tanned_hide", 1 ],
+        [ "tanned_hide", 1 ]
       ]
     ]
   },
@@ -225,7 +225,7 @@
         [ "fur", 6 ],
         [ "leather", 6 ],
         [ "tanned_hide", 1 ],
-        [ "tanned_pelt", 1 ],
+        [ "tanned_pelt", 1 ]
       ]
     ]
   },
