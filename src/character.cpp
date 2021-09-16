@@ -7798,22 +7798,22 @@ int Character::available_ups() const
     return available_charges;
 }
 
-int Character::consume_ups( int qty, const int radius )
+int Character::consume_ups( int64_t qty, const int radius )
 {
-    const int wanted_qty = qty;
+    const int64_t wanted_qty = qty;
 
     // UPS from mounted mech
     if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+        int64_t power_drain = std::min( static_cast<int64_t>( mons->battery_item->ammo_remaining() ), qty );
         mons->use_mech_power( -power_drain );
         qty -= std::min( qty, power_drain );
     }
 
     // UPS from bionic
     if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
-        int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+        int64_t bio = std::min( units::to_kilojoule( get_power_level() ), qty );
         mod_power_level( units::from_kilojoule( -bio ) );
         qty -= std::min( qty, bio );
     }
