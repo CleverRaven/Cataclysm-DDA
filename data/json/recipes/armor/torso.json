@@ -24,7 +24,7 @@
     "time": "12 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "reversible": true,
-    "using": [ [ "sewing_standard", 68 ], [ "fabric_standard_nostretch", 4 ] [ "fabric_leather_fur_hide", 7 ] ],
+    "using": [ [ "sewing_standard", 68 ], [ "fabric_standard_nostretch", 4 ], [ "fabric_leather_fur_hide", 7 ] ],
     "components": [
       [ [ "cordage_superior", 4, "LIST" ] ]
     ],
@@ -39,7 +39,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar",
     "time": "13 h 30 m",
-    "using": [ [ "sewing_standard", 96 ], [ "fabric_standard_nostretch", 6 ] [ "fabric_leather_fur_hide", 9 ] ],
+    "using": [ [ "sewing_standard", 96 ], [ "fabric_standard_nostretch", 6 ], [ "fabric_leather_fur_hide", 9 ] ],
     "components": [
       [ [ "cordage_superior", 6, "LIST" ] ],
     ]
