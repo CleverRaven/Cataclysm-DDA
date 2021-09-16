@@ -538,7 +538,10 @@ where 5 will be the mean of the distribution (λ).
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
-rules to satisfy that join.
+rules to satisfy that join.  Priority is given to whichever joins are listed
+first in the list which defines the joins for this special, but if multiple
+joins of the same (highest priority) id are present then one is chosen at
+random.
 
 First the rules are filtered to contain only those which can satisfy the joins
 for a particular location, and then a weighted selection from the filtered list
