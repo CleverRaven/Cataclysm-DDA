@@ -1086,6 +1086,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
+    } else if( the_topic.id == "TALK_TRAIN_NPC" ) {
+        // TODO: Verify edge cases
+        const std::vector<skill_id> &trainable = actor( false )->skills_offered_to( *actor( true ) );
+        // TODO: Complete conversation logic
     } else if( the_topic.id == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN &&
             player_character.backlog.front().index == actor( true )->getID().get_value() ) {
@@ -1267,7 +1271,8 @@ int topic_category( const talk_topic &the_topic )
         return 5;
     }
     static const std::unordered_set<std::string> topic_6 = { {
-            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE"
+            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE",
+            "TALK_TRAIN_NPC_START", "TALK_TRAIN_NPC_FORCE"
         }
     };
     if( topic_6.count( topic ) > 0 ) {
