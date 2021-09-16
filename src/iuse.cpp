@@ -4670,19 +4670,23 @@ cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripo
     }
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
 
-    std::array<std::string, 4> messages_friendly_or_neutral = {
-        _( "What is this unbearable sound!?" ),
-        _( "STOP.  MY EARS" ),
-        _( "I'm not a dog…" ),
-        _( "Would you kindly not do that?" )
+    std::array<const char *, 4> messages_friendly_or_neutral = {
+        {
+            _( "What is this unbearable sound!?" ),
+            _( "STOP.  MY EARS" ),
+            _( "I'm not a dog…" ),
+            _( "Would you kindly not do that?" )
+        }
     };
 
-    std::array<std::string, 5> messages_hostile = {
-        _( "I WILL MURDER YOU" ),
-        _( "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT" ),
-        _( "You're seriously pissing me off…" ),
-        _( "I'm not a dog…" ),
-        _( "What is this unbearable sound!?" ),
+    std::array<const char *, 5> messages_hostile = {
+        {
+            _( "I WILL MURDER YOU" ),
+            _( "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT" ),
+            _( "You're seriously pissing me off…" ),
+            _( "I'm not a dog…" ),
+            _( "What is this unbearable sound!?" )
+        },
     };
 
     // Can the Character hear the dog whistle?
