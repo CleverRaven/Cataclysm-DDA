@@ -2591,7 +2591,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 6, "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2626,7 +2628,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2661,7 +2665,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
