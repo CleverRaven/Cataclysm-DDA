@@ -164,7 +164,7 @@
       [
         [ "felt", 1 ],
         [ "sheet_felt_patchwork", 1 ],
-        [ "sheet_felt", 1 ],
+        [ "sheet_felt", 1 ]
       ]
     ]
   },
@@ -176,7 +176,7 @@
       [
         [ "faux_fur", 1 ],
         [ "sheet_faux_fur_patchwork", 1 ],
-        [ "sheet_faux_fur", 1 ],
+        [ "sheet_faux_fur", 1 ]
       ]
     ]
   },
@@ -188,7 +188,7 @@
       [
         [ "fur", 1 ],
         [ "sheet_fur_patchwork", 1 ],
-        [ "sheet_fur", 1 ],
+        [ "sheet_fur", 1 ]
       ]
     ]
   },
@@ -200,7 +200,7 @@
       [
         [ "nomex", 1 ],
         [ "sheet_nomex_patchwork", 1 ],
-        [ "sheet_nomex", 1 ],
+        [ "sheet_nomex", 1 ]
       ]
     ]
   },
@@ -212,7 +212,7 @@
       [
         [ "nylon", 1 ],
         [ "sheet_nylon_patchwork", 1 ],
-        [ "sheet_nylon", 1 ],
+        [ "sheet_nylon", 1 ]
       ]
     ]
   },
@@ -224,7 +224,7 @@
       [
         [ "neoprene", 1 ],
         [ "sheet_neoprene_patchwork", 1 ],
-        [ "sheet_neoprene", 1 ],
+        [ "sheet_neoprene", 1 ]
       ]
     ]
   },
@@ -236,7 +236,7 @@
       [
         [ "lycra_patch", 1 ],
         [ "sheet_lycra", 1 ],
-        [ "sheet_lycra_patchwork", 1 ],
+        [ "sheet_lycra_patchwork", 1 ]
       ]
     ]
   },
