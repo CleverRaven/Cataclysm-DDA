@@ -119,6 +119,7 @@ class SkillLevel
         int _knowledgeLevel = 0;
         int _knowledgeExperience = 0;
         int _rustAccumulator = 0;
+        int _rustGracePoints = 0;
 
     public:
         SkillLevel() = default;

@@ -407,6 +407,7 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.member( "knowledgeLevel", _knowledgeLevel );
     json.member( "knowledgeExperience", _knowledgeExperience );
     json.member( "rustaccumulator", _rustAccumulator );
+    json.member( "rustgracepoints", _rustGracePoints );
     json.end_object();
 }
 
@@ -424,6 +425,7 @@ void SkillLevel::deserialize( const JsonObject &data )
     }
     data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
+    data.read( "rustgracepoints", _rustGracePoints );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );

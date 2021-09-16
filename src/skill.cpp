@@ -257,13 +257,28 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     const auto xp_to_level = [&]() {
         return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
     };
+    bool leveled_up = false;
     while( _exercise >= xp_to_level() ) {
         _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
         ++_level;
+        leveled_up = true;
         if( _level > _knowledgeLevel ) {
             _knowledgeLevel = _level;
             _knowledgeExperience = 0;
         }
+    }
+
+    // After obtaining a new level, add rust grace points to simulate a grace period
+    if( leveled_up ) {
+        // Formula is basically the same as in SkillLevel::rust()
+        // This adds a little over one cycle's worth of rust grace points (currently 24h)
+        const int lvl_mult = ( _level + 1 ) * ( _level + 1 );
+        float lvl_exp = lvl_mult * 10000.0f;
+        float rust_div = 0.04f;
+        if( _rustAccumulator < lvl_exp * 3 ) {
+            rust_div = std::max( static_cast<float>( std::sqrt( _rustAccumulator / lvl_exp ) ), 0.04f );
+        }
+        _rustGracePoints += 1 + lvl_mult * 16 / rust_div;
     }
 
     if( _rustAccumulator < 0 ) {
@@ -352,6 +367,17 @@ bool SkillLevel::rust( int rust_resist )
 
     if( rust_amount < 1 ) {
         return false;
+    }
+
+    // Grace points are spent to delay skill rust
+    int tmp = rust_amount;
+    rust_amount -= _rustGracePoints;
+    _rustGracePoints -= tmp;
+    if( rust_amount < 0 ) {
+        rust_amount = 0;
+    }
+    if( _rustGracePoints < 0 ) {
+        _rustGracePoints = 0;
     }
 
     _rustAccumulator += rust_amount;
