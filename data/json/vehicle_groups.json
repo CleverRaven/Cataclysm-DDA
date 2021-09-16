@@ -838,5 +838,17 @@
     "id": "wagons_all",
     "type": "vehicle_group",
     "vehicles": [ [ "gig_carriage", 100 ], [ "stagecoach", 100 ], [ "covered_wagon", 100 ], [ "uncovered_wagon", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "prison_vehicles",
+    "vehicles": [
+      [ "policecar", 15 ],
+      [ "policesuv", 10 ],
+      [ "truck_swat", 15 ],
+      [ "prisoner_van_1", 30 ],
+      [ "bus_prison", 25 ],
+      [ "ambulance", 5 ]
+    ]
   }
 ]
