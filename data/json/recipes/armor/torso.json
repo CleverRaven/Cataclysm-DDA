@@ -13,27 +13,33 @@
     "using": [ [ "sewing_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
-  {
-    "result": "armor_lamellar",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "12 h",
-    "book_learn": [ [ "textbook_armschina", 2 ] ],
-    "reversible": true,
-    "using": [ [ "sewing_standard", 68 ], [ "fabric_standard_nostretch", 4 ], [ "fabric_leather_fur_hide", 7 ] ],
-    "components": [
-      [ [ "cordage_superior", 4, "LIST" ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures" }
-    ]
-  },
+ {
+  "result": "armor_lamellar",
+  "type": "recipe",
+  "activity_level": "LIGHT_EXERCISE",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": "12 h",
+  "book_learn": [
+    [ "textbook_armschina", 2 ]
+  ],
+  "reversible": true,
+  "using": [
+    [ "sewing_standard", 68 ],
+    [ "fabric_standard_nostretch", 4 ],
+    [ "fabric_leather_fur_hide", 7 ]
+  ],
+  "components": [
+    [ [ "cordage_superior", 4, "LIST" ] ]
+  ],
+  "proficiencies": [
+    { "proficiency": "prof_leatherworking_basic" },
+    { "proficiency": "prof_leatherworking" },
+    { "proficiency": "prof_closures" }
+  ]
+},
   {
     "result": "xl_armor_lamellar",
     "type": "recipe",
