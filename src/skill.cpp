@@ -268,6 +268,10 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         }
     }
 
+    if( _rustAccumulator < 0 ) {
+        _rustAccumulator = 0;
+    }
+
     // After obtaining a new level, add rust grace points to simulate a grace period
     if( leveled_up ) {
         // Formula is basically the same as in SkillLevel::rust()
@@ -281,9 +285,6 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _rustGracePoints += 1 + lvl_mult * 16 / rust_div;
     }
 
-    if( _rustAccumulator < 0 ) {
-        _rustAccumulator = 0;
-    }
     if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
         _knowledgeExperience = _exercise;
     }
