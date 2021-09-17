@@ -1467,9 +1467,9 @@ void avatar::update_cardio_acc()
     const int last_24h_kcal = calorie_diary.begin()->spent;
     int adjustment = 0;
     if( prev_cardio_acc > last_24h_kcal ) {
-        adjustment = std::sqrt( last_24h_kcal - prev_cardio_acc );
+        adjustment = std::sqrt( prev_cardio_acc - last_24h_kcal );
     } else if( last_24h_kcal > prev_cardio_acc ) {
-        adjustment = -std::sqrt( prev_cardio_acc - last_24h_kcal );
+        adjustment = -std::sqrt( last_24h_kcal - prev_cardio_acc );
     }
     set_cardio_acc( prev_cardio_acc + adjustment );
 }

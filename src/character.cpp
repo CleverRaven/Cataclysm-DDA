@@ -444,7 +444,7 @@ Character::Character() :
     healthy_calories = 55'000'000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    set_cardio_acc( get_bmr() / 2 );
+    set_cardio_acc( base_bmr() / 2 );
 
     name.clear();
     custom_profession.clear();
@@ -3606,6 +3606,8 @@ std::string Character::debug_weary_info() const
     std::string max_act = activity_level_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
+    int bmr = base_bmr();
+    std::string weary_internals = activity_history.debug_weary_info();
     int cardio_mult = get_cardiofit();
     int thresh = weary_threshold();
     int current = weariness_level();
@@ -3613,8 +3615,8 @@ std::string Character::debug_weary_info() const
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO FITNESS: %d %s Thresh: %d At: %d\n Calories: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, cardio_mult, activity_history.debug_weary_info(), thresh, current,
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+                          amt, max_act, move_mult, bmr, cardio_mult, weary_internals, thresh, current,
                           get_stored_kcal(), get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
@@ -5823,7 +5825,7 @@ void Character::update_stamina( int turns )
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     static const std::string stamina_cardiofit_regen_modifier( "PLAYER_CARDIOFIT_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
-    const float effective_regen_rate = base_regen_rate + get_bmr() * get_option<float>
+    const float effective_regen_rate = base_regen_rate + base_bmr() * get_option<float>
                                        ( stamina_cardiofit_regen_modifier );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
