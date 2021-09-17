@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "animation.h"
+#include "cata_void.h"
 #include "creature.h"
 #include "enums.h"
 #include "lightmap.h"
@@ -46,21 +47,23 @@ struct tile_type {
 };
 
 // Make sure to change TILE_CATEGORY_IDS if this changes!
-enum TILE_CATEGORY {
-    C_NONE,
-    C_VEHICLE_PART,
-    C_TERRAIN,
-    C_ITEM,
-    C_FURNITURE,
-    C_TRAP,
-    C_FIELD,
-    C_LIGHTING,
-    C_MONSTER,
-    C_BULLET,
-    C_HIT_ENTITY,
-    C_WEATHER,
-    C_OVERMAP_TERRAIN,
-    C_OVERMAP_NOTE
+enum class TILE_CATEGORY {
+    NONE,
+    VEHICLE_PART,
+    TERRAIN,
+    ITEM,
+    FURNITURE,
+    TRAP,
+    FIELD,
+    LIGHTING,
+    MONSTER,
+    BULLET,
+    HIT_ENTITY,
+    WEATHER,
+    OVERMAP_TERRAIN,
+    MAP_EXTRA,
+    OVERMAP_NOTE,
+    last
 };
 
 class tile_lookup_res
@@ -555,13 +558,17 @@ class cata_tiles
             const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
-        void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
-                                  const std::string &prefix = "" );
-        template <typename arraytype>
-        void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
-                                  const std::string &prefix = "" );
+        void tile_loading_report_map( const maptype &tiletypemap, TILE_CATEGORY category,
+                                      const std::string &prefix = "" );
+        template <typename Sequence>
+        void tile_loading_report_seq_types( const Sequence &tiletypes, TILE_CATEGORY category,
+                                            const std::string &prefix = "" );
+        template <typename Sequence>
+        void tile_loading_report_seq_ids( const Sequence &tiletypes, TILE_CATEGORY category,
+                                          const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
+        void tile_loading_report_count( size_t count, TILE_CATEGORY category,
+                                        const std::string &prefix = "" );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
