@@ -341,6 +341,42 @@ void replay_buffered_debugmsg_prompts()
     buffered_prompts().clear();
 }
 
+struct repetition_folder {
+    const char *m_filename = nullptr;
+    const char *m_line = nullptr;
+    const char *m_funcname = nullptr;
+    std::string m_text;
+
+    int repeat_count = 0;
+
+    bool test( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+        return m_filename == filename &&
+               m_line == line &&
+               m_funcname == funcname &&
+               m_text == text;
+    }
+    void set( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+        m_filename = filename;
+        m_line = line;
+        m_funcname = funcname;
+        m_text = text;
+
+        repeat_count = 0;
+    }
+    void increment_count() {
+        ++repeat_count;
+    }
+    void reset() {
+        m_filename = nullptr;
+        m_line = nullptr;
+        m_funcname = nullptr;
+
+        repeat_count = 0;
+    }
+};
+
+static repetition_folder rep_folder;
+
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
 {
@@ -351,8 +387,14 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     if( capturing ) {
         captured += text;
     } else {
-        DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
-                                    std::flush;
+
+        if( !rep_folder.test( filename, line, funcname, text ) ) {
+            DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
+                                        std::flush;
+            rep_folder.set( filename, line, funcname, text );
+        } else {
+            rep_folder.increment_count();
+        }
     }
 
     if( test_mode ) {
@@ -486,6 +528,10 @@ DebugFile::~DebugFile()
 void DebugFile::deinit()
 {
     if( file && file.get() != &std::cerr ) {
+        if( rep_folder.repeat_count > 0 ) {
+            *file << "\n";
+            *file << "[ Previous repeated " << rep_folder.repeat_count << " times ]";
+        }
         *file << "\n";
         *file << get_time() << " : Log shutdown.\n";
         *file << "-----------------------------------------\n\n";
@@ -1224,6 +1270,13 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = debugFile().get_file();
+
+        if( rep_folder.repeat_count > 0 ) {
+            out << std::endl;
+            out << "[ Previous repeated " << rep_folder.repeat_count << " times ]";
+            rep_folder.reset();
+        }
+
         out << std::endl;
         out << get_time() << " ";
         out << lev;
