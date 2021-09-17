@@ -1712,6 +1712,26 @@ std::string rewrite_vsnprintf( const char *msg )
 // NOLINTNEXTLINE(cert-dcl50-cpp)
 std::string cata::string_formatter::raw_string_format( const char *format, ... )
 {
+#if defined(_WIN32)
+    // For unknown reason, vsnprintf on Windows does not seem to support positional arguments (e.g. "%1$s")
+    va_list args;
+    va_start( args, format );
+
+    va_list args_copy_1;
+    va_copy( args_copy_1, args );
+    // Return value of _vscprintf_p does not include the '\0' terminator
+    const int characters = _vscprintf_p( format, args_copy_1 ) + 1;
+    va_end( args_copy_1 );
+
+    std::vector<char> buffer( characters, '\0' );
+    va_list args_copy_2;
+    va_copy( args_copy_2, args );
+    _vsprintf_p( &buffer[0], characters, format, args_copy_2 );
+    va_end( args_copy_2 );
+
+    va_end( args );
+    return std::string( &buffer[0] );
+#else
     va_list args;
     va_start( args, format );
 
@@ -1749,6 +1769,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 
     va_end( args );
     return std::string( &buffer[0] );
+#endif
 }
 #endif
 
