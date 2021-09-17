@@ -444,7 +444,6 @@ Character::Character() :
     healthy_calories = 55'000'000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    set_cardio_acc( base_bmr() / 2 );
 
     name.clear();
     custom_profession.clear();
@@ -483,6 +482,7 @@ Character::Character() :
     }
     // Only call these if game is initialized
     if( !!g && json_flag::is_ready() ) {
+        set_cardio_acc( base_bmr() / 2 );
         recalc_sight_limits();
         calc_encumbrance();
     }
