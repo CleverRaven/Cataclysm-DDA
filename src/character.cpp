@@ -5744,7 +5744,7 @@ int Character::get_stamina() const
 {
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
-        return 10000;
+        return get_stamina_max();
     }
     return stamina;
 }
@@ -5757,7 +5757,7 @@ int Character::get_stamina_max() const
     }
     // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
     // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
-    // Player_max_stamina defaults to 3000.
+    // Default base maximum stamina and cardio scaling are defined in data/core/game_balance.json
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
     static const std::string player_cardiofit_stamina_scale( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
