@@ -309,7 +309,7 @@
   {
     "id": "metalworking_tongs",
     "type": "TOOL",
-    "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
+    "name": { "str": "pair of flatjaw tongs", "str_pl": "pairs of flatjaw tongs" },
     "description": "These are a pair of flatjaw tongs.  They are commonly used for metalworking, fabrication or forging recipes.",
     "weight": "750 g",
     "volume": "500 ml",
