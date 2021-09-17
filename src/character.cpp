@@ -5758,7 +5758,7 @@ int Character::get_stamina_max() const
     // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
     // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
     // Player_max_stamina defaults to 2000.
-    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
     static const std::string player_cardiofit_stamina_mod( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     // Cardiofit stamina mod defaults to 5, and get_cardiofit() should return a value in the vicinity
@@ -5821,7 +5821,7 @@ void Character::burn_move_stamina( int moves )
 
 void Character::update_stamina( int turns )
 {
-    static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
+    static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     static const std::string stamina_cardiofit_regen_modifier( "PLAYER_CARDIOFIT_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );

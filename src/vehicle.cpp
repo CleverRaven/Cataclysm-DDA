@@ -4599,7 +4599,7 @@ void vehicle::consume_fuel( int load, bool idling )
         int eff_load = load / 10;
         int mod = 4 * st; // strain
         const int base_staminaRegen = static_cast<int>
-                                      ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+                                      ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN" ) );
         const float staminaRegen_mod = get_option<float>( "PLAYER_CARDIOFIT_STAMINA_MOD" );
         const int actual_staminaRegen = base_staminaRegen + static_cast<int>
                                         ( player_character.get_cardiofit()  * staminaRegen_mod );
