@@ -474,7 +474,8 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-`variable_object`: This is an object describing a variable name. It can either describe an int or a time duration. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span.
+`variable_object`: This is an object describing a variable name. It can either describe an int or a time duration. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.
+
 example json:
 ```
 "effect": [ { "u_mod_focus": { "name":"test", "type":"debug", "context":"testing", "default": 1 } },
@@ -538,6 +539,7 @@ Effect | Description
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
+`u_spawn_item: item_string`, (*optional* `count: count_num`, *optional* `container: container_string`) | The game will spawn your character the item or `count_num` copies of the item, contained in container if specified.
 `u_buy_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `container: container_string`) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will subtract `cost_num` from `op_of_u.owed` if specified.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.<br/>If cost isn't present, the NPC gives your character the item at no charge.
 `u_sell_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
 `u_bulk_trade_accept`<br/>`npc_bulk_trade_accept` *or*  `u_bulk_trade_accept: quantity_int` <br/>`npc_bulk_trade_accept: quantity_int`  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity_int` is specified only that many items/charges will be moved.
@@ -794,8 +796,8 @@ Example | Description
 `"weather": "pressure"` | Current pressure.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified.
-`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used it turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. `global` is an optional bool(defaults to false), if it is true the player characters var will be used no matter who the dialog targets.
+`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
 `"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "cash"` | Ammount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.

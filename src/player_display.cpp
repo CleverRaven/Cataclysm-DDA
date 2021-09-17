@@ -925,7 +925,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_proficiencies_info( w_info, line, you );
             break;
         case player_display_tab::num_tabs:
-            abort();
+            cata_fatal( "Invalid curtab" );
     }
 }
 
@@ -1003,7 +1003,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 ui_proficiencies.invalidate_ui();
                 break;
             case player_display_tab::num_tabs:
-                abort();
+                cata_fatal( "Invalid tab" );
         }
     };
 
@@ -1035,7 +1035,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             line_end = you.display_proficiencies().size();
             break;
         case player_display_tab::num_tabs:
-            abort();
+            cata_fatal( "Invalid curtab" );
     }
     if( line_beg >= line_end || line < line_beg ) {
         line = line_beg;

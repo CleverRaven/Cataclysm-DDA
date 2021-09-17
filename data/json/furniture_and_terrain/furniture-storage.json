@@ -510,6 +510,11 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "hacksaw": {
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {

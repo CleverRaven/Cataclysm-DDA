@@ -12,6 +12,10 @@ num_jobs=3
 export PATH=$HOME/.local/bin:$PATH
 
 $COMPILER --version
+if [ -n "$CROSS_COMPILATION" ]
+then
+    "$CROSS_COMPILATION$COMPILER" --version
+fi
 
 if [ -n "$TEST_STAGE" ]
 then

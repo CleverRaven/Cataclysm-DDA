@@ -509,6 +509,9 @@ std::string monster::name( unsigned int quantity ) const
         return std::string();
     }
     std::string result = type->nname( quantity );
+    if( !nickname.empty() ) {
+        return nickname;
+    }
     if( !unique_name.empty() ) {
         //~ %1$s: monster name, %2$s: unique name
         result = string_format( pgettext( "unique monster name", "%1$s: %2$s" ),
@@ -612,44 +615,33 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
-        bool immobile = false )
+std::string monster::speed_description( float mon_speed_rating,
+                                        bool immobile,
+                                        speed_description_id speed_desc )
 {
-    if( immobile ) {
-        return std::make_pair( _( "It is immobile." ), c_green );
+    if( speed_desc.is_null() || !speed_desc.is_valid() ) {
+        return std::string();
     }
 
-    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
-            std::make_tuple( 1.40f, c_red, _( "It is much faster than you." ) ),
-            std::make_tuple( 1.15f, c_light_red, _( "It is faster than you." ) ),
-            std::make_tuple( 1.05f, c_yellow, _( "It is a bit faster than you." ) ),
-            std::make_tuple( 0.90f, c_white, _( "It is about as fast as you." ) ),
-            std::make_tuple( 0.80f, c_light_cyan, _( "It is a bit slower than you." ) ),
-            std::make_tuple( 0.60f, c_cyan, _( "It is slower than you." ) ),
-            std::make_tuple( 0.30f, c_light_green, _( "It is much slower than you." ) ),
-            std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
-        }
-    };
-
     const avatar &ply = get_avatar();
-    float player_runcost = ply.run_cost( 100 );
-    if( player_runcost == 0 ) {
-        player_runcost = 1.0f;
+    double player_runcost = ply.run_cost( 100 );
+    if( player_runcost <= 0.00 ) {
+        player_runcost = 0.01f;
     }
 
     // tpt = tiles per turn
-    const float player_tpt = ply.get_speed() / player_runcost;
-    const float ratio_tpt = player_tpt == 0 ?
-                            2.00f : mon_speed_rating / player_tpt;
+    const double player_tpt = ply.get_speed() / player_runcost;
+    double ratio_tpt = player_tpt == 0.00 ?
+                       100.00 : mon_speed_rating / player_tpt;
+    ratio_tpt *= immobile ? 0.00 : 1.00;
 
-    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio_tpt >= std::get<0>( speed_case ) ) {
-            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+    for( const speed_description_value &speed_value : speed_desc->values() ) {
+        if( ratio_tpt >= speed_value.value() ) {
+            return random_entry( speed_value.descriptions(), std::string() );
         }
     }
 
-    debugmsg( "speed_description: no ratio value matched" );
-    return std::make_pair( _( "Unknown" ), c_white );
+    return std::string();
 }
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
@@ -686,12 +678,11 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
                               senses_str );
 
-    const std::pair<std::string, nc_color> speed_desc =
-        speed_description(
-            speed_rating(),
-            has_flag( MF_IMMOBILE ) );
-    vStart += fold_and_print( w, point( column, vStart ), max_width, speed_desc.second,
-                              speed_desc.first );
+    const std::string speed_desc = speed_description(
+                                       speed_rating(),
+                                       has_flag( MF_IMMOBILE ),
+                                       type->speed_desc );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, speed_desc );
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
@@ -775,10 +766,11 @@ std::string monster::extended_description() const
     const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
 
-    const std::pair<std::string, nc_color> speed_desc = speed_description(
-                speed_rating(),
-                has_flag( MF_IMMOBILE ) );
-    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
+    const std::string speed_desc = speed_description(
+                                       speed_rating(),
+                                       has_flag( MF_IMMOBILE ),
+                                       type->speed_desc );
+    ss += speed_desc + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
@@ -1349,7 +1341,8 @@ void monster::process_triggers()
     // It's hard to ever see it in action
     // and even harder to balance it without making it exploitable
 
-    if( morale != type->morale && one_in( 10 ) ) {
+    if( morale != type->morale && one_in( 4 ) &&
+        ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
             morale++;
         } else {
@@ -1357,7 +1350,8 @@ void monster::process_triggers()
         }
     }
 
-    if( anger != type->agro && one_in( 10 ) ) {
+    if( anger != type->agro && one_in( 4 ) &&
+        ( ( std::abs( anger - type->agro ) > 15 ) || one_in( 2 ) ) ) {
         if( anger < type->agro ) {
             anger++;
         } else {
@@ -1524,10 +1518,11 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_instance &dam )
+std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                 damage_instance &dam )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( source );
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1590,7 +1585,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
     dealt_damage_instance dealt_dam;
 
     if( hitspread >= 0 ) {
-        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        weakpoint_attack attack;
+        attack.source = this;
+        attack.is_melee = true;
+        attack.wp_skill = weakpoint_skill();
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }
 
     const int total_dealt = dealt_dam.total_damage();
@@ -1733,7 +1732,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                      bool print_messages )
+                                      bool print_messages, const weakpoint_attack &wp_attack )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1754,7 +1753,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = accuracy_headshot;
     }
 
-    Creature::deal_projectile_attack( source, attack, print_messages );
+    Creature::deal_projectile_attack( source, attack, print_messages, wp_attack );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
@@ -2713,24 +2712,26 @@ void monster::process_effects()
         }
     }
 
-    //Monster will regen morale and aggression if it is on max HP
+    //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( player_character ) ) {
             morale = type->morale;
             anger = type->agro;
         }
-        if( morale <= type->morale ) {
+        if( morale < type->morale ) {
             morale += 1;
         }
-        if( anger <= type->agro ) {
+        if( anger < type->agro ) {
             anger += 1;
         }
-        if( morale < 0 ) {
+        if( morale < 0 && morale < type->morale ) {
             morale += 5;
+            morale = std::min( morale, type->morale );
         }
-        if( anger < 0 ) {
+        if( anger < 0 && anger < type->agro ) {
             anger += 5;
+            anger = std::min( anger, type->agro );
         }
     }
 
@@ -2956,8 +2957,10 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
+    // This should probably be replaced by something based on difficulty,
+    // at least for smarter critters using it for evaluation.
     float ret = get_size() - 2.0f; // Zed gets 1, cat -1, hulk 3
-    ret += has_flag( MF_ELECTRONIC ) ? 2.0f : 0.0f; // Robots tend to have guns
+    ret += is_ranged_attacker() ? 2.0f : 0.0f;
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;
@@ -3155,6 +3158,55 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
+
+    if( morale != type->morale ) { // if works, will put into helper function
+        int dt_left_m = to_turns<int>( dt );
+
+        if( std::abs( morale - type->morale ) > 15 ) {
+            const int adjust_by_m = std::min( ( dt_left_m / 4 ),
+                                              ( std::abs( morale - type->morale ) - 15 ) );
+            dt_left_m -= adjust_by_m * 4;
+            if( morale < type->morale ) {
+                morale += adjust_by_m;
+            } else {
+                morale -= adjust_by_m;
+            }
+        }
+
+        // Avoiding roll_remainder - PC out of situation, monster can calm down
+        if( morale < type->morale ) {
+            morale += std::min( static_cast<int>( std::ceil( dt_left_m / 8.0 ) ),
+                                std::abs( morale - type->morale ) );
+        } else {
+            morale -= std::min( ( dt_left_m / 8 ),
+                                std::abs( morale - type->morale ) );
+        }
+    }
+    if( anger != type->agro ) {
+        int dt_left_a = to_turns<int>( dt );
+
+        if( std::abs( anger - type->agro ) > 15 ) {
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ),
+                                              ( std::abs( anger - type->agro ) - 15 ) );
+            dt_left_a -= adjust_by_a * 4;
+            if( anger < type->agro ) {
+                anger += adjust_by_a;
+            } else {
+                anger -= adjust_by_a;
+            }
+        }
+
+        if( anger > type->agro ) {
+            anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
+                               std::abs( anger - type->agro ) );
+        } else {
+            anger += std::min( ( dt_left_a / 8 ),
+                               std::abs( anger - type->agro ) );
+        }
+    }
+
+
+    // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {

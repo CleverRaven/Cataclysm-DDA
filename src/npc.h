@@ -45,9 +45,9 @@
 #include "type_id.h"
 #include "units_fwd.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class mission;
 class monfaction;
 class monster;
@@ -185,7 +185,7 @@ class job_data
             return ret;
         }
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 };
 
 enum npc_mission : int {
@@ -246,7 +246,7 @@ struct npc_personality {
     }
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 struct npc_opinion {
@@ -281,7 +281,7 @@ struct npc_opinion {
     }
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 enum class combat_engagement : int {
@@ -512,7 +512,7 @@ struct npc_follower_rules {
     npc_follower_rules();
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 
     bool has_flag( ally_rule test, bool check_override = true ) const;
     void set_flag( ally_rule setit );
@@ -824,7 +824,7 @@ class npc : public Character
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         void serialize( JsonOut &json ) const override;
 
         // Display
@@ -913,7 +913,7 @@ class npc : public Character
         void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
-        mfaction_id get_monster_faction() const;
+        mfaction_id get_monster_faction() const override;
         // What happens when the player makes a request
         // How closely do we follow the player?
         int follow_distance() const;

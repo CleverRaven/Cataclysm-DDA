@@ -342,7 +342,7 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( const point &offset, const point &mapsize );
+        jmapgen_objects( const point &offset, const point &mapsize, const point &tot_size );
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
@@ -386,6 +386,7 @@ struct jmapgen_objects {
         std::vector<jmapgen_obj> objects;
         point m_offset;
         point mapgensize;
+        point total_size;
 };
 
 class mapgen_function_json_base
@@ -420,6 +421,7 @@ class mapgen_function_json_base
 
         point mapgensize;
         point m_offset;
+        point total_size;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
@@ -436,7 +438,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
-                              const point &grid_offset = point_zero );
+                              const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
@@ -460,7 +462,8 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void finalize_parameters();
         void check() const;
         bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-                         mission *miss, bool verify = false ) const;
+                         mission *miss, bool verify = false,
+                         bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 ) const;
         bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 
@@ -492,7 +495,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
  * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
-        const std::string &id_base, const point &offset );
+        const std::string &id_base, const point &offset, const point &total );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )
@@ -544,7 +547,6 @@ enum room_type {
 
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );

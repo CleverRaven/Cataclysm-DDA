@@ -93,8 +93,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
         case mutagen_technique::num_mutagen_techniques:
             break;
     }
-    debugmsg( "Invalid mutagen_technique" );
-    abort();
+    cata_fatal( "Invalid mutagen_technique" );
 }
 
 } // namespace io

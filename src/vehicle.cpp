@@ -5428,7 +5428,7 @@ void vehicle::place_spawn_items()
                 for( const std::pair<itype_id, std::string> &e : spawn.variant_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
                         item added = item( e.first ).in_its_container();
-                        added.set_gun_variant( e.second );
+                        added.set_itype_variant( e.second );
                         created.push_back( added );
                     }
                 }

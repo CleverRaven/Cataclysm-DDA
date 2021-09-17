@@ -1234,6 +1234,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_MONSTER_NAME",
+    "name": "Change monster name",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TRAVEL_TO",
     "name": "Travel to destination",
     "bindings": [ { "input_method": "keyboard_char", "key": "T" }, { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] } ]
@@ -3088,7 +3094,7 @@
   },
   {
     "type": "keybinding",
-    "id": "DROP_NON_FAVORITE",
+    "id": "TOGGLE_NON_FAVORITE",
     "category": "INVENTORY",
     "name": "Mark/unmark non-favorite items in multidrop menu",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]

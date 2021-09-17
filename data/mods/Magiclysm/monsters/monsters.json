@@ -30,7 +30,8 @@
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
+    "zombify_into": "mon_owlbear_zombie"
   },
   {
     "id": "mon_black_pudding",
@@ -175,7 +176,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "fear_triggers": [ "FRIEND_DIED" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_owlbear_cub",
@@ -310,7 +312,8 @@
     "harvest": "human_large_leather",
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
     "regenerates": 1,
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
+    "zombify_into": "mon_troll_zombie"
   },
   {
     "id": "mon_stirge",

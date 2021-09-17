@@ -166,7 +166,7 @@ static void do_blast( const tripoint &p, const float power,
     static const int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
     static const int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
     map &here = get_map();
-    const size_t max_index = here.has_zlevels() ? 10 : 8;
+    const size_t max_index = 10;
 
     here.bash( p, fire ? power : ( 2 * power ), true, false, false );
 
@@ -292,13 +292,6 @@ static void do_blast( const tripoint &p, const float power,
             if( force > 10.0f || x_in_y( force, 10.0f ) ) {
                 intensity++;
             }
-
-            if( !here.has_zlevels() && here.is_outside( pt ) && intensity == 2 ) {
-                // In 3D mode, it would have fire fields above, which would then fall
-                // and fuel the fire on this tile
-                intensity++;
-            }
-
             here.add_field( pt, fd_fire, intensity );
         }
 
@@ -774,12 +767,13 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
-            player_character.weapon.charges = 0;
-            player_character.weapon.active = false;
+        item &weapon = player_character.get_wielded_item();
+        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
+            weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
+            weapon.charges = 0;
+            weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     player_character.weapon.tname() );
+                     weapon.tname() );
         }
     }
     // Drain any items of their battery charge

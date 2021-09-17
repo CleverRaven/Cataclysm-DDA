@@ -16,6 +16,7 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -51,6 +52,7 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "visitable.h"
+#include "weakpoint.h"
 #include "weighted_list.h"
 
 class Character;
@@ -268,6 +270,19 @@ enum edible_rating {
     NO_TOOL
 };
 
+struct queued_eoc {
+    public:
+        effect_on_condition_id eoc;
+        bool recurring = false;
+        time_point time;
+};
+
+struct eoc_compare {
+    bool operator()( const queued_eoc &lhs, const queued_eoc &rhs ) const {
+        return lhs.time > rhs.time;
+    }
+};
+
 struct aim_type {
     std::string name;
     std::string action;
@@ -292,7 +307,7 @@ struct consumption_event {
         component_hash = food.make_component_hash();
     }
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct stat_mod {
@@ -369,11 +384,10 @@ class Character : public Creature, public visitable
             return false;    // Overloaded for NPCs in npc.h
         }
         // populate variables, inventory items, and misc from json object
-        virtual void deserialize( JsonIn &jsin ) = 0;
+        virtual void deserialize( const JsonObject &jsobj ) = 0;
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
-
 
         character_id getID() const;
         /// sets the ID, will *only* succeed when the current id is not valid
@@ -983,7 +997,8 @@ class Character : public Creature, public visitable
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                                           const damage_instance &d ) override;
+                                           const damage_instance &d,
+                                           const weakpoint_attack &attack = weakpoint_attack() ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 
@@ -996,7 +1011,12 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
+        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                damage_instance &dam ) override;
+        /** The character's skill in hitting a weakpoint */
+        float melee_weakpoint_skill( const item &weapon );
+        float ranged_weakpoint_skill( const item &weapon );
+        float throw_weakpoint_skill();
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -2193,7 +2213,7 @@ class Character : public Creature, public visitable
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name; // Save file name, pre-cataclysm name, invariable
+        std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
         cata::optional<std::string> play_name;
         bool male = false;
@@ -2215,7 +2235,12 @@ class Character : public Creature, public visitable
         cata::optional<tripoint> destination_point;
         pimpl<inventory> inv;
         itype_id last_item;
+    private:
         item weapon;
+    public:
+        const item &get_wielded_item() const;
+        item &get_wielded_item();
+        void set_wielded_item( const item &to_wield );
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
@@ -2247,7 +2272,6 @@ class Character : public Creature, public visitable
         int focus_pool = 0;
     public:
         int cash = 0;
-        std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
@@ -2255,6 +2279,9 @@ class Character : public Creature, public visitable
         std::set<tripoint_abs_omt> camps;
 
         std::vector <addiction> addictions;
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
+
         /** Adds an addiction to the player */
         void add_addiction( add_type type, int strength );
         /** Removes an addition from the player */
@@ -2305,7 +2332,7 @@ class Character : public Creature, public visitable
         * @param qty Number of charges (kJ)
         * @return amount of UPS consumed which will be between 0 and qty
         */
-        int consume_ups( int qty, int radius = -1 );
+        int consume_ups( int64_t qty, int radius = -1 );
 
         /**
         * Use charges in character inventory.
@@ -2954,8 +2981,13 @@ class Character : public Creature, public visitable
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
 
-        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
+        /**
+         * Handles the enjoyability value for a comestible.
+         *
+         * If `ignore_already_ate`, fun isn't affected by past consumption.
+         * Return First value is enjoyability, second is cap.
+         */
+        std::pair<int, int> fun_for( const item &comest, bool ignore_already_ate = false ) const;
 
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
@@ -3072,6 +3104,9 @@ class Character : public Creature, public visitable
         Character();
         Character( Character && ) noexcept( map_is_noexcept );
         Character &operator=( Character && ) noexcept( list_is_noexcept );
+        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
+        // Leaves "tmp" in an undefined state.
+        void swap_character( Character &other, Character &tmp );
     public:
         struct trait_data {
             /** Whether the mutation is activated. */
@@ -3085,7 +3120,7 @@ class Character : public Creature, public visitable
              */
             int charge = 0;
             void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &data );
         };
 
         /** Bonuses to stats, calculated each turn */

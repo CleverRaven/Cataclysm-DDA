@@ -32,7 +32,6 @@
 #include "value_ptr.h"
 
 class Item_factory;
-class JsonIn;
 class JsonObject;
 class item;
 struct tripoint;
@@ -91,8 +90,8 @@ class gunmod_location
             return _id < rhs._id;
         }
 
-        void deserialize( JsonIn &jsin ) {
-            _id = jsin.get_string();
+        void deserialize( std::string &&id ) {
+            _id = std::move( id );
         }
 };
 
@@ -167,6 +166,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /** pet food category */
+        std::set<std::string> petfood;
+
         /**effect on conditions to apply on consumption*/
         std::vector<effect_on_condition_id> consumption_eocs;
 
@@ -213,7 +215,7 @@ struct islot_brewable {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct armor_portion_data {
@@ -235,7 +237,7 @@ struct armor_portion_data {
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_armor {
@@ -284,7 +286,7 @@ struct islot_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_pet_armor {
@@ -320,7 +322,7 @@ struct islot_pet_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_book {
@@ -392,7 +394,7 @@ struct islot_book {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_mod {
@@ -453,7 +455,7 @@ struct islot_engine {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct islot_wheel {
@@ -467,24 +469,34 @@ struct islot_wheel {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
-struct gun_variant_data {
+enum class itype_variant_kind : int {
+    gun,
+    generic,
+    last
+};
+
+template<>
+struct enum_traits<itype_variant_kind> {
+    static constexpr itype_variant_kind last = itype_variant_kind::last;
+};
+
+struct itype_variant_data {
     std::string id;
-    translation brand_name;
+    translation alt_name;
     translation alt_description;
     ascii_art_id art;
 
     int weight = 0;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
-    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -668,7 +680,6 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
-    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -695,7 +706,7 @@ struct islot_battery {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -764,7 +775,7 @@ struct islot_ammo : common_ranged_data {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_bionic {
@@ -792,7 +803,7 @@ struct islot_seed {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
@@ -854,7 +865,7 @@ class islot_milling
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct itype {
@@ -888,6 +899,9 @@ struct itype {
         cata::value_ptr<relic> relic_data;
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
+
+        // Potential variant items that exist of this type (same stats, different name and desc)
+        std::vector<itype_variant_data> variants;
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
@@ -935,6 +949,10 @@ struct itype {
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
+
+        // Needs to go so far away because padding!
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 

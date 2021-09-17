@@ -6,11 +6,29 @@
 #include <string>
 #include <vector>
 
-#include "creature.h"
 #include "damage.h"
+#include "type_id.h"
 
+class Creature;
 class JsonArray;
 class JsonObject;
+
+// Information about an attack on a weak point.
+struct weakpoint_attack {
+    // The source of the attack.
+    const Creature *source;
+
+    // The weapon used to make the attack.
+    const item *weapon;
+
+    // Weather the attack is a melee attack.
+    bool is_melee;
+
+    // The Creature's skill in hitting weak points.
+    float wp_skill;
+
+    weakpoint_attack();
+};
 
 struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
@@ -28,7 +46,7 @@ struct weakpoint {
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Return the change of the creature hitting the weakpoint.
-    float hit_chance( Creature *source ) const;
+    float hit_chance( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
 };
 
@@ -39,7 +57,7 @@ struct weakpoints {
     weakpoint default_weakpoint;
 
     // Selects a weakpoint to hit.
-    const weakpoint *select_weakpoint( Creature *source ) const;
+    const weakpoint *select_weakpoint( const weakpoint_attack &attack ) const;
 
     void clear();
     void load( const JsonArray &ja );

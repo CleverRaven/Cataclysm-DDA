@@ -288,6 +288,8 @@ computer_session::computer_action_functions = {
     { COMPACT_MAPS, &computer_session::action_maps },
     { COMPACT_MISS_DISARM, &computer_session::action_miss_disarm },
     { COMPACT_OPEN, &computer_session::action_open },
+    { COMPACT_OPEN_GATE, &computer_session::action_open_gate },
+    { COMPACT_CLOSE_GATE, &computer_session::action_close_gate },
     { COMPACT_OPEN_DISARM, &computer_session::action_open_disarm },
     { COMPACT_PORTAL, &computer_session::action_portal },
     { COMPACT_RADIO_ARCHIVE, &computer_session::action_radio_archive },
@@ -376,6 +378,20 @@ void computer_session::action_open()
     get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, get_player_character().pos(),
                                 true );
     query_any( _( "Doors opened.  Press any key…" ) );
+}
+
+void computer_session::action_open_gate()
+{
+    get_map().translate_radius( t_wall_metal, t_metal_floor, 8.0, get_player_character().pos(),
+                                true );
+    query_any( _( "Gates opened.  Press any key…" ) );
+}
+
+void computer_session::action_close_gate()
+{
+    get_map().translate_radius( t_metal_floor, t_wall_metal, 8.0, get_player_character().pos(),
+                                true );
+    query_any( _( "Gates closed.  Press any key…" ) );
 }
 
 //LOCK AND UNLOCK are used to build more complex buildings

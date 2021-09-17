@@ -632,7 +632,8 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
         json_path = mts.get_full_path();
 
         if( !mts.is_compatible( tileset_id ) ) {
-            dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
+            dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible with \"" << tileset_id
+                           << "\".";
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
@@ -2885,8 +2886,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
             const maptile &tile = here.maptile_at( p );
             const item &itm = tile.get_uppermost_item();
-            if( itm.has_gun_variant() ) {
-                variant = itm.gun_variant().id;
+            if( itm.has_itype_variant() ) {
+                variant = itm.itype_variant().id;
             }
             const mtype *const mon = itm.get_mtype();
             it_id = itm.typeId();

@@ -1,0 +1,101 @@
+name: Cataclysm Windows build
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'msvc-object_creator/**'
+    - 'object_creator/**'
+    - 'tools/**'
+    - 'utilities/**'
+    - 'data/**'
+    - 'tests/**'
+  pull_request:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'msvc-object_creator/**'
+    - 'object_creator/**'
+    - 'tools/**'
+    - 'utilities/**'
+    - 'data/**'
+    - 'tests/**'
+
+env:
+  # There's not enough disk space to build both release and debug versions of
+  # our dependencies, so we hack the triplet file to build only release versions
+  # Have to use github.workspace because runner namespace isn't available yet.
+  VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+
+jobs:
+  build_catatclysm:
+    name: Build
+    runs-on: windows-2019
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore artifacts, or run vcpkg, build and cache artifacts
+      uses: lukka/run-vcpkg@main
+      id: runvcpkg
+      with:
+        additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
+        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}
+        setupOnly: true
+        vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+        # We have to use at least this version of vcpkg to include fixes for yasm-tool's
+        # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
+        # field in vcpkg.json. Caching happens as a post-action which runs at the end of
+        # the whole workflow, after vcpkg install happens during msbuild run.
+        vcpkgGitCommitId: '49b67d9cb856424ff69f10e7721aec5299624268'
+
+    - name: Integrate vcpkg
+      run: |
+        vcpkg integrate install
+
+    - name: Build
+      run: |
+          cd msvc-full-features
+          msbuild -m -p:Configuration=Release -p:Platform=x64 -target:Cataclysm-vcpkg-static Cataclysm-vcpkg-static.sln
+
+    - name: Dump logs if build failed
+      if: failure()
+      run: |
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
+        Foreach-Object {
+            Get-ChildItem $_.FullName -Filter *.log |
+            Foreach-Object {
+              echo =================================================
+              echo $_.FullName
+              echo =================================================
+              type $_.FullName
+            }
+        }
+
+    - name: Clean
+      run: |
+          Get-ChildItem -Path Cataclysm-lib-vcpkg-static-Release-x64.* | Foreach-Object { rm $_.FullName }

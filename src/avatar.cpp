@@ -145,6 +145,44 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
+void avatar::control_npc( npc &np )
+{
+    if( !np.is_player_ally() ) {
+        debugmsg( "control_npc() called on non-allied npc %s", np.name );
+        return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    npc tmp;
+    // move avatar character data into shadow npc
+    swap_character( *shadow_npc, tmp );
+    // swap target npc with shadow npc
+    swap_npc( *shadow_npc, np, tmp );
+    // move shadow npc character data into avatar
+    swap_character( *shadow_npc, tmp );
+    // the avatar character is no longer a follower NPC
+    g->remove_npc_follower( getID() );
+    // the previous avatar character is now a follower
+    g->add_npc_follower( np.getID() );
+    np.set_fac( faction_id( "your_followers" ) );
+    // perception and mutations may have changed, so reset light level caches
+    g->reset_light_level();
+    // center the map on the new avatar character
+    g->vertical_shift( posz() );
+    g->update_map( *this );
+}
+
 void avatar::toggle_map_memory()
 {
     show_map_memory = !show_map_memory;
@@ -654,29 +692,29 @@ void avatar::identify( const item &item )
                  reading->time );
     }
 
-    std::vector<std::string> recipe_list;
+    std::vector<std::string> crafting_recipes;
+    std::vector<std::string> practice_recipes;
     for( const auto &elem : reading->recipes ) {
-        // Practice recipes are hidden. They're not written down in the book, they're
-        // just things that the avatar can figure out with help from the book.
-        if( elem.recipe->is_practice() ) {
-            continue;
-        }
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
         }
-        recipe_list.push_back( elem.name() );
+        if( elem.recipe->is_practice() ) {
+            practice_recipes.emplace_back( elem.recipe->result_name() );
+        } else {
+            crafting_recipes.emplace_back( elem.name() );
+        }
     }
-    if( !recipe_list.empty() ) {
-        std::string recipe_line =
-            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                     "This book contains %1$zu crafting recipes: %2$s",
-                                     recipe_list.size() ),
-                           recipe_list.size(),
-                           enumerate_as_string( recipe_list ) );
-        add_msg( m_info, recipe_line );
+    if( !crafting_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you craft: %s" ),
+                                        enumerate_as_string( crafting_recipes ) ) );
     }
-    if( recipe_list.size() != reading->recipes.size() ) {
+    if( !practice_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you practice: %s" ),
+                                        enumerate_as_string( practice_recipes ) ) );
+    }
+    const std::size_t num_total_recipes = crafting_recipes.size() + practice_recipes.size();
+    if( num_total_recipes < reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
 }
@@ -755,6 +793,16 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     _( "You (%s)" ),
                                     get_name() ) - 1;
 }
+
+
+mfaction_id avatar::get_monster_faction() const
+{
+    // Can't be a static int_id, because mods add factions
+    static const string_id<monfaction> player_fac( "player" );
+
+    return player_fac.id();
+}
+
 
 void avatar::disp_morale()
 {
@@ -1281,6 +1329,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
+    item &weapon = get_wielded_item();
     if( weapon.has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
@@ -1319,13 +1368,14 @@ bool avatar::wield( item &target, const int obtain_cost )
         if( combine_stacks ) {
             weapon.combine( removed );
         } else {
-            weapon = removed;
+            set_wielded_item( removed );
+
         }
     } else {
         if( combine_stacks ) {
             weapon.combine( target );
         } else {
-            weapon = target;
+            set_wielded_item( target );
         }
     }
 
@@ -1462,7 +1512,7 @@ void avatar::daily_calories::save_activity( JsonOut &json ) const
     json.end_array();
 }
 
-void avatar::daily_calories::read_activity( JsonObject &data )
+void avatar::daily_calories::read_activity( const JsonObject &data )
 {
     if( data.has_array( "activity" ) ) {
         double act_level;

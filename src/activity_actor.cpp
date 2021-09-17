@@ -297,8 +297,8 @@ item *aim_activity_actor::get_weapon()
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = &get_player_character().weapon;
-        return weapon->is_null() ? nullptr : weapon;
+        item &weapon = get_player_character().get_wielded_item();
+        return weapon.is_null() ? nullptr : &weapon;
     }
 }
 
@@ -1007,6 +1007,155 @@ std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonVal
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
 
+    return actor.clone();
+}
+
+void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->hacksaw->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->hacksaw->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "hacksaw activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    act.moves_left = act.moves_total;
+}
+
+void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient( &who ) ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+        if( calendar::once_every( 1_minutes ) ) {
+            //~ Sound of a metal sawing tool at work!
+            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void hacksaw_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    std::string message;
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->hacksaw->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "hacksaw furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->hacksaw );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->hacksaw->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "hacksaw terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->hacksaw );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "hacksaw activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &jsin )
+{
+    hacksaw_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
     return actor.clone();
 }
 
@@ -3282,9 +3431,8 @@ void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
     jsobj.read( "loc", _loc );
     jsobj.read( "count", _count );
 }
@@ -3874,7 +4022,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                        reloadable_name );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
-                               _( "Dispose of %s and wield %s" ), who.weapon.display_name(),
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item().display_name(),
                                reloadable_name );
     } else {
         reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );
@@ -4570,6 +4718,11 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+
+    if( !playstr.empty() ) {
+        who.add_msg_if_player( m_good, playstr, pet_name );
+    }
+
     who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                            pet_name );
     act.set_to_null();
@@ -4578,19 +4731,17 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
 void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-
     jsout.member( "pet_name", pet_name );
-
+    jsout.member( "playstr", playstr );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
-
     JsonObject data = jsin.get_object();
-
     data.read( "pet_name", actor.pet_name );
+    data.read( "playstr", actor.playstr );
     return actor.clone();
 }
 
@@ -4676,6 +4827,7 @@ deserialize_functions = {
     { activity_id( "ACT_EBOOKSAVE" ), &ebooksave_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_HACKSAW" ), &hacksaw_activity_actor::deserialize },
     { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
     { activity_id( "ACT_HARVEST" ), &harvest_activity_actor::deserialize},
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
