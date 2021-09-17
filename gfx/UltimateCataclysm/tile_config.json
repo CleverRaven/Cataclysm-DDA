@@ -6724,6 +6724,7 @@
         { "id": "unknown_terrain", "fg": 2516 },
         { "id": "unknown_trap", "fg": 2517 },
         { "id": "unknown_vehicle_part", "fg": 2518 },
+        { "id": "unknown_map_extra", "fg": 2507 },
         { "id": "overlay_crouch", "fg": 2526 },
         { "id": "overlay_effect_badpoison", "fg": 2527 },
         { "id": "overlay_effect_bleed", "fg": 2528 },
