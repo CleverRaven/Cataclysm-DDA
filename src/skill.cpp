@@ -211,7 +211,6 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         debugmsg( "train() called with negative xp: %d", amount );
         return;
     }
-    const std::string &rtype = get_option<std::string>( "SKILL_RUST" );
     // catchup gets faster the higher the level gap gets.
     float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
     float catchup_amount = amount * catchup_modifier;
@@ -252,19 +251,15 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _exercise -= catchup_amount;
         return;
     }
-    if( rtype != "off" ) {
-        _rustAccumulator -= catchup_amount;
-    }
+    _rustAccumulator -= catchup_amount;
     _knowledgeExperience += knowledge_amount;
 
     const auto xp_to_level = [&]() {
         return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
     };
-    bool leveled_up = false;
     while( _exercise >= xp_to_level() ) {
         _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
         ++_level;
-        leveled_up = true;
         if( _level > _knowledgeLevel ) {
             _knowledgeLevel = _level;
             _knowledgeExperience = 0;
@@ -274,23 +269,6 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     if( _rustAccumulator < 0 ) {
         _rustAccumulator = 0;
     }
-    if( _rustGracePoints < 0 ) {
-        _rustGracePoints = 0;
-    }
-
-    // After obtaining a new level, add rust grace points to simulate a grace period
-    if( leveled_up && ( rtype == "vanilla" || rtype == "int" ) ) {
-        // Formula is basically the same as in SkillLevel::rust()
-        // This adds a little over one cycle's worth of rust grace points (currently 24h)
-        const int lvl_mult = ( _level + 1 ) * ( _level + 1 );
-        float lvl_exp = lvl_mult * 10000.0f;
-        float rust_div = 0.04f;
-        if( _rustAccumulator < lvl_exp * 3 ) {
-            rust_div = std::max( static_cast<float>( std::sqrt( _rustAccumulator / lvl_exp ) ), 0.04f );
-        }
-        _rustGracePoints += 1 + lvl_mult * 16 / rust_div;
-    }
-
     if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
         _knowledgeExperience = _exercise;
     }
@@ -299,6 +277,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
+    practice();
 }
 
 
@@ -342,6 +321,12 @@ bool SkillLevel::isRusty() const
            _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
 }
 
+bool SkillLevel::rust_grace_period() const
+{
+    time_duration grace = time_duration::from_hours( get_option<int>( "SKILL_RUST_GRACE_PERIOD" ) );
+    return ( calendar::turn - _lastPracticed ) < grace;
+}
+
 bool SkillLevel::rust( int rust_resist )
 {
     if( _level >= MAX_SKILL ) {
@@ -376,23 +361,10 @@ bool SkillLevel::rust( int rust_resist )
         return false;
     }
 
-    // Grace points are spent to delay skill rust
-    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
-    if( rust_type == "vanilla" || rust_type == "int" ) {
-        int tmp = rust_amount;
-        rust_amount -= _rustGracePoints;
-        _rustGracePoints -= tmp;
-        if( rust_amount < 0 ) {
-            rust_amount = 0;
-        }
-        if( _rustGracePoints < 0 ) {
-            _rustGracePoints = 0;
-        }
-    }
-
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
     if( _exercise < 0 ) {
+        const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * 100 * _level * _level ) - 1;
             --_level;

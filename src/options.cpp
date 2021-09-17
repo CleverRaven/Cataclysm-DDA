@@ -2286,6 +2286,10 @@ void options_manager::add_options_debug()
     },
     "vanilla" );
 
+    add( "SKILL_RUST_GRACE_PERIOD", "debug", to_translation( "Skill rust grace period" ),
+         to_translation( "Number of hours after practicing a skill before the skill begins to rust." ),
+         0, 24 * 7, 24 );
+
     add_empty_line();
 
     add( "FOV_3D", "debug", to_translation( "Experimental 3D field of vision" ),
@@ -2299,6 +2303,7 @@ void options_manager::add_options_debug()
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
+    get_option( "SKILL_RUST_GRACE_PERIOD" ).setPrerequisites( "SKILL_RUST", { "vanilla", "capped" } );
 }
 
 void options_manager::add_options_android()
