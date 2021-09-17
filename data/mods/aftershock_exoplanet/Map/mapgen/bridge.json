@@ -8,6 +8,7 @@
       ".": "t_pavement_hw_air",
       ":": "t_pavement_y_hw_air",
       "_": "t_sidewalk_hw_air",
+      "-": "t_region_groundcover",
       "=": "t_guardrail_hw_air",
       "|": "t_wall_metal",
       ">": "t_ladder_down",
