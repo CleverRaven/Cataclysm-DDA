@@ -5757,14 +5757,14 @@ int Character::get_stamina_max() const
     }
     // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
     // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
-    // Player_max_stamina defaults to 2000.
+    // Player_max_stamina defaults to 3000.
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
-    static const std::string player_cardiofit_stamina_mod( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
+    static const std::string player_cardiofit_stamina_scale( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    // Cardiofit stamina mod defaults to 5, and get_cardiofit() should return a value in the vicinity
-    // of 1000-4000, so this should add somewhere between 5000 to 20000 stamina.
+    // Cardiofit stamina mod defaults to 3, and get_cardiofit() should return a value in the vicinity
+    // of 1000-4000, so this should add somewhere between 3000 to 12000 stamina.
     int max_stamina = get_option<int>( player_max_stamina ) +
-                      get_option<int>( player_cardiofit_stamina_mod ) * get_cardiofit();
+                      get_option<int>( player_cardiofit_stamina_scale ) * get_cardiofit();
     max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
     return max_stamina;
 }
@@ -5825,7 +5825,7 @@ void Character::update_stamina( int turns )
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     static const std::string stamina_cardiofit_regen_modifier( "PLAYER_CARDIOFIT_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
-    const float effective_regen_rate = base_regen_rate + base_bmr() * get_option<float>
+    const float effective_regen_rate = base_regen_rate + get_cardiofit() * get_option<float>
                                        ( stamina_cardiofit_regen_modifier );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;

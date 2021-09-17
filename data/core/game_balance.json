@@ -18,14 +18,14 @@
     "name": "PLAYER_MAX_STAMINA_BASE",
     "info": "Sets the base max stamina value of the player, before cardio modifiers.",
     "stype": "int",
-    "value": 2000
+    "value": 3500
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "info": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
-    "value": 5
+    "value": 3
   },
   {
     "type": "EXTERNAL_OPTION",
