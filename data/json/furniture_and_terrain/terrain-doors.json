@@ -2386,6 +2386,12 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "open": "t_door_bar_o",
     "oxytorch": {
       "result": "t_mdoor_frame",
@@ -2447,6 +2453,12 @@
     "roof": "t_flat_roof",
     "lockpick_result": "t_door_bar_o",
     "lockpick_message": "The door swings open…",
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "PICKABLE" ],
     "examine_action": "locked_object_pickable",
     "oxytorch": {

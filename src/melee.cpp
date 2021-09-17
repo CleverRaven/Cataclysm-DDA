@@ -65,6 +65,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -703,7 +704,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             if( allow_special ) {
                 perform_special_attacks( t, dealt_special_dam );
             }
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            weakpoint_attack attack;
+            attack.source = this;
+            attack.weapon = cur_weapon;
+            attack.is_melee = true;
+            attack.wp_skill = melee_weakpoint_skill( *cur_weapon );
+            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
                 dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
@@ -2028,7 +2034,11 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
         if( hit_spread >= 0 ) {
-            t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
+            weakpoint_attack attack;
+            attack.source = this;
+            attack.is_melee = true;
+            attack.wp_skill = melee_weakpoint_skill( null_item_reference() );
+            t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam, attack );
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
@@ -2572,13 +2582,13 @@ void avatar::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item &it = *target.get_wielded_item();
-    const item *weapon = get_wielded_item();
+    item &it = target.get_wielded_item();
+    const item &weapon = get_wielded_item();
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, *weapon ) - attack_speed( *weapon ) );
+        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
         target.on_attacked( *this );
         return;
     }
@@ -2613,7 +2623,7 @@ void avatar::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( *get_wielded_item() ) );
+    mod_moves( -100 - attack_speed( get_wielded_item() ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.get_name(), it.tname() );

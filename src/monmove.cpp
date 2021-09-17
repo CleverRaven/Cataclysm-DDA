@@ -918,11 +918,6 @@ void monster::move()
         }
     }
 
-    if( !here.has_zlevels() ) {
-        // Otherwise weird things happen
-        destination.z = posz();
-    }
-
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
@@ -1961,13 +1956,11 @@ void monster::stumble()
             }
         }
     }
-
-    if( here.has_zlevels() ) {
-        tripoint below( posx(), posy(), posz() - 1 );
-        if( here.valid_move( pos(), below, false, true ) ) {
-            valid_stumbles.push_back( below );
-        }
+    const tripoint below( posx(), posy(), posz() - 1 );
+    if( here.valid_move( pos(), below, false, true ) ) {
+        valid_stumbles.push_back( below );
     }
+
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );

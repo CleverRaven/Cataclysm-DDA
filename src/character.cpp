@@ -116,6 +116,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weakpoint.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
@@ -527,9 +528,9 @@ const item &Character::get_wielded_item() const
     return weapon;
 }
 
-item *Character::get_wielded_item()
+item &Character::get_wielded_item()
 {
-    return &weapon;
+    return weapon;
 }
 
 void Character::set_wielded_item( const item &to_wield )
@@ -1283,14 +1284,14 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
-    item *weapon = get_wielded_item();
+    item &weapon = get_wielded_item();
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
         auto *mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
-            remove_item( *weapon );
+            remove_item( weapon );
         }
         mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
@@ -1395,13 +1396,13 @@ void Character::dismount()
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
         }
-        item *weapon = get_wielded_item();
+        item &weapon = get_wielded_item();
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
-            weapon->typeId() == critter->type->mech_weapon ) {
-            remove_item( *weapon );
+            weapon.typeId() == critter->type->mech_weapon ) {
+            remove_item( weapon );
         }
         avatar &player_character = get_avatar();
         if( is_avatar() && player_character.get_grab_type() != object_type::NONE ) {
@@ -1455,10 +1456,10 @@ void Character::on_dodge( Creature *source, float difficulty )
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
-    const item *weapon = get_wielded_item();
+    const item &weapon = get_wielded_item();
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
-    if( is_armed() && weapon->is_gun() ) {
-        recoil += std::max( weapon->volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+    if( is_armed() && weapon.is_gun() ) {
+        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
@@ -2717,14 +2718,14 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
-        const std::string variant = worn_item.has_gun_variant() ? worn_item.gun_variant().id : "";
+        const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
         rval.emplace_back( "worn_" + worn_item.typeId().str(), variant );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     if( is_armed() ) {
-        const std::string variant = weapon.has_gun_variant() ? weapon.gun_variant().id : "";
+        const std::string variant = weapon.has_itype_variant() ? weapon.itype_variant().id : "";
         rval.emplace_back( "wielded_" + weapon.typeId().str(), variant );
     }
 
@@ -6774,14 +6775,14 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d )
+        const damage_instance &d, const weakpoint_attack &attack )
 {
     if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         return dealt_damage_instance();
     }
 
     //damage applied here
-    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d );
+    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d, attack );
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
@@ -7797,22 +7798,22 @@ int Character::available_ups() const
     return available_charges;
 }
 
-int Character::consume_ups( int qty, const int radius )
+int Character::consume_ups( int64_t qty, const int radius )
 {
-    const int wanted_qty = qty;
+    const int64_t wanted_qty = qty;
 
     // UPS from mounted mech
     if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+        int64_t power_drain = std::min( static_cast<int64_t>( mons->battery_item->ammo_remaining() ), qty );
         mons->use_mech_power( -power_drain );
         qty -= std::min( qty, power_drain );
     }
 
     // UPS from bionic
     if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
-        int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+        int64_t bio = std::min( units::to_kilojoule( get_power_level() ), qty );
         mod_power_level( units::from_kilojoule( -bio ) );
         qty -= std::min( qty, bio );
     }

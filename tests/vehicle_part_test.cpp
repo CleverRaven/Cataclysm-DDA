@@ -180,7 +180,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
             character.activity.do_turn( character );
         }
 
-        REQUIRE( character.get_wielded_item()->type->get_id() == recipe.result() );
+        REQUIRE( character.get_wielded_item().type->get_id() == recipe.result() );
     } else {
         REQUIRE_FALSE( can_craft );
     }

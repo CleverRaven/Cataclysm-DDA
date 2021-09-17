@@ -389,7 +389,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         }
     }
 
-    new_item.set_gun_variant( variant );
+    new_item.set_itype_variant( variant );
 
     // create container here from modifier or from default to get max charges later
     item cont;

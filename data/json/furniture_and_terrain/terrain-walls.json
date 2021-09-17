@@ -581,6 +581,12 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_pit",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "spike", "count": 19 }, { "item": "scrap", "count": 8 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
     "oxytorch": {
@@ -986,7 +992,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "coverage": 90,
+    "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
@@ -1011,6 +1017,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
@@ -1181,6 +1188,12 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_floor",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 3 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {

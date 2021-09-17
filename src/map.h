@@ -311,10 +311,11 @@ class map
         // for testing
         friend void clear_fields( int zlevel );
 
+    protected:
+        map( int mapsize, bool zlev );
     public:
         // Constructors & Initialization
-        explicit map( int mapsize = MAPSIZE, bool zlev = true );
-        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        map() : map( MAPSIZE, true ) { }
         virtual ~map();
 
         map &operator=( const map & ) = delete;
@@ -1667,9 +1668,6 @@ class map
         int getmapsize() const {
             return my_MAPSIZE;
         }
-        bool has_zlevels() const {
-            return zlevels;
-        }
 
         // Not protected/private for mapgen.cpp and mapgen_functions.cpp access
         // Rotates the current map 90*turns degrees clockwise
@@ -2099,7 +2097,7 @@ class tinymap : public map
 {
         friend class editmap;
     public:
-        explicit tinymap( int mapsize = 2, bool zlevels = false );
+        tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
 
         /** Sometimes you need to generate and rotate a tinymap without touching npcs */
