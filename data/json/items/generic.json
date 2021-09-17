@@ -3702,5 +3702,53 @@
     "cutting": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "training_dummy_light",
+    "symbol": "@",
+    "color": "brown",
+    "name": { "str": "training dummy" },
+    "category": "other",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from straw and other soft components.  Activate it to put it in place and start training.",
+    "price": 15000,
+    "price_postapoc": 600,
+    "material": [ "paper", "wood" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "bashing": 12,
+    "to_hit": -2,
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_training_dummy_light",
+      "friendly_msg": "Your training dummy wants to hug you, if you see this, an error has occurred.",
+      "hostile_msg": "You positionate the training dummy.",
+      "difficulty": 100,
+      "moves": 20
+    }
+  },
+  {
+    "type": "TOOL",
+    "id": "training_dummy_heavy",
+    "symbol": "@",
+    "color": "light_gray",
+    "name": { "str": "armored training dummy" },
+    "category": "other",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.  Activate it to put it in place and start training.",
+    "price": 15000,
+    "price_postapoc": 1000,
+    "material": [ "paper", "wood" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "bashing": 16,
+    "to_hit": -2,
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_training_dummy_heavy",
+      "friendly_msg": "Your armored training dummy wants to hug you, if you see this, an error has occurred.",
+      "hostile_msg": "You positionate the armored training dummy.",
+      "difficulty": 100,
+      "moves": 20
+    }
   }
 ]
