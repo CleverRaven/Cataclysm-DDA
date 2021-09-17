@@ -239,9 +239,16 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
 
-    optional( jo, was_loaded, "legacy_id", legacy_id, "BP_NULL" );
-    if( legacy_id != "BP_NULL" ) {
-        token = legacy_id_to_enum( legacy_id );
+    // tokens are actually legacy code that should be on their way out.
+    if( !was_loaded ) {
+        optional( jo, was_loaded, "legacy_id", legacy_id, "BP_NULL" );
+        if( legacy_id != "BP_NULL" ) {
+            token = legacy_id_to_enum( legacy_id );
+        }
+    } else {
+        // we need to clear this because any bodypart using copy-from will not be a legacy part.
+        legacy_id = "BP_NULL";
+        token = body_part::num_bp;
     }
 
     optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
@@ -281,7 +288,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "vision_score", vision_score );
 
-    part_side = jo.get_enum_value<side>( "side" );
+    mandatory( jo, was_loaded, "side", part_side );
 }
 
 void body_part_type::reset()
