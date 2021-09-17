@@ -170,7 +170,6 @@ class SkillLevel
                     bool allow_multilevel = false );
         void knowledge_train( int amount, int npc_knowledge = 0 );
         bool isRusty() const;
-        bool rust_grace_period() const;
         bool rust( int rust_resist );
         void practice();
         bool can_train() const;

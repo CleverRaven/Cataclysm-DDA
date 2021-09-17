@@ -321,14 +321,14 @@ bool SkillLevel::isRusty() const
            _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
 }
 
-bool SkillLevel::rust_grace_period() const
-{
-    time_duration grace = time_duration::from_hours( get_option<int>( "SKILL_RUST_GRACE_PERIOD" ) );
-    return ( calendar::turn - _lastPracticed ) < grace;
-}
-
 bool SkillLevel::rust( int rust_resist )
 {
+    time_duration grace = time_duration::from_hours( get_option<int>( "SKILL_RUST_GRACE_PERIOD" ) );
+    if( ( calendar::turn - _lastPracticed ) < grace ) {
+        // don't rust within the grace period
+        return false;
+    }
+
     if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
