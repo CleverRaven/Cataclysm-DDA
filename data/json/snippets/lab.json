@@ -26,6 +26,319 @@
       }
     ]
   },
+  { 
+    "type": "snippet",
+    "category": "lab_postit_bio",
+    "text": [
+      {
+        "id": "lab_postit_bio_1",
+        "text": "Subject amortitzation too high.  Lower dosage?"
+      },
+      {
+        "id": "lab_postit_bio_2",
+        "text": "Enrichment makes for better data.  Coloring book?"
+      },
+      {
+        "id": "lab_postit_bio_3",
+        "text": "Reduce caloric intake.  Stress potentiates the process."
+      },
+      {
+        "id": "lab_postit_bio_4",
+        "text": "WHEN IN DOUBT, INCINERATE"
+      },
+      {
+        "id": "lab_postit_bio_5",
+        "text": "Requisition more subjects when half is used up"
+      },
+      {
+        "id": "lab_postit_bio_6",
+        "text": "Droppings caustic, handle with care"
+      },
+      {
+        "id": "lab_postit_bio_7",
+        "text": "DON'T remove from cage between 10-12 PM (it knows)"
+      },
+      {
+        "id": "lab_postit_bio_8",
+        "text": "Can walk on ceiling"
+      },
+      {
+        "id": "lab_postit_bio_9",
+        "text": "More eggs, keeps eating them"
+      },
+      {
+        "id": "lab_postit_bio_10",
+        "text": "DON'T LICK"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_blob",
+    "text": [
+      {
+        "id": "lab_postit_blob_1",
+        "text": "Dismember within 15 minutes"
+      },
+      {
+        "id": "lab_postit_blob_2",
+        "text": "No weight difference - superpositional?"
+      },
+      {
+        "id": "lab_postit_blob_3",
+        "text": "TODO: terminate subject within a week"
+      },
+      {
+        "id": "lab_postit_blob_4",
+        "text": "Need more bodies - MassGen?"
+      },
+      {
+        "id": "lab_postit_blob_5",
+        "text": "Reinforce doors"
+      },
+      {
+        "id": "lab_postit_blob_6",
+        "text": "Where does the energy come from?"
+      },
+      {
+        "id": "lab_postit_blob_7",
+        "text": "Anaerobic conditions without change in activity <-> temperature?!"
+      },
+      {
+        "id": "lab_postit_blob_8",
+        "text": "Ashes still contaminated"
+      },
+      {
+        "id": "lab_postit_blob_9",
+        "text": "Removed parts fuse preferentially to original host"
+      },
+      {
+        "id": "lab_postit_blob_10",
+        "text": "Never dead"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_migo",
+    "text": [
+      {
+        "id": "lab_postit_migo_1",
+        "text": "Don't listen"
+      },
+      {
+        "id": "lab_postit_migo_2",
+        "text": "Damage -> Resin \n\n Armor?  Blood?  Bribe? "
+      },
+      {
+        "id": "lab_postit_migo_3",
+        "text": "Stay quiet.  They can hear you."
+      },
+      {
+        "id": "lab_postit_migo_4",
+        "text": "Resin return: 0.45 on vegetable matter, 0.51 on meat, 0.66 on nonsedated live meal (vertebrate preference)"
+      },
+      {
+        "id": "lab_postit_migo_5",
+        "text": "How can they see me up here?"
+      },
+      {
+        "id": "lab_postit_migo_6",
+        "text": "Only post-mortems on the big ones from now on -- equipment's expensive"
+      },
+      {
+        "id": "lab_postit_migo_7",
+        "text": "Dim lights before feeding for lightshow"
+      },
+      {
+        "id": "lab_postit_migo_8",
+        "text": "Prefers prey capable of vocalization -- implanted speakers work but no repeats"
+      },
+      {
+        "id": "lab_postit_migo_9",
+        "text": "Blast with white noise as a deterrent?"
+      },
+      {
+        "id": "lab_postit_migo_10",
+        "text": "Like it warm, not bothered by cold"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_portal",
+    "text": [
+      {
+        "id": "lab_postit_portal_1",
+        "text": "Increase frequencies in odd steps - local discontiuity!"
+      },
+      {
+        "id": "lab_postit_portal_2",
+        "text": "Limit time spent in-phase to ~~30~~ 29,1 minutes"
+      },
+      {
+        "id": "lab_postit_portal_3",
+        "text": "Sub-plane 11-7A likes prime-numbered calibration pings"
+      },
+      {
+        "id": "lab_postit_portal_4",
+        "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND"
+      },
+      {
+        "id": "lab_postit_portal_5",
+        "text": "Remember Jake?  Me neither."
+      },
+      {
+        "id": "lab_postit_portal_6",
+        "text": "Keep line of sight minimal"
+      },
+      {
+        "id": "lab_postit_portal_7",
+        "text": "Calibrate on SP-12 for manned transfers"
+      },
+      {
+        "id": "lab_postit_portal_8",
+        "text": "No touching returning probes, even if beg you to"
+      },
+      {
+        "id": "lab_postit_portal_9",
+        "text": "Remember to forget.  Forget to remember."
+      },
+      {
+        "id": "lab_postit_portal_10",
+        "text": "Scream at Maintenance for a replacement again"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_tech",
+    "text": [
+      {
+        "id": "lab_postit_tech_1",
+        "text": "Don't release switch before discharge"
+      },
+      {
+        "id": "lab_postit_tech_2",
+        "text": "Shielding corrodes too fast \n\n Mount on drone?"
+      },
+      {
+        "id": "lab_postit_tech_3",
+        "text": "Meltdown after 3 shots"
+      },
+      {
+        "id": "lab_postit_tech_4",
+        "text": "Need more power"
+      },
+      {
+        "id": "lab_postit_tech_5",
+        "text": "He lasers stabilise the compound long enough"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Long-form mutagen dissection/ testing logs",
+    "//2": "Glossary: PE012 mutagen, PE018 purifier, PE027 Fish, PE031 Insect, PE050 Alpha, PE065 Chimera, PE0XX mutagens, PE1XX serums, XEDRA-X facilities",
+    "category": "lab_file_bio",
+    "text": [
+      { "id": "lab_file_mutagen",
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE01 transports."
+      },
+      { "id": "lab_file_mutagen_rev1",
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally, followed by a one-hour quarantaine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Central for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
+      },
+      { "id": "lab_file_mutagen_rev2",
+        "text": "Recent developments in mutagen production have rendered the previous priming protocol unnecessary.  As of today testing can begin with the test compound directly, in the previous post-priming dosage.  Should this dose produce no discernible effect, the subject's origin and any data pertaining their location in the last year is to be submitted for archival.  Tests can resume after a 24 hour incubation period, provided sufficient compound is still on hand."
+      },
+      { "id": "lab_file_bio_mutant1",
+        "text": "Subject: <bold>Canis familiaris</bold>, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 ml oral dose, 3 hour observation before dissection\n\nLive observation: First dosage unproblematic, after ~10 minutes sudden distress with subject scratching their flank furiously\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratine.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cycsts, intestines and pancreas with greenish discoloration.  Salivary glands swollen, localized necrotic lesions on the mucosa around the salivary ducts - samples taken for toxicology"
+      },
+      { "id": "lab_file_bio_mutant2",
+        "text": "Subject: <bold>Rattus norvegicus domestica</bold>, 450 g\n\nPE012 priming: Yes\n\nCompound: PE027\n\nObjective: Establish PE027's phenotypic range for subject species, evaluate cost/benefit of subjects trained for voluntary self-dosage\n\nProtocol: Enclosure with a water pool, voluntary dosage from food dispenser\n\nLive observation: Trained subject, first dosage after 5 minutes.  After an initial calm period subject rubs off their fur on the enclosure's wall, revealing metallic scales.  Three dosages in short succession, after which subject falls over.  Subject is placed in the water by robotic arm, where they begin swimming\n\nDissection findings: phenotypic changes consistent with PE027's usual profile - in this case the gills replaced the upper lobes of the subject's lungs, opening to the outside over the scapula.  Digestive track shortened considerably, liver atrophic, teeth replaced by needles reminiscent of an anglerfish.  Blue fluorescent organ between the hemispheres."
+      },
+      { "id": "lab_file_bio_mutant3",
+        "text": "Subject: Ergonomic-stage nest of <bold>Dolichovespula maculata</bold>, queenright\n\nPE012 priming: No, long-term study\n\nCompound: PE031\n\nObjective: Observe the effects of a phenotypically-similar mutagen on eusocial insects\n\nProtocol: Nest outfitted with multiple fiberoptic cameras for safe observation, transplanted to a large enclosure, and provided with PE031-laced nutrient paste\n\nLive observation: Considerable worker loss in the first week, remaining workforce refrains from recyling the corpses.  Dissection of recovered worker remains show no phenotypical changes.  Queen grows in size and sprouts an ancillary pair of wings on its abdomen, shows increased aggression towards workers and larvae hatched prior to PE031 exposure.\n Rapid increase in both nutrient paste and nesting material consumption coninciding with the emergence of the first post-exposure workers.  Nest is expanded in all directions, partly leaving cells exposed during the restructuring.\n First sighting of potentially emergent queens on day 51 as three examples make a concerted effort to remove the last uncovered fiberoptic camera from the nest.  After consulting Central test proceeds without direct in-nest observation up to day 100, worker phenotypes and behavior show a wide range of variation during this time (including body length, wing morphology and number, stinger size, leg number and placement, mandible configuration etc.).\n On day 100 attempted termination of the nest using HCN, this causes obvious disruption but shows no lethality even at 5,0% v/v.  To prevent an explosion hazard, the emergency alternative of flushing the enclosure with CO is chosen, leading to cessation of external activity after 20 minutes.  Uneventful retrieval of nest and specimens for dissection after an additional safety margin of 2 hours.\n\nDissection findings: The nest's superstructure resembles those of the wild-type nests, aside from notably larger cells (up to 33 cm depth) and the addition of four connected sub-nests budding off the main body.  Caste identification proves to be a challenge given the highly variable morphology, after thorough dissection 6 queens (including the foundress), 814 workers, and 27 drones are found - despite the experiment's duration the nest hasn't made the switch to drone/queen production.  The founding queen mutated considerably since the last observation, sporting a bifurcated abdomen with two ancillary pairs of wings and three asymmetrically-placed stingers each.  Body "
+      },
+      { "id": "lab_file_bio_mutant4",
+        "text": "__BBBBBBB__"
+      },
+      { "id": "lab_file_bio_mutant5",
+        "text": "*BBBBBBB*"
+      },
+      { "id": "lab_file_bio",
+        "text": "**BBB**<b>BBBB</b>"
+      },
+      { "id": "lab_file_bio2",
+        "text": "_BBB_<em>BBBB</em>"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_blob",
+    "//": "Logs concerning the blob contamination / zombies",
+    "text": [
+      { "id": "lab_file_blob_1",
+        "text": "AAAAAAA"
+      },
+      { "id": "lab_file_blob_2",
+        "text": "BBBBBBB"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_portal",
+    "//": "Logs on portal - roll into immersion logs?",
+    "text": [
+      { "id": "lab_file_portal_1",
+        "text": "AAAAAAA"
+      },
+      { "id": "lab_file_portal_2",
+        "text": "BBBBBBB"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_artifact",
+    "//": "Logs about weird bits and bobs, don't gett too SCPy - roll into altered item logs?",
+    "text": [
+      { "id": "lab_file_artifact_1",
+        "text": "AAAAAAA"
+      },
+      { "id": "lab_file_artifact_2",
+        "text": "BBBBBBB"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_psych",
+    "//": "Logs concerning staff / global craziness, therapy sessions, dreams",
+    "text": [
+      { "id": "lab_file_psych_1",
+        "text": "AAAAAAA"
+      },
+      { "id": "lab_file_psych_2",
+        "text": "BBBBBBB"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_surveillance",
+    "//": "Surveillance logs about everything Sec/MLCHR might consider dissent",
+    "text": [
+      { "id": "lab_file_surveillance_1",
+        "text": "AAAAAAA"
+      },
+      { "id": "lab_file_surveillance_2",
+        "text": "BBBBBBB"
+      }
+    ]
+  },
   {
     "type": "snippet",
     "category": "lab_notes",
@@ -113,12 +426,6 @@
       "Dr. Barnhoff already has an idea for how we could recreate some of the self-organizing properties of CC-09-R1.  Trouble is, it's pure silliness: it uses a molecular lattice of californium and a particle accelerator to basically 3D print certain types of molecules.  We had a good laugh, but she just stared at us.",
       "Admin approved Barnhoff's request.  According to my math, the californium she requested alone is worth hundreds of millions of dollars.  We're going to start work on a prototype fabricator tomorrow.",
       "The first nanofab prototype is promising.  There's a major clogging problem that keeps us from making more than a few micrograms of material, but that was enough to conceptualize the plastic Dr. Barnhoff wants.  Amazingly, Admin has approved ANOTHER sample of californium to replace the clogged lattice while we figure out how to fix the first.  I'm not sure there is supposed to be this much californium on Earth.  I might see how far my security clearance gets me in learning what's going on here.",
-      "The bioplastics are working better than we could have anticipated.  We're able to get them to interface with nerves, of course, but we've got models for versions that can serve as tissue lattices to grow blood vessels and muscle as well.  Hypothetically we could probably use this stuff to make all kinds of replacement tissue, although that tech is decades away.  In the meantime, making a digital-neural interface just got far easier than ever.",
-      "The mice with bioplastic modules are still susceptible to skin breakdown over the surgical sites, as with indwelling prosthetics.  We haven't seen any increased sign of infection though.  The immune system recognizes the bioplastic as 'self' with the right calibration, and once it grows into the body, the bioplastic doesn't serve as a nidus for bacteria.",
-      "We haven't completely solved the skin breakdown issue, which is going to mean prosthesis with bioplastics still has some disadvantages, but we've definitely improved it.  On dermal-facing sides of bioplastic modules, we can use a slightly different bioplastic formula to encourage the dermis to grow right into the bioplastic and interface with it.  If we can work out a way to further encourage subcutaneous fat and fibrous tissue, we might be able to get callous formation and healing of stress points, rather than ulceration and infection.  In other words, we'd get the external prosthesis-facing surface to behave like feet in a shoe rather than knees on the floor.  Even if this doesn't pan out, the ability of the skin to grow into the plastic means we can make smooth curved surfaces inside the amputation site, and matching smooth cups on the outside, for a clean distributed interface that should be miles ahead of existing technology.",
-      "Apparently there's been a massive data leak, and we're stuck with only a couple options.  Admin is holding a meeting with the brass right now to decide whether we're going to continue developing in private, or allow a shell company to start selling some of our work publicly for extra funding.  If we don't move now, people will start manufacturing this stuff abroad.",
-      "Dr. Barnhoff had her say, and it sounds like we're going to pull back the veil and release some CBMs for civilian use.  I can't say I'm upset about it.  As long as the actual manufacture of bioplastic stays proprietary for a while, I think most of us really want to see this stuff get somewhere where people can benefit from it.",
-      "Tests on the AA-type modules went well today.  We should be able to switch to internally stored power supplies by the time we go to production.  The biggest trick is getting the charging cable to work without breaking the skin, but I think magnetic induction will solve that.",
       "Probe XC-3 returned with the soil samples Dr. Takatoshi requested.  As she predicted, the samples were absolutely loaded with rare isotopes: just in that 100 gram sample, there was five times as much plutonium-244 as in the entirety of the Earth's crust, for example.  We've sent it on to phys chem for further characterization, but it's clear enough.  A few kilos of dirt from 021XC could provide enough unobtainium to make XEDRA very, very rich.",
       "We've noticed an interesting phenomenon after all these probe visits to 021XC.  The travel cost is dropping, ever so slightly.  It's still a few megawatts to send a probe over, but after a few thousand trips, the cost is down 0.02 percent per portal.",
       "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes.",
@@ -132,7 +439,7 @@
       "Our lifeform extraction program continues to produce samples laced with XE037.  It is in mineral, water, and biological samples from dimension designate 000XE.  It is extremely difficult to analyze: we are mostly aware of its presence through mass shadows.  Dr. Takatoshi suggests it might be a dimensional variant of dark matter.",
       "Hendelson exposed a lab mouse to XE037 under control conditions.  I'm not sure how he got permission for the project.  The results were interesting: rapid uptake into the mouse's cellular tissue followed by what we presume to be a die-off, fitting previous observations that XE037 doesn't seem to be able to survive outside its native planar material.  XEDRA command is authorizing a biological research wing to take over XE037 property analysis.",
       "I swear they are talking to me.  No one believes me.  No one understands.  They whisper to me, at night, in the dark.  Please, please, make them stop.",
-      "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plan.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40 via Melchior.  Perhaps Dr. Sidhu can make some use of this information.",
+      "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plane.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40 via Melchior.  Perhaps Dr. Sidhu can make some use of this information.",
       "Today we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope.",
       "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon.",
       "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool.",

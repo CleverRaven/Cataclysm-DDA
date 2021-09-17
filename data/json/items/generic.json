@@ -157,6 +157,49 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_postit_bio",
+    "copy-from": "survnote",
+    "name": { "str": "post-it note" },
+    "description": "A bright yellow post-it note.",
+    "snippet_category": "lab_postit_bio"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_blob",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_blob"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_migo",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_migo"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_portal",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_portal"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_tech",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_tech"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_bio",
+    "name": { "str": "Lab file" },
+    "copy-from": "file",
+    "snippet_category": "lab_file_bio"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
