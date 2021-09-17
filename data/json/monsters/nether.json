@@ -128,6 +128,7 @@
     "symbol": "o",
     "color": "pink",
     "melee_cut": 0,
+    "melee_training_cap": 2,
     "harvest": "exempt",
     "special_attacks": [ [ "BREATHE", 8 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
