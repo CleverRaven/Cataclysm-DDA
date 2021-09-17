@@ -371,6 +371,9 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
+        // Grinding cap for training player's melee skills when hitting this monster, defaults to MAX_SKILL.
+        int melee_training_cap;
+
         // Monster upgrade variables
         int half_life;
         int age_grow;
