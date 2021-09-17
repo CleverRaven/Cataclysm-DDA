@@ -103,7 +103,7 @@ void TranslationManagerImpl::LoadDocuments( const std::vector<std::string> &file
                 documents.emplace_back( file );
             }
         } catch( const InvalidTranslationDocumentException &e ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Invalid MO document: " << file;
+            DebugLog( D_ERROR, DC_ALL ) << e.what();
         }
     }
     for( std::size_t document = 0; document < documents.size(); document++ ) {

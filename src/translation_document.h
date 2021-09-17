@@ -13,11 +13,9 @@
 class InvalidTranslationDocumentException : public std::exception
 {
     private:
-        std::string path;
         std::string error_message;
     public:
-        explicit InvalidTranslationDocumentException( const std::string &path );
-        const char *GetPath() const noexcept;
+        explicit InvalidTranslationDocumentException( const std::string &path, const std::string &message );
         const char *what() const noexcept override;
 };
 
