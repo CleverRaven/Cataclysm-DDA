@@ -5821,12 +5821,12 @@ void Character::burn_move_stamina( int moves )
 
 void Character::update_stamina( int turns )
 {
-    static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN" );
+    static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
-    static const std::string stamina_cardiofit_regen_modifier( "PLAYER_CARDIOFIT_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
-    const float effective_regen_rate = base_regen_rate + get_cardiofit() * get_option<float>
-                                       ( stamina_cardiofit_regen_modifier );
+    // Your stamina regen rate works as a function of how fit you are compared to your body size.  This allows it to scale more quickly
+    // than your stamina, so that at higher fitness levels you recover stamina faster.
+    const float effective_regen_rate = base_regen_rate * get_cardiofit()/base_bmr();
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
