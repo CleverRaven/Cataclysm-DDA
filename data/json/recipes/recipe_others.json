@@ -2325,6 +2325,12 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 30 ] ], [ [ "duct_tape", 50 ] ], [ [ "2x4", 2 ], [ "log", 1 ], [ "wood_beam", 1 ], [ "stick_long", 1 ] ] ]
+    "components": [
+      [ [ "wood_panel", 1 ] ],
+      [ [ "2x4", 2 ] ],
+      [ [ "nail", 30 ] ],
+      [ [ "duct_tape", 50 ] ],
+      [ [ "2x4", 2 ], [ "log", 1 ], [ "wood_beam", 1 ], [ "stick_long", 1 ] ]
+    ]
   }
 ]
