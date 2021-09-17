@@ -67,7 +67,7 @@ TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
                         std::string att_str = att_enum_to_string( att );
                         std::string rev_att_str = att_enum_to_string( rev_att );
                         printf( "\n%s has an attitude of %s to %s, but %s has an attitude of %s to %s."
-                                "\nEither %s should not be FRIENDLY/NEUTRAL to %s, or "
+                                "\nEither %s should not be FRIENDLY/NEUTRAL to %s, or"
                                 "\n%s should be FRIENDLY/NEUTRAL to %s\n\n",
                                 f.id.c_str(), att_str.c_str(), f1.id.c_str(), f1.id.c_str(), rev_att_str.c_str(), f.id.c_str(),
                                 f.id.c_str(), f1.id.c_str(), f1.id.c_str(), f.id.c_str() );
