@@ -22,20 +22,23 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "cutting (beginner)",
-    "description": "Practice the use of the sword and similar weapons against a corpse.",
+    "description": "Practice the use of the sword and similar weapons against a training dummy.  You will need to make repairs to the dummy while you train.",
     "skill_used": "cutting",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "cutting", 1 ] ],
     "book_learn": [ [ "mag_cutting", 0 ], [ "manual_cutting", 0 ] ],
-    "//": "Only training weapons or wooden versions of swords, a real katana would be too much to handle correctly at these levels.",
-    "tools": [ [ [ "bokken", -1 ], [ "bokken_fake", -1 ], [ "bokken_inferior", -1 ], [ "sword_wood", -1 ] ] ],
+    "//": "A cutting tool to represent what you would use to train cutting, mainly a temporary measure.",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "training_dummy_light", -1 ] ] ],
+    "//": "The repairs are some of the components for the dummy but in a lesser quantity.",
     "components": [
-      [ [ "corpse", 1 ], [ "corpse_generic_human", 1 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ],
-      [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
-    ]
+      [ [ "nail", 10 ] ],
+      [ [ "duct_tape", 25 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
+    ],
+    "byproducts": [ [ "splinter", 10 ] ]
   },
   {
     "id": "prac_bashing_beg",
@@ -44,20 +47,26 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "bashing (beginner)",
-    "description": "Practice the use of batons and similar weapons against a corpse.",
+    "description": "Practice the use of batons and similar weapons against a training dummy.  You will need to make repairs to the dummy while you train.",
     "skill_used": "bashing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "bashing", 1 ] ],
     "book_learn": [ [ "mag_bashing", 0 ], [ "manual_bashing", 0 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "//": "Only training weapons or light and easy to use weapons, a war hammer is a good weapon but you should not start your training with one.",
-    "tools": [ [ [ "cudgel", -1 ], [ "q_staff", -1 ], [ "bat", -1 ], [ "baton-extended", -1 ], [ "PR24-extended", -1 ] ] ],
+    "tools": [
+      [ [ "cudgel", -1 ], [ "q_staff", -1 ], [ "bat", -1 ], [ "baton-extended", -1 ], [ "PR24-extended", -1 ] ],
+      [ [ "training_dummy_light", -1 ] ]
+    ],
+    "//": "The repairs are some of the components for the dummy but in a lesser quantity.",
     "components": [
-      [ [ "corpse", 1 ], [ "corpse_generic_human", 1 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ],
-      [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
-    ]
+      [ [ "nail", 10 ] ],
+      [ [ "duct_tape", 25 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
+    ],
+    "byproducts": [ [ "splinter", 10 ] ]
   },
   {
     "id": "prac_stabbing_beg",
@@ -66,7 +75,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "stabbing (beginner)",
-    "description": "Practice the use of spears and similar stabbing weapons against a corpse.",
+    "description": "Practice the use of spears and similar stabbing weapons against a training dummy.  You will need to make repairs to the dummy while you train.",
     "skill_used": "stabbing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
@@ -83,13 +92,16 @@
         [ "fencing_foil", -1 ],
         [ "fencing_epee", -1 ],
         [ "fencing_sabre", -1 ]
-      ]
+      ],
+      [ [ "training_dummy_light", -1 ] ]
     ],
+    "//": "The repairs are some of the components for the dummy but in a lesser quantity.",
     "components": [
-      [ [ "corpse", 1 ], [ "corpse_generic_human", 1 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ],
-      [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
-    ]
+      [ [ "nail", 10 ] ],
+      [ [ "duct_tape", 25 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
+    ],
+    "byproducts": [ [ "splinter", 10 ] ]
   },
   {
     "id": "prac_unarmed_beg",
@@ -99,17 +111,20 @@
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "unarmed (beginner)",
     "skills_required": [ [ "melee", 1 ] ],
-    "description": "Practice some unarmed moves against a corpse.",
+    "description": "Practice some unarmed moves against a training dummy.  You will need to make repairs to the dummy while you train.",
     "skill_used": "unarmed",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "unarmed", 1 ] ],
     "book_learn": [ [ "mag_unarmed", 0 ], [ "manual_brawl", 0 ] ],
+    "tools": [ [ [ "training_dummy_light", -1 ] ] ],
+    "//": "The repairs are some of the components for the dummy but in a lesser quantity, unarmed practice requires even less because you will cause less damage to the dummy.",
     "components": [
-      [ [ "corpse", 1 ], [ "corpse_generic_human", 1 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ],
-      [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
-    ]
+      [ [ "nail", 5 ] ],
+      [ [ "duct_tape", 10 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
+    ],
+    "byproducts": [ [ "splinter", 10 ] ]
   },
   {
     "id": "prac_dancing",
