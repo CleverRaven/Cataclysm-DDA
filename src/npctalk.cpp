@@ -1791,30 +1791,51 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
     };
 }
 
+static void receive_item( const itype_id &item_name, int count, const std::string &container_name,
+                          const dialogue &d )
+{
+    if( container_name.empty() ) {
+        item new_item = item( item_name, calendar::turn );
+        if( new_item.count_by_charges() ) {
+            new_item.mod_charges( count - 1 );
+            d.actor( false )->i_add( new_item );
+        } else {
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                if( !new_item.ammo_default().is_null() ) {
+                    new_item.ammo_set( new_item.ammo_default() );
+                }
+                d.actor( false )->i_add( new_item );
+            }
+        }
+        if( d.has_beta ) {
+            if( count == 1 ) {
+                //~ %1%s is the NPC name, %2$s is an item
+                popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
+            } else {
+                //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
+                       new_item.tname() );
+            }
+        }
+    } else {
+        item container( container_name, calendar::turn );
+        container.put_in( item( item_name, calendar::turn, count ),
+                          item_pocket::pocket_type::CONTAINER );
+        d.actor( false )->i_add( container );
+        if( d.has_beta ) {
+            //~ %1%s is the NPC name, %2$s is an item
+            popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
+        }
+    }
+}
+
 void talk_effect_fun_t::set_u_spawn_item( const itype_id &item_name, int count,
         const std::string &container_name )
 {
     function = [item_name, count, container_name]( const dialogue & d ) {
-        if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn );
-            if( new_item.count_by_charges() ) {
-                new_item.mod_charges( count - 1 );
-                d.actor( false )->i_add( new_item );
-            } else {
-                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                    if( !new_item.ammo_default().is_null() ) {
-                        new_item.ammo_set( new_item.ammo_default() );
-                    }
-                    d.actor( false )->i_add( new_item );
-                }
-            }
-        } else {
-            item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ),
-                              item_pocket::pocket_type::CONTAINER );
-            d.actor( false )->i_add( container );
-        }
+        receive_item( item_name, count, container_name, d );
     };
+    likely_rewards.emplace_back( count, item_name );
 }
 
 void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
@@ -1825,41 +1846,8 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
             popup( _( "You can't afford it!" ) );
             return;
         }
-        if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn );
-            if( new_item.count_by_charges() ) {
-                new_item.mod_charges( count - 1 );
-                d.actor( false )->i_add( new_item );
-            } else {
-                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                    if( !new_item.ammo_default().is_null() ) {
-                        new_item.ammo_set( new_item.ammo_default() );
-                    }
-                    d.actor( false )->i_add( new_item );
-                }
-            }
-            if( count == 1 ) {
-                //~ %1%s is the NPC name, %2$s is an item
-                popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
-            } else {
-                //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
-                       new_item.tname() );
-            }
-        } else {
-            item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ),
-                              item_pocket::pocket_type::CONTAINER );
-            d.actor( false )->i_add( container );
-            //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
-        }
+        receive_item( item_name, count, container_name, d );
     };
-
-    // Update structure used by mission descriptions.
-    if( cost <= 0 ) {
-        likely_rewards.emplace_back( count, item_name );
-    }
 }
 
 void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, int count )
@@ -3078,6 +3066,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             jo.read( "u_sell_item", item_name, true );
             subeffect_fun.set_u_sell_item( item_name, cost, count );
         } else if( jo.has_string( "u_buy_item" ) ) {
+            if( cost <= 0 ) {
+                jo.throw_error( "u_buy_item expecting a non-zero cost parameter", "u_buy_item" );
+            }
             itype_id item_name;
             jo.read( "u_buy_item", item_name, true );
             subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );

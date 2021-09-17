@@ -67,7 +67,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         popup( _( "%s can't sell you any %s" ), seller.disp_name(), mtype.obj().nname( 2 ) );
         return;
     }
-    if( !npc_trading::pay_npc( *seller_guy, cost ) ) {
+    if( cost > 0 && !npc_trading::pay_npc( *seller_guy, cost ) ) {
         popup( _( "You can't afford it!" ) );
         return;
     }
