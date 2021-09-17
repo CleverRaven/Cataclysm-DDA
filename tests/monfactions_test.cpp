@@ -57,6 +57,72 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
     }
 }
 
+TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
+{
+    for( const auto &f : monfactions::get_all() ) {
+        SECTION( f.id.str() ) {
+            for( const auto &f1 : monfactions::get_all() ) {
+                mf_attitude att = f.attitude( f1.id );
+                mf_attitude rev_att = f1.attitude( f.id );
+
+                INFO( f1.id.str() );
+                REQUIRE( att != MFA_SIZE );
+                REQUIRE( rev_att != MFA_SIZE );
+
+                if( att == MFA_FRIENDLY | att == MFA_NEUTRAL ) {
+                    if( ( rev_att != MFA_FRIENDLY ) && ( rev_att != MFA_NEUTRAL ) ) {
+                        std::stringstream mf_pair;
+                        // NOLINTNEXTLINE(cata-text-style)
+                        mf_pair << f.id.str() << "->" << f1.id.str() << ":\t";
+                        switch( att ) {
+                            case MFA_BY_MOOD:
+                                mf_pair << "MFA_BY_MOOD";
+                                break;
+                            case MFA_NEUTRAL:
+                                mf_pair << "MFA_NEUTRAL";
+                                break;
+                            case MFA_FRIENDLY:
+                                mf_pair << "MFA_FRIENDLY";
+                                break;
+                            case MFA_HATE:
+                                mf_pair << "MFA_HATE";
+                                break;
+                            case MFA_SIZE: // required by -Wswitch
+                                mf_pair << "MFA_SIZE";
+                                break;
+                        }
+                        // NOLINTNEXTLINE(cata-text-style)
+                        mf_pair << "\t(Rev: ";
+                        switch( rev_att ) {
+                            case MFA_BY_MOOD:
+                                mf_pair << "MFA_BY_MOOD";
+                                break;
+                            case MFA_NEUTRAL:
+                                mf_pair << "MFA_NEUTRAL";
+                                break;
+                            case MFA_FRIENDLY:
+                                mf_pair << "MFA_FRIENDLY";
+                                break;
+                            case MFA_HATE:
+                                mf_pair << "MFA_HATE";
+                                break;
+                            case MFA_SIZE: // required by -Wswitch
+                                mf_pair << "MFA_SIZE";
+                                break;
+                        }
+                        mf_pair << ")";
+                        INFO( mf_pair.str() );
+                    }
+                    CHECK_FALSE( rev_att == MFA_BY_MOOD );
+                    CHECK_FALSE( rev_att == MFA_HATE );
+                }
+            }
+        }
+    }
+}
+
+
+
 TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 {
     // check some common cases
