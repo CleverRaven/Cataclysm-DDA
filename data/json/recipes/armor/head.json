@@ -1136,8 +1136,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 9 ] ],
-    "components": [ [ [ "rag", 12 ], [ "sheet_cotton", 12 ], [ "sheet_cotton_patchwork", 12 ], [ "cotton_patchwork", 12 ] ] ]
+    "using": [ [ "sewing_standard", 9 ], [ "fabric_standard_nostretch", 12 ]
   },
   {
     "result": "mask_filter",
@@ -1532,8 +1531,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ] ],
-    "components": [ [ [ "rag", 4 ], [ "sheet_cotton", 4 ], [ "sheet_cotton_patchwork", 4 ], [ "cotton_patchwork", 4 ] ] ]
+    "using": [ [ "sewing_standard", 3 ], [ "fabric_standard_nostretch", 4 ]
   },
   {
     "result": "pot_helmet",
