@@ -32,7 +32,7 @@
     "//": "A cutting tool to represent what you would use to train cutting, mainly a temporary measure.",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "training_dummy_light", -1 ] ] ],
-    "//": "The repairs are some of the components for the dummy but in a lesser quantity.",
+    "//1": "The repairs are some of the components for the dummy but in a lesser quantity.",
     "components": [
       [ [ "nail", 10 ] ],
       [ [ "duct_tape", 25 ] ],
@@ -60,7 +60,7 @@
       [ [ "cudgel", -1 ], [ "q_staff", -1 ], [ "bat", -1 ], [ "baton-extended", -1 ], [ "PR24-extended", -1 ] ],
       [ [ "training_dummy_light", -1 ] ]
     ],
-    "//": "The repairs are some of the components for the dummy but in a lesser quantity.",
+    "//1": "The repairs are some of the components for the dummy but in a lesser quantity.",
     "components": [
       [ [ "nail", 10 ] ],
       [ [ "duct_tape", 25 ] ],
@@ -95,7 +95,7 @@
       ],
       [ [ "training_dummy_light", -1 ] ]
     ],
-    "//": "The repairs are some of the components for the dummy but in a lesser quantity.",
+    "//1": "The repairs are some of the components for the dummy but in a lesser quantity.",
     "components": [
       [ [ "nail", 10 ] ],
       [ [ "duct_tape", 25 ] ],
@@ -118,7 +118,7 @@
     "autolearn": [ [ "unarmed", 1 ] ],
     "book_learn": [ [ "mag_unarmed", 0 ], [ "manual_brawl", 0 ] ],
     "tools": [ [ [ "training_dummy_light", -1 ] ] ],
-    "//": "The repairs are some of the components for the dummy but in a lesser quantity, unarmed practice requires even less because you will cause less damage to the dummy.",
+    "//1": "The repairs are some of the components for the dummy but in a lesser quantity, unarmed practice requires even less because you will cause less damage to the dummy.",
     "components": [
       [ [ "nail", 5 ] ],
       [ [ "duct_tape", 10 ] ],

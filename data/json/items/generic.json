@@ -3710,14 +3710,14 @@
     "color": "brown",
     "name": { "str": "training dummy" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from straw and other soft components.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.",
     "price": 15000,
     "price_postapoc": 600,
-    "material": [ "paper", "wood" ],
+    "material": [ "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
     "bashing": 12,
-    "to_hit": -2,
+    "to_hit": -2
   },
   {
     "type": "TOOL",
@@ -3733,6 +3733,6 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "bashing": 16,
-    "to_hit": -2,
+    "to_hit": -2
   }
 ]
