@@ -12,41 +12,41 @@ static void test_activity_tracker( const std::vector<float> &values )
     activity_tracker tracker;
     for( float i : values ) {
         calendar::turn += 1_turns;
-        tracker.new_turn();
+        tracker.new_turn( false );
         // If we're on a "new turn", we should have nominal activity.
-        CHECK( tracker.activity() == 1.0 );
+        CHECK( tracker.activity( false ) == 1.0 );
         // Smaller values inserted before and after the highest value should be irrelevant.
         tracker.log_activity( rng_float( 0.0f, i - 0.01f ) );
         tracker.log_activity( i );
         tracker.log_activity( rng_float( 0.0f, i - 0.01f ) );
-        // Verify the highest value inerted is the current value.
-        CHECK( tracker.activity() == i );
+        // Verify the highest value inserted is the current value.
+        CHECK( tracker.activity( false ) == i );
     }
     int end_value = values.back();
     // activity() still returns most recently logged activity.
-    CHECK( tracker.activity() == end_value );
+    CHECK( tracker.activity( false ) == end_value );
     const float expected_activity = std::accumulate( values.begin(), values.end(), 0.0f ) /
                                     static_cast<float>( values.size() );
     // average_activity() returns average of the most recent period.
     CHECK( tracker.average_activity() == expected_activity );
     tracker.reset_activity_level();
     // activity() should be unchanged after a reset. (it's still the same turn)
-    CHECK( tracker.activity() == end_value );
+    CHECK( tracker.activity( false ) == end_value );
     // average_activity() also continues to return the previous value.
     CHECK( tracker.average_activity() == expected_activity );
     calendar::turn += 1_turns;
     // activity() returns 1.0 now that it's a new turn.
-    CHECK( tracker.activity() == 1.0f );
-    tracker.new_turn();
+    CHECK( tracker.activity( false ) == 1.0f );
+    tracker.new_turn( false );
     tracker.log_activity( 5.0f );
     // After starting a new recording cycle, activity() and average_activity() return the new data.
-    CHECK( tracker.activity() == 5.0f );
+    CHECK( tracker.activity( false ) == 5.0f );
     CHECK( tracker.average_activity() == 5.0f );
     calendar::turn += 1_turns;
-    tracker.new_turn();
+    tracker.new_turn( false );
     tracker.log_activity( 7.0f );
     // And the behavior continues.
-    CHECK( tracker.activity() == 7.0f );
+    CHECK( tracker.activity( false ) == 7.0f );
     CHECK( tracker.average_activity() == 6.0f );
     calendar::turn = calendar::turn_zero;
 }
