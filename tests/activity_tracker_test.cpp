@@ -91,7 +91,7 @@ TEST_CASE( "activity_tracker_string_representation", "[activity_tracker]" )
     activity_tracker tracker;
     // Start at the lowest level
     tracker.reset_activity_level();
-    REQUIRE( tracker.activity_level_str() == "NO_EXERCISE" );
+    REQUIRE( tracker.activity_level_str() == "SLEEP_EXERCISE" );
 
     // Increase level a couple times
     tracker.log_activity( LIGHT_EXERCISE );

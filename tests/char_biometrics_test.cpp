@@ -431,8 +431,8 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
     SECTION( "shows all zero at start of day 61" ) {
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) ==
                "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
-               "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
-               "<color_c_light_gray> 61 0 0 0 0 0 0 0 0</color><color_c_light_gray> 0</color>\n" );
+               "<color_c_yellow> Day Sleep None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+               "<color_c_light_gray> 61 0 0 0 0 0 0 0 0 0</color><color_c_light_gray> 0</color>\n" );
     }
 
     SECTION( "shows time at each activity level for the current day" ) {
@@ -451,8 +451,8 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
-                   "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
-                   "<color_c_light_gray> 61 60 45 30 20 20 5 %d %d</color><color_c_light_blue> %d</color>\n",
+                   "<color_c_yellow> Day Sleep None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+                   "<color_c_light_gray> 61 0 60 45 30 20 20 5 %d %d</color><color_c_light_blue> %d</color>\n",
                    expect_gained_kcal, expect_spent_kcal, expect_net_kcal ) );
     }
 }
