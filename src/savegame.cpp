@@ -216,22 +216,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "turnssincelastmon", turnssincelastmon );
         data.read( "bVMonsterLookFire", bVMonsterLookFire );
 
-        if( data.has_object( "kill_tracker" ) ) {
-            data.read( "kill_tracker", *kill_tracker_ptr );
-        } else {
-            // Legacy support for when kills were stored directly in game
-            std::map<mtype_id, int> kills;
-            std::vector<std::string> npc_kills;
-            for( const JsonMember member : data.get_object( "kills" ) ) {
-                kills[mtype_id( member.name() )] = member.get_int();
-            }
-
-            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
-                npc_kills.push_back( npc_name );
-            }
-
-            kill_tracker_ptr->reset( kills, npc_kills );
-        }
+        data.read( "kill_tracker", *kill_tracker_ptr );
 
         data.read( "player", u );
         inp_mngr.pump_events();
