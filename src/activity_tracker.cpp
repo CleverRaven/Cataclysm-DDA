@@ -16,13 +16,13 @@ int activity_tracker::weariness() const
 }
 
 // Called every 5 minutes, when activity level is logged
-void activity_tracker::try_reduce_weariness( int bmr, bool sleeping )
+void activity_tracker::try_reduce_weariness( int bmr )
 {
     tick_counter++;
     if( average_activity() - NO_EXERCISE <= std::numeric_limits<float>::epsilon() ) {
         low_activity_ticks++;
-        // Recover twice as fast at rest
-        if( sleeping ) {
+        // Recover twice as fast while sleeping
+        if( average_activity() - SLEEP_EXERCISE <= std::numeric_limits<float>::epsilon() ) {
             low_activity_ticks++;
         }
     }
@@ -78,12 +78,15 @@ void activity_tracker::calorie_adjust( int nkcal )
     }
 }
 
-float activity_tracker::activity() const
+float activity_tracker::activity( bool sleeping ) const
 {
     if( current_turn == calendar::turn ) {
         return current_activity;
+    } else if( sleeping ) {
+        return SLEEP_EXERCISE;
+    } else {
+        return NO_EXERCISE;
     }
-    return 1.0f;
 }
 
 float activity_tracker::average_activity() const
@@ -112,12 +115,14 @@ void activity_tracker::log_activity( float new_level )
     current_turn = calendar::turn;
 }
 
-void activity_tracker::new_turn()
+void activity_tracker::new_turn( bool sleeping )
 {
+    float base_activity_level = sleeping ? SLEEP_EXERCISE : NO_EXERCISE;
+
     if( activity_reset ) {
         activity_reset = false;
         previous_turn_activity = current_activity;
-        current_activity = NO_EXERCISE;
+        current_activity = base_activity_level;
         accumulated_activity = 0.0f;
         num_events = 1;
     } else {
@@ -126,11 +131,11 @@ void activity_tracker::new_turn()
         // Then handle the interventing turns that had no activity logged.
         int num_turns = to_turns<int>( calendar::turn - current_turn );
         if( num_turns > 1 ) {
-            accumulated_activity += ( num_turns - 1 ) * NO_EXERCISE;
+            accumulated_activity += ( num_turns - 1 ) * base_activity_level;
             num_events += num_turns - 1;
         }
         previous_turn_activity = current_activity;
-        current_activity = NO_EXERCISE;
+        current_activity = base_activity_level;
         num_events++;
     }
 }
