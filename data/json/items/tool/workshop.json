@@ -582,7 +582,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ] ]
+    "qualities": [ [ "FILE", 2 ], ["GRIND", 2] ]
   },
   {
     "id": "metal_smoother",
