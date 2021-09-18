@@ -610,7 +610,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "carton_sealed",
@@ -740,7 +741,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "can_medium",
@@ -762,6 +764,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
+    "qualities": [ [ "BOIL", 1 ] ],
     "volume": "503 ml"
   },
   {
@@ -1681,7 +1684,8 @@
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "survival_kit_box",
