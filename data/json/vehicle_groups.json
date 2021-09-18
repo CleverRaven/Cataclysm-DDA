@@ -31,10 +31,7 @@
       [ "policesuv_k9", 5 ],
       [ "police_k9tpt", 1 ],
       [ "truck_swat", 200 ],
-<<<<<<< HEAD
       [ "prisoner_van_1", 10 ],
-=======
->>>>>>> 4b46b96ded4711daf22f50667285901b3393b4bc
       [ "ambulance", 900 ],
       [ "fire_truck", 300 ],
       [ "fire_engine", 200 ],
