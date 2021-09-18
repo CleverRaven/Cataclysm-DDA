@@ -31,7 +31,7 @@
       [ "policesuv_k9", 5 ],
       [ "police_k9tpt", 1 ],
       [ "truck_swat", 200 ],
-      [ "prisoner_van_1", 50 ],
+      [ "prisoner_van_1", 10 ],
       [ "ambulance", 900 ],
       [ "fire_truck", 300 ],
       [ "fire_engine", 200 ],
