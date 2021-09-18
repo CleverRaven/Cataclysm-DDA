@@ -2206,7 +2206,7 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
     if( parts->test( iteminfo_parts::MAGAZINE_CAPACITY ) ) {
         for( const ammotype &at : ammo_types() ) {
-            const std::string fmt = string_format( ngettext( "<num> round of %s",
+            const std::string fmt = string_format( n_gettext( "<num> round of %s",
                                                    "<num> rounds of %s", ammo_capacity( at ) ),
                                                    at->name() );
             info.emplace_back( "MAGAZINE", _( "Capacity: " ), fmt, iteminfo::no_flags,
@@ -2561,7 +2561,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
         if( !mod->ammo_types().empty() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
             for( const ammotype &at : mod->ammo_types() ) {
-                const std::string fmt = string_format( ngettext( "<num> round of %s",
+                const std::string fmt = string_format( n_gettext( "<num> round of %s",
                                                        "<num> rounds of %s",
                                                        mod->ammo_capacity( at ) ), at->name() );
                 info.emplace_back( "GUN", _( "Capacity: " ), fmt, iteminfo::no_flags,
@@ -2590,7 +2590,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
-                           string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
+                           string_format( n_gettext( "Uses <stat>%i</stat> charge of UPS per shot",
                                           "Uses <stat>%i</stat> charges of UPS per shot",
                                           mod->get_gun_ups_drain() ),
                                           mod->get_gun_ups_drain() ) );
@@ -2698,8 +2698,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->casings_count() && parts->test( iteminfo_parts::DESCRIPTION_GUN_CASINGS ) ) {
         insert_separation_line( info );
-        std::string tmp = ngettext( "Contains <stat>%i</stat> casing",
-                                    "Contains <stat>%i</stat> casings", mod->casings_count() );
+        std::string tmp = n_gettext( "Contains <stat>%i</stat> casing",
+                                     "Contains <stat>%i</stat> casings", mod->casings_count() );
         info.emplace_back( "DESCRIPTION", string_format( tmp, mod->casings_count() ) );
     }
 
@@ -3409,13 +3409,13 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                iteminfo::show_plus, player_character.book_fun_for( *this, player_character ) );
         }
         if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
-            std::string fmt = ngettext(
+            std::string fmt = n_gettext(
                                   "A chapter of this book takes <num> <info>minute to "
                                   "read</info>.",
                                   "A chapter of this book takes <num> <info>minutes to "
                                   "read</info>.", book.time );
             if( type->use_methods.count( "MA_MANUAL" ) ) {
-                fmt = ngettext(
+                fmt = n_gettext(
                           "<info>A training session</info> with this book takes "
                           "<num> <info>minute</info>.",
                           "<info>A training session</info> with this book takes "
@@ -3427,9 +3427,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
         if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
             const int unread = get_remaining_chapters( player_character );
-            std::string fmt = ngettext( "This book has <num> <info>unread chapter</info>.",
-                                        "This book has <num> <info>unread chapters</info>.",
-                                        unread );
+            std::string fmt = n_gettext( "This book has <num> <info>unread chapter</info>.",
+                                         "This book has <num> <info>unread chapters</info>.",
+                                         unread );
             info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, unread );
         }
 
@@ -3477,9 +3477,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::vector<std::string> lines;
                 if( num_crafting_recipes > 0 ) {
                     lines.emplace_back(
-                        string_format( ngettext( "This book contains %u crafting recipe.",
-                                                 "This book contains %u crafting recipes.",
-                                                 num_crafting_recipes ), num_crafting_recipes ) );
+                        string_format( n_gettext( "This book contains %u crafting recipe.",
+                                                  "This book contains %u crafting recipes.",
+                                                  num_crafting_recipes ), num_crafting_recipes ) );
                 }
                 if( !known_recipe_list.empty() ) {
                     lines.emplace_back( _( "You already know how to craft:" ) );
@@ -3594,7 +3594,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 "TOOL",
                 "",
                 string_format(
-                    ngettext(
+                    n_gettext(
                         "Maximum <num> charge of %s.",
                         "Maximum <num> charges of %s.",
                         ammo_capacity( at ) ),
@@ -3700,9 +3700,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
               !unlearnable_recipe_list.empty() ) &&
             parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
             std::string recipe_line =
-                string_format( ngettext( "Contains %1$d copied crafting recipe:",
-                                         "Contains %1$d copied crafting recipes:",
-                                         total_recipes ), total_recipes );
+                string_format( n_gettext( "Contains %1$d copied crafting recipe:",
+                                          "Contains %1$d copied crafting recipes:",
+                                          total_recipes ), total_recipes );
 
             insert_separation_line( info );
             info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3711,9 +3711,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::vector<std::string> sorted_known_recipes = known_recipe_list;
                 std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
-                                             "\nYou already know %1$d recipes:\n%2$s",
-                                             known_recipe_list.size() ),
+                    string_format( n_gettext( "\nYou already know %1$d recipe:\n%2$s",
+                                              "\nYou already know %1$d recipes:\n%2$s",
+                                              known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3723,9 +3723,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::vector<std::string> sorted_learnable_recipes = learnable_recipe_list;
                 std::sort( sorted_learnable_recipes.begin(), sorted_learnable_recipes.end(), localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
-                                             "\nYou have the skills to craft %1$d recipes:\n%2$s",
-                                             learnable_recipe_list.size() ),
+                    string_format( n_gettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
+                                              "\nYou have the skills to craft %1$d recipes:\n%2$s",
+                                              learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3736,9 +3736,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::sort( sorted_unlearnable_recipes.begin(), sorted_unlearnable_recipes.end(),
                            localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
-                                             "\nYou lack the skills to craft %1$d recipes:\n%2$s",
-                                             unlearnable_recipe_list.size() ),
+                    string_format( n_gettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
+                                              "\nYou lack the skills to craft %1$d recipes:\n%2$s",
+                                              unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3800,13 +3800,13 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
               !unlearnable_recipe_list.empty() ) &&
             parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
             std::string recipe_line =
-                string_format( ngettext( "Contains %1$d unique crafting recipe,",
-                                         "Contains %1$d unique crafting recipes,",
-                                         total_recipes ), total_recipes );
+                string_format( n_gettext( "Contains %1$d unique crafting recipe,",
+                                          "Contains %1$d unique crafting recipes,",
+                                          total_recipes ), total_recipes );
             std::string source_line =
-                string_format( ngettext( "from %1$d stored ebook:",
-                                         "from %1$d stored ebooks:",
-                                         total_ebooks ), total_ebooks );
+                string_format( n_gettext( "from %1$d stored ebook:",
+                                          "from %1$d stored ebooks:",
+                                          total_ebooks ), total_ebooks );
 
             insert_separation_line( info );
             info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3816,9 +3816,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::vector<std::string> sorted_known_recipes = known_recipe_list;
                 std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
-                                             "\nYou already know %1$d recipes:\n%2$s",
-                                             known_recipe_list.size() ),
+                    string_format( n_gettext( "\nYou already know %1$d recipe:\n%2$s",
+                                              "\nYou already know %1$d recipes:\n%2$s",
+                                              known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3828,9 +3828,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::vector<std::string> sorted_learnable_recipes = learnable_recipe_list;
                 std::sort( sorted_learnable_recipes.begin(), sorted_learnable_recipes.end(), localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
-                                             "\nYou have the skills to craft %1$d recipes:\n%2$s",
-                                             learnable_recipe_list.size() ),
+                    string_format( n_gettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
+                                              "\nYou have the skills to craft %1$d recipes:\n%2$s",
+                                              learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -3841,9 +3841,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::sort( sorted_unlearnable_recipes.begin(), sorted_unlearnable_recipes.end(),
                            localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
-                                             "\nYou lack the skills to craft %1$d recipes:\n%2$s",
-                                             unlearnable_recipe_list.size() ),
+                    string_format( n_gettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
+                                              "\nYou lack the skills to craft %1$d recipes:\n%2$s",
+                                              unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -4019,10 +4019,10 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const int &fuel_numb = fuels.size();
 
         info.emplace_back( "DESCRIPTION",
-                           ngettext( "* This bionic can produce power from the following fuel: ",
-                                     "* This bionic can produce power from the following fuels: ",
-                                     fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                             fuels.end(), []( const material_id & id ) -> std::string { return "<info>" + id->name() + "</info>"; } ) );
+                           n_gettext( "* This bionic can produce power from the following fuel: ",
+                                      "* This bionic can produce power from the following fuels: ",
+                                      fuel_numb ) + enumerate_as_string( fuels.begin(),
+                                              fuels.end(), []( const material_id & id ) -> std::string { return "<info>" + id->name() + "</info>"; } ) );
     }
 
     insert_separation_line( info );
@@ -4447,13 +4447,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             if( btime <= 2_days ) {
                 btime_i = to_hours<int>( btime );
                 info.emplace_back( "DESCRIPTION",
-                                   string_format( ngettext( "* Once set in a vat, this "
+                                   string_format( n_gettext( "* Once set in a vat, this "
                                                   "will ferment in around %d hour.",
                                                   "* Once set in a vat, this will ferment in "
                                                   "around %d hours.", btime_i ), btime_i ) );
             } else {
                 info.emplace_back( "DESCRIPTION",
-                                   string_format( ngettext( "* Once set in a vat, this "
+                                   string_format( n_gettext( "* Once set in a vat, this "
                                                   "will ferment in around %d day.",
                                                   "* Once set in a vat, this will ferment in "
                                                   "around %d days.", btime_i ), btime_i ) );

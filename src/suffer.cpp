@@ -703,7 +703,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                you.add_msg_if_player( m_info, ngettext( "You use your inhaler; "
+                you.add_msg_if_player( m_info, n_gettext( "You use your inhaler; "
                                        "only %d charge left.",
                                        "You use your inhaler; "
                                        "only %d charges left.", charges ),
@@ -718,7 +718,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
                                                  "from the tank." ) );
             } else {
-                you.add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                you.add_msg_if_player( m_info, n_gettext( "You take a deep breath from your oxygen "
                                        "tank; only %d charge left.",
                                        "You take a deep breath from your oxygen "
                                        "tank; only %d charges left.", charges ),
@@ -919,15 +919,15 @@ void suffer::from_sunburn( Character &you )
     if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
-        message = ngettext( "The sunlight is really irritating your %s.",
-                            "The sunlight is really irritating your %s.",
-                            affected_bodyparts.size() );
+        message = n_gettext( "The sunlight is really irritating your %s.",
+                             "The sunlight is really irritating your %s.",
+                             affected_bodyparts.size() );
     } else if( you.has_trait( trait_SUNBURN ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
-        message = ngettext( "The sunlight burns your %s.",
-                            "The sunlight burns your %s.",
-                            affected_bodyparts.size() );
+        message = n_gettext( "The sunlight burns your %s.",
+                             "The sunlight burns your %s.",
+                             affected_bodyparts.size() );
     }
     you.add_msg_if_player( m_bad, message, all_parts_list );
 

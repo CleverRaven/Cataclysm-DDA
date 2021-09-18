@@ -4095,9 +4095,9 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     } else if( u.pos() == tp ) {
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
-            add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                      "You were stunned for %d turns!",
-                                      stun ),
+            add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                       "You were stunned for %d turns!",
+                                       stun ),
                      stun );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
@@ -4106,14 +4106,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
-                                                  "You were stunned AGAIN for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned AGAIN for %d turn!",
+                                                   "You were stunned AGAIN for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                                  "You were stunned for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                                   "You were stunned for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4139,14 +4139,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
-                                                  "You were stunned AGAIN for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned AGAIN for %d turn!",
+                                                   "You were stunned AGAIN for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                                  "You were stunned for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                                   "You were stunned for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
@@ -9425,7 +9425,7 @@ point game::place_player( const tripoint &dest_loc )
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
                     //~ number of items: "<number> <item>"
-                    std::string fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    std::string fmt = n_gettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i] );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -9439,9 +9439,9 @@ point game::place_player( const tripoint &dest_loc )
                 } else if( names.size() == 3 ) {
                     add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
                 } else if( and_the_rest < 7 ) {
-                    add_msg( ngettext( "You see here %s, %s and %d more item.",
-                                       "You see here %s, %s and %d more items.",
-                                       and_the_rest ),
+                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                        "You see here %s, %s and %d more items.",
+                                        and_the_rest ),
                              names[0], names[1], and_the_rest );
                 } else {
                     add_msg( _( "You see here %s and many more items." ), names[0] );

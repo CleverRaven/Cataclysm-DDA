@@ -506,7 +506,7 @@ std::string ma_requirements::get_description( bool buff ) const
     return pr.second > 0;
 } ) ) {
         dump += string_format( _( "<bold>%s required: </bold>" ),
-                               ngettext( "Skill", "Skills", min_skill.size() ) );
+                               n_gettext( "Skill", "Skills", min_skill.size() ) );
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
@@ -524,8 +524,8 @@ std::string ma_requirements::get_description( bool buff ) const
     min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
     return pr.second > 0;
 } ) ) {
-        dump += ngettext( "<bold>Damage type required: </bold>",
-                          "<bold>Damage types required: </bold>", min_damage.size() );
+        dump += n_gettext( "<bold>Damage type required: </bold>",
+                           "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump += enumerate_as_string( min_damage.begin(),
         min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
@@ -715,7 +715,7 @@ std::string ma_buff::get_description( bool passive ) const
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump += string_format( _( "<bold>%s:</bold> " ),
-                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
+                               n_gettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
     }
 
     dump += reqs.get_description( true );
@@ -728,23 +728,23 @@ std::string ma_buff::get_description( bool passive ) const
     const int turns = to_turns<int>( buff_duration );
     if( !passive && turns ) {
         dump += string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
-                               turns, ngettext( "turn", "turns", turns ) ) + "\n";
+                               turns, n_gettext( "turn", "turns", turns ) ) + "\n";
     }
 
     if( dodges_bonus > 0 ) {
         dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     } else if( dodges_bonus < 0 ) {
         dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
         dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     } else if( blocks_bonus < 0 ) {
         dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
     if( quiet ) {
@@ -1379,7 +1379,7 @@ std::string ma_technique::get_description() const
 
     if( knockback_dist ) {
         dump += string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
-                               knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) + "\n";
+                               knockback_dist, n_gettext( "tile", "tiles", knockback_dist ) ) + "\n";
     }
 
     if( knockback_follow ) {
@@ -1388,12 +1388,12 @@ std::string ma_technique::get_description() const
 
     if( down_dur ) {
         dump += string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
-                               down_dur, ngettext( "turn", "turns", down_dur ) ) + "\n";
+                               down_dur, n_gettext( "turn", "turns", down_dur ) ) + "\n";
     }
 
     if( stun_dur ) {
         dump += string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
-                               stun_dur, ngettext( "turn", "turns", stun_dur ) ) + "\n";
+                               stun_dur, n_gettext( "turn", "turns", stun_dur ) ) + "\n";
     }
 
     if( disarms ) {
@@ -1514,8 +1514,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );
 
-            buffer += ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                weapons.size() ) + std::string( " " );
+            buffer += n_gettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
+                                 weapons.size() ) + std::string( " " );
             buffer += enumerate_as_string( weapons );
         }
 

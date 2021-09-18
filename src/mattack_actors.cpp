@@ -510,9 +510,9 @@ bool gun_actor::call( monster &z ) const
         if( !target ) {
             if( hostiles > 0 ) {
                 add_msg_if_player_sees( z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  hostiles ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   hostiles ),
                                         z.name(), hostiles );
             }
             return false;

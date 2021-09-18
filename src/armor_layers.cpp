@@ -218,11 +218,11 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             body_part_names( penalties.body_parts_with_stacking_penalty );
         std::string message =
             string_format(
-                ngettext( "Wearing multiple items %s on your "
-                          "<color_light_red>%s</color> is adding encumbrance there.",
-                          "Wearing multiple items %s on your "
-                          "<color_light_red>%s</color> is adding encumbrance there.",
-                          penalties.body_parts_with_stacking_penalty.size() ),
+                n_gettext( "Wearing multiple items %s on your "
+                           "<color_light_red>%s</color> is adding encumbrance there.",
+                           "Wearing multiple items %s on your "
+                           "<color_light_red>%s</color> is adding encumbrance there.",
+                           penalties.body_parts_with_stacking_penalty.size() ),
                 layer_description, body_parts
             );
         i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
@@ -235,21 +235,21 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
 
         if( penalties.bad_items_within.empty() ) {
             message = string_format(
-                          ngettext( "Wearing this outside items it would normally be beneath "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    "Wearing this outside items it would normally be beneath "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          n_gettext( "Wearing this outside items it would normally be beneath "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     "Wearing this outside items it would normally be beneath "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     penalties.body_parts_with_out_of_order_penalty.size() ),
                           body_parts
                       );
         } else {
             std::string bad_item_name = *penalties.bad_items_within.begin();
             message = string_format(
-                          ngettext( "Wearing this outside your <color_light_blue>%s</color> "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    "Wearing this outside your <color_light_blue>%s</color> "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          n_gettext( "Wearing this outside your <color_light_blue>%s</color> "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     "Wearing this outside your <color_light_blue>%s</color> "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     penalties.body_parts_with_out_of_order_penalty.size() ),
                           bad_item_name, body_parts
                       );
         }
