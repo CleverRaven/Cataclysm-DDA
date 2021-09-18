@@ -9,8 +9,6 @@
     "volume": "1 L",
     "price": 2500000,
     "to_hit": 1,
-    "max_charges": 250,
-    "initial_charges": 250,
     "use_action": {
       "type": "transform",
       "msg": "CRIT HUD booting up…",
@@ -26,6 +24,7 @@
     "material_thickness": 5,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 250 } } ],
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -41,6 +40,7 @@
   },
   {
     "id": "crt_gasmask_on",
+    "copy-from": "crt_gasmask",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "CRIT gas mask (on)", "str_pl": "CRIT gas masks (on)" },
@@ -49,8 +49,6 @@
     "volume": "1 L",
     "price": 2500000,
     "to_hit": -3,
-    "max_charges": 250,
-    "initial_charges": 250,
     "turns_per_charge": 1,
     "revert_to": "crt_gasmask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "CRIT HUD deactivating.", "target": "crt_gasmask" },
@@ -175,8 +173,6 @@
     "material": [ "kevlar", "hardsteel" ],
     "material_thickness": 3,
     "warmth": 20,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -187,6 +183,7 @@
       "need_charges": 1,
       "need_charges_msg": "The helmet's batteries are dead."
     },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "flags": [ "WATERPROOF", "STURDY", "VARSIZE", "RAD_PROOF", "kevlar_padded", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "OUTER" ]
   },
   {
