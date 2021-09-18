@@ -431,127 +431,130 @@ class recipe_result_info_cache
         std::vector<iteminfo> info;
         const recipe *last_recipe = nullptr;
         int last_width = 0;
+        int cached_batch_size = 1;
 
-        void get_byproducts_data( const recipe *rec, const int count, std::vector<iteminfo> &summary_info,
+        void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
-        void get_item_details( const item &dummy_item, const int count,
-                               std::vector<iteminfo> &details_info, const std::string &classification );
+        void get_item_details( item &dummy_item, const int quantity_per_batch,
+                               std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
+        void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
+                              const std::string &classification, const bool uses_charges );
         void insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec );
         void insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec );
     public:
-        item_info_data get_result_data( const recipe *rec, const int count, int &scroll_pos );
+        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos );
 };
 
-void recipe_result_info_cache::get_byproducts_data( const recipe *rec, const int count,
+void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
         std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
 {
     for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
-        std::vector<iteminfo> temp_info;
         //Add dividers between item details
         insert_iteminfo_blank_line( details_info );
         insert_iteminfo_separator_line( details_info );
-        //Figure out what the byproducts are:
-        const itype *t = item::find_type( bp.first );
-        int byproduct_count = bp.second * count;
-
-        //Handle multiple charges and multiple discrete items separately
-        if( t->count_by_charges() ) {
-            //Add summary line to info
-            item temp_charged_item( bp.first );
-            temp_charged_item.charges *= byproduct_count;
-            summary_info.emplace_back( "DESCRIPTION",
-                                       _( "<bold>With byproduct: </bold>" + temp_charged_item.display_name() ) );
-            //Get the item details:
-            get_item_details( temp_charged_item, count, details_info, "Byproduct" );
-        } else {
-            //Add summary line.  Don't need to indicate count if there's only 1
-            summary_info.emplace_back( "DESCRIPTION",
-                                       _( "<bold>With byproduct: </bold>" + item( t ).display_name( byproduct_count ) +
-                                          ( byproduct_count == 1 ? "" : string_format( " (%d)", byproduct_count ) ) ) );
-
-            //Get the item details
-            item( t ).info( true, temp_info, byproduct_count );
-            details_info.emplace_back( "DESCRIPTION",
-                                       _( "<bold>Byproduct: </bold>" + item( t ).display_name( byproduct_count ) +
-                                          ( byproduct_count == 1 ? "" : string_format( " (%d)", byproduct_count ) ) ) );
-            details_info.insert( std::end( details_info ), std::begin( temp_info ),
-                                 std::end( temp_info ) );
-        }
+        item dummy_item = item( bp.first );
+        bool uses_charges = dummy_item.count_by_charges();
+        get_item_header( dummy_item, bp.second, summary_info, "With byproduct", uses_charges );
+        get_item_details( dummy_item, bp.second, details_info, "Byproduct", uses_charges );
     }
 }
 
-void recipe_result_info_cache::get_item_details( const item &dummy_item, const int count,
-        std::vector<iteminfo> &details_info, const std::string &classification )
+void recipe_result_info_cache::get_item_details( item &dummy_item,
+        const int quantity_per_batch,
+        std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges )
 {
     std::vector<iteminfo> temp_info;
-    details_info.emplace_back( "DESCRIPTION",
-                               _( "<bold>" + classification + ": </bold>" + dummy_item.display_name( count ) ) );
-    dummy_item.info( true, temp_info, count );
+    int total_quantity = quantity_per_batch * cached_batch_size;
+    get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info, 1 );
+        //Reset charges so that multiple calls to this function don't produce unexpected results
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
     details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
 }
 
-item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int count,
+void recipe_result_info_cache::get_item_header( item &dummy_item, const int quantity_per_batch,
+        std::vector<iteminfo> &info, const std::string &classification, const bool uses_charges )
+{
+    int total_quantity = quantity_per_batch * cached_batch_size;
+    //Handle multiple charges and multiple discrete items separately
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name() ) );
+        //Reset charges so that multiple calls to this function don't produce unexpected results
+        dummy_item.charges /= total_quantity;
+    } else {
+        //Add summary line.  Don't need to indicate count if there's only 1
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
+                              ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) ) );
+    }
+}
+
+item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
         int &scroll_pos )
 {
     /* If the recipe has not changed, return the cached version in info.
        Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
        has changed, the info needs to be regenerated */
-    if( rec == last_recipe && rec != nullptr && TERMX == last_width ) {
+    if( rec == last_recipe && rec != nullptr && TERMX == last_width &&
+        batch_size == cached_batch_size ) {
         item_info_data data( "", "", info, {}, scroll_pos );
         return data;
     }
 
+    cached_batch_size = batch_size;
     last_recipe = rec;
     scroll_pos = 0;
     last_width = TERMX;
 
     info.clear(); //New recipe, new info
 
-    //getting item info clears the vector, so to append multiple results, we need a temporary vector
-    std::vector<iteminfo> temp_info;
     /*We need to do some calculations to put together the results summary and very similar calculations to
       put together the details, so, have a separate vector specifically for the details, to be appended later */
     std::vector<iteminfo> details_info;
 
     //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
     item dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+    bool result_uses_charges = dummy_result.count_by_charges();
     item dummy_container;
 
     //Set up summary at top so people know they can look further to learn about byproducts and such
     //First, see if we need it at all:
     if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
         //We don't need a summary for a single item, just give us the details
-        get_item_details( dummy_result, count, details_info, "Result" );
+        get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+
     } else { //We do need a summary
         //If the primary result uses charges and is in a container, need to calculate number of charges
-        if( rec->result()->count_by_charges() ) {
+        if( result_uses_charges ) {
             dummy_result.charges *= rec->makes_amount();
         }
         //If it's in a container, focus on the contents
         if( rec->container_id() != itype_id::NULL_ID() ) {
             dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
             //Put together the summary in info:
-            info.emplace_back( "DESCRIPTION",
-                               _( "<bold>Results in (per batch): </bold>" + dummy_result.display_name( count ) ) );
-            info.emplace_back( "DESCRIPTION",
-                               _( "<bold>In container: </bold>" + dummy_container.display_name( count ) ) );
-
+            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            get_item_header( dummy_container, 1, info, "In container",
+                             false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
-            get_item_details( dummy_result, count, details_info, "Result" );
-
+            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
             insert_iteminfo_blank_line( details_info );
             insert_iteminfo_separator_line( details_info );
-
-            get_item_details( dummy_container, count, details_info, "Container" );
+            get_item_details( dummy_container, 1, details_info, "Container", false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
-            info.emplace_back( "DESCRIPTION",
-                               _( "<bold>Results in (per batch): </bold>" + dummy_result.display_name( count ) ) );
+            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
             //Get the item details:
-            get_item_details( dummy_result, count, details_info, "Result" );
+            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
         }
         if( rec->has_byproducts() ) {
-            get_byproducts_data( rec, count, info, details_info );
+            get_byproducts_data( rec, info, details_info );
         }
 
         //Add a separator between the summary and details
@@ -575,7 +578,6 @@ void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<itemi
     info_vec.emplace_back( "DESCRIPTION", std::string( std::min( TERMX,
                            FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
 }
-
 
 const recipe *select_crafting_recipe( int &batch_size_out )
 {
@@ -916,9 +918,9 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
         if( isWide && !current.empty() ) {
             const recipe *cur_recipe = current[line];
+            werase( w_iteminfo );
             if( cur_recipe->is_practice() ) {
                 const std::string desc = practice_recipe_description( *cur_recipe, player_character );
-                werase( w_iteminfo );
                 fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
@@ -929,6 +931,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 data.without_border = true;
                 data.scrollbar_left = false;
                 data.use_full_win = true;
+                data.padding = 0;
                 draw_item_info( w_iteminfo, data );
             }
         }
