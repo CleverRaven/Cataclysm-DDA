@@ -30,13 +30,13 @@ class activity_tracker
         // Logs activity level. If called multiple times in one turn, will preserve the highest.
         void log_activity( float new_level );
         // Informs the tracker that a new turn has started.
-        void new_turn( bool sleeping );
+        void new_turn( bool sleeping = false );
         // Resets accumulated activity level.
         void reset_activity_level();
         // Outputs player activity level to a printable string.
         std::string activity_level_str() const;
         // Returns activity level recorded for the current turn.
-        float activity( bool sleeping ) const;
+        float activity( bool sleeping = false ) const;
         // Returns average of activity level for the current period.
         float average_activity() const;
         // Returns the previous turn's activity level until an action is taken on the current turn.
