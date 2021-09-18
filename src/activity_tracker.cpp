@@ -24,7 +24,7 @@ void activity_tracker::try_reduce_weariness( int bmr )
         // Recover twice as fast while sleeping
         if( average_activity() < NO_EXERCISE ) {
             low_activity_ticks += ( ( NO_EXERCISE - average_activity() ) /
-                                    ( NO_EXERCISE - SLEEP_ACTIVITY ) );
+                                    ( NO_EXERCISE - SLEEP_EXERCISE ) );
         }
     }
 
@@ -132,7 +132,7 @@ void activity_tracker::new_turn( bool sleeping )
         // Then handle the interventing turns that had no activity logged.
         int num_turns = to_turns<int>( calendar::turn - current_turn );
         if( num_turns > 1 ) {
-            accumulated_activity += ( num_turns - 1 ) * std::min( NO_ACTIVITY, current_activity );
+            accumulated_activity += ( num_turns - 1 ) * std::min( NO_EXERCISE, current_activity );
             num_events += num_turns - 1;
         }
         previous_turn_activity = current_activity;
