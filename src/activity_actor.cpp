@@ -347,9 +347,10 @@ bool aim_activity_actor::load_RAS_weapon()
         return false;
     }
 
-    // Burn 0.2% max base stamina x the strength required to fire.
+    // Burn 0.2% max base stamina without cardio x the strength required to fire.
     you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                     you.get_stamina_max() ) );
+                     ( get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) +
+                       ( get_option<int>( "PLAYER_CARDIOFIT_STAMINA_SCALING" ) * you.base_bmr() / 2 ) ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
