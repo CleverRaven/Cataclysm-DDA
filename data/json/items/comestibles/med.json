@@ -92,8 +92,8 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
-    "use_action": [ "ANTIBIOTIC", "EDIBLE_FROZEN" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
+    "use_action": [ "ANTIBIOTIC" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
   {
     "id": "antifungal",
