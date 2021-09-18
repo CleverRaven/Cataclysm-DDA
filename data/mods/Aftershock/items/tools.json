@@ -179,7 +179,7 @@
     "looks_like": "circsaw_off",
     "color": "light_red",
     "ammo": [ "gasoline" ],
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
@@ -214,7 +214,7 @@
     "looks_like": "circsaw_off",
     "color": "yellow",
     "ammo": [ "gasoline" ],
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]

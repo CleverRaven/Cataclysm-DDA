@@ -45,6 +45,50 @@
   },
   {
     "type": "snippet",
+    "category": "tainted_mutant_meat_desc",
+    "text": [
+      {
+        "id": "tainted_mutant_meat_1",
+        "text": "Poisonous meat from a heavily mutated animal.  It has an unsettling loose and spongy texture and a putrid smell.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  You'd have to be truly desperate to try eating this."
+      },
+      {
+        "id": "tainted_mutant_meat_2",
+        "text": "Poisonous meat from a heavily mutated animal.  Although it came from muscle tissue, it has a curious swirling grain pattern, and at the center of each grain is a knot of hard, cartilaginous tissue.  Its smell is nauseating."
+      },
+      {
+        "id": "tainted_mutant_meat_3",
+        "text": "Poisonous meat from a heavily mutated animal.  This is from muscle, but in the fascial tissue between the muscles, thick spiny hairs have grown.  Foul-smelling, cream-colored fluid gushes out whenever a hair pulls loose."
+      },
+      {
+        "id": "tainted_mutant_meat_4",
+        "text": "Poisonous meat from a heavily mutated animal.  Although this came from muscle, it has a thick cordlike texture and smells like leather and bread mold."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_tainted_mutant_meat_desc",
+    "text": [
+      {
+        "id": "cooked_tainted_mutant_meat_1",
+        "text": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you won't vomit while eating this…"
+      },
+      {
+        "id": "cooked_tainted_mutant_meat_2",
+        "text": "This is a cooked chunk of meat from a mutated animal.  You thought you'd cleared out all the gross parts, but while cooking, a fluid-filled sac inside burst and covered it in some kind of foul-smelling thick grease."
+      },
+      {
+        "id": "cooked_tainted_mutant_meat_3",
+        "text": "This is a cooked chunk of meat from a mutated animal.  The surface is peppered with divots from the pieces you had to dig out to make it seem edible."
+      },
+      {
+        "id": "cooked_tainted_mutant_meat_4",
+        "text": "This is a cooked chunk of meat from a mutated animal.  Heat caused the muscles to twist and move as if they were alive, and now it has writhed itself into a dense knot."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "mutant_brain_desc",
     "text": [
       {

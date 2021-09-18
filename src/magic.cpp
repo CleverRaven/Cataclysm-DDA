@@ -889,7 +889,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( guy.weapon, return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }

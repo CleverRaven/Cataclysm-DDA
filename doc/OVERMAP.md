@@ -225,11 +225,11 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
 | `flags`           | See `Overmap terrains` in [JSON_FLAGS.md](JSON_FLAGS.md).                                        |
 | `mapgen`          | Specify a C++ mapgen function. Don't do this--use JSON.                                          |
-| `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_end`      | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
-| `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation.                                    |
+| `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_end`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 
 ### Example
 
@@ -482,7 +482,7 @@ Depending on the subtype, there are further relevant fields:
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
         { "overmap": "straight_tunnel", "max": 20 },
-        { "overmap": "corner", "max": 5 },
+        { "overmap": "corner", "max": { "poisson": 5 } },
         { "overmap": "tee", "max": 10 }
       ],
       [ { "overmap": "queen", "max": 1 } ],
@@ -530,9 +530,18 @@ phases are processed strictly in order.
 Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
 integer `max` and/or `weight`.
 
+Weight must always be a simple integer, but `max` may also be an object
+defining a probability distribution over integers.  Each time the special is
+spawned, a value is sampled from that distribution.  Currently only a Poisson
+distribution is supported, specified via an object such as `{ "poisson": 5 }`
+where 5 will be the mean of the distribution (λ).
+
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
-rules to satisfy that join.
+rules to satisfy that join.  Priority is given to whichever joins are listed
+first in the list which defines the joins for this special, but if multiple
+joins of the same (highest priority) id are present then one is chosen at
+random.
 
 First the rules are filtered to contain only those which can satisfy the joins
 for a particular location, and then a weighted selection from the filtered list

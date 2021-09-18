@@ -264,6 +264,18 @@
   },
   {
     "type": "recipe",
+    "copy-from": "mutant_meat_cooked",
+    "result": "meat_mutant_tainted_cooked",
+    "components": [ [ [ "meat_mutant_tainted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "meat_mutant_tainted_smoked",
+    "copy-from": "meat_smoked",
+    "components": [ [ [ "meat_mutant_tainted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "mutant_meat_scrap_cooked",
     "copy-from": "mutant_meat_cooked",

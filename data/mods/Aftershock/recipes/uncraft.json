@@ -306,12 +306,10 @@
       [ [ "robot_controls", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
-      [ [ "afs_circuitry_1", 4 ] ],
-      [ [ "afs_circuitry_2", 2 ] ],
-      [ [ "afs_circuitry_3", 1 ] ],
-      [ [ "afs_energy_storage_3", 1 ] ],
-      [ [ "afs_material_1", 4 ] ],
-      [ [ "afs_material_2", 2 ] ],
+      [ [ "afs_circuitry_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_1", 2 ] ],
+      [ [ "afs_material_2", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ]
     ]

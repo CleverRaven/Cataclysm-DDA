@@ -560,6 +560,12 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "5 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
+    },
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "oxytorch": {
       "result": "t_window_empty",
@@ -601,6 +607,12 @@
       "duration": "4 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
     },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "5 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
+    },
     "deconstruct": {
       "ter_set": "t_window_reinforced_noglass",
       "items": [
@@ -629,6 +641,12 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_empty",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW" ],
     "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
@@ -677,6 +695,12 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_alarm",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
     "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
@@ -700,6 +724,12 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 95,
+    "hacksaw": {
+      "result": "t_window_domestic",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "roof": "t_flat_roof",
     "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
@@ -739,6 +769,12 @@
     "looks_like": "t_window_bars",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_window_domestic",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "roof": "t_flat_roof",
     "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
@@ -873,6 +909,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -910,6 +952,12 @@
     "oxytorch": {
       "result": "t_window_reinforced",
       "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
@@ -955,6 +1003,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -989,6 +1043,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -1014,6 +1074,12 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW" ],
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "oxytorch": {
@@ -1050,6 +1116,12 @@
     "oxytorch": {
       "result": "t_window_reinforced_noglass",
       "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
     "curtain_transform": "t_metal_grate_window_noglass",

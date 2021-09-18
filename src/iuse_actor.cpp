@@ -224,6 +224,18 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         return cata::nullopt;
     }
 
+    if( p.is_worn( it ) ) {
+        item tmp = item( target );
+        for( const trait_id &mut : p.get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+            if( branch.conflicts_with_item( tmp ) ) {
+                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                     branch.name() );
+                return cata::nullopt;
+            }
+        }
+    }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
 
         if( possess ) {
@@ -1472,7 +1484,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( &it == &p.get_wielded_item() ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -2377,6 +2389,11 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
             return cata::nullopt;
         }
         study_spell.moves_total = study_time;
+        spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
+        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+            p.handle_skill_warning( studying.skill(),
+                                    true ); // show the skill warning on start reading, since we don't show it during
+        }
     }
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
@@ -3052,7 +3069,7 @@ static bool damage_item( Character &pl, item_location &fix )
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &tool,
-        item_location &fix ) const
+        item_location &fix, bool refit_only ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
@@ -3062,7 +3079,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     }
 
     const int current_skill_level = pl.get_skill_level( used_skill );
-    const repair_item_actor::repair_type action = default_action( *fix, current_skill_level );
+    repair_item_actor::repair_type action;
+    if( refit_only ) {
+        if( fix->has_flag( flag_FIT ) ) {
+            pl.add_msg_if_player( m_warning, _( "The %s already fits!" ), fix->tname() );
+            return AS_CANT;
+        } else if( !fix->has_flag( flag_VARSIZE ) ) {
+            pl.add_msg_if_player( m_bad, _( "This %s cannot be refitted!" ), fix->tname() );
+            return AS_CANT;
+        } else {
+            action = RT_REFIT;
+        }
+    } else {
+        action = default_action( *fix, current_skill_level );
+    }
     const auto chance = repair_chance( pl, *fix, action );
     int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
@@ -3997,7 +4027,8 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+        } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+                   p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }

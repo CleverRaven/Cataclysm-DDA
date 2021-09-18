@@ -1343,8 +1343,9 @@ static void character_edit_menu()
                 you.on_item_wear( to_wear );
                 you.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                you.weapon = to_wear;
-                get_event_bus().send<event_type::character_wields_item>( you.getID(), you.weapon.typeId() );
+                you.set_wielded_item( to_wear );
+                get_event_bus().send<event_type::character_wields_item>( you.getID(),
+                        you.get_wielded_item().typeId() );
             }
         }
         break;

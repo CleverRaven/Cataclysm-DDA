@@ -192,11 +192,11 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( !player_character.weapon.is_null() ) {
+    if( !player_character.get_wielded_item().is_null() ) {
         add_message( tut_lesson::LESSON_WIELD_NO_SPACE );
     }
 
-    if( player_character.weapon.ammo_remaining( &player_character ) > 0 ) {
+    if( player_character.get_wielded_item().ammo_remaining( &player_character ) > 0 ) {
         add_message( tut_lesson::LESSON_GUN_FIRE );
     }
 
@@ -308,7 +308,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_FIRE:
-            if( player_character.weapon.is_gun() ) {
+            if( player_character.get_wielded_item().is_gun() ) {
                 add_message( tut_lesson::LESSON_RECOIL );
             }
             break;

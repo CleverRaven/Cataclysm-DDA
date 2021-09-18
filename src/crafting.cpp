@@ -468,7 +468,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
-
+    const item &weapon = get_wielded_item();
     conts = get_eligible_containers_recursive( weapon, true );
 
     for( const auto &it : worn ) {
@@ -640,13 +640,14 @@ static void set_components( std::list<item> &components, const std::list<item> &
 
 static cata::optional<item_location> wield_craft( Character &p, item &craft )
 {
+    item &weapon = p.get_wielded_item();
     if( p.wield( craft ) ) {
-        if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
+        if( weapon.invlet ) {
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), weapon.invlet, weapon.display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), weapon.display_name() );
         }
-        return item_location( p, &p.weapon );
+        return item_location( p, &weapon );
     }
     return cata::nullopt;
 }
@@ -787,8 +788,8 @@ static item_location place_craft_or_disassembly(
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
 
-            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.weapon ).success(),
-                            '1', _( "Dispose of your wielded %s and start working." ), ch.weapon.tname() );
+            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.get_wielded_item() ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_item().tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = ch.can_pickVolume( craft ) &&
                                    ch.can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -1718,7 +1719,7 @@ static void empty_buckets( Character &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
-        return it.is_bucket_nonempty() && &it != &p.weapon;
+        return it.is_bucket_nonempty() && &it != &p.get_wielded_item();
     }, INT_MAX );
     for( auto &it : buckets ) {
         for( const item *in : it.all_items_top() ) {
@@ -2523,7 +2524,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2s." ), this->disp_name( false,
+                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s." ), this->disp_name( false,
                                         true ), newit.tname() );
             }
             continue;
@@ -2534,7 +2535,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2$s from the %3$s." ),
+                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s from the %3$s." ),
                                         this->disp_name( false, true ), newit.tname(), dis_item.tname() );
             }
             continue;
@@ -2565,7 +2566,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
         }
 
-        if( act_item.made_of( phase_id::LIQUID ) ) {
+        //NPCs are too dumb to be able to handle liquid (for now)
+        if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
             liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );

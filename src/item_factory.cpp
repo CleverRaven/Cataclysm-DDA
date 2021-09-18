@@ -1844,16 +1844,16 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
     }
 }
 
-void gun_variant_data::deserialize( const JsonObject &jo )
+void itype_variant_data::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
 
-void gun_variant_data::load( const JsonObject &jo )
+void itype_variant_data::load( const JsonObject &jo )
 {
-    brand_name.make_plural();
+    alt_name.make_plural();
     mandatory( jo, false, "id", id );
-    mandatory( jo, false, "name", brand_name );
+    mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
@@ -1886,8 +1886,6 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
-
-    optional( jo, false, "variants", slot.variants );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2415,8 +2413,6 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );
-
-    optional( jo, false, "variants", slot.variants );
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
@@ -2627,6 +2623,14 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         return;
     }
 
+    // Thing uses no ammo
+    if( def.magazine && def.magazine->type.empty() ) {
+        return;
+    }
+    if( def.tool && def.tool->ammo_id.empty() ) {
+        return;
+    }
+
     pocket_data mag_data;
     mag_data.holster = true;
     mag_data.volume_capacity = 200_liter;
@@ -2672,6 +2676,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         }
     }
     def.pockets.push_back( mag_data );
+    debugmsg( _( "%s needs pocket definitions" ), def.get_id().str() );
 }
 
 void Item_factory::add_special_pockets( itype &def )
@@ -2876,6 +2881,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         mandatory( jo, was_loaded, "to_hit", temp );
         def.m_to_hit = temp.sum_values();
     }
+    optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
+    optional( jo, false, "variants", def.variants );
     assign( jo, "container", def.default_container );
     assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
@@ -3233,7 +3240,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     bool convert = false;
     const migration *migrant = nullptr;
     for( const migration &m : iter->second ) {
-        if( m.from_variant && obj.has_gun_variant() && obj.gun_variant().id == *m.from_variant ) {
+        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
             migrant = &m;
             // This is not the variant that the item has already been convert to
             // So we'll convert it again.
@@ -3261,9 +3268,9 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     }
 
     if( migrant->from_variant ) {
-        obj.clear_gun_variant();
+        obj.clear_itype_variant();
     }
-    obj.set_gun_variant( migrant->variant );
+    obj.set_itype_variant( migrant->variant );
 
     for( const migration::content &it : migrant->contents ) {
         int count = it.count;

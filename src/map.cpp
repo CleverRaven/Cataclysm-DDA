@@ -137,10 +137,9 @@ units::volume map_stack::max_volume() const
 
 // Map class methods.
 
-map::map( int mapsize, bool zlev )
+map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 {
-    my_MAPSIZE = mapsize;
-    zlevels = zlev;
+
     if( zlevels ) {
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
     } else {
@@ -4207,7 +4206,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
     // spawn the item
     item new_item( type_id, birthday );
-    new_item.set_gun_variant( variant );
+    new_item.set_itype_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }
@@ -8167,11 +8166,6 @@ size_t map::get_nonant( const tripoint &gridp ) const
     } else {
         return gridp.x + gridp.y * my_MAPSIZE;
     }
-}
-
-tinymap::tinymap( int mapsize, bool zlevels )
-    : map( mapsize, zlevels )
-{
 }
 
 void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )

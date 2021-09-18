@@ -200,6 +200,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "rabbit_foot",
+    "symbol": "q",
+    "color": "brown",
+    "name": { "str": "rabbit sample" },
+    "description": "A tiny paw that came off of a rabbit.  Please, no luck jokes.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "fur", "leather" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
@@ -744,6 +759,7 @@
     "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
+    "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -2
   },
   {
@@ -2602,7 +2618,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 6, "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2637,7 +2655,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2672,7 +2692,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2885,6 +2907,7 @@
     "stack_size": 50,
     "material": [ "steel" ],
     "symbol": ".",
+    "flags": [ "HURT_WHEN_WIELDED" ],
     "color": "white",
     "ammo_type": "components"
   },

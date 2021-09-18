@@ -509,6 +509,9 @@ std::string monster::name( unsigned int quantity ) const
         return std::string();
     }
     std::string result = type->nname( quantity );
+    if( !nickname.empty() ) {
+        return nickname;
+    }
     if( !unique_name.empty() ) {
         //~ %1$s: monster name, %2$s: unique name
         result = string_format( pgettext( "unique monster name", "%1$s: %2$s" ),
@@ -1338,7 +1341,8 @@ void monster::process_triggers()
     // It's hard to ever see it in action
     // and even harder to balance it without making it exploitable
 
-    if( morale != type->morale && one_in( 10 ) ) {
+    if( morale != type->morale && one_in( 4 ) &&
+        ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
             morale++;
         } else {
@@ -1346,7 +1350,8 @@ void monster::process_triggers()
         }
     }
 
-    if( anger != type->agro && one_in( 10 ) ) {
+    if( anger != type->agro && one_in( 4 ) &&
+        ( ( std::abs( anger - type->agro ) > 15 ) || one_in( 2 ) ) ) {
         if( anger < type->agro ) {
             anger++;
         } else {
@@ -1513,10 +1518,11 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_instance &dam )
+std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                 damage_instance &dam )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( source );
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1579,7 +1585,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
     dealt_damage_instance dealt_dam;
 
     if( hitspread >= 0 ) {
-        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        weakpoint_attack attack;
+        attack.source = this;
+        attack.is_melee = true;
+        attack.wp_skill = weakpoint_skill();
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }
 
     const int total_dealt = dealt_dam.total_damage();
@@ -1722,7 +1732,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                      bool print_messages )
+                                      bool print_messages, const weakpoint_attack &wp_attack )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1743,7 +1753,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = accuracy_headshot;
     }
 
-    Creature::deal_projectile_attack( source, attack, print_messages );
+    Creature::deal_projectile_attack( source, attack, print_messages, wp_attack );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
@@ -2702,24 +2712,26 @@ void monster::process_effects()
         }
     }
 
-    //Monster will regen morale and aggression if it is on max HP
+    //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( player_character ) ) {
             morale = type->morale;
             anger = type->agro;
         }
-        if( morale <= type->morale ) {
+        if( morale < type->morale ) {
             morale += 1;
         }
-        if( anger <= type->agro ) {
+        if( anger < type->agro ) {
             anger += 1;
         }
-        if( morale < 0 ) {
+        if( morale < 0 && morale < type->morale ) {
             morale += 5;
+            morale = std::min( morale, type->morale );
         }
-        if( anger < 0 ) {
+        if( anger < 0 && anger < type->agro ) {
             anger += 5;
+            anger = std::min( anger, type->agro );
         }
     }
 
@@ -3146,6 +3158,55 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
+
+    if( morale != type->morale ) { // if works, will put into helper function
+        int dt_left_m = to_turns<int>( dt );
+
+        if( std::abs( morale - type->morale ) > 15 ) {
+            const int adjust_by_m = std::min( ( dt_left_m / 4 ),
+                                              ( std::abs( morale - type->morale ) - 15 ) );
+            dt_left_m -= adjust_by_m * 4;
+            if( morale < type->morale ) {
+                morale += adjust_by_m;
+            } else {
+                morale -= adjust_by_m;
+            }
+        }
+
+        // Avoiding roll_remainder - PC out of situation, monster can calm down
+        if( morale < type->morale ) {
+            morale += std::min( static_cast<int>( std::ceil( dt_left_m / 8.0 ) ),
+                                std::abs( morale - type->morale ) );
+        } else {
+            morale -= std::min( ( dt_left_m / 8 ),
+                                std::abs( morale - type->morale ) );
+        }
+    }
+    if( anger != type->agro ) {
+        int dt_left_a = to_turns<int>( dt );
+
+        if( std::abs( anger - type->agro ) > 15 ) {
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ),
+                                              ( std::abs( anger - type->agro ) - 15 ) );
+            dt_left_a -= adjust_by_a * 4;
+            if( anger < type->agro ) {
+                anger += adjust_by_a;
+            } else {
+                anger -= adjust_by_a;
+            }
+        }
+
+        if( anger > type->agro ) {
+            anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
+                               std::abs( anger - type->agro ) );
+        } else {
+            anger += std::min( ( dt_left_a / 8 ),
+                               std::abs( anger - type->agro ) );
+        }
+    }
+
+
+    // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {

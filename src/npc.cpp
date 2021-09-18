@@ -386,7 +386,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    weapon   = item( "null", calendar::turn_zero );
+    set_wielded_item( item( "null", calendar::turn_zero ) );
     inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -659,15 +659,16 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
     res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
-    if( who.weapon.is_gun() ) {
+    const item &weapon = who.get_wielded_item();
+    if( weapon.is_gun() ) {
         item ammo;
-        if( !who.weapon.magazine_default().is_null() ) {
-            item mag( who.weapon.magazine_default() );
+        if( !weapon.magazine_default().is_null() ) {
+            item mag( weapon.magazine_default() );
             mag.ammo_set( mag.ammo_default() );
             ammo = item( mag.ammo_default() );
             res.push_back( mag );
-        } else if( !who.weapon.ammo_default().is_null() ) {
-            ammo = item( who.weapon.ammo_default() );
+        } else if( !weapon.ammo_default().is_null() ) {
+            ammo = item( weapon.ammo_default() );
             // TODO: Move to npc_class
             // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
             int qty = 1 + ( type == NC_COWBOY ||
@@ -847,7 +848,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        weapon = item_group::item_from( type->weapon_override, calendar::turn );
+        set_wielded_item( item_group::item_from( type->weapon_override, calendar::turn ) );
         return;
     }
 
@@ -855,25 +856,25 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        weapon = random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) );
+        set_wielded_item( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
     } else if( best == skill_bashing ) {
-        weapon = random_item_from( type, "bashing", item_group_id( "survivor_bashing" ) );
+        set_wielded_item( random_item_from( type, "bashing", item_group_id( "survivor_bashing" ) ) );
     } else if( best == skill_cutting ) {
-        weapon = random_item_from( type, "cutting", item_group_id( "survivor_cutting" ) );
+        set_wielded_item( random_item_from( type, "cutting", item_group_id( "survivor_cutting" ) ) );
     } else if( best == skill_throw ) {
-        weapon = random_item_from( type, "throw" );
+        set_wielded_item( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
-        weapon = random_item_from( type, "archery" );
+        set_wielded_item( random_item_from( type, "archery" ) );
     } else if( best == skill_pistol ) {
-        weapon = random_item_from( type, "pistol", item_group_id( "guns_pistol_common" ) );
+        set_wielded_item( random_item_from( type, "pistol", item_group_id( "guns_pistol_common" ) ) );
     } else if( best == skill_shotgun ) {
-        weapon = random_item_from( type, "shotgun", item_group_id( "guns_shotgun_common" ) );
+        set_wielded_item( random_item_from( type, "shotgun", item_group_id( "guns_shotgun_common" ) ) );
     } else if( best == skill_smg ) {
-        weapon = random_item_from( type, "smg", item_group_id( "guns_smg_common" ) );
+        set_wielded_item( random_item_from( type, "smg", item_group_id( "guns_smg_common" ) ) );
     } else if( best == skill_rifle ) {
-        weapon = random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) );
+        set_wielded_item( random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) ) );
     }
-
+    item &weapon = get_wielded_item();
     if( weapon.is_gun() ) {
         if( !weapon.magazine_default().is_null() ) {
             weapon.ammo_set( weapon.magazine_default()->magazine->default_ammo );
@@ -1114,12 +1115,13 @@ bool npc::wield( item &it )
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
+    item &weapon = get_wielded_item();
     if( has_wield_conflicts( to_wield ) ) {
         stow_item( weapon );
     }
 
     if( to_wield.is_null() ) {
-        weapon = item();
+        set_wielded_item( item() );
         get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
@@ -1128,7 +1130,7 @@ bool npc::wield( item &it )
     if( to_wield.can_combine( weapon ) ) {
         weapon.combine( to_wield );
     } else {
-        weapon = to_wield;
+        set_wielded_item( to_wield );
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
@@ -1151,6 +1153,7 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 
 void npc::invalidate_range_cache()
 {
+    const item &weapon = get_wielded_item();
     if( weapon.is_gun() ) {
         confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
     } else {
@@ -1160,15 +1163,16 @@ void npc::invalidate_range_cache()
 
 void npc::form_opinion( const Character &you )
 {
+    const item weapon = you.get_wielded_item();
     // FEAR
-    if( you.weapon.is_gun() ) {
+    if( weapon.is_gun() ) {
         // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( you.weapon_value( you.weapon ) > 20 ) {
+    } else if( you.weapon_value( weapon ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !you.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1233,7 +1237,7 @@ void npc::form_opinion( const Character &you )
         op_of_u.trust += 1;
     }
 
-    if( you.weapon.is_gun() ) {
+    if( weapon.is_gun() ) {
         op_of_u.trust -= 2;
     } else if( !you.is_armed() ) {
         op_of_u.trust += 2;
@@ -1467,6 +1471,7 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
 
 void npc::decide_needs()
 {
+    const item &weapon = get_wielded_item();
     double needrank[num_needs];
     for( auto &elem : needrank ) {
         elem = 20;
@@ -1756,7 +1761,7 @@ int npc::value( const item &it, int market_price ) const
     if( my_fac && my_fac->currency == it.typeId() ) {
         return market_price;
     }
-
+    const item weapon = get_wielded_item();
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
     double weapon_val = weapon_value( it ) - weapon_value( weapon );
@@ -2172,7 +2177,7 @@ void npc::npc_dismount()
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
         !mounted_creature->type->mech_weapon.is_empty() ) {
-        remove_item( weapon );
+        remove_item( get_wielded_item() );
     }
     mounted_creature->remove_effect( effect_ridden );
     mounted_creature->add_effect( effect_controlled, 5_turns );
@@ -2185,7 +2190,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.damage_melee( damage_type::BASH );
+        return str_cur + get_wielded_item().damage_melee( damage_type::BASH );
     }
 
     // Not allowed to bash
@@ -2199,7 +2204,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return static_cast<float>( melee_value( weapon ) );
+    return static_cast<float>( melee_value( get_wielded_item() ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -2299,7 +2304,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( is_armed() ) {
         line += fold_and_print( w, point( column, line ), iWidth, c_red,
                                 std::string( "<color_light_gray>" ) + _( "Wielding: " ) + std::string( "</color>" ) +
-                                weapon.tname() );
+                                get_wielded_item().tname() );
     }
 
     // Worn gear list on following lines.
