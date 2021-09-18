@@ -2551,13 +2551,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
-    const auto gvload = [this]( const std::string & variant ) {
-        set_gun_variant( variant );
+    const auto ivload = [this]( const std::string & variant ) {
+        set_itype_variant( variant );
     };
-    const auto gvsave = []( const gun_variant_data * gv ) {
-        return gv->id;
+    const auto ivsave = []( const itype_variant_data * iv ) {
+        return iv->id;
     };
-    archive.io( "variant", _gun_variant, gvload, gvsave, false );
+    archive.io( "variant", _itype_variant, ivload, ivsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2750,11 +2750,11 @@ void item::deserialize( const JsonObject &data )
         }
     }
 
-    if( !has_gun_variant( false ) && can_have_gun_variant() ) {
-        if( possible_gun_variant( typeId().str() ) ) {
-            set_gun_variant( typeId().str() );
+    if( !has_itype_variant( false ) && can_have_itype_variant() ) {
+        if( possible_itype_variant( typeId().str() ) ) {
+            set_itype_variant( typeId().str() );
         } else {
-            select_gun_variant();
+            select_itype_variant();
         }
     }
 }

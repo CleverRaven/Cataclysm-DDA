@@ -5,6 +5,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Saiga shotgun 10-round magazine" },
     "description": "A removable plastic magazine for the Saiga shotgun.  Holds 10 rounds.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "saiga10mag",
@@ -30,6 +31,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Saiga shotgun 30-round drum magazine" },
     "description": "A removable plastic magazine for the Saiga shotgun.  Holds 30 rounds.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "saiga30mag",

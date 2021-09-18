@@ -4206,7 +4206,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
     // spawn the item
     item new_item( type_id, birthday );
-    new_item.set_gun_variant( variant );
+    new_item.set_itype_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }

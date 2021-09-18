@@ -129,9 +129,7 @@ static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
 static const material_id material_battery( "battery" );
-static const material_id material_chem_ethanol( "chem_ethanol" );
-static const material_id material_chem_methanol( "chem_methanol" );
-static const material_id material_denat_alcohol( "denat_alcohol" );
+static const material_id material_alcohol( "alcohol" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -1441,8 +1439,9 @@ void npc::evaluate_best_weapon( const Creature *target )
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
-        // ... you can also throw anything
-        compare( std::make_shared<npc_attack_throw>( *it ) );
+        if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
+            compare( std::make_shared<npc_attack_throw>( *it ) );
+        }
         if( !it->type->use_methods.empty() ) {
             compare( std::make_shared<npc_attack_activate_item>( *it ) );
         }
@@ -1674,7 +1673,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     item_location loc = item_location( *this, filtered_items.front() );
     const time_duration &consume_time = get_consume_time( *loc );
     moves -= to_moves<int>( consume_time );
-    return consume( loc ) != trinary::NONE;
+    return consume( loc, /*force=*/false, /*refuel=*/true ) != trinary::NONE;
 }
 
 bool npc::recharge_cbm()
@@ -1707,17 +1706,10 @@ bool npc::recharge_cbm()
                 return true;
             } else {
                 const std::vector<material_id> fuel_op = bid->fuel_opts;
-                const bool need_alcohol =
-                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_ethanol ) !=
-                    fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_methanol ) !=
-                    fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), material_denat_alcohol ) !=
-                    fuel_op.end();
 
                 if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-                } else if( need_alcohol ) {
+                } else if( std::find( fuel_op.begin(), fuel_op.end(), material_alcohol ) != fuel_op.end() ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
                 } else {
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );

@@ -55,6 +55,7 @@ mtype::mtype()
 
     burn_into = mtype_id::NULL_ID();
     sp_defense = nullptr;
+    melee_training_cap = MAX_SKILL;
     harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;

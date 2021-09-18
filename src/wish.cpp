@@ -775,7 +775,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     for( const itype *i : item_controller->all() ) {
         item option( i, calendar::turn_zero );
         // Only display the generic name if it has variants
-        option.clear_gun_variant();
+        option.clear_itype_variant();
         opts.emplace_back( option.tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
