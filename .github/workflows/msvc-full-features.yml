@@ -15,9 +15,8 @@ on:
     - 'msvc-object_creator/**'
     - 'object_creator/**'
     - 'tools/**'
+    - '!tools/format/**'
     - 'utilities/**'
-    - 'data/**'
-    - 'tests/**'
   pull_request:
     branches:
     - master
@@ -32,9 +31,8 @@ on:
     - 'msvc-object_creator/**'
     - 'object_creator/**'
     - 'tools/**'
+    - '!tools/format/**'
     - 'utilities/**'
-    - 'data/**'
-    - 'tests/**'
 
 env:
   # There's not enough disk space to build both release and debug versions of
@@ -77,7 +75,7 @@ jobs:
     - name: Build
       run: |
           cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 -target:Cataclysm-vcpkg-static Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" Cataclysm-vcpkg-static.sln
 
     - name: Dump logs if build failed
       if: failure()
@@ -95,6 +93,10 @@ jobs:
               type $_.FullName
             }
         }
+
+    - name: Run tests
+      run: |
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
 
     - name: Clean
       run: |
