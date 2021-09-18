@@ -372,6 +372,7 @@ struct repetition_folder {
     time_info m_time;
 
     static constexpr time_info timeout = { 0, 0, 0, 100 }; // 100ms timeout
+    static constexpr int repetition_killswitch = 10000;
 
     int repeat_count = 0;
 
@@ -439,6 +440,11 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             rep_folder.set( filename, line, funcname, text );
         } else {
             rep_folder.increment_count();
+
+            // Yell at user and crash if we get too high repetition count
+            if( rep_folder.repeat_count > rep_folder.repetition_killswitch ) {
+                cata_fatal( "Repetition threshold exceeded, killing program" );
+            }
         }
     }
 
