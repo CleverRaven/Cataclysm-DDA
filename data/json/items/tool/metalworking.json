@@ -385,7 +385,7 @@
   {
     "id": "pedal_grindstone",
     "type": "TOOL",
-    "name": { "str": "pedal grindstone" },
+    "name": { "str": "pedal powered grindstone" },
     "description": "A round, pedal-powered grindstone, useful for grinding metal. ",
     "weight": "15000g",
     "volume": "4 L",
@@ -402,7 +402,7 @@
     "id": "scraper_steel",
     "type": "TOOL",
     "name": { "str": "steel scraper" },
-    "description": "A hardened steel tool similar to a drawknife, but for metal ",
+    "description": "A hardened steel tool similar to a drawknife, but for metal. ",
     "weight": "500g",
     "volume": "500 ml",
     "price": 1200,

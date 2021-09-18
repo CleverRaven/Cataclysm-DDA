@@ -1247,10 +1247,10 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "book_learn": [
       [ "textbook_fabrication", 2 ],
-      [ "textbook_weapeast", 4 ],
-      [ "textbook_weapwest", 4 ],
-      [ "textbook_armeast", 4 ],
-      [ "textbook_armwest", 4 ]
+      [ "textbook_weapeast", 3 ],
+      [ "textbook_weapwest", 3 ],
+      [ "textbook_armeast", 3 ],
+      [ "textbook_armwest", 3 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
