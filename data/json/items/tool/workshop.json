@@ -582,7 +582,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ], ["GRIND", 2] ]
+    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ]
   },
   {
     "id": "metal_smoother",
@@ -783,7 +783,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities" :[ ["GRIND", 2] ],
+    "qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "pocket_data": [
@@ -1250,3 +1250,4 @@
     ]
   }
 ]
+
