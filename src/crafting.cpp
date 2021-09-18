@@ -913,7 +913,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     struct learn_subject {
         proficiency_id proficiency;
-        float time;
+        float time_multiplier;
         cata::optional<time_duration> max_experience;
     };
 
@@ -943,7 +943,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
                 // NPCs who know the proficiency and help teach you faster
                 npc_helper_bonus = 2;
             }
-            helper->practice_proficiency( subject.proficiency, subject.time * learn_time,
+            helper->practice_proficiency( subject.proficiency, subject.time_multiplier * learn_time,
                                           subject.max_experience );
         }
     }
@@ -951,7 +951,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
     bool gained_prof = false;
     for( const learn_subject &subject : subjects ) {
         gained_prof |= practice_proficiency( subject.proficiency,
-                                             learn_time * subject.time * npc_helper_bonus, subject.max_experience );
+                                             learn_time * subject.time_multiplier * npc_helper_bonus, subject.max_experience );
     }
     return gained_prof;
 }
