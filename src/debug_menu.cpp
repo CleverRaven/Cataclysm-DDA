@@ -1235,7 +1235,8 @@ static void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS, D_WRITE_EOCS
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
+        D_WRITE_EOCS, D_KILL_XP
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
@@ -1254,6 +1255,9 @@ static void character_edit_menu()
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
+    if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill [X]P" ) );
+    }
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true,
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
@@ -1437,6 +1441,13 @@ static void character_edit_menu()
                 int morale_level_delta = value - current_morale_level;
                 you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 you.apply_persistent_morale();
+            }
+        }
+        break;
+        case D_KILL_XP: {
+            int value;
+            if( query_int( value, _( "Set kill XP to?  Currently: %d" ), you.kill_xp ) ) {
+                you.kill_xp = value;
             }
         }
         break;
@@ -2127,9 +2138,6 @@ static void debug_menu_game_state()
     add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
              player_character.get_bmr() );
     add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
-    if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-        add_msg( m_info, _( "Kill xp: %d" ), player_character.kill_xp() );
-    }
     g->invalidate_main_ui_adaptor();
     g->disp_NPCs();
 }

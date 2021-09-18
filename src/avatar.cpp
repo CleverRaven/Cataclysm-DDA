@@ -1150,11 +1150,6 @@ int avatar::get_per_base() const
     return Character::get_per_base() + std::max( 0, per_upgrade );
 }
 
-int avatar::kill_xp() const
-{
-    return g->get_kill_tracker().kill_xp();
-}
-
 // based on  D&D 5e level progression
 static const std::array<int, 20> xp_cutoffs = { {
         300, 900, 2700, 6500, 14000,
@@ -1166,7 +1161,7 @@ static const std::array<int, 20> xp_cutoffs = { {
 
 int avatar::free_upgrade_points() const
 {
-    const int xp = kill_xp();
+    const int xp = kill_xp;
     int lvl = 0;
     for( const int &xp_lvl : xp_cutoffs ) {
         if( xp >= xp_lvl ) {
@@ -1184,12 +1179,12 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
 
     if( free_points <= 0 ) {
         std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
-                xp_cutoffs.end(), kill_xp() );
+                xp_cutoffs.end(), kill_xp );
         if( xp_next_level == xp_cutoffs.end() ) {
             popup( _( "You've already reached maximum level." ) );
         } else {
             popup( _( "Needs %d more experience to gain next level." ),
-                   *xp_next_level - kill_xp() );
+                   *xp_next_level - kill_xp );
         }
         return;
     }

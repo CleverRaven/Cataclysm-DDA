@@ -424,6 +424,8 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        int kill_xp;
+
         const profession *prof;
         std::set<const profession *> hobbies;
 

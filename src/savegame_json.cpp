@@ -672,6 +672,9 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
+    // stats through kills
+    data.read( "kill_xp", kill_xp );
+
     data.read( "magic", magic );
 
     data.read( "underwater", underwater );
@@ -1113,6 +1116,9 @@ void Character::store( JsonOut &json ) const
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
 
+    // stats through kills
+    json.member( "kill_xp", kill_xp );
+
     // breathing
     json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
@@ -1359,6 +1365,11 @@ void avatar::load( const JsonObject &data )
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+    }
+
+    // TEMPORARY until 0.G
+    if( !data.has_member( "kill_xp" ) ) {
+        kill_xp = g->get_kill_tracker().legacy_kill_xp();
     }
 
     // Remove after 0.F

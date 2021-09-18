@@ -229,8 +229,6 @@ class avatar : public Character
         void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
-        // how much "kill xp" you have
-        int kill_xp() const;
         void power_bionics() override;
         void power_mutations() override;
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */

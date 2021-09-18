@@ -816,7 +816,7 @@ Example | Description
 `"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy. 
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
-`"u_val": "exp"` | Total experience earned. Not supported for NPCs. Can be read but not written to.
+`"u_val": "exp"` | Total experience earned.
 `"u_val": "stim"` | Current stim level.
 `"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.
