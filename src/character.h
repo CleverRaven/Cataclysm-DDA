@@ -425,6 +425,8 @@ class Character : public Creature, public visitable
         int per_cur;
 
         int kill_xp;
+        // Level-up points spent on Stats through Kills
+        int spent_upgrade_points;
 
         const profession *prof;
         std::set<const profession *> hobbies;
@@ -448,10 +450,10 @@ class Character : public Creature, public visitable
         int get_per() const;
         int get_int() const;
 
-        virtual int get_str_base() const;
-        virtual int get_dex_base() const;
-        virtual int get_per_base() const;
-        virtual int get_int_base() const;
+        int get_str_base() const;
+        int get_dex_base() const;
+        int get_per_base() const;
+        int get_int_base() const;
 
         int get_str_bonus() const;
         int get_dex_bonus() const;
