@@ -32,7 +32,7 @@
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "chain", "count": [ 1, 4 ] }
     ]
-  },  
+  },
   {
     "abstract": "seat_abstract",
     "breaks_into": "ig_vp_seat",

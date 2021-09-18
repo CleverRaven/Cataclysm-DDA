@@ -1388,11 +1388,10 @@
       { "x": -8, "y": 3, "parts": [ "frame_se", "reinforced_windshield_se_edge", "roof" ] },
       { "x": -8, "y": 3, "part": "plating_steel" }
     ],
-       "items": [ 
-        { "x": -1, "y": 2, "chance": 35, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
-        { "x": -1, "y": 2, "chance": 20, "magazine": 100, "ammo": 50, "item_groups": [ "guns_shotgun_milspec" ] }
-        ]
- 
+    "items": [
+      { "x": -1, "y": 2, "chance": 35, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
+      { "x": -1, "y": 2, "chance": 20, "magazine": 100, "ammo": 50, "item_groups": [ "guns_shotgun_milspec" ] }
+    ]
   },
   {
     "id": "bus",
