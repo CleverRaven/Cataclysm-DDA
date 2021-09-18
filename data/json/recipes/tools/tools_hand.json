@@ -1175,5 +1175,78 @@
     "time": "15 m",
     "autolearn": true,
     "components": [ [ [ "material_sand", 5 ] ], [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "nail", 8 ], [ "superglue", 4 ] ] ]
-  }
+  },
+{"type": "recipe",
+  "activity_level": "BRISK_EXERCISE",
+  "result": "stone_polishing",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": "20 h",
+  "autolearn": true,
+  "tools": [ [ ["rock",-1] ] ],
+  "components": [[ [ "material_sand", 5 ],["material_gravel", 5]],  [ [ "rock_large", 1 ] ] , 
+  [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ] ],
+  "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ]
+},
+{"type": "recipe",
+  "activity_level": "MODERATE_EXERCISE",
+  "result": "pedal_grindstone",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": ["mechanics",2],
+  "difficulty": 5,
+  "time": "1 h",
+  "autolearn": true,
+  "book_learn":[
+  [ "textbook_fabrication", 3 ],
+  [ "textbook_weapeast", 4 ],
+  [ "textbook_weapwest", 4 ],
+  [ "textbook_armeast", 4 ],
+  [ "textbook_armwest", 4 ],
+  [ "manual_mechanics", 3 ]],
+  "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" },
+  {"proficiency":"prof_metalworking"},{"proficiency":"prof_blacksmithing"} ],
+  "qualities": [
+    { "id": "HAMMER", "level": 1 },
+    { "id": "CHISEL_WOOD", "level": 1 },
+    { "id": "DRILL_ROCK", "level": 1 },
+    { "id": "CHISEL", "level" : 3}
+  ],
+  "components": [
+    [ [ "stick", 6 ], [ "2x4", 6 ] , ["xlframe",1], ["frame_wood",1] ],
+    [ [ "rock_large", 4 ] ],
+    [ ["foot_crank",1] ],
+    [ ["rope_6", 2], ["rope_30", 1] ],
+    [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+    [ [ "material_sand", 2 ], [ "material_gravel", 2 ] ]
+  ]
+},
+{"type": "recipe",
+  "activity_level": "BRISK_EXERCISE",
+  "result": "scraper_steel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": "45 m",
+  "autolearn": true,
+  "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+  "book_learn": [
+    [ "textbook_fabrication", 2 ],
+    [ "textbook_weapeast", 4 ],
+    [ "textbook_weapwest", 4 ],
+    [ "textbook_armeast", 4 ],
+    [ "textbook_armwest", 4 ]
+  ],
+  "proficiencies": [
+  { "proficiency": "prof_metalworking" },
+  { "proficiency": "prof_blacksmithing" },
+  { "proficiency": "prof_toolsmithing" }
+  ],
+  "components": [ [ [  "2x4", 1], ["stick", 1] ] ]
+  
+}
 ]
