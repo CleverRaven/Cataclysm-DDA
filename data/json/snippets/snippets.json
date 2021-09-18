@@ -195,19 +195,7 @@
   {
     "type": "snippet",
     "category": "slime_cheers",
-    "text": [
-      {
-        "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
-        "str": "\"hey, it's gonna be all right!\""
-      },
-      {
-        "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
-        "str": "\"we'll get through this!\""
-      },
-      {
-        "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
-        "str": "\"i'm here for you!\""
-      }
-    ]
+    "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+    "text": [ "\"hey, it's gonna be all right!\"", "\"we'll get through this!\"", "\"i'm here for you!\"" ]
   }
 ]
