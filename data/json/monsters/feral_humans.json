@@ -25,7 +25,7 @@
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
-    "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
       {
@@ -35,9 +35,8 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "rock",
         "no_ammo_sound": "",
-        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
-        "fake_dex": 6,
-        "fake_per": 6,
+        "fake_skills": [ [ "throw", 4 ] ],
+        "fake_str": 7,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -58,6 +57,26 @@
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
+  },
+  {
+    "id": "mon_chud",
+    "type": "MONSTER",
+    "name": { "str": "feral troglobite" },
+    "description": "One of the still-living crazed humans, changed by something they are exposed to down here.  Their face is dominated by unnaturally large, faintly glowing eyes and needle-sharp teeth poking through their lips.  They remind you of something out of a campy monster movie - and of the good times when underground cannibals were less of a real concern.",
+    "copy-from": "mon_feral_human_pipe",
+    "looks_like": "mon_zombie_runner",
+    "symbol": "@",
+    "color": "white",
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 3,
+    "dodge": 4,
+    "vision_night": 15,
+    "special_attacks": [ { "id": "scratch", "min_mul": 0.5, "cooldown": 10 }, { "type": "bite", "min_mul": 0.7, "cooldown": 15 } ],
+    "death_drops": "default_zombie_death_drops",
+    "zombify_into": "mon_zombie_shady",
+    "extend": { "flags": [ "FILTHY" ] }
   },
   {
     "id": "mon_feral_human_crowbar",
@@ -101,8 +120,8 @@
     "melee_dice_sides": 3,
     "melee_cut": 2,
     "dodge": 1,
-    "harvest": "CBM_SCI_FERAL",
-    "path_settings": { "max_dist": 10 },
+    "harvest": "human",
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "vision_day": 50,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
@@ -117,7 +136,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO",
       "CBM_SCI"
     ]
@@ -151,7 +170,7 @@
     "harvest": "human",
     "vision_day": 50,
     "vision_night": 4,
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "diff": 5,
     "starting_ammo": { "9mm": 5 },
     "special_attacks": [
@@ -183,7 +202,7 @@
       "CAN_OPEN_DOORS",
       "CLIMBS",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
   },

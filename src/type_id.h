@@ -93,6 +93,9 @@ using matype_id = string_id<martialart>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
+
 class material_type;
 using material_id = string_id<material_type>;
 
@@ -118,6 +121,9 @@ using mtype_id = string_id<mtype>;
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
+class npc_template;
+using npc_template_id = string_id<npc_template>;
+
 class faction;
 using faction_id = string_id<faction>;
 
@@ -128,6 +134,9 @@ using oter_str_id = string_id<oter_t>;
 struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 class profession;
 using profession_id = string_id<profession>;
@@ -146,6 +155,9 @@ using skill_displayType_id = string_id<SkillDisplayType>;
 
 struct species_type;
 using species_id = string_id<species_type>;
+
+class speed_description;
+using speed_description_id = string_id<speed_description>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;
@@ -215,5 +227,8 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+class widget;
+using widget_id = string_id<widget>;
 
 #endif // CATA_SRC_TYPE_ID_H

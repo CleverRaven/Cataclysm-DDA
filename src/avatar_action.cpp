@@ -20,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -57,7 +58,6 @@
 #include "vpart_position.h"
 
 class gun_mode;
-class player;
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
@@ -77,15 +77,13 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_RAMP_END( "RAMP_END" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool check_water_affect_items( avatar &you )
 {
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
 
     for( item_location &loc : you.all_items_loc() ) {
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
@@ -93,10 +91,13 @@ static bool check_water_affect_items( avatar &you )
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
             destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
         }
     }
 
-    if( dissolved.empty() && destroyed.empty() ) {
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
         return query_yn( _( "Dive into the water?" ) );
     }
 
@@ -128,6 +129,13 @@ static bool check_water_affect_items( avatar &you )
         }
     }
 
+    if( !wet.empty() ) {
+        add_header( _( "Will get wet:" ) );
+        for( item_location &it : wet ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
     menu.query();
     if( menu.ret != 1 ) {
         you.add_msg_if_player( _( "You back away from the water." ) );
@@ -145,6 +153,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return false;
     }
+
+    // If any leg broken without crutches and not already on the ground topple over
+    if( ( you.get_working_leg_count() < 2 && !you.get_wielded_item().has_flag( flag_CRUTCHES ) ) &&
+        !you.is_prone() ) {
+        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.add_msg_if_player( m_bad,
+                               _( "Your broken legs can't hold your weight and you fall down in pain." ) );
+    }
+
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( d.z == 0 && you.has_effect( effect_stunned ) ) {
@@ -162,26 +179,28 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     bool via_ramp = false;
-    if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
+    if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest_loc ) ) {
         dest_loc.z += 1;
         via_ramp = true;
-    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ) {
+    } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest_loc ) ) {
         dest_loc.z -= 1;
         via_ramp = true;
     }
 
-    if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
+    item &weapon = you.get_wielded_item();
+    if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
-        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
-                you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
+        if( weapon.has_flag( flag_DIG_TOOL ) ) {
+            if( weapon.type->can_use( "JACKHAMMER" ) &&
+                weapon.ammo_sufficient( &you ) ) {
+                you.invoke_item( &weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
+            } else if( weapon.type->can_use( "PICKAXE" ) ) {
+                you.invoke_item( &weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -290,8 +309,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // Check if our movement is actually an attack on a monster or npc
     // Are we displacing a monster?
 
+    creature_tracker &creatures = get_creature_tracker();
     bool attacking = false;
-    if( g->critter_at( dest_loc ) ) {
+    if( creatures.creature_at( dest_loc ) ) {
         attacking = true;
     }
 
@@ -300,7 +320,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return false;
     }
 
-    if( monster *const mon_ptr = g->critter_at<monster>( dest_loc, true ) ) {
+    if( monster *const mon_ptr = creatures.creature_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
@@ -333,7 +353,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Successful displacing is handled (much) later
     }
     // If not a monster, maybe there's an NPC there
-    if( npc *const np_ = g->critter_at<npc>( dest_loc ) ) {
+    if( npc *const np_ = creatures.creature_at<npc>( dest_loc ) ) {
         npc &np = *np_;
         if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto-move canceled." ) );
@@ -380,10 +400,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
-    bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
+    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
+    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
+    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
+    bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
     bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
     if( is_riding ) {
@@ -442,7 +462,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -505,7 +525,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // We're moving onto a tile with no support, check if it has a ramp below
     if( !m.has_floor_or_support( dest_loc ) ) {
         tripoint below( dest_loc.xy(), dest_loc.z - 1 );
-        if( m.has_flag( TFLAG_RAMP, below ) ) {
+        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
             move( you, m, tripoint( dp.xy(), -1 ) );
@@ -517,7 +537,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         return false;
     }
 
-    if( !m.has_flag( TFLAG_RAMP, you.pos() ) ||
+    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos() ) ||
         m.passable( dest_loc ) ) {
         return false;
     }
@@ -526,7 +546,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( flag_RAMP_END, pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -551,7 +571,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
-    if( !m.has_flag( flag_SWIMMABLE, p ) ) {
+    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );
@@ -602,7 +622,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return;
         }
     }
@@ -638,7 +658,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return np->weapon_value( np->get_wielded_item() );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -647,7 +667,8 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    int reach = you.weapon.reach_range( you );
+    const item &weapon = you.get_wielded_item();
+    int reach = weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -773,7 +794,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item &weapon = you.weapon;
+    const item &weapon = you.get_wielded_item();
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -781,7 +802,8 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
+    } else if( weapon.ammo_data() &&
+               !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
@@ -827,7 +849,7 @@ void avatar_action::mend( avatar &you, item_location loc )
 
     if( !loc ) {
         if( you.is_armed() ) {
-            loc = item_location( you, &you.weapon );
+            loc = item_location( you, &you.get_wielded_item() );
         } else {
             add_msg( m_info, _( "You're not wielding anything." ) );
             return;
@@ -1005,7 +1027,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
+    item &weapon = you.get_wielded_item();
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1017,8 +1040,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
-        you.weapon.mod_charges( -1 );
+    if( weapon.count_by_charges() && weapon.charges > 1 ) {
+        weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.remove_weapon();
@@ -1072,6 +1095,18 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
+
+    if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+            loc->deactivate();
+            loc->set_flag( flag_ITEM_BROKEN );
+        } else {
+            return;
+        }
+    }
+
+    item_pocket *parent_pocket = nullptr;
+    bool on_person = true;
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
@@ -1085,9 +1120,19 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         if( loc_where != item_location::type::character ) {
             you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
-
+            on_person = false;
         }
+
+        // Get the parent pocket before the item is obtained.
+        if( loc.has_parent() ) {
+            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+        }
+
         loc = loc.obtain( you, 1 );
+
+        if( parent_pocket ) {
+            parent_pocket->on_contents_changed();
+        }
         if( pre_obtain_moves == -1 ) {
             pre_obtain_moves = you.moves;
         }
@@ -1105,8 +1150,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         make_active( loc );
     } else {
         you.use( loc, pre_obtain_moves );
-    }
 
+        if( parent_pocket && on_person && parent_pocket->will_spill() ) {
+            parent_pocket->handle_liquid_or_spill( you );
+        }
+    }
     you.invalidate_crafting_inventory();
 }
 

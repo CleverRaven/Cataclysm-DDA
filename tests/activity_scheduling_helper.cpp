@@ -5,6 +5,7 @@
 #include <list>
 
 #include "avatar.h"
+#include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
 #include "map_helpers.h"
@@ -135,9 +136,7 @@ const schedule &tasklist::next_task()
     // Uh oh! We ran out of tasks!
     if( cursor >= tasks.size() ) {
         debugmsg( "Requested task when none existed!" );
-        if( tasks.empty() ) {
-            abort();
-        }
+        REQUIRE( !tasks.empty() );
         return *tasks[0].first;
     }
     return *tasks[cursor].first;

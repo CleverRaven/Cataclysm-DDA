@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <climits>
 #include <cstddef>
@@ -220,11 +218,11 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             body_part_names( penalties.body_parts_with_stacking_penalty );
         std::string message =
             string_format(
-                ngettext( "Wearing multiple items %s on your "
-                          "<color_light_red>%s</color> is adding encumbrance there.",
-                          "Wearing multiple items %s on your "
-                          "<color_light_red>%s</color> is adding encumbrance there.",
-                          penalties.body_parts_with_stacking_penalty.size() ),
+                n_gettext( "Wearing multiple items %s on your "
+                           "<color_light_red>%s</color> is adding encumbrance there.",
+                           "Wearing multiple items %s on your "
+                           "<color_light_red>%s</color> is adding encumbrance there.",
+                           penalties.body_parts_with_stacking_penalty.size() ),
                 layer_description, body_parts
             );
         i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
@@ -237,21 +235,21 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
 
         if( penalties.bad_items_within.empty() ) {
             message = string_format(
-                          ngettext( "Wearing this outside items it would normally be beneath "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    "Wearing this outside items it would normally be beneath "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          n_gettext( "Wearing this outside items it would normally be beneath "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     "Wearing this outside items it would normally be beneath "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     penalties.body_parts_with_out_of_order_penalty.size() ),
                           body_parts
                       );
         } else {
             std::string bad_item_name = *penalties.bad_items_within.begin();
             message = string_format(
-                          ngettext( "Wearing this outside your <color_light_blue>%s</color> "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    "Wearing this outside your <color_light_blue>%s</color> "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          n_gettext( "Wearing this outside your <color_light_blue>%s</color> "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     "Wearing this outside your <color_light_blue>%s</color> "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     penalties.body_parts_with_out_of_order_penalty.size() ),
                           bad_item_name, body_parts
                       );
         }
@@ -424,7 +422,7 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     wnoutrefresh( w );
 }
 
-void player::sort_armor()
+void Character::sort_armor()
 {
     /* Define required height of the right pane:
     * + 3 - horizontal lines;
@@ -710,7 +708,7 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             // Totally hoisted this from advanced_inv
             if( player_character.moves < 0 ) {
                 do_return_entry();
@@ -719,11 +717,11 @@ void player::sort_armor()
         } else {
             // Player is sorting NPC's armor here
             if( rl_dist( player_character.pos(), pos() ) > 1 ) {
-                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), get_name() );
                 return;
             }
             if( attitude_to( player_character ) != Creature::Attitude::FRIENDLY ) {
-                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), get_name() );
                 return;
             }
         }

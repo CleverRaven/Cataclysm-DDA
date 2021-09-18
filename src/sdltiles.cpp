@@ -19,6 +19,7 @@
 #include <map>
 #include <memory>
 #include <set>
+#include <stack>
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
@@ -100,6 +101,7 @@
 //***********************************
 
 std::unique_ptr<cata_tiles> tilecontext;
+std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -242,11 +244,14 @@ static void WinCreate()
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
+        // It still minimizes, but the screen size is not set to 0 to cause
+        // division by zero
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+        // So you can switch to desktop without the game window obscuring it.
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
@@ -698,7 +703,8 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
         return std::make_pair( mission_target, mission_arrow_variant );
     }
 
-    const std::vector<tripoint> mission_trajectory = line_to( center.raw(), mission_target.raw() );
+    const std::vector<tripoint> mission_trajectory = line_to( center.raw(),
+            tripoint( mission_target.raw().xy(), center.raw().z ) );
 
     cata::optional<tripoint> prev;
     int z = 0;
@@ -804,6 +810,24 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
     return ot_type_id.id().str();
 }
 
+static point draw_string( Font &font,
+                          const SDL_Renderer_Ptr &renderer,
+                          const GeometryRenderer_Ptr &geometry,
+                          const std::string &str,
+                          point p,
+                          const unsigned char color )
+{
+    const char *cstr = str.c_str();
+    int len = str.length();
+    while( len > 0 ) {
+        const uint32_t ch32 = UTF8_getch( &cstr, &len );
+        const std::string ch = utf32_to_utf8( ch32 );
+        font.OutputChar( renderer, geometry, ch, p, color );
+        p.x += mk_wcwidth( ch32 ) * font.width;
+    }
+    return p;
+}
+
 void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
 {
     if( !g ) {
@@ -831,10 +855,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
-    color_block_overlay_container color_blocks;
-    // Strings with colors do be drawn with map_font on top of tiles.
-    std::multimap<point, formatted_text> overlay_strings;
     point s;
     get_window_tile_counts( width, height, s.x, s.y );
 
@@ -955,7 +975,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
-                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE, "" ) ) {
                     draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 } else {
@@ -990,7 +1010,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              lit_level::LOW, true );
     }
     if( uistate.place_special ) {
-        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
@@ -1002,15 +1022,18 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
                 draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
-                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0,
+                                     rotation, lit_level::LOW, true );
             }
         }
     }
 
+    auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
+
     // draw nearby seen npcs
-    for( const shared_ptr_fast<npc> &guy : overmap_buffer.get_npcs_near_player( sight_points ) ) {
+    for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
         const tripoint_abs_omt &guy_loc = guy->global_omt_location();
-        if( overmap_buffer.seen( guy_loc ) ) {
+        if( guy_loc.z() == center_abs_omt.z() && ( has_debug_vision || overmap_buffer.seen( guy_loc ) ) ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ), lit_level::LIT,
                                        height_3d );
         }
@@ -1022,6 +1045,14 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                          false );
 
     if( blink ) {
+        // Draw path for auto-travel
+        for( const tripoint_abs_omt &pos : you.omt_path ) {
+            if( pos.z() == center_abs_omt.z() ) {
+                draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+                                     false );
+            }
+        }
+
         // reduce the area where the map cursor is drawn so it doesn't get cut off
         inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
         map_cursor_area.p_max.y--;
@@ -1033,30 +1064,28 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    // Labels need to be drawn last, as anything that attempts to draw a sprite after will fail.
     if( !viewing_weather && uistate.overmap_show_city_labels ) {
 
         const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
             const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
                                            ( city_pos ) ) - o;
-            point draw_point( tile_draw_pos.x * width / max_col, tile_draw_pos.y * height / max_row );
-            draw_point.x -= label_length * font->width;
-            draw_point.x += width / max_col;
+            point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                              tile_draw_pos.y * tile_height + dest.y );
+            // center text on the tile
+            draw_point += point( ( tile_width - label_length * fontwidth ) / 2,
+                                 ( tile_height - fontheight ) / 2 );
             return draw_point;
         };
 
         // draws a black rectangle behind a label for visibility and legibility
         const auto label_bg = [&]( const tripoint_abs_sm & pos, const std::string & name ) {
-            const int name_length = name.length();
+            const int name_length = utf8_width( name );
             const point draw_pos = abs_sm_to_draw_label( pos, name_length );
             SDL_Rect clipRect = { draw_pos.x, draw_pos.y, name_length * fontwidth, fontheight };
-            printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
-                          "SDL_RenderSetClipRect failed" );
 
             geometry->rect( renderer, clipRect, SDL_Color() );
 
-            const point label_pos( draw_pos + point( -( name.length() * fontwidth / 2 ), 0 ) );
-            map_font->OutputChar( renderer, geometry, name, label_pos, 11 );
+            draw_string( *font, renderer, geometry, name, draw_pos, 11 );
         };
 
         // the tiles on the overmap are overmap tiles, so we need to use
@@ -1080,6 +1109,119 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
         }
     }
+
+    std::vector<std::pair<nc_color, std::string>> notes_window_text;
+
+    if( uistate.overmap_show_map_notes ) {
+        const std::string &note_text = overmap_buffer.note( center_abs_omt );
+        if( !note_text.empty() ) {
+            const std::tuple<char, nc_color, size_t> note_info = overmap_ui::get_note_display_info(
+                        note_text );
+            const size_t pos = std::get<2>( note_info );
+            if( pos != std::string::npos ) {
+                notes_window_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
+            }
+            if( overmap_buffer.is_marked_dangerous( center_abs_omt ) ) {
+                notes_window_text.emplace_back( c_red, _( "DANGEROUS AREA!" ) );
+            }
+        }
+    }
+
+    if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
+        for( const auto &npc : npcs_near_player ) {
+            if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
+            }
+        }
+    }
+
+    for( auto &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
+        notes_window_text.emplace_back( c_white, v.name );
+    }
+
+    if( !notes_window_text.empty() ) {
+        constexpr int padding = 2;
+
+        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        nc_color & color ) {
+            char note_fg_color = color == c_yellow ? 11 :
+                                 cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
+            return draw_string( *font, renderer, geometry, name, draw_pos, note_fg_color );
+        };
+
+        // Find screen coordinates to the right of the center tile
+        auto center_sm = coords::project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
+                         center_abs_omt.y(), center_abs_omt.z() ) );
+        const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                       ( center_sm ) ) - o;
+        point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                          tile_draw_pos.y * tile_height + dest.y );
+        draw_point += point( padding, padding );
+
+        // Draw notes header. Very simple label at the moment
+        nc_color header_color = c_white;
+        const std::string header_string = _( "-- Notes: --" );
+        SDL_Rect header_background_rect = {
+            draw_point.x - padding,
+            draw_point.y - padding,
+            fontwidth * utf8_width( header_string ) + padding * 2,
+            fontheight + padding * 2
+        };
+        geometry->rect( renderer, header_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_note_text( draw_point, header_string, header_color );
+        draw_point.y += fontheight + padding * 2;
+
+        const int starting_x = draw_point.x;
+
+        for( auto &line : notes_window_text ) {
+            const auto color_segments = split_by_color( line.second );
+            std::stack<nc_color> color_stack;
+            nc_color default_color = std::get<0>( line );
+            color_stack.push( default_color );
+            std::vector<std::tuple<nc_color, std::string>> colored_lines;
+
+            draw_point.x = starting_x;
+
+            int line_length = 0;
+            for( auto seg : color_segments ) {
+                if( seg.empty() ) {
+                    continue;
+                }
+
+                if( seg[0] == '<' ) {
+                    const color_tag_parse_result::tag_type type = update_color_stack(
+                                color_stack, seg, report_color_error::no );
+                    if( type != color_tag_parse_result::non_color_tag ) {
+                        seg = rm_prefix( seg );
+                    }
+                }
+
+                nc_color &color = color_stack.empty() ? default_color : color_stack.top();
+                colored_lines.emplace_back( color, seg );
+                line_length += utf8_width( seg );
+            }
+
+            // Draw background first for the whole line
+            SDL_Rect background_rect = {
+                draw_point.x - padding,
+                draw_point.y - padding,
+                fontwidth *line_length + padding * 2,
+                fontheight + padding * 2
+            };
+            geometry->rect( renderer, background_rect, SDL_Color{ 0, 0, 0, 175 } );
+
+            // Draw colored text segments
+            for( auto &colored_line : colored_lines ) {
+                std::string &text = std::get<1>( colored_line );
+                draw_point.x = draw_note_text( draw_point, text, std::get<0>( colored_line ) ).x;
+            }
+
+            draw_point.y += fontheight + padding;
+        }
+    }
+
+    printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
+                  "SDL_RenderSetClipRect failed" );
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
@@ -1383,6 +1525,10 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         }
         // Special font for the terrain window
         update = draw_window( map_font, w );
+    } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
+        overmap_tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center,
+                                      overmap_ui::redraw_info.blink );
+        update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = draw_window( overmap_font, w );
@@ -2118,7 +2264,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( player_character.weapon.invlet == key ) {
+                    if( player_character.get_wielded_item().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2253,8 +2399,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( player_character.weapon.invlet == key ) {
-                        hint_text = player_character.weapon.display_name();
+                    if( player_character.get_wielded_item().invlet == key ) {
+                        hint_text = player_character.get_wielded_item().display_name();
                     }
                 }
             } else {
@@ -2307,6 +2453,7 @@ void draw_quick_shortcuts()
             text_x = ( ( i + 0.5f ) * width - ( font->width * utf8_width( text ) ) * text_scale * 0.5f ) /
                      text_scale;
         }
+        // TODO use draw_string instead
         text_y = ( WindowHeight - ( height + font->height * text_scale ) * 0.5f ) / text_scale;
         font->OutputChar( renderer, geometry, text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
@@ -2626,7 +2773,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
+                    if( player_character.get_wielded_item().is_gun() ||
+                        player_character.get_wielded_item().has_flag( flag_REACH_ATTACK ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -3423,9 +3571,27 @@ void catacurses::init_interface()
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                   /*precheck=*/true, /*force=*/false,
+                                   /*pump_events=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/true, /*force=*/false,
+                                           /*pump_events=*/true );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
@@ -3462,8 +3628,17 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                               /*precheck=*/false, /*force=*/false,
+                               /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
+
+    if( overmap_tilecontext ) {
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/false, /*force=*/false,
+                                           /*pump_events=*/true );
+        overmap_tilecontext->do_tile_loading_report();
+    }
 }
 
 //Ends the terminal, destroy everything
@@ -3493,6 +3668,19 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
+}
+
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
@@ -3514,11 +3702,17 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 #endif
 
     previously_pressed_key = 0;
+
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
-
-    wrefresh( catacurses::stdscr );
+    // however, the refresh call has not effect when nothing has been drawn, so
+    // we can skip screen update if `needupdate` is false to improve performance during mouse
+    // move events.
+    wnoutrefresh( catacurses::stdscr );
+    if( needupdate ) {
+        refresh_display();
+    }
 
     if( inputdelay < 0 ) {
         do {
@@ -3548,9 +3742,8 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         CheckMessages();
     }
 
-    if( last_input.type == input_event_t::mouse ) {
-        SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
-    } else if( last_input.type == input_event_t::keyboard_char ) {
+    SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
+    if( last_input.type == input_event_t::keyboard_char ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
         android_vibrate();
@@ -3573,7 +3766,6 @@ bool gamepad_available()
 void rescale_tileset( int size )
 {
     tilecontext->set_draw_scale( size );
-    g->mark_main_ui_adaptor_resize();
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,

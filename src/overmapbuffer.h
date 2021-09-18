@@ -28,18 +28,33 @@ class npc;
 class overmap;
 class overmap_special_batch;
 class vehicle;
+struct mapgen_arguments;
 struct mongroup;
 struct om_vehicle;
 struct radio_tower;
 struct regional_settings;
 
-struct path_type {
-    bool only_road = false;
-    bool only_water = false;
-    bool amphibious = false;
-    bool only_air = false;
-    bool avoid_danger = false;
-    bool only_known_by_player = false;
+struct overmap_path_params {
+    int road_cost = -1;
+    int field_cost = -1;
+    int dirt_road_cost = -1;
+    int trail_cost = -1;
+    int forest_cost = -1;
+    int small_building_cost = -1;
+    int shore_cost = -1;
+    int swamp_cost = -1;
+    int water_cost = -1;
+    int air_cost = -1;
+    int other_cost = -1;
+    bool avoid_danger = true;
+    bool only_known_by_player = true;
+
+    static constexpr int standard_cost = 10;
+    static overmap_path_params for_player();
+    static overmap_path_params for_npc();
+    static overmap_path_params for_land_vehicle( float offroad_coeff, bool tiny, bool amphibious );
+    static overmap_path_params for_watercraft();
+    static overmap_path_params for_aircraft();
 };
 
 struct radio_tower_reference {
@@ -140,11 +155,17 @@ class overmapbuffer
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
         /**
-         * Uses global overmap terrain coordinates, creates the
-         * overmap if needed.
+         * Returns the overmap terrain at the given OMT coordinates.
+         * Creates a new overmap if necessary.
          */
         const oter_id &ter( const tripoint_abs_omt &p );
+        /**
+         * Returns the overmap terrain at the given OMT coordinates.
+         * Returns ot_null if the point is not in any existing overmap.
+         */
+        const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
+        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -224,7 +245,7 @@ class overmapbuffer
         cata::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
-         * Only npcs on the given z-level are considered.
+         * All z-levels are considered.
          * Uses square_dist for distance calculation.
          * @param p Central point in submap coordinates.
          * @param radius Maximal distance of npc from (x,y). If the npc
@@ -241,9 +262,9 @@ class overmapbuffer
         std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs( int range = 100 );
         /**
          * Uses overmap terrain coordinates, this also means radius is
-         * in overmap terrain.
+         * in overmap terrain. All z-levels are considered.
          * A radius of 0 returns all npcs that are on that specific
-         * overmap terrain tile.
+         * overmap terrain tile or above/below.
          */
         std::vector<shared_ptr_fast<npc>> get_npcs_near_omt( const tripoint_abs_omt &p, int radius );
         /**
@@ -316,10 +337,8 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius );
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint_abs_omt> get_npc_path( const tripoint_abs_omt &src,
-                const tripoint_abs_omt &dest );
-        std::vector<tripoint_abs_omt> get_npc_path(
-            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, path_type &ptype );
+        std::vector<tripoint_abs_omt> get_travel_path(
+            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
         /**
@@ -399,6 +418,25 @@ class overmapbuffer
          * therefore you should probably call @ref map::spawn_monsters to spawn them.
          */
         void move_hordes();
+        /**
+         * Signal nemesis horde to player location
+         * @param p is the player's location, which functions as the signal origin
+         * only the nemesis horde can 'hear' this signal.
+         */
+        void signal_nemesis( const tripoint_abs_sm p );
+        /**
+         * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
+         */
+        void add_nemesis( const tripoint_abs_omt &p );
+        /**
+         * moves 'nemesis' horde spawned by the "hunted" trait across every overmap
+         * regardless of distance from player
+         */
+        void move_nemesis();
+        /**
+         * removes 'nemesis' horde spawned by the "hunted" on player death
+         */
+        void remove_nemesis();
         // hordes -- this uses overmap terrain coordinates!
         std::vector<mongroup *> monsters_at( const tripoint_abs_omt &p );
         /**
@@ -456,11 +494,11 @@ class overmapbuffer
          * @param must_be_unexplored If true, will require that all of the terrains where the special would be
          * placed are unexplored.
          * @param force If true, placement will bypass the checks for valid placement.
-         * @returns True if the special was placed, else false.
+         * @returns If the special was placed, a vector of the points used, else nullopt.
          */
-        bool place_special( const overmap_special &special, const tripoint_abs_omt &p,
-                            om_direction::type dir,
-                            bool must_be_unexplored, bool force );
+        cata::optional<std::vector<tripoint_abs_omt>> place_special(
+                    const overmap_special &special, const tripoint_abs_omt &origin,
+                    om_direction::type dir, bool must_be_unexplored, bool force );
         /**
          * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
          * when you have a special that you want placed but it should be placed similarly to as if it were
@@ -515,6 +553,7 @@ class overmapbuffer
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
+        cata::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and
@@ -530,6 +569,11 @@ class overmapbuffer
          * groups to the correct overmap (if it exists), also removes empty groups.
          */
         void fix_mongroups( overmap &new_overmap );
+        /**
+         * Go thorough the monster groups of the overmap to find the nemesis
+         * horde from the "hunted" trait and move it across overmaps.
+         */
+        void fix_nemesis( overmap &new_overmap );
         /**
          * Moves out-of-bounds NPCs to the overmaps they should be in.
          */

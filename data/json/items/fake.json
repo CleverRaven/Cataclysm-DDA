@@ -30,7 +30,6 @@
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
-    "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
       [ "HAMMER", 3 ],
@@ -170,8 +169,15 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
     "sub": "char_smoker",
-    "max_charges": 2000,
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_tire_changer",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "tire changer" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
   },
   {
     "id": "fake_power_tool",

@@ -13,7 +13,8 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
-          paths: '["**.cpp", "**.h", "**.c"]'
+          cancel_others: 'true'
+          paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
   astyle-code:
     name: astyle check
     needs: skip-duplicates

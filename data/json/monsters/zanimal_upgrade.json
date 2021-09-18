@@ -52,7 +52,10 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+    ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
   {
@@ -60,7 +63,7 @@
     "type": "MONSTER",
     "name": { "str": "hulking horror" },
     "copy-from": "mon_dog_zombie_brute",
-    "description": "A four-legged canine body now grotesquely swollen, with arms as wide as a trash can and massive exposed teeth.",
+    "description": "What may once have been a dog is now a grotesquely swollen monstrosity, standing on four limbs as wide as trash cans and showing massive, jagged teeth.",
     "diff": 5,
     "volume": "440 L",
     "weight": "100 kg",
@@ -72,7 +75,10 @@
     "armor_bullet": 10,
     "bleed_rate": 0,
     "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 81 },
+      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+    ],
     "extend": { "flags": [ "DESTROYS" ] }
   },
   {
@@ -91,7 +97,7 @@
     "armor_acid": 1,
     "bleed_rate": 0,
     "special_attacks": [
-      [ "SMASH", 45 ],
+      { "id": "smash", "throw_strength": 66, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -298,7 +304,7 @@
     "armor_bullet": 8,
     "bleed_rate": 50,
     "vision_night": 6,
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, [ "GRAB", 7 ] ],
     "flags": [
       "SEES",
       "HEARS",

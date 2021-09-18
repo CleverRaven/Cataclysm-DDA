@@ -263,6 +263,7 @@
             [ "lab_filltank_mutagen_fish", 2 ],
             [ "lab_filltank_mutagen_slime", 2 ],
             [ "lab_filltank_mutagen_rat", 2 ],
+            [ "lab_filltank_mutagen_rabbit", 2 ],
             [ "lab_filltank_mutagen_beast", 2 ],
             [ "lab_filltank_mutagen_cattle", 2 ],
             [ "lab_filltank_mutagen_cephalopod", 2 ],
@@ -296,6 +297,12 @@
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_insect",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_insect" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_mutagen_rabbit",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_rabbit" } ] }
   },
   {
     "type": "mapgen",

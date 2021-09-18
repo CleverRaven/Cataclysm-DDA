@@ -187,7 +187,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "cattlefodder", "count": 2 } ] }
+    "end": { "effect": [ { "u_spawn_item": "cattlefodder", "count": 2 } ] }
   },
   {
     "id": "MISSION_Warrener_FOOD_2",
@@ -211,19 +211,19 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "petpack", "count": 1 } ] }
+    "end": { "effect": [ { "u_spawn_item": "petpack", "count": 1 } ] }
   },
   {
     "id": "MISSION_Warrener_ISHERWOOD",
     "type": "mission_definition",
     "name": { "str": "Visit the Isherwoods" },
-    "description": "There is a family that nearby that I'd like you to check in on.",
-    "goal": "MGOAL_GO_TO",
+    "description": "There is a family that nearby that I'd like you to check in on. After you talk to all of them come back to me and tell me how they are doing.",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 3,
     "start": {
       "assign_mission_target": { "om_terrain": "farm_isherwood_2", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 360 }
     },
-    "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "dialogue", "context": "isherwood", "value": "yes" },
+    "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -32,36 +32,6 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-    "id": "coin_quarter",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "coin" },
-    "description": "A now-ancient form of currency.  Stripped of its original purpose, it now serves, faithfully, flippant Flippists for free.",
-    "weight": "6 g",
-    "volume": "1 ml",
-    "price": 25,
-    "price_postapoc": 1,
-    "material": [ "silver" ],
-    "symbol": "o",
-    "color": "light_gray",
-    "use_action": [ "COIN_FLIP" ]
-  },
-  {
-    "id": "coin_nickel",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "coin" },
-    "description": "An ancient form of currency bearing the inscription \"E PLURIBUS UNUM.\"",
-    "weight": "5 g",
-    "volume": "1 ml",
-    "price": 5,
-    "price_postapoc": 9,
-    "material": [ "copper" ],
-    "symbol": "o",
-    "color": "light_gray",
-    "use_action": [ "COIN_FLIP" ]
-  },
-  {
     "id": "family_photo",
     "type": "GENERIC",
     "//": "Unique mission item for the CITY_COP.",
@@ -298,7 +268,7 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "type": "GENERIC",

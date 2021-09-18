@@ -21,7 +21,6 @@ class optional;
 } // namespace cata
 class avatar;
 class item;
-class player;
 class repair_item_actor;
 class salvage_actor;
 
@@ -67,9 +66,9 @@ item_location titled_filter_menu( const item_location_filter &filter, avatar &yo
 
 void common( avatar &you );
 void common( item_location &loc, avatar &you );
-void compare( player &p, const cata::optional<tripoint> &offset );
-void reassign_letter( player &p, item &it );
-void swap_letters( player &p );
+void compare( avatar &you, const cata::optional<tripoint> &offset );
+void reassign_letter( avatar &you, item &it );
+void swap_letters( avatar &you );
 
 /**
 * Compares two items, if confirm_message isn't empty then it will be printed
@@ -84,50 +83,55 @@ bool compare_items( const item &first, const item &second,
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations multidrop( player &p );
+drop_locations multidrop( avatar &you );
 
-/** Consuming an item. */
-item_location consume( player &p );
+/**
+* Consume an item via a custom menu.
+* If item_location is provided then consume only from the contents of that container.
+*/
+item_location consume( avatar &you, const item_location loc = item_location() );
 /** Consuming a food item via a custom menu. */
-item_location consume_food( player &p );
+item_location consume_food( avatar &you );
 /** Consuming a drink item via a custom menu. */
-item_location consume_drink( player &p );
+item_location consume_drink( avatar &you );
 /** Consuming a medication item via a custom menu. */
-item_location consume_meds( player &p );
+item_location consume_meds( avatar &you );
 /** Consuming fuel item via a custom menu. */
-item_location consume_fuel( player &p );
+item_location consume_fuel( avatar &you );
 /** Choosing a container for liquid. */
 item_location container_for( Character &you, const item &liquid, int radius = 0,
                              const item *avoid = nullptr );
 /** Item disassembling menu. */
-item_location disassemble( Character &p );
+item_location disassemble( Character &you );
 /** Gunmod installation menu. */
-item_location gun_to_modify( player &p, const item &gunmod );
+item_location gun_to_modify( Character &you, const item &gunmod );
 /** Book reading menu. */
-item_location read( player &pl );
+item_location read( Character &you );
+/** eBook reading menu. */
+item_location ebookread( Character &you, item_location &ereader );
 /** Menu for stealing stuff. */
-item_location steal( avatar &you, player &victim );
+item_location steal( avatar &you, Character &victim );
 /** Item activation menu. */
 item_location use( avatar &you );
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */
-drop_locations holster( player &p, const item_location &holster );
+drop_locations holster( avatar &you, const item_location &holster );
 void insert_items( avatar &you, item_location &holster );
 /** Choosing a gun to saw down it's barrel. */
-item_location saw_barrel( player &p, item &tool );
+item_location saw_barrel( Character &you, item &tool );
 /** Choose item to wear. */
-item_location wear( player &p, const bodypart_id &bp = bodypart_id( "bp_null" ) );
+item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */
 item_location take_off( avatar &you );
 /** Item cut up menu. */
-item_location salvage( player &p, const salvage_actor *actor );
+item_location salvage( Character &you, const salvage_actor *actor );
 /** Repair menu. */
-item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
+item_location repair( Character &you, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( player &p, player &patient, bool surgeon = false );
+item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
 /**Autoclave sterilize menu*/
-item_location sterilize_cbm( player &p );
+item_location sterilize_cbm( Character &you );
 /*@}*/
 
 } // namespace inv

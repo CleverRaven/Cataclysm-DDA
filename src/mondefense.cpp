@@ -24,7 +24,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -51,7 +50,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( const player *const foe = dynamic_cast<player *>( source ) ) {
+    if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
             if( !i.conductive()
@@ -61,7 +60,7 @@ void mdefense::zapback( monster &m, Creature *const source,
             }
         }
         // Players/NPCs can avoid the shock by using non-conductive weapons
-        if( !foe->weapon.conductive() ) {
+        if( !foe->get_wielded_item().conductive() ) {
             if( foe->reach_attacking ) {
                 return;
             }
@@ -108,8 +107,9 @@ void mdefense::acidsplash( monster &m, Creature *const source,
             return;
         }
     } else {
-        if( const player *const foe = dynamic_cast<player *>( source ) ) {
-            if( foe->weapon.is_melee( damage_type::CUT ) || foe->weapon.is_melee( damage_type::STAB ) ) {
+        if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
+            if( foe->get_wielded_item().is_melee( damage_type::CUT ) ||
+                foe->get_wielded_item().is_melee( damage_type::STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
@@ -158,9 +158,10 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const player *const foe = dynamic_cast<player *>( source );
+    const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
-    if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+    if( foe == nullptr ||
+        foe->get_wielded_item().gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
         return;
     }
 
@@ -197,12 +198,13 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
             }
 
             // ...and weapon, everything based on turret's properties
-            tmp.weapon = item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
-                         m.ammo[ gunactor->ammo_type ] );
-            const int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
+            tmp.set_wielded_item( item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
+                                  m.ammo[ gunactor->ammo_type ] ) );
+            const item &weapon = tmp.get_wielded_item();
+            const int burst = std::max( weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
 
             // Fire the weapon and consume ammo
-            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * tmp.weapon.ammo_required();
+            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * weapon.ammo_required();
         }
     }
 }

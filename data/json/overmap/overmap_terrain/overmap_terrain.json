@@ -33,6 +33,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "deep_rock",
+    "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
+    "name": "solid rock",
+    "looks_like": "empty_rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "park",
     "name": "park",
     "sym": "O",
@@ -175,6 +186,14 @@
     "color": "i_green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_cabin_water" ],
+    "name": "lake",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -343,6 +362,20 @@
     "see_cost": 2,
     "mondensity": 2,
     "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 3, 8 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "name": "wind turbine",
+    "sym": "Y",
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -649,6 +682,7 @@
     "type": "overmap_terrain",
     "id": "airliner_2c_-1",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5

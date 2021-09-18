@@ -425,7 +425,8 @@
       { "item": "cookies", "prob": 35 },
       { "item": "tea_raw", "prob": 50 },
       { "item": "tea_green_raw", "prob": 25 },
-      { "group": "teabag_box", "prob": 30 }
+      { "group": "teabag_box", "prob": 30 },
+      { "item": "toast", "prob": 10 }
     ]
   },
   {
@@ -461,7 +462,8 @@
       { "item": "coffee", "prob": 55 },
       { "item": "cookies", "prob": 5 },
       { "item": "cup_plastic", "prob": 70 },
-      { "item": "tea", "prob": 15 }
+      { "item": "tea", "prob": 15 },
+      { "item": "toast", "prob": 10 }
     ]
   },
   {
@@ -884,7 +886,8 @@
       [ "lasagne", 5 ],
       [ "foodplace_food", 2 ],
       [ "spaghetti_pesto", 5 ],
-      [ "glazed_tenderloin", 5 ]
+      [ "glazed_tenderloin", 5 ],
+      [ "toad_in_a_hole", 3 ]
     ]
   },
   {
@@ -1105,7 +1108,9 @@
       { "item": "pan", "prob": 30 },
       { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
       { "item": "crab_cakes", "charges-min": 1, "prob": 8 },
-      { "item": "stuffed_clams", "charges-min": 1, "prob": 8 }
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 8 },
+      { "item": "toast", "prob": 12 },
+      { "item": "PBJ_Toast", "prob": 4 }
     ]
   },
   {

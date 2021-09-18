@@ -65,16 +65,13 @@
     "qualities": [ [ "SHEAR", 3 ] ],
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 25,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
     ]
   },

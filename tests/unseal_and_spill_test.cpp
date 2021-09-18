@@ -12,8 +12,8 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "colony.h"
+#include "contents_change_handler.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -265,8 +265,7 @@ void match( item_location loc, const final_result &result )
 {
     INFO( "match: id = " << result.id.str() );
     REQUIRE( loc->typeId() == result.id );
-    CHECK( result.sealed == ( loc->contents.get_sealed_summary() !=
-                              item_contents::sealed_summary::unsealed ) );
+    CHECK( result.sealed == loc->any_pockets_sealed() );
     match( loc, loc->all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
 }
 
@@ -413,7 +412,7 @@ void test_scenario::run()
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );
-            it_loc = item_location( worn_loc, &worn_loc->contents.only_item() );
+            it_loc = item_location( worn_loc, &worn_loc->only_item() );
             break;
         }
         case container_location::worn: {
@@ -424,7 +423,7 @@ void test_scenario::run()
         }
         case container_location::wielded: {
             REQUIRE( guy.wield( it ) );
-            it_loc = item_location( guy, &guy.weapon );
+            it_loc = item_location( guy, &guy.get_wielded_item() );
             break;
         }
         case container_location::vehicle: {
@@ -450,7 +449,7 @@ void test_scenario::run()
             return;
         }
     }
-    if( guy.weapon.is_null() ) {
+    if( guy.get_wielded_item().is_null() ) {
         // so the guy does not wield spilled solid items
         item rag( test_rag );
         REQUIRE( guy.wield( rag ) );
@@ -865,7 +864,7 @@ void test_scenario::run()
     match( guy, guy.worn, worn_results );
     INFO( "checking wielded item" );
     if( wielded_results ) {
-        match( item_location( guy, &guy.weapon ), *wielded_results );
+        match( item_location( guy, &guy.get_wielded_item() ), *wielded_results );
     } else {
         REQUIRE( !guy.is_armed() );
     }
