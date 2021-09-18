@@ -5,7 +5,6 @@
 #include "string_formatter.h"
 
 #include <cmath>
-#include <limits>
 
 int activity_tracker::weariness() const
 {
@@ -19,17 +18,19 @@ int activity_tracker::weariness() const
 void activity_tracker::try_reduce_weariness( int bmr )
 {
     tick_counter++;
-    if( average_activity() - NO_EXERCISE <= std::numeric_limits<float>::epsilon() ) {
-        low_activity_ticks++;
+    if( average_activity() < LIGHT_EXERCISE ) {
+        low_activity_ticks += std::min( 1.0f, ( ( LIGHT_EXERCISE - average_activity() ) /
+                                                ( LIGHT_EXERCISE - NO_EXERCISE ) ) );
         // Recover twice as fast while sleeping
-        if( average_activity() - SLEEP_EXERCISE <= std::numeric_limits<float>::epsilon() ) {
-            low_activity_ticks++;
+        if( average_activity() < NO_EXERCISE ) {
+            low_activity_ticks += ( ( NO_EXERCISE - average_activity() ) /
+                                    ( NO_EXERCISE - SLEEP_ACTIVITY ) );
         }
     }
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
-    if( low_activity_ticks >= 1 ) {
+    if( low_activity_ticks >= 1.0f ) {
         int reduction = tracker;
         // 1/120 of whichever's bigger
         if( bmr > reduction ) {
@@ -37,7 +38,7 @@ void activity_tracker::try_reduce_weariness( int bmr )
         } else {
             reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
         }
-        low_activity_ticks = 0;
+        low_activity_ticks = 0.0f;
 
         tracker -= std::max( reduction, 1 );
     }
@@ -52,14 +53,14 @@ void activity_tracker::try_reduce_weariness( int bmr )
     intake = std::max( intake, 0 );
     tracker = std::max( tracker, 0 );
     tick_counter = std::max( tick_counter, 0 );
-    low_activity_ticks = std::max( low_activity_ticks, 0 );
+    low_activity_ticks = std::max( low_activity_ticks, 0.0f );
 }
 
 void activity_tracker::weary_clear()
 {
     tracker = 0;
     intake = 0;
-    low_activity_ticks = 0;
+    low_activity_ticks = 0.0f;
     tick_counter = 0;
 }
 
@@ -131,7 +132,7 @@ void activity_tracker::new_turn( bool sleeping )
         // Then handle the interventing turns that had no activity logged.
         int num_turns = to_turns<int>( calendar::turn - current_turn );
         if( num_turns > 1 ) {
-            accumulated_activity += ( num_turns - 1 ) * base_activity_level;
+            accumulated_activity += ( num_turns - 1 ) * std::min( NO_ACTIVITY, current_activity );
             num_events += num_turns - 1;
         }
         previous_turn_activity = current_activity;

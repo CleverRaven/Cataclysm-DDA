@@ -4,7 +4,6 @@
 
 #include "calendar.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 
@@ -22,8 +21,8 @@ class activity_tracker
         // Weariness metadata.
         int tracker = 0;
         int intake = 0;
-        // Semi-consecutive 5 minute ticks of low activity (or 2.5 if we're sleeping).
-        int low_activity_ticks = 0;
+        // Semi-consecutive 5 minute ticks of low activity (or 2.5 if we're sleeping). Float to handle mixed cases.
+        float low_activity_ticks = 0.0f;
         // How many ticks since we've decreased intake.
         int tick_counter = 0;
     public:
