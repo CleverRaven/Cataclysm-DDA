@@ -341,11 +341,37 @@ void replay_buffered_debugmsg_prompts()
     buffered_prompts().clear();
 }
 
+struct time_info {
+    int hours;
+    int minutes;
+    int seconds;
+    int mseconds;
+
+    template <typename Stream>
+    friend Stream &operator<<( Stream &out, const time_info &t ) {
+        using char_t = typename Stream::char_type;
+        using base   = std::basic_ostream<char_t>;
+
+        static_assert( std::is_base_of<base, Stream>::value, "" );
+
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
+
+        return out;
+    }
+};
+
+static time_info get_time() noexcept;
+
 struct repetition_folder {
     const char *m_filename = nullptr;
     const char *m_line = nullptr;
     const char *m_funcname = nullptr;
     std::string m_text;
+    time_info m_time;
+
+    static constexpr time_info timeout = { 0, 0, 0, 100 }; // 100ms timeout
 
     int repeat_count = 0;
 
@@ -353,7 +379,8 @@ struct repetition_folder {
         return m_filename == filename &&
                m_line == line &&
                m_funcname == funcname &&
-               m_text == text;
+               m_text == text &&
+               !timed_out();
     }
     void set( const char *filename, const char *line, const char *funcname, const std::string &text ) {
         m_filename = filename;
@@ -361,17 +388,35 @@ struct repetition_folder {
         m_funcname = funcname;
         m_text = text;
 
+        m_time = get_time();
+
         repeat_count = 0;
     }
     void increment_count() {
         ++repeat_count;
+        m_time = get_time();
     }
     void reset() {
         m_filename = nullptr;
         m_line = nullptr;
         m_funcname = nullptr;
 
+        m_time = time_info{0, 0, 0, 0};
+
         repeat_count = 0;
+    }
+
+    bool timed_out() {
+        const time_info now = get_time();
+
+        const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
+        const int old_raw = m_time.mseconds + 1000 * m_time.seconds + 60000 * m_time.minutes + 3600000 *
+                            m_time.hours;
+
+        const int timeout_raw = timeout.mseconds + 1000 * timeout.seconds + 60000 * timeout.minutes +
+                                3600000 * timeout.hours;
+
+        return ( now_raw - old_raw ) > timeout_raw;
     }
 };
 
@@ -443,27 +488,6 @@ struct NullBuf : public std::streambuf {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
-struct time_info {
-    int hours;
-    int minutes;
-    int seconds;
-    int mseconds;
-
-    template <typename Stream>
-    friend Stream &operator<<( Stream &out, const time_info &t ) {
-        using char_t = typename Stream::char_type;
-        using base   = std::basic_ostream<char_t>;
-
-        static_assert( std::is_base_of<base, Stream>::value, "" );
-
-        out << std::setfill( '0' );
-        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
-            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
-
-        return out;
-    }
-};
-
 #if defined(_WIN32)
 static time_info get_time() noexcept
 {
@@ -530,6 +554,7 @@ void DebugFile::deinit()
     if( file && file.get() != &std::cerr ) {
         if( rep_folder.repeat_count > 0 ) {
             *file << "\n";
+            *file << rep_folder.m_time << " : ";
             *file << "[ Previous repeated " << rep_folder.repeat_count << " times ]";
         }
         *file << "\n";
@@ -1273,6 +1298,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
         if( rep_folder.repeat_count > 0 ) {
             out << std::endl;
+            out << rep_folder.m_time << " : ";
             out << "[ Previous repeated " << rep_folder.repeat_count << " times ]";
             rep_folder.reset();
         }
