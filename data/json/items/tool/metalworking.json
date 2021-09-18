@@ -379,7 +379,7 @@
     "material": [ "stone" ],
     "color": "dark_gray",
     "symbol": ";",
-    "qualities": [[ "GRIND", 2 ]],
+    "qualities": [ [ "GRIND", 2 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -396,8 +396,7 @@
     "material": [ "stone", "wood", "steel" ],
     "color": "dark_gray",
     "symbol": ";",
-    "qualities": [[ "GRIND", 2 ]]
-    
+    "qualities": [ [ "GRIND", 2 ] ]
   },
   {
     "id": "scraper_steel",
@@ -414,8 +413,7 @@
     "material": [ "wood", "steel" ],
     "color": "brown",
     "symbol": ";",
-    "qualities": [[ "GRIND", 2 ]],
-    "flags": [ "DURABLE_MELEE"]
+    "qualities": [ [ "GRIND", 2 ] ],
+    "flags": [ "DURABLE_MELEE" ]
   }
-
 ]
