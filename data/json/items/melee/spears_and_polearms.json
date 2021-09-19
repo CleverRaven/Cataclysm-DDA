@@ -277,7 +277,7 @@
     "longest_side": "185 cm",
     "bashing": 6,
     "cutting": 33,
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
   },
