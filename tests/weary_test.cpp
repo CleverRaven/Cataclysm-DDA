@@ -109,16 +109,17 @@ static void check_weary_mutations_nosleep( const std::string &trait_name,
     SECTION( section_name.str() ) {
         clear_avatar();
         set_single_trait( guy, trait_name );
-        guy.toggle_trait( trait_id( "DEBUG_LS" ) ); // fatigue (and thus sleep) should not be a factor
-        REQUIRE( guy.has_trait( trait_id( "DEBUG_LS" ) ) );
+        // How do we make sure they don't sleep? Set fatigue to -1000?
 
         soldier_8h.enschedule( task_dig, 8_hours );
         soldier_8h.enschedule( task_wait, 8_hours );
 
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         INFO( guy.debug_weary_info() );
+        CAPTURE( calendar::turn );
         weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
+        CAPTURE( calendar::turn );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         // First check to make sure is same in initial part
