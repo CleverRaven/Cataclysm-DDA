@@ -174,10 +174,10 @@
   },
   {
     "id": "survivor_belt_notools",
-    "type": "ARMOR",
+    "type": "ARMOR", 
     "name": { "str": "survivor belt" },
-    "description": "A custom-built leather utility belt covered with straps and pouches with a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
-    "weight": "1249 g",
+    "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade and a holster to carry a pistol.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+    "weight": "1549 g",
     "volume": "2250 ml",
     "price": 15000,
     "price_postapoc": 2500,
@@ -196,54 +196,54 @@
         "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       },
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
+      {       "pocket_type": "CONTAINER", "max_contains_volume": "800 ml", "max_contains_weight": "1000 g", "max_item_length": "13 cm", "moves": 50 },
       {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
       },
       {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
       },
       {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
       },
       {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
       },
       {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+	  {
+      "magazine_well": "350 ml",
+      "pocket_type": "CONTAINER",
+      "holster": true,
+      "min_item_volume": "300 ml",
+      "max_contains_volume": "1000 ml",
+      "max_contains_weight": "2 kg",
+      "max_item_length": "30 cm",
+      "moves": 50
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "use_action": { "type": "holster", "holster_prompt": "Store weapon", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
