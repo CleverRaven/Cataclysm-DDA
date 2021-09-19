@@ -94,6 +94,76 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     }
 }
 
+static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait_name,
+        float fatigue_mod )
+{
+    tasklist soldier_8h;
+    soldier_8h.enschedule( task_dig, 8_hours );
+    soldier_8h.enschedule( task_wait, 8_hours );
+
+    float multiplier = 1.0f + fatigue_mod;
+
+    std::stringstream section_name;
+    section_name << "Non-sleep effects of " << trait_name;
+    section_name << " (fatigue_mod: " << fatigue_mod << ")";
+
+    SECTION( section_name.str() ) {
+        clear_avatar();
+        set_single_trait( guy, trait_name );
+        guy.toggle_trait( trait_id( "DEBUG_LS" ) ); // fatigue (and thus sleep) should not be a factor
+        REQUIRE( guy.has_trait( trait_id( "DEBUG_LS" ) ) );
+
+        INFO( "\nDigging Pits 8 hours, then waiting 8:" );
+        INFO( guy.debug_weary_info() );
+        weariness_events info = do_activity( soldier_8h );
+        INFO( info.summarize() );
+        INFO( guy.debug_weary_info() );
+        REQUIRE( !info.empty() );
+        // First check to make sure is same in initial part
+        CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        // Now check for mutation effects
+        time_duration time1 = ( ( 505_minutes - 8_hours ) * multiplier ) + 8_hours;
+        time_duration time2 = ( ( 630_minutes - 8_hours ) * multiplier ) + 8_hours;
+        // Increased below margin to 7.5 (from 5) to account for roundoff vs 5-minute weariness cycle
+        CHECK( info.transition_minutes( 4, 3,
+                                        time1 ) == Approx( to_minutes<float>( time1 ) ).margin( 7.5f ) );
+        CHECK( info.transition_minutes( 3, 2,
+                                        time2 ) == Approx( to_minutes<float>( time2 ) ).margin( 7.5f ) );
+        if( multiplier >= 1.0f ) { // preliminary
+            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
+            CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
+        }
+    }
+}
+
+TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
+{
+    avatar &guy = get_avatar();
+
+    // WAKEFUL: fatigue_mod -0.15
+    // SLEEPY: fatigue_mod 0.33, fatigue_regen_mod 0.33
+    // WAKEFUL2: fatigue_mod -0.25
+    // WAKEFUL3: fatigue_mod -0.5, fatigue_regen_mod 0.5
+    // HUGE: fatigue_mod 0.15 (HUGE_OK - does it remove this?)
+    // PERSISTENCE_HUNTER: fatigue_mod -0.1
+    // PERSISTENCE_HUNGER2: fatigue_mod -0.2
+    // MET_RAT: fatigue_mod 0.5, fatigue_regen_mod 0.33
+    // SLEEPY2: fatigue_mod 1.0 (does this include SLEEPY's fatigue_regen_mod?)
+
+    check_weary_mutations_nosleep( guy, "WAKEFUL", -0.15f );
+    check_weary_mutations_nosleep( guy, "SLEEPY", 0.33f );
+    check_weary_mutations_nosleep( guy, "WAKEFUL2", -0.25f );
+    check_weary_mutations_nosleep( guy, "WAKEFUL3", -0.5f );
+    check_weary_mutations_nosleep( guy, "HUGE", 0.15f );
+    check_weary_mutations_nosleep( guy, "PERSISTENCE_HUNTER", -0.1f );
+    check_weary_mutations_nosleep( guy, "PERSISTENCE_HUNTER2", -0.2f );
+    check_weary_mutations_nosleep( guy, "MET_RAT", 0.5f );
+    check_weary_mutations_nosleep( guy, "SLEEPY2", 1.0f );
+}
+
 TEST_CASE( "weary_recovery", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();

@@ -70,14 +70,6 @@ static float bodyweight_kg_at_bmi( Character &dummy, float bmi )
     return to_kilogram( dummy.bodyweight() );
 }
 
-// Clear player traits and give them a single trait by name
-static void set_single_trait( Character &dummy, const std::string &trait_name )
-{
-    dummy.clear_mutations();
-    dummy.toggle_trait( trait_id( trait_name ) );
-    REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
-}
-
 // Return player `metabolic_rate_base` with a given mutation
 static float metabolic_rate_with_mutation( Character &dummy, const std::string &trait_name )
 {
