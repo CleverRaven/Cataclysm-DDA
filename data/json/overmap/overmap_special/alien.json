@@ -102,7 +102,8 @@
     "locations": [ "land", "swamp", "forest" ],
     "city_distance": [ 2, 120 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 1, 5 ],
+    "//": "Occurences should drop a lot once we have some breadcrumbs leading to the base, but until then this is going to be the only way to get CBMs.",
+    "occurrences": [ 1, 12 ],
     "flags": [ "UNIQUE" ]
   }
 ]

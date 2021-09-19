@@ -110,6 +110,7 @@
         "                               ,,,,,,,,,,,;,,,,,,,,,,,,,,,,,,,,,,,,,,,             ,    ,       ",
         "                             ,           , ,,,   ,       ,     ,    ,      ,                    "
       ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
       "palettes": [ "exodii_palette" ],
       "terrain": {
         " ": [ [ "t_region_groundcover", 50 ], [ "t_region_groundcover_barren", 10 ], "t_sand" ],
@@ -242,6 +243,7 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -389,6 +391,7 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -535,6 +538,7 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -681,6 +685,7 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
       "terrain": { ".": "t_open_air", "[": "t_open_air" },
       "furniture": { "[": "f_scrap_bridge" }
     }
