@@ -510,7 +510,6 @@
     "time": "45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
@@ -532,7 +531,6 @@
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
@@ -554,7 +552,6 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
@@ -576,7 +573,6 @@
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
