@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
@@ -38,6 +39,8 @@ namespace io
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
+        case enchantment::condition::NIGHT: return "NIGHT";
+        case enchantment::condition::DAY: return "DAY";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::INACTIVE: return "INACTIVE";
@@ -219,6 +222,14 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
     if( active_conditions.second == condition::UNDERGROUND ) {
         return guy.pos().z < 0;
+    }
+
+    if( active_conditions.second == condition::NIGHT ) {
+        return is_night( calendar::turn );
+    }
+
+    if( active_conditions.second == condition::DAY ) {
+        return is_day( calendar::turn );
     }
 
     if( active_conditions.second == condition::UNDERWATER ) {

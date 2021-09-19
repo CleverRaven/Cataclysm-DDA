@@ -281,7 +281,7 @@
     "//": "Need to change condition to NIGHT once I get NIGHT and DAY conditions working for enchantments.",
     "enchantments": [
       {
-        "condition": "ALWAYS",
+        "condition": "NIGHT",
         "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
       }
     ]
