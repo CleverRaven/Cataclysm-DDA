@@ -1221,7 +1221,7 @@
     ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
-      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
       { "id": "DRILL_ROCK", "level": 1 },
       { "id": "CHISEL", "level": 3 }
     ],
@@ -1242,7 +1242,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "45 m",
+    "time": "5 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "book_learn": [
@@ -1257,6 +1257,6 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
   }
 ]
