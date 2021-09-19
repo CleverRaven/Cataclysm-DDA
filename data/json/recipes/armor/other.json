@@ -384,7 +384,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],
-    "time": "80 m",
+    "time": "100 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 140 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
@@ -392,7 +392,8 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "sheath", 1 ] ],
-      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ]
+      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ],
+      [ [ "sholster", 1 ], [ "holster", 1 ] ]
     ]
   },
   {
