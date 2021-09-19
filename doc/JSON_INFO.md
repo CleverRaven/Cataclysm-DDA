@@ -2008,20 +2008,20 @@ Values are checked from highest first, the order they're defined in doesn't matt
         "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" }, //dialog condition(see NPCs.md)
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
       }
-    ],
-    [
-      {
-        "condition": { //dialog condition(see NPCs.md)
-          "or": [
-            { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
-            { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
-          ]
-        },
-        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
-        "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
-      }
-    ]
   ],
+  [
+    {
+      "condition": { //dialog condition(see NPCs.md)
+        "or": [
+          { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
+          { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
+        ]
+      },
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
+      "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
+    }
+  ]
+],
 "enchantments": [ "ench_id_1" ],   // List of enchantments granted by this mutation, can be either string ids of the enchantment or an inline definition of the enchantment
 "temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
                                    // 1.0 gives +/-1% speed for each degree above or below 65F
