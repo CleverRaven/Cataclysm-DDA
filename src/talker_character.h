@@ -159,6 +159,8 @@ class talker_character: public talker
         int get_stamina() const override;
         void set_sleep_deprivation( int ) override;
         int get_sleep_deprivation() const override;
+        void set_kill_xp( int ) override;
+        int get_kill_xp() const override;
     protected:
         talker_character() = default;
         Character *me_chr;
