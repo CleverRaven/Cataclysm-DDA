@@ -227,7 +227,7 @@ class inventory : public visitable
         void copy_invlet_of( const inventory &other );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchantment get_active_enchantment_cache( const Character &owner ) const;
+        enchantment get_active_enchantment_cache( Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
 

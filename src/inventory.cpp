@@ -938,7 +938,7 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+enchantment inventory::get_active_enchantment_cache( Character &owner ) const
 {
     enchantment temp_cache;
     for( const std::list<item> &elem : items ) {

@@ -20,6 +20,7 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class item;
+class dialogue;
 
 namespace enchant_vals
 {
@@ -123,12 +124,9 @@ class enchantment
         // the condition at which the enchantment is giving passive effects
         enum condition {
             ALWAYS,
-            UNDERGROUND,
-            NIGHT,
-            DAY,
-            UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
             INACTIVE, // the item, mutation, etc. is inactive
+            DIALOG_CONDITION, // Check a provided dialog condition
             NUM_CONDITION
         };
 
@@ -165,11 +163,11 @@ class enchantment
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
 
         // this enchantment has a valid condition and is in the right location
-        bool is_active( const Character &guy, const item &parent ) const;
+        bool is_active( Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
         // @active means the container for the enchantment is active, for comparison to active flag.
-        bool is_active( const Character &guy, bool active ) const;
+        bool is_active( Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -227,6 +225,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
+        std::function<bool( const dialogue & )> dialog_condition;
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 

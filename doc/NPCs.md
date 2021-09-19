@@ -769,6 +769,7 @@ Condition | Type | Description
 `"is_season"` | string | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
 `"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"u_is_underwater"`</br>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or variable_object | `true` if a one in `one_in_chance`( or the value of the variable described see `variable_object` above) random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints or `variable_object`s ( see `variable_object` above).
 `"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.

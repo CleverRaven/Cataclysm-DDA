@@ -7875,7 +7875,7 @@ std::vector<enchantment> item::get_enchantments() const
     return relic_data->get_enchantments();
 }
 
-double item::calculate_by_enchantment( const Character &owner, double modify,
+double item::calculate_by_enchantment( Character &owner, double modify,
                                        enchant_vals::mod value, bool round_value ) const
 {
     double add_value = 0.0;

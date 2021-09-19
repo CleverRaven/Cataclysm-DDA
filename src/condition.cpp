@@ -811,6 +811,14 @@ void conditional_t<T>::set_is_outside( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_is_underwater( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return get_map().is_divable( d.actor( is_npc )->pos() );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member );
@@ -1607,6 +1615,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_outside();
     } else if( type == "is_outside" || type == "npc_is_outside" ) {
         set_is_outside( is_npc );
+    } else if( type == "u_is_underwater" ) {
+        set_is_underwater();
+    } else if( type == "npc_is_underwater" ) {
+        set_is_underwater( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {

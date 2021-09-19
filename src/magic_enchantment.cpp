@@ -6,6 +6,7 @@
 
 #include "calendar.h"
 #include "character.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -38,12 +39,9 @@ namespace io
     {
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
-        case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
-        case enchantment::condition::NIGHT: return "NIGHT";
-        case enchantment::condition::DAY: return "DAY";
-        case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::INACTIVE: return "INACTIVE";
+        case enchantment::condition::DIALOG_CONDITION: return "DIALOG_CONDITION";
         case enchantment::condition::NUM_CONDITION: break;
         }
         cata_fatal( "Invalid enchantment::condition" );
@@ -186,7 +184,7 @@ enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const 
     }
 }
 
-bool enchantment::is_active( const Character &guy, const item &parent ) const
+bool enchantment::is_active( Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
         return false;
@@ -206,7 +204,7 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
     return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( const Character &guy, const bool active ) const
+bool enchantment::is_active( Character &guy, const bool active ) const
 {
     if( active_conditions.second == condition::ACTIVE ) {
         return active;
@@ -220,20 +218,9 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return true;
     }
 
-    if( active_conditions.second == condition::UNDERGROUND ) {
-        return guy.pos().z < 0;
-    }
-
-    if( active_conditions.second == condition::NIGHT ) {
-        return is_night( calendar::turn );
-    }
-
-    if( active_conditions.second == condition::DAY ) {
-        return is_day( calendar::turn );
-    }
-
-    if( active_conditions.second == condition::UNDERWATER ) {
-        return get_map().is_divable( guy.pos() );
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        dialogue d( get_talker_for( guy ), nullptr );
+        return dialog_condition( d );
     }
     return false;
 }
@@ -297,9 +284,18 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     }
 
     active_conditions.first = io::string_to_enum<has>( jo.get_string( "has", "HELD" ) );
-    active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
-                               "ALWAYS" ) );
-
+    if( jo.has_member( "condition" ) ) {
+        cata::optional<enchantment::condition> con = io::string_to_enum_optional<condition>
+                ( jo.get_string( "condition" ) );
+        if( con.has_value() ) {
+            active_conditions.second = con.value();
+        } else {
+            active_conditions.second = condition::DIALOG_CONDITION;
+            read_condition<dialogue>( jo, "condition", dialog_condition, false );
+        }
+    } else {
+        active_conditions.second = condition::ALWAYS;
+    }
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
