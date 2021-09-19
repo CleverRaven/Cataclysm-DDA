@@ -94,10 +94,11 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     }
 }
 
-static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait_name,
+static void check_weary_mutations_nosleep( const std::string &trait_name,
         float fatigue_mod )
 {
     tasklist soldier_8h;
+    avatar &guy = get_avatar();
 
     float multiplier = 1.0f + fatigue_mod;
 
@@ -111,7 +112,6 @@ static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait
         guy.toggle_trait( trait_id( "DEBUG_LS" ) ); // fatigue (and thus sleep) should not be a factor
         REQUIRE( guy.has_trait( trait_id( "DEBUG_LS" ) ) );
 
-        soldier_8h.clear();
         soldier_8h.enschedule( task_dig, 8_hours );
         soldier_8h.enschedule( task_wait, 8_hours );
 
@@ -143,8 +143,6 @@ static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait
 
 TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
 {
-    avatar &guy = get_avatar();
-
     // WAKEFUL: fatigue_mod -0.15
     // SLEEPY: fatigue_mod 0.33, fatigue_regen_mod 0.33
     // WAKEFUL2: fatigue_mod -0.25
@@ -155,15 +153,15 @@ TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
     // MET_RAT: fatigue_mod 0.5, fatigue_regen_mod 0.33
     // SLEEPY2: fatigue_mod 1.0 (does this include SLEEPY's fatigue_regen_mod?)
 
-    check_weary_mutations_nosleep( guy, "WAKEFUL", -0.15f );
-    check_weary_mutations_nosleep( guy, "SLEEPY", 0.33f );
-    check_weary_mutations_nosleep( guy, "WAKEFUL2", -0.25f );
-    check_weary_mutations_nosleep( guy, "WAKEFUL3", -0.5f );
-    check_weary_mutations_nosleep( guy, "HUGE", 0.15f );
-    check_weary_mutations_nosleep( guy, "PERSISTENCE_HUNTER", -0.1f );
-    check_weary_mutations_nosleep( guy, "PERSISTENCE_HUNTER2", -0.2f );
-    check_weary_mutations_nosleep( guy, "MET_RAT", 0.5f );
-    check_weary_mutations_nosleep( guy, "SLEEPY2", 1.0f );
+    check_weary_mutations_nosleep( "WAKEFUL", -0.15f );
+    check_weary_mutations_nosleep( "SLEEPY", 0.33f );
+    check_weary_mutations_nosleep( "WAKEFUL2", -0.25f );
+    check_weary_mutations_nosleep( "WAKEFUL3", -0.5f );
+    check_weary_mutations_nosleep( "HUGE", 0.15f );
+    check_weary_mutations_nosleep( "PERSISTENCE_HUNTER", -0.1f );
+    check_weary_mutations_nosleep( "PERSISTENCE_HUNTER2", -0.2f );
+    check_weary_mutations_nosleep( "MET_RAT", 0.5f );
+    check_weary_mutations_nosleep( "SLEEPY2", 1.0f );
 }
 
 TEST_CASE( "weary_recovery", "[weary][activities]" )
