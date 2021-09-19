@@ -138,7 +138,7 @@ class tileset
             return index < tiles.size() ? & tiles[index] : nullptr;
         }
 
-        friend class tileset_loader;
+        friend class tileset_cache;
 
     public:
         int get_tile_width() const {
@@ -195,7 +195,18 @@ class tileset
                 season_type season ) const;
 };
 
-class tileset_loader
+class tileset_cache
+{
+    public:
+        std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
+                const SDL_Renderer_Ptr &renderer, const bool precheck,
+                const bool force, const bool pump_events );
+    private:
+        class loader;
+        std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
+};
+
+class tileset_cache::loader
 {
     private:
         tileset &ts;
@@ -269,8 +280,9 @@ class tileset_loader
          */
         void load_internal( const JsonObject &config, const std::string &tileset_root,
                             const std::string &img_path, bool pump_events );
+
     public:
-        tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
+        loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
         /**
          * @throw std::exception On any error.
@@ -312,7 +324,8 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 class cata_tiles
 {
     public:
-        cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
+        cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry,
+                    tileset_cache &cache );
         ~cata_tiles();
 
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -578,7 +591,8 @@ class cata_tiles
         /** Variables */
         const SDL_Renderer_Ptr &renderer;
         const GeometryRenderer_Ptr &geometry;
-        std::unique_ptr<tileset> tileset_ptr;
+        tileset_cache &cache;
+        std::shared_ptr<const tileset> tileset_ptr;
 
         int tile_height = 0;
         int tile_width = 0;
