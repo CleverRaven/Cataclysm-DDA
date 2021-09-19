@@ -5575,7 +5575,7 @@ int item::price( bool practical ) const
 
         } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
             // items with integral magazines may contain ammunition which can affect the price
-            child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
+            child += item( e->ammo_data(), calendar::turn, e->ammo_remaining() ).price( practical );
 
         } else if( e->is_tool() && e->type->tool->max_charges != 0 ) {
             // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
@@ -5587,6 +5587,43 @@ int item::price( bool practical ) const
     } );
 
     return res;
+}
+
+int item::price_no_contents( bool practical )
+{
+    if( rotten() ) {
+        return 0;
+    }
+    int price = units::to_cent( practical ? type->price_post : type->price );
+    if( damage() > 0 ) {
+        // maximal damage level is 4, maximal reduction is 40% of the value.
+        price -= price * static_cast< double >( damage_level() ) / 10;
+    }
+
+    if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
+        // price from json data is for default-sized stack
+        price *= charges / static_cast< double >( type->stack_size );
+
+    } else if( ( magazine_integral() || is_magazine() ) && ammo_remaining() && ammo_data() ) {
+        // items with integral magazines may contain ammunition which can affect the price
+        price += item( ammo_data(), calendar::turn, ammo_remaining() ).price( practical );
+
+    } else if( is_tool() && type->tool->max_charges != 0 ) {
+        // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
+        price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
+
+    } else if( is_watertight_container() ) {
+        // Liquid contents are hidden so must be included in the price.
+        visit_contents( [&price, &practical]( item * node, item * ) {
+            if( node->type->phase != phase_id::LIQUID ) {
+                return VisitResponse::SKIP;
+            }
+            price += node->price_no_contents( practical );
+            return VisitResponse::SKIP;
+        } );
+    }
+
+    return price;
 }
 
 // TODO: MATERIALS add a density field to materials.json
