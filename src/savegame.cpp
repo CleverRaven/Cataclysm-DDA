@@ -106,6 +106,24 @@ void game::serialize( std::ostream &fout )
     json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
+    json.member( "global_values", global_values );
+    json.member( "inactive_global_effect_on_condition_vector",
+                 inactive_global_effect_on_condition_vector );
+
+    //save queued effect_on_conditions
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
+        queued_global_effect_on_conditions );
+    json.member( "queued_global_effect_on_conditions" );
+    json.start_array();
+    while( !temp_queued.empty() ) {
+        json.start_object();
+        json.member( "time", temp_queued.top().time );
+        json.member( "eoc", temp_queued.top().eoc );
+        json.member( "recurring", temp_queued.top().recurring );
+        json.end_object();
+        temp_queued.pop();
+    }
+    json.end_array();
     Messages::serialize( json );
 
     json.end_object();
@@ -219,6 +237,17 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "kill_tracker", *kill_tracker_ptr );
 
         data.read( "player", u );
+        data.read( "global_values", global_values );
+        data.read( "inactive_global_effect_on_condition_vector",
+                   inactive_global_effect_on_condition_vector );
+        //load queued_eocs
+        for( JsonObject elem : data.get_array( "queued_global_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            queued_global_effect_on_conditions.push( temp );
+        }
         inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );

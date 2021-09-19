@@ -981,7 +981,18 @@ class game
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
         achievements_tracker &achievements();
         memorial_logger &memorial();
+
+        // Miscellaneous key/value pairs.
+        std::unordered_map<std::string, std::string> global_values;
     public:
+        std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+        queued_global_effect_on_conditions;
+        void set_global_value( const std::string &key, const std::string &value );
+        void remove_global_value( const std::string &key );
+        std::string get_global_value( const std::string &key ) const;
+        std::unordered_map<std::string, std::string> get_global_values() const;
+
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
             public:
@@ -1042,6 +1053,7 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
+
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)

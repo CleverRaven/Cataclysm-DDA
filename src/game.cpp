@@ -645,6 +645,7 @@ void game::setup()
     effect_on_conditions::clear( u );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+    global_values.clear();
     // back to menu for save loading, new game etc
 }
 
@@ -11372,6 +11373,28 @@ bool game::slip_down( bool check_for_traps )
         return true;
     }
     return false;
+}
+
+// Methods for setting/getting misc key/value pairs.
+void game::set_global_value( const std::string &key, const std::string &value )
+{
+    global_values[ key ] = value;
+}
+
+void game::remove_global_value( const std::string &key )
+{
+    global_values.erase( key );
+}
+
+std::string game::get_global_value( const std::string &key ) const
+{
+    auto it = global_values.find( key );
+    return ( it == global_values.end() ) ? "" : it->second;
+}
+
+std::unordered_map<std::string, std::string> game::get_global_values() const
+{
+    return global_values;
 }
 
 namespace cata_event_dispatch
