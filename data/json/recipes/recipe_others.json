@@ -2342,16 +2342,13 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 30 m",
+    "time": "30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "cordage", 4 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "wood_panel", 1 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 50 ] ],
-      [ [ "duct_tape", 100 ] ],
-      [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ],
+      [ [ "training_dummy_light", 1 ] ],
+      [ [ "duct_tape", 50 ] ],
       [ [ "scrap", 150 ] ]
     ]
   }
