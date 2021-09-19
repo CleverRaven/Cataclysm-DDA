@@ -3889,6 +3889,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
+    "category": [ "INSECT" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
