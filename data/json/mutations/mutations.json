@@ -3033,6 +3033,41 @@
   },
   {
     "type": "mutation",
+    "id": "INSECT_RESERVOIR",
+    "name": { "str": "Bulging Reservoir" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 3,
+    "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
+    "thirst_modifier": 0.75,
+    "category": [ "INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOMBADIER_BLAST",
+    "name": { "str": "Bombadier Beetle Blast" },
+    "points": 5,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": "You have an ability to spray boiling water on your enemies at melee distance.  This will drastically increase your thirst.  Without an extra reservoir you would quickly dehydrate yourself.",
+    "prereqs": [ "INSECT_RESERVOIR" ],
+    "category": [ "INSECT" ],
+    "active": true,
+    "cost": 15,
+    "thirst": true,
+    "attacks": [
+      {
+        "attack_text_u": "You spray %s with a boiling chemical mixture",
+        "attack_text_npc": "%1$s sprays %2$s with a boiling chemical mixture",
+        "body_part": "torso",
+        "chance": 15,
+        "base_damage": { "damage_type": "heat", "amount": 15 },
+        "strength_damage": { "damage_type": "heat", "amount": 2 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "TALONS",
     "name": { "str": "Large Talons" },
     "points": 2,
