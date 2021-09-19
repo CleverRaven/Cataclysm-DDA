@@ -131,10 +131,20 @@ static void check_weary_mutations_nosleep( const std::string &trait_name,
         time_duration time1 = ( ( 505_minutes - 8_hours ) * multiplier ) + 8_hours;
         time_duration time2 = ( ( 630_minutes - 8_hours ) * multiplier ) + 8_hours;
         // Increased below margin to 7.5 (from 5) to account for roundoff vs 5-minute weariness cycle
-        CHECK( info.transition_minutes( 4, 3,
-                                        time1 ) == Approx( to_minutes<float>( time1 ) ).margin( 7.5f ) );
-        CHECK( info.transition_minutes( 3, 2,
-                                        time2 ) == Approx( to_minutes<float>( time2 ) ).margin( 7.5f ) );
+        if( time1 < 16_hours ) {
+            CHECK( info.transition_minutes( 4, 3,
+                                            time1 ) == Approx( to_minutes<float>( time1 ) ).margin( 7.5f ) );
+            if( time2 < 16_hours ) {
+                CHECK( info.transition_minutes( 3, 2,
+                                                time2 ) == Approx( to_minutes<float>( time2 ) ).margin( 7.5f ) );
+            } else {
+                CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
+            }
+        } else {
+            CHECK( info.transition_minutes( 4, 3, time1 ) >= ( 16 * 60 ) );
+            CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
+        }
+
         if( multiplier >= 1.0f ) { // preliminary
             CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
             CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
