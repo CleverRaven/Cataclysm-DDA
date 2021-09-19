@@ -1,6 +1,5 @@
 #include "activity_tracker.h"
 
-#include "debug.h"
 #include "cata_assert.h"
 #include "game_constants.h"
 #include "options.h"
@@ -22,7 +21,6 @@ void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float f
     tick_counter++;
     if( average_activity() < LIGHT_EXERCISE ) {
         cata_assert( fatigue_mod > 0.0f );
-        debugmsg( "fatigue_mod is %f, fatigue_regen_mod is %f", fatigue_mod, fatigue_regen_mod );
         low_activity_ticks += std::min( 1.0f, ( ( LIGHT_EXERCISE - average_activity() ) /
                                                 ( LIGHT_EXERCISE - NO_EXERCISE ) ) ) / fatigue_mod;
         // Recover (by default) twice as fast while sleeping
