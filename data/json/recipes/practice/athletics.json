@@ -1,0 +1,15 @@
+[
+  {
+    "id": "prac_athletics_beg",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ATHLETICS",
+    "name": "athletics (beginner)",
+    "description": "Practice some basic calisthenics like pushups, squats, dips and crunches.",
+    "skill_used": "swimming",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "swimming", 0 ] ]
+  }
+]
