@@ -143,7 +143,6 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 class npc_template;
 
