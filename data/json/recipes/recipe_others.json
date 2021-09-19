@@ -2346,10 +2346,6 @@
     "autolearn": true,
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "training_dummy_light", 1 ] ],
-      [ [ "duct_tape", 50 ] ],
-      [ [ "scrap", 150 ] ]
-    ]
+    "components": [ [ [ "training_dummy_light", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "scrap", 150 ] ] ]
   }
 ]
