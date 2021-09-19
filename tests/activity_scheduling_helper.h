@@ -122,6 +122,6 @@ struct weariness_events {
         bool empty() const;
 };
 
-weariness_events do_activity( tasklist tasks );
+weariness_events do_activity( tasklist tasks, bool do_clear_avatar = true );
 
 #endif // CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H

@@ -79,10 +79,12 @@ void sleep_schedule::do_turn( avatar &guy ) const
     }
 }
 
-weariness_events do_activity( tasklist tasks )
+weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
 {
     // Clear stuff, ensure we're in the right place
-    clear_avatar();
+    if( do_clear_avatar ) {
+        clear_avatar();
+    }
     clear_map();
 
     avatar &guy = get_avatar();

@@ -43,7 +43,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( "\nFirst Aid 8 hours:" );
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( desk_8h );
+        weariness_events info = do_activity( desk_8h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( info.empty() );
@@ -65,7 +65,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     SECTION( "Heavy tasks - Digging Pits 8 hours" ) {
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( soldier_8h );
+        weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
@@ -80,7 +80,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     SECTION( "Heavy tasks - Digging Pits 12 hours" ) {
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( soldier_12h );
+        weariness_events info = do_activity( soldier_12h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
@@ -115,7 +115,7 @@ static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait
 
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( soldier_8h );
+        weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
@@ -198,7 +198,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( soldier_8h );
+        weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
@@ -239,7 +239,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     SECTION( "Waiting 24 hours" ) {
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( waiting_24h );
+        weariness_events info = do_activity( waiting_24h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( info.empty() );
@@ -249,7 +249,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     SECTION( "Digging 24 hours" ) {
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        weariness_events info = do_activity( digging_24h );
+        weariness_events info = do_activity( digging_24h, false );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
