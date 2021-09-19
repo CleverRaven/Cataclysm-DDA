@@ -13,7 +13,7 @@
     "autolearn": [ [ "melee", 1 ] ],
     "book_learn": [ [ "mag_melee", 0 ], [ "manual_melee", 0 ] ],
     "//": "Only training weapons, all of these have the WBLOCK_2 techniques and are relatively easy to handle, in other words they have a possitive to_hit bonus.",
-    "tools": [ [ [ "cudgel", -1 ], [ "bokken", -1 ], [ "bokken_fake", -1 ], [ "bokken_inferior", -1 ], [ "q_staff", -1 ] ] ]
+    "tools": [ [ "cudgel", "bokken", "bokken_fake", "bokken_inferior", "q_staff" ] ]
   },
   {
     "id": "prac_cutting_beg",
@@ -30,15 +30,9 @@
     "autolearn": [ [ "cutting", 1 ] ],
     "book_learn": [ [ "mag_cutting", 0 ], [ "manual_cutting", 0 ] ],
     "//": "A cutting tool to represent what you would use to train cutting, mainly a temporary measure.",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "training_dummy_light", -1 ] ] ],
-    "//1": "The repairs are some of the components for the dummy but in a lesser quantity.",
-    "components": [
-      [ [ "nail", 10 ] ],
-      [ [ "duct_tape", 25 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
-    ],
-    "byproducts": [ [ "splinter", 10 ] ]
+    "tools": [ [ "bokken", "bokken_fake", "bokken_inferior", "sword_wood" ], [ "training_dummy_light" ] ],
+    "//1": "A bunch of duct tape to repair the dummy with each training session.",
+    "components": [ [ "duct_tape", 25 ] ]
   },
   {
     "id": "prac_bashing_beg",
@@ -56,17 +50,9 @@
     "book_learn": [ [ "mag_bashing", 0 ], [ "manual_bashing", 0 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "//": "Only training weapons or light and easy to use weapons, a war hammer is a good weapon but you should not start your training with one.",
-    "tools": [
-      [ [ "cudgel", -1 ], [ "q_staff", -1 ], [ "bat", -1 ], [ "baton-extended", -1 ], [ "PR24-extended", -1 ] ],
-      [ [ "training_dummy_light", -1 ] ]
-    ],
-    "//1": "The repairs are some of the components for the dummy but in a lesser quantity.",
-    "components": [
-      [ [ "nail", 10 ] ],
-      [ [ "duct_tape", 25 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
-    ],
-    "byproducts": [ [ "splinter", 10 ] ]
+    "tools": [ [ "cudgel", "q_staff", "bat", "baton-extended", "PR24-extended" ], [ "training_dummy_light" ] ],
+    "//1": "A bunch of duct tape to repair the dummy with each training session.",
+    "components": [ [ "duct_tape", 25 ] ]
   },
   {
     "id": "prac_stabbing_beg",
@@ -84,24 +70,11 @@
     "book_learn": [ [ "mag_stabbing", 0 ], [ "manual_stabbing", 0 ] ],
     "//": "Only training weapons or light and easy to use weapons.",
     "tools": [
-      [
-        [ "spear_wood", -1 ],
-        [ "spear_knife_superior", -1 ],
-        [ "spear_stone", -1 ],
-        [ "spear_spike", -1 ],
-        [ "fencing_foil", -1 ],
-        [ "fencing_epee", -1 ],
-        [ "fencing_sabre", -1 ]
-      ],
-      [ [ "training_dummy_light", -1 ] ]
+      [ "spear_wood", "spear_knife_superior", "spear_stone", "spear_spike", "fencing_foil", "fencing_epee", "fencing_sabre" ],
+      [ "training_dummy_light" ]
     ],
-    "//1": "The repairs are some of the components for the dummy but in a lesser quantity.",
-    "components": [
-      [ [ "nail", 10 ] ],
-      [ [ "duct_tape", 25 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
-    ],
-    "byproducts": [ [ "splinter", 10 ] ]
+    "//1": "A bunch of duct tape to repair the dummy with each training session.",
+    "components": [ [ "duct_tape", 25 ] ]
   },
   {
     "id": "prac_unarmed_beg",
@@ -117,14 +90,9 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "unarmed", 1 ] ],
     "book_learn": [ [ "mag_unarmed", 0 ], [ "manual_brawl", 0 ] ],
-    "tools": [ [ [ "training_dummy_light", -1 ] ] ],
-    "//1": "The repairs are some of the components for the dummy but in a lesser quantity, unarmed practice requires even less because you will cause less damage to the dummy.",
-    "components": [
-      [ [ "nail", 5 ] ],
-      [ [ "duct_tape", 10 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
-    ],
-    "byproducts": [ [ "splinter", 10 ] ]
+    "tools": [ [ "training_dummy_light" ] ],
+    "//1": "A bunch of duct tape to repair the dummy with each training session.",
+    "components": [ [ "duct_tape", 25 ] ]
   },
   {
     "id": "prac_dancing",
@@ -152,6 +120,6 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "dodge", 1 ] ],
     "book_learn": [ [ "manual_dodge_kid", 0 ], [ "manual_dodge", 0 ] ],
-    "tools": [ [ [ "basketball", -1 ], [ "indoor_volleyball", -1 ], [ "beach_volleyball", -1 ], [ "baseball", -1 ] ] ]
+    "tools": [ [ "basketball", "indoor_volleyball", "beach_volleyball", "baseball" ] ]
   }
 ]
