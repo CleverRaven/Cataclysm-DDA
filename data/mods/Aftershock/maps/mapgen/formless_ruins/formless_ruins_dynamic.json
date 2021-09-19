@@ -48,6 +48,12 @@
         "                        "
       ],
       "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "north": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "east": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "south": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "west": "forest" } }
+      ],
       "nested": {
         "1": {
           "chunks": [
@@ -74,7 +80,8 @@
             [ "formless_ruins_empty4", 10 ],
             [ "formless_ruins_cryoroom", 10 ],
             [ "formless_ruins_armory", 10 ],
-            [ "formless_ruins_sleeping_room", 10 ]
+            [ "formless_ruins_sleeping_room", 10 ],
+            [ "formless_ruins_telepad", 5 ]
           ]
         }
       },
@@ -116,6 +123,12 @@
         "                        "
       ],
       "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "north": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "east": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "south": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "west": "forest" } }
+      ],
       "nested": {
         "1": {
           "chunks": [
@@ -142,7 +155,8 @@
             [ "formless_ruins_empty4", 10 ],
             [ "formless_ruins_cryoroom", 10 ],
             [ "formless_ruins_armory", 10 ],
-            [ "formless_ruins_sleeping_room", 10 ]
+            [ "formless_ruins_sleeping_room", 10 ],
+            [ "formless_ruins_telepad", 5 ]
           ]
         }
       },
@@ -185,6 +199,12 @@
         "                        "
       ],
       "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "north": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "east": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "south": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "west": "forest" } }
+      ],
       "nested": {
         "1": {
           "chunks": [
@@ -744,6 +764,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "formless_ruins_telepad",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "/     ..////",
+        "/. ......../",
+        "/.///3////C/",
+        "///.........",
+        "/C.    ooo#/",
+        "/ ..  ....--",
+        "/W .......1-",
+        "/W  ......T-",
+        "/W. ......1-",
+        "//C.......--",
+        "##/ooooo///.",
+        "///..  //   "
+      ],
+      "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor", "1": "t_machinery_heavy" },
+      "furniture": { "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
+      "items": {
+        "W": [
+          { "item": "afs_experimental_combat_gear", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "afs_general_armory", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "C": [
+          { "item": "afs_robotics_scrapgroup", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "afs_machinery_maintenance_scrapgroup", "chance": 10, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "palettes": [ "afs_formless_ruins" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "formless_ruins_armory",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -754,11 +809,11 @@
         "// ///...../",
         "/C. / .CC.#/",
         "/ ../M...../",
-        "/  .//33ooo/",
-        "/   /...  M/",
+        ".  .//33ooo/",
+        ". ......  M/",
         "/.. /WWWWWW/",
-        "//..////////",
-        "##/...  /.. ",
+        "//..///..../",
+        "##/...  ... ",
         "///..  //   "
       ],
       "terrain": { "C": "t_metal_floor", "W": "t_metal_floor" },
@@ -883,6 +938,20 @@
       },
       "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1, 5 ], "y": [ 1, 2 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
       "palettes": [ "afs_formless_ruins" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "formless_forest",
+    "//": "forest map for when adjacent forests exists",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "terrain", "id": "t_region_groundcover_forest", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 50, 200 ] },
+        { "point": "terrain", "id": "t_region_shrub", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 50, 100 ] },
+        { "point": "terrain", "id": "t_region_tree", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 20, 50 ] }
+      ]
     }
   }
 ]

@@ -115,7 +115,7 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 300 ] }
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
   },
   {
     "type": "effect_type",
@@ -137,6 +137,16 @@
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
     "base_mods": { "str_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "safe_shoppers",
+    "name": [ "Safe Shopping Experience" ],
+    "desc": [ "Magical Store Security" ],
+    "apply_message": "You feel very seen!",
+    "remove_message": "You no longer feel like somebody's watching you.",
+    "rating": "good",
+    "removes_effects": [ "invisibility" ]
   },
   {
     "type": "effect_type",
@@ -312,5 +322,35 @@
     "max_duration": "20 m",
     "//": "No morale_mod is currently possible in effects, but this effect should give +5/+10 morale whenever that it's implemented.",
     "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "cold_heart_effect",
+    "name": [ "Cold Heart" ],
+    "desc": [ "Full of chilled blood, the heart slows as it grows cold." ],
+    "apply_message": "You feel yourself getting slower, as ice seems to run through your veins.",
+    "remove_message": "You feel yourself recovering your normal speed.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -30 ] },
+    "scaling_mods": { "speed_mod": [ -30 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "overclocker_drive_effect",
+    "name": [ "Overdrive" ],
+    "desc": [ "Is it possible to dart aside and avoid a cannon ball?  Is it possible to grab an arrow in flight with one hand?" ],
+    "removes_effects": [ "haste" ],
+    "apply_message": "You feel yourself move faster than a bullet.",
+    "remove_message": "You feel yourself returning to your normal speed.",
+    "base_mods": {
+      "fatigue_amount": [ 1 ],
+      "fatigue_min": [ 1 ],
+      "fatigue_tick": [ 3 ],
+      "speed_mod": [ 300 ],
+      "per_mod": [ -4 ],
+      "dex_mod": [ 8 ]
+    }
   }
 ]

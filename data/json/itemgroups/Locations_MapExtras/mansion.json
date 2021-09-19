@@ -177,10 +177,12 @@
     "subtype": "collection",
     "items": [
       [ "diamond", 20 ],
+      { "item": "money_bundle_twenty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_hundred", "prob": 20, "count": [ 1, 2 ] },
       { "group": "stash_drugs", "prob": 5 },
       [ "file", 70 ],
       { "group": "jewelry_front", "prob": 40 },
-      [ "money_bundle", 50 ],
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
@@ -190,7 +192,7 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      [ "money_bundle", 20 ],
+      { "item": "money_strap_twenty", "prob": 20, "count": [ 1, 5 ] },
       { "group": "mansion_ammo", "prob": 60 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
@@ -870,8 +872,8 @@
       [ "can_drink", 30 ],
       [ "bottle_plastic", 30 ],
       [ "bag_plastic", 30 ],
-      [ "paper", 30 ],
       { "item": "rolling_paper", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "paper", "prob": 30, "count": [ 20, 50 ] },
       { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "9mm_casing", 20 ],
@@ -893,7 +895,7 @@
     "items": [
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
-      [ "paper", 50 ],
+      { "item": "paper", "prob": 50, "count": [ 20, 50 ] },
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
       [ "splinter", 40 ],
@@ -969,7 +971,7 @@
       [ "bathroom_scale", 10 ],
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
-      [ "paper", 50 ],
+      { "item": "paper", "prob": 50, "count": [ 20, 50 ] },
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
       [ "sinew", 40 ],

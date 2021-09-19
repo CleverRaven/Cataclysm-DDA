@@ -144,6 +144,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 
 TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
 {
+    check_lethality( "grenade_act", 0, 0.99, 0.06, outcome_type::Kill );
     check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
     check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );
 }
@@ -167,7 +168,7 @@ TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
     for( size_t i = 0; i <= 20 ; ++i ) {
         check_vehicle_damage( "grenade_act", "car", 5, 0.998 );
         check_vehicle_damage( "grenade_act", "motorcycle", 5, 0.997 );
-        check_vehicle_damage( "grenade_act", "motorcycle", 0, 0.975, 0.9975 );
+        check_vehicle_damage( "grenade_act", "motorcycle", 0, 0.975, 0.9985 );
         check_vehicle_damage( "grenade_act", "humvee", 5, 1 );
     }
 }

@@ -19,11 +19,11 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "line.h"
 #include "map.h"
@@ -130,7 +130,7 @@ void glare( const weather_type_id &w )
 
 int incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
 static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
@@ -165,9 +165,10 @@ static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &
 
 weather_type_id current_weather( const tripoint &location, const time_point &t )
 {
-    const weather_generator wgen = g->weather.get_cur_weather_gen();
-    if( g->weather.weather_override != WEATHER_NULL ) {
-        return g->weather.weather_override;
+    weather_manager &weather = get_weather();
+    const weather_generator wgen = weather.get_cur_weather_gen();
+    if( weather.weather_override != WEATHER_NULL ) {
+        return weather.weather_override;
     }
     return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
@@ -179,6 +180,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
     time_duration tick_size = 0_turns;
     weather_sum data;
 
+    weather_manager &weather = get_weather();
     for( time_point t = start; t < end; t += tick_size ) {
         const time_duration diff = end - t;
         if( diff < 10_turns ) {
@@ -191,11 +193,11 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed,
+        data.wind_amount += get_local_windpower( weather.windspeed,
                             // TODO: fix point types
                             overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
                             location,
-                            g->weather.winddirection, false ) * to_turns<int>( tick_size );
+                            weather.winddirection, false ) * to_turns<int>( tick_size );
     }
     return data;
 }
@@ -405,7 +407,7 @@ void wet_character( Character &target, int amount )
 {
     if( amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( json_flag_RAIN_PROTECT ) ||
+        target.get_wielded_item().has_flag( json_flag_RAIN_PROTECT ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
@@ -413,8 +415,18 @@ void wet_character( Character &target, int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = target.warmth( body_part_torso ) * 4 / 5 + target.warmth(
-                                 body_part_head ) / 5;
+    std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    for( const bodypart_id &bp : target.get_all_body_parts() ) {
+        clothing_map.emplace( bp, std::vector<const item *>() );
+    }
+    for( const item &it : target.worn ) {
+        for( const bodypart_str_id &covered : it.get_covered_body_parts() ) {
+            clothing_map[covered.id()].emplace_back( &it );
+        }
+    }
+    std::map<bodypart_id, int> warmth_bp = target.warmth( clothing_map );
+    const int warmth_delay = warmth_bp[body_part_torso] * 0.8 +
+                             warmth_bp[body_part_head] * 0.2;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
@@ -491,7 +503,7 @@ void handle_weather_effects( const weather_type_id &w )
         }
     }
     glare( w );
-    g->weather.lightning_active = false;
+    get_weather().lightning_active = false;
 }
 
 static std::string to_string( const weekdays &d )
@@ -551,13 +563,14 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // Local conditions
     const city_reference cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
+    weather_manager &weather = get_weather();
     // Current time
     weather_report += string_format(
                           //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
                           _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                           to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                           city_name,
-                          get_weather().weather_id->name, print_temperature( get_weather().temperature )
+                          weather.weather_id->name, print_temperature( get_weather().temperature )
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -579,7 +592,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // TODO: fix point types
     const tripoint abs_ms_pos =
         tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
-    w_point weatherPoint = *g->weather.weather_precise;
+    w_point weatherPoint = *weather.weather_precise;
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
@@ -588,7 +601,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         const weather_generator wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            *g->weather.weather_precise = w;
+            *weather.weather_precise = w;
             forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max( high, w.temperature );
             low = std::min( low, w.temperature );
@@ -614,7 +627,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                               print_temperature( high ), print_temperature( low )
                           );
     }
-    *g->weather.weather_precise = weatherPoint;
+    *weather.weather_precise = weatherPoint;
     return weather_report;
 }
 
@@ -833,7 +846,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return get_map().has_flag( "BLOCK_WIND", location );
+    return get_map().has_flag( ter_furn_flag::TFLAG_BLOCK_WIND, location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
@@ -901,7 +914,7 @@ bool warm_enough_to_plant( const tripoint &pos )
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
 {
-    return g->weather.get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 50;
 }
 
 weather_manager::weather_manager()
@@ -922,13 +935,11 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
-    winddirection = wind_direction_override ? *wind_direction_override : winddirection;
-    windspeed = windspeed_override ? *windspeed_override : windspeed;
     Character &player_character = get_player_character();
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.global_square_location(), calendar::turn,
+        w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
@@ -936,6 +947,8 @@ void weather_manager::update_weather()
                      : weather_override;
         sfx::do_ambient();
         temperature = w.temperature;
+        winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+        windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
@@ -957,7 +970,7 @@ void weather_manager::update_weather()
             here.set_seen_cache_dirty( tripoint_zero );
         }
         if( weather_id != old_weather ) {
-            effect_on_conditions::process_reactivate();
+            effect_on_conditions::process_reactivate( get_player_character() );
         }
     }
 }
@@ -998,6 +1011,11 @@ int weather_manager::get_temperature( const tripoint_abs_omt &location )
 void weather_manager::clear_temp_cache()
 {
     temperature_cache.clear();
+}
+
+const weather_manager &get_weather_const()
+{
+    return const_cast<const weather_manager &>( get_weather() );
 }
 
 ///@}

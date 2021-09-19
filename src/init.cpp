@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include <cstddef>
-#include <fstream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -86,6 +85,7 @@
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
+#include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -96,6 +96,7 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "weather_type.h"
+#include "widget.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -165,6 +166,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 }
             }
             ++it;
+            inp_mngr.pump_events();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -180,6 +182,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
                 }
+                inp_mngr.pump_events();
             }
             data.clear();
             return; // made no progress on this cycle so abort
@@ -256,6 +259,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "speed_description", &speed_description::load_speed_descriptions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -375,6 +379,7 @@ void DynamicDataLoader::initialize()
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
+    add( "practice", &recipe_dictionary::load_practice );
     add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );
@@ -443,6 +448,7 @@ void DynamicDataLoader::initialize()
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
     add( "conduct", &achievement::load_achievement );
+    add( "widget", &widget::load_widget );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -465,7 +471,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream tmp( path.c_str(), std::ios::in );
+        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -511,6 +517,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
+    inp_mngr.pump_events();
 }
 
 void DynamicDataLoader::unload_data()
@@ -652,6 +659,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()

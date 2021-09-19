@@ -1,14 +1,5 @@
 # TILESETS
 
-## Including tilesets with the distribution
-
-In order to be included in the distribution of the game, a tileset must meet the following criteria:
-
-- Licensing: ALL ART must be distributed under a CC-BY-SA 3.0 license or compatible.  Any exceptions cannot be tolerated.  If an art item's license is unclear it cannot be included.
-- Crediting: Appropriate crediting as requested by artists must be met.  You probably don't need to be told this, adding a credits.txt costs you nothing.
-- Maintenance: A tileset must have had at least one PR updating its art since the previous stable release to be included in subsequent stable releases.  While a formal maintainer isn't required for a tileset, it's much more likely that sets will not be marked obsolete if they have someone to speak up for them.
-- Imagery: in general we do not have rules about imagery and content in tilesets, but we may request changes or refuse admission if a set includes overt hate imagery (swastikas for example).
-
 ## Terminology
 
 ##### Tileset
@@ -87,11 +78,17 @@ Special prefixes that are used include:
 
 #### Optional gendered variants
 
-Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.
+Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix before other parts: `overlay_female_` or `overlay_male_`, `overlay_female_worn_`, `overlay_male_worn_`.
 
 #### Optional seasonal variants
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
+
+#### Item variant sprite variants
+
+Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
+
+e.g. for an item with the id `item1`, with variants `orange` and `pear`, to specify a tile for the item, simply use `item1`. For the variants, use `item1_var_orange` and `item1_var_pear`.
 
 #### Rotations
 
@@ -198,11 +195,11 @@ Requires `pyvips` module, see below.
 ### Windows
 
 #### Python and pyvips
- * Install Python with the latest installer https://www.python.org/downloads/windows/
+ * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing)
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:
 ```
-py -m pip install -U pip
+py -m pip install --upgrade pip
 py -m pip install --user pyvips
 ```
 
@@ -212,7 +209,7 @@ py -m pip install --user pyvips
  * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
  * In the `User variables` section, select `Path` and click `Edit`.
  * Select an empty line and press `New`
- * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
+ * Copy and paste the path to the extracted `vips-dev-#.##\bin` folder, it should look something like `C:\Users\username\Downloads\vips-dev-8.10\bin`
  * If you have the Console open, close it so the changes take effect.
 
 #### Launching scripts
@@ -224,6 +221,17 @@ _TODO, please ask if you need it or send suggestions if you want to help_
 
 ### MacOS
 _TODO, please ask if you need it or send suggestions if you want to help_
+
+
+## Including tilesets with the distribution
+
+In order to be included in the distribution of the game, a tileset must meet the following criteria:
+
+- Licensing: ALL ART must be distributed under a CC-BY-SA 3.0 license or compatible.  Any exceptions cannot be tolerated.  If an art item's license is unclear it cannot be included.
+- Crediting: Appropriate crediting as requested by artists must be met.  You probably don't need to be told this, adding a credits.txt costs you nothing.
+- Maintenance: A tileset must have had at least one PR updating its art since the previous stable release to be included in subsequent stable releases.  While a formal maintainer isn't required for a tileset, it's much more likely that sets will not be marked obsolete if they have someone to speak up for them.
+- Imagery: in general we do not have rules about imagery and content in tilesets, but we may request changes or refuse admission if a set includes overt hate imagery (swastikas for example).
+
 
 ## Legacy tilesets
 

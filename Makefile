@@ -47,10 +47,6 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
-#  Special note for MinGW: due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
-#  using English without a `.mo` file would cause significant slow down on MinGW
-#  targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`.
-#  `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
@@ -327,8 +323,6 @@ STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
-# We don't need scientific precision for our math functions, this lets them run much faster.
-CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
@@ -455,6 +449,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
+CPPFLAGS += -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -520,7 +515,7 @@ ifeq ($(NATIVE), osx)
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -536,22 +531,6 @@ ifeq ($(NATIVE), osx)
     endif
   endif
   ifeq ($(LOCALIZE), 1)
-    LDFLAGS += -lintl
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/gettext/lib
-      CXXFLAGS += -I$(LIBSDIR)/gettext/include
-    endif
-    # link to gettext from Homebrew if it exists
-    # Homebrew may be installed in /usr/local or /opt/homebrew
-    ifneq ("$(wildcard /usr/local/opt/gettext)", "")
-      LDFLAGS += -L/usr/local/opt/gettext/lib
-      CXXFLAGS += -I/usr/local/opt/gettext/include
-    else
-      ifneq ("$(wildcard /opt/homebrew/opt/gettext)", "")
-        LDFLAGS += -L/opt/homebrew/opt/gettext/lib
-        CXXFLAGS += -I/opt/homebrew/opt/gettext/include
-      endif
-    endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
         CXXFLAGS += -I$(shell ncursesw6-config --includedir)
@@ -600,6 +579,7 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
+  DEFINES += -DWIN32_LEAN_AND_MEAN
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
@@ -610,9 +590,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -static-libgcc -static-libstdc++
   else
     LDFLAGS += -static
-  endif
-  ifeq ($(LOCALIZE), 1)
-    LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
@@ -722,7 +699,7 @@ ifeq ($(TILES), 1)
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
       else
         ifeq ($(MSYS2),1)
-          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lwebp -ljpeg -luuid
         else
           LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
         endif
@@ -781,13 +758,6 @@ else
   endif # HAVE_PKGCONFIG
 endif # TILES
 
-ifeq ($(TARGETSYSTEM),CYGWIN)
-  ifeq ($(LOCALIZE),1)
-    # Work around Cygwin not including gettext support in glibc
-    LDFLAGS += -lintl -liconv
-  endif
-endif
-
 ifeq ($(BSD), 1)
   # BSDs have backtrace() and friends in a separate library
   ifeq ($(BACKTRACE), 1)
@@ -796,12 +766,7 @@ ifeq ($(BSD), 1)
     CXXFLAGS += -fno-omit-frame-pointer
   endif
 
-  # And similarly, their libcs don't have gettext built in
-  ifeq ($(LOCALIZE),1)
-    LDFLAGS += -lintl -liconv
-  endif
-
-  # libexecinfo, libintl and libiconv may be located in /usr/local on BSD
+  # libexecinfo may be located in /usr/local on BSD
   CXXFLAGS += -I/usr/local/include
   LDFLAGS += -L/usr/local/lib
 endif
@@ -851,11 +816,13 @@ SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := tools/format/format.cpp tools/format/format_main.cpp src/json.cpp
-CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/json.cpp
+JSON_FORMATTER_HEADERS := $(wildcard tools/format/*.h)
+CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
-TOOLHDR := $(wildcard tools/*/*.h)
+CLANG_TIDY_PLUGIN_HEADERS := \
+  $(wildcard tools/clang-tidy-plugin/*.h tools/clang-tidy-plugin/*/*.h)
 # Using sort here because it has the side-effect of deduplicating the list
 ASTYLE_SOURCES := $(sort \
   $(SOURCES) \
@@ -863,9 +830,10 @@ ASTYLE_SOURCES := $(sort \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
+  $(JSON_FORMATTER_HEADERS) \
   $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
-  $(TOOLHDR))
+  $(CLANG_TIDY_PLUGIN_HEADERS))
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -963,6 +931,8 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
+
+$(ODIR)/resource.o: data/cataicon.ico data/application_manifest.xml
 
 src/version.h: version
 
@@ -1116,10 +1086,6 @@ ifdef LANGUAGES
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
-ifeq ($(LOCALIZE), 1)
-	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPRESOURCESDIR)/; fi; \
-		if [ ! -z "$$OSXCROSS" ]; then LIBINTL=$$(basename $$LIBINTL) && if [ ! -z "$$LIBINTL" ]; then cp $(LIBSDIR)/gettext/lib/$$LIBINTL $(APPRESOURCESDIR)/; fi; fi
-endif
 ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
@@ -1135,16 +1101,13 @@ ifeq ($(SOUND), 1)
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
 	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
 endif  # ifdef SOUND
-else # libsdl build
-	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
-	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
-	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
-ifeq ($(SOUND), 1)
-	cp $(SDLLIBSDIR)/libSDL2_mixer.dylib $(APPRESOURCESDIR)/
-endif  # ifdef SOUND
 endif  # ifdef FRAMEWORK
-
 endif  # ifdef TILES
+
+ifndef FRAMEWORK
+	python3 ./tools/copy_mac_libs.py $(APPRESOURCESDIR)/$(APPTARGET)
+endif  # ifndef FRAMEWORK
+
 
 dmgdistclean:
 	rm -rf Cataclysm

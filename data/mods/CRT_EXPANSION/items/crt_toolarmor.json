@@ -139,6 +139,7 @@
     "max_charges": 300,
     "initial_charges": 300,
     "turns_per_charge": 1,
+    "charges_per_use": 1,
     "revert_to": "crt_em_vest",
     "use_action": { "type": "transform", "menu_text": "Turn off armor", "msg": "CRIT EM powering off…", "target": "crt_em_vest" },
     "relic_data": {
@@ -216,7 +217,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 120,
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the %s off.", "target": "crt_helmet" }
   },
   {
     "id": "crt_canteen",

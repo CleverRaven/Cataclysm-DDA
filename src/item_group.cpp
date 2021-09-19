@@ -16,7 +16,6 @@
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -81,8 +80,7 @@ std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
         case Item_spawn_data::overflow_behaviour::last:
             break;
     }
-    debugmsg( "Invalid overflow_behaviour" );
-    abort();
+    cata_fatal( "Invalid overflow_behaviour" );
 }
 } // namespace io
 
@@ -119,7 +117,7 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( const item &it : items ) {
-        if( ctr.can_contain( it ) ) {
+        if( ctr.can_contain( it ).success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
             ctr.put_in( it, pk_type );
         } else {
@@ -343,7 +341,7 @@ std::set<const itype *> Single_item_creator::every_item() const
             return {};
     }
     // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-    cata_assert( !"Unexpected type" );
+    cata_fatal( "Unexpected type" );
     return {};
 }
 
@@ -391,7 +389,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         }
     }
 
-    new_item.set_gun_variant( variant );
+    new_item.set_itype_variant( variant );
 
     // create container here from modifier or from default to get max charges later
     item cont;

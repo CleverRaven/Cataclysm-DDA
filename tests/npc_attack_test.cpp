@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -16,11 +17,12 @@ static constexpr tripoint main_npc_start_tripoint{ main_npc_start, 0 };
 
 namespace npc_attack_setup
 {
-static void spawn_main_npc()
+static npc &spawn_main_npc()
 {
+    creature_tracker &creatures = get_creature_tracker();
     get_player_character().setpos( { main_npc_start, -1 } );
     const string_id<npc_template> blank_template( "test_talker" );
-    REQUIRE( g->critter_at<Creature>( main_npc_start_tripoint ) == nullptr );
+    REQUIRE( creatures.creature_at<Creature>( main_npc_start_tripoint ) == nullptr );
     const character_id model_id = get_map().place_npc( main_npc_start, blank_template );
 
     npc &model_npc = *g->find_npc( model_id );
@@ -29,262 +31,198 @@ static void spawn_main_npc()
 
     g->load_npcs();
 
-    REQUIRE( g->critter_at<npc>( main_npc_start_tripoint ) != nullptr );
+    REQUIRE( creatures.creature_at<npc>( main_npc_start_tripoint ) != nullptr );
+
+    return model_npc;
 }
 
-static void respawn_main_npc()
+static npc &respawn_main_npc()
 {
-    npc *guy = g->critter_at<npc>( main_npc_start_tripoint );
+    npc *guy = get_creature_tracker().creature_at<npc>( main_npc_start_tripoint );
     if( guy ) {
         guy->die( nullptr );
     }
-    spawn_main_npc();
+    return spawn_main_npc();
 }
 
-// will seg fault if the main npc wasn't spawned yet
-static npc &get_main_npc()
+static monster *spawn_zombie_at_range( const int range )
 {
-    return *g->critter_at<npc>( main_npc_start_tripoint );
-}
-
-static void spawn_zombie_at_range( const int range )
-{
-    g->place_critter_at( mon_zombie, main_npc_start_tripoint + tripoint( range, 0, 0 ) );
+    return g->place_critter_at( mon_zombie, main_npc_start_tripoint + tripoint( range, 0, 0 ) );
 }
 } // namespace npc_attack_setup
 
-struct npc_attack_melee_test_data {
-    itype_id weapon_id;
-    // base effectiveness against the zombie
-    int base_effectiveness;
-    // effectiveness skyrockets when the zombie will die in one hit
-    int deathblow;
-    // the effectiveness value if the zombie is not the main target
-    int not_main_target;
-    // the effectiveness value of a farther zombie if it's the target
-    int reach_far_target;
-    // the effectiveness value of a farther zombie if it's not the target but nearly dead
-    int reach_far_deathblow;
-    // effectiveness value of a farther zombie if it's nearly dead and is the target
-    int reach_far_target_deathblow;
-};
-
-static void test_melee_attacks( const npc_attack_melee_test_data &data )
+TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 {
-    CAPTURE( data.weapon_id.c_str() );
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_type_id( "sunny" ) );
-    npc_attack_setup::spawn_main_npc();
-    npc_attack_setup::spawn_zombie_at_range( 1 );
-    monster *zomble = g->critter_at<monster>( main_npc_start_tripoint + tripoint_east );
-    npc_attack_setup::respawn_main_npc();
-    npc &main_npc = npc_attack_setup::get_main_npc();
-    item weapon( data.weapon_id );
-    main_npc.weapon = weapon;
-    const npc_attack_melee wep( main_npc.weapon );
-    npc_attack_rating wep_effectiveness = wep.evaluate( main_npc, zomble );
-    // base effectiveness against the zombie
-    CHECK( *wep_effectiveness.value() == data.base_effectiveness );
-    zomble->set_hp( 1 );
-    wep_effectiveness = wep.evaluate( main_npc, zomble );
-    // effectiveness skyrockets when the zombie will die in one hit
-    CHECK( *wep_effectiveness.value() == data.deathblow );
+    npc &main_npc = npc_attack_setup::respawn_main_npc();
+    // Allied NPC for behavior testing purposes
+    main_npc.set_fac( faction_id( "your_followers" ) );
 
-    npc_attack_setup::spawn_zombie_at_range( 4 );
-    monster *dist_target = g->critter_at<monster>( main_npc_start_tripoint + tripoint( 4, 0, 0 ) );
-    wep_effectiveness = wep.evaluate( main_npc, dist_target );
-    // even if the distant target is the npc's actual target,
-    // the nearly dead zombie we actually can hit is the (only) choice
-    CHECK( wep_effectiveness.target() == main_npc_start_tripoint + tripoint_east );
-    // but the actual effectiveness value is lower because it is not the main target
-    CHECK( *wep_effectiveness.value() == data.not_main_target );
-    zomble->die( nullptr );
-    wep_effectiveness = wep.evaluate( main_npc, dist_target );
-    // we can't reach the only alive zombie, so there's no valid attack to make
-    CHECK( !wep_effectiveness.value() );
-    dist_target->die( nullptr );
+    GIVEN( "There is a zombie 1 tile away" ) {
+        monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
 
-}
+        WHEN( "NPC only has a chef knife" ) {
+            item weapon( "knife_chef" );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "knife_chef" ) );
 
-static void test_reach_attacks( const npc_attack_melee_test_data &data )
-{
-    test_melee_attacks( data );
-
-    npc &main_npc = npc_attack_setup::get_main_npc();
-    const npc_attack_melee wep( main_npc.weapon );
-    CAPTURE( data.weapon_id.c_str() );
-
-    npc_attack_setup::spawn_zombie_at_range( 1 );
-    npc_attack_setup::spawn_zombie_at_range( 2 );
-
-    monster *mon_close = g->critter_at<monster>( main_npc_start_tripoint + tripoint_east );
-    monster *mon_far = g->critter_at<monster>( main_npc_start_tripoint + tripoint( 2, 0, 0 ) );
-
-    // if the farther zombie is our target, prefer it
-    npc_attack_rating wep_effectiveness = wep.evaluate( main_npc, mon_far );
-    CHECK( wep_effectiveness.target() == main_npc_start_tripoint + tripoint( 2, 0, 0 ) );
-    CHECK( *wep_effectiveness.value() == data.reach_far_target );
-
-    mon_far->set_hp( 1 );
-    wep_effectiveness = wep.evaluate( main_npc, mon_close );
-    // if the farther zombie is nearly dead but the close one is our target, we still want to fight the closer one
-    CHECK( wep_effectiveness.target() == main_npc_start_tripoint + tripoint_east );
-    CHECK( *wep_effectiveness.value() == data.reach_far_deathblow );
-
-    mon_close->set_hp( 1 );
-    wep_effectiveness = wep.evaluate( main_npc, mon_far );
-    // if both zombies are nearly dead, the far target should still be preferred
-    CHECK( wep_effectiveness.target() == main_npc_start_tripoint + tripoint( 2, 0, 0 ) );
-    CHECK( *wep_effectiveness.value() == data.reach_far_target_deathblow );
-}
-
-struct npc_attack_gun_test_data {
-    std::string weapon_id;
-    // default gunmode against a zombie point-blank at MAX_RECOIL
-    int point_blank_hip_shot_default;
-    // default gunmode against a zombie point-blank at full aim
-    int point_blank_full_aim_default;
-};
-
-static void test_gun_attacks( const npc_attack_gun_test_data &data )
-{
-
-    clear_map_and_put_player_underground();
-    clear_vehicles();
-    scoped_weather_override sunny_weather( weather_type_id( "sunny" ) );
-    npc_attack_setup::spawn_main_npc();
-    npc &main_npc = npc_attack_setup::get_main_npc();
-    arm_shooter( main_npc, data.weapon_id );
-
-    npc_attack_setup::spawn_zombie_at_range( 1 );
-    monster *near_zombie = g->critter_at<monster>( main_npc_start_tripoint + tripoint_east );
-
-    const npc_attack_gun gun_default( main_npc.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ) );
-    npc_attack_rating gun_effectiveness = gun_default.evaluate( main_npc, near_zombie );
-    CHECK( *gun_effectiveness.value() == data.point_blank_hip_shot_default );
-    main_npc.recoil = main_npc.aim_cap_from_volume( main_npc.weapon );
-    gun_effectiveness = gun_default.evaluate( main_npc, near_zombie );
-    CHECK( *gun_effectiveness.value() == data.point_blank_full_aim_default );
-}
-
-TEST_CASE( "Test NPC attack variants' potential", "[npc_attack]" )
-{
-    SECTION( "melee" ) {
-        SECTION( "2x4" ) {
-            const npc_attack_melee_test_data twobyfour{
-                itype_id( "test_2x4" ),
-                35, 71, 24,
-                -1, -1, -1
-            };
-            test_melee_attacks( twobyfour );
+            THEN( "NPC attempts to melee the enemy target" ) {
+                main_npc.evaluate_best_weapon( zombie );
+                const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
+                CHECK( melee_attack );
+                const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
+                CHECK( rating.value() );
+                CHECK( *rating.value() > 0 );
+                CHECK( rating.target() == zombie->pos() );
+            }
         }
-        SECTION( "pipe" ) {
-            const npc_attack_melee_test_data pipe{
-                itype_id( "test_pipe" ),
-                68, 136, 45,
-                -1, -1, -1
-            };
-            test_melee_attacks( pipe );
+        WHEN( "NPC only has an m16a4" ) {
+            arm_shooter( main_npc, "m16a4" );
+
+            WHEN( "NPC is allowed to use loud ranged weapons" ) {
+                main_npc.rules.set_flag( ally_rule::use_guns );
+                REQUIRE( main_npc.rules.has_flag( ally_rule::use_guns ) );
+                main_npc.rules.clear_flag( ally_rule::use_silent );
+                REQUIRE( !main_npc.rules.has_flag( ally_rule::use_silent ) );
+
+                THEN( "NPC tries to shoot the enemy target" ) {
+                    main_npc.evaluate_best_weapon( zombie );
+                    const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                    npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
+                    CHECK( ranged_attack );
+                    const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
+                    CHECK( rating.value() );
+                    CHECK( *rating.value() > 0 );
+                    CHECK( rating.target() == zombie->pos() );
+                }
+            }
+            WHEN( "NPC isn't allowed to use loud weapons" ) {
+                main_npc.rules.set_flag( ally_rule::use_silent );
+                REQUIRE( main_npc.rules.has_flag( ally_rule::use_silent ) );
+
+                THEN( "NPC can't fire his weapon" ) {
+                    main_npc.evaluate_best_weapon( zombie );
+                    const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                    npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
+                    CHECK( !ranged_attack );
+                }
+            }
+            WHEN( "NPC isn't allowed to use ranged weapons" ) {
+                main_npc.rules.clear_flag( ally_rule::use_guns );
+                REQUIRE( !main_npc.rules.has_flag( ally_rule::use_guns ) );
+
+                THEN( "NPC can't fire his weapon" ) {
+                    main_npc.evaluate_best_weapon( zombie );
+                    const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                    npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
+                    CHECK( !ranged_attack );
+                }
+            }
         }
-        SECTION( "fire_ax" ) {
-            const npc_attack_melee_test_data fire_ax{
-                itype_id( "test_fire_ax" ),
-                141, 283, 94,
-                -1, -1, -1
-            };
-            test_melee_attacks( fire_ax );
-        }
-        SECTION( "clumsy_sword" ) {
-            const npc_attack_melee_test_data clumsy_sword{
-                itype_id( "test_clumsy_sword" ),
-                227, 454, 151,
-                -1, -1, -1
-            };
-            test_melee_attacks( clumsy_sword );
-        }
-        SECTION( "normal_sword" ) {
-            const npc_attack_melee_test_data normal_sword{
-                itype_id( "test_normal_sword" ),
-                291, 582, 194,
-                -1, -1, -1
-            };
-            test_melee_attacks( normal_sword );
-        }
-        SECTION( "balanced_sword" ) {
-            const npc_attack_melee_test_data balanced_sword{
-                itype_id( "test_balanced_sword" ),
-                346, 692, 231,
-                -1, -1, -1
-            };
-            test_melee_attacks( balanced_sword );
-        }
-        SECTION( "whip" ) {
-            const npc_attack_melee_test_data whip{
-                itype_id( "test_bullwhip" ),
-                22, 43, 14,
-                19, 22, 37
-            };
-            test_reach_attacks( whip );
-        }
-        SECTION( "glaive" ) {
-            const npc_attack_melee_test_data glaive{
-                itype_id( "test_glaive" ),
-                192, 384, 128,
-                189, 192, 378
-            };
-            test_reach_attacks( glaive );
+        WHEN( "NPC only has a bunch of rocks" ) {
+            item weapon( "rock" );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "rock" ) );
+
+            THEN( "NPC doesn't bother throwing the rocks so close" ) {
+                main_npc.evaluate_best_weapon( zombie );
+                const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                npc_attack_throw *throw_attack = dynamic_cast<npc_attack_throw *>( attack.get() );
+                CHECK( !throw_attack );
+            }
         }
     }
-    SECTION( "ranged" ) {
-        SECTION( "glock" ) {
-            const npc_attack_gun_test_data glock{
-                "test_glock",
-                192, 222
-            };
-            test_gun_attacks( glock );
+    GIVEN( "There is a zombie 5 tiles away" ) {
+        monster *zombie = npc_attack_setup::spawn_zombie_at_range( 5 );
+
+        WHEN( "NPC only has a chef knife" ) {
+            item weapon( "knife_chef" );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "knife_chef" ) );
+
+            THEN( "NPC attempts to melee the enemy target" ) {
+                main_npc.evaluate_best_weapon( zombie );
+                const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
+                CHECK( melee_attack );
+                const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
+                CHECK( rating.value() );
+                CHECK( *rating.value() > 0 );
+                CHECK( rating.target() == zombie->pos() );
+            }
         }
-        SECTION( "longbow" ) {
-            const npc_attack_gun_test_data bow{
-                "test_compbow",
-                210, 240
-            };
-            test_gun_attacks( bow );
+
+        WHEN( "NPC only has a bunch of rocks" ) {
+            item weapon( "rock" );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "rock" ) );
+
+            THEN( "NPC throws rocks at the zombie" ) {
+                main_npc.evaluate_best_weapon( zombie );
+                const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                npc_attack_throw *throw_attack = dynamic_cast<npc_attack_throw *>( attack.get() );
+                CHECK( throw_attack );
+            }
         }
-        SECTION( "m1911" ) {
-            const npc_attack_gun_test_data gun{
-                "m1911",
-                210, 240
-            };
-            test_gun_attacks( gun );
-        }
-        SECTION( "remington_870" ) {
-            const npc_attack_gun_test_data gun{
-                "remington_870",
-                471, 501
-            };
-            test_gun_attacks( gun );
-        }
-        SECTION( "browning_blr" ) {
-            const npc_attack_gun_test_data gun{
-                "browning_blr",
-                516, 546
-            };
-            test_gun_attacks( gun );
-        }
-        SECTION( "shotgun_d" ) {
-            const npc_attack_gun_test_data gun{
-                "shotgun_d",
-                417, 447
-            };
-            test_gun_attacks( gun );
-        }
-        SECTION( "m16a4" ) {
-            const npc_attack_gun_test_data gun{
-                "m16a4",
-                336, 366
-            };
-            test_gun_attacks( gun );
+    }
+    GIVEN( "There is a zombie 1 tile away and another 8 tiles away" ) {
+        monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
+        monster *zombie_far = npc_attack_setup::spawn_zombie_at_range( 8 );
+
+        WHEN( "NPC only has a chef knife" ) {
+            item weapon( "knife_chef" );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "knife_chef" ) );
+
+            WHEN( "NPC is targetting closest zombie" ) {
+                main_npc.evaluate_best_weapon( zombie );
+
+                THEN( "NPC tries to attack closest zombie" ) {
+                    const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                    npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
+                    CHECK( melee_attack );
+                    const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
+                    CHECK( rating.value() );
+                    CHECK( *rating.value() > 0 );
+                    CHECK( rating.target() == zombie->pos() );
+                }
+            }
+            WHEN( "NPC is targetting farthest zombie" ) {
+                WHEN( "Furthest zombie is at full HP" ) {
+                    main_npc.evaluate_best_weapon( zombie_far );
+
+                    THEN( "NPC tries to attack closest zombie" ) {
+                        const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                        npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
+                        CHECK( melee_attack );
+                        const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
+                        CHECK( rating.value() );
+                        CHECK( *rating.value() > 0 );
+                        CHECK( rating.target() == zombie->pos() );
+                    }
+                }
+                WHEN( "Furthest zombie is at low HP" ) {
+                    zombie_far->set_hp( 1 );
+                    main_npc.evaluate_best_weapon( zombie_far );
+
+                    THEN( "NPC tries to attack furthest zombie" ) {
+                        const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
+                        npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
+                        CHECK( melee_attack );
+                        const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
+                        CHECK( rating.value() );
+                        CHECK( *rating.value() > 0 );
+                        CHECK( rating.target() == zombie_far->pos() );
+                    }
+                }
+            }
         }
     }
 }
+
+// TODO: Add scenarios for:
+// - NPCs carrying a mix of weapons
+// - NPCs trying to shoot through allies

@@ -45,6 +45,7 @@ class migration
     public:
         itype_id id;
         std::string variant;
+        cata::optional<std::string> from_variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
@@ -56,7 +57,7 @@ class migration
                 int count = 0;
 
                 bool operator==( const content & ) const;
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jsobj );
         };
         std::vector<content> contents;
         bool sealed = true;
@@ -206,6 +207,9 @@ class Item_factory
         /** Migrations transform items loaded from legacy saves */
         void load_migration( const JsonObject &jo );
 
+        // Add or overwrite a migration
+        void add_migration( const migration &m );
+
         /** Applies any migration of the item id */
         itype_id migrate_id( const itype_id &id );
 
@@ -320,7 +324,7 @@ class Item_factory
                             const std::string &iuse_id );
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-                                        std::map<std::string, use_function> &use_methods );
+                                        std::map<std::string, use_function> &use_methods, std::map<std::string, float> &ammo_scale );
 
         use_function usage_from_string( const std::string &type ) const;
 
@@ -374,7 +378,7 @@ class Item_factory
                        const translation &info );
         void add_actor( std::unique_ptr<iuse_actor> );
 
-        std::map<itype_id, migration> migrations;
+        std::map<itype_id, std::vector<migration>> migrations;
 
         /**
          * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).

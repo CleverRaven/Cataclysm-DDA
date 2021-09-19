@@ -8,11 +8,13 @@
 #include "units_fwd.h"
 
 class Character;
-class JsonIn;
+class character_id;
+class JsonObject;
 class JsonOut;
 class item;
 class map_cursor;
 class vehicle_cursor;
+class talker;
 struct tripoint;
 
 /**
@@ -42,7 +44,7 @@ class item_location
         item_location( const item_location &container, item *which );
 
         void serialize( JsonOut &js ) const;
-        void deserialize( JsonIn &js );
+        void deserialize( const JsonObject &obj );
 
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;
@@ -137,5 +139,6 @@ class item_location
 
         std::shared_ptr<impl> ptr;
 };
-
+std::unique_ptr<talker> get_talker_for( item_location &it );
+std::unique_ptr<talker> get_talker_for( item_location *it );
 #endif // CATA_SRC_ITEM_LOCATION_H

@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -33,7 +34,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
@@ -72,6 +72,7 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -122,8 +123,10 @@ void talk_function::mission_success( npc &p )
     }
 
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.value = 1 + miss_val / 5;
+    op.anger = -1;
+    p.op_of_u += op;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
@@ -141,8 +144,11 @@ void talk_function::mission_failure( npc &p )
         debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( -1, 0, -1, 1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.trust = -1;
+    op.value = -1;
+    op.anger = 1;
+    p.op_of_u += op;
     miss->fail();
 }
 
@@ -298,6 +304,10 @@ void talk_function::revert_activity( npc &p )
 {
     p.revert_after_activity();
 }
+void talk_function::do_disassembly( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_DIS );
+}
 
 void talk_function::goto_location( npc &p )
 {
@@ -339,7 +349,8 @@ void talk_function::goto_location( npc &p )
         destination = selected_camp->camp_omt_pos();
     }
     p.goal = destination;
-    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
+    p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
+                 overmap_path_params::for_npc() );
     if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
@@ -348,8 +359,8 @@ void talk_function::goto_location( npc &p )
         return;
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.guard_pos = tripoint_min;
+    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
+    p.guard_pos = cata::nullopt;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -366,7 +377,7 @@ void talk_function::assign_guard( npc &p )
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
     p.set_omt_destination();
 }
 
@@ -393,7 +404,7 @@ void talk_function::assign_camp( npc &p )
         if( p.has_player_activity() ) {
             p.revert_after_activity();
         }
-        p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+        p.chatbin.first_topic = p.chatbin.talk_friend_guard;
         p.set_omt_destination();
     }
 }
@@ -406,14 +417,14 @@ void talk_function::stop_guard( npc &p )
         return;
     }
     p.set_attitude( NPCATT_FOLLOW );
-    add_msg( _( "%s begins to follow you." ), p.name );
+    add_msg( _( "%s begins to follow you." ), p.get_name() );
     p.set_mission( NPC_MISSION_NULL );
     if( p.has_companion_mission() ) {
         p.reset_companion_mission();
     }
-    p.chatbin.first_topic = "TALK_FRIEND";
+    p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
@@ -441,13 +452,13 @@ void talk_function::reveal_stats( npc &p )
 
 void talk_function::end_conversation( npc &p )
 {
-    add_msg( _( "%s starts ignoring you." ), p.name );
+    add_msg( _( "%s starts ignoring you." ), p.get_name() );
     p.chatbin.first_topic = "TALK_DONE";
 }
 
 void talk_function::insult_combat( npc &p )
 {
-    add_msg( _( "You start a fight with %s!" ), p.name );
+    add_msg( _( "You start a fight with %s!" ), p.get_name() );
     p.chatbin.first_topic = "TALK_DONE";
     p.set_attitude( NPCATT_KILL );
 }
@@ -541,7 +552,7 @@ void talk_function::give_equipment( npc &p )
         }
     }
     if( giving.empty() ) {
-        popup( _( "%s has nothing to give!" ), p.name );
+        popup( _( "%s has nothing to give!" ), p.get_name() );
         return;
     }
     if( chosen < 0 || static_cast<size_t>( chosen ) >= giving.size() ) {
@@ -550,7 +561,7 @@ void talk_function::give_equipment( npc &p )
     }
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
-    popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
+    popup( _( "%1$s gives you a %2$s" ), p.get_name(), it.tname() );
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );
@@ -577,7 +588,7 @@ void talk_function::give_aid( npc &p )
     }
     const int moves = to_moves<int>( 100_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.name );
+    player_character.activity.str_values.push_back( p.get_name() );
 }
 
 void talk_function::give_all_aid( npc &p )
@@ -652,8 +663,8 @@ void talk_function::buy_haircut( npc &p )
     player_character.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent haircut…" ), p.name );
+    player_character.activity.str_values.push_back( p.get_name() );
+    add_msg( m_good, _( "%s gives you a decent haircut…" ), p.get_name() );
 }
 
 void talk_function::buy_shave( npc &p )
@@ -662,8 +673,8 @@ void talk_function::buy_shave( npc &p )
     player_character.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent shave…" ), p.name );
+    player_character.activity.str_values.push_back( p.get_name() );
+    add_msg( m_good, _( "%s gives you a decent shave…" ), p.get_name() );
 }
 
 void talk_function::morale_chat( npc &p )
@@ -677,7 +688,7 @@ void talk_function::morale_chat_activity( npc &p )
     Character &player_character = get_player_character();
     const int moves = to_moves<int>( 10_minutes );
     player_character.assign_activity( ACT_SOCIALIZE, moves );
-    player_character.activity.str_values.push_back( p.name );
+    player_character.activity.str_values.push_back( p.get_name() );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
@@ -706,7 +717,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.name );
+    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
 }
 
 void talk_function::buy_100_logs( npc &p )
@@ -733,7 +744,32 @@ void talk_function::buy_100_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.name );
+    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
+}
+
+/*
+ * Function to make the npc drop non favorite, worn or wielded items at their current position.
+ */
+void talk_function::drop_items_in_place( npc &p )
+{
+    std::vector<drop_or_stash_item_info> to_drop;
+
+    // add all non favorite carried items to the drop off list
+    for( const item_location &npcs_item : p.all_items_loc() ) {
+        if( !npcs_item->is_favorite && npcs_item.where() == item_location::type::container &&
+            npcs_item.parent_item().where() == item_location::type::character ) {
+            to_drop.emplace_back( npcs_item, npcs_item->count() );
+        }
+    }
+    if( !to_drop.empty() ) {
+        // spawn a activity for the npc to drop the specified items
+        p.assign_activity( player_activity( drop_activity_actor(
+                                                to_drop, tripoint_zero, false
+                                            ) ) );
+        p.say( "<acknowledged>" );
+    } else {
+        p.say( _( "I don't have anything to drop off." ) );
+    }
 }
 
 void talk_function::follow( npc &p )
@@ -782,7 +818,7 @@ void talk_function::hostile( npc &p )
     }
 
     if( p.sees( get_player_character() ) ) {
-        add_msg( _( "%s turns hostile!" ), p.name );
+        add_msg( _( "%s turns hostile!" ), p.get_name() );
     }
 
     get_event_bus().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
@@ -791,7 +827,7 @@ void talk_function::hostile( npc &p )
 
 void talk_function::flee( npc &p )
 {
-    add_msg( _( "%s turns to flee!" ), p.name );
+    add_msg( _( "%s turns to flee!" ), p.get_name() );
     p.set_attitude( NPCATT_FLEE );
 }
 
@@ -804,7 +840,7 @@ void talk_function::lightning( npc & )
 
 void talk_function::leave( npc &p )
 {
-    add_msg( _( "%s leaves." ), p.name );
+    add_msg( _( "%s leaves." ), p.get_name() );
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
@@ -816,7 +852,7 @@ void talk_function::leave( npc &p )
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
-    p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    p.chatbin.first_topic = p.chatbin.talk_stranger_neutral;
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_NULL;
     p.long_term_goal_action();
@@ -831,15 +867,15 @@ void talk_function::stop_following( npc &p )
     if( p.is_player_ally() ) {
         return;
     }
-    add_msg( _( "%s stops following." ), p.name );
+    add_msg( _( "%s stops following." ), p.get_name() );
     p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::stranger_neutral( npc &p )
 {
-    add_msg( _( "%s feels less threatened by you." ), p.name );
+    add_msg( _( "%s feels less threatened by you." ), p.get_name() );
     p.set_attitude( NPCATT_NULL );
-    p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    p.chatbin.first_topic = p.chatbin.talk_stranger_neutral;
 }
 
 bool talk_function::drop_stolen_item( item &cur_item, npc &p )
@@ -898,7 +934,7 @@ void talk_function::remove_stolen_status( npc &p )
 void talk_function::start_mugging( npc &p )
 {
     p.set_attitude( NPCATT_MUG );
-    add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ), p.name );
+    add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ), p.get_name() );
 }
 
 void talk_function::player_leaving( npc &p )
@@ -960,7 +996,7 @@ void talk_function::start_training( npc &p )
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
-        you.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
+        you.get_knowledge_level( skill ) < p.get_knowledge_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
@@ -1035,7 +1071,7 @@ npc *pick_follower()
     menu.w_y_setup = 2;
 
     for( const npc *p : followers ) {
-        menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );
+        menu.addentry( -1, true, MENU_AUTOASSIGN, p->get_name() );
     }
 
     menu.query();
@@ -1075,8 +1111,8 @@ void talk_function::npc_thankful( npc &p )
         p.get_attitude() == NPCATT_FLEE_TEMP ) {
         p.set_attitude( NPCATT_NULL );
     }
-    if( p.chatbin.first_topic != "TALK_FRIEND" ) {
-        p.chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
+    if( p.chatbin.first_topic != p.chatbin.talk_friend ) {
+        p.chatbin.first_topic = p.chatbin.talk_stranger_friendly;
     }
     p.personality.aggression -= 1;
 

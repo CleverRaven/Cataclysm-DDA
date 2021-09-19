@@ -124,7 +124,7 @@ then
     do
         if [ -n "${!v}" ]
         then
-            printf "%s='%s'\n" "$v" "${!v}" >> "$GITHUB_ENV"
+            printf "%s=%s\n" "$v" "${!v}" >> "$GITHUB_ENV"
         fi
     done
 fi

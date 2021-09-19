@@ -1,15 +1,15 @@
-#include <fstream>
 #include <vector>
 
 #include "cata_catch.h"
+#include "filesystem.h"
 #include "monfaction.h"
 #include "type_id.h"
 
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
-    std::ofstream outfile;
-    outfile.open( "monfactions.txt" );
+    cata::ofstream outfile;
+    outfile.open( fs::u8path( "monfactions.txt" ) );
     for( const auto &f : monfactions::get_all() ) {
         for( const auto &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
