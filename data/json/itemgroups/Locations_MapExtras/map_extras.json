@@ -11,7 +11,7 @@
       { "group": "lab_shoes", "damage-min": 1, "damage-max": 3 },
       { "group": "lab_torso", "damage-min": 1, "damage-max": 3 },
       { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "item": "corpse", "damage": 3, "//": "always a corpse, pulped!" }
+      { "item": "corpse", "damage": 4, "//": "always a corpse, pulped!" }
     ]
   },
   {
@@ -28,7 +28,7 @@
       { "group": "college_camping", "prob": 50 },
       { "group": "college_camping", "prob": 80 },
       { "group": "SUS_book_nonf_soft", "prob": 20 },
-      { "item": "corpse", "damage": 3 }
+      { "item": "corpse", "damage": 4 }
     ]
   },
   {
@@ -45,7 +45,7 @@
       { "group": "college_sports", "prob": 50 },
       { "group": "college_sports", "prob": 90 },
       { "group": "SUS_book_sports", "prob": 30 },
-      { "item": "corpse", "damage": 3 }
+      { "item": "corpse", "damage": 4 }
     ]
   },
   {
@@ -62,7 +62,7 @@
       { "group": "college_lake", "prob": 50 },
       { "group": "college_lake", "prob": 70 },
       { "group": "SUS_book_nonf_soft", "prob": 25 },
-      { "item": "corpse", "damage": 3 }
+      { "item": "corpse", "damage": 4 }
     ]
   },
   {
@@ -92,7 +92,7 @@
     "id": "map_extra_police",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "mon_zombie_cop_death_drops" }, { "item": "corpse", "damage": 3 } ]
+    "entries": [ { "group": "mon_zombie_cop_death_drops" }, { "item": "corpse", "damage": 4 } ]
   },
   {
     "type": "item_group",
