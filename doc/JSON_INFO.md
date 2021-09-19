@@ -2004,38 +2004,30 @@ Values are checked from highest first, the order they're defined in doesn't matt
 },
 "triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
   [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
-    {
-      "trigger_type": "MOOD", // What variable is tracked by this trigger
-      "threshold_high": -50, // Is True if the value is below threshold_high
-      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
-    }
+      {
+        "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" }, //dialog condition(see NPCs.md)
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
+      }
+    ],
+    [
+      {
+        "condition": { //dialog condition(see NPCs.md)
+          "or": [
+            { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
+            { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
+          ]
+        },
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
+        "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
+      }
+    ]
   ],
-  [
-    {
-      "trigger_type": "TIME", // What variable is tracked by this trigger
-      "threshold_low": 20, // Is True if the value is above threshold_low
-      "threshold_high": 2, // Is True if the value is below threshold_high
-      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
-      "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
-    }
-  ]
-],
 "enchantments": [ "ench_id_1" ],   // List of enchantments granted by this mutation, can be either string ids of the enchantment or an inline definition of the enchantment
 "temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
                                    // 1.0 gives +/-1% speed for each degree above or below 65F
 "mana_modifier": 100               // Positive or negative change to total mana pool
 
 ```
-	**Triggers:**
-		| trigger_type  | Description
-		|---            |---
-		| MOOD          | Trigger depends on the mood value.
-		| MOON          | Trigger depends on the phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
-		| HUNGER        | Trigger depends on the hunger value. Very Hungry ~= 110
-		| THIRST        | Trigger depends on the thirst value.
-		| PAIN          | Trigger depends on the pain value.
-		| STAMINA       | Trigger depends on the stamina value.
-		| TIME          | Trigger depends on the time of the day. [ 1am = 1, Midnight = 24 ]
 
 ### Traps
 

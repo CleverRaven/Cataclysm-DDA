@@ -1182,6 +1182,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_friendly();
             };
+        } else if( checked_value == "moon" ) {
+            return []( const T & d ) {
+                return static_cast<int>( get_moon_phase( calendar::turn ) );
+            };
+        } else if( checked_value == "hour" ) {
+            return []( const T & d ) {
+                return to_hours<int>( time_past_midnight( calendar::turn ) );
+            };
         }
     }
     jo.throw_error( "unrecognized integer source in " + jo.str() );

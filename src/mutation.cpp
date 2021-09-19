@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -270,50 +271,11 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     }
 }
 
-bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+bool reflex_activation_data::is_trigger_true( Character &guy ) const
 {
     bool activate = false;
-
-    int var = 0;
-    switch( trigger ) {
-        case PAIN:
-            var = guy.get_pain();
-            break;
-        case HUNGER:
-            var = guy.get_hunger();
-            break;
-        case THRIST:
-            var = guy.get_thirst();
-            break;
-        case MOOD:
-            var = guy.get_morale_level();
-            break;
-        case STAMINA:
-            var = guy.get_stamina();
-            break;
-        case MOON:
-            var = static_cast<int>( get_moon_phase( calendar::turn ) );
-            break;
-        case TIME:
-            var = to_hours<int>( time_past_midnight( calendar::turn ) );
-            break;
-        default:
-            debugmsg( "Invalid trigger" );
-            return false;
-    }
-
-    if( threshold_low < threshold_high ) {
-        if( var < threshold_high &&
-            var > threshold_low ) {
-            activate = true;
-        }
-    } else {
-        if( var < threshold_high ||
-            var > threshold_low ) {
-            activate = true;
-        }
-    }
-    return activate;
+    dialogue d( get_talker_for( guy ), nullptr );
+    return trigger( d );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const

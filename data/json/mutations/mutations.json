@@ -27,13 +27,11 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_low": 20,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
           "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
         },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
         }
       ]
@@ -50,10 +48,12 @@
     "valid": false,
     "triggers": [
       [
-        { "trigger_type": "MOOD", "threshold_low": 20, "msg_off": { "text": "Your glow fades.", "rating": "mixed" } },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
+        },
+        {
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         }
       ]
@@ -137,16 +137,18 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_high": -50,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
       [
         {
-          "trigger_type": "TIME",
-          "threshold_low": 21,
-          "threshold_high": 6,
+          "condition": {
+            "or": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": "<" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": ">" }
+            ]
+          },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -165,9 +167,12 @@
     "triggers": [
       [
         {
-          "trigger_type": "TIME",
-          "threshold_low": 6,
-          "threshold_high": 21,
+          "condition": {
+            "and": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": ">" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": "<" }
+            ]
+          },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
