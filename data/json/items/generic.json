@@ -3714,8 +3714,8 @@
     "price": 15000,
     "price_postapoc": 600,
     "material": [ "wood" ],
-    "weight": "81500 g",
-    "volume": "62500 ml",
+    "weight": "50 kg",
+    "volume": "80 L",
     "bashing": 12,
     "to_hit": -2
   },
@@ -3730,9 +3730,9 @@
     "price": 15000,
     "price_postapoc": 1000,
     "material": [ "steel", "wood" ],
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "bashing": 16,
+    "weight": "55 kg",
+    "volume": "80 L",
+    "bashing": 14,
     "to_hit": -2
   }
 ]
