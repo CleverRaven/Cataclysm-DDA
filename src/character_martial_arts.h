@@ -9,7 +9,7 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class item;
@@ -27,7 +27,7 @@ class character_martial_arts
             : ma_styles( styles ), style_selected( style_selected ), keep_hands_free( keep_hands_free ) {}
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         void reset_style();
         // checks that style selected is one that is known, otherwise resets it

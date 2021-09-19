@@ -32,7 +32,10 @@ const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
 const flag_id flag_BELT_CLIP( "BELT_CLIP" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
+const flag_id flag_BIONIC_GUN( "BIONIC_GUN" );
 const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
+const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+const flag_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
 const flag_id flag_BLED( "BLED" );
@@ -62,7 +65,9 @@ const flag_id flag_COLLAR( "COLLAR" );
 const flag_id flag_CONDUCTIVE( "CONDUCTIVE" );
 const flag_id flag_CONSUMABLE( "CONSUMABLE" );
 const flag_id flag_COOKED( "COOKED" );
+const flag_id flag_CORROSIVE( "CORROSIVE" );
 const flag_id flag_CORPSE( "CORPSE" );
+const flag_id flag_CRUTCHES( "CRUTCHES" );
 const flag_id flag_CUSTOM_EXPLOSION( "CUSTOM_EXPLOSION" );
 const flag_id flag_CUT_IMMUNE( "CUT_IMMUNE" );
 const flag_id flag_DANGEROUS( "DANGEROUS" );
@@ -185,6 +190,7 @@ const flag_id flag_NPC_SAFE( "NPC_SAFE" );
 const flag_id flag_NPC_THROWN( "NPC_THROWN" );
 const flag_id flag_NPC_THROW_NOW( "NPC_THROW_NOW" );
 const flag_id flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+const flag_id flag_OLD_CURRENCY( "OLD_CURRENCY" );
 const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
@@ -256,6 +262,7 @@ const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
 const flag_id flag_SOLARPACK( "SOLARPACK" );
 const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
+const flag_id flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
 const flag_id flag_SPLINT( "SPLINT" );
@@ -272,7 +279,6 @@ const flag_id flag_TACK( "TACK" );
 const flag_id flag_TANGLE( "TANGLE" );
 const flag_id flag_TARDIS( "TARDIS" );
 const flag_id flag_THERMOMETER( "THERMOMETER" );
-const flag_id flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
 const flag_id flag_TIE_UP( "TIE_UP" );
 const flag_id flag_TINDER( "TINDER" );
 const flag_id flag_TOBACCO( "TOBACCO" );
@@ -281,7 +287,6 @@ const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
-const flag_id flag_TRANSPARENT( "TRANSPARENT" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
@@ -300,6 +305,7 @@ const flag_id flag_WATCH( "WATCH" );
 const flag_id flag_WATERPROOF( "WATERPROOF" );
 const flag_id flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 const flag_id flag_WATER_BREAK( "WATER_BREAK" );
+const flag_id flag_WATER_BREAK_ACTIVE( "WATER_BREAK_ACTIVE" );
 const flag_id flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 const flag_id flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
 const flag_id flag_WATER_DISSOLVE( "WATER_DISSOLVE" );
@@ -356,10 +362,7 @@ void json_flag::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "requires_flag", requires_flag_ );
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
-
-    // FIXME: most flags have a "context" field that isn't used for anything
-    // Test for it here to avoid errors about unvisited members
-    jo.get_member( "context" );
+    optional( jo, was_loaded, "name", name_ );
 }
 
 void json_flag::check_consistency()

@@ -137,7 +137,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     REQUIRE_FALSE( quiver.magazine_current() );
     // But they do have ammo types and can contain ammo
     REQUIRE_FALSE( quiver.ammo_types().empty() );
-    REQUIRE( quiver.can_contain( arrow ) );
+    REQUIRE( quiver.can_contain( arrow ).success() );
 
     // Check empty quiver display
     CHECK( quiver.display_name() ==

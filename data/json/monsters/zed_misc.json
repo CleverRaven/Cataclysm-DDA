@@ -3,7 +3,7 @@
     "id": "mon_frog_mother",
     "type": "MONSTER",
     "name": { "str": "frog mother" },
-    "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  It is covered in an oily greenish-black residue and large, white pustules that seem ready to pop.",
+    "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  Drenched in an oily greenish-black substance, its flesh seems to rapidly decompose and reconstitute itself, and it is covered by large, white pustules that seem ready to pop.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "AMPHIBIAN" ],
     "volume": "240 L",
@@ -113,6 +113,10 @@
     "armor_bash": 5,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 15,
     "vision_night": 3,
@@ -261,10 +265,14 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 }, [ "GRAB", 7 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
@@ -312,10 +320,19 @@
     "armor_cut": 14,
     "armor_bullet": 8,
     "armor_stab": 8,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 72, "cooldown": 30 },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 10 ]
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "flags": [
@@ -361,11 +378,20 @@
     "armor_bash": 8,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, { "id": "longswipe" }, { "id": "cut_throat" } ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 40 },
+      { "id": "stretch_attack", "cooldown": 40 },
+      { "id": "longswipe" },
+      { "id": "cut_throat" }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "flags": [
@@ -429,6 +455,61 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "FILTHY"
+    ]
+  },
+  {
+    "id": "mon_zombie_nemesis",
+    "type": "MONSTER",
+    "name": { "str": "relentless hulk" },
+    "description": "A hulking zombie swollen to the size of six men.  Its inky black eyes are locked on you.  No matter how far you run, it always seems to find you.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "volume": "875000 ml",
+    "weight": "1000 kg",
+    "hp": 480,
+    "speed": 95,
+    "material": [ "flesh" ],
+    "symbol": "H",
+    "color": "light_blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 8,
+    "melee_cut": 0,
+    "armor_bash": 15,
+    "armor_cut": 15,
+    "armor_bullet": 15,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
+    "vision_day": 50,
+    "vision_night": 8,
+    "harvest": "zombie",
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "death_drops": "mon_zombie_hulk_death_drops",
+    "regenerates": 15,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "KEENNOSE",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "DESTROYS",
+      "POISON",
+      "CLIMBS",
+      "NO_BREATHE",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "NEMESIS",
+      "LOUDMOVES",
       "FILTHY"
     ]
   },
@@ -551,6 +632,10 @@
     "armor_cut": 4,
     "armor_bullet": 10,
     "armor_stab": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
@@ -588,11 +673,15 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
@@ -676,6 +765,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -709,6 +802,10 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "weakpoints": [
+      { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
@@ -742,7 +839,8 @@
       "REVIVES",
       "PUSH_MON",
       "SWIMS",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -771,6 +869,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 5,
@@ -896,6 +998,51 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
+    "id": "mon_zombie_regenerating",
+    "type": "MONSTER",
+    "name": { "str": "regenerating zombie" },
+    "description": "A hairless zombie; its pale pinkish flesh appears to be squirming and moving across its body, quickly covering and fixing any wounds that it receives.  Its clothing is riddled with holes, suggesting someone else tried to take it down before you.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 60,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "pink_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 3,
+    "melee_cut": 1,
+    "dodge": 1,
+    "vision_night": 3,
+    "harvest": "zombie",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "default_zombie_death_drops",
+    "regenerates": 12,
+    "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "REVIVES_HEALTHY",
+      "NO_NECRO",
+      "FILTHY"
+    ]
+  },
+  {
     "id": "mon_zombie_predator",
     "type": "MONSTER",
     "name": { "str": "zombie predator" },
@@ -920,6 +1067,10 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 0,
     "vision_day": 45,
     "vision_night": 15,
@@ -1039,11 +1190,12 @@
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "human",
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "BRANDISH", 10 ] ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shrieker",
@@ -1211,6 +1363,10 @@
     "armor_cut": 8,
     "armor_stab": 8,
     "armor_bullet": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "dodge": 7,
     "armor_fire": 5,
@@ -1218,8 +1374,14 @@
     "vision_night": 3,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      { "type": "bite", "cooldown": 5 },
+      [ "scratch", 15 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 10 ]
+    ],
     "flags": [
       "SEES",
       "HEARS",
@@ -1324,7 +1486,8 @@
       "SWIMS",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -1353,12 +1516,17 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 15,
     "vision_night": 2,
-    "harvest": "CBM_TECH",
+    "harvest": "zombie",
     "fungalize_into": "mon_zombie_fungus",
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -1400,6 +1568,10 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1431,6 +1603,10 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_night": 5,
     "harvest": "zombie_thorny",

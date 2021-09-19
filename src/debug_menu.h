@@ -17,7 +17,6 @@ class optional;
 } // namespace cata
 
 class Character;
-class player;
 
 namespace debug_menu
 {
@@ -30,13 +29,16 @@ enum class debug_menu_index : int {
     SPAWN_NPC,
     SPAWN_MON,
     GAME_STATE,
+    KILL_AREA,
     KILL_NPCS,
     MUTATE,
     SPAWN_VEHICLE,
     CHANGE_SKILLS,
+    CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
     EDIT_PLAYER,
+    CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
     MAP_EDITOR,
@@ -70,7 +72,6 @@ enum class debug_menu_index : int {
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,
     TEST_WEATHER,
-    WRITE_EOCS,
     SAVE_SCREENSHOT,
     GAME_REPORT,
     DISPLAY_SCENTS_LOCAL,
@@ -92,22 +93,13 @@ enum class debug_menu_index : int {
     last
 };
 
-void change_spells( Character &character );
-
-void teleport_short();
-void teleport_long();
-void teleport_overmap( bool specific_coordinates = false );
-
-void spawn_nested_mapgen();
-void character_edit_menu();
-void wishitem( player *p = nullptr );
-void wishitem( player *p, const tripoint & );
+void wisheffect( Character &p );
+void wishitem( Character *you = nullptr );
+void wishitem( Character *you, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
-void wishmutate( player *p );
-void wishskill( player *p );
-void wishproficiency( player *p );
-void mutation_wish();
-void draw_benchmark( int max_difference );
+void wishmutate( Character *you );
+void wishskill( Character *you, bool change_theory = false );
+void wishproficiency( Character *you );
 
 void debug();
 

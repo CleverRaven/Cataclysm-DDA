@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "calendar.h"
 #include "color.h"
@@ -14,13 +15,33 @@
 #include "type_id.h"
 
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 struct display_proficiency;
 struct learning_proficiency;
+template<typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
+
+enum class proficiency_bonus_type : int {
+    strength,
+    dexterity,
+    intelligence,
+    perception,
+    last
+};
+
+template<>
+struct enum_traits<proficiency_bonus_type> {
+    static constexpr proficiency_bonus_type last = proficiency_bonus_type::last;
+};
+
+struct proficiency_bonus {
+    proficiency_bonus_type type = proficiency_bonus_type::last;
+    float value = 0;
+
+    void deserialize( const JsonObject &jo );
+};
 
 class proficiency
 {
@@ -30,6 +51,7 @@ class proficiency
         bool was_loaded = false;
 
         bool _can_learn = false;
+        bool _ignore_focus = false;
 
         translation _name;
         translation _description;
@@ -40,13 +62,17 @@ class proficiency
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
 
+        std::map<std::string, std::vector<proficiency_bonus>> _bonuses;
+
     public:
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src );
+
         static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
+        bool ignore_focus() const;
         proficiency_id prof_id() const;
         std::string name() const;
         std::string description() const;
@@ -56,6 +82,8 @@ class proficiency
 
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
+
+        std::vector<proficiency_bonus> get_bonuses( const std::string &category ) const;
 };
 
 // The proficiencies you know, and the ones you're learning.
@@ -91,8 +119,11 @@ class proficiency_set
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
 
+        float get_proficiency_bonus( const std::string &category,
+                                     proficiency_bonus_type prof_bonus ) const;
+
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jsobj );
         void deserialize_legacy( const JsonArray &jo );
 };
 
@@ -107,7 +138,7 @@ struct learning_proficiency {
         practiced( practiced ) {}
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct display_proficiency {
@@ -135,7 +166,7 @@ struct book_proficiency_bonus {
         bool include_prereqs = default_include_prereqs;
 
         bool was_loaded = false;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
     private:
         static const float default_time_factor;

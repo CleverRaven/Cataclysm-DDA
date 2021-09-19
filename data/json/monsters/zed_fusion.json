@@ -76,6 +76,73 @@
     ]
   },
   {
+    "id": "mon_devourer_lab_sec",
+    "type": "MONSTER",
+    "name": { "str": "melded task force" },
+    "description": "A tangle of security personnel fused with their gear and each other, warped limbs and flesh-covered equipment moving in strange unison.  Every so often you glimpse a pitch-black figure at its center, limbs mirroring the movements of the larger mass.",
+    "copy-from": "mon_devourer",
+    "default_faction": "science",
+    "bodytype": "blob",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 20,
+    "//": "483 L and HARDTOSHOOT to prevent a frag autokilling them, adjust when grenades are a bit less deadly to large things.",
+    "volume": "483 L",
+    "weight": "700 kg",
+    "hp": 550,
+    "speed": 110,
+    "symbol": "Z",
+    "color": "blue",
+    "melee_skill": 9,
+    "melee_dice": 9,
+    "melee_dice_sides": 5,
+    "melee_cut": 5,
+    "armor_bash": 26,
+    "armor_cut": 35,
+    "armor_stab": 30,
+    "armor_bullet": 40,
+    "armor_fire": 80,
+    "bleed_rate": 0,
+    "vision_night": 10,
+    "special_attacks": [
+      { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },
+      { "id": "slam", "min_mul": 2, "max_mul": 3, "cooldown": 5 },
+      [ "GRAB_DRAG", 15 ],
+      [ "ZOMBIE_FUSE", 25 ],
+      [ "SHRIEK_ALERT", 50 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "hive_raptor_spawn", "hit_self": true },
+        "cooldown": 30,
+        "monster_message": "A handful of flesh wriggles loose from the mass and takes flight!"
+      }
+    ],
+    "death_function": {
+      "message": "The creature grows sluggish before freezing in place for a moment.  Suddenly its flesh turns black and recedes to coat the central figure, which reaches out towards you before collapsing into a pinprick of shimmering air.  Torn uniforms and other gear tumble to the ground.",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_portal", "hit_self": true, "min_level": 1 }
+    },
+    "death_drops": "mon_devourer_lab_sec_death_drops",
+    "regenerates": 2,
+    "path_settings": { "max_dist": 150, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "NO_BREATHE",
+      "COLDPROOF",
+      "STUN_IMMUNE",
+      "NOHEAD",
+      "BILE_BLOOD",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "CAN_OPEN_DOORS",
+      "HARDTOSHOOT",
+      "FILTHY"
+    ]
+  },
+  {
     "id": "mon_zombie_crushed_giant",
     "type": "MONSTER",
     "name": { "str": "trapped tendril" },
@@ -271,8 +338,8 @@
     "vision_day": 2,
     "vision_night": 2,
     "harvest": "exempt",
-    "special_attacks": [ [ "RANGED_PULL", 20 ], [ "SMASH", 20 ] ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "special_attacks": [ [ "RANGED_PULL", 20 ], { "id": "smash", "throw_strength": 30 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ]
   },
   {

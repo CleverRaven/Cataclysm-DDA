@@ -7,6 +7,7 @@
 
 #include "bodypart.h"
 #include "color.h"
+#include "character.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
@@ -16,7 +17,6 @@
 #include "messages.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -34,9 +34,10 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_holybook_bible( "holybook_bible" );
-static const itype_id itype_money_bundle( "money_bundle" );
+static const itype_id itype_money_one( "money_one" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -60,9 +61,9 @@ void vitamin_rate_effect::load( const JsonObject &jo )
     optional( jo, false, "resist_tick", red_tick, tick );
 }
 
-void vitamin_rate_effect::deserialize( JsonIn &jsin )
+void vitamin_rate_effect::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 /** @relates string_id */
@@ -85,7 +86,7 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-void weed_msg( player &p )
+void weed_msg( Character &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
@@ -125,7 +126,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_one, 1 ) ) { // Half Baked
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
                                              translation() ) );
                     if( one_in( 2 ) ) {
@@ -625,6 +626,24 @@ struct desc_freq {
 std::string effect::disp_desc( bool reduced ) const
 {
     std::string ret;
+
+    std::string timestr;
+    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
+        timestr = _( "just now" );
+    } else {
+        timestr = string_format( _( "%s ago" ),
+                                 debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
+    }
+    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    if( debug_mode ) {
+        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+    }
+    //Newline if necessary
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
+    }
+
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
@@ -770,6 +789,12 @@ std::string effect::disp_desc( bool reduced ) const
         }
     }
 
+    if( debug_mode ) {
+        ret += string_format(
+                   _( "\nDEBUG: ID: <color_white>%s</color> Intensity: <color_white>%d</color>" ),
+                   eff_type->id.c_str(), intensity );
+    }
+
     return ret;
 }
 
@@ -793,12 +818,15 @@ std::string effect::disp_short_desc( bool reduced ) const
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, const bool player )
 {
-    // Decay intensity if supposed to do so
-    // TODO: Remove effects that would decay to 0 intensity?
-    if( intensity > 1 && eff_type->int_decay_tick != 0 &&
+    // Decay intensity if supposed to do so, removing effects at zero intensity
+    if( intensity > 0 && eff_type->int_decay_tick != 0 &&
         to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
         get_max_duration() > get_duration() ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
+        if( intensity <= 0 ) {
+            rem_ids.push_back( get_id() );
+            rem_bps.push_back( bp.id() );
+        }
     }
 
     // Add to removal list if duration is <= 0
@@ -827,8 +855,8 @@ time_duration effect::get_max_duration() const
 void effect::set_duration( const time_duration &dur, bool alert )
 {
     duration = dur;
-    // Cap to max_duration if it exists
-    if( eff_type->max_duration > 0_turns && duration > eff_type->max_duration ) {
+    // Cap to max_duration
+    if( duration > eff_type->max_duration ) {
         duration = eff_type->max_duration;
     }
 
@@ -964,23 +992,24 @@ int effect::set_intensity( int val, bool alert )
         intensity = 1;
     }
 
-    val = std::max( std::min( val, eff_type->max_intensity ), 1 );
+    val = std::max( std::min( val, eff_type->max_intensity ), 0 );
     if( val == intensity ) {
         // Nothing to change
         return intensity;
     }
 
-    if( alert && val < intensity && val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
+    // Filter out intensity falling to zero (the effect will be removed later)
+    if( alert && val < intensity &&  val != 0 &&
+        val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
-    int old_intensity = intensity;
-    intensity = val;
-    if( old_intensity != intensity ) {
-        add_msg_debug( debugmode::DF_EFFECT, "%s intensity %d->%d", get_id().c_str(), old_intensity,
-                       intensity );
+    if( val == 0 && !eff_type->int_decay_remove ) {
+        val = 1;
     }
+
+    intensity = val;
 
     return intensity;
 }
@@ -1313,6 +1342,21 @@ int effect::get_int_add_val() const
     return eff_type->int_add_val;
 }
 
+int effect::get_int_decay_step() const
+{
+    return eff_type->int_decay_step;
+}
+
+int effect::get_int_decay_tick() const
+{
+    return eff_type->int_decay_tick;
+}
+
+bool effect::get_int_decay_remove() const
+{
+    return eff_type->int_decay_remove;
+}
+
 const std::vector<std::pair<translation, int>> &effect::get_miss_msgs() const
 {
     return eff_type->miss_msgs;
@@ -1354,6 +1398,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
         effect_lightsnare,
         effect_tied,
         effect_webbed,
+        effect_worked_on,
     }
 };
 
@@ -1428,16 +1473,10 @@ void load_effect_type( const JsonObject &jo )
     for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
         new_etype.blocks_effects.emplace_back( f );
     }
-
-    if( jo.has_string( "max_duration" ) ) {
-        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
-                                 time_duration::units );
-    } else {
-        new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
-    }
+    optional( jo, false, "max_duration", new_etype.max_duration, 365_days );
 
     if( jo.has_string( "int_dur_factor" ) ) {
-        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( jo.get_member( "int_dur_factor" ),
                                    time_duration::units );
     } else {
         new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
@@ -1455,6 +1494,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.int_add_val = jo.get_int( "int_add_val", 0 );
     new_etype.int_decay_step = jo.get_int( "int_decay_step", -1 );
     new_etype.int_decay_tick = jo.get_int( "int_decay_tick", 0 );
+    optional( jo, false, "int_decay_remove", new_etype.int_decay_remove, false );
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
@@ -1518,6 +1558,11 @@ void reset_effect_types()
     effect_types.clear();
 }
 
+const std::map<efftype_id, effect_type> &get_effect_types()
+{
+    return effect_types;
+}
+
 void effect_type::register_ma_buff_effect( const effect_type &eff )
 {
     if( eff.id.is_valid() ) {
@@ -1545,9 +1590,9 @@ void effect::serialize( JsonOut &json ) const
     json.member( "source", source );
     json.end_object();
 }
-void effect::deserialize( JsonIn &jsin )
+
+void effect::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     efftype_id id;
     jo.read( "eff_type", id );
     eff_type = &id.obj();
@@ -1643,4 +1688,3 @@ nc_color colorize_bleeding_intensity( const int intensity )
         return c_red_red;
     }
 }
-

@@ -483,7 +483,8 @@
       "type": "transform",
       "target": "compbow_high",
       "qualities_needed": { "SCREW_FINE": 1 },
-      "msg": "You tighten the limbs, increasing the strength of the bow."
+      "msg": "You tighten the limbs, increasing the strength of the bow.",
+      "ammo_scale": 0
     },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -497,6 +498,7 @@
     "min_strength": 11,
     "ranged_damage": { "damage_type": "stab", "amount": 12 },
     "use_action": {
+      "ammo_scale": 0,
       "menu_text": "Loosen Limbs",
       "type": "transform",
       "target": "compbow_low",
@@ -514,6 +516,7 @@
     "min_strength": 7,
     "ranged_damage": { "damage_type": "stab", "amount": 7 },
     "use_action": {
+      "ammo_scale": 0,
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow",
@@ -528,7 +531,7 @@
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
-    "description": "A traditionally-constructed bow made from wood, horn and sinew.  It has a rather high draw weight.",
+    "description": "A traditionally-constructed bow made from wood, bone, and sinew.  It has a rather high draw weight.",
     "price": 32000,
     "//": "90 lb draw weight, 28in draw, 70J, 0.464 slugs of momentum with a 0.066lb arrow.",
     "material": [ "wood", "bone" ],

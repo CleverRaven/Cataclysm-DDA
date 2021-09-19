@@ -36,5 +36,40 @@
       "For a brief moment, you feel like you've been jerked to the side.  You haven't moved, though - the stars have.",
       "As you look at the stars, a broad swath of them are plunged into darkness, then come back to life in ragged succession."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<AMBIENT_SUBWAY>",
+    "text": [
+      "The trains have long grown still, and your echoing footsteps are the only thing breaking the silence.  For now.",
+      "The rails are slick here with a grey, quivering ooze welling up from below.",
+      "There is a low, droning hum emanating from the rail, making your teeth ache.",
+      "The layer of dust is broken by a thick trail of stinking slime leading off into the darkness.",
+      "The air stings like chlorine in some spots, around black splashes etched into the concrete.",
+      "Here and there roots already break up the ceiling.  How long will these tunnels last?",
+      "The rails are warped into strange patterns, doubling back onto themselves periodically.",
+      "You can't shake the feeling something's watching you from the dark, just out of sight.",
+      "The ceiling is hidden by a bundle of ragged cables, swaying in a draft you can't seem to feel yourself.",
+      "A few pieces of concrete fall from the ceiling, and you hear the sound of something huge moving above you."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "AMBIENT_LAB_SUBWAY",
+    "text": [
+      "<AMBIENT_SUBWAY>",
+      "These tunnels look even more utilitarian than those of the normal line, with barely any emergency lights - not that they'd help you without power, of course.",
+      "Do you still know where you're going?  Did you ever?",
+      "You could swear you already saw this spot already.  Did you get turned around, or did the tunnels shift with you?",
+      "Bullet marks pock the walls, interspersed with finger-deep scratches and dried blood.",
+      "A bobbing light in the distance, a flurry of movement, and a drawn-out scream.  You're alone with the darkness, again.",
+      "Behind you.",
+      "It is peaceful down here, away from the harsh sun and the noises of the new world.  You could lose yourself in the dark, still embrace of the tunnels.  Maybe you want to.",
+      "The tunnel's wall is covered in a thin membrane of shuddering flesh, growing (flowing?  crawling?) from a broken pipe.  You keep your distance.",
+      "You notice a single line of three-fingered footprints, starting on the floor but continuing without pause on the walls before disappearing in a hole on the ceiling that's dripping sticky, bluish ichor.",
+      "There is a shimmering spot above the rails.  Looking through, you can see the night sky and hear something howl with hatred and hunger.  You're certain it could not pass through an opening so small.  You're also certain the gateway will grow.",
+      "The wall is carpeted by green-grey mushrooms, their caps turning towards you with anticipation.",
+      "The wall's concrete is warped into a spiral relief, drawing your eye inexorably to its center.  You force yourself to look away, and feel something shift behind the wall."
+    ]
   }
 ]

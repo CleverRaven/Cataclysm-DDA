@@ -113,6 +113,7 @@
   },
   {
     "result": "afs_metal_rig",
+    "id_suffix": "blaze",
     "type": "recipe",
     "activity_level": "fake",
     "category": "CC_OTHER",
@@ -130,6 +131,7 @@
   },
   {
     "result": "afs_kitchen_rig",
+    "id_suffix": "blaze",
     "type": "recipe",
     "activity_level": "fake",
     "category": "CC_OTHER",
@@ -161,6 +163,7 @@
   },
   {
     "result": "afs_cooking_rig",
+    "id_suffix": "blaze",
     "type": "recipe",
     "activity_level": "fake",
     "category": "CC_OTHER",

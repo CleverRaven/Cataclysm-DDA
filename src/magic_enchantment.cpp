@@ -29,8 +29,7 @@ namespace io
         case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
 
     template<>
@@ -44,8 +43,7 @@ namespace io
         case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
-        debugmsg( "Invalid enchantment::condition" );
-        abort();
+        cata_fatal( "Invalid enchantment::condition" );
     }
 
     template<>
@@ -130,8 +128,7 @@ namespace io
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchant_vals::mod" );
-        abort();
+        cata_fatal( "Invalid enchant_vals::mod" );
     }
     // *INDENT-ON*
 } // namespace io
@@ -240,6 +237,25 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
+void enchantment::bodypart_changes::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "gain", gain );
+    optional( jo, was_loaded, "lose", lose );
+}
+
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "gain", gain );
+    jsout.member( "lose", lose );
+    jsout.end_object();
+}
+
 void enchantment::load( const JsonObject &jo, const std::string &,
                         const cata::optional<std::string> &inline_id )
 {
@@ -252,7 +268,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+            time_duration dur = read_from_json_string<time_duration>( effect_obj.get_member( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
@@ -277,6 +293,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
 
     if( jo.has_array( "values" ) ) {
@@ -347,6 +364,7 @@ void enchantment::serialize( JsonOut &jsout ) const
         jsout.end_array();
     }
 
+    jsout.member( "modified_bodyparts", modified_bodyparts );
     jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
@@ -404,6 +422,10 @@ void enchantment::force_add( const enchantment &rhs )
 
     if( rhs.emitter ) {
         emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
     }
 
     for( const trait_id &branch : rhs.mutations ) {
@@ -489,6 +511,25 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
     return get_value_multiply( value_type ) * base_value;
 }
 
+bool enchantment::modifies_bodyparts() const
+{
+    return !modified_bodyparts.empty();
+}
+
+body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) const
+{
+    body_part_set modified( unmodified );
+    for( const enchantment::bodypart_changes &changes : modified_bodyparts ) {
+        if( !changes.gain.is_empty() ) {
+            modified.set( changes.gain );
+        }
+        if( !changes.lose.is_empty() ) {
+            modified.reset( changes.lose );
+        }
+    }
+    return modified;
+}
+
 void enchantment::activate_passive( Character &guy ) const
 {
     guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
@@ -549,7 +590,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name );
+                                      caster.get_name() );
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
@@ -562,7 +603,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name, trg_crtr.disp_name() );
+                                      caster.get_name(), trg_crtr.disp_name() );
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }

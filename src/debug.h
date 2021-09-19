@@ -79,14 +79,21 @@ inline void realDebugmsg( const char *const filename, const char *const line,
                          std::forward<Args>( args )... ) );
 }
 
+// Fatal error with a message
+#define cata_fatal(...) \
+    do { \
+        debugmsg(__VA_ARGS__); \
+        std::abort(); \
+    } while( false )
+
 // A fatal error for use in constexpr functions
-// This exists for compatibility reasons.  On gcc 5.3 we need a
+// This exists for compatibility reasons.  On gcc before 9 we need a
 // different implementation that is messier.
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67371
-// Pass a placeholder return value to be used on gcc 5.3 (it won't
+// Pass a placeholder return value to be used on old gcc (it won't
 // actually be returned, it's just needed for the type), and then
 // args as if to debugmsg for the remaining args.
-#if defined(__GNUC__) && __GNUC__ < 6
+#if defined(__GNUC__) && __GNUC__ < 9
 #define constexpr_fatal(ret, ...) \
     do { return false ? ( ret ) : ( abort(), ( ret ) ); } while(false)
 #else
@@ -229,7 +236,11 @@ namespace debugmode
 // Please try to keep this alphabetically sorted
 enum debug_filter : int {
     DF_ACT_BUTCHER = 0, // butcher activity handler
+    DF_ACT_EBOOK, // ebook activity actor
+    DF_ACT_HARVEST, // harvest activity actor
     DF_ACT_LOCKPICK, // lockpicking activity actor
+    DF_ACT_READ, // reading activity actor
+    DF_ACT_SAFECRACKING, // safecracking activity actor
     DF_ACT_SHEARING, // shearing activity actor
     DF_ACT_WORKOUT, // workout activity actor
     DF_ANATOMY_BP, // anatomy::select_body_part()

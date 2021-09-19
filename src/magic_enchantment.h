@@ -192,15 +192,32 @@ class enchantment
         }
 
         bool operator==( const enchantment &rhs ) const;
+
+        body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
+        // does the enchantment modify bodyparts?
+        bool modifies_bodyparts() const;
+
+        struct bodypart_changes {
+            bodypart_str_id gain;
+            bodypart_str_id lose;
+
+            bool was_loaded = false;
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( const JsonObject &jo );
+            void load( const JsonObject &jo );
+        };
     private:
+        std::vector<bodypart_changes> modified_bodyparts;
+
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
-        std::map<enchant_vals::mod, int> values_add;
+        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, double> values_multiply;
+        std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

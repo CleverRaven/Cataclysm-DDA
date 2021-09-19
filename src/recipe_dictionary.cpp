@@ -159,8 +159,15 @@ std::vector<const recipe *> recipe_subset::search(
             case search_type::exclude_name:
                 return !lcmatch( r->result_name(), txt );
 
-            case search_type::skill:
-                return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
+            case search_type::skill: {
+                if( r->skill_used && lcmatch( r->skill_used->name(), txt ) ) {
+                    return true;
+                }
+                const auto &skills = r->required_skills;
+                return std::any_of( skills.begin(), skills.end(), [&]( const std::pair<skill_id, int> &e ) {
+                    return lcmatch( e.first->name(), txt );
+                } );
+            }
 
             case search_type::primary_skill:
                 return lcmatch( r->skill_used->name(), txt );
@@ -375,6 +382,11 @@ void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &s
     load( jo, src, recipe_dict.uncraft );
 }
 
+void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src )
+{
+    load( jo, src, recipe_dict.recipes );
+}
+
 recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
                                  std::map<recipe_id, recipe> &out )
 {
@@ -420,6 +432,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
         elem.second.finalize();
+        inp_mngr.pump_events();
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {

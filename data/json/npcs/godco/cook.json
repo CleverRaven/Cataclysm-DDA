@@ -213,7 +213,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 2 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ] }
   },
   {
     "id": "MISSION_GODCO_COOK_FOOD_2",
@@ -238,7 +238,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 5 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] }
   },
   {
     "id": "MISSION_GODCO_COOK_FOOD_3",
@@ -262,6 +262,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
   }
 ]
