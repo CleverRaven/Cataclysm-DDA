@@ -3645,6 +3645,7 @@ void load_tileset()
 void catacurses::endwin()
 {
     tilecontext.reset();
+    overmap_tilecontext.reset();
     font.reset();
     map_font.reset();
     overmap_font.reset();
