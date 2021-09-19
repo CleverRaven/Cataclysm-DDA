@@ -3049,10 +3049,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
-            // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && get_scenario()->has_flag( "CITY_START" ) ) {
-                reset_scenario( u, sorted_scens[0] );
-            }
+            reset_scenario( u, sorted_scens[0] );
 
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {
