@@ -2286,6 +2286,17 @@ void options_manager::add_options_debug()
     },
     "vanilla" );
 
+    add( "SKILL_RUST_FREQUENCY", "debug", to_translation( "Skill rust frequency" ),
+         to_translation( "Set how often skill rust will occur (in days)." ), 1, 7, 1 );
+
+    add( "SKILL_RUST_MOD", "debug", to_translation( "Skill rust magnitude" ),
+         to_translation( "Set the value that represents how much a skill will rust by." ),
+         0.f, 100.f, 1.f, 0.01f );
+
+    add( "SKILL_RUST_GRACE_PERIOD", "debug", to_translation( "Skill rust grace period" ),
+         to_translation( "Number of hours after practicing a skill before the skill begins to rust." ),
+         0, 24 * 7, 0 );
+
     add_empty_line();
 
     add( "FOV_3D", "debug", to_translation( "Experimental 3D field of vision" ),
@@ -2299,6 +2310,9 @@ void options_manager::add_options_debug()
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
+    get_option( "SKILL_RUST_FREQUENCY" ).setPrerequisites( "SKILL_RUST", { "vanilla", "capped" } );
+    get_option( "SKILL_RUST_MOD" ).setPrerequisites( "SKILL_RUST", { "vanilla", "capped" } );
+    get_option( "SKILL_RUST_GRACE_PERIOD" ).setPrerequisites( "SKILL_RUST", { "vanilla", "capped" } );
 }
 
 void options_manager::add_options_android()

@@ -277,6 +277,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
+    practice();
 }
 
 
@@ -322,6 +323,12 @@ bool SkillLevel::isRusty() const
 
 bool SkillLevel::rust( int rust_resist )
 {
+    time_duration grace = time_duration::from_hours( get_option<int>( "SKILL_RUST_GRACE_PERIOD" ) );
+    if( ( calendar::turn - _lastPracticed ) < grace ) {
+        // don't rust within the grace period
+        return false;
+    }
+
     if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
@@ -354,15 +361,16 @@ bool SkillLevel::rust( int rust_resist )
         return false;
     }
 
+    rust_amount *= get_option<float>( "SKILL_RUST_MOD" );
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
-        if( rust_type == "vanilla" || rust_type == "int" ) {
+        if( ( rust_type != "vanilla" && rust_type != "int" ) || _level == 0 ) {
+            _exercise = 0;
+        } else {
             _exercise = ( 100 * 100 * _level * _level ) - 1;
             --_level;
-        } else {
-            _exercise = 0;
         }
     }
 
