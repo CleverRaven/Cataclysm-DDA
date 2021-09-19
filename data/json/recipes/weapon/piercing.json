@@ -221,7 +221,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "1 m",
     "autolearn": true,
-    "flags":  [ "BLIND_EASY" ],
+    "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },

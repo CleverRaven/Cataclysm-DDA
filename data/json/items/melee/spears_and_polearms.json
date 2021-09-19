@@ -52,7 +52,7 @@
     "bashing": 8,
     "cutting": 13,
     "to_hit": -2,
-    "price":  200,
+    "price": 200,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
     "techniques": [ "WBLOCK_1" ],
