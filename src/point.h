@@ -365,6 +365,8 @@ struct hash<tripoint> {
 };
 } // namespace std
 
+unsigned int mixed_hash( unsigned int seed );
+
 static constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
     }};
