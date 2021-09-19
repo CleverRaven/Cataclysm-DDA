@@ -98,8 +98,6 @@ static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait
         float fatigue_mod )
 {
     tasklist soldier_8h;
-    soldier_8h.enschedule( task_dig, 8_hours );
-    soldier_8h.enschedule( task_wait, 8_hours );
 
     float multiplier = 1.0f + fatigue_mod;
 
@@ -112,6 +110,10 @@ static void check_weary_mutations_nosleep( avatar &guy, const std::string &trait
         set_single_trait( guy, trait_name );
         guy.toggle_trait( trait_id( "DEBUG_LS" ) ); // fatigue (and thus sleep) should not be a factor
         REQUIRE( guy.has_trait( trait_id( "DEBUG_LS" ) ) );
+
+        soldier_8h.clear();
+        soldier_8h.enschedule( task_dig, 8_hours );
+        soldier_8h.enschedule( task_wait, 8_hours );
 
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         INFO( guy.debug_weary_info() );
