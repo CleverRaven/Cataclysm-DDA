@@ -330,6 +330,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "crater",
+    "name": "crater",
+    "sym": "O",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater_core",
+    "copy-from": "crater"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "radio_tower",
       "radio_tower_even",
