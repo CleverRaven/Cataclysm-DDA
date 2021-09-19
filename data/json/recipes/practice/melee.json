@@ -167,16 +167,7 @@
     "autolearn": [ [ "stabbing", 3 ] ],
     "//": "Only historial, powerful stabbing weapons.",
     "tools": [
-      [
-        "pike",
-        "lucern_hammer",
-        "spear_dory",
-        "sword_cane",
-        "rapier",
-        "estoc",
-        "kris",
-        "qiang"
-      ],
+      [ "pike", "lucern_hammer", "spear_dory", "sword_cane", "rapier", "estoc", "kris", "qiang" ],
       [ "training_dummy_heavy" ]
     ],
     "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
