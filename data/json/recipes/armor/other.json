@@ -386,7 +386,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 140 ] ],
+    "using": [ [ "sewing_standard", 160 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
