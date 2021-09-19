@@ -29,10 +29,54 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "cutting", 1 ] ],
     "book_learn": [ [ "mag_cutting", 0 ], [ "manual_cutting", 0 ] ],
-    "//": "A cutting tool to represent what you would use to train cutting, mainly a temporary measure.",
+    "//": "Only training weapons or wooden versions of swords, a real katana would be too much to handle correctly at these levels.",
     "tools": [ [ "bokken", "bokken_fake", "bokken_inferior", "sword_wood" ], [ "training_dummy_light" ] ],
     "//1": "A bunch of duct tape to repair the dummy with each training session.",
-    "components": [ [ "duct_tape", 25 ] ]
+    "components": [ [ [ "duct_tape", 25 ] ] ]
+  },
+  {
+    "id": "prac_cutting_int",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "cutting (intermediate)",
+    "description": "Practice advanced handling of the sword and similar weapons against an armored training dummy.  You will need to make repairs to the dummy while you train.",
+    "skill_used": "cutting",
+    "skills_required": [ [ "melee", 3 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4 },
+    "autolearn": [ [ "cutting", 3 ] ],
+    "//": "Only historial, real and powerful cutting weapons.",
+    "tools": [
+      [
+        "katana",
+        "scimitar",
+        "arming_sword",
+        "broadsword_sword",
+        "cavalry_sabre_sword",
+        "cutlass",
+        "dao",
+        "jian",
+        "longsword",
+        "nodachi",
+        "wakizashi",
+        "zweihander",
+        "butterfly_swords",
+        "sword_xiphos",
+        "khopesh",
+        "glaive",
+        "halberd",
+        "poleaxe",
+        "battleaxe",
+        "ji",
+        "naginata",
+        "scythe_war"
+      ],
+      [ "training_dummy_heavy" ]
+    ],
+    "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "id": "prac_bashing_beg",
@@ -52,7 +96,39 @@
     "//": "Only training weapons or light and easy to use weapons, a war hammer is a good weapon but you should not start your training with one.",
     "tools": [ [ "cudgel", "q_staff", "bat", "baton-extended", "PR24-extended" ], [ "training_dummy_light" ] ],
     "//1": "A bunch of duct tape to repair the dummy with each training session.",
-    "components": [ [ "duct_tape", 25 ] ]
+    "components": [ [ [ "duct_tape", 25 ] ] ]
+  },
+  {
+    "id": "prac_bashing_int",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "bashing (intermediate)",
+    "description": "Practice advanced handling of bashing weapons against an armored training dummy.  You will need to make repairs to the dummy while you train.",
+    "skill_used": "bashing",
+    "skills_required": [ [ "melee", 3 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4 },
+    "autolearn": [ [ "bashing", 3 ] ],
+    "//": "Only historial, powerful bashing weapons.",
+    "tools": [
+      [
+        "warhammer",
+        "mace",
+        "i_staff",
+        "morningstar",
+        "2h_flail_steel",
+        "glaive",
+        "halberd",
+        "lucern_hammer",
+        "poleaxe",
+        "battleaxe"
+      ],
+      [ "training_dummy_heavy" ]
+    ],
+    "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "id": "prac_stabbing_beg",
@@ -74,7 +150,37 @@
       [ "training_dummy_light" ]
     ],
     "//1": "A bunch of duct tape to repair the dummy with each training session.",
-    "components": [ [ "duct_tape", 25 ] ]
+    "components": [ [ [ "duct_tape", 25 ] ] ]
+  },
+  {
+    "id": "prac_stabbing_int",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "stabbing (intermediate)",
+    "description": "Practice advanced handling of stabbing weapons against an armored training dummy.  You will need to make repairs to the dummy while you train.",
+    "skill_used": "stabbing",
+    "skills_required": [ [ "melee", 3 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4 },
+    "autolearn": [ [ "stabbing", 3 ] ],
+    "//": "Only historial, powerful stabbing weapons.",
+    "tools": [
+      [
+        "pike",
+        "lucern_hammer",
+        "spear_dory",
+        "sword_cane",
+        "rapier",
+        "estoc",
+        "kris",
+        "qiang"
+      ],
+      [ "training_dummy_heavy" ]
+    ],
+    "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "id": "prac_unarmed_beg",
@@ -92,7 +198,7 @@
     "book_learn": [ [ "mag_unarmed", 0 ], [ "manual_brawl", 0 ] ],
     "tools": [ [ "training_dummy_light" ] ],
     "//1": "A bunch of duct tape to repair the dummy with each training session.",
-    "components": [ [ "duct_tape", 25 ] ]
+    "components": [ [ [ "duct_tape", 25 ] ] ]
   },
   {
     "id": "prac_dancing",

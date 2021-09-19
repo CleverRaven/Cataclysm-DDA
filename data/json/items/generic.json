@@ -3729,7 +3729,7 @@
     "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.",
     "price": 15000,
     "price_postapoc": 1000,
-    "material": [ "paper", "wood" ],
+    "material": [ "steel", "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
     "bashing": 16,
