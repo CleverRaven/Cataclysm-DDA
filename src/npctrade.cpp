@@ -65,9 +65,9 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
         }
 
         if( ip.loc.get_item()->is_container() ) {
-            containers.push_back( ip );
+            containers.emplace_back( ip );
         } else {
-            unsorted_stuff.push_back( ip );
+            unsorted_stuff.emplace_back( ip );
         }
     }
     // Sort the containers only. Non-containers do not need to be sorted.
@@ -79,7 +79,7 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
                 break;
             }
         }
-        sorted_stuff.push_back( cont );
+        sorted_stuff.emplace_back( cont );
     }
     sorted_stuff.insert( sorted_stuff.begin(), unsorted_stuff.begin(), unsorted_stuff.end() );
 
