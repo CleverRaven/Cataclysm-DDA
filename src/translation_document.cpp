@@ -1,3 +1,5 @@
+#if defined(LOCALIZE)
+
 #include "debug.h"
 #include "filesystem.h"
 #include "string_formatter.h"
@@ -209,3 +211,5 @@ const char *TranslationDocument::GetTranslatedStringPlural( const std::size_t in
     }
     return GetString( translated_offsets[index][plural_form] );
 }
+
+#endif // defined(LOCALIZE)

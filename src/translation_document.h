@@ -60,6 +60,6 @@ class TranslationDocument
         const char *GetTranslatedStringPlural( const std::size_t index, std::size_t n ) const;
 };
 
-#endif
+#endif // defined(LOCALIZE)
 
 #endif // CATA_SRC_TRANSLATION_DOCUMENT_H

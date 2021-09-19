@@ -1,3 +1,5 @@
+#if defined(LOCALIZE)
+
 #include <cstring>
 
 #include "cached_options.h"
@@ -196,3 +198,5 @@ const char *TranslationManagerImpl::TranslatePluralWithContext( const char *cont
     const std::size_t string_index = it->second.second;
     return documents[document].GetTranslatedStringPlural( string_index, n );
 }
+
+#endif // defined(LOCALIZE)
