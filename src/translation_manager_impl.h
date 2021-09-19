@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TRANSLATION_MANAGER_IMPL_H
 #define CATA_SRC_TRANSLATION_MANAGER_IMPL_H
 
+#if defined(LOCALIZE)
+
 #include <unordered_map>
 
 #include "translation_document.h"
@@ -34,5 +36,7 @@ class TranslationManagerImpl : public TranslationManagerInterface
         const char *TranslatePluralWithContext( const char *context, const char *singular,
                                                 const char *plural, std::size_t n ) const override;
 };
+
+#endif // defined(LOCALIZE)
 
 #endif // CATA_SRC_TRANSLATION_MANAGER_IMPL_H
