@@ -260,6 +260,34 @@
   },
   {
     "type": "mutation",
+    "id": "TUNNEL_FIGHTER",
+    "name": { "str": "Tunnel Fighter" },
+    "points": 3,
+    "description": "You know how to fight in cramped tunnels at risk of collapse.  You gain bonuses when fighting underground.",
+    "leads_to": [ "NIGHT_RAIDER" ],
+    "category": [ "INSECT", "TROGLOBITE", "RAT" ],
+    "enchantments": [
+      { "condition": "UNDERGROUND", "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHT_RAIDER",
+    "name": { "str": "Night Raider" },
+    "points": 3,
+    "description": "You know how to fight in cramped tunnels at risk of collapse.  You gain bonuses when fighting underground.",
+    "leads_to": [ "NIGHT_RAIDER" ],
+    "category": [ "TROGLOBITE" ],
+    "//": "Need to change condition to NIGHT once I get NIGHT and DAY conditions working for enchantments.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "OPTIMISTIC",
     "name": { "str": "Optimist" },
     "points": 2,
