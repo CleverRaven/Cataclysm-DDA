@@ -250,8 +250,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ],
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "tool_belt",
