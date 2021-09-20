@@ -2693,15 +2693,15 @@ class jmapgen_zone : public jmapgen_piece
 class jmapgen_nested : public jmapgen_piece
 {
     private:
-        class neighborhood_check
+        class neighbor_oter_check
         {
             private:
-                std::unordered_map<direction, cata::flat_set<oter_str_id>> neighbors;
+                std::unordered_map<direction, cata::flat_set<oter_type_str_id>> neighbors;
             public:
-                explicit neighborhood_check( const JsonObject &jsi ) {
+                explicit neighbor_oter_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_str_id> dir_neighbours =
-                            jsi.get_tags<oter_str_id, cata::flat_set<oter_str_id>>(
+                        cata::flat_set<oter_type_str_id> dir_neighbours =
+                            jsi.get_tags<oter_type_str_id, cata::flat_set<oter_type_str_id>>(
                                 io::enum_to_string( dir ) );
                         if( !dir_neighbours.empty() ) {
                             neighbors[dir] = std::move( dir_neighbours );
@@ -2709,16 +2709,27 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void check( const std::string &oter_name, const mapgen_parameters & ) const {
+                    for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
+                         neighbors ) {
+                        for( const oter_type_str_id &id : p.second ) {
+                            if( !id.is_valid() ) {
+                                debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
+                            }
+                        }
+                    }
+                }
+
                 bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const direction, cata::flat_set<oter_str_id>> &p :
+                    for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
                          neighbors ) {
                         const direction dir = p.first;
-                        const cata::flat_set<oter_str_id> &allowed_neighbors = p.second;
+                        const cata::flat_set<oter_type_str_id> &allowed_neighbors = p.second;
 
                         cata_assert( !allowed_neighbors.empty() );
 
                         bool this_direction_matches = false;
-                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_type_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |=
                                 is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
                                              ot_match_type::contains );
@@ -2731,12 +2742,54 @@ class jmapgen_nested : public jmapgen_piece
                 }
         };
 
+        class neighbor_join_check
+        {
+            private:
+                std::unordered_map<cube_direction, cata::flat_set<std::string>> neighbors;
+            public:
+                explicit neighbor_join_check( const JsonObject &jsi ) {
+                    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                        cata::flat_set<std::string> dir_neighbours =
+                            jsi.get_tags<std::string, cata::flat_set<std::string>>(
+                                io::enum_to_string( dir ) );
+                        if( !dir_neighbours.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbours );
+                        }
+                    }
+                }
+
+                void check( const std::string &, const mapgen_parameters & ) const {
+                    // TODO: check join ids are valid
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
+                         neighbors ) {
+                        const cube_direction dir = p.first;
+                        const cata::flat_set<std::string> &allowed_joins = p.second;
+
+                        cata_assert( !allowed_joins.empty() );
+
+                        bool this_direction_matches = false;
+                        for( const std::string &allowed_join : allowed_joins ) {
+                            this_direction_matches |= dat.has_join( dir, allowed_join );
+                        }
+                        if( !this_direction_matches ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        };
+
     public:
         weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
         weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
-        neighborhood_check neighbors;
-        jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ ) :
-            neighbors( jsi.get_object( "neighbors" ) ) {
+        neighbor_oter_check neighbor_oters;
+        neighbor_join_check neighbor_joins;
+        jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ )
+            : neighbor_oters( jsi.get_object( "neighbors" ) )
+            , neighbor_joins( jsi.get_object( "joins" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -2774,10 +2827,17 @@ class jmapgen_nested : public jmapgen_piece
                 merge_from( name.obj );
             }
         }
+        const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
+        const mapgendata &dat ) const {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) ) {
+                return entries;
+            } else {
+                return else_entries;
+            }
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            const mapgen_value<nested_mapgen_id> *val =
-                neighbors.test( dat ) ? entries.pick() : else_entries.pick();
+            const mapgen_value<nested_mapgen_id> *val = get_entries( dat ).pick();
             if( val == nullptr ) {
                 return;
             }
@@ -2802,9 +2862,20 @@ class jmapgen_nested : public jmapgen_piece
 
             ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
+        void check( const std::string &oter_name, const mapgen_parameters &parameters
+                  ) const override {
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : entries ) {
+                p.obj.check( oter_name, parameters );
+            }
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
+                p.obj.check( oter_name, parameters );
+            }
+            neighbor_oters.check( oter_name, parameters );
+            neighbor_joins.check( oter_name, parameters );
+        }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             const weighted_int_list<mapgen_value<nested_mapgen_id>> &selected_entries =
-                        neighbors.test( dat ) ? entries : else_entries;
+                        get_entries( dat );
             if( selected_entries.empty() ) {
                 return false;
             }

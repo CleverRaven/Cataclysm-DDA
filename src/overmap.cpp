@@ -1427,8 +1427,8 @@ class joins_tracker
 
                 if( resolved.count( other_side ) ) {
                     erase_unresolved( this_side );
-                    used.push_back( { this_side, join.join_id } );
-                    used.push_back( { other_side, opposite_join.id } );
+                    used.emplace_back( this_side, join.join_id );
+                    used.emplace_back( other_side, opposite_join.id );
                 } else {
                     // If there were postponed joins pointing into this point,
                     // so we need to un-postpone them because it might now be
@@ -1488,7 +1488,7 @@ class joins_tracker
             postponed.clear();
         }
 
-        const std::vector<std::pair<om_pos_dir, std::string>> all_used() const {
+        const std::vector<std::pair<om_pos_dir, std::string>> &all_used() const {
             return used;
         }
     private:

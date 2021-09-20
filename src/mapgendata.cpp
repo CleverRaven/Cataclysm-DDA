@@ -1,5 +1,6 @@
 #include "mapgendata.h"
 
+#include "all_enum_values.h"
 #include "debug.h"
 #include "json.h"
 #include "map.h"
@@ -74,6 +75,11 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float densit
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
                           terrain_type_.id().str() );
             }
+        }
+    }
+    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+        if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
+            joins.emplace( dir, *join );
         }
     }
 }
@@ -238,4 +244,10 @@ const oter_id &mapgendata::neighbor_at( direction dir ) const
 
     debugmsg( "Neighbor not supported for direction %d", io::enum_to_string( dir ) );
     return north();
+}
+
+bool mapgendata::has_join( const cube_direction dir, const std::string &join_id ) const
+{
+    auto it = joins.find( dir );
+    return it != joins.end() && it->second == join_id;
 }

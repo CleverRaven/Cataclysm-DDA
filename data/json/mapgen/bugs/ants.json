@@ -39,6 +39,16 @@
     }
   },
   {
+    "//": "slopes up to anthill entrance to be used where appropriate",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ant_up_to_surface",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        ">>",
+        ">>"
+      ], "terrain": { ">": "t_slope_up" } }
+  },
+  {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
     "method": "json",
@@ -451,6 +461,7 @@
       ],
       "terrain": { "#": "t_soil" },
       "place_nested": [
+        { "chunks": [ "ant_up_to_surface" ], "joins": { "above": "tunnel_to_surface" }, "x": 11, "y": 11 },
         { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
         { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
