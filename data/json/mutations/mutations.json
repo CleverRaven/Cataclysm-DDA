@@ -1351,7 +1351,7 @@
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "scent_intensity": 800,
-    "category": [ "FELINE", "LUPINE", "MOUSE", "BATRACHIAN" ]
+    "category": [ "FELINE", "LUPINE", "MOUSE" ]
   },
   {
     "type": "mutation",
