@@ -10,7 +10,8 @@
     "skill_used": "swimming",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "autolearn": [ [ "swimming", 0 ] ]
+    "autolearn": [ [ "swimming", 0 ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "id": "prac_athletics_int",
@@ -24,6 +25,7 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "autolearn": [ [ "swimming", 2 ] ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ "pseudo_exercise_machine", "pseudo_punching_bag", "pseudo_ergometer_mechanical", "pseudo_treadmill_mechanical" ] ]
   }
 ]
