@@ -130,8 +130,5 @@ std::vector<std::string> talker_monster::get_topics( bool )
 
 bool talker_monster::will_talk_to_u( const Character &you, bool )
 {
-    if( you.is_dead_state() ) {
-        return false;
-    }
-    return true;
+    return !you.is_dead_state();
 }
