@@ -1,3 +1,4 @@
+#include "cube_direction.h" // IWYU pragma: associated
 #include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
@@ -913,34 +914,7 @@ overmap_special_terrain::overmap_special_terrain(
     , flags( fs )
 {}
 
-// We have other direction enums, but for this purpose we need to have one for
-// the six rectilinear directions.  These correspond to the faces of a cube, so
-// I've called it cube_direction
-enum class cube_direction {
-    north,
-    east,
-    south,
-    west,
-    above,
-    below,
-    last
-};
-
-template<>
-struct enum_traits<cube_direction> {
-    static constexpr cube_direction last = cube_direction::last;
-};
-
-namespace std
-{
-template <> struct hash<cube_direction> {
-    std::size_t operator()( const cube_direction &d ) const {
-        return static_cast<std::size_t>( d );
-    }
-};
-} // namespace std
-
-static constexpr cube_direction operator-( const cube_direction d, int i )
+cube_direction operator-( const cube_direction d, int i )
 {
     switch( d ) {
         case cube_direction::north:
@@ -957,7 +931,7 @@ static constexpr cube_direction operator-( const cube_direction d, int i )
     constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
 }
 
-static constexpr cube_direction operator+( const cube_direction l, const om_direction::type r )
+cube_direction operator+( const cube_direction l, const om_direction::type r )
 {
     switch( l ) {
         case cube_direction::north:
@@ -974,15 +948,6 @@ static constexpr cube_direction operator+( const cube_direction l, const om_dire
     }
     constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
 }
-
-static_assert( cube_direction::north - 0 == cube_direction::north, "" );
-static_assert( cube_direction::north - 1 == cube_direction::west, "" );
-static_assert( cube_direction::north - 2 == cube_direction::south, "" );
-static_assert( cube_direction::north - 3 == cube_direction::east, "" );
-static_assert( cube_direction::north - 4 == cube_direction::north, "" );
-static_assert( cube_direction::east - 2 == cube_direction::west, "" );
-static_assert( cube_direction::south - 2 == cube_direction::north, "" );
-static_assert( cube_direction::west - 2 == cube_direction::east, "" );
 
 static tripoint displace( cube_direction d )
 {
@@ -1342,57 +1307,45 @@ struct mutable_overmap_phase {
     }
 };
 
-struct pos_dir {
-    tripoint_om_omt p;
-    cube_direction dir;
-
-    bool inbounds() const {
-        static constexpr half_open_cuboid<tripoint_om_omt> overmap_bounds(
-            tripoint_om_omt( 0, 0, -OVERMAP_DEPTH ),
-            tripoint_om_omt( OMAPX, OMAPY, OVERMAP_HEIGHT + 1 )
-        );
-        return overmap_bounds.contains( p );
-    }
-
-    pos_dir opposite() const {
-        switch( dir ) {
-            case cube_direction::north:
-                return { p + tripoint_north, cube_direction::south };
-            case cube_direction::east:
-                return { p + tripoint_east, cube_direction::west };
-            case cube_direction::south:
-                return { p + tripoint_south, cube_direction::north };
-            case cube_direction::west:
-                return { p + tripoint_west, cube_direction::east };
-            case cube_direction::above:
-                return { p + tripoint_above, cube_direction::below };
-            case cube_direction::below:
-                return { p + tripoint_below, cube_direction::above };
-            case cube_direction::last:
-                break;
-        }
-        cata_fatal( "Invalid cube_direction" );
-    }
-
-    friend bool operator==( const pos_dir &l, const pos_dir &r ) {
-        return l.p == r.p && l.dir == r.dir;
-    }
-
-    friend bool operator<( const pos_dir &l, const pos_dir &r ) {
-        return std::tie( l.p, l.dir ) < std::tie( r.p, r.dir );
-    }
-};
-
-namespace std
+bool om_pos_dir::inbounds() const
 {
-template<>
-struct hash<pos_dir> {
-    size_t operator()( const pos_dir &p ) const {
-        cata::tuple_hash h;
-        return h( std::make_tuple( p.p, p.dir ) );
+    static constexpr half_open_cuboid<tripoint_om_omt> overmap_bounds(
+        tripoint_om_omt( 0, 0, -OVERMAP_DEPTH ),
+        tripoint_om_omt( OMAPX, OMAPY, OVERMAP_HEIGHT + 1 )
+    );
+    return overmap_bounds.contains( p );
+}
+
+om_pos_dir om_pos_dir::opposite() const
+{
+    switch( dir ) {
+        case cube_direction::north:
+            return { p + tripoint_north, cube_direction::south };
+        case cube_direction::east:
+            return { p + tripoint_east, cube_direction::west };
+        case cube_direction::south:
+            return { p + tripoint_south, cube_direction::north };
+        case cube_direction::west:
+            return { p + tripoint_west, cube_direction::east };
+        case cube_direction::above:
+            return { p + tripoint_above, cube_direction::below };
+        case cube_direction::below:
+            return { p + tripoint_below, cube_direction::above };
+        case cube_direction::last:
+            break;
     }
-};
-} // namespace std
+    cata_fatal( "Invalid cube_direction" );
+}
+
+bool operator==( const om_pos_dir &l, const om_pos_dir &r )
+{
+    return l.p == r.p && l.dir == r.dir;
+}
+
+bool operator<( const om_pos_dir &l, const om_pos_dir &r )
+{
+    return std::tie( l.p, l.dir ) < std::tie( r.p, r.dir );
+}
 
 // When building a mutable overmap special we maintain a collection of
 // unresolved joins.  We need to be able to index that collection in
@@ -1406,7 +1359,7 @@ class joins_tracker
         }
 
         struct join {
-            pos_dir where;
+            om_pos_dir where;
             std::string join_id;
             unsigned join_priority;
         };
@@ -1451,8 +1404,8 @@ class joins_tracker
                 const mutable_overmap_terrain_join &join = p.second;
                 const mutable_overmap_join &opposite_join = *join.join->opposite;
 
-                pos_dir this_side{ pos, dir };
-                pos_dir other_side = this_side.opposite();
+                om_pos_dir this_side{ pos, dir };
+                om_pos_dir other_side = this_side.opposite();
 
                 if( resolved.count( other_side ) ) {
                     erase_unresolved( this_side );
@@ -1474,7 +1427,7 @@ class joins_tracker
             consistency_check();
         }
 
-        std::pair<pos_dir, placement_constraints> pick_top_priority() const {
+        std::pair<om_pos_dir, placement_constraints> pick_top_priority() const {
             cata_assert( any_unresolved() );
             auto priority_it =
                 std::find_if( unresolved_priority_index.begin(), unresolved_priority_index.end(),
@@ -1485,7 +1438,7 @@ class joins_tracker
             auto it = random_entry( *priority_it );
             const tripoint_om_omt &pos = it->where.p;
             cata_assert( !postponed.any_at( pos ) );
-            std::pair<pos_dir, placement_constraints> result( it->where, {} );
+            std::pair<om_pos_dir, placement_constraints> result( it->where, {} );
             for( iterator it : unresolved.all_at( pos ) ) {
                 result.second.joins.emplace_back( it->where.dir, it->join_id );
             }
@@ -1526,7 +1479,7 @@ class joins_tracker
 
         struct indexed_joins {
             std::list<join> joins;
-            std::unordered_map<pos_dir, iterator> position_index;
+            std::unordered_map<om_pos_dir, iterator> position_index;
 
             iterator begin() {
                 return joins.begin();
@@ -1548,13 +1501,13 @@ class joins_tracker
                 return joins.empty();
             }
 
-            bool count( const pos_dir &p ) const {
+            bool count( const om_pos_dir &p ) const {
                 return position_index.count( p );
             }
 
             bool any_at( const tripoint_om_omt &pos ) const {
                 for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                    if( count( pos_dir{ pos, dir } ) ) {
+                    if( count( om_pos_dir{ pos, dir } ) ) {
                         return true;
                     }
                 }
@@ -1564,7 +1517,7 @@ class joins_tracker
             std::vector<iterator> all_at( const tripoint_om_omt &pos ) const {
                 std::vector<iterator> result;
                 for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                    pos_dir key{ pos, dir };
+                    om_pos_dir key{ pos, dir };
                     auto pos_it = position_index.find( key );
                     if( pos_it != position_index.end() ) {
                         result.push_back( pos_it->second );
@@ -1573,7 +1526,7 @@ class joins_tracker
                 return result;
             }
 
-            iterator add( const joins_tracker &tracker, const pos_dir &p,
+            iterator add( const joins_tracker &tracker, const om_pos_dir &p,
                           const std::string &join_id ) {
                 unsigned priority = tracker.priority_of( join_id );
                 return add( { p, join_id, priority } );
@@ -1599,7 +1552,7 @@ class joins_tracker
             }
         };
 
-        void add_unresolved( const pos_dir &p, const std::string &join_id ) {
+        void add_unresolved( const om_pos_dir &p, const std::string &join_id ) {
             iterator it = unresolved.add( *this, p, join_id );
             unsigned priority = it->join_priority;
             if( unresolved_priority_index.size() <= priority ) {
@@ -1609,7 +1562,7 @@ class joins_tracker
             cata_assert( insert_result_2.second );
         }
 
-        bool erase_unresolved( const pos_dir &p ) {
+        bool erase_unresolved( const om_pos_dir &p ) {
             auto pos_it = unresolved.position_index.find( p );
             if( pos_it == unresolved.position_index.end() ) {
                 return false;
@@ -1778,7 +1731,7 @@ struct mutable_overmap_special_data {
         mutable_overmap_phase_remainder phase_remaining = current_phase->realise();
 
         while( unresolved.any_unresolved() ) {
-            pos_dir p_d;
+            om_pos_dir p_d;
             placement_constraints next;
             std::tie( p_d, next ) = unresolved.pick_top_priority();
             const tripoint_om_omt &p = p_d.p;
@@ -1811,7 +1764,7 @@ struct mutable_overmap_special_data {
             // This is an error in the JSON; extract some useful info to help
             // the user debug it
             unresolved.restore_postponed();
-            pos_dir p_d;
+            om_pos_dir p_d;
             placement_constraints next;
             std::tie( p_d, next ) = unresolved.pick_top_priority();
             const tripoint_om_omt &p = p_d.p;
