@@ -203,12 +203,7 @@
         "default": true,
         "effect": "lead_to_safety"
       },
-      {
-        "text": "No, we'll be okay here.",
-        "topic": "TALK_TRAIN_NPC_FORCE",
-        "switch": true,
-        "default": true
-      },
+      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_NPC_FORCE", "switch": true, "default": true },
       { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
     ]
   },

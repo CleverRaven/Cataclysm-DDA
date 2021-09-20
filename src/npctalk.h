@@ -98,7 +98,7 @@ void drop_stolen_item( npc & );
 void lead_to_safety( npc & );
 void start_training( npc & );
 void start_training_npc( npc & );
-void start_training_gen( Character &teacher, Character &student, teach_domain &d );
+void start_training_gen( Character &teacher, std::vector<Character *> &student, teach_domain &d );
 
 void wake_up( npc & );
 void copy_npc_rules( npc &p );
@@ -113,15 +113,25 @@ time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );
-int calc_skill_training_cost_char( const Character &student, const skill_id &skill );
+int calc_skill_training_cost_char( const Character &teacher, const Character &student,
+                                   const skill_id &skill );
 time_duration calc_proficiency_training_time( const proficiency_id &proficiency );
+time_duration calc_proficiency_training_time( const Character &teacher, const Character &student,
+        const proficiency_id &proficiency );
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency );
-int calc_proficiency_training_cost( const proficiency_id &proficiency );
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );
-time_duration calc_ma_style_training_time( /*const Character &teacher, const Character &student*/ );
-int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ );
-int calc_ma_style_training_cost( /*const Character &teacher, const Character &student*/ );
+int calc_proficiency_training_cost( const Character &teacher, const Character &student,
+                                    const proficiency_id &proficiency );
+time_duration calc_ma_style_training_time( const npc &p, const matype_id &id );
+time_duration calc_ma_style_training_time( const Character &teacher, const Character &student,
+        const matype_id &id );
+int calc_ma_style_training_cost( const npc &p, const matype_id &id );
+int calc_ma_style_training_cost( const Character &teacher, const Character &student,
+                                 const matype_id &id );
+time_duration calc_spell_training_time( const Character &teacher, const Character &student,
+                                        const spell_id &id );
 int calc_spell_training_cost_gen( const bool knows, int difficulty, int level );
+int calc_spell_training_cost( const Character &teacher, const Character &student,
+                              const spell_id &id );
 
 const json_talk_topic *get_talk_topic( const std::string &id );
 

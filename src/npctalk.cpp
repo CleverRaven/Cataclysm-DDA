@@ -134,14 +134,16 @@ time_duration calc_skill_training_time_char( const Character &teacher, const Cha
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
 {
-    if( p.is_player_ally() ) {
-        return 0;
-    }
-    return calc_skill_training_cost_char( get_player_character(), skill );
+    return calc_skill_training_cost_char( p, get_player_character(), skill );
 }
 
-int calc_skill_training_cost_char( const Character &student, const skill_id &skill )
+int calc_skill_training_cost_char( const Character &teacher, const Character &student,
+                                   const skill_id &skill )
 {
+    if( ( student.is_npc() && teacher.is_avatar() ) ||
+        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+        return 0;
+    }
     int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
@@ -151,45 +153,72 @@ time_duration calc_proficiency_training_time( const proficiency_id &proficiency 
     return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
 }
 
-int calc_proficiency_training_cost( const proficiency_id &proficiency )
+time_duration calc_proficiency_training_time( const Character &, const Character &student,
+        const proficiency_id &proficiency )
 {
+    return std::min( 15_minutes, student.proficiency_training_needed( proficiency ) );
+}
+
+int calc_proficiency_training_cost( const Character &teacher, const Character &student,
+                                    const proficiency_id &proficiency )
+{
+    if( ( student.is_npc() && teacher.is_avatar() ) ||
+        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+        return 0;
+    }
     return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
 }
 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
 {
-    if( p.is_player_ally() ) {
-        return 0;
-    }
-
-    return calc_proficiency_training_cost( proficiency );
+    return calc_proficiency_training_cost( p, get_player_character(), proficiency );
 }
 
 
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
 {
-    return calc_ma_style_training_time( /*p, get_player_character()*/ );
+    return calc_ma_style_training_time( p, get_player_character(), id );
 }
 
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-time_duration calc_ma_style_training_time( /*const Character &teacher, const Character &student*/ )
+time_duration calc_ma_style_training_time( const Character &, const Character &,
+        const matype_id & )
 {
     return 30_minutes;
 }
 
-int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
+int calc_ma_style_training_cost( const npc &p, const matype_id &id )
 {
-    if( p.is_player_ally() ) {
-        return 0;
-    }
-    return calc_ma_style_training_cost( /*p, get_player_character()*/ );
+    return calc_ma_style_training_cost( p, get_player_character(), id );
 }
 
-int calc_ma_style_training_cost( /*const Character &teacher, const Character &student*/ )
+int calc_ma_style_training_cost( const Character &teacher, const Character &student,
+                                 const matype_id & )
 {
+    if( ( student.is_npc() && teacher.is_avatar() ) ||
+        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+        return 0;
+    }
     return 800;
+}
+
+// quicker to learn with instruction as opposed to books.
+// if this is a known spell, then there is a set time to gain some exp.
+// if player doesn't know this spell, then the NPC will teach all of it
+// which takes max 6 hours, min 3 hours.
+// TODO: a system for NPCs to train new stuff in bits and pieces
+// and remember the progress.
+time_duration calc_spell_training_time( const Character &, const Character &student,
+                                        const spell_id &id )
+{
+    if( student.magic->knows_spell( id ) ) {
+        return 1_hours;
+    } else {
+        const int time_int = student.magic->time_to_learn_spell( student, id ) / 50;
+        return time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+    }
 }
 
 int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
@@ -197,7 +226,20 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
     if( is_player_ally() ) {
         return 0;
     }
-    return calc_spell_training_cost_gen( knows, difficulty, level );
+    return ::calc_spell_training_cost_gen( knows, difficulty, level );
+}
+
+int calc_spell_training_cost( const Character &teacher, const Character &student,
+                              const spell_id &id )
+{
+    if( ( student.is_npc() && teacher.is_avatar() ) ||
+        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+        return 0;
+    }
+    const spell &temp_spell = teacher.magic->get_spell( id );
+    const bool knows = student.magic->knows_spell( id );
+    return calc_spell_training_cost_gen( knows, temp_spell.get_difficulty(),
+                                         temp_spell.get_level() );
 }
 
 int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
