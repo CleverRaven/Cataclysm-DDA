@@ -1730,6 +1730,10 @@ class map
                 loadn( tripoint( grid, abs_sub.z ), update_vehicles, _actualize );
             }
         }
+
+        // This doesn't mean erase from memory, the submap is owned by mapbuffer.
+        // This means handle any cleanup we need when a submap leves the active area.
+        void unload_submap( const tripoint &p );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
