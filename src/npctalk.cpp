@@ -2226,14 +2226,17 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
 void talk_effect_fun_t::set_open_dialogue()
 {
     function = []( const dialogue & d ) {
-        //if (!d.alpha->get_character()->is_avatar()) {//only open a dialog if the avatar is alpha
-        //    return;
-        //}else if (d.beta->get_character() != nullptr) {
-        //    get_avatar().talk_to( get_talker_for( d.beta->get_character() ) );
-        //} else if (d.beta->get_creature() != nullptr){
-        get_avatar().add_msg_if_player( "yo" );
-        get_avatar().talk_to( get_talker_for( d.beta->get_creature() ) );
-        //}
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_character() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_character() ) );
+        } else if( d.actor( true )->get_creature() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_creature() ) );
+        } else if( d.actor( true )->get_monster() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
+        } else if( d.actor( true )->get_item() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        }
     };
 }
 
