@@ -116,36 +116,49 @@ static void check_weary_mutations_nosleep( const std::string &trait_name,
 
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         INFO( guy.debug_weary_info() );
-        CAPTURE( calendar::turn );
         weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
-        CAPTURE( calendar::turn );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        // First check to make sure is same in initial part
-        CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        // Now check for mutation effects
+        if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
+            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= 125 );
+            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= 255 );
+            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= 365 );
+            CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= 470 );
+        } else {
+            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= 115 );
+            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= 245 );
+            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= 355 );
+            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= 460 );
+        }
         time_duration time1 = ( ( 505_minutes - 8_hours ) * multiplier ) + 8_hours;
         time_duration time2 = ( ( 630_minutes - 8_hours ) * multiplier ) + 8_hours;
-        // Increased below margin to 7.5 (from 5) to account for roundoff vs 5-minute weariness cycle
+        // Increased below margin for floats to 7.5 (from 5) to account for roundoff vs 5-minute weariness cycle
         if( time1 < 16_hours ) {
-            CHECK( info.transition_minutes( 4, 3,
-                                            time1 ) == Approx( to_minutes<float>( time1 ) ).margin( 7.5f ) );
-            if( time2 < 16_hours ) {
-                CHECK( info.transition_minutes( 3, 2,
-                                                time2 ) == Approx( to_minutes<float>( time2 ) ).margin( 7.5f ) );
+            if( multiplier >= 1.0f ) {
+                CHECK( info.transition_minutes( 4, 3,
+                                                time1 ) >= to_minutes<float>( time1 ) - 7.5f );
             } else {
-                CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
+                CHECK( info.transition_minutes( 4, 3,
+                                                time1 ) <= to_minutes<float>( time1 ) + 7.5f );
+            }
+            if( time2 < 16_hours ) {
+                if( multiplier >= 1.0f ) {
+                    CHECK( info.transition_minutes( 3, 2,
+                                                    time2 ) >= to_minutes<float>( time2 ) - 7.5f );
+                } else {
+                    CHECK( info.transition_minutes( 3, 2,
+                                                    time2 ) <= to_minutes<float>( time2 ) + 7.5f );
+                }
+            } else {
+                CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) - 5 );
             }
         } else {
-            CHECK( info.transition_minutes( 4, 3, time1 ) >= ( 16 * 60 ) );
-            CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
+            CHECK( info.transition_minutes( 4, 3, time1 ) >= ( 16 * 60 ) - 5 );
+            CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) - 5 );
         }
 
-        if( multiplier >= 1.0f ) { // preliminary
+        if( multiplier >= 1.0f ) { // preliminary - instability may prevent use
             CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
             CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
         }
