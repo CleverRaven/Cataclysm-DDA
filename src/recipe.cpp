@@ -309,8 +309,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" ) {
 
-        assign( jo, "category", category, strict );
-        assign( jo, "subcategory", subcategory, strict );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
         assign( jo, "reversible", reversible, strict );
 
@@ -377,10 +377,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     } else if( type == "practice" ) {
         mandatory( jo, false, "name", name_ );
-        assign( jo, "category", category, strict );
-        assign( jo, "subcategory", subcategory, strict );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
-        mandatory( jo, false, "practice_data", practice_data );
+        mandatory( jo, was_loaded, "practice_data", practice_data );
 
         if( jo.has_member( "byproducts" ) ) {
             byproducts.clear();

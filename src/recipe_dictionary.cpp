@@ -404,6 +404,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    r.was_loaded = true;
 
     return out[ r.ident() ] = std::move( r );
 }
