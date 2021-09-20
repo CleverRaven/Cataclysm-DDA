@@ -189,19 +189,19 @@ void avatar::control_npc_menu()
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
     int charnum = 0;
-    for (const auto& elem : g->get_follower_list()) {
-        shared_ptr_fast<npc> follower = overmap_buffer.find_npc(elem);
-        if (follower) {
-            followers.emplace_back(follower);
-            charmenu.addentry(charnum++, true, MENU_AUTOASSIGN, follower->get_name());
+    for( const auto &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            followers.emplace_back( follower );
+            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
         }
     }
-    if (followers.empty()) {
+    if( followers.empty() ) {
         return;
     }
     charmenu.w_y_setup = 0;
     charmenu.query();
-    if (charmenu.ret < 0 || static_cast<size_t>(charmenu.ret) >= followers.size()) {
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
     get_avatar().control_npc( *followers.at( charmenu.ret ) );
