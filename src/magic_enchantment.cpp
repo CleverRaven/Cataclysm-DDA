@@ -373,6 +373,7 @@ void enchantment::serialize( JsonOut &jsout ) const
 
     jsout.member( "modified_bodyparts", modified_bodyparts );
     jsout.member( "mutations", mutations );
+    jsout.member( "dialog_condition", dialog_condition );
 
     jsout.member( "values" );
     jsout.start_array();
