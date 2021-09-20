@@ -102,7 +102,7 @@ class faction : public faction_template
         faction() = default;
         explicit faction( const faction_template &templ );
 
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
@@ -116,8 +116,8 @@ class faction : public faction_template
         void add_to_membership( const character_id &guy_id, const std::string &guy_name, bool known );
         void remove_member( const character_id &guy_id );
         std::vector<int> opinion_of;
-        bool validated = false;
-        std::map<character_id, std::pair<std::string, bool>> members;
+        bool validated = false; // NOLINT(cata-serialize)
+        std::map<character_id, std::pair<std::string, bool>> members; // NOLINT(cata-serialize)
 };
 
 class faction_manager

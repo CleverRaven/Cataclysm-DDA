@@ -1,7 +1,8 @@
 #ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_HEADERGUARDCHECK_H
 #define CATA_TOOLS_CLANG_TIDY_PLUGIN_HEADERGUARDCHECK_H
 
-#include <ClangTidy.h>
+#include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 
 namespace clang
 {
@@ -16,7 +17,7 @@ class CataHeaderGuardCheck : public ClangTidyCheck
 {
     public:
         CataHeaderGuardCheck( StringRef Name, ClangTidyContext *Context );
-        void registerPPCallbacks( CompilerInstance &Compiler ) override;
+        void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
 };
 
 } // namespace cata

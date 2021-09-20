@@ -15,7 +15,9 @@ class window;
 #include <string>
 
 #include "color_loader.h"
+#include "coordinates.h"
 #include "sdl_wrappers.h"
+#include "string_id.h"
 
 #if defined(__APPLE__)
 // For TARGET_OS_IPHONE macro to test if is on iOS
@@ -24,16 +26,24 @@ class window;
 
 class cata_tiles;
 
+struct weather_type;
+
+using weather_type_id = string_id<weather_type>;
+
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 
 extern std::unique_ptr<cata_tiles> tilecontext;
+extern std::unique_ptr<cata_tiles> overmap_tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 extern int fontheight;
 extern int fontwidth;
 
+// This function may refresh the screen, so it should not be used where tiles
+// may be displayed. Actually, this is supposed to be called from init.cpp,
+// and only from there.
 void load_tileset();
 void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );

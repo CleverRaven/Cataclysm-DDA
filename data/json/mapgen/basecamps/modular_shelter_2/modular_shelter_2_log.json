@@ -215,9 +215,9 @@
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
-        "w   ",
-        "d   ",
-        "www "
+        "w  ",
+        "d  ",
+        "www"
       ],
       "palettes": [ "fbmc_shelter_2_palette_log" ]
     }
@@ -235,10 +235,10 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rows": [
-        "w    ",
-        "d    ",
-        "w    ",
-        "w    "
+        "w   ",
+        "d   ",
+        "w   ",
+        "w   "
       ],
       "palettes": [ "fbmc_shelter_2_palette_log" ]
     }

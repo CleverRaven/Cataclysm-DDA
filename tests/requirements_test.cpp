@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "requirements.h"
 #include "type_id.h"
 

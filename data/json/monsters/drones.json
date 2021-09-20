@@ -14,8 +14,8 @@
     "morale": 100,
     "luminance": 5,
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
-    "death_function": [ "BROKEN_AMMO" ],
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO" ]
+    "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -110,7 +110,7 @@
     "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
@@ -172,7 +172,8 @@
       }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -181,9 +182,24 @@
       "ELECTRONIC",
       "NO_BREATHE",
       "INTERIOR_AMMO",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "STUN_IMMUNE"
     ]
+  },
+  {
+    "id": "mon_tazer_hack",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": { "str": "tazer hack" },
+    "description": "An automated drone, this small quadcopter robot appears to have a tazer strapped to the front.  While extremely fast, it is very fragile.",
+    "diff": 10,
+    "speed": 350,
+    "color": "cyan",
+    "armor_cut": 2,
+    "armor_bullet": 1,
+    "revert_to_itype": "bot_tazer_hack",
+    "special_attacks": [ [ "TAZER", 5 ] ]
   }
 ]

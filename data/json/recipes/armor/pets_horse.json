@@ -53,7 +53,7 @@
     "proficiencies": [
       { "proficiency": "prof_chain_armour" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 2 }
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 1.2 }
     ]
   },
   {
@@ -68,7 +68,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {

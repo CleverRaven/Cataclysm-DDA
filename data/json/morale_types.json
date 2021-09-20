@@ -132,12 +132,12 @@
   {
     "id": "morale_vegetarian",
     "type": "morale_type",
-    "text": "Ate Meat"
+    "text": "Ate Vegetables"
   },
   {
     "id": "morale_meatarian",
     "type": "morale_type",
-    "text": "Ate Vegetables"
+    "text": "Ate Meat"
   },
   {
     "id": "morale_antifruit",
@@ -285,6 +285,11 @@
     "text": "Bad Tempered"
   },
   {
+    "id": "morale_perm_numb",
+    "type": "morale_type",
+    "text": "Numbed"
+  },
+  {
     "id": "morale_perm_constrained",
     "type": "morale_type",
     "text": "Uncomfy Gear"
@@ -388,5 +393,10 @@
     "id": "morale_nightmare",
     "type": "morale_type",
     "text": "Had a vivid nightmare"
+  },
+  {
+    "id": "morale_migo_bio_tech",
+    "type": "morale_type",
+    "text": "Used mi-go biotech"
   }
 ]

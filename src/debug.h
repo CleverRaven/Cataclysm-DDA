@@ -3,6 +3,7 @@
 #define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
+#include <list>
 
 /**
  *      debugmsg(msg, ...)
@@ -78,14 +79,21 @@ inline void realDebugmsg( const char *const filename, const char *const line,
                          std::forward<Args>( args )... ) );
 }
 
+// Fatal error with a message
+#define cata_fatal(...) \
+    do { \
+        debugmsg(__VA_ARGS__); \
+        std::abort(); \
+    } while( false )
+
 // A fatal error for use in constexpr functions
-// This exists for compatibility reasons.  On gcc 5.3 we need a
+// This exists for compatibility reasons.  On gcc before 9 we need a
 // different implementation that is messier.
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67371
-// Pass a placeholder return value to be used on gcc 5.3 (it won't
+// Pass a placeholder return value to be used on old gcc (it won't
 // actually be returned, it's just needed for the type), and then
 // args as if to debugmsg for the remaining args.
-#if defined(__GNUC__) && __GNUC__ < 6
+#if defined(__GNUC__) && __GNUC__ < 9
 #define constexpr_fatal(ret, ...) \
     do { return false ? ( ret ) : ( abort(), ( ret ) ); } while(false)
 #else
@@ -161,6 +169,8 @@ enum DebugClass {
     D_NPC     = 1 << 5,
     /** SDL & tiles & anything graphical */
     D_SDL     = 1 << 6,
+    /** Related to tile memory (map_memory.cpp) */
+    D_MMAP    = 1 << 7,
 
     DC_ALL    = ( 1 << 30 ) - 1
 };
@@ -220,6 +230,51 @@ std::ostream &DebugLog( DebugLevel, DebugClass );
  * and other windows might have verbose display (e.g. vehicle window).
  */
 extern bool debug_mode;
+
+namespace debugmode
+{
+// Please try to keep this alphabetically sorted
+enum debug_filter : int {
+    DF_ACT_BUTCHER = 0, // butcher activity handler
+    DF_ACT_EBOOK, // ebook activity actor
+    DF_ACT_HARVEST, // harvest activity actor
+    DF_ACT_LOCKPICK, // lockpicking activity actor
+    DF_ACT_READ, // reading activity actor
+    DF_ACT_SAFECRACKING, // safecracking activity actor
+    DF_ACT_SHEARING, // shearing activity actor
+    DF_ACT_WORKOUT, // workout activity actor
+    DF_ANATOMY_BP, // anatomy::select_body_part()
+    DF_AVATAR, // avatar generic
+    DF_BALLISTIC, // ballistic generic
+    DF_CHARACTER, // character generic
+    DF_CHAR_CALORIES, // character stomach and calories
+    DF_CHAR_HEALTH, // character health related
+    DF_CREATURE, // creature generic
+    DF_EFFECT, // effects generic
+    DF_EXPLOSION, // explosion generic
+    DF_FOOD, // food generic
+    DF_GAME, // game generic
+    DF_IEXAMINE, // iexamine generic
+    DF_IUSE, // iuse generic
+    DF_MAP, // map generic
+    DF_MATTACK, // monster attack generic
+    DF_MELEE, // melee generic
+    DF_MONSTER, // monster generic
+    DF_NPC, // npc generic
+    DF_OVERMAP, // overmap generic
+    DF_RANGED, // ranged generic
+    DF_REQUIREMENTS_MAP, // activity_item_handler requirements_map()
+    DF_SOUND, // sound generic
+    DF_TALKER, // talker generic
+    DF_VEHICLE, // vehicle generic
+    DF_VEHICLE_DRAG, // vehicle coeff_air_drag()
+    DF_VEHICLE_MOVE, // vehicle move generic
+    DF_LAST // This is always the last entry
+};
+
+extern std::list<debug_filter> enabled_filters;
+std::string filter_name( debug_filter value );
+} // namespace debugmode
 
 #if defined(BACKTRACE)
 /**

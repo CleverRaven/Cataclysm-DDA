@@ -5,11 +5,7 @@
     "items": [
       { "item": "grenade", "prob": 5 },
       { "item": "binoculars", "prob": 5 },
-      { "item": "mre_maplesausage_box", "prob": 5 },
-      { "item": "mre_ravioli_box", "prob": 5 },
-      { "item": "mre_hashbrownbacon_box", "prob": 0 },
-      { "item": "mre_lemontuna_box", "prob": 5 },
-      { "item": "mre_asianbeef_box", "prob": 5 },
+      { "group": "any_MRE", "count": [ 1, 5 ] },
       { "item": "ak47", "prob": 20, "charges": [ 0, 30 ] },
       { "item": "akmag30", "prob": 20, "charges": [ 0, 30 ] },
       { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] },

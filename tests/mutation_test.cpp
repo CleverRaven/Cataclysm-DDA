@@ -4,29 +4,28 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "mutation.h"
 #include "npc.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
-static std::string get_mutations_as_string( const player &p );
+static std::string get_mutations_as_string( const Character &you );
 
 // Mutate player toward every mutation in a category (optionally including post-threshold mutations)
 //
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
-static void give_all_mutations( player &p, const mutation_category_trait &category,
+static void give_all_mutations( Character &you, const mutation_category_trait &category,
                                 const bool include_postthresh )
 {
-    p.set_body();
+    you.set_body();
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first
     if( include_postthresh && !category.threshold_mut.is_empty() ) {
-        p.set_mutation( category.threshold_mut );
+        you.set_mutation( category.threshold_mut );
     }
 
     for( const trait_id &mut : category_mutations ) {
@@ -34,10 +33,10 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
         if( include_postthresh || ( !mut_data.threshold && mut_data.threshreq.empty() ) ) {
             // Try up to 10 times to mutate towards this trait
             int mutation_attempts = 10;
-            while( mutation_attempts > 0 && p.mutation_ok( mut, false, false ) ) {
-                INFO( "Current mutations: " << get_mutations_as_string( p ) );
+            while( mutation_attempts > 0 && you.mutation_ok( mut, false, false ) ) {
+                INFO( "Current mutations: " << get_mutations_as_string( you ) );
                 INFO( "Mutating towards " << mut.c_str() );
-                if( !p.mutate_towards( mut ) ) {
+                if( !you.mutate_towards( mut ) ) {
                     --mutation_attempts;
                 }
             }
@@ -46,10 +45,10 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
 }
 
 // Return total strength of all mutation categories combined
-static int get_total_category_strength( const player &p )
+static int get_total_category_strength( const Character &you )
 {
     int total = 0;
-    for( const std::pair<const mutation_category_id, int> &cat : p.mutation_category_level ) {
+    for( const std::pair<const mutation_category_id, int> &cat : you.mutation_category_level ) {
         total += cat.second;
     }
 
@@ -57,10 +56,10 @@ static int get_total_category_strength( const player &p )
 }
 
 // Returns the list of mutations a player has as a string, for debugging
-std::string get_mutations_as_string( const player &p )
+std::string get_mutations_as_string( const Character &you )
 {
     std::ostringstream s;
-    for( trait_id &m : p.get_mutations() ) {
+    for( trait_id &m : you.get_mutations() ) {
         s << static_cast<std::string>( m ) << " ";
     }
     return s.str();

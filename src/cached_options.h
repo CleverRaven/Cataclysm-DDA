@@ -14,6 +14,7 @@ extern int message_ttl;
 extern int message_cooldown;
 extern bool tile_iso;
 extern bool use_tiles;
+extern bool use_tiles_overmap;
 extern bool pixel_minimap_option;
 
 // test_mode is not a regular game option; it's true when we are running unit
@@ -37,6 +38,17 @@ enum class error_log_format_t {
 extern error_log_format_t error_log_format;
 #else
 constexpr error_log_format_t error_log_format = error_log_format_t::human_readable;
+#endif
+
+enum class check_plural_t {
+    none,
+    certain, // report strings that certainly have a non-regular plural form, such as those ending in "s"
+    possible, // report strings that may or may not have a non-regular plural form, such as those containing the word "of"
+};
+#ifndef CATA_IN_TOOL
+extern check_plural_t check_plural;
+#else
+constexpr check_plural_t check_plural = check_plural_t::none;
 #endif
 
 #endif // CATA_SRC_CACHED_OPTIONS_H

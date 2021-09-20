@@ -3,10 +3,12 @@
 #define CATA_SRC_MAPGENDATA_H
 
 #include "calendar.h"
+#include "cata_variant.h"
 #include "coordinates.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class JsonValue;
 class map;
 class mission;
 struct point;
@@ -16,6 +18,31 @@ namespace om_direction
 {
 enum class type : int;
 } // namespace om_direction
+
+struct mapgen_arguments {
+    std::unordered_map<std::string, cata_variant> map;
+
+    void merge( const mapgen_arguments & );
+    void serialize( JsonOut & ) const;
+    void deserialize( const JsonValue &ji );
+};
+
+namespace mapgendata_detail
+{
+
+// helper to get a variant value with any variant being extractable as a string
+template<typename Result>
+inline Result extract_variant_value( const cata_variant &v )
+{
+    return v.get<Result>();
+}
+template<>
+inline std::string extract_variant_value<std::string>( const cata_variant &v )
+{
+    return v.get_string();
+}
+
+} // namespace mapgendata_detail
 
 /**
  * Contains various information regarding the individual mapgen instance
@@ -40,6 +67,7 @@ class mapgendata
         time_point when_;
         ::mission *mission_;
         int zlevel_;
+        mapgen_arguments mapgen_args_;
 
     public:
         oter_id t_nesw[8];
@@ -65,7 +93,8 @@ class mapgendata
         mapgendata( oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
                     oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
                     oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
-                    const oter_id &terrain_type, float density, const time_point &when, ::mission *miss );
+                    const oter_id &terrain_type, const mapgen_arguments &args, float density,
+                    const time_point &when, ::mission *miss );
 
         mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
                     ::mission *miss );
@@ -83,6 +112,11 @@ class mapgendata
          * @endcode
          */
         mapgendata( const mapgendata &other, const oter_id &other_id );
+
+        /**
+         * Creates a copy of this mapgendata, but stores new parameter values.
+         */
+        mapgendata( const mapgendata &other, const mapgen_arguments & );
 
         const oter_id &terrain_type() const {
             return terrain_type_;
@@ -139,6 +173,25 @@ class mapgendata
         void square_groundcover( const point &p1, const point &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
+
+        template<typename Result>
+        Result get_arg( const std::string &name ) const {
+            auto it = mapgen_args_.map.find( name );
+            if( it == mapgen_args_.map.end() ) {
+                debugmsg( "No such parameter \"%s\"", name );
+                return Result();
+            }
+            return mapgendata_detail::extract_variant_value<Result>( it->second );
+        }
+
+        template<typename Result>
+        Result get_arg_or( const std::string &name, const Result &fallback ) const {
+            auto it = mapgen_args_.map.find( name );
+            if( it == mapgen_args_.map.end() ) {
+                return fallback;
+            }
+            return mapgendata_detail::extract_variant_value<Result>( it->second );
+        }
 };
 
 #endif // CATA_SRC_MAPGENDATA_H

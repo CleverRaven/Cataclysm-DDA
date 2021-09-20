@@ -59,7 +59,6 @@
     "points": -1,
     "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
     "valid": false,
-    "cancels": [ "PARKOUR" ],
     "movecost_obstacle_modifier": 1.15
   },
   {
@@ -284,7 +283,7 @@
     "points": -2,
     "visibility": 4,
     "ugliness": 5,
-    "description": "You smell like exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "description": "You smell exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
     "valid": false,
     "scent_intensity": 1200,
     "prereqs": [ "ELEPHANTINE_SMELL" ],

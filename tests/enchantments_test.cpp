@@ -1,5 +1,5 @@
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "field.h"
 #include "item.h"
 #include "item_location.h"

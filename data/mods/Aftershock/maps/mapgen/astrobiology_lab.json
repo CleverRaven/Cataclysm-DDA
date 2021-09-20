@@ -63,7 +63,11 @@
           { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
           { "item": "supplies_xenoreagents_lab", "chance": 70, "repeat": [ 2, 5 ] }
         ],
-        "R": [ { "item": "decontamination_room", "chance": 60 }, { "item": "clothing_work_set", "chance": 30 } ],
+        "R": [
+          { "item": "decontamination_room", "chance": 60 },
+          { "item": "clothing_work_set", "chance": 30 },
+          { "item": "afs_wintersuit_science_advanced", "chance": 30 }
+        ],
         "t": [ { "item": "office_paper", "chance": 60 }, { "item": "tools_science", "chance": 10, "repeat": [ 1, 2 ] } ]
       },
       "item": { "c": { "item": "recipe_lichenlog", "chance": 6 } },

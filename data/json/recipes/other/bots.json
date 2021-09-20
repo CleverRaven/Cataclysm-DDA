@@ -791,5 +791,31 @@
       [ [ "floodlight", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bot_tazer_hack",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 4 ], [ "computer", 4 ] ],
+    "difficulty": 6,
+    "time": "50 m",
+    "reversible": true,
+    "decomp_learn": 7,
+    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "textbook_robots", 6 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "tazer", 1 ] ],
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   }
 ]

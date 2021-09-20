@@ -5,7 +5,7 @@
     "result": "salt_water",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
@@ -247,6 +247,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fungicide",
+    "id_suffix": "from_normal_chemicals",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -265,7 +266,25 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "fighter_sting", 1 ], [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ], [ [ "bleach", 5 ] ] ]
+    "components": [ [ [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ], [ [ "bleach", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fungicide",
+    "id_suffix": "from_triffids",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "skills_required": [ [ "survival", 6 ], [ "firstaid", 2 ] ],
+    "difficulty": 7,
+    "time": "1 h",
+    "autolearn": true,
+    "charges": 10,
+    "batch_time_factors": [ 90, 2 ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "triffid_fungicide", 1 ] ], [ [ "charcoal", 5 ] ], [ [ "bleach", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -615,7 +634,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "meal_bone", 2 ] ],
+      [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
       [ [ "feces_bird", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
     ]
@@ -649,7 +668,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "meal_bone", 2 ] ],
+      [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ], [ "chem_saltpetre", 50 ] ]
     ]
@@ -1660,7 +1679,7 @@
     "book_learn": [ [ "reference_cooking", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "bottle_plastic_small", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",

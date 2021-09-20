@@ -48,8 +48,7 @@ namespace io
         case relic_procgen_data::type::passive_enchantment_mult: return "passive_enchantment_mult";
         case relic_procgen_data::type::last: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
     // *INDENT-ON*
 template<>
@@ -63,8 +62,7 @@ std::string enum_to_string<relic_recharge>( relic_recharge type )
         case relic_recharge::num: break;
     }
     // *INDENT-ON*
-    debugmsg( "Invalid relic recharge type" );
-    abort();
+    cata_fatal( "Invalid relic recharge type" );
 }
 } // namespace io
 
@@ -116,10 +114,9 @@ void relic_procgen_data::enchantment_value_passive<T>::load( const JsonObject &j
 }
 
 template<typename T>
-void relic_procgen_data::enchantment_value_passive<T>::deserialize( JsonIn &jsin )
+void relic_procgen_data::enchantment_value_passive<T>::deserialize( const JsonObject &jo )
 {
-    JsonObject jobj = jsin.get_object();
-    load( jobj );
+    load( jo );
 }
 
 void relic_procgen_data::enchantment_active::load( const JsonObject &jo )
@@ -132,9 +129,8 @@ void relic_procgen_data::enchantment_active::load( const JsonObject &jo )
     optional( jo, was_loaded, "max_level", max_level, 0 );
 }
 
-void relic_procgen_data::enchantment_active::deserialize( JsonIn &jsin )
+void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj )
 {
-    JsonObject jobj = jsin.get_object();
     load( jobj );
 }
 
@@ -202,22 +198,21 @@ void relic_procgen_data::generation_rules::load( const JsonObject &jo )
     optional( jo, was_loaded, "max_negative_power", max_negative_power, 0 );
 }
 
-void relic_procgen_data::generation_rules::deserialize( JsonIn &jsin )
+void relic_procgen_data::generation_rules::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
-void relic_procgen_data::deserialize( JsonIn &jsin )
+void relic_procgen_data::deserialize( const JsonObject &jobj )
 {
-    JsonObject jobj = jsin.get_object();
     load( jobj );
 }
 
-void relic_charge_template::deserialize( JsonIn &jsin )
+void relic_charge_template::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
+
 
 void relic_charge_template::load( const JsonObject &jo )
 {
@@ -254,9 +249,9 @@ relic_charge_info relic_charge_template::generate() const
     return ret;
 }
 
-void relic_charge_info::deserialize( JsonIn &jsin )
+void relic_charge_info::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void relic_charge_info::load( const JsonObject &jo )
@@ -339,9 +334,8 @@ void relic::load( const JsonObject &jo )
     moves = jo.get_int( "moves", 100 );
 }
 
-void relic::deserialize( JsonIn &jsin )
+void relic::deserialize( const JsonObject &jobj )
 {
-    JsonObject jobj = jsin.get_object();
     load( jobj );
 }
 
@@ -425,7 +419,8 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
         return;
-    } else if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
+    }
+    if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
         return;
     }
 

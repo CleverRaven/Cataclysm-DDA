@@ -804,6 +804,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_banishment_lesser",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Lesser Banishment", "str_pl": "Scrolls of Lesser Banishment" },
+    "description": "Banish a monster to the lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "use_action": { "type": "learn_spell", "spells": [ "banishment_lesser" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
@@ -1021,10 +1030,36 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_force_jar",
+    "name": { "str": "Scroll of Jar of Force", "str_pl": "Scrolls of Jar of Force" },
+    "description": "Summon a jar of force you can use to store liquids in.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_force_jar" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_freezing_touch",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
     "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_natures_commune",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Nature's Commune", "str_pl": "Scrolls of Nature's Commune" },
+    "description": "Your connection with nature allows you to become one with it; you revitalize your body while in communion with the flora and fauna around you.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_seed_of_growth",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
+    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   }
 ]

@@ -68,6 +68,32 @@
   },
   {
     "type": "furniture",
+    "id": "f_hobo_stove",
+    "name": "hobo stove",
+    "description": "This is a small improvised wood stove, made from a metal can.  It's too small to fit anything much larger than splintered wood.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 4,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "hobo_stove",
+    "examine_action": "fireplace",
+    "max_volume": "680 ml",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_55gal_firebarrel",
     "name": "fire barrel (200L)",
     "description": "A huge metal barrel used to safely contain a fire.  It has multiple holes punched in the walls for air supply.",

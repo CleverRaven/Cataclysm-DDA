@@ -9,12 +9,15 @@
 #include <vector>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "catacharset.h"
+#include "cata_void.h"
 #include "debug.h"
 #include "enum_bitset.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "string_id.h"
 #include "units.h"
@@ -236,6 +239,8 @@ class generic_factory
                     jo.throw_error( string_format( "cannot specify both '%s' and '%s'/'%s'",
                                                    abstract_member_name, id_member_name, legacy_id_member_name ) );
                 }
+                restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+                check_plural = check_plural_t::none;
                 def.load( jo, src );
                 abstracts[jo.get_string( abstract_member_name )] = def;
             }
@@ -263,6 +268,7 @@ class generic_factory
             }
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
+                assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -283,6 +289,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
+                    assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -293,6 +300,7 @@ class generic_factory
 
             } else if( jo.has_string( legacy_id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
+                assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -313,6 +321,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
+                    assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -612,11 +621,176 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
     }
 }
 
+/*
+ * Template vodoo:
+ * The compiler will construct the appropriate one of these based on if the
+ * type can support the operations being done.
+ * So, it defaults to the false_type, but if it can use the *= operator
+ * against a float, it then supports proportional, and the handle_proportional
+ * template that isn't just a dummy is constructed.
+ * Similarly, if it can use a += operator against it's own type, the non-dummy
+ * handle_relative template is constructed.
+ */
+template<typename T, typename = cata::void_t<>>
+struct supports_proportional : std::false_type { };
+
+template<typename T>
+struct supports_proportional<T, cata::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
+std::true_type {};
+
+template<typename T, typename = cata::void_t<>>
+struct supports_relative : std::false_type { };
+
+template<typename T>
+struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
+>> : std::true_type {};
+
+// Explicitly specialize these templates for a couple types
+// So the compiler does not attempt to use a template that it should not
+template<>
+struct supports_proportional<bool> : std::false_type {};
+
+template<>
+struct supports_relative<bool> : std::false_type {};
+
+template<>
+struct supports_relative<std::string> : std::false_type {};
+
+// This checks that all units:: types will support relative and proportional
+static_assert( supports_relative<units::energy>::value, "units should support relative" );
+static_assert( supports_proportional<units::energy>::value, "units should support proportional" );
+
+static_assert( supports_relative<int>::value, "ints should support relative" );
+static_assert( supports_proportional<int>::value, "ints should support proportional" );
+
+static_assert( !supports_relative<bool>::value, "bools should not support relative" );
+static_assert( !supports_proportional<bool>::value, "bools should not support proportional" );
+
+// Using string ids with ints doesn't make sense in practice, but it doesn't matter here
+// The type that it is templated with does not change it's behavior
+static_assert( !supports_relative<string_id<int>>::value,
+               "string ids should not support relative" );
+static_assert( !supports_proportional<string_id<int>>::value,
+               "string ids should not support proportional" );
+
+// Using int ids with ints doesn't make sense in practice, but it doesn't matter here
+// The type that it is templated with does not change it's behavior
+static_assert( !supports_relative<int_id<int>>::value,
+               "int ids should not support relative" );
+static_assert( !supports_proportional<int_id<int>>::value,
+               "int ids should not support proportional" );
+
+static_assert( !supports_relative<std::string>::value, "strings should not support relative" );
+static_assert( !supports_proportional<std::string>::value,
+               "strings should not support proportional" );
+
+// Grab an enum class from debug.h
+static_assert( !supports_relative<DebugOutput>::value, "enum classes should not support relative" );
+static_assert( !supports_proportional<DebugOutput>::value,
+               "enum classes should not support proportional" );
+
+// Grab a normal enum from there too
+static_assert( !supports_relative<DebugLevel>::value, "enums should not support relative" );
+static_assert( !supports_proportional<DebugLevel>::value, "enums should not support relative" );
+
+// Dummy template:
+// Warn if it's trying to use proportional where it cannot, but otherwise just
+// return.
+template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value > * =
+           nullptr >
+inline bool handle_proportional( const JsonObject &jo, const std::string &name, MemberType & )
+{
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject proportional = jo.get_object( "proportional" );
+        proportional.allow_omitted_members();
+        if( proportional.has_member( name ) ) {
+            debugmsg( "Member %s of type %s does not support proportional", name, typeid( MemberType ).name() );
+        }
+    }
+    return false;
+}
+
+// Real template:
+// Copy-from makes it so the thing we're inheriting from is used to construct
+// this, so member will contain the value of the thing we inherit from
+// So, check if there is a proportional entry, check if it's got a valid value
+// and if it does, multiply the member by it.
+template<typename MemberType, std::enable_if_t<supports_proportional<MemberType>::value>* = nullptr>
+inline bool handle_proportional( const JsonObject &jo, const std::string &name, MemberType &member )
+{
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject proportional = jo.get_object( "proportional" );
+        proportional.allow_omitted_members();
+        // We need to check this here, otherwise we get problems with unvisited members
+        if( !proportional.has_member( name ) ) {
+            return false;
+        }
+        if( proportional.has_float( name ) ) {
+            double scalar = proportional.get_float( name );
+            if( scalar <= 0 || scalar == 1 ) {
+                debugmsg( "Invalid scalar %g for %s", scalar, name );
+                return false;
+            }
+            member *= scalar;
+            return true;
+        } else {
+            jo.throw_error( "Invalid scalar for %s", name );
+        }
+    }
+    return false;
+}
+
+// Dummy template:
+// Warn when trying to use relative when it's not supported, but otherwise,
+// return
+template < typename MemberType,
+           std::enable_if_t < !supports_relative<MemberType>::value > * = nullptr
+           >
+inline bool handle_relative( const JsonObject &jo, const std::string &name, MemberType & )
+{
+    if( jo.has_object( "relative" ) ) {
+        JsonObject relative = jo.get_object( "relative" );
+        relative.allow_omitted_members();
+        if( !relative.has_member( name ) ) {
+            return false;
+        }
+        debugmsg( "Member %s of type %s does not support relative", name, typeid( MemberType ).name() );
+    }
+    return false;
+}
+
+// Real template:
+// Copy-from makes it so the thing we're inheriting from is used to construct
+// this, so member will contain the value of the thing we inherit from
+// So, check if there is a relative entry, then add it to our member
+template<typename MemberType, std::enable_if_t<supports_relative<MemberType>::value>* = nullptr>
+inline bool handle_relative( const JsonObject &jo, const std::string &name, MemberType &member )
+{
+    if( jo.has_object( "relative" ) ) {
+        JsonObject relative = jo.get_object( "relative" );
+        relative.allow_omitted_members();
+        // This needs to happen here, otherwise we get unvisited members
+        if( !relative.has_member( name ) ) {
+            return false;
+        }
+        MemberType adder;
+        if( relative.read( name, adder ) ) {
+            member += adder;
+            return true;
+        } else {
+            jo.throw_error( "Invalid adder for %s", name );
+        }
+    }
+    return false;
+}
+
+// No template magic here, yay!
 template<typename MemberType>
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member )
 {
-    if( !jo.read( name, member ) ) {
+    if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
+        !handle_relative( jo, name, member ) ) {
         if( !was_loaded ) {
             member = MemberType();
         }
@@ -637,7 +811,8 @@ template<typename MemberType, typename DefaultType = MemberType,
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const DefaultType &default_value )
 {
-    if( !jo.read( name, member ) ) {
+    if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
+        !handle_relative( jo, name, member ) ) {
         if( !was_loaded ) {
             member = default_value;
         }
@@ -811,15 +986,16 @@ struct handler<std::vector<T>> {
  * would add the "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
  * @tparam Derived The class that inherits from this. It must implement the following:
- *   - `Foo get_next( JsonIn & ) const`: reads the next value from JSON, converts it into some
+ *   - `Foo get_next( V ) const`: reads the next value from JSON, converts it into some
  *      type `Foo` and returns it. The returned value is assigned to the loaded member (see reader
  *      interface above), or is inserted into the member (if it's a container). The type `Foo` must
- *      be compatible with those uses (read: it should be the same type).
- *   - (optional) `erase_next( JsonIn &jin, C &container ) const`, the default implementation here
+ *      be compatible with those uses (read: it should be the same type). V is a type convertible from
+ *      JsonValue.
+ *   - (optional) `erase_next( V v, C &container ) const`, the default implementation here
  *      reads a value from JSON via `get_next` and removes the matching value in the container.
  *      The value in the container must match *exactly*. You may override this function to allow
  *      a different matching algorithm, e.g. reading a simple id from JSON and remove entries with
- *      the same id from the container.
+ *      the same id from the container. V is a value convertible from JsonValue.
  */
 template<typename Derived>
 class generic_typed_reader
@@ -832,22 +1008,22 @@ class generic_typed_reader
             if( !jo.has_member( member_name ) ) {
                 return;
             }
-            JsonIn &jin = *jo.get_raw( member_name );
+            JsonValue jv = jo.get_member( member_name );
             // We allow either a single value or an array of values. Note that this will not work
             // correctly if the thing we load from JSON is itself an array.
-            if( jin.test_array() ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    derived.insert_next( jin, container );
+            if( jv.test_array() ) {
+                for( JsonValue jav : jv.get_array() ) {
+                    derived.insert_next( jav, container );
                 }
             } else {
-                derived.insert_next( jin, container );
+                derived.insert_next( jv, container );
             }
         }
+
         template<typename C>
-        void insert_next( JsonIn &jin, C &container ) const {
+        void insert_next( JsonValue &jv, C &container ) const {
             const Derived &derived = static_cast<const Derived &>( *this );
-            reader_detail::handler<C>().insert( container, derived.get_next( jin ) );
+            reader_detail::handler<C>().insert( container, derived.get_next( jv ) );
         }
 
         template<typename C>
@@ -856,21 +1032,20 @@ class generic_typed_reader
             if( !jo.has_member( member_name ) ) {
                 return;
             }
-            JsonIn &jin = *jo.get_raw( member_name );
+            JsonValue jv = jo.get_member( member_name );
             // Same as for inserting: either an array or a single value, same caveat applies.
-            if( jin.test_array() ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    derived.erase_next( jin, container );
+            if( jv.test_array() ) {
+                for( JsonValue jav : jv.get_array() ) {
+                    derived.erase_next( jav, container );
                 }
             } else {
-                derived.erase_next( jin, container );
+                derived.erase_next( jv, container );
             }
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
+        void erase_next( JsonValue &jv, C &container ) const {
             const Derived &derived = static_cast<const Derived &>( *this );
-            reader_detail::handler<C>().erase( container, derived.get_next( jin ) );
+            reader_detail::handler<C>().erase( container, derived.get_next( jv ) );
         }
 
         /**
@@ -908,6 +1083,58 @@ class generic_typed_reader
             }
         }
 
+        /*
+         * These two functions are effectively handle_relative but they need to
+         * use the reader, so they must be here.
+         * proportional does not need these, because it's only reading a float
+         * whereas these are reading values of the same type.
+         */
+        // Type does not support relative
+        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
+                   int >::type = 0,
+                   std::enable_if_t < !supports_relative<C>::value > * = nullptr
+                   >
+        bool do_relative( const JsonObject &jo, const std::string &name, C & ) const {
+            if( jo.has_object( "relative" ) ) {
+                JsonObject relative = jo.get_object( "relative" );
+                relative.allow_omitted_members();
+                if( !relative.has_member( name ) ) {
+                    return false;
+                }
+                debugmsg( "Member %s of type %s does not support relative", name, typeid( C ).name() );
+            }
+            return false;
+        }
+
+        // Type supports relative
+        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
+                   int >::type = 0, std::enable_if_t<supports_relative<C>::value> * = nullptr >
+        bool do_relative( const JsonObject &jo, const std::string &name, C &member ) const {
+            if( jo.has_object( "relative" ) ) {
+                JsonObject relative = jo.get_object( "relative" );
+                relative.allow_omitted_members();
+                const Derived &derived = static_cast<const Derived &>( *this );
+                // This needs to happen here, otherwise we get unvisited members
+                if( !relative.has_member( name ) ) {
+                    return false;
+                }
+                C adder = derived.get_next( relative.get_member( name ) );
+                member += adder;
+                return true;
+            }
+            return false;
+        }
+
+        template<typename C>
+        bool read_normal( const JsonObject &jo, const std::string &name, C &member ) const {
+            if( jo.has_member( name ) ) {
+                const Derived &derived = static_cast<const Derived &>( *this );
+                member = derived.get_next( jo.get_member( name ) );
+                return true;
+            }
+            return false;
+        }
+
         /**
          * Implements the reader interface, handles a simple data member.
          */
@@ -917,12 +1144,9 @@ class generic_typed_reader
                    int >::type = 0 >
         bool operator()( const JsonObject &jo, const std::string &member_name,
                          C &member, bool /*was_loaded*/ ) const {
-            const Derived &derived = static_cast<const Derived &>( *this );
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = derived.get_next( *jo.get_raw( member_name ) );
-            return true;
+            return read_normal( jo, member_name, member ) ||
+                   handle_proportional( jo, member_name, member ) ||
+                   do_relative( jo, member_name, member );
         }
 };
 
@@ -942,8 +1166,8 @@ template<typename FlagType = std::string>
 class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType>>
 {
     public:
-        FlagType get_next( JsonIn &jin ) const {
-            return FlagType( jin.get_string() );
+        FlagType get_next( std::string &&str ) const {
+            return FlagType( std::move( str ) );
         }
 };
 
@@ -957,11 +1181,11 @@ class volume_reader : public generic_typed_reader<units::volume>
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = read_from_json_string<units::volume>( *jo.get_raw( member_name ), units::volume_units );
+            member = read_from_json_string<units::volume>( jo.get_member( member_name ), units::volume_units );
             return true;
         }
-        units::volume get_next( JsonIn &jin ) const {
-            return read_from_json_string<units::volume>( jin, units::volume_units );
+        units::volume get_next( JsonValue &jv ) const {
+            return read_from_json_string<units::volume>( jv, units::volume_units );
         }
 };
 
@@ -973,11 +1197,11 @@ class mass_reader : public generic_typed_reader<units::mass>
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = read_from_json_string<units::mass>( *jo.get_raw( member_name ), units::mass_units );
+            member = read_from_json_string<units::mass>( jo.get_member( member_name ), units::mass_units );
             return true;
         }
-        units::mass get_next( JsonIn &jin ) const {
-            return read_from_json_string<units::mass>( jin, units::mass_units );
+        units::mass get_next( JsonValue &jv ) const {
+            return read_from_json_string<units::mass>( jv, units::mass_units );
         }
 };
 
@@ -1010,13 +1234,12 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             , flag_type( flag_type ) {
         }
 
-        T get_next( JsonIn &jin ) const {
-            const std::string flag = jin.get_string();
+        T get_next( JsonValue jv ) const {
+            const std::string flag = jv;
             const auto iter = flag_map.find( flag );
 
             if( iter == flag_map.cend() ) {
-                jin.seek( jin.tell() );
-                jin.error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
+                jv.throw_error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
             }
 
             return iter->second;
@@ -1042,14 +1265,12 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         explicit enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
-        E get_next( JsonIn &jin ) const {
-            const int position = jin.tell();
-            const std::string flag = jin.get_string();
+        E get_next( JsonValue jv ) const {
+            const std::string flag = jv.get_string();
             try {
                 return io::string_to_enum<E>( flag );
             } catch( const io::InvalidEnumString & ) {
-                jin.seek( position );
-                jin.error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
+                jv.throw_error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
                 throw; // ^^ throws already
             }
         }
@@ -1062,8 +1283,8 @@ template<typename T>
 class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 {
     public:
-        string_id<T> get_next( JsonIn &jin ) const {
-            return string_id<T>( jin.get_string() );
+        string_id<T> get_next( std::string &&str ) const {
+            return string_id<T>( std::move( str ) );
         }
 };
 
@@ -1096,7 +1317,7 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
         explicit text_style_check_reader( allow_object object_allowed = allow_object::yes );
 
-        std::string get_next( JsonIn &jsin ) const;
+        std::string get_next( JsonValue jv ) const;
 
     private:
         allow_object object_allowed;

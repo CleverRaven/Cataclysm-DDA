@@ -45,8 +45,7 @@ std::string enum_to_string<add_type>( add_type data )
         case add_type::NUM_ADD_TYPES:
             break;
     }
-    debugmsg( "Invalid add_type" );
-    abort();
+    cata_fatal( "Invalid add_type" );
 }
 
 } // namespace io

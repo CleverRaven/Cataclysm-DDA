@@ -4,7 +4,7 @@
 #include <tuple>
 
 #include "cata_generators.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "point.h"

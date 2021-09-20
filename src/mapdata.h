@@ -11,7 +11,10 @@
 #include <vector>
 
 #include "calendar.h"
+#include "clone_ptr.h"
 #include "color.h"
+#include "enum_bitset.h"
+#include "iexamine.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -22,13 +25,13 @@ struct ter_t;
 using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
-class player;
+class Character;
+struct iexamine_actor;
 struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( player &, const tripoint & );
-using iexamine_function_ref = void( & )( player &, const tripoint & );
+template <typename E> struct enum_traits;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -74,6 +77,25 @@ struct map_deconstruct_info {
     map_deconstruct_info();
     bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
                const std::string &context );
+};
+struct map_shoot_info {
+    // Base chance to hit the object at all (defaults to 100%)
+    int chance_to_hit = 0;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min = 0;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max = 0;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser = 0;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser = 0;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min = 0;
+    // Damage required to guarentee destruction
+    int destroy_dmg_max = 0;
+    // Are lasers incapable of destroying the object (defaults to false)
+    bool no_laser_destroy = false;
+    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -160,11 +182,11 @@ struct plant_data {
  * represent the common builtins. The enum below is an alternative means of fast-access, for those flags that are checked
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
- *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to ter_bitflags_map in mapdata.cpp
+ *  m->has_flag(ter_furn_flag::TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
+ * To add a new ter_bitflag, add below and in mapdata.cpp
  * Order does not matter.
  */
-enum ter_bitflags : int {
+enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -192,7 +214,6 @@ enum ter_bitflags : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
-    TFLAG_NO_SHOOT,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -215,8 +236,70 @@ enum ter_bitflags : int {
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
     TFLAG_FUNGUS,
+    TFLAG_LOCKED,
+    TFLAG_PICKABLE,
+    TFLAG_WINDOW,
+    TFLAG_DOOR,
+    TFLAG_SHRUB,
+    TFLAG_YOUNG,
+    TFLAG_PLANT,
+    TFLAG_FISHABLE,
+    TFLAG_TREE,
+    TFLAG_PLOWABLE,
+    TFLAG_ORGANIC,
+    TFLAG_CONSOLE,
+    TFLAG_PLANTABLE,
+    TFLAG_GROWTH_HARVEST,
+    TFLAG_MOUNTABLE,
+    TFLAG_RAMP_END,
+    TFLAG_FLOWER,
+    TFLAG_CAN_SIT,
+    TFLAG_FLAT_SURF,
+    TFLAG_BUTCHER_EQ,
+    TFLAG_GROWTH_SEEDLING,
+    TFLAG_GROWTH_MATURE,
+    TFLAG_WORKOUT_ARMS,
+    TFLAG_WORKOUT_LEGS,
+    TFLAG_TRANSLOCATOR,
+    TFLAG_AUTODOC,
+    TFLAG_AUTODOC_COUCH,
+    TFLAG_OPENCLOSE_INSIDE,
+    TFLAG_SALT_WATER,
+    TFLAG_PLACE_ITEM,
+    TFLAG_BARRICADABLE_WINDOW_CURTAINS,
+    TFLAG_CLIMB_SIMPLE,
+    TFLAG_NANOFAB_TABLE,
+    TFLAG_ROAD,
+    TFLAG_TINY,
+    TFLAG_SHORT,
+    TFLAG_NOCOLLIDE,
+    TFLAG_BARRICADABLE_DOOR,
+    TFLAG_BARRICADABLE_DOOR_DAMAGED,
+    TFLAG_BARRICADABLE_DOOR_REINFORCED,
+    TFLAG_USABLE_FIRE,
+    TFLAG_CONTAINER,
+    TFLAG_NO_PICKUP_ON_EXAMINE,
+    TFLAG_RUBBLE,
+    TFLAG_DIGGABLE_CAN_DEEPEN,
+    TFLAG_DIFFICULT_Z,
+    TFLAG_ALIGN_WORKBENCH,
+    TFLAG_NO_SPOIL,
+    TFLAG_EASY_DECONSTRUCT,
+    TFLAG_LADDER,
+    TFLAG_ALARMED,
+    TFLAG_CHOCOLATE,
+    TFLAG_SIGN,
+    TFLAG_DONT_REMOVE_ROTTEN,
+    TFLAG_BLOCKSDOOR,
+    TFLAG_NO_SELF_CONNECT,
+    TFLAG_BURROWABLE,
 
-    NUM_TERFLAGS
+    NUM_TFLAG_FLAGS
+};
+
+template<>
+struct enum_traits<ter_furn_flag> {
+    static constexpr ter_furn_flag last = ter_furn_flag::NUM_TFLAG_FLAGS;
 };
 
 /*
@@ -235,11 +318,102 @@ enum ter_connects : int {
     TERCONN_RAIL,
     TERCONN_COUNTER,
     TERCONN_CANVAS_WALL,
+    TERCONN_SAND,
+    TERCONN_PIT_DEEP,
+    TERCONN_LINOLEUM,
+    TERCONN_CARPET,
+    TERCONN_CONCRETE,
+    TERCONN_CLAY,
+    TERCONN_DIRT,
+    TERCONN_ROCKFLOOR,
+    TERCONN_METALFLOOR,
+    TERCONN_WOODFLOOR,
 };
+
+struct activity_byproduct {
+    itype_id item;
+    int count      = 0;
+    int random_min = 0;
+    int random_max = 0;
+
+    int roll() const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+class activity_data_common
+{
+    public:
+        activity_data_common() = default;
+
+        bool valid() const {
+            return valid_;
+        }
+
+        const time_duration &duration() const {
+            return duration_;
+        }
+
+        const translation &message() const {
+            return message_;
+        }
+
+        const translation &sound() const {
+            return sound_;
+        }
+
+        const std::vector<activity_byproduct> &byproducts() const {
+            return byproducts_;
+        }
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+
+    protected:
+        bool valid_ = false;
+        time_duration duration_;
+        translation message_;
+        translation sound_;
+        std::vector<activity_byproduct> byproducts_;
+};
+
+class activity_data_ter : public activity_data_common
+{
+    public:
+        activity_data_ter() = default;
+
+        const ter_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        ter_str_id result_;
+};
+
+class activity_data_furn : public activity_data_common
+{
+    public:
+        activity_data_furn() = default;
+
+        const furn_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        furn_str_id result_;
+};
+
+void init_mapdata();
 
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        cata::value_ptr<map_shoot_info> shoot;
 
     public:
         virtual ~map_data_common_t() = default;
@@ -251,11 +425,14 @@ struct map_data_common_t {
         translation name_;
 
         // Hardcoded examination function
-        iexamine_function examine_func; // What happens when the terrain/furniture is examined
+        iexamine_functions examine_func; // What happens when the terrain/furniture is examined
+
+        // Data-driven examine actor
+        cata::clone_ptr<iexamine_actor> examine_actor;
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-        std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
+        enum_bitset<ter_furn_flag> bitflags; // bitfield of -certain- string flags which are heavily checked
 
     public:
         ter_str_id curtain_transform;
@@ -275,10 +452,11 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        bool can_examine() const;
-        bool has_examine( iexamine_function_ref func ) const;
-        void set_examine( iexamine_function_ref func );
-        void examine( player &, const tripoint & ) const;
+        bool can_examine( const tripoint &examp ) const;
+        bool has_examine( iexamine_examine_function func ) const;
+        bool has_examine( const std::string &action ) const;
+        void set_examine( iexamine_functions func );
+        void examine( Character &, const tripoint & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
@@ -316,11 +494,15 @@ struct map_data_common_t {
             return flags.count( flag ) > 0;
         }
 
-        bool has_flag( const ter_bitflags flag ) const {
-            return bitflags.test( flag );
+        bool has_flag( const ter_furn_flag flag ) const {
+            return bitflags[flag];
         }
 
+        void extraprocess_flags( const ter_furn_flag flag );
+
         void set_flag( const std::string &flag );
+
+        void set_flag( const ter_furn_flag flag );
 
         int connect_group = 0;
 
@@ -347,12 +529,13 @@ struct map_data_common_t {
         bool was_loaded = false;
 
         bool is_flammable() const {
-            return has_flag( TFLAG_FLAMMABLE ) || has_flag( TFLAG_FLAMMABLE_ASH ) ||
-                   has_flag( TFLAG_FLAMMABLE_HARD );
+            return has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
+                   has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
+                   has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD );
         }
 
         virtual void load( const JsonObject &jo, const std::string & );
-        virtual void check() const;
+        virtual void check() const {};
 };
 
 /*
@@ -360,9 +543,19 @@ struct map_data_common_t {
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+
+    std::vector<std::pair<ter_str_id, mod_id>> src;
+
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
+
+    cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
+    cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -377,6 +570,8 @@ struct ter_t : map_data_common_t {
 
     static size_t count();
 
+    bool is_null() const;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
@@ -390,9 +585,14 @@ void reset_furn_ter();
  */
 
 struct furn_t : map_data_common_t {
+
+    std::vector<std::pair<furn_str_id, mod_id>> src;
+
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
@@ -404,6 +604,10 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+
+    cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
+    cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 
@@ -441,6 +645,7 @@ provided for terrains added by mods. A string equivalent is always present, i.e.
 t_basalt
 "t_basalt"
 */
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 extern ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
@@ -466,6 +671,8 @@ extern ter_id t_null,
        t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
        t_wall, t_concrete_wall, t_brick_wall,
        t_wall_metal,
+       t_scrap_wall,
+       t_scrap_wall_halfway,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
@@ -476,6 +683,7 @@ extern ter_id t_null,
        t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
        t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_l, t_retractable_gate_c, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable,
@@ -564,6 +772,7 @@ runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
 about ter_id above.
 */
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 extern furn_id f_null,
        f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
@@ -605,7 +814,8 @@ extern furn_id f_null,
        f_camp_chair,
        f_sign,
        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-       f_street_light, f_traffic_light;
+       f_street_light, f_traffic_light,
+       f_console, f_console_broken;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

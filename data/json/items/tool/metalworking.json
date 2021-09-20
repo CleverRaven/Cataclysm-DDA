@@ -67,7 +67,6 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
-    "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -159,15 +158,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ]
   },
   {
@@ -265,6 +258,38 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "hotcut",
+    "type": "TOOL",
+    "name": { "str": "hotcut" },
+    "description": "This is a hardened chisel like object for metalsmithing.  This is used to cut lengths of metal in some metalworking fabrication recipes.",
+    "weight": "800 g",
+    "volume": "500 ml",
+    "price": 1600,
+    "price_postapoc": 25,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "drift",
+    "type": "TOOL",
+    "name": { "str": "drift" },
+    "description": "This is a hardened spike like object for metalsmithing.  This is used to make holes in metal in some metalworking fabrication recipes.",
+    "weight": "1200 g",
+    "volume": "750 ml",
+    "price": 2400,
+    "price_postapoc": 40,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
@@ -294,5 +319,50 @@
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
+    "id": "leather_filing",
+    "type": "TOOL",
+    "name": { "str": "sandleather" },
+    "description": "A patch of leather with some sand.  Works as a substitute for sandpaper.",
+    "weight": "260 g",
+    "volume": "110 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": "leather",
+    "symbol": "`",
+    "color": "brown",
+    "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
+    "id": "draw_plate",
+    "type": "TOOL",
+    "name": { "str": "draw plate" },
+    "description": "A piece of metal with holes of varying size drilled into it.  Used as part of wire drawing.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "bashing": 5,
+    "to_hit": -3,
+    "material": [ "steel" ],
+    "symbol": "]",
+    "color": "light_cyan"
+  },
+  {
+    "id": "casting_mold",
+    "type": "TOOL",
+    "name": { "str": "sand casting mold" },
+    "description": "A mold for casting molten metals into different shapes",
+    "weight": "540 g",
+    "volume": "400 ml",
+    "longest_side": "100 cm",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "clay", "wood" ],
+    "symbol": ";",
+    "color": "brown"
   }
 ]

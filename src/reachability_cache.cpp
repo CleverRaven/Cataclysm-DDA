@@ -60,7 +60,9 @@ void reachability_cache<Horizontal, Types...>::rebuild( Q q,
     static_assert( MAPSIZE_X == SEEX * MAPSIZE, "reachability cache uses outdated map dimensions" );
 
     // start is inclusive, end is exclusive (1 step outside of the range)
-    point dir, start, end;
+    point dir;
+    point start;
+    point end;
 
     if( q == Q::SW || q == Q::NW ) {
         std::tie( dir.x, start.x, end.x ) = std::make_tuple( 1, 0, MAPSIZE_X );

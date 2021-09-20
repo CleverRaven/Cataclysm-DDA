@@ -48,6 +48,7 @@ bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
 bool plant( monster *z );
 bool disappear( monster *z );
+bool depart( monster *z );
 bool formblob( monster *z );
 bool callblobs( monster *z );
 bool jackson( monster *z );
@@ -107,6 +108,7 @@ bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
 bool doot( monster *z );
 bool zombie_fuse( monster *z );
+bool dsa_drone_scan( monster *z );
 
 void taze( monster *z, Creature *target );
 void rifle( monster *z, Creature *target );             // Automated M4

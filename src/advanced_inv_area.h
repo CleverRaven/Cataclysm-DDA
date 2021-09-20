@@ -104,12 +104,6 @@ class advanced_inv_area
         bool is_container_valid( const item *it ) const;
         void set_container_position();
         aim_location offset_to_location() const;
-        bool can_store_in_vehicle() const {
-            // disallow for non-valid vehicle locations
-            if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
-                return false;
-            }
-            return veh != nullptr && vstor >= 0;
-        }
+        bool can_store_in_vehicle() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H

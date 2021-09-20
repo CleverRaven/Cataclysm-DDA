@@ -196,12 +196,14 @@ void help::display_help() const
                             size_t pos2 = line_proc.find( ">", pos, 1 );
 
                             std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
-                            auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
+                            std::string replace = "<color_light_blue>" +
+                                                  press_x( look_up_action( action ), "", "" ) + "</color>";
 
                             if( replace.empty() ) {
                                 debugmsg( "Help json: Unknown action: %s", action );
                             } else {
-                                line_proc = string_replace( line_proc, "<press_" + action + ">", replace );
+                                line_proc = string_replace(
+                                                line_proc, "<press_" + std::move( action ) + ">", replace );
                             }
 
                             pos = line_proc.find( "<press_", pos2, 7 );
@@ -220,8 +222,8 @@ void help::display_help() const
                         scrollable_text( get_w_help_border, _( " HELP " ),
                                          std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
                                                           i18n_help_texts.front(),
-                        []( const std::string & lhs, const std::string & rhs ) {
-                            return lhs + "\n\n" + rhs;
+                        []( std::string lhs, const std::string & rhs ) {
+                            return std::move( lhs ) + "\n\n" + rhs;
                         } ) );
 
                         ui.on_screen_resize( init_windows );
