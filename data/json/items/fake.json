@@ -264,5 +264,14 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "stationary water purifier" }
+  },
+  {
+    "id": "pseudo_punching_bag",
+    "type": "TOOL",
+    "name": { "str": "heavy punching bag" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

@@ -376,6 +376,7 @@
     "coverage": 65,
     "required_str": 10,
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_punching_bag",
     "examine_action": "workout",
     "bash": {
       "str_min": 15,
