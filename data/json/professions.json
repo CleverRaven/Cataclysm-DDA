@@ -1890,7 +1890,7 @@
     "id": "bus_driver",
     "type": "profession",
     "name": "Bus Driver",
-    "description": "You made a living driving kids to and from school, a career choice you regretted almost every day. None of the brats were at their normal stops, and the noise of your bus quickly attracted hordes of zombies. You escaped, but now you've gotten lost.  At least you're getting a break from the hellish screams of children, though you're starting to hear new ones…",
+    "description": "You made a living driving kids to and from school, a career choice you regretted almost every day.  None of the brats were at their normal stops, and the noise of your bus quickly attracted hordes of zombies.  You escaped, but now you've gotten lost.  At least you're getting a break from the hellish screams of children, though you're starting to hear new ones…",
     "points": 4,
     "skills": [ { "level": 1, "name": "speech" }, { "level": 3, "name": "driving" } ],
     "vehicle": "schoolbus",
