@@ -2240,6 +2240,24 @@ void talk_effect_fun_t::set_open_dialogue()
     };
 }
 
+void talk_effect_fun_t::set_take_control()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only take control if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_npc() != nullptr ) {
+            get_avatar().control_npc( *d.actor( true )->get_npc() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control_menu()
+{
+    function = []( const dialogue & ) {
+        get_avatar().control_npc_menu();
+    };
+}
+
 void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
 {
     std::string variant = jo.get_string( member );
@@ -3356,6 +3374,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 
     if( effect_id == "open_dialogue" ) {
         subeffect_fun.set_open_dialogue();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control" ) {
+        subeffect_fun.set_take_control();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control_menu" ) {
+        subeffect_fun.set_take_control_menu();
         set_effect( subeffect_fun );
         return;
     }
