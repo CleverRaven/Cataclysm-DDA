@@ -128,6 +128,24 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "palettes": [ "exodii_palette" ],
       "terrain": {
         " ": [ [ "t_region_groundcover", 50 ], [ "t_region_groundcover_barren", 10 ], "t_sand" ],
@@ -277,6 +295,24 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
@@ -443,6 +479,24 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -607,6 +661,24 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -770,6 +842,24 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
       "terrain": { ".": "t_open_air", "[": "t_open_air" },
       "furniture": { "[": "f_scrap_bridge" }
