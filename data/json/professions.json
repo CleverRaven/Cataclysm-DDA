@@ -2054,7 +2054,9 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "cooking" } ],
     "items": {
-      "both": { "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": { 
+        "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ], 
+        "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
