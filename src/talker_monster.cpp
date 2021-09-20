@@ -1,5 +1,5 @@
 #include <memory>
-
+#include "character.h"
 #include "effect.h"
 #include "item.h"
 #include "magic.h"
@@ -121,4 +121,17 @@ int talker_monster::get_friendly() const
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;
+}
+
+std::vector<std::string> talker_monster::get_topics( bool radio_contact )
+{
+    return me_mon->type->chat_topics;
+}
+
+bool talker_monster::will_talk_to_u( const Character &you, bool force )
+{
+    if( you.is_dead_state() ) {
+        return false;
+    }
+    return true;
 }

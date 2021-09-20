@@ -2223,6 +2223,20 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
     };
 }
 
+void talk_effect_fun_t::set_open_dialogue()
+{
+    function = []( const dialogue & d ) {
+        //if (!d.alpha->get_character()->is_avatar()) {//only open a dialog if the avatar is alpha
+        //    return;
+        //}else if (d.beta->get_character() != nullptr) {
+        //    get_avatar().talk_to( get_talker_for( d.beta->get_character() ) );
+        //} else if (d.beta->get_creature() != nullptr){
+        get_avatar().add_msg_if_player( "yo" );
+        get_avatar().talk_to( get_talker_for( d.beta->get_creature() ) );
+        //}
+    };
+}
+
 void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
 {
     std::string variant = jo.get_string( member );
@@ -3337,6 +3351,11 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         return;
     }
 
+    if( effect_id == "open_dialogue" ) {
+        subeffect_fun.set_open_dialogue();
+        set_effect( subeffect_fun );
+        return;
+    }
     jo.throw_error( "unknown effect string", effect_id );
 }
 
