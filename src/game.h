@@ -363,8 +363,7 @@ class game
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
         /** Spawns a hallucination at a determined position of a given monster. */
-        bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
-                                  cata::optional<time_duration> lifespan );
+        bool spawn_hallucination( const tripoint &p, const mtype_id &mt );
         /** Finds somewhere to spawn a monster. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
                                       int max_radius, tripoint &point, bool outdoor_only );

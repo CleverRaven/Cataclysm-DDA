@@ -332,8 +332,6 @@ class place_monster_iuse : public iuse_actor
         std::set<skill_id> skills;
         /** The monster will be spawned in as a pet. False by default. Can be empty. */
         bool is_pet = false;
-        /** minimum charges (if any) required for activating monster */
-        int need_charges = 0;
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override = default;

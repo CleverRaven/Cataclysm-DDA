@@ -1448,7 +1448,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         m.spawn_item( { 16, 18, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
         m.spawn_item( { 16, 19, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
 
-        // Set some resting place with fire ring, camp chairs, folding table, and benches.
+        // Set some resting place with fire ring, camp chairs, tourist table and benches
         m.furn_set( { 20, 12, abs_sub.z }, f_crate_o );
         m.furn_set( { 21, 12, abs_sub.z }, f_firering );
         m.furn_set( { 22, 12, abs_sub.z }, f_tourist_table );

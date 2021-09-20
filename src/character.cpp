@@ -219,13 +219,11 @@ static const efftype_id effect_winded( "winded" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
-static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
-static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
@@ -4858,17 +4856,8 @@ bool Character::in_climate_control()
         if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
-                                 (
-                                     vp->is_inside() && // Already checks for opened doors
-                                     vp->vehicle().engine_on &&
-                                     vp->vehicle().has_engine_type_not( fuel_type_muscle, true ) &&
-                                     vp->vehicle().has_engine_type_not( fuel_type_animal, true )
-                                 ) ||
-                                 // Also check for a working alternator. Muscle or animal could be powering it.
-                                 (
-                                     vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower_w() > 0
-                                 )
+                                 vp->is_inside() &&  // Already checks for opened doors
+                                 vp->vehicle().total_power_w( true ) > 0 // Out of gas? No AC for you!
                              );
         }
         // TODO: AC check for when building power is implemented

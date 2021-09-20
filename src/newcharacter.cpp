@@ -2183,23 +2183,9 @@ tab_direction set_hobbies( avatar &u, points_left &points )
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &sl : prof_skills ) {
-                    const Skill &skill = sl.first.obj();
-                    const int level = sl.second;
-                    if( level < 1 ) {
-                        debugmsg( "Unexpected skill level for %s: %d", skill.ident().str(), level );
-                        continue;
-                    }
-                    std::string skill_degree;
-                    if( level == 1 ) {
-                        skill_degree = pgettext( "set_profession_skill", "beginner" );
-                    } else if( level == 2 ) {
-                        skill_degree = pgettext( "set_profession_skill", "intermediate" );
-                    } else if( level == 3 ) {
-                        skill_degree = pgettext( "set_profession_skill", "competent" );
-                    } else {
-                        skill_degree = pgettext( "set_profession_skill", "advanced" );
-                    }
-                    buffer += string_format( "%s (%s)", skill.name(), skill_degree ) + "\n";
+                    const int raw_experience = 10000 * sl.second * sl.second;
+                    const char *format = pgettext( "set_profession_skill", "%1$s (%2$d experience)" );
+                    buffer += string_format( format, sl.first.obj().name(), raw_experience ) + "\n";
                 }
             }
 
