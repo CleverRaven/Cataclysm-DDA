@@ -94,7 +94,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     }
 }
 
-static void check_weary_mutations_nosleep( const std::string &trait_name, float fatigue_mod )
+static void check_weary_mutation_nosleep( const std::string &trait_name, float fatigue_mod )
 {
     tasklist soldier_8h;
     avatar &guy = get_avatar();
@@ -174,27 +174,119 @@ static void check_weary_mutations_nosleep( const std::string &trait_name, float 
     }
 }
 
+static void check_weary_mutation_sleep( const std::string &trait_name, float fatigue_mod,
+                                        float fatigue_regen_mod )
+{
+    tasklist soldier_8h;
+    avatar &guy = get_avatar();
+
+    float multiplier = 1.0f + fatigue_mod;
+    float multiplier2 = multiplier / ( 2.0f + fatigue_regen_mod );
+
+    std::stringstream section_name;
+    section_name << "Sleep effects of " << trait_name;
+    section_name << " (fatigue_mod: " << fatigue_mod;
+    section_name << "; fatigue_regen_mod: " << fatigue_regen_mod << ")";
+
+    SECTION( section_name.str() ) {
+        clear_avatar();
+        set_single_trait( guy, trait_name );
+
+        soldier_8h.enschedule( task_dig, 8_hours );
+        soldier_8h.enschedule( sched_sleep, 8_hours );
+
+        INFO( "\nDigging Pits 8 hours, then sleeping 8:" );
+        INFO( guy.debug_weary_info() );
+        weariness_events info = do_activity( soldier_8h, false );
+        INFO( info.summarize() );
+        INFO( guy.debug_weary_info() );
+        REQUIRE( !info.empty() );
+        if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
+            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= 125 );
+            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= ( 115.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= 255 );
+            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= ( 245.0f / multiplier ) );
+            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= 365 );
+            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= ( 355.0f / multiplier ) );
+            CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= 470 );
+            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= ( 460.0f / multiplier ) );
+        } else {
+            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= 115 );
+            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= ( 125.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= 245 );
+            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= ( 255.0f / multiplier ) );
+            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= 355 );
+            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= ( 365.0f / multiplier ) );
+            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= 460 );
+            if( ( 470.0f / multiplier ) < ( 8 * 60 ) ) {
+                CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= ( 470.0f / multiplier ) );
+            }
+        }
+        // Appears to take about 5 minutes to sleep, from messages.
+        time_duration time1 = ( ( 500_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
+                              8_hours;
+        time_duration time2 = ( ( 625_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
+                              8_hours;
+        // Increased below margin for floats to 13 due to sleep uncertainty re 5-minute weary timer.
+        if( time1 < 16_hours ) {
+            if( multiplier2 >= 1.0f ) {
+                CHECK( info.transition_minutes( 4, 3,
+                                                time1 ) >= to_minutes<float>( time1 ) - 13.0f );
+            } else {
+                CHECK( info.transition_minutes( 4, 3,
+                                                time1 ) <= to_minutes<float>( time1 ) + 13.0f );
+            }
+            if( time2 < 16_hours ) {
+                if( multiplier2 >= 1.0f ) {
+                    CHECK( info.transition_minutes( 3, 2,
+                                                    time2 ) >= to_minutes<float>( time2 ) - 13.0f );
+                } else {
+                    CHECK( info.transition_minutes( 3, 2,
+                                                    time2 ) <= to_minutes<float>( time2 ) + 13.0f );
+                }
+            } else {
+                CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) - 5 );
+            }
+        } else {
+            CHECK( info.transition_minutes( 4, 3, time1 ) >= ( 16 * 60 ) - 5 );
+            CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
+        }
+
+        if( multiplier2 >= 1.0f ) { // instability currently prevents use of first one... sigh.
+            // CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
+            CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
+        }
+    }
+}
+
+static void check_weary_mutation( const std::string &trait_name, float fatigue_mod,
+                                  float fatigue_regen_mod )
+{
+    check_weary_mutation_nosleep( trait_name, fatigue_mod );
+    check_weary_mutation_sleep( trait_name, fatigue_mod, fatigue_regen_mod );
+}
+
 TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
 {
     // WAKEFUL: fatigue_mod -0.15
     // SLEEPY: fatigue_mod 0.33, fatigue_regen_mod 0.33
     // WAKEFUL2: fatigue_mod -0.25
     // WAKEFUL3: fatigue_mod -0.5, fatigue_regen_mod 0.5
-    // HUGE: fatigue_mod 0.15 (HUGE_OK - does it remove this?)
+    // HUGE: fatigue_mod 0.15 (HUGE_OK - does it remove this? Should it?)
     // PERSISTENCE_HUNTER: fatigue_mod -0.1
     // PERSISTENCE_HUNGER2: fatigue_mod -0.2
     // MET_RAT: fatigue_mod 0.5, fatigue_regen_mod 0.33
     // SLEEPY2: fatigue_mod 1.0 (does this include SLEEPY's fatigue_regen_mod?)
 
-    check_weary_mutations_nosleep( "WAKEFUL", -0.15f );
-    check_weary_mutations_nosleep( "SLEEPY", 0.33f );
-    check_weary_mutations_nosleep( "WAKEFUL2", -0.25f );
-    check_weary_mutations_nosleep( "WAKEFUL3", -0.5f );
-    check_weary_mutations_nosleep( "HUGE", 0.15f );
-    check_weary_mutations_nosleep( "PERSISTENCE_HUNTER", -0.1f );
-    check_weary_mutations_nosleep( "PERSISTENCE_HUNTER2", -0.2f );
-    check_weary_mutations_nosleep( "MET_RAT", 0.5f );
-    check_weary_mutations_nosleep( "SLEEPY2", 1.0f );
+    check_weary_mutation( "WAKEFUL", -0.15f, 0.0f );
+    check_weary_mutation( "SLEEPY", 0.33f, 0.33f );
+    check_weary_mutation( "WAKEFUL2", -0.25f, 0.0f );
+    check_weary_mutation( "WAKEFUL3", -0.5f, 0.5f );
+    check_weary_mutation( "HUGE", 0.15f, 0.0f );
+    check_weary_mutation( "PERSISTENCE_HUNTER", -0.1f, 0.0f );
+    check_weary_mutation( "PERSISTENCE_HUNTER2", -0.2f, 0.0f );
+    check_weary_mutation( "MET_RAT", 0.5f, 0.33f );
+    check_weary_mutation( "SLEEPY2", 1.0f, 0.33f );
 }
 
 TEST_CASE( "weary_recovery", "[weary][activities]" )
