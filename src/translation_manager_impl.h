@@ -6,6 +6,7 @@
 
 #include <unordered_map>
 
+#include "optional.h"
 #include "translation_document.h"
 #include "translation_manager.h"
 
@@ -13,7 +14,10 @@ class TranslationManagerImpl : public TranslationManagerInterface
 {
     private:
         std::vector<TranslationDocument> documents;
-        std::unordered_map<std::string, std::pair<std::size_t, std::size_t>> string_to_document_no;
+
+        std::unordered_map<std::uint32_t, std::vector<std::pair<std::size_t, std::size_t>>> strings;
+        static std::uint32_t Hash( const char *str );
+        cata::optional<std::pair<std::size_t, std::size_t>> LookupString( const char *query ) const;
 
         std::unordered_map<std::string, std::vector<std::string>> mo_files;
         static std::string LanguageCodeOfPath( const std::string &path );
