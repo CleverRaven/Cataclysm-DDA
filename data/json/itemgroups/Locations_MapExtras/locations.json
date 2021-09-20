@@ -2537,5 +2537,41 @@
       [ "sugar", 20 ],
       [ "chem_ethanol", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "exodii_tools",
+    "items": [
+      { "group": "tools_blacksmith", "prob": 50 },
+      { "group": "supplies_metal", "prob": 40 },
+      {
+        "collection": [
+          { "item": "oxy_torch", "prob": 100 },
+          {
+            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "prob": 100
+          }
+        ],
+        "prob": 25
+      },
+      [ "oxy_torch", 25 ],
+      { "item": "weldtank", "prob": 12, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 12, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
+      [ "sandpaper", 20 ],
+      [ "vac_mold", 15 ],
+      { "item": "welder", "prob": 10, "charges": [ 0, 500 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "exodii_ammo_crate",
+    "subtype": "collection",
+    "items": [
+      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
+      { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
+      { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
+    ]
   }
 ]
