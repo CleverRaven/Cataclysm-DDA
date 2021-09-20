@@ -1769,10 +1769,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
         } else if( action == "ZOOM_OUT" ) {
-            g->zoom_out();
+            g->zoom_out_overmap();
             ui.mark_resize();
         } else  if( action == "ZOOM_IN" ) {
-            g->zoom_in();
+            g->zoom_in_overmap();
             ui.mark_resize();
         } else if( action == "CONFIRM" ) {
             ret = curs;
