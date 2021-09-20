@@ -986,8 +986,10 @@ static std::string get_consume_needs_hint( Character &you )
 
 item_location game_menus::inv::consume( avatar &you, const item_location loc )
 {
+    static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
+        container_location = loc;
     }
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
@@ -995,7 +997,7 @@ item_location game_menus::inv::consume( avatar &you, const item_location loc )
                          _( "Consume item" ), 1,
                          none_message,
                          get_consume_needs_hint( you ),
-                         loc );
+                         container_location );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
