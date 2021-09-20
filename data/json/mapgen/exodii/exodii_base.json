@@ -110,7 +110,24 @@
         "                               ,,,,,,,,,,,;,,,,,,,,,,,,,,,,,,,,,,,,,,,             ,    ,       ",
         "                             ,           , ,,,   ,       ,     ,    ,      ,                    "
       ],
-      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "palettes": [ "exodii_palette" ],
       "terrain": {
         " ": [ [ "t_region_groundcover", 50 ], [ "t_region_groundcover_barren", 10 ], "t_sand" ],
@@ -243,7 +260,24 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
-      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -391,7 +425,24 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
-      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -538,7 +589,24 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
-      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "terrain": {
         " ": "t_rock_floor_no_roof",
         ";": "t_metal_floor_no_roof",
@@ -685,7 +753,24 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
-      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 95 ], "y": [ 0, 95 ] } ],
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
       "terrain": { ".": "t_open_air", "[": "t_open_air" },
       "furniture": { "[": "f_scrap_bridge" }
     }
