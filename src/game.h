@@ -620,8 +620,8 @@ class game
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
-        void zoom_in();
-        void zoom_out();
+        void zoom_in( bool overmap = false );
+        void zoom_out( bool overmap = false );
         void reset_zoom();
         void set_zoom( int level );
         int get_zoom() const;

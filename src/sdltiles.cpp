@@ -3771,9 +3771,13 @@ bool gamepad_available()
     return joystick != nullptr;
 }
 
-void rescale_tileset( int size )
+void rescale_tileset( int size, bool overmap )
 {
-    tilecontext->set_draw_scale( size );
+    if( overmap ) {
+        overmap_tilecontext->set_draw_scale( size );
+    } else {
+        tilecontext->set_draw_scale( size );
+    }
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,

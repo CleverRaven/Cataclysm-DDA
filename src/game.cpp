@@ -6700,7 +6700,7 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
 #if defined(TILES)
 static constexpr int MAXIMUM_ZOOM_LEVEL = 4;
 #endif
-void game::zoom_out()
+void game::zoom_out( bool overmap )
 {
 #if defined(TILES)
     if( tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
@@ -6708,11 +6708,11 @@ void game::zoom_out()
     } else {
         tileset_zoom = 64;
     }
-    rescale_tileset( tileset_zoom );
+    rescale_tileset( tileset_zoom, overmap );
 #endif
 }
 
-void game::zoom_in()
+void game::zoom_in( bool overmap )
 {
 #if defined(TILES)
     if( tileset_zoom == 64 ) {
@@ -6720,7 +6720,7 @@ void game::zoom_in()
     } else {
         tileset_zoom = tileset_zoom * 2;
     }
-    rescale_tileset( tileset_zoom );
+    rescale_tileset( tileset_zoom, overmap );
 #endif
 }
 
