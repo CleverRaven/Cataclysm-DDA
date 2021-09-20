@@ -3275,7 +3275,7 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
 
     std::shared_ptr<tileset> ts = get_or_create_tileset();
 
-    if( force || ts->get_tileset_id().empty() && !precheck ) {
+    if( force || ( ts->get_tileset_id().empty() && !precheck ) ) {
         loader loader( *ts, renderer );
         loader.load( tileset_id, precheck, pump_events );
     }
