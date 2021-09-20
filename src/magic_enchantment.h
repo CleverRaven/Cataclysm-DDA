@@ -20,7 +20,7 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class item;
-class dialogue;
+struct dialogue;
 
 namespace enchant_vals
 {
