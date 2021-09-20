@@ -43,7 +43,7 @@ class activity_tracker
 
         int weariness() const;
         void try_reduce_weariness( int bmr, float fatigue_mod, float fatigue_regen_mod );
-        void calorie_adjust( int nkcal );
+        void calorie_adjust( int ncal );
         void weary_clear();
         std::string debug_weary_info() const;
 

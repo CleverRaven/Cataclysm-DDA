@@ -10,9 +10,9 @@
 int activity_tracker::weariness() const
 {
     if( intake > tracker ) {
-        return tracker * 0.5;
+        return tracker / 2000;
     }
-    return tracker - intake * 0.5;
+    return ( tracker - intake * 0.5 ) / 1000;
 }
 
 // Called every 5 minutes, when activity level is logged
@@ -31,12 +31,13 @@ void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float f
     }
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
+    const int bmr_cal = bmr * 1000;
 
     if( low_activity_ticks >= 1.0f ) {
         int reduction = tracker;
         // 1/120 of whichever's bigger
-        if( bmr > reduction ) {
-            reduction = std::floor( bmr * recovery_mult * low_activity_ticks / 6.0f );
+        if( bmr_cal > reduction ) {
+            reduction = std::floor( bmr_cal * recovery_mult * low_activity_ticks / 6.0f );
         } else {
             reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
         }
@@ -68,16 +69,16 @@ void activity_tracker::weary_clear()
 
 std::string activity_tracker::debug_weary_info() const
 {
-    return string_format( "Intake: %d Tracker: %d", intake, tracker );
+    return string_format( "Intake: %.1f Tracker: %.1f", intake / 1000.0f, tracker / 1000.0f );
 }
 
-void activity_tracker::calorie_adjust( int nkcal )
+void activity_tracker::calorie_adjust( int ncal )
 {
-    if( nkcal > 0 ) {
-        intake += nkcal;
+    if( ncal > 0 ) {
+        intake += ncal;
     } else {
-        // nkcal is negative, we need positive
-        tracker -= nkcal;
+        // ncal is negative, we need positive
+        tracker -= ncal;
     }
 }
 
