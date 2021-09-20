@@ -1,7 +1,19 @@
 [
   {
     "type": "item_group",
-    "id": "exodii_merchant_goods_tier_1",
+    "id": "NC_EXODII_TYPE_1_carried",
+    "//": "Weapon for rubik.",
+    "items": [
+       {
+         "item": "pamd68",
+         "ammo-item": "123ln",
+         "charges": 10
+       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_SHOP_Tier0",
     "//": "This stuff should be available in the exodii store from the start.",
     "items": [
       [ "box_medium", 75 ],
@@ -21,7 +33,7 @@
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_store_tier_1",
+    "id": "EXODII_CBM_store_tier1",
     "//": "These CBMs should be available in the exodii store from the start.",
     "items": [
       [ "bio_watch", 10 ],
@@ -45,7 +57,7 @@
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_store_tier_2",
+    "id": "EXODII_CBM_store_tier2",
     "//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
     "items": [
       [ "bio_tools", 10 ],
@@ -56,7 +68,6 @@
       [ "bio_torsionratchet", 10 ],
       [ "bio_ears", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
-      [ "bio_storage", 10 ],
       [ "bio_armor_arms", 10 ],
       [ "bio_armor_eyes", 10 ],
       [ "bio_armor_head", 10 ],
@@ -74,7 +85,7 @@
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_store_tier_3",
+    "id": "EXODII_CBM_store_tier3",
     "//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
     "items": [
       [ "bio_blood_filter", 10 ],
@@ -82,7 +93,6 @@
       [ "bio_heatsink", 10 ],
       [ "bio_climate", 10 ],
       [ "bio_leukocyte", 10 ],
-      [ "bio_scent_vision", 10 ],
       [ "bio_adrenaline", 10 ],
       [ "bio_blood_anal", 10 ],
       [ "bio_carbon", 10 ],
@@ -93,13 +103,12 @@
       [ "bio_membrane", 10 ],
       [ "bio_painkiller", 10 ],
       [ "bio_radscrubber", 10 ],
-      [ "bio_weight", 10 ],
-      [ "bio_shock_absorber", 10 ]
+      [ "bio_weight", 10 ]
     ]
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_store_tier_4",
+    "id": "EXODII_CBM_store_tier4",
     "//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
     "items": [
       [ "bio_faraday", 10 ],
@@ -120,22 +129,21 @@
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_unlocks_weapons_light",
+    "id": "EXODII_CBM_unlocks_weapons_light",
     "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [ [ "bio_blade", 10 ], [ "bio_claws", 10 ], [ "bio_cqb", 10 ], [ "bio_flashbang", 10 ], [ "bio_razors", 10 ] ]
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_unlocks_weapons_medium",
+    "id": "EXODII_CBM_unlocks_weapons_medium",
     "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [ [ "bio_resonator", 10 ], [ "bio_targeting", 15 ], [ "bio_shotgun", 10 ], [ "bio_laser", 5 ], [ "bio_shock", 10 ] ]
   },
   {
     "type": "item_group",
-    "id": "exodii_CBM_unlocks_weapons_heavy",
+    "id": "EXODII_CBM_unlocks_weapons_heavy",
     "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [
-      [ "bio_blaster", 2 ],
       [ "bio_chain_lightning", 15 ],
       [ "bio_emp", 1 ],
       [ "bio_emp_armgun", 1 ],

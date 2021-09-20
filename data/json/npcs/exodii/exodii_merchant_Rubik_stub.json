@@ -1,0 +1,113 @@
+[
+  {
+    "type": "npc",
+    "id": "exodii_merchant",
+    "name_suffix": "Cyborg",
+    "class": "NC_EXODII_TYPE_1_Merchant",
+    "name_unique": "Rubik",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_EXODII_MERCHANT",
+    "faction": "exodii"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_TYPE_1_Merchant",
+    "name": { "str": "Cyborg, type 1" },
+    "job_description": "I'm a cyborg.",
+    "traits": [
+      { "trait": "EXODII_BODY_1" },
+      { "//": "This needs to give the exodii a unique sprite and hide any worn or wielded overlays" }
+    ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 6 ] },
+    "bonus_dex": { "rng": [ 0, 6 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "shopkeeper_item_group": "EXODII_SHOP_Tier0",
+    "carry_override": "NC_EXODII_TYPE_1_carried",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_BODY_1",
+    "flags": [ "Exodii_Body" ],
+    "name": { "str": "Exodii cyborg framework - style 1a" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cyberframe" ],
+    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "hp_adjustment": 20,
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "weight_capacity_modifier": 3
+  },
+  {
+    "type": "mutation_type",
+    "id": "Cyberframe"
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_effect": "u_exodii_interaction_timer_short",
+      "yes": [ "Back in a blink and a whiff, eh?", "Forgot sommat?", "Ah, a returnin', an I'm ken." ],
+      "no": {
+        "u_has_var": "u_met_Rubik",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [
+          "And a fine return, matey.",
+          "Fine and you still ain't dead.  Lookin' t'trade?",
+          "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
+        ],
+        "no": "Oy, you ain't dead.  Lookin' t'trade?"
+      }
+    },
+    "speaker_effect": [
+      {
+        "sentinel": "interaction_timer_short",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_short" } },
+        "//": "Just coming and saying hi to Rubik regularly will give you a small boost to trust.",
+        "effect": [
+          { "u_add_effect": "u_exodii_interaction_timer_short", "duration": "30 hours" },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      },
+      {
+        "sentinel": "interaction_timer_long",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+        "//": "Gives you a less frequent boost to trust for regular interactions with the exodii.",
+        "effect": [
+          { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "7 days" },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      }
+    ],
+    "responses": [ { "text": "Hell no, I'm out of here.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_exodii_interaction_timer_short",
+    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly, and tells Rubik to use a different greeting because he saw you very recently."
+  },
+  {
+    "type": "effect_type",
+    "id": "u_exodii_interaction_timer_long",
+    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly."
+  }
+]
