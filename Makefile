@@ -1150,9 +1150,9 @@ etags: $(ASTYLE_SOURCES)
 	./tools/json_tools/cddatags.py
 
 ASTYLE_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%.astyle-check-stamp,$(ASTYLE_SOURCES)))
-astyle : $(ASTYLE_CHECK_STAMPS)
-$(ASTYLE_CHECK_STAMPS) : $(ODIR)/%.astyle-check-stamp : %
-	$(ASTYLE_BINARY) --options=.astylerc $< && mkdir -p $(@D) && touch $@
+astyle: $(ASTYLE_CHECK_STAMPS)
+$(ASTYLE_CHECK_STAMPS): $(ODIR)/%.astyle-check-stamp : %
+	$(ASTYLE_BINARY) --options=.astylerc -n $< && mkdir -p $(@D) && touch $@
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
@@ -1171,7 +1171,7 @@ endif
 JSON_SOURCES := $(shell find data -name "*.json")
 JSON_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%,$(JSON_SOURCES:.json=.jstyle-check-stamp)))
 style-json : $(JSON_CHECK_STAMPS) $(JSON_FORMATTER_BIN)
-$(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json
+$(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json $(JSON_FORMATTER_BIN)
 ifndef CROSS
 	$(JSON_FORMATTER_BIN) $< && mkdir -p $(@D) && touch $@
 else
