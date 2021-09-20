@@ -1337,6 +1337,24 @@ om_pos_dir om_pos_dir::opposite() const
     cata_fatal( "Invalid cube_direction" );
 }
 
+void om_pos_dir::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( p );
+    jsout.write( dir );
+    jsout.end_array();
+}
+
+void om_pos_dir::deserialize( JsonIn &jsin )
+{
+    JsonArray ja = jsin.get_array();
+    if( ja.size() != 2 ) {
+        ja.throw_error( "Expected array of size 2" );
+    }
+    ja.read( 0, p );
+    ja.read( 1, dir );
+}
+
 bool operator==( const om_pos_dir &l, const om_pos_dir &r )
 {
     return l.p == r.p && l.dir == r.dir;
@@ -1409,6 +1427,8 @@ class joins_tracker
 
                 if( resolved.count( other_side ) ) {
                     erase_unresolved( this_side );
+                    used.push_back( { this_side, join.join_id } );
+                    used.push_back( { other_side, opposite_join.id } );
                 } else {
                     // If there were postponed joins pointing into this point,
                     // so we need to un-postpone them because it might now be
@@ -1466,6 +1486,10 @@ class joins_tracker
                 add_unresolved( j.where, j.join_id );
             }
             postponed.clear();
+        }
+
+        const std::vector<std::pair<om_pos_dir, std::string>> all_used() const {
+            return used;
         }
     private:
         unsigned priority_of( const std::string &join_id ) const {
@@ -1589,6 +1613,8 @@ class joins_tracker
 
         indexed_joins resolved;
         indexed_joins postponed;
+
+        std::vector<std::pair<om_pos_dir, std::string>> used;
 };
 
 struct mutable_overmap_special_data {
@@ -1708,13 +1734,15 @@ struct mutable_overmap_special_data {
         return { tripoint_zero, root_om.terrain, root_om.locations, {} };
     }
 
-    std::vector<tripoint_om_omt> place( overmap &om, const tripoint_om_omt &origin ) const {
+    // Returns a list of the points placed and a list of the joins used
+    auto place( overmap &om, const tripoint_om_omt &origin ) const ->
+    std::pair<std::vector<tripoint_om_omt>, std::vector<std::pair<om_pos_dir, std::string>>> {
         std::vector<tripoint_om_omt> result;
 
         auto it = overmaps.find( root );
         if( it == overmaps.end() ) {
             debugmsg( "Invalid root %s", root );
-            return result;
+            return { result, {} };
         }
         const mutable_overmap_terrain &root_omt = it->second;
         om.ter_set( origin, root_omt.terrain );
@@ -1782,7 +1810,7 @@ struct mutable_overmap_special_data {
                       join( descriptions, "\n" ) );
         }
 
-        return result;
+        return { result, unresolved.all_used() };
     }
 };
 
@@ -2235,6 +2263,15 @@ cata::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p
         return nullptr;
     }
     return it->second;
+}
+
+std::string *overmap::join_used_at( const om_pos_dir &p )
+{
+    auto it = joins_used.find( p );
+    if( it == joins_used.end() ) {
+        return nullptr;
+    }
+    return &it->second;
 }
 
 bool &overmap::seen( const tripoint_om_omt &p )
@@ -5265,9 +5302,14 @@ std::vector<tripoint_om_omt> overmap::place_special(
                                                   must_be_unexplored );
             break;
         }
-        case overmap_special_subtype::mutable_:
-            result = special.get_mutable_data().place( *this, p );
+        case overmap_special_subtype::mutable_: {
+            std::vector<std::pair<om_pos_dir, std::string>> joins;
+            std::tie( result, joins ) = special.get_mutable_data().place( *this, p );
+            for( const std::pair<om_pos_dir, std::string> &join : joins ) {
+                joins_used[join.first] = join.second;
+            }
             break;
+        }
         case overmap_special_subtype::last:
             cata_fatal( "Invalid overmap_special_subtype" );
     }
