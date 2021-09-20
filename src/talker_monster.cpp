@@ -123,12 +123,12 @@ void talker_monster::set_friendly( int new_val )
     me_mon->friendly = new_val;
 }
 
-std::vector<std::string> talker_monster::get_topics( bool radio_contact )
+std::vector<std::string> talker_monster::get_topics( bool )
 {
     return me_mon->type->chat_topics;
 }
 
-bool talker_monster::will_talk_to_u( const Character &you, bool force )
+bool talker_monster::will_talk_to_u( const Character &you, bool )
 {
     if( you.is_dead_state() ) {
         return false;

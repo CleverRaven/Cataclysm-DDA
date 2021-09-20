@@ -55,12 +55,12 @@ void talker_item::remove_value( const std::string &var_name )
     me_it->get_item()->erase_var( var_name );
 }
 
-std::vector<std::string> talker_item::get_topics( bool radio_contact )
+std::vector<std::string> talker_item::get_topics( bool )
 {
     return me_it->get_item()->typeId()->chat_topics;
 }
 
-bool talker_item::will_talk_to_u( const Character &you, bool force )
+bool talker_item::will_talk_to_u( const Character &you, bool )
 {
     if( you.is_dead_state() ) {
         return false;
