@@ -169,6 +169,8 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 
 #define _(STRING) (STRING)
 
+std::string locale_dir();
+
 namespace detail
 {
 // _translate_internal avoids static cache
