@@ -6709,6 +6709,8 @@ void game::zoom_out( bool overmap )
         tileset_zoom = 64;
     }
     rescale_tileset( tileset_zoom, overmap );
+#elseif
+    (void) overmap;
 #endif
 }
 
@@ -6721,6 +6723,8 @@ void game::zoom_in( bool overmap )
         tileset_zoom = tileset_zoom * 2;
     }
     rescale_tileset( tileset_zoom, overmap );
+#elseif
+    (void) overmap;
 #endif
 }
 
