@@ -1183,11 +1183,11 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_friendly();
             };
         } else if( checked_value == "moon" ) {
-            return []( const T & d ) {
+            return []( const T & ) {
                 return static_cast<int>( get_moon_phase( calendar::turn ) );
             };
         } else if( checked_value == "hour" ) {
-            return []( const T & d ) {
+            return []( const T & ) {
                 return to_hours<int>( time_past_midnight( calendar::turn ) );
             };
         }
