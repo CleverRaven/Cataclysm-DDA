@@ -26,7 +26,7 @@ const std::string global_gettext_str = gettext( "global_gettext_str" );
 const std::string global_pgettext_str = pgettext( "ctxt", "global_pgettext_str" );
 // CHECK-MESSAGES: [[@LINE-1]]:41: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 
-const std::string global_ngettext_str = ngettext( "global_ngettext_str", "global_ngettext_strs",
+const std::string global_ngettext_str = n_gettext( "global_ngettext_str", "global_ngettext_strs",
                                         1 );
 // CHECK-MESSAGES: [[@LINE-2]]:41: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 

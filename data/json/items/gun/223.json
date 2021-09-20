@@ -209,6 +209,7 @@
     "longest_side": "798 mm",
     "price": 540000,
     "price_postapoc": 2250,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "h&k416a5",
@@ -281,6 +282,7 @@
     "longest_side": "1004 mm",
     "price": 210000,
     "price_postapoc": 6000,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "hk_g36",
@@ -393,6 +395,7 @@
     "longest_side": "758 mm",
     "price": 240000,
     "price_postapoc": 5000,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m4a1",
@@ -454,6 +457,7 @@
     "longest_side": "1003 mm",
     "price": 240000,
     "price_postapoc": 5000,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m16a4",
@@ -503,6 +507,7 @@
     "type": "GUN",
     "name": { "str": "M16 auto rifle" },
     "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m16a3",
@@ -529,6 +534,7 @@
     "longest_side": "727 mm",
     "price": 90000,
     "price_postapoc": 3500,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m231pfw",
@@ -663,6 +669,7 @@
     "longest_side": "741 mm",
     "price": 320000,
     "price_postapoc": 6000,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "sig553",
@@ -716,6 +723,7 @@
     "longest_side": "715 mm",
     "price": 490000,
     "price_postapoc": 6000,
+    "variant_type": "gun",
     "variants": [
       {
         "id": "steyr_aug",

@@ -2526,7 +2526,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     on_change( entry );
 }
 
-void inventory_multiselector::toggle_entries( const toggle_mode mode, int count )
+void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode )
 {
     std::vector<inventory_entry *> selected;
     switch( mode ) {
@@ -2597,6 +2597,8 @@ void inventory_multiselector::toggle_entries( const toggle_mode mode, int count 
     if( !allow_select_contained ) {
         deselect_contained_items();
     }
+
+    count = 0;
 }
 
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
@@ -2710,17 +2712,17 @@ drop_locations inventory_iuse_selector::execute()
 
         if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            toggle_entries();
+            toggle_entries( count );
         } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( toggle_mode::NON_FAVORITE_NON_WORN );
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
         } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
             int query_result = query_count();
             if( query_result < 0 ) {
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
-            toggle_entries( toggle_mode::SELECTED, query_result );
+            toggle_entries( query_result, toggle_mode::SELECTED );
         } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( toggle_mode::SELECTED, count );
+            toggle_entries( count, toggle_mode::SELECTED );
         } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
@@ -2826,17 +2828,17 @@ drop_locations inventory_drop_selector::execute()
 
         if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            toggle_entries();
+            toggle_entries( count );
         } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( toggle_mode::NON_FAVORITE_NON_WORN );
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
         } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
             int query_result = query_count();
             if( query_result < 0 ) {
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
-            toggle_entries( toggle_mode::SELECTED, query_result );
+            toggle_entries( query_result, toggle_mode::SELECTED );
         } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( toggle_mode::SELECTED, count );
+            toggle_entries( count, toggle_mode::SELECTED );
         } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;

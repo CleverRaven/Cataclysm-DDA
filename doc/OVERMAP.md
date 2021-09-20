@@ -482,7 +482,7 @@ Depending on the subtype, there are further relevant fields:
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
         { "overmap": "straight_tunnel", "max": 20 },
-        { "overmap": "corner", "max": 5 },
+        { "overmap": "corner", "max": { "poisson": 5 } },
         { "overmap": "tee", "max": 10 }
       ],
       [ { "overmap": "queen", "max": 1 } ],
@@ -501,6 +501,8 @@ Depending on the subtype, there are further relevant fields:
 
 ### How mutable specials are placed
 
+#### Overmaps and joins
+
 A mutable special has a collection of *overmaps* which define the OMTs used to
 build it and *joins* which define the way in which they are permitted to
 connect with one another.  Each overmap may specify a join for each of its
@@ -518,6 +520,8 @@ directions.  So, the above `dead_end` overmap can represent a dead end tunnel
 in any direction, but it's important that the chosen OMT `ants_end_south` is
 consistent with the `north` join for the generated map to make sense.
 
+#### Layout phases
+
 After all the joins and overmaps are defined, the manner in which the special
 is laid out is given by `root` and `phases`.
 
@@ -530,9 +534,18 @@ phases are processed strictly in order.
 Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
 integer `max` and/or `weight`.
 
+Weight must always be a simple integer, but `max` may also be an object
+defining a probability distribution over integers.  Each time the special is
+spawned, a value is sampled from that distribution.  Currently only a Poisson
+distribution is supported, specified via an object such as `{ "poisson": 5 }`
+where 5 will be the mean of the distribution (λ).
+
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
-rules to satisfy that join.
+rules to satisfy that join.  Priority is given to whichever joins are listed
+first in the list which defines the joins for this special, but if multiple
+joins of the same (highest priority) id are present then one is chosen at
+random.
 
 First the rules are filtered to contain only those which can satisfy the joins
 for a particular location, and then a weighted selection from the filtered list
@@ -551,16 +564,27 @@ proceeds to the next phase.
 If all phases complete and unsatisfied joins remain, this is considered an
 error and a debugmsg will be displayed with more details.
 
-To help avoid these errors, two additional features of the mutable special
+#### Techniques to avoid placement errors
+
+To help avoid these errors, some additional features of the mutable special
 placement can help you.
 
-Firstly, `check_for_locations` defines a list of extra constraints that are
+##### `check_for_locations`
+
+`check_for_locations` defines a list of extra constraints that are
 checked before the special is attempted to be placed.  Each constraint is a
 pair of a position (relative to the root) and a set of locations.  The existing
 OMT in each postion must fall into one of the given locations, else the
 attempted placement is aborted.
 
-Secondly, each join also has an associated list of locations.  This defaults to
+The `check_for_locations` constraints ensure that the `below_entrance` overmap
+can be placed below the root and that all four cardinal-adjacent OMTs are
+`subterranean_empty`, which is needed to add any further overmaps satisfying
+the four other joins of `below_entrance`.
+
+##### `into_locations`
+
+Each join also has an associated list of locations.  This defaults to
 the locations for the special, but it can be overridden for a particular join
 like this:
 
@@ -571,7 +595,8 @@ like this:
 ]
 ```
 
-For an overmap to be placed, it is not sufficient for it to satisfy the
+For an overmap to be placed when satisfying an unresolved
+join, it is not sufficient for it to satisfy the
 existing joins adjacent to a particular location.  Any residual joins it
 possesses beyond those which already match up must point to OMTs with
 terrains consistent with that join's locations.
@@ -580,16 +605,13 @@ For the particular case of the anthill example above, we can see how these two
 additions ensure that placement is always successful and no unsatisfied joins
 remain.
 
-The `check_for_locations` constraints ensure that the `below_entrance` overmap
-can be placed below the root and that all four cardinal-adjacent OMTs are
-`subterranean_empty`, which is needed to add any further overmaps satisfying
-the four other joins of `below_entrance`.
-
 The next few phases of placement will attempt to place various tunnels.  The
 join constraints will ensure that the unsatisfied joins (the open ends of
 tunnels) will always point into `subterranean_empty` OMTs.
 
-Then, in the final phase, we have five different rules intended to cap off any
+##### Ensuring complete coverage in the final phase
+
+In the final phase, we have five different rules intended to cap off any
 unsatisfied joins without growing the anthill further.  It is important that
 the rules whose overmaps have fewer joins get higher weights.  In the normal
 case, every unsatisfied join will be simply closed off using `dead_end`.
@@ -605,6 +627,49 @@ be satisfied using `dead_end`.
 When designing your own mutable overmap specials, you will have to think
 through these permutations to ensure that all joins will be satisfied by the
 end of the last phase.
+
+##### Optional joins
+
+Rather than having lots of rules designed to satisfy all possible situations in
+the final phase, in some situations you can make this easier using optional
+joins.  This feature can also be used in other phases.
+
+When specifying the joins associated with an overmap in a mutable special, you
+can elaborate with a type, like this example from the `Crater` overmap special:
+
+```json
+"overmaps": {
+  "crater_core": {
+    "overmap": "crater_core",
+    "north": "crater_to_crater",
+    "east": "crater_to_crater",
+    "south": "crater_to_crater",
+    "west": "crater_to_crater"
+  },
+  "crater_edge": {
+    "overmap": "crater",
+    "north": "crater_to_crater",
+    "east": { "id": "crater_to_crater", "type": "available" },
+    "south": { "id": "crater_to_crater", "type": "available" },
+    "west": { "id": "crater_to_crater", "type": "available" }
+  }
+},
+```
+
+The definition of `crater_edge` has one mandatory join to the north, and three
+'available' joins to the other cardinal directions.  The semantics of an
+'available' join are that it will not be considered an unresolved join, and
+therefore will never cause more overmaps to be placed, but it can satisfy other
+joins into a particular tile when necessary to allow an existing unresolved
+join to be satisfied.
+
+The overmap will always be rotated in such a way that as many of its mandatory
+joins as possible are satisfied and available joins are left to point in other
+directions that don't currently need joins.
+
+As such, this `crater_edge` overmap can satisfy any unresolved joins for the
+`Crater` special without generating any new unresolved joins of its own.  This
+makes it great to finish off the special in the final phase.
 
 ### Joins
 
@@ -626,12 +691,20 @@ value may be:
 | ----------- | -------------------------------------------------------------------------- |
 | `overmap`   | Id of the `overmap_terrain` to place at the location. |
 | `locations` | List of `overmap_location` ids that this overmap terrain may be placed on.  If not specified, defaults to the `locations` value from the special definition. |
-| `north`     | Id of the join which must align with the north edge of this OMT |
-| `east`      | Id of the join which must align with the east edge of this OMT |
-| `south`     | Id of the join which must align with the south edge of this OMT |
-| `west`      | Id of the join which must align with the west edge of this OMT |
-| `above`     | Id of the join which must link this to the OMT above |
-| `below`     | Id of the join which must link this to the OMT below |
+| `north`     | Join which must align with the north edge of this OMT |
+| `east`      | Join which must align with the east edge of this OMT |
+| `south`     | Join which must align with the south edge of this OMT |
+| `west`      | Join which must align with the west edge of this OMT |
+| `above`     | Join which must link this to the OMT above |
+| `below`     | Join which must link this to the OMT below |
+
+Each join associated with a direction can be a simple string, interpreted as a
+join id.  Alternatively it can be a JSON object with the following keys:
+
+| Identifier  |                                Description                                 |
+| ----------- | -------------------------------------------------------------------------- |
+| `id`        | Id of the join used here. |
+| `type`      | Either `"mandatory"` or `"available"`.  Default: `"mandatory"`. |
 
 ### Generation rules
 

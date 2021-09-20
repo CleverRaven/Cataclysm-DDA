@@ -39,7 +39,7 @@
     "construction_blueprint": "fbmf_2_plot_1",
     "blueprint_name": "prepare farm plots",
     "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "blueprint_provides": [ { "id": "fbmf_2_plot_1" } ],
+    "blueprint_provides": [ { "id": "fbmf_2_plot_1" }, { "id": "farming" } ],
     "blueprint_excludes": [ { "id": "fbmf_2_plot_1" } ],
     "skill_used": "fabrication",
     "time": "48 m",

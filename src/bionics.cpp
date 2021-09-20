@@ -1570,7 +1570,7 @@ material_id Character::find_remote_fuel( bool look_only )
 
             if( cable->get_var( "state" ) == "UPS_link" ) {
                 if( !look_only ) {
-                    int remote_battery = 0;
+                    int64_t remote_battery = 0;
                     for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
                         if( i->get_var( "cable" ) == "plugged_in" ) {
                             remote_battery = i->ammo_remaining();
@@ -2445,7 +2445,8 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         return ret_val<bool>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
-    } else if( units::energy_max - get_max_power_level() < bid->capacity ) {
+    } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+               get_max_power_level() < bid->capacity ) {
         return ret_val<bool>::make_failure( _( "Max power capacity already reached." ) );
     }
 

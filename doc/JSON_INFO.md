@@ -131,6 +131,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
+      - [`hacksaw`](#hacksaw)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -146,6 +147,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
+      - [`hacksaw`](#hacksaw-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -2373,7 +2375,17 @@ See also VEHICLE_JSON.md
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
   "balance": "neutral"                       // the item's balance value
-}
+},
+"variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
+"variants": [              // Cosmetic variants this item can have
+  {
+    "id": "varianta",                           // id used in spawning to spawn this variant specifically
+    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
+    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
+    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+  }
+],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2806,15 +2818,6 @@ Guns can be defined like this:
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
-"variants": [              // Cosmetic variants this gun can have
-  {
-    "id": "varianta",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A pistol" },      // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A pistol",  // The description used instead of the default when this variant is selected
-    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
-    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
-  }
-],
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used

@@ -28,6 +28,11 @@ enum face_type : int {
     num_face_types
 };
 
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+
 // The display namespace contains UI string output and colorization functions
 // Some return plain strings or translations, some return a (string, color) pair,
 // and some return a string with colorization tags embedded.
@@ -102,12 +107,11 @@ nc_color encumb_color( const int level );
 // Functions returning colorized string
 // gets the string that describes your weight
 std::string weight_string( const Character &u );
-} // namespace display
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
+// Prints a list of nearby monsters
+void print_mon_info( avatar &u, const catacurses::window &, int hor_padding = 0,
+                     bool compact = false );
+} // namespace display
 
 namespace overmap_ui
 {

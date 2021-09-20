@@ -829,7 +829,7 @@
     "time": "12 m",
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 2 ], [ "meat_scrap", 15 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "rabbit_foot", 2 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
