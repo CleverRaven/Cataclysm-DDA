@@ -211,6 +211,25 @@
     "fun": -1
   },
   {
+    "id": "robofac_yrax_deactivation_manual",
+    "type": "BOOK",
+    "name": { "str_sp": "trifacet handling procedures" },
+    "description": "A heavy and disparate binder detailing the deactivation, storage and transport procedures for a so called \"Trifacet\" UVG.  The pages and schematics within have been compiled from the internal reports of a vast array of governmental agencies, many of which you had never heard of before.",
+    "weight": "1409 g",
+    "volume": "500 ml",
+    "price": 84000,
+    "price_postapoc": 2500,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "electronics",
+    "required_level": 3,
+    "max_level": 6,
+    "intelligence": 12,
+    "time": "45 m",
+    "fun": 1
+  },
+  {
     "abstract": "schematics_generic",
     "type": "BOOK",
     "name": { "str_sp": "schematics" },

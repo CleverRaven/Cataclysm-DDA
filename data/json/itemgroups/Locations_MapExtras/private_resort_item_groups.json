@@ -128,7 +128,9 @@
       { "group": "bar_table", "prob": 40 },
       { "group": "bar_alcohol", "prob": 20 },
       { "group": "underwear_mens", "prob": 10 },
-      { "item": "money_bundle", "prob": 50 },
+      { "item": "money_strap_twenty", "prob": 50 },
+      { "item": "money_strap_fifty", "prob": 50 },
+      { "item": "money_strap_hundred", "prob": 50 },
       { "item": "deck_of_cards", "prob": 90 },
       { "item": "plastic_six_dice", "prob": 40 }
     ]

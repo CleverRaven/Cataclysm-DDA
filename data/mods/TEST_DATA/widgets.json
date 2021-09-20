@@ -72,6 +72,13 @@
     "style": "number"
   },
   {
+    "id": "test_morale_num",
+    "type": "widget",
+    "label": "MORALE",
+    "var": "morale_level",
+    "style": "number"
+  },
+  {
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",
@@ -139,6 +146,13 @@
     "style": "number"
   },
   {
+    "id": "test_weariness_num",
+    "type": "widget",
+    "label": "WEARINESS",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
     "id": "test_hp_head_graph",
     "type": "widget",
     "label": "HEAD",
@@ -158,22 +172,38 @@
     "style": "number"
   },
   {
+    "id": "test_bp_wetness_head_num",
+    "type": "widget",
+    "label": "HEAD WET",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "style": "number"
+  },
+  {
+    "id": "test_bp_wetness_torso_num",
+    "type": "widget",
+    "label": "TORSO WET",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "style": "number"
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",
     "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
   },
   {
-    "id": "test_phrase_widget",
+    "id": "test_text_widget",
     "type": "widget",
     "label": "PHRASE",
-    "style": "phrase",
+    "style": "text",
     "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
   },
   {
     "id": "test_layout_list",
     "type": "widget",
     "style": "layout",
-    "widgets": [ "test_phrase_widget", "test_pool_graph", "test_number_widget" ]
+    "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
   }
 ]

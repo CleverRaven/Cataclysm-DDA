@@ -41,6 +41,25 @@ static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
+int recipe::get_difficulty( const Character &crafter ) const
+{
+    if( is_practice() && skill_used ) {
+        return clamp( crafter.get_all_skills().get_skill_level( skill_used ),
+                      practice_data->min_difficulty, practice_data->max_difficulty );
+    } else {
+        return difficulty;
+    }
+}
+
+int recipe::get_skill_cap() const
+{
+    if( is_practice() ) {
+        return practice_data->skill_limit - 1;
+    } else {
+        return difficulty * 1.25;
+    }
+}
+
 time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
                                       size_t assistants ) const
 {
@@ -131,8 +150,18 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
+    } else if( type == "practice" ) {
+        ident_ = recipe_id( jo.get_string( "id" ) );
+        if( jo.has_member( "result" ) ) {
+            jo.throw_error( "Practice recipes should not have result (use byproducts)", "result" );
+        }
+        if( jo.has_member( "difficulty" ) ) {
+            jo.throw_error( "Practice recipes should not have difficulty (use practice_data)", "difficulty" );
+        }
     } else {
-        jo.read( "result", result_, true );
+        if( !jo.read( "result", result_, true ) && !result_ ) {
+            jo.throw_error( "Recipe missing result" );
+        }
         ident_ = recipe_id( result_.str() );
     }
 
@@ -156,7 +185,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         // so we can specify moves that is not a multiple of 100
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                               time_duration::units ) );
     }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
@@ -329,7 +358,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     } else {
                         blueprint_reqs->time =
                             to_moves<int>( read_from_json_string<time_duration>(
-                                               *jneeds.get_raw( "time" ), time_duration::units ) );
+                                               jneeds.get_member( "time" ), time_duration::units ) );
                     }
                 }
                 if( jneeds.has_member( "skills" ) ) {
@@ -344,6 +373,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 }
             } else if( check_blueprint_needs ) {
                 bp_autocalc = true;
+            }
+        }
+    } else if( type == "practice" ) {
+        mandatory( jo, false, "name", name_ );
+        assign( jo, "category", category, strict );
+        assign( jo, "subcategory", subcategory, strict );
+        assign( jo, "description", description, strict );
+        mandatory( jo, false, "practice_data", practice_data );
+
+        if( jo.has_member( "byproducts" ) ) {
+            byproducts.clear();
+            for( JsonArray arr : jo.get_array( "byproducts" ) ) {
+                itype_id byproduct( arr.get_string( 0 ) );
+                byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
     } else if( type == "uncraft" ) {
@@ -665,12 +708,12 @@ std::string recipe::recipe_proficiencies_string() const
     return list;
 }
 
-std::set<proficiency_id> recipe::required_proficiencies() const
+std::vector<proficiency_id> recipe::required_proficiencies() const
 {
-    std::set<proficiency_id> ret;
+    std::vector<proficiency_id> ret;
     for( const recipe_proficiency &rec : proficiencies ) {
         if( rec.required ) {
-            ret.insert( rec.id );
+            ret.emplace_back( rec.id );
         }
     }
     return ret;
@@ -686,12 +729,12 @@ bool recipe::character_has_required_proficiencies( const Character &c ) const
     return true;
 }
 
-std::set<proficiency_id> recipe::assist_proficiencies() const
+std::vector<proficiency_id> recipe::used_proficiencies() const
 {
-    std::set<proficiency_id> ret;
+    std::vector<proficiency_id> ret;
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
-            ret.insert( rec.id );
+            ret.emplace_back( rec.id );
         }
     }
     return ret;
@@ -791,75 +834,61 @@ float recipe::exertion_level() const
     return exertion;
 }
 
-// Format a std::pair<skill_id, int> for the crafting menu.
+// Format a vector of std::pair<skill_id, int> for the crafting menu.
 // skill colored green (or yellow if beyond characters skill)
-// optionally with the skill level (player / difficulty)
-template<typename Iter>
-std::string required_skills_as_string( Iter first, Iter last, const Character *c,
-                                       const bool print_skill_level )
+// with the skill level (player / difficulty)
+static std::string required_skills_as_string( const std::vector<std::pair<skill_id, int>> &skills,
+        const Character &c )
 {
-    if( first == last ) {
+    if( skills.empty() ) {
         return _( "<color_cyan>none</color>" );
     }
-
-    return enumerate_as_string( first, last,
+    return enumerate_as_string( skills,
     [&]( const std::pair<skill_id, int> &skill ) {
-        const int player_skill = c ? c->get_knowledge_level( skill.first ) : 0;
+        const int player_skill = c.get_skill_level( skill.first );
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
-        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
-        skill_level_string += std::to_string( skill.second );
-        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
-                              skill.first.obj().name(), difficulty_color, skill_level_string );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%d/%d)</color>", skill.first->name(),
+                              difficulty_color, player_skill, skill.second );
     } );
 }
 
-// Format a std::pair<skill_id, int> for the basecamp bulletin board.
+// Format a vector of std::pair<skill_id, int> for the basecamp bulletin board.
 // skill colored white with difficulty in parenthesis.
-template<typename Iter>
-std::string required_skills_as_string( Iter first, Iter last )
+static std::string required_skills_as_string( const std::vector<std::pair<skill_id, int>> &skills )
 {
-    if( first == last ) {
+    if( skills.empty() ) {
         return _( "<color_cyan>none</color>" );
     }
-
-    return enumerate_as_string( first, last,
+    return enumerate_as_string( skills,
     [&]( const std::pair<skill_id, int> &skill ) {
-        return string_format( "<color_white>%s (%d)</color>", skill.first.obj().name(),
-                              skill.second );
+        return string_format( "<color_white>%s (%d)</color>", skill.first->name(), skill.second );
     } );
 }
 
-std::string recipe::primary_skill_string( const Character *c, bool print_skill_level ) const
+std::string recipe::primary_skill_string( const Character &c ) const
 {
-    std::vector< std::pair<skill_id, int> > skillList;
+    std::vector<std::pair<skill_id, int>> skillList;
 
-    if( !skill_used.is_null() ) {
-        skillList.emplace_back( skill_used, difficulty );
+    if( skill_used ) {
+        skillList.emplace_back( skill_used, get_difficulty( c ) );
     }
 
-    return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
+    return required_skills_as_string( skillList, c );
 }
 
-std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
-        bool print_skill_level ) const
+std::string recipe::required_skills_string( const Character &c ) const
 {
-    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
-
-    // There is primary skill used and it should be included: add it to the beginning
-    if( !skill_used.is_null() && include_primary_skill ) {
-        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
-    }
-    return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
+    return required_skills_as_string( sorted_lex( required_skills ), c );
 }
 
 std::string recipe::required_all_skills_string() const
 {
     std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
     // There is primary skill used, add it to the front
-    if( !skill_used.is_null() ) {
+    if( skill_used ) {
         skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-    return required_skills_as_string( skillList.begin(), skillList.end() );
+    return required_skills_as_string( skillList );
 }
 
 std::string recipe::batch_savings_string() const
@@ -871,7 +900,12 @@ std::string recipe::batch_savings_string() const
 
 std::string recipe::result_name( const bool decorated ) const
 {
-    std::string name = item::nname( result_ );
+    std::string name;
+    if( !name_.empty() ) {
+        name = name_.translated();
+    } else {
+        name = item::nname( result_ );
+    }
     if( decorated &&
         uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
         name = "* " + name;
@@ -943,6 +977,11 @@ std::function<bool( const item & )> recipe::get_component_filter(
                frozen_filter( component ) &&
                magazine_filter( component );
     };
+}
+
+bool recipe::is_practice() const
+{
+    return practice_data.has_value();
 }
 
 bool recipe::is_blueprint() const
@@ -1102,9 +1141,9 @@ void recipe::incorporate_build_reqs()
     reqs_internal.emplace_back( req_id, 1 );
 }
 
-void recipe_proficiency::deserialize( JsonIn &jsin )
+void recipe_proficiency::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void recipe_proficiency::load( const JsonObject &jo )
@@ -1117,9 +1156,9 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "max_experience", max_experience );
 }
 
-void book_recipe_data::deserialize( JsonIn &jsin )
+void book_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void book_recipe_data::load( const JsonObject &jo )
@@ -1127,4 +1166,20 @@ void book_recipe_data::load( const JsonObject &jo )
     jo.read( "skill_level", skill_req );
     jo.read( "recipe_name", alt_name );
     jo.read( "hidden", hidden );
+}
+
+void practice_recipe_data::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void practice_recipe_data::load( const JsonObject &jo )
+{
+    jo.read( "min_difficulty", min_difficulty );
+    if( !jo.read( "max_difficulty", max_difficulty ) ) {
+        max_difficulty = MAX_SKILL - 1;
+    }
+    if( !jo.read( "skill_limit", skill_limit ) ) {
+        skill_limit = MAX_SKILL;
+    }
 }

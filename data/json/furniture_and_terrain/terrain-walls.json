@@ -74,17 +74,7 @@
     "coverage": 60,
     "connects_to": "WALL",
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "PLACE_ITEM",
-      "INDOORS",
-      "AUTO_WALL_SYMBOL",
-      "BASHABLE",
-      "THIN_OBSTACLE",
-      "MOUNTABLE",
-      "SHORT"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
@@ -432,6 +422,11 @@
     "coverage": 100,
     "roof": "t_metal_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_scrap_wall_halfway",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -451,7 +446,7 @@
     "alias": [ "t_wall_metal_corrugated_h", "t_wall_metal_corrugated_v" ],
     "name": "corrugated metal wall",
     "description": "A wall made from a thin sheet of corrugated steel held in a frame, weather and wind proof but not very insulating or durable.",
-    "looks_like": "t_metal_wall",
+    "looks_like": "t_wall_metal",
     "symbol": "LINE_OXOX",
     "color": "cyan",
     "move_cost": 0,
@@ -586,8 +581,19 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_pit",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "spike", "count": 19 }, { "item": "scrap", "count": 8 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
+    "oxytorch": {
+      "result": "t_pit",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "spike", "count": [ 1, 19 ] }, { "item": "scrap", "count": [ 1, 8 ] } ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 100,
@@ -601,7 +607,7 @@
     "type": "terrain",
     "id": "t_scrap_wall",
     "name": "simple metal wall",
-    "looks_like": "t_metal_wall",
+    "looks_like": "t_wall_metal",
     "description": "A relatively simple wall made of scraped together metal.  It's still capable of blocking intruders and supporting a roof with adjacent walls.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
@@ -986,7 +992,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "coverage": 90,
+    "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
@@ -1011,6 +1017,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
@@ -1181,7 +1188,14 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_floor",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 3 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,

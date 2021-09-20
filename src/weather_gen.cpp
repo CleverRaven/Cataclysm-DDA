@@ -12,7 +12,6 @@
 #include "cata_utility.h"
 #include "condition.h"
 #include "dialogue.h"
-#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
@@ -267,7 +266,8 @@ void weather_generator::test_weather( unsigned seed ) const
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
-    w_point weatherPoint = *g->weather.weather_precise;
+    const weather_manager &weather = get_weather_const();
+    w_point weatherPoint = *weather.weather_precise;
     write_to_file( "weather.output", [&]( std::ostream & testfile ) {
         testfile <<
                  "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
@@ -278,7 +278,7 @@ void weather_generator::test_weather( unsigned seed ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w );
-            *g->weather.weather_precise = w;
+            *weather.weather_precise = w;
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -297,7 +297,7 @@ void weather_generator::test_weather( unsigned seed ) const
         }
 
     }, "weather test file" );
-    *g->weather.weather_precise = weatherPoint;
+    *weather.weather_precise = weatherPoint;
 }
 
 weather_generator weather_generator::load( const JsonObject &jo )

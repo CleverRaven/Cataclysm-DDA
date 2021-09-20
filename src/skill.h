@@ -14,7 +14,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class item;
@@ -170,7 +169,7 @@ class SkillLevel
         void train( int amount, float catchup_modifier, float knowledge_modifier,
                     bool allow_multilevel = false );
         void knowledge_train( int amount, int npc_knowledge = 0 );
-        bool isRusting() const;
+        bool isRusty() const;
         bool rust( int rust_resist );
         void practice();
         bool can_train() const;
@@ -218,7 +217,7 @@ class SkillLevel
         }
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 };
 
 class SkillLevelMap : public std::map<skill_id, SkillLevel>
@@ -249,6 +248,7 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool theoretical_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
+        bool has_same_levels_as( const SkillLevelMap &other ) const;
 };
 
 class SkillDisplayType

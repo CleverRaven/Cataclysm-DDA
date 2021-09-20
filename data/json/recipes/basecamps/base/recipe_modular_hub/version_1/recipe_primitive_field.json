@@ -771,10 +771,10 @@
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "time": "180 m",
     "blueprint_needs": {
-      "time": "1 d 6 h",
+      "time": "1 d 16 h",
       "skills": [ [ "survival", 3 ] ],
       "inline": {
-        "tools": [ [ [ "elec_jackhammer", 42000 ], [ "jackhammer", 840 ], [ "pickaxe", -1 ] ] ],
+        "tools": [ [ [ "elec_jackhammer", 56000 ], [ "jackhammer", 1120 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components": [  ]
       }

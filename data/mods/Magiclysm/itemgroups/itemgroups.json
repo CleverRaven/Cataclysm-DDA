@@ -433,6 +433,7 @@
       { "item": "mring_perception_2", "prob": 10 },
       { "item": "mring_speed_5", "prob": 10 },
       { "item": "mring_protection_4", "prob": 10 },
+      { "item": "storage_ring_lesser", "prob": 10 },
       { "item": "mring_wizardry_lesser", "prob": 5 }
     ]
   },
@@ -449,6 +450,7 @@
       { "item": "mring_perception_3", "prob": 10 },
       { "item": "mring_speed_7", "prob": 10 },
       { "item": "mring_protection_6", "prob": 10 },
+      { "item": "storage_ring_greater", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },

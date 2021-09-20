@@ -93,6 +93,9 @@ using matype_id = string_id<martialart>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
+
 class material_type;
 using material_id = string_id<material_type>;
 
@@ -117,6 +120,9 @@ using mtype_id = string_id<mtype>;
 
 class npc_class;
 using npc_class_id = string_id<npc_class>;
+
+class npc_template;
+using npc_template_id = string_id<npc_template>;
 
 class faction;
 using faction_id = string_id<faction>;
@@ -149,6 +155,9 @@ using skill_displayType_id = string_id<SkillDisplayType>;
 
 struct species_type;
 using species_id = string_id<species_type>;
+
+class speed_description;
+using speed_description_id = string_id<speed_description>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;

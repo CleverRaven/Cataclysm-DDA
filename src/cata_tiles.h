@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "animation.h"
+#include "cata_void.h"
 #include "creature.h"
 #include "enums.h"
 #include "lightmap.h"
@@ -46,21 +47,23 @@ struct tile_type {
 };
 
 // Make sure to change TILE_CATEGORY_IDS if this changes!
-enum TILE_CATEGORY {
-    C_NONE,
-    C_VEHICLE_PART,
-    C_TERRAIN,
-    C_ITEM,
-    C_FURNITURE,
-    C_TRAP,
-    C_FIELD,
-    C_LIGHTING,
-    C_MONSTER,
-    C_BULLET,
-    C_HIT_ENTITY,
-    C_WEATHER,
-    C_OVERMAP_TERRAIN,
-    C_OVERMAP_NOTE
+enum class TILE_CATEGORY {
+    NONE,
+    VEHICLE_PART,
+    TERRAIN,
+    ITEM,
+    FURNITURE,
+    TRAP,
+    FIELD,
+    LIGHTING,
+    MONSTER,
+    BULLET,
+    HIT_ENTITY,
+    WEATHER,
+    OVERMAP_TERRAIN,
+    MAP_EXTRA,
+    OVERMAP_NOTE,
+    last
 };
 
 class tile_lookup_res
@@ -126,6 +129,8 @@ class tileset
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
 
+        std::unordered_set<std::string> duplicate_ids;
+
         std::unordered_map<std::string, tile_type> tile_ids;
         // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
@@ -166,6 +171,10 @@ class tileset
         }
         const texture *get_memory_tile( const size_t index ) const {
             return get_if_available( index, memory_tile_values );
+        }
+
+        const std::unordered_set<std::string> &get_duplicate_ids() const {
+            return duplicate_ids;
         }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
@@ -549,13 +558,17 @@ class cata_tiles
             const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
-        void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
-                                  const std::string &prefix = "" );
-        template <typename arraytype>
-        void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
-                                  const std::string &prefix = "" );
+        void tile_loading_report_map( const maptype &tiletypemap, TILE_CATEGORY category,
+                                      const std::string &prefix = "" );
+        template <typename Sequence>
+        void tile_loading_report_seq_types( const Sequence &tiletypes, TILE_CATEGORY category,
+                                            const std::string &prefix = "" );
+        template <typename Sequence>
+        void tile_loading_report_seq_ids( const Sequence &tiletypes, TILE_CATEGORY category,
+                                          const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
+        void tile_loading_report_count( size_t count, TILE_CATEGORY category,
+                                        const std::string &prefix = "" );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
@@ -563,6 +576,9 @@ class cata_tiles
         template<typename Iter, typename Func>
         void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                          const std::string &prefix );
+
+        void tile_loading_report_dups();
+
         /** Lighting */
         void init_light();
 

@@ -21,11 +21,10 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class monster;
-class player;
 class translation;
 
 class player_activity
@@ -134,7 +133,7 @@ class player_activity
         bool is_suspendable() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         // used to migrate the item indices to item_location
         // obsolete after 0.F stable
         void migrate_item_position( Character &guy );
@@ -153,7 +152,7 @@ class player_activity
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn( player &p );
+        void do_turn( Character &you );
 
         /**
          * Performs activity-specific cleanup when Character::cancel_activity() is called

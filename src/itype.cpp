@@ -3,10 +3,10 @@
 #include <cstdlib>
 #include <utility>
 
+#include "character.h"
 #include "debug.h"
 #include "item.h"
 #include "make_static.h"
-#include "player.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -43,8 +43,22 @@ std::string enum_to_string<condition_type>( condition_type data )
         case condition_type::num_condition_types:
             break;
     }
-    debugmsg( "Invalid condition_type" );
-    abort();
+    cata_fatal( "Invalid condition_type" );
+}
+
+template<>
+std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
+{
+    switch( data ) {
+        case itype_variant_kind::gun:
+            return "gun";
+        case itype_variant_kind::generic:
+            return "generic";
+        case itype_variant_kind::last:
+            debugmsg( "Invalid variant type!" );
+            return "";
+    }
+    return "";
 }
 } // namespace io
 
@@ -94,7 +108,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( player &p, item &it, const tripoint &pos ) const
+int itype::tick( Character &p, item &it, const tripoint &pos ) const
 {
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
@@ -111,15 +125,19 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos ) const
+cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
     }
-    return invoke( p, it, pos, use_methods.begin()->first );
+    if( use_methods.find( "transform" ) != use_methods.end() ) {
+        return  invoke( p, it, pos, "transform" );
+    } else {
+        return invoke( p, it, pos, use_methods.begin()->first );
+    }
 }
 
-cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos,
+cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
                                    const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );

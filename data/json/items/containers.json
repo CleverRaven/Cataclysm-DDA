@@ -610,7 +610,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "carton_sealed",
@@ -740,7 +741,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "can_medium",
@@ -762,6 +764,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
+    "qualities": [ [ "BOIL", 1 ] ],
     "volume": "503 ml"
   },
   {
@@ -1681,7 +1684,8 @@
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "survival_kit_box",
@@ -1745,7 +1749,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
-    "looks_like": "1st_aid",
+    "looks_like": "ifak_pouch",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
     "volume": "2650 ml",
@@ -1770,7 +1774,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
-    "looks_like": "1st_aid",
+    "looks_like": "1st_aid_box",
     "description": "A fabric pouch that used to contain an IFAK.",
     "weight": "5 g",
     "volume": "1250 ml",

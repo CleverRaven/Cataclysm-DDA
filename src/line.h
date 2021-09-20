@@ -231,6 +231,11 @@ float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
 
+// Travel distance between 2 points on a square grid, assuming diagonal moves
+// cost sqrt(2) and cardinal moves cost 1.
+int octile_dist( const point &loc1, const point &loc2, int multiplier = 1 );
+float octile_dist_exact( const point &loc1, const point &loc2 );
+
 // get angle of direction represented by point
 units::angle atan2( const point & );
 units::angle atan2( const rl_vec2d & );

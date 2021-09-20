@@ -59,7 +59,6 @@
 #include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -145,6 +144,44 @@ avatar::~avatar() = default;
 avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
+
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
+void avatar::control_npc( npc &np )
+{
+    if( !np.is_player_ally() ) {
+        debugmsg( "control_npc() called on non-allied npc %s", np.name );
+        return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    npc tmp;
+    // move avatar character data into shadow npc
+    swap_character( *shadow_npc, tmp );
+    // swap target npc with shadow npc
+    swap_npc( *shadow_npc, np, tmp );
+    // move shadow npc character data into avatar
+    swap_character( *shadow_npc, tmp );
+    // the avatar character is no longer a follower NPC
+    g->remove_npc_follower( getID() );
+    // the previous avatar character is now a follower
+    g->add_npc_follower( np.getID() );
+    np.set_fac( faction_id( "your_followers" ) );
+    // perception and mutations may have changed, so reset light level caches
+    g->reset_light_level();
+    // center the map on the new avatar character
+    g->vertical_shift( posz() );
+    g->update_map( *this );
+}
 
 void avatar::toggle_map_memory()
 {
@@ -650,29 +687,34 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "A training session with this book takes %s." ),
                  to_string( time_duration::from_minutes( reading->time ) ) );
     } else {
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                   "A chapter of this book takes %d minutes to read.", reading->time ),
+        add_msg( m_info, n_gettext( "A chapter of this book takes %d minute to read.",
+                                    "A chapter of this book takes %d minutes to read.", reading->time ),
                  reading->time );
     }
 
-    std::vector<std::string> recipe_list;
+    std::vector<std::string> crafting_recipes;
+    std::vector<std::string> practice_recipes;
     for( const auto &elem : reading->recipes ) {
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
         }
-        recipe_list.push_back( elem.name() );
+        if( elem.recipe->is_practice() ) {
+            practice_recipes.emplace_back( elem.recipe->result_name() );
+        } else {
+            crafting_recipes.emplace_back( elem.name() );
+        }
     }
-    if( !recipe_list.empty() ) {
-        std::string recipe_line =
-            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                     "This book contains %1$zu crafting recipes: %2$s",
-                                     recipe_list.size() ),
-                           recipe_list.size(),
-                           enumerate_as_string( recipe_list ) );
-        add_msg( m_info, recipe_line );
+    if( !crafting_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you craft: %s" ),
+                                        enumerate_as_string( crafting_recipes ) ) );
     }
-    if( recipe_list.size() != reading->recipes.size() ) {
+    if( !practice_recipes.empty() ) {
+        add_msg( m_info, string_format( _( "This book can help you practice: %s" ),
+                                        enumerate_as_string( practice_recipes ) ) );
+    }
+    const std::size_t num_total_recipes = crafting_recipes.size() + practice_recipes.size();
+    if( num_total_recipes < reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
 }
@@ -749,8 +791,18 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 {
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
-                                    name ) - 1;
+                                    get_name() ) - 1;
 }
+
+
+mfaction_id avatar::get_monster_faction() const
+{
+    // Can't be a static int_id, because mods add factions
+    static const string_id<monfaction> player_fac( "player" );
+
+    return player_fac.id();
+}
+
 
 void avatar::disp_morale()
 {
@@ -1078,31 +1130,6 @@ void avatar::reset_stats()
 
 }
 
-int avatar::get_str_base() const
-{
-    return Character::get_str_base() + std::max( 0, str_upgrade );
-}
-
-int avatar::get_dex_base() const
-{
-    return Character::get_dex_base() + std::max( 0, dex_upgrade );
-}
-
-int avatar::get_int_base() const
-{
-    return Character::get_int_base() + std::max( 0, int_upgrade );
-}
-
-int avatar::get_per_base() const
-{
-    return Character::get_per_base() + std::max( 0, per_upgrade );
-}
-
-int avatar::kill_xp() const
-{
-    return g->get_kill_tracker().kill_xp();
-}
-
 // based on  D&D 5e level progression
 static const std::array<int, 20> xp_cutoffs = { {
         300, 900, 2700, 6500, 14000,
@@ -1114,16 +1141,15 @@ static const std::array<int, 20> xp_cutoffs = { {
 
 int avatar::free_upgrade_points() const
 {
-    const int xp = kill_xp();
     int lvl = 0;
     for( const int &xp_lvl : xp_cutoffs ) {
-        if( xp >= xp_lvl ) {
+        if( kill_xp >= xp_lvl ) {
             lvl++;
         } else {
             break;
         }
     }
-    return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
+    return lvl - spent_upgrade_points;
 }
 
 void avatar::upgrade_stat_prompt( const character_stat &stat )
@@ -1131,13 +1157,11 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
     const int free_points = free_upgrade_points();
 
     if( free_points <= 0 ) {
-        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
-                xp_cutoffs.end(), kill_xp() );
-        if( xp_next_level == xp_cutoffs.end() ) {
+        const std::size_t lvl = spent_upgrade_points + free_points;
+        if( lvl >= xp_cutoffs.size() ) {
             popup( _( "You've already reached maximum level." ) );
         } else {
-            popup( _( "Needs %d more experience to gain next level." ),
-                   *xp_next_level - kill_xp() );
+            popup( _( "Needs %d more experience to gain next level." ), xp_cutoffs[lvl] - kill_xp );
         }
         return;
     }
@@ -1168,23 +1192,27 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
                   free_points ) ) {
         switch( stat ) {
             case character_stat::STRENGTH:
-                str_upgrade++;
+                str_max++;
+                spent_upgrade_points++;
+                recalc_hp();
                 break;
             case character_stat::DEXTERITY:
-                dex_upgrade++;
+                dex_max++;
+                spent_upgrade_points++;
                 break;
             case character_stat::INTELLIGENCE:
-                int_upgrade++;
+                int_max++;
+                spent_upgrade_points++;
                 break;
             case character_stat::PERCEPTION:
-                per_upgrade++;
+                per_max++;
+                spent_upgrade_points++;
                 break;
             case character_stat::DUMMY_STAT:
                 debugmsg( "Tried to use invalid stat" );
                 break;
         }
     }
-    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1277,6 +1305,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
+    item &weapon = get_wielded_item();
     if( weapon.has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
@@ -1315,13 +1344,14 @@ bool avatar::wield( item &target, const int obtain_cost )
         if( combine_stacks ) {
             weapon.combine( removed );
         } else {
-            weapon = removed;
+            set_wielded_item( removed );
+
         }
     } else {
         if( combine_stacks ) {
             weapon.combine( target );
         } else {
-            weapon = target;
+            set_wielded_item( target );
         }
     }
 
@@ -1445,7 +1475,7 @@ void avatar::daily_calories::save_activity( JsonOut &json ) const
     json.end_array();
 }
 
-void avatar::daily_calories::read_activity( JsonObject &data )
+void avatar::daily_calories::read_activity( const JsonObject &data )
 {
     if( data.has_array( "activity" ) ) {
         double act_level;
@@ -1556,118 +1586,33 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
-points_left::points_left()
-{
-    limit = MULTI_POOL;
-    init_from_options();
-}
-
-void points_left::init_from_options()
-{
-    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-}
-
-// Highest amount of points to spend on stats without points going invalid
-int points_left::stat_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return std::min( trait_points_left(),
-                             stat_points + std::min( 0, trait_points + skill_points ) );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::trait_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return stat_points + trait_points + std::min( 0, skill_points );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::skill_points_left() const
-{
-    return stat_points + trait_points + skill_points;
-}
-
-bool points_left::is_freeform()
-{
-    return limit == FREEFORM;
-}
-
-bool points_left::is_valid()
-{
-    return is_freeform() ||
-           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-             skill_points_left() >= 0 );
-}
-
-bool points_left::has_spare()
-{
-    return !is_freeform() && is_valid() && skill_points_left() > 0;
-}
-
-std::string points_left::to_string()
-{
-    if( limit == MULTI_POOL ) {
-        return string_format(
-                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                   trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                   skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-    } else if( limit == ONE_POOL ) {
-        return string_format( _( "Points left: %4d" ), skill_points_left() );
-    } else if( limit == TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
-    } else {
-        return _( "Freeform" );
-    }
-}
-
-int avatar::randomize_hobbies()
+void avatar::randomize_hobbies()
 {
     hobbies.clear();
     std::vector<profession_id> choices = profession::get_all_hobbies();
 
     int random = rng( 0, 5 );
-    int points = 0;
 
     if( random >= 1 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 3 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
     if( random >= 5 ) {
-        const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
-        hobbies.insert( &*hobby );
+        add_random_hobby( choices );
     }
+}
 
-    return points;
+void avatar::add_random_hobby( std::vector<profession_id> &choices )
+{
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_id &trait : hobby->get_locked_traits() ) {
+        toggle_trait( trait );
+    }
 }
 
 void avatar::reassign_item( item &it, int invlet )
@@ -1873,7 +1818,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -1920,7 +1865,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( here.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }
@@ -1964,4 +1909,9 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+}
+
+bool avatar::query_yn( const std::string &mes ) const
+{
+    return ::query_yn( mes );
 }

@@ -57,10 +57,8 @@ void proficiency::load_proficiencies( const JsonObject &jo, const std::string &s
     proficiency_factory.load( jo, src );
 }
 
-void proficiency_bonus::deserialize( JsonIn &jsin )
+void proficiency_bonus::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
-
     mandatory( jo, false, "type", type );
     mandatory( jo, false, "value", value );
 }
@@ -404,10 +402,8 @@ void proficiency_set::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void proficiency_set::deserialize( JsonIn &jsin )
+void proficiency_set::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
-
     jsobj.read( "known", known );
     jsobj.read( "learning", learning );
 }
@@ -429,18 +425,14 @@ void learning_proficiency::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void learning_proficiency::deserialize( JsonIn &jsin )
+void learning_proficiency::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
-
     jo.read( "id", id );
     jo.read( "practiced", practiced );
 }
 
-void book_proficiency_bonus::deserialize( JsonIn &jsin )
+void book_proficiency_bonus::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
-
     mandatory( jo, was_loaded, "proficiency", id );
     optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
     optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );
