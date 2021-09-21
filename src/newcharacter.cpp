@@ -2978,14 +2978,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
 
-            if( sorted_scens[cur_id]->has_flag( "INFECTED" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Infected player" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
-            if( sorted_scens[cur_id]->has_flag( "BAD_DAY" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Drunk and sick player" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
             if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
@@ -2996,10 +2988,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             }
             if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
-            if( sorted_scens[cur_id]->has_flag( "FUNGAL_INFECTION" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
             if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
