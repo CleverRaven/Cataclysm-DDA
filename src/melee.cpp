@@ -586,6 +586,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             getID(), cur_weapon->typeId(), hits, c->getID(), c->get_name() );
     }
 
+    const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
+                                   MAX_SKILL;
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
@@ -625,7 +627,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
-            melee_train( *this, 2, 5, *cur_weapon );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), *cur_weapon );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -763,7 +765,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
-                melee_train( *this, 5, 10, *cur_weapon );
+                melee_train( *this, 5, std::min( 10, skill_training_cap ), *cur_weapon );
             }
 
             // Treat monster as seen if we see it before or after the attack
@@ -1769,7 +1771,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             melee_attack( *c, false );
         }
 
-        t.add_msg_if_player( m_good, ngettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
+        t.add_msg_if_player( m_good, n_gettext( "%d enemy hit!", "%d enemies hit!", count_hit ),
+                             count_hit );
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
         set_stamina( temp_stamina );

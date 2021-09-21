@@ -341,7 +341,7 @@
     "id": "meat_mutant_tainted_smoked",
     "copy-from": "meat_mutant_tainted_cooked",
     "name": { "str": "smoked tainted mutant meat" },
-    "description": "Rotten mutatant meat that has been heavily smoked for preservation.",
+    "description": "Rotten mutant meat that has been heavily smoked for preservation.",
     "spoils_in": "24 days",
     "quench": -1,
     "proportional": { "price_postapoc": 1.8, "fun": 0.7 },

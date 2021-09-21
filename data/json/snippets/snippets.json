@@ -212,5 +212,29 @@
     "type": "snippet",
     "category": "dogwhistle_message_you",
     "text": [ "You hate this loud sound." ]
+  },
+  {
+    "type": "snippet",
+    "category": "slime_cheers",
+    "text": [
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"hey, it's gonna be all right!\""
+        }
+      },
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"we'll get through this!\""
+        }
+      },
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"i'm here for you!\""
+        }
+      }
+    ]
   }
 ]

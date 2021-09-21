@@ -685,7 +685,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( n_gettext(
                     "Deposit how much?  Max: %d cent.  (0 to cancel) ",
                     "Deposit how much?  Max: %d cents.  (0 to cancel) ", money ), money );
 
@@ -714,7 +714,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( n_gettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
                     "Withdraw how much?  Max: %d cents.  (0 to cancel) ", you.cash ), you.cash );
 
@@ -2692,9 +2692,9 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
-                               "It will finish burning in about %d hours.",
-                               hours ), hours );
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
@@ -2821,9 +2821,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
-                               "It will finish burning in about %d hours.",
-                               hours ), hours );
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
@@ -3236,9 +3236,9 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
-                add_msg( ngettext( "It will finish brewing in about %d hour.",
-                                   "It will finish brewing in about %d hours.",
-                                   hours ), hours );
+                add_msg( n_gettext( "It will finish brewing in about %d hour.",
+                                    "It will finish brewing in about %d hours.",
+                                    hours ), hours );
             }
             return;
         }
@@ -4591,9 +4591,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             const bool has_grapnel = you.has_amount( itype_grapnel, 1 );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
-            const char *query_str = ngettext( "Looks like %d story.  Jump down?",
-                                              "Looks like %d stories.  Jump down?",
-                                              height );
+            const char *query_str = n_gettext( "Looks like %d story.  Jump down?",
+                                               "Looks like %d stories.  Jump down?",
+                                               height );
 
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
@@ -5961,9 +5961,9 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                 pop += colorize( _( "There's a smoking rack here.  It is lit and smoking." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish smoking in about %d hour.",
-                                                        "It will finish smoking in about %d hours.",
-                                                        hours_left ), hours_left ) + "\n\n";
+                        pop += string_format( n_gettext( "It will finish smoking in about %d hour.",
+                                                         "It will finish smoking in about %d hours.",
+                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
                         pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {

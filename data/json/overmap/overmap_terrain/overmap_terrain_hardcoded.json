@@ -9,15 +9,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "crater",
-    "name": "crater",
-    "sym": "O",
-    "color": "red",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "field",
     "copy-from": "generic_open_land",
     "name": "field",

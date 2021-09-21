@@ -213,13 +213,6 @@ if (MINGW AND NOT RELEASE)
             ${RuntimeLib_GCC_S_DW2_1}
             ${RuntimeLib_STDC_PP_6}
             ${RuntimeLib_WINPTHREAD_1})
-    if (LOCALIZE)
-        find_library(RuntimeLib_iconv  "libiconv-2")
-        find_library(RuntimeLib_intl  "libintl-8")
-        set(RuntimeLib_LOCALIZE
-                ${RuntimeLib_iconv}
-                ${RuntimeLib_intl})
-    endif ()
     if (TILES)
         # SDL2 can have a varius deps. Here you are the MSYS2 ones...
         find_library(RuntimeLib_SDL2  "SDL2")

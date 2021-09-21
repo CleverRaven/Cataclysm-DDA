@@ -2121,8 +2121,8 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
-                const char *msg = ngettext( "You need at least %d charge of %s.",
-                                            "You need at least %d charges of %s.", qty );
+                const char *msg = n_gettext( "You need at least %d charge of %s.",
+                                             "You need at least %d charges of %s.", qty );
                 return ret_val<bool>::make_failure( msg, qty, obj.tname() );
             }
         }
@@ -2152,7 +2152,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
                                                     item::nname( tool_required.type ) );
             } else {
                 //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
+                return ret_val<bool>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
                                                     "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );

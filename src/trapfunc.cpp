@@ -1213,7 +1213,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( you->is_avatar() ) {
-        add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
+        add_msg( m_bad, n_gettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
         g->vertical_move( -height, true );
     } else {

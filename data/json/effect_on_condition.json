@@ -1,6 +1,37 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "scenario_bad_day",
+    "scenario_specific": true,
+    "effect": [
+      { "u_add_effect": "flu", "intensity": 1, "duration": "1000 minutes" },
+      { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_infected",
+    "scenario_specific": true,
+    "effect": [
+      { "u_add_effect": "infected", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" },
+      { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIBIOTICS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_fungal_infection",
+    "scenario_specific": true,
+    "effect": [ { "u_add_effect": "effect_fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence_min": 1,
     "recurrence_max": 1,

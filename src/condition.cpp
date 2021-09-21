@@ -1135,11 +1135,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                                  d.actor( is_npc )->get_amount( item_id ) );
             };
         } else if( checked_value == "exp" ) {
-            if( is_npc ) {
-                jo.throw_error( "exp not currently supported for npcs.  In " + jo.str() );
-            }
-            return []( const T & ) {
-                return g->get_kill_tracker().kill_xp();
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_kill_xp();
             };
         } else if( checked_value == "stim" ) {
             return [is_npc]( const T & d ) {

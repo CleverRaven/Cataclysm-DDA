@@ -398,19 +398,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d second", "%d seconds", num ), num );
+                    return string_format( n_gettext( "%d second", "%d seconds", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d minute", "%d minutes", num ), num );
+                    return string_format( n_gettext( "%d minute", "%d minutes", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hour", "%d hours", num ), num );
+                    return string_format( n_gettext( "%d hour", "%d hours", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d week", "%d weeks", num ), num );
+                    return string_format( n_gettext( "%d week", "%d weeks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d season", "%d seasons", num ), num );
+                    return string_format( n_gettext( "%d season", "%d seasons", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d year", "%d years", num ), num );
+                    return string_format( n_gettext( "%d year", "%d years", num ), num );
             }
         case clipped_align::right:
             switch( type ) {
@@ -420,25 +420,25 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     return _( "    forever" );
                 case clipped_unit::second:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  second", "%3d seconds", num ), num );
+                    return string_format( n_gettext( "%3d  second", "%3d seconds", num ), num );
                 case clipped_unit::minute:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  minute", "%3d minutes", num ), num );
+                    return string_format( n_gettext( "%3d  minute", "%3d minutes", num ), num );
                 case clipped_unit::hour:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    hour", "%3d   hours", num ), num );
+                    return string_format( n_gettext( "%3d    hour", "%3d   hours", num ), num );
                 case clipped_unit::day:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d     day", "%3d    days", num ), num );
+                    return string_format( n_gettext( "%3d     day", "%3d    days", num ), num );
                 case clipped_unit::week:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    week", "%3d   weeks", num ), num );
+                    return string_format( n_gettext( "%3d    week", "%3d   weeks", num ), num );
                 case clipped_unit::season:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  season", "%3d seasons", num ), num );
+                    return string_format( n_gettext( "%3d  season", "%3d seasons", num ), num );
                 case clipped_unit::year:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
+                    return string_format( n_gettext( "%3d    year", "%3d   years", num ), num );
             }
         case clipped_align::compact:
             switch( type ) {
@@ -446,19 +446,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d sec", "%d secs", num ), num );
+                    return string_format( n_gettext( "%d sec", "%d secs", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d min", "%d mins", num ), num );
+                    return string_format( n_gettext( "%d min", "%d mins", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hr", "%d hrs", num ), num );
+                    return string_format( n_gettext( "%d hr", "%d hrs", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d wk", "%d wks", num ), num );
+                    return string_format( n_gettext( "%d wk", "%d wks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d seas", "%d seas", num ), num );
+                    return string_format( n_gettext( "%d seas", "%d seas", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d yr", "%d yrs", num ), num );
+                    return string_format( n_gettext( "%d yr", "%d yrs", num ), num );
             }
     }
 }

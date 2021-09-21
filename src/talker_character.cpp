@@ -515,3 +515,13 @@ void talker_character::set_sleep_deprivation( int amount )
 {
     me_chr->set_sleep_deprivation( amount );
 }
+
+void talker_character::set_kill_xp( int amount )
+{
+    me_chr->kill_xp = amount;
+}
+
+int talker_character::get_kill_xp() const
+{
+    return me_chr->kill_xp;
+}
