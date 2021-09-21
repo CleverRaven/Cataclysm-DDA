@@ -322,6 +322,11 @@ float Character::hit_roll() const
         hit -= 2.0f;
     }
 
+    // Difficult to land a hit while prone
+    if( is_on_ground() ) {
+        hit -= one_in(4) ? 4.0f : 10.0f;
+    }
+
     //Unstable ground chance of failure
     if( has_effect( effect_bouldering ) ) {
         hit *= 0.75f;
@@ -357,6 +362,9 @@ std::string Character::get_miss_reason()
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
         farsightedness );
+    add_miss_reason(
+        _( "You struggle to hit reliably while on the ground." ),
+        3 * is_on_ground() );
 
     const std::string *const reason = melee_miss_reasons.pick();
     if( reason == nullptr ) {
@@ -491,10 +499,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
             set_movement_mode( move_mode_id( "prone" ) );
-        } else if( is_on_ground() ) {
-            add_msg_if_player( m_warning, _( "You cannot fight while on the ground." ) );
+            return false;
         }
-        return false;
     }
 
     melee::melee_stats.attack_count += 1;
@@ -677,6 +683,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             cur_weapon->has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
         }
+        // being prone affects how much leverage you can use to deal damage
+        if( is_on_ground() ) {
+            d.mult_damage( 0.3 );
+        }
 
         const ma_technique &technique = technique_id.obj();
 
@@ -811,8 +821,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     const int melee = get_skill_level( skill_melee );
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
+    const int prone_malus = is_on_ground() ? 50 : 0;
 
-    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
+    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus - prone_malus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn: %d", std::min( -50, mod_sta ) );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
@@ -907,6 +918,11 @@ int stumble( Character &u, const item &weap )
         return 0;
     }
 
+    int str_mod = u.str_cur;
+    if( u.is_on_ground() ) {
+        str_mod /= 4;
+    }
+
     // Examples:
     // 10 str with a hatchet: 4 + 8 = 12
     // 5 str with a battle axe: 26 + 49 = 75
@@ -914,7 +930,7 @@ int stumble( Character &u, const item &weap )
 
     /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     return ( weap.volume() / 125_ml ) +
-           ( weap.weight() / ( u.str_cur * 10_gram + 13.0_gram ) );
+           ( weap.weight() / ( str_mod * 10_gram + 13.0_gram ) );
 }
 
 bool Character::scored_crit( float target_dodge, const item &weap ) const
@@ -2502,6 +2518,10 @@ int Character::attack_speed( const item &weap ) const
     move_cost += ma_move_cost;
 
     move_cost *= mutation_value( "attackcost_modifier" );
+
+    if( is_on_ground() ) {
+        move_cost *= 4.0f;
+    }
 
     if( move_cost < 25.0 ) {
         return 25;
