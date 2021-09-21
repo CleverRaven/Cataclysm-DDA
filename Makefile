@@ -1175,7 +1175,7 @@ $(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json $(JSON_FORMATTER_BI
 ifndef CROSS
 	$(JSON_FORMATTER_BIN) $< && mkdir -p $(@D) && touch $@
 else
-       @echo Cannot run json formatter in cross compiles.
+	@echo Cannot run json formatter in cross compiles.
 endif
 
 style-all-json: $(JSON_FORMATTER_BIN)
