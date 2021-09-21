@@ -191,6 +191,7 @@ void game_menus::inv::common( avatar &you )
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
+    inv_s.allow_hide = true;
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -1752,6 +1753,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     } );
 
     inventory_drop_selector inv_s( you, preset );
+    inv_s.allow_hide = true;
 
     inv_s.add_character_items( you, false );
     inv_s.set_title( _( "Multidrop" ) );

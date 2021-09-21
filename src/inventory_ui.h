@@ -541,6 +541,9 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
+        // Whether to allow hiding/unhiding of container contents in this selector.
+        bool allow_hide = false;
+
     protected:
         Character &u;
         const inventory_selector_preset &preset;
