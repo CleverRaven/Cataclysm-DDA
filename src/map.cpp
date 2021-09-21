@@ -4204,8 +4204,9 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     for( size_t i = 1; i < quantity; i++ ) {
         spawn_item( p, type_id, 1, charges, birthday, damlevel, flags );
     }
-    // spawn the item
-    item new_item( type_id, birthday );
+    // migrate and spawn the item
+    itype_id mig_type_id = item_controller->migrate_id( type_id );
+    item new_item( mig_type_id, birthday );
     new_item.set_itype_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
