@@ -101,6 +101,7 @@
 //Globals                           *
 //***********************************
 
+static tileset_cache ts_cache;
 std::unique_ptr<cata_tiles> tilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
@@ -3576,7 +3577,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
@@ -3590,7 +3591,7 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
-    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );

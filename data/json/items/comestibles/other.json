@@ -3,6 +3,7 @@
     "type": "COMESTIBLE",
     "id": "testcomest",
     "name": { "str": "diet pill" },
+    "flags": [ "EDIBLE_FROZEN" ],
     "weight": "100 g",
     "color": "red",
     "spoils_in": "4 days 4 hours",

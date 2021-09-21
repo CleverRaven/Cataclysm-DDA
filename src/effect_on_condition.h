@@ -32,6 +32,7 @@ struct effect_on_condition {
         bool has_condition = false;
         bool has_false_effect = false;
         bool activate_only = true;
+        bool scenario_specific = false;
 
         time_duration recurrence_min = 1_seconds;
         time_duration recurrence_max = 1_seconds;

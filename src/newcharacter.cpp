@@ -2978,14 +2978,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
 
-            if( sorted_scens[cur_id]->has_flag( "INFECTED" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Infected player" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
-            if( sorted_scens[cur_id]->has_flag( "BAD_DAY" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Drunk and sick player" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
             if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
@@ -2996,10 +2988,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             }
             if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
-            if( sorted_scens[cur_id]->has_flag( "FUNGAL_INFECTION" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
             if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
@@ -3049,10 +3037,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
-            // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && get_scenario()->has_flag( "CITY_START" ) ) {
-                reset_scenario( u, sorted_scens[0] );
-            }
+            reset_scenario( u, sorted_scens[0] );
 
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {

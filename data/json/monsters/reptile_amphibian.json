@@ -2,7 +2,7 @@
   {
     "id": "mon_frog_small",
     "type": "MONSTER",
-    "name": { "str": "huge frog" },
+    "name": { "str": "frog" },
     "description": "A mutant bullfrog the size of a person.  It looks unwell.",
     "copy-from": "mon_frog_giant",
     "proportional": { "hp": 0.67, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
