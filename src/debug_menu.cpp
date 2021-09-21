@@ -1052,7 +1052,7 @@ static void teleport_short()
 
 static void teleport_long()
 {
-    const tripoint_abs_omt where( ui::omap::choose_point() );
+    const tripoint_abs_omt where( ui::omap::choose_point( true ) );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
@@ -2780,7 +2780,7 @@ void debug()
             mx_menu.query();
             int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint_abs_omt where_omt( ui::omap::choose_point() );
+                const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
                 if( where_omt != overmap::invalid_tripoint ) {
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
