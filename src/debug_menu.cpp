@@ -1052,7 +1052,7 @@ static void teleport_short()
 
 static void teleport_long()
 {
-    const tripoint_abs_omt where( ui::omap::choose_point() );
+    const tripoint_abs_omt where( ui::omap::choose_point_debug() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }

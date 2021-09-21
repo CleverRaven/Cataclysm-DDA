@@ -1920,11 +1920,16 @@ void ui::omap::display_scents()
     overmap_ui::display( get_player_character().global_omt_location(), data );
 }
 
-void ui::omap::display_editor()
+tripoint_abs_omt ui::omap::choose_point_debug()
 {
     overmap_ui::draw_data_t data;
     data.debug_editor = true;
-    overmap_ui::display( get_player_character().global_omt_location(), data );
+    return overmap_ui::display( get_player_character().global_omt_location(), data );
+}
+
+void ui::omap::display_editor()
+{
+    choose_point_debug();
 }
 
 void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs_omt &select,
@@ -1944,11 +1949,4 @@ tripoint_abs_omt ui::omap::choose_point()
 tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin )
 {
     return overmap_ui::display( origin );
-}
-
-tripoint_abs_omt ui::omap::choose_point( int z )
-{
-    tripoint_abs_omt loc = get_player_character().global_omt_location();
-    loc.z() = z;
-    return overmap_ui::display( loc );
 }

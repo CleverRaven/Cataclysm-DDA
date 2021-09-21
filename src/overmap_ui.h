@@ -61,17 +61,17 @@ void display_editor();
 tripoint_abs_omt choose_point();
 
 /**
- * Same as above but start at z-level z instead of players
- * current z-level, x and y are taken from the players position.
- */
-tripoint_abs_omt choose_point( int z );
-/**
  * Interactive point choosing; used as the map screen.
  * The map is initially centered on the @ref origin.
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const tripoint_abs_omt &origin );
+
+/**
+ * Same as choose_point but uses the debug overmap viewer/editor.
+ */
+tripoint_abs_omt choose_point_debug();
 
 } // namespace omap
 
