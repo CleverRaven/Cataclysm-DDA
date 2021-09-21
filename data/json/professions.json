@@ -1014,7 +1014,7 @@
           {
             "item": "m4_carbine",
             "variant": "m4a1",
-            "ammo-item": "556",
+            "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
@@ -1966,7 +1966,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "ar15", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "item": "ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3879,7 +3879,7 @@
           {
             "item": "m4_carbine",
             "variant": "m4a1",
-            "ammo-item": "556",
+            "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
