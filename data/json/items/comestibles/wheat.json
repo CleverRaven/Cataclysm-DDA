@@ -187,7 +187,7 @@
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
-    "vitamins": [ ["calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
   {
