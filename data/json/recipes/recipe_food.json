@@ -6579,7 +6579,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "meat_stomach_small", 1, "LIST" ] ],
       [ [ "meat_offal", 1, "LIST" ] ],
-      [ [ "oatmeal", 1 ], [ "buckwheat", 1 ] ]
+      [ [ "oatmeal", 4 ], [ "buckwheat", 1 ] ]
     ]
   },
   {
@@ -6603,7 +6603,7 @@
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "meat_stomach_large", 1, "LIST" ] ],
       [ [ "meat_offal", 2, "LIST" ] ],
-      [ [ "oatmeal", 2 ], [ "buckwheat", 2 ] ]
+      [ [ "oatmeal", 8 ], [ "buckwheat", 2 ] ]
     ]
   },
   {
