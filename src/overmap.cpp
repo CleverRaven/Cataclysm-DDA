@@ -4671,7 +4671,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
 
         const oter_id &ter_id = ter( pos );
 
-        if( ter_id->is_river() || !connection.pick_subtype_for( ter_id ) ) {
+        if( ter_id->is_river() || ter_id->is_ravine() || ter_id->is_ravine_edge() || !connection.pick_subtype_for( ter_id ) ) {
             break;
         }
 
