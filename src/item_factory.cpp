@@ -2965,6 +2965,12 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
+    if( jo.has_member( "chat_topics" ) ) {
+        def.chat_topics.clear();
+        for( const std::string &m : jo.get_string_array( "chat_topics" ) ) {
+            def.chat_topics.emplace_back( m );
+        }
+    }
     if( jo.has_string( "phase" ) ) {
         def.phase = jo.get_enum_value<phase_id>( "phase" );
     }

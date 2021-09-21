@@ -2161,7 +2161,7 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
+        if( allow_hide && ( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             if( current_ui ) {
                 std::vector<item_location> inv = get_selected().locations;

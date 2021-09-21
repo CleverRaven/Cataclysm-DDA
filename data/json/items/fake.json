@@ -264,5 +264,42 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "stationary water purifier" }
+  },
+  {
+    "id": "pseudo_exercise_machine",
+    "type": "TOOL",
+    "name": { "str": "exercise machine" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": "T",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_punching_bag",
+    "type": "TOOL",
+    "name": { "str": "heavy punching bag" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_ergometer_mechanical",
+    "type": "TOOL",
+    "name": { "str": "mechanical ergometer" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_treadmill_mechanical",
+    "type": "TOOL",
+    "name": { "str": "gravity treadmill" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "L",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

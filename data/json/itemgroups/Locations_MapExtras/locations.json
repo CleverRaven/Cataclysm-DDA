@@ -1727,7 +1727,7 @@
       [ "manual_fabrication", 12 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],
-      [ "manual_computers", 20 ],
+      [ "manual_computer", 20 ],
       [ "tailor_portfolio", 1 ],
       [ "recipe_alpha", 1 ],
       [ "recipe_serum", 4 ],
@@ -1822,7 +1822,6 @@
       [ "mbag", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "file", 20 ],
-      [ "manual_computers", 20 ],
       [ "howto_computer", 20 ],
       [ "glassblowing_book", 4 ],
       [ "manual_fabrication", 30 ],
@@ -1839,7 +1838,9 @@
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],
       [ "manual_first_aid", 40 ],
-      [ "manual_computers", 20 ],
+      [ "manual_computer", 20 ],
+      [ "hackerman_computer", 10 ],
+      [ "webbasics_computer", 10 ],
       [ "cookbook", 35 ],
       [ "mask_guy_fawkes", 5 ],
       [ "cookbook_italian", 25 ],
@@ -2045,7 +2046,7 @@
       { "group": "ammo_pocket_batteries", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
       { "item": "textbook_business", "prob": 12 },
-      { "item": "manual_computers", "prob": 20 },
+      { "item": "manual_computer", "prob": 20 },
       { "item": "howto_computer", "prob": 10 },
       { "item": "textbook_computer", "prob": 8 },
       { "item": "computer_science", "prob": 8 },
@@ -2536,6 +2537,42 @@
       [ "yeast", 25 ],
       [ "sugar", 20 ],
       [ "chem_ethanol", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "exodii_tools",
+    "items": [
+      { "group": "tools_blacksmith", "prob": 50 },
+      { "group": "supplies_metal", "prob": 40 },
+      {
+        "collection": [
+          { "item": "oxy_torch", "prob": 100 },
+          {
+            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "prob": 100
+          }
+        ],
+        "prob": 25
+      },
+      [ "oxy_torch", 25 ],
+      { "item": "weldtank", "prob": 12, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 12, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
+      [ "sandpaper", 20 ],
+      [ "vac_mold", 15 ],
+      { "item": "welder", "prob": 10, "charges": [ 0, 500 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "exodii_ammo_crate",
+    "subtype": "collection",
+    "items": [
+      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
+      { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
+      { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
     ]
   }
 ]
