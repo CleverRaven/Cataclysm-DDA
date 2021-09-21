@@ -162,6 +162,11 @@ void weakpoints::load( const JsonArray &ja )
         weakpoint tmp;
         tmp.load( jo );
 
+        if ( tmp.id.empty() ) {
+            default_weakpoint = tmp;
+            continue;
+        }
+
         // Ensure that every weakpoint has a unique ID
         auto it = std::find_if( weakpoint_list.begin(), weakpoint_list.end(),
         [&]( const weakpoint & wp ) {
@@ -185,6 +190,11 @@ void weakpoints::remove( const JsonArray &ja )
     for( const JsonObject jo : ja ) {
         weakpoint tmp;
         tmp.load( jo );
+
+        if ( tmp.id.empty() ) {
+            default_weakpoint = weakpoint();
+            continue;
+        }
 
         auto it = std::find_if( weakpoint_list.begin(), weakpoint_list.end(),
         [&]( const weakpoint & wp ) {
