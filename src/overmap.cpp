@@ -4144,7 +4144,8 @@ void overmap::place_cities()
         } else {                 // 17% huge
             size = size * 2;
         }
-        size = std::max( size, 1 );
+        // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
+        size = std::max( size, 2 );
 
         // TODO: put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
