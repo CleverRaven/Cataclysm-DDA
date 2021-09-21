@@ -62,7 +62,7 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO M855A1" },
-    "description": "An updated loading of M855 5.56x45mm ammunition, featuring a 62 grain proectile containing an exposed steel penetrator and copper slug.  Designed as a mostly lead-free projectile, the opportunity was further taken to improve upon M855's penetration and lethality chracteristics through penetrator design and increased pressure. Its improved accuracy, penetration and lethality over M8855 are appreciated by users of shorter barreled AR-variants.",
+    "description": "An updated loading of M855 5.56x45mm ammunition, featuring a 62 grain proectile containing an exposed steel penetrator and copper slug.  Designed as a mostly lead-free projectile, the opportunity was further taken to improve upon M855's penetration and lethality chracteristics through penetrator design and increased pressure.  Its improved accuracy, penetration and lethality over M8855 are appreciated by users of shorter barreled AR-variants.",
     "price": 300,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
