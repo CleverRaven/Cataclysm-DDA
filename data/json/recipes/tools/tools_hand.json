@@ -52,7 +52,7 @@
     ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ], [ "pipe_fittings", 1 ] ] ]
   },
-{
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "metalworking_tongs",
@@ -69,16 +69,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-   "components": [
-        [
-            ["steel_lump", 1],
-            ["pipe", 2],
-            ["rebar", 2]
-        ],
-        [
-            ["nail", 1]
-        ]
-    ]
+   "components": [ [ [ "steel_lump", 1 ], [ "pipe", 2 ], [ "rebar", 2 ] ], [ [ "nail", 1 ] ] ]
   },
   {
     "type": "recipe",
