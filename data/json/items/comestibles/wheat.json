@@ -170,23 +170,25 @@
     "type": "COMESTIBLE",
     "id": "oatmeal",
     "name": { "str_sp": "oatmeal" },
-    "weight": "25 g",
+    "weight": "43 g",
     "color": "light_gray",
     "spoils_in": "360 days",
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 10,
+    "quench": -15,
+    "healthy": 1,
+    "calories": 161,
     "description": "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also doubles as food for horses while dry.",
     "price": 7500,
     "price_postapoc": 50,
     "material": [ "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "charges": 16,
-    "vitamins": [ [ "iron", 2 ] ],
-    "fun": -2
+    "charges": 4,
+    "vitamins": [ ["calcium", 3 ], [ "iron", 20 ] ],
+    "fun": -8
   },
   {
     "type": "COMESTIBLE",
@@ -198,7 +200,7 @@
     "symbol": ",",
     "quench": -10,
     "healthy": 1,
-    "calories": 323,
+    "calories": 335,
     "description": "Raw oats.",
     "price": 120,
     "price_postapoc": 100,
@@ -227,13 +229,13 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_deluxe",
     "name": { "str_sp": "deluxe cooked oatmeal" },
-    "weight": "164 g",
+    "weight": "273 g",
     "color": "light_gray",
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
@@ -248,7 +250,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 3 ], [ "iron", 20 ] ]
   },
   {
     "type": "COMESTIBLE",
