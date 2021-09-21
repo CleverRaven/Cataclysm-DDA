@@ -1084,10 +1084,7 @@
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
-      "both": {
-        "items": [ "pocketwatch", "knife_steak" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
-      },
+      "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "socks", "dress_shoes", "tux" ],
       "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
     }
@@ -2058,9 +2055,8 @@
     "skills": [ { "level": 1, "name": "cooking" } ],
     "items": {
       "both": { 
-        "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
-      },
+        "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ], 
+        "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
