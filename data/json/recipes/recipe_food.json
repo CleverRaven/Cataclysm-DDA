@@ -3729,7 +3729,7 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "oatmeal", 4 ], [ "dry_rice", 4 ] ],
+      [ [ "oatmeal", 6 ], [ "dry_rice", 4 ] ],
       [
         [ "honeycomb", 1 ],
         [ "con_milk", 1 ],
