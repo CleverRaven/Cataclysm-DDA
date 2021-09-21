@@ -114,6 +114,8 @@ TranslationDocument::TranslationDocument( const std::string &path )
                 string_format( "translated strings table offset %zu with %zu entries exceeds buffer size %zu",
                                translated_strings_table_offset, number_of_strings, data.size() ) );
     }
+    original_offsets.reserve( number_of_strings );
+    translated_offsets.reserve( number_of_strings );
     for( std::size_t i = 0; i < number_of_strings; i++ ) {
         std::size_t length = GetUint32( original_strings_table_offset + 8 * i );
         std::size_t offset = GetUint32( original_strings_table_offset + 8 * i + 4 );

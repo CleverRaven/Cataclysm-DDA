@@ -52,6 +52,34 @@ TEST_CASE( "TranslationManager loading benchmark", "[.][benchmark][translations]
     };
 }
 
+TEST_CASE( "TranslationManager translate benchmark", "[.][benchmark][translations]" )
+{
+    TranslationManager manager;
+
+    // Russian
+    REQUIRE( file_exist( "./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo" ) );
+    manager.LoadDocuments( std::vector<std::string> {"./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo"} );
+    REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) != 0 );
+    BENCHMARK( "Russian" ) {
+        return manager.Translate( "battery" );
+    };
+
+    // Chinese
+    REQUIRE( file_exist( "./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo" ) );
+    manager.LoadDocuments( std::vector<std::string> {"./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo"} );
+    REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) != 0 );
+    BENCHMARK( "Chinese" ) {
+        return manager.Translate( "battery" );
+    };
+
+    // English
+    manager.LoadDocuments( std::vector<std::string>() );
+    REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) == 0 );
+    BENCHMARK( "English" ) {
+        return manager.Translate( "battery" );
+    };
+}
+
 TEST_CASE( "TranslationManager translates message", "[translations]" )
 {
     std::vector<std::string> files{"./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo"};
