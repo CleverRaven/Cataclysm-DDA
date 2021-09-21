@@ -323,8 +323,7 @@ bool SkillLevel::isRusty() const
 
 bool SkillLevel::rust( int rust_resist )
 {
-    time_duration grace = time_duration::from_hours( get_option<int>( "SKILL_RUST_GRACE_PERIOD" ) );
-    if( ( calendar::turn - _lastPracticed ) < grace ) {
+    if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
         // don't rust within the grace period
         return false;
     }
@@ -363,8 +362,8 @@ bool SkillLevel::rust( int rust_resist )
 
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
+    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
-        const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * 100 * _level * _level ) - 1;
             --_level;
