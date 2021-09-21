@@ -19,13 +19,13 @@ class activity_tracker
         int num_events = 1;
 
         // Weariness metadata.
-        int tracker = 0;
-        int intake = 0;
         // Semi-consecutive 5 minute ticks of low activity (or 2.5 if we're sleeping). Float to handle mixed cases.
         float low_activity_ticks = 0.0f;
         // How many ticks since we've decreased intake.
         int tick_counter = 0;
     public:
+        int tracker = 0;
+        int intake = 0;
         // Logs activity level. If called multiple times in one turn, will preserve the highest.
         void log_activity( float new_level );
         // Informs the tracker that a new turn has started.
