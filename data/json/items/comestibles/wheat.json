@@ -187,7 +187,7 @@
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
-    "vitamins": [ ["calcium", 3 ], [ "iron", 20 ] ],
+    "vitamins": [ ["calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
   {
@@ -229,7 +229,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -250,7 +250,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 3 ], [ "iron", 20 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
