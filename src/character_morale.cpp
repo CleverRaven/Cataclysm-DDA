@@ -2,6 +2,7 @@
 #include "messages.h"
 #include "morale.h"
 #include "map_iterator.h"
+#include "debug.h"
 
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
@@ -20,7 +21,7 @@ void Character::update_morale()
 
 void Character::hoarder_morale_penalty()
 {
-    int pen = free_space() / 125_ml;
+    int pen = ( ( free_space() - holster_volume() ) - ( small_pocket_volume() / 4 ) ) / 125_ml;
     if( pen > 70 ) {
         pen = 70;
     }

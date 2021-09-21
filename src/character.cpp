@@ -7236,6 +7236,35 @@ units::volume Character::free_space() const
     return volume_capacity;
 }
 
+units::volume Character::holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    for (const item& w : worn) {
+        if (w.is_holster())
+        {
+            holster_volume += w.get_total_capacity();
+        }
+    }
+    return holster_volume;
+}
+
+units::volume Character::small_pocket_volume( const units::volume& threshold ) const
+{
+    units::volume small_spaces = 0_ml;
+    if ( weapon.get_total_capacity() <= threshold )
+    {
+        small_spaces += weapon.get_total_capacity();
+    }
+    for (const item& w : worn) {
+        for (const item_pocket* pocket : w.get_all_contained_pockets().value()) {
+            if (pocket->volume_capacity() <= threshold) {
+                small_spaces += (pocket->volume_capacity());
+            }
+        }
+    }
+    return small_spaces;
+}
+
 units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
