@@ -107,7 +107,7 @@ void weakpoint::apply_to( resistances &resistances ) const
 void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
 {
     for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
-        damage.damage_units[i].damage_multiplier *= is_crit ? crit_mult[i] :damage_mult[i];
+        damage.damage_units[i].damage_multiplier *= is_crit ? crit_mult[i] : damage_mult[i];
     }
 }
 
@@ -172,7 +172,7 @@ void weakpoints::load( const JsonArray &ja )
         weakpoint tmp;
         tmp.load( jo );
 
-        if ( tmp.id.empty() ) {
+        if( tmp.id.empty() ) {
             default_weakpoint = tmp;
             continue;
         }
@@ -201,7 +201,7 @@ void weakpoints::remove( const JsonArray &ja )
         weakpoint tmp;
         tmp.load( jo );
 
-        if ( tmp.id.empty() ) {
+        if( tmp.id.empty() ) {
             default_weakpoint = weakpoint();
             continue;
         }
