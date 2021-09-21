@@ -170,7 +170,7 @@
     "type": "COMESTIBLE",
     "id": "oatmeal",
     "name": { "str_sp": "oatmeal" },
-    "weight": "43 g",
+    "weight": "35 g",
     "color": "light_gray",
     "spoils_in": "360 days",
     "container": "box_small",
