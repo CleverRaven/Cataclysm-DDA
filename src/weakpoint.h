@@ -46,6 +46,8 @@ struct weakpoint {
     std::array<float, static_cast<int>( damage_type::NUM )> armor_penalty;
     // Damage multipliers. Applied after armor.
     std::array<float, static_cast<int>( damage_type::NUM )> damage_mult;
+    // Critical damage multiplers. Applied after armor instead of damage_mult, if the attack is a crit.
+    std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
     // Difficulty to hit the weak point.
     float difficulty = -10.0f;
 
@@ -53,7 +55,7 @@ struct weakpoint {
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Apply the damage multiplers to a set of damage values.
-    void apply_to( damage_instance &damage ) const;
+    void apply_to( damage_instance &damage, bool is_crit ) const;
     // Return the change of the creature hitting the weakpoint.
     float hit_chance( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );

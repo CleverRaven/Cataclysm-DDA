@@ -65,6 +65,7 @@ weakpoint::weakpoint()
     armor_mult.fill( 1.0f );
     armor_penalty.fill( 0.0f );
     damage_mult.fill( 1.0f );
+    crit_mult.fill( 1.0f );
 }
 
 void weakpoint::load( const JsonObject &jo )
@@ -81,6 +82,14 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_object( "damage_mult" ) ) {
         damage_mult = load_damage_array( jo.get_object( "damage_mult" ), 1.0f );
     }
+    if( jo.has_object( "crit_mult" ) ) {
+        crit_mult = load_damage_array( jo.get_object( "crit_mult" ), 1.0f );
+    } else {
+        // Default to damage multiplier, if crit multipler is not specified.
+        crit_mult = damage_mult;
+    }
+
+
     // Set the ID to the name, if not provided.
     if( id.empty() ) {
         id = name;
@@ -95,10 +104,10 @@ void weakpoint::apply_to( resistances &resistances ) const
     }
 }
 
-void weakpoint::apply_to( damage_instance &damage ) const
+void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
 {
     for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
-        damage.damage_units[i].damage_multiplier *= damage_mult[i];
+        damage.damage_units[i].damage_multiplier *= is_crit ? crit_mult[i] :damage_mult[i];
     }
 }
 
