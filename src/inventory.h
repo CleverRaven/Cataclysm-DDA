@@ -194,6 +194,7 @@ class inventory : public visitable
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
+        void const_dump( std::vector<const item *> &dest ) const;
 
         // vector rather than list because it's NOT an item stack
         // returns all items that need processing
@@ -227,7 +228,7 @@ class inventory : public visitable
         void copy_invlet_of( const inventory &other );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchantment get_active_enchantment_cache( Character &owner ) const;
+        enchantment get_active_enchantment_cache( const Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
 

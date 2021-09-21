@@ -50,6 +50,12 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
+talker_npc::talker_npc( npc *new_me )
+{
+    me_chr = new_me;
+    me_chr_const = new_me;
+}
+
 std::string talker_npc::distance_to_goal() const
 {
     // TODO: this ignores the z-component

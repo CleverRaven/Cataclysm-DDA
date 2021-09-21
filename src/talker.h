@@ -125,16 +125,16 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
-        virtual int get_str_max() {
+        virtual int get_str_max() const {
             return 0;
         }
-        virtual int get_dex_max() {
+        virtual int get_dex_max() const {
             return 0;
         }
-        virtual int get_int_max() {
+        virtual int get_int_max() const {
             return 0;
         }
-        virtual int get_per_max() {
+        virtual int get_per_max() const {
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
@@ -260,6 +260,10 @@ class talker
         }
         virtual void add_sold( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
+            return {};
+        }
+        virtual std::vector<const item *> const_items_with( const std::function<bool( const item & )> & )
+        const {
             return {};
         }
         virtual void i_add( const item & ) {}

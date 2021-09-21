@@ -163,11 +163,11 @@ class enchantment
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
 
         // this enchantment has a valid condition and is in the right location
-        bool is_active( Character &guy, const item &parent ) const;
+        bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
         // @active means the container for the enchantment is active, for comparison to active flag.
-        bool is_active( Character &guy, bool active ) const;
+        bool is_active( const Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available

@@ -7179,6 +7179,19 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
+std::vector<const item *> Character::const_inv_dump() const
+{
+    std::vector<const item *> ret;
+    if( is_armed() && can_drop( weapon ).success() ) {
+        ret.push_back( &weapon );
+    }
+    for( const item &i : worn ) {
+        ret.push_back( &i );
+    }
+    inv->const_dump( ret );
+    return ret;
+}
+
 bool Character::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
 {
     if( parts.none() ) {

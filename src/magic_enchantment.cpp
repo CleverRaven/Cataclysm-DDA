@@ -184,7 +184,7 @@ enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const 
     }
 }
 
-bool enchantment::is_active( Character &guy, const item &parent ) const
+bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
         return false;
@@ -204,7 +204,7 @@ bool enchantment::is_active( Character &guy, const item &parent ) const
     return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( Character &guy, const bool active ) const
+bool enchantment::is_active( const Character &guy, const bool active ) const
 {
     if( active_conditions.second == condition::ACTIVE ) {
         return active;

@@ -100,7 +100,7 @@ struct reflex_activation_data {
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    bool is_trigger_true( Character &guy ) const;
+    bool is_trigger_true( const Character &guy ) const;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
