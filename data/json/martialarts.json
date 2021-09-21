@@ -607,12 +607,11 @@
       "tec_krav_maga_break",
       "tec_krav_maga_counter"
     ],
+    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS" ]
     "weapons": [
-      "baton-extended",
       "bone_knife",
       "butterfly_swords",
       "copper_knife",
-      "cudgel",
       "diveknife",
       "honey_scraper",
       "knife_baselard",
@@ -624,12 +623,7 @@
       "knife_rm42",
       "knife_trench",
       "makeshift_knife",
-      "PR24-extended",
-      "shocktonfa_off",
-      "shocktonfa_on",
       "switchblade",
-      "tonfa",
-      "tonfa_wood",
       "af2011a1_38super",
       "cz75",
       "deagle_44",
