@@ -24,6 +24,9 @@ struct weakpoint_attack {
     // Weather the attack is a melee attack.
     bool is_melee;
 
+    // Whether the attack a critical hit.
+    bool is_crit;
+
     // The Creature's skill in hitting weak points.
     float wp_skill;
 

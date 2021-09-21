@@ -55,6 +55,7 @@ weakpoint_attack::weakpoint_attack()  :
     source( nullptr ),
     weapon( &null_item_reference() ),
     is_melee( false ),
+    is_crit( false ),
     wp_skill( 0.0f ) {}
 
 
