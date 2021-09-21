@@ -1961,7 +1961,7 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "withered", 50 ] ] ],
+    "components": [ [ [ "withered", 5 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_leaves_pile"
