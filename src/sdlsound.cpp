@@ -102,7 +102,7 @@ bool init_sound()
     if( !sound_init_success ) {
         // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
         if( !Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels, audio_buffers, nullptr,
-            SDL_AUDIO_ALLOW_FREQUENCY_CHANGE ) ) {
+                                  SDL_AUDIO_ALLOW_FREQUENCY_CHANGE ) ) {
             Mix_AllocateChannels( 128 );
             Mix_ReserveChannels( static_cast<int>( sfx::channel::MAX_CHANNEL ) );
 
