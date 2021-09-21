@@ -27,7 +27,12 @@
     "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "SWARMS" ]
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "SWARMS" ]
   },
   {
     "id": "mon_grouse",
@@ -369,7 +374,12 @@
     "dodge": 1,
     "harvest": "bird_tiny",
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "SWARMS" ]
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "SWARMS" ]
   },
   {
     "id": "mon_grouse_chick",
@@ -384,10 +394,15 @@
     "copy-from": "mon_chicken_chick",
     "name": { "str": "brown chick" },
     "description": "A tiny darkly-colored chick, it could be from a number of different species.",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
     "volume": "250 ml",
     "weight": "50 g",
-    "upgrades": { "age_grow": 36, "into": "mon_crow" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "upgrades": { "age_grow": 36, "into": "mon_crow" }
   },
   {
     "id": "mon_raven_chick",
@@ -396,8 +411,7 @@
     "name": { "str": "brown chick" },
     "volume": "750 ml",
     "weight": "60 g",
-    "upgrades": { "age_grow": 35, "into": "mon_raven" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "upgrades": { "age_grow": 35, "into": "mon_raven" }
   },
   {
     "id": "mon_bluejay_chick",
@@ -406,8 +420,7 @@
     "name": { "str": "brown chick" },
     "volume": "225 ml",
     "weight": "38 g",
-    "upgrades": { "age_grow": 18, "into": "mon_bluejay" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "upgrades": { "age_grow": 18, "into": "mon_bluejay" }
   },
   {
     "id": "mon_cardinal_chick",
@@ -416,8 +429,7 @@
     "name": { "str": "brown chick" },
     "volume": "200 ml",
     "weight": "15 g",
-    "upgrades": { "age_grow": 11, "into": "mon_cardinal" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "upgrades": { "age_grow": 11, "into": "mon_cardinal" }
   },
   {
     "id": "mon_robin_chick",
@@ -426,8 +438,7 @@
     "name": { "str": "brown chick" },
     "volume": "215 ml",
     "weight": "35 g",
-    "upgrades": { "age_grow": 14, "into": "mon_robin" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "upgrades": { "age_grow": 14, "into": "mon_robin" }
   },
   {
     "id": "mon_sparrow_chick",
@@ -436,8 +447,7 @@
     "name": { "str": "brown chick" },
     "volume": "175 ml",
     "weight": "12 g",
-    "upgrades": { "age_grow": 15, "into": "mon_sparrow" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "upgrades": { "age_grow": 15, "into": "mon_sparrow" }
   },
   {
     "id": "mon_turkey_chick",
@@ -467,8 +477,13 @@
     "copy-from": "mon_chicken_chick",
     "name": { "str": "waterfowl chick" },
     "description": "A tiny yellow and brown waterfowl chick, it could be from a number of different species.",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
     "upgrades": { "age_grow": 12, "into": "mon_duck" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
+    "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_goose_canadian_chick",
@@ -559,6 +574,11 @@
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "BIRDFOOD" ]
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
   }
 ]

@@ -118,7 +118,7 @@
     "name": { "str": "Brawling" },
     "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
-    "autolearn": [ [ "melee", "1" ] ],
+    "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
     "static_buffs": [
       {
@@ -762,7 +762,7 @@
     "type": "martial_art",
     "id": "style_swordsmanship",
     "name": { "str": "Medieval Swordsmanship" },
-    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
+    "description": "The art of the longsword and sword & buckler, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
     "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
     "strictly_melee": true,
     "learn_difficulty": 6,
@@ -771,44 +771,39 @@
       {
         "id": "buff_swordsmanship_static",
         "name": "Swordsman's Stance",
-        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Dodge attempts, blocked damage decreased by 50% of Strength.",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Block attempts; blocked damage decreased by 50% of Strength.",
         "melee_allowed": true,
-        "bonus_dodges": 1,
+        "bonus_blocks": 1,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
     ],
-    "onblock_buffs": [
+    "onhit_buffs": [
       {
-        "id": "buff_swordsmanship_onblock",
-        "name": "Deflection",
-        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Sweeping Strike\" and \"Deathblow\" techniques.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "id": "buff_swordsmanship_onhit",
+        "name": "Conserve Momentum",
+        "description": "You maintain the momentum from your last strike to move more quickly",
         "melee_allowed": true,
-        "buff_duration": 1
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "buff_duration": 2,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
       }
     ],
-    "oncrit_buffs": [
+    "onpause_buffs": [
       {
-        "id": "buff_swordsmanship_oncrit",
-        "name": "Manslayer",
-        "description": "Your powerful attack has given you the chance to end this fight right now!\nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "id": "buff_swordsmanship_onpause",
+        "name": "Half Swording",
+        "description": "You grip the blade part way down for greater control.\n\nBlocked damage decreased an additional 50% of Strength, -1 Accuracy,\nEnables Grab and Lethal Strike",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
-        "buff_duration": 1
+        "buff_duration": 2,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "hit", "scale": -1.0 } ]
       }
     ],
-    "techniques": [
-      "tec_swordsmanship_grab",
-      "tec_swordsmanship_break",
-      "tec_swordsmanship_zornhau",
-      "tec_swordsmanship_unterhau",
-      "tec_swordsmanship_mordhau"
-    ],
+    "techniques": [ "tec_swordsmanship_mastercut", "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
     "weapons": [
       "arming_sword",
       "arming_sword_inferior",
       "arming_sword_fake",
-      "bio_blade_weapon",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -824,7 +819,12 @@
       "sword_wood",
       "zweihander",
       "zweihander_inferior",
-      "zweihander_fake"
+      "zweihander_fake",
+      "cutlass",
+      "cutlass_fake",
+      "cutlass_inferior",
+      "cavalry_sabre",
+      "cavalry_sabre_fake"
     ]
   },
   {

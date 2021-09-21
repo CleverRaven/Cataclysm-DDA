@@ -28,6 +28,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -1175,7 +1176,9 @@ bool talk_trial::roll( dialogue &d ) const
     }
     const int chance = calc_chance( d );
     const bool success = rng( 0, 99 ) < chance;
-    if( d.actor( false )->get_character() ) {
+    const bool speech_trial = type == TALK_TRIAL_PERSUADE || type == TALK_TRIAL_INTIMIDATE ||
+                              type == TALK_TRIAL_LIE;
+    if( speech_trial && d.actor( false )->get_character() ) {
         Character &u = *d.actor( false )->get_character();
         if( success ) {
             u.practice( skill_speech, ( 100 - chance ) / 10 );
@@ -1287,20 +1290,22 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             return;
         }
 
+        const item &u_weapon = u.get_wielded_item();
+        const item &me_weapon = me.get_wielded_item();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u.weapon.tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u_weapon.tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me.weapon.tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
             }
         } else if( tag == "<ammo>" ) {
-            if( !me.weapon.is_gun() ) {
+            if( !me_weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me_weapon.ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -1786,27 +1791,23 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
-                                        const std::string &container_name )
+static void receive_item( const itype_id &item_name, int count, const std::string &container_name,
+                          const dialogue &d )
 {
-    function = [item_name, cost, count, container_name]( const dialogue & d ) {
-        if( !d.actor( true )->buy_from( cost ) ) {
-            popup( _( "You can't afford it!" ) );
-            return;
-        }
-        if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn );
-            if( new_item.count_by_charges() ) {
-                new_item.mod_charges( count - 1 );
-                d.actor( false )->i_add( new_item );
-            } else {
-                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                    if( !new_item.ammo_default().is_null() ) {
-                        new_item.ammo_set( new_item.ammo_default() );
-                    }
-                    d.actor( false )->i_add( new_item );
+    if( container_name.empty() ) {
+        item new_item = item( item_name, calendar::turn );
+        if( new_item.count_by_charges() ) {
+            new_item.mod_charges( count - 1 );
+            d.actor( false )->i_add( new_item );
+        } else {
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                if( !new_item.ammo_default().is_null() ) {
+                    new_item.ammo_set( new_item.ammo_default() );
                 }
+                d.actor( false )->i_add( new_item );
             }
+        }
+        if( d.has_beta ) {
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
@@ -1815,20 +1816,38 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
                 popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
                        new_item.tname() );
             }
-        } else {
-            item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ),
-                              item_pocket::pocket_type::CONTAINER );
-            d.actor( false )->i_add( container );
+        }
+    } else {
+        item container( container_name, calendar::turn );
+        container.put_in( item( item_name, calendar::turn, count ),
+                          item_pocket::pocket_type::CONTAINER );
+        d.actor( false )->i_add( container );
+        if( d.has_beta ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
         }
-    };
-
-    // Update structure used by mission descriptions.
-    if( cost <= 0 ) {
-        likely_rewards.emplace_back( count, item_name );
     }
+}
+
+void talk_effect_fun_t::set_u_spawn_item( const itype_id &item_name, int count,
+        const std::string &container_name )
+{
+    function = [item_name, count, container_name]( const dialogue & d ) {
+        receive_item( item_name, count, container_name, d );
+    };
+    likely_rewards.emplace_back( count, item_name );
+}
+
+void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
+                                        const std::string &container_name )
+{
+    function = [item_name, cost, count, container_name]( const dialogue & d ) {
+        if( !d.actor( true )->buy_from( cost ) ) {
+            popup( _( "You can't afford it!" ) );
+            return;
+        }
+        receive_item( item_name, count, container_name, d );
+    };
 }
 
 void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, int count )
@@ -2160,7 +2179,8 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
         std::string translated_message;
         if( snippet ) {
-            translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
+            translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                    translation() ).translated() );
         } else {
             translated_message = _( message );
         }
@@ -2200,6 +2220,41 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
         if( target ) {
             wet_character( *target, iov.evaluate( d.actor( is_npc ) ) );
         }
+    };
+}
+
+void talk_effect_fun_t::set_open_dialogue()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_character() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_character() ) );
+        } else if( d.actor( true )->get_creature() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_creature() ) );
+        } else if( d.actor( true )->get_monster() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
+        } else if( d.actor( true )->get_item() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only take control if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_npc() != nullptr ) {
+            get_avatar().control_npc( *d.actor( true )->get_npc() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control_menu()
+{
+    function = []( const dialogue & ) {
+        get_avatar().control_npc_menu();
     };
 }
 
@@ -2487,9 +2542,15 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_per_max( input );
             };
         } else if( checked_value == "var" ) {
+            bool global;
+            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+            return [is_npc, var_name, global]( const dialogue & d, int input ) {
+                if( global ) {
+                    get_talker_for( get_player_character() )->set_value( var_name, std::to_string( input ) );
+                } else {
+                    d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+                }
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
@@ -2507,10 +2568,18 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             jo.throw_error( "altering cash this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "owed" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const dialogue & d, int input ) {
                     d.actor( true )->add_debt( input - d.actor( true )->debt() );
+                };
+            }
+        } else if( checked_value == "sold" ) {
+            if( is_npc ) {
+                jo.throw_error( "sold amount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return []( const dialogue & d, int input ) {
+                    d.actor( true )->add_sold( input - d.actor( true )->sold() );
                 };
             }
         } else if( checked_value == "skill_level" ) {
@@ -2618,9 +2687,13 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_friendly( input );
             };
+        } else if( checked_value == "exp" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_kill_xp( input );
+            };
         }
     }
-    jo.throw_error( "error setting interger destination in " + jo.str() );
+    jo.throw_error( "error setting integer destination in " + jo.str() );
     return []( const dialogue &, int ) {};
 }
 
@@ -2923,20 +2996,20 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
 {
     if( d.has_beta ) {
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
-        mission *miss = d.actor( true )->selected_mission();
+        const mission *miss = d.actor( true )->selected_mission();
         for( const talk_effect_fun_t &effect : effects ) {
             effect( d );
         }
-        d.actor( true )->add_opinion( opinion.trust, opinion.fear, opinion.value, opinion.anger,
-                                      opinion.owed );
+        d.actor( true )->add_opinion( opinion );
         if( miss && ( mission_opinion.trust || mission_opinion.fear ||
                       mission_opinion.value || mission_opinion.anger ) ) {
-            int m_value = d.actor( true )->cash_to_favor( miss->get_value() );
-            d.actor( true )->add_opinion( mission_opinion.trust ? m_value / mission_opinion.trust : 0,
-                                          mission_opinion.fear ? m_value / mission_opinion.fear : 0,
-                                          mission_opinion.value ? m_value / mission_opinion.value : 0,
-                                          mission_opinion.anger ? m_value / mission_opinion.anger : 0,
-                                          0 );
+            const int m_value = d.actor( true )->cash_to_favor( miss->get_value() );
+            npc_opinion op;
+            op.trust = mission_opinion.trust ? m_value / mission_opinion.trust : 0;
+            op.fear = mission_opinion.fear ? m_value / mission_opinion.fear : 0;
+            op.value = mission_opinion.value ? m_value / mission_opinion.value : 0;
+            op.anger = mission_opinion.anger ? m_value / mission_opinion.anger : 0;
+            d.actor( true )->add_opinion( op );
         }
         if( d.actor( true )->turned_hostile() ) {
             d.actor( true )->make_angry();
@@ -3012,6 +3085,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
+               jo.has_string( "u_spawn_item" ) ||
                jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
                jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
         int cost = 0;
@@ -3031,9 +3105,16 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             jo.read( "u_sell_item", item_name, true );
             subeffect_fun.set_u_sell_item( item_name, cost, count );
         } else if( jo.has_string( "u_buy_item" ) ) {
+            if( cost <= 0 ) {
+                jo.throw_error( "u_buy_item expecting a non-zero cost parameter", "u_buy_item" );
+            }
             itype_id item_name;
             jo.read( "u_buy_item", item_name, true );
             subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
+        } else if( jo.has_string( "u_spawn_item" ) ) {
+            itype_id item_name;
+            jo.read( "u_spawn_item", item_name, true );
+            subeffect_fun.set_u_spawn_item( item_name, count, container_name );
         } else if( jo.has_string( "u_consume_item" ) ) {
             subeffect_fun.set_consume_item( jo, "u_consume_item", count );
         } else if( jo.has_string( "npc_consume_item" ) ) {
@@ -3291,20 +3372,35 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         return;
     }
 
+    if( effect_id == "open_dialogue" ) {
+        subeffect_fun.set_open_dialogue();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control" ) {
+        subeffect_fun.set_take_control();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control_menu" ) {
+        subeffect_fun.set_take_control_menu();
+        set_effect( subeffect_fun );
+        return;
+    }
     jo.throw_error( "unknown effect string", effect_id );
 }
 
 void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "opinion" );
+        JsonValue jv = jo.get_member( "opinion" );
         // Same format as when saving a game (-:
-        opinion.deserialize( *ji );
+        opinion.deserialize( jv );
     }
     if( jo.has_member( "mission_opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "mission_opinion" );
+        JsonValue jv = jo.get_member( "mission_opinion" );
         // Same format as when saving a game (-:
-        mission_opinion.deserialize( *ji );
+        mission_opinion.deserialize( jv );
     }
     if( !jo.has_member( member_name ) ) {
         return;

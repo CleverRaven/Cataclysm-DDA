@@ -796,11 +796,12 @@ bool mattack::pull_metal_weapon( monster *z )
     Character *foe = dynamic_cast< Character * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
-            ( foe->weapon.made_of( material_id( "iron" ) ) ||
-              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
-              foe->weapon.made_of( material_id( "steel" ) ) ||
-              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+        const item &weapon = foe->get_wielded_item();
+        if( !weapon.has_flag( flag_NO_UNWIELD ) &&
+            ( weapon.made_of( material_id( "iron" ) ) ||
+              weapon.made_of( material_id( "hardsteel" ) ) ||
+              weapon.made_of( material_id( "steel" ) ) ||
+              weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             const int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -1077,7 +1078,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
         z->use_mech_power( -5 );
     }
-    z->set_goal( target->pos() );
+    z->set_dest( target->get_location() );
     smash( z );
 }
 
@@ -1499,24 +1500,32 @@ bool mattack::grow_vine( monster *z )
         if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.
-            vine->set_goal( z->pos() );
+            vine->set_dest( z->get_location() );
         }
     }
 
     return true;
 }
 
+// Return true if the creeper hub that spawned the vine is still there
+static bool has_vine_parent( monster *z )
+{
+    if( !z->has_dest() || !get_map().inbounds( z->get_dest() ) ) {
+        return false;
+    }
+    const monster *parent = get_creature_tracker().creature_at<monster>( z->get_dest() );
+    return parent != nullptr && parent->type->id == mon_creeper_hub;
+}
+
 bool mattack::vine( monster *z )
 {
-    int vine_neighbors = 0;
-    map &here = get_map();
-    bool parent_out_of_range = !here.inbounds( z->move_target() );
-    creature_tracker &creatures = get_creature_tracker();
-    monster *parent = creatures.creature_at<monster>( z->move_target() );
-    if( !parent_out_of_range && ( parent == nullptr || parent->type->id != mon_creeper_hub ) ) {
+    if( !has_vine_parent( z ) ) {
         // TODO: Should probably die instead.
         return true;
     }
+    int vine_neighbors = 0;
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     z->moves -= 100;
     for( const tripoint &dest : here.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = creatures.creature_at( dest );
@@ -1548,7 +1557,7 @@ bool mattack::vine( monster *z )
         }
     }
     // Calculate distance from nearest hub
-    int dist_from_hub = rl_dist( z->pos(), z->move_target() );
+    int dist_from_hub = rl_dist( z->get_location(), z->get_dest() );
     if( dist_from_hub > 20 || vine_neighbors > 5 || one_in( 7 - vine_neighbors ) ||
         !one_in( dist_from_hub ) ) {
         return true;
@@ -1557,7 +1566,7 @@ bool mattack::vine( monster *z )
         vine->make_ally( *z );
         vine->reset_special( "VINE" );
         // Store position of parent hub in vine goal point.
-        vine->set_goal( z->move_target() );
+        vine->set_dest( z->get_dest() );
     }
 
     return true;
@@ -2390,9 +2399,9 @@ bool mattack::callblobs( monster *z )
     // if we want to deal with NPCS and friendly monsters as well.
     // The strategy is to send about 1/3 of the available blobs after the player,
     // and keep the rest near the brain blob for protection.
-    const tripoint enemy = get_player_character().pos();
+    const tripoint_abs_ms enemy = get_player_character().get_location();
+    const std::vector<tripoint_abs_ms> nearby_points = closest_points_first( z->get_location(), 3 );
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_SLIME ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2405,7 +2414,7 @@ bool mattack::callblobs( monster *z )
     int guards = 0;
     for( std::list<monster *>::iterator ally = allies.begin();
          ally != allies.end(); ++ally, ++guards ) {
-        tripoint post = enemy;
+        tripoint_abs_ms post = enemy;
         if( guards < num_guards ) {
             // Each guard is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = ( nearby_points.size() * guards ) / num_guards;
@@ -2424,8 +2433,8 @@ bool mattack::callblobs( monster *z )
 bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
+    const std::vector<tripoint_abs_ms> nearby_points = closest_points_first( z->get_location(), 3 );
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -2437,7 +2446,7 @@ bool mattack::jackson( monster *z )
     int dancers = 0;
     bool converted = false;
     for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
-        tripoint post = z->pos();
+        tripoint_abs_ms post = z->get_location();
         if( dancers < num_dancers ) {
             // Each dancer is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = ( nearby_points.size() * dancers ) / num_dancers;
@@ -2712,7 +2721,7 @@ bool mattack::grab( monster *z )
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data->selected_has_weapon( pl->weapon.typeId() ) ) ) {
+                                              pl->martial_arts_data->selected_has_weapon( pl->get_wielded_item().typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else {
@@ -3062,7 +3071,7 @@ bool mattack::nurse_operate( monster *z )
             return false;
         }
         // Should designate target as the attack_target
-        z->set_dest( target->pos() );
+        z->set_dest( target->get_location() );
 
         // Check if target is already grabbed by something else
         if( target->has_effect( effect_grabbed ) ) {
@@ -3238,7 +3247,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || player_character.weapon.typeId() == itype_e_handcuffs ) {
+    if( z->friendly || player_character.get_wielded_item().typeId() == itype_e_handcuffs ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3256,7 +3265,7 @@ bool mattack::photograph( monster *z )
                    string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
                    z->type->id.str() );
 
-    if( player_character.weapon.is_gun() ) {
+    if( player_character.get_wielded_item().is_gun() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
     } else if( player_character.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
@@ -3346,10 +3355,12 @@ void mattack::rifle( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
-    tmp.weapon = item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_wielded_item( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    item &weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
 
     if( target && target->is_avatar() ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3405,10 +3416,11 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
 
-    tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_wielded_item( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    const item &weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
 
     if( target && target->is_avatar() ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3462,10 +3474,11 @@ void mattack::tankgun( monster *z, Creature *target )
         return;
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
-    tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_wielded_item( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    const item &weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
 }
 
 bool mattack::searchlight( monster *z )
@@ -3669,9 +3682,9 @@ bool mattack::flamethrower( monster *z )
             // Because that stupid oaf was in the way!
             if( boo_hoo > 0 ) {
                 add_msg_if_player_sees( *z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                                         z->name(), boo_hoo );
             }
             // Did reset before refactor, changed to match other turret behaviors
@@ -3752,7 +3765,7 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     Character *foe = dynamic_cast<Character *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
+    bool cuffed = foe != nullptr && foe->get_wielded_item().typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && z->is_adjacent( target, true ) ) {
         taze( z, target );
@@ -3807,9 +3820,9 @@ bool mattack::chickenbot( monster *z )
         if( target == nullptr ) {
             if( boo_hoo > 0 ) { // because that stupid oaf was in the way!
                 add_msg_if_player_sees( *z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                                         z->name(), boo_hoo );
             }
             return false;
@@ -3891,9 +3904,9 @@ bool mattack::multi_robot( monster *z )
         if( target == nullptr ) {
             if( boo_hoo > 0 ) { // because that stupid oaf was in the way!
                 add_msg_if_player_sees( *z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                                         z->name(), boo_hoo );
             }
             return false;
@@ -4579,26 +4592,8 @@ bool mattack::slimespring( monster *z )
 
     // This morale buff effect could get spammy
     if( player_character.get_morale_level() <= 1 ) {
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                //~ Your slimes try to cheer you up!
-                //~ Lowercase is intended: they're small voices.
-                add_msg( m_good, _( "\"hey, it's gonna be all right!\"" ) );
-                player_character.add_morale( MORALE_SUPPORT, 10, 50 );
-                break;
-            case 2:
-                //~ Your slimes try to cheer you up!
-                //~ Lowercase is intended: they're small voices.
-                add_msg( m_good, _( "\"we'll get through this!\"" ) );
-                player_character.add_morale( MORALE_SUPPORT, 10, 50 );
-                break;
-            case 3:
-                //~ Your slimes try to cheer you up!
-                //~ Lowercase is intended: they're small voices.
-                add_msg( m_good, _( "\"i'm here for you!\"" ) );
-                player_character.add_morale( MORALE_SUPPORT, 10, 50 );
-                break;
-        }
+        add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
+        player_character.add_morale( MORALE_SUPPORT, 10, 50 );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
         if( ( player_character.has_effect( effect_bleed ) ) ||
@@ -4706,7 +4701,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
+        ( foe->get_wielded_item().typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -5219,7 +5214,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->weapon.typeId() ) ) &&
+                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item().typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
@@ -5357,7 +5352,7 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
-    item &it = foe->weapon;
+    item &it = foe->get_wielded_item();
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
@@ -5869,8 +5864,9 @@ bool mattack::dsa_drone_scan( monster *z )
     }
     target->set_value( timestamp_str, string_format( "%d", to_turn<int>( calendar::turn ) ) );
     if( weapons_count < 3 ) {
-        if( target->weapon.is_gun() ) {
-            const gun_type_type &guntype = target->weapon.gun_type();
+        const item &weapon = target->get_wielded_item();
+        if( weapon.is_gun() ) {
+            const gun_type_type &guntype = weapon.gun_type();
             if( guntype == gun_type_type( "rifle" ) ||
                 guntype == gun_type_type( "shotgun" ) ||
                 guntype == gun_type_type( "launcher" ) ) {

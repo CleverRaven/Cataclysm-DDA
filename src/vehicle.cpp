@@ -1929,7 +1929,7 @@ void vehicle::part_removal_cleanup()
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
-            const tripoint &pt = global_part_pos3( *it );
+            const tripoint pt = global_part_pos3( *it );
             here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;
@@ -5424,7 +5424,7 @@ void vehicle::place_spawn_items()
                 for( const std::pair<itype_id, std::string> &e : spawn.variant_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
                         item added = item( e.first ).in_its_container();
-                        added.set_gun_variant( e.second );
+                        added.set_itype_variant( e.second );
                         created.push_back( added );
                     }
                 }

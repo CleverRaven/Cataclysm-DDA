@@ -3429,7 +3429,7 @@ void veh_interact::complete_vehicle( Character &you )
                 here.destroy_vehicle( veh );
             } else {
                 point mount = veh->part( vehicle_part ).mount;
-                const tripoint &part_pos = veh->global_part_pos3( vehicle_part );
+                const tripoint part_pos = veh->global_part_pos3( vehicle_part );
                 veh->remove_part( vehicle_part );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh->part_removal_cleanup();

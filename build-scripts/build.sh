@@ -12,6 +12,10 @@ num_jobs=3
 export PATH=$HOME/.local/bin:$PATH
 
 $COMPILER --version
+if [ -n "$CROSS_COMPILATION" ]
+then
+    "$CROSS_COMPILATION$COMPILER" --version
+fi
 
 if [ -n "$TEST_STAGE" ]
 then
@@ -178,6 +182,10 @@ then
         # Regular build
         make -j$num_jobs
         cd ..
+        # Compile test translations
+        ./lang/compile_mo.sh
+        mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES
+        msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
         # Run regular tests
         [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' {} '('{}')=> ' --user-dir=test_user_dir_{#}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
         [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {} '('{}')=> ' --user-dir=test_user_dir_{#}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
@@ -198,6 +206,12 @@ then
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+
+    if [[ "$LOCALIZE" != "0" ]]; then
+        ./lang/compile_mo.sh
+        mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES
+        msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
+    fi
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1

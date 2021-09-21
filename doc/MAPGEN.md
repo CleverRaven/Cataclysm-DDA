@@ -218,6 +218,18 @@ Example:
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four
 apartments_mod_tower overmap terrain ids specified.
 
+### "om_terrain" for linear terrain
+
+Some overmap terrains are *linear*.  This is used for things like roads,
+tunnels, etc. where they form lines which can connect in various ways.  Such
+terrains are defined with the `LINEAR` flag in their `overmap_terrain`
+definition (see the [OVERMAP docs](OVERMAP.md)).
+
+When defining the JSON mapgen for such terrain, you must define several
+instances, for each type of connection that might exist.  Each gets a suffix
+added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
+`_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
+in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -902,7 +914,7 @@ matching magazine and ammo for guns.
 | chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 | ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
-| variant  | (optional, string), gun variant id for the spawned item
+| variant  | (optional, string), itype variant id for the spawned item
 
 
 ### Plant seeds in a planter with "sealed_item"

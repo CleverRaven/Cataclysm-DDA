@@ -191,6 +191,7 @@ void game_menus::inv::common( avatar &you )
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
+    inv_s.allow_hide = true;
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -565,13 +566,26 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [&you]( const item_location & loc ) {
-                const item &it = *loc;
-                if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( you.fun_for( *loc ).first );
+                int joy = you.fun_for( *loc ).first;
+                std::string joy_str;
+                if( loc->has_flag( flag_MUSHY ) ) {
+                    joy_str = highlight_good_bad_none( joy );
                 } else {
-                    return good_bad_none( you.fun_for( *loc ).first );
+                    joy_str = good_bad_none( joy );
                 }
-            }, _( "JOY" ) );
+
+                int max_joy = you.fun_for( *loc, true ).first;
+                // max_joy should be 3 wide for aligment of '/'
+                if( max_joy == 0 ) {
+                    // this will not be an empty string when food's joy can go below 0 by consumption (very rare)
+                    return joy_str;
+                } else if( max_joy == joy ) {
+                    return joy_str + std::string( joy > 0 ? "<good>/  =</good>" : "<bad>/  =</bad>" );
+                } else {
+                    return string_format( max_joy > 0 ? "%s/<good>%+3d</good>" : "%s/<bad>%3d</bad>",
+                                          joy_str, max_joy );
+                }
+            }, _( "JOY/MAX" ) );
 
             append_cell( []( const item_location & loc ) {
                 const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
@@ -600,9 +614,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
-            const std::string this_cell_title = _( "SATIETY" );
-            append_cell( [&you, this_cell_title]( const item_location & loc ) {
+            append_cell( [&you]( const item_location & loc ) {
                 const item &it = *loc;
                 // Quit prematurely if the item is not food.
                 if( !it.type->comestible ) {
@@ -619,13 +631,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
                     return string_format( "%d", calories_per_effective_volume );
                 }
-                std::string result = satiety_bar( calories_per_effective_volume );
-                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
-                if( utf8_width( this_cell_title ) > 5 ) {
-                    result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
-                }
-                return result;
-            }, _( this_cell_title ) );
+                return satiety_bar( calories_per_effective_volume );
+            }, _( "SATIETY" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
@@ -980,8 +987,10 @@ static std::string get_consume_needs_hint( Character &you )
 
 item_location game_menus::inv::consume( avatar &you, const item_location loc )
 {
+    static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
+        container_location = loc;
     }
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
@@ -989,7 +998,7 @@ item_location game_menus::inv::consume( avatar &you, const item_location loc )
                          _( "Consume item" ), 1,
                          none_message,
                          get_consume_needs_hint( you ),
-                         loc );
+                         container_location );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
@@ -1136,8 +1145,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 &&
                 !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
-                           ngettext( "Needs at least %d charge",
-                                     "Needs at least %d charges", loc->ammo_required() ),
+                           n_gettext( "Needs at least %d charge",
+                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
@@ -1457,7 +1466,7 @@ class steal_inventory_preset : public pickup_inventory_preset
             pickup_inventory_preset( you ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return !victim.is_worn( *loc ) && &victim.weapon != &( *loc );
+            return !victim.is_worn( *loc ) && &victim.get_wielded_item() != &( *loc );
         }
 
     private:
@@ -1746,6 +1755,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     } );
 
     inventory_drop_selector inv_s( you, preset );
+    inv_s.allow_hide = true;
 
     inv_s.add_character_items( you, false );
     inv_s.set_title( _( "Multidrop" ) );

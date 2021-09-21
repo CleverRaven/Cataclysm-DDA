@@ -46,6 +46,11 @@ enum class scroll_direction : int {
     BACKWARD = -1
 };
 
+enum class toggle_mode : int {
+    SELECTED = 0,
+    NON_FAVORITE_NON_WORN
+};
+
 struct inventory_input;
 struct navigation_mode_data;
 
@@ -536,6 +541,9 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
+        // Whether to allow hiding/unhiding of container contents in this selector.
+        bool allow_hide = false;
+
     protected:
         Character &u;
         const inventory_selector_preset &preset;
@@ -584,7 +592,7 @@ class inventory_selector
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
-        int query_count( std::string init );
+        int query_count();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
@@ -749,13 +757,17 @@ class inventory_multiselector : public inventory_selector
     public:
         explicit inventory_multiselector( Character &p,
                                           const inventory_selector_preset &preset = default_preset,
-                                          const std::string &selection_column_title = "" );
+                                          const std::string &selection_column_title = "",
+                                          bool allow_select_contained = false );
     protected:
         void rearrange_columns( size_t client_width ) override;
         size_t max_chosen_count;
         void set_chosen_count( inventory_entry &entry, size_t count );
+        void deselect_contained_items();
+        void toggle_entries( int &count, const toggle_mode mode = toggle_mode::SELECTED );
         std::vector<std::pair<item_location, int>> to_use;
         std::vector<item_location> usable_locs;
+        bool allow_select_contained;
     private:
         std::unique_ptr<inventory_column> selection_col;
 };
@@ -801,12 +813,8 @@ class inventory_drop_selector : public inventory_multiselector
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
-        /** Toggle item dropping */
-        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
-        void deselect_contained_items();
-
         bool warn_liquid;
 };
 

@@ -404,6 +404,24 @@
     ]
   },
   {
+    "id": "mammal_small_fur_rabbit",
+    "//": "does not drop stomach or other small organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "rabbit_foot", "type": "bionic_group" },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "mutant_mammal_small_fur",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
@@ -1242,13 +1260,13 @@
     "id": "gozu",
     "type": "harvest",
     "entries": [
-      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.001 }

@@ -65,10 +65,12 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
                            int default_val )
 {
     int_or_var ret_val;
+    ret_val.global = false;
     if( jo.has_int( member ) ) {
         mandatory( jo, false, member, ret_val.int_val );
     } else if( jo.has_object( member ) ) {
         const JsonObject &var_obj = jo.get_object( member );
+        optional( var_obj, false, "global", ret_val.global, false );
         ret_val.var_val = get_talk_varname( var_obj, "name", false );
         mandatory( var_obj, false, "default", ret_val.default_val );
     } else if( required ) {
@@ -83,10 +85,12 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
                                      time_duration default_val )
 {
     duration_or_var ret_val;
+    ret_val.global = false;
     if( jo.has_int( member ) || jo.has_string( member ) ) {
         mandatory( jo, false, member, ret_val.dur_val );
     } else if( jo.has_object( member ) ) {
         const JsonObject &var_obj = jo.get_object( member );
+        optional( var_obj, false, "global", ret_val.global, false );
         ret_val.var_val = get_talk_varname( var_obj, "name", false );
         mandatory( var_obj, false, "default", ret_val.default_val );
     } else if( required ) {
@@ -983,10 +987,17 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_per_max();
             };
         } else if( checked_value == "var" ) {
+            bool global;
+            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name]( const T & d ) {
+            return [is_npc, var_name, global]( const T & d ) {
                 int stored_value = 0;
-                const std::string &var = d.actor( is_npc )->get_value( var_name );
+                std::string var;
+                if( global ) {
+                    var = get_talker_for( get_player_character() )->get_value( var_name );
+                } else {
+                    var = d.actor( is_npc )->get_value( var_name );
+                }
                 if( !var.empty() ) {
                     stored_value = std::stoi( var );
                 }
@@ -1024,6 +1035,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             } else {
                 return []( const T & d ) {
                     return d.actor( true )->debt();
+                };
+            }
+        } else if( checked_value == "sold" ) {
+            if( is_npc ) {
+                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return []( const T & d ) {
+                    return d.actor( true )->sold();
                 };
             }
         } else if( checked_value == "skill_level" ) {
@@ -1064,7 +1083,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 if( power_max == 0 ) {
                     return 0; //Default value if character does not have power, avoids division with 0.
                 } else {
-                    return ( d.actor( is_npc )->power_cur().value() * 100 ) / power_max;
+                    return static_cast<int>( d.actor( is_npc )->power_cur().value() * 100 ) / power_max;
                 }
             };
         } else if( checked_value == "morale" ) {
@@ -1116,11 +1135,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                                  d.actor( is_npc )->get_amount( item_id ) );
             };
         } else if( checked_value == "exp" ) {
-            if( is_npc ) {
-                jo.throw_error( "exp not currently supported for npcs.  In " + jo.str() );
-            }
-            return []( const T & ) {
-                return g->get_kill_tracker().kill_xp();
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_kill_xp();
             };
         } else if( checked_value == "stim" ) {
             return [is_npc]( const T & d ) {

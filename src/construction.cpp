@@ -34,6 +34,7 @@
 #include "item_stack.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -1300,7 +1301,8 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( get_avatar().lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( get_avatar().has_trait( trait_DEBUG_HS ) ?
+                       STATIC( itype_id( "frame" ) ) : get_avatar().lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
