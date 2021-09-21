@@ -47,9 +47,9 @@ void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float f
     }
 
     // If happens to be no reduction, character is not (as) hypoglycemic
-    if( tick_counter >= 3 ) {
-        intake *= std::pow( 1 - recovery_mult, 0.25f );
-        tick_counter -= 3;
+    if( tick_counter >= 1 ) {
+        intake *= std::pow( 1 - recovery_mult, ( 1.0f / 12.0f ) );
+        tick_counter--;
     }
 
     // Normalize values, make sure we stay above 0
