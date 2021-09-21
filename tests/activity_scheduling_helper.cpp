@@ -194,9 +194,9 @@ void weariness_events::log( const int old_level, const int new_level, const time
     added.new_weariness = new_weariness;
     added.new_threshold = new_threshold;
     added.intake = intake;
-    added.tracker = tracker.
+    added.tracker = tracker;
 
-                    transitions.insert( transitions.end(), added );
+    transitions.insert( transitions.end(), added );
 }
 
 int weariness_events::transition_minutes( const int from, const int to,
