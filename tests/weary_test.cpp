@@ -73,7 +73,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        // CHECK( !info.have_weary_decrease() );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
     }
 
@@ -89,7 +89,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
-        // CHECK( !info.have_weary_decrease() );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 5 );
     }
 }
@@ -168,7 +168,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         }
 
         if( multiplier >= 1.0f ) { // instability currently prevents use of first one... sigh.
-            // CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
+            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
             CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
         }
     }
@@ -253,7 +253,7 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
         }
 
         if( multiplier2 >= 1.0f ) { // instability currently prevents use of first one... sigh.
-            // CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
+            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
             CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
         }
     }
