@@ -610,17 +610,7 @@
     "to_hit": 1,
     "price": 13000,
     "price_postapoc": 50
-  },
-  {
-    "id": "longsword_mithril",
-    "copy-from": "longsword",
-    "type": "TOOL",
-    "name": { "str": "longsword" },
-    "description": "This is a classic medieval sword, the size being in-between the lighter arming sword and later two-handed swords.  Thanks to the mysterious silvery metal it was forged from, it is stronger than tempered steel while weighing substantially less.",
-    "material": [ "mithril_metal" ],
-    "weight": "939 g",
-    "proportional": { "cutting": 1.5, "bashing": 0.7 }
-  },
+  }
   {
     "id": "arming_sword",
     "type": "TOOL",
