@@ -63,6 +63,7 @@ weakpoint::weakpoint()
     // arrays must be filled manually to avoid UB.
     armor_mult.fill( 1.0f );
     armor_penalty.fill( 0.0f );
+    damage_mult.fill( 1.0f );
 }
 
 void weakpoint::load( const JsonObject &jo )
@@ -76,6 +77,9 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_object( "armor_penalty" ) ) {
         armor_penalty = load_damage_array( jo.get_object( "armor_penalty" ), 0.0f );
     }
+    if( jo.has_object( "damage_mult" ) ) {
+        damage_mult = load_damage_array( jo.get_object( "damage_mult" ), 1.0f );
+    }
     // Set the ID to the name, if not provided.
     if( id.empty() ) {
         id = name;
@@ -87,6 +91,13 @@ void weakpoint::apply_to( resistances &resistances ) const
     for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
         resistances.resist_vals[i] *= armor_mult[i];
         resistances.resist_vals[i] -= armor_penalty[i];
+    }
+}
+
+void weakpoint::apply_to( damage_instance &damage ) const
+{
+    for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
+        damage.damage_units[i].damage_multiplier *= damage_mult[i];
     }
 }
 
@@ -150,6 +161,16 @@ void weakpoints::load( const JsonArray &ja )
     for( const JsonObject jo : ja ) {
         weakpoint tmp;
         tmp.load( jo );
+
+        // Ensure that every weakpoint has a unique ID
+        auto it = std::find_if( weakpoint_list.begin(), weakpoint_list.end(),
+        [&]( const weakpoint & wp ) {
+            return wp.id == tmp.id;
+        } );
+        if( it != weakpoint_list.end() ) {
+            weakpoint_list.erase( it );
+        }
+
         weakpoint_list.push_back( std::move( tmp ) );
     }
     // Prioritizes weakpoints based on their coverage.
@@ -157,4 +178,20 @@ void weakpoints::load( const JsonArray &ja )
     []( const weakpoint & a, const weakpoint & b ) {
         return a.coverage < b.coverage;
     } );
+}
+
+void weakpoints::remove( const JsonArray &ja )
+{
+    for( const JsonObject jo : ja ) {
+        weakpoint tmp;
+        tmp.load( jo );
+
+        auto it = std::find_if( weakpoint_list.begin(), weakpoint_list.end(),
+        [&]( const weakpoint & wp ) {
+            return wp.id == tmp.id;
+        } );
+        if( it != weakpoint_list.end() ) {
+            weakpoint_list.erase( it );
+        }
+    }
 }

@@ -1535,6 +1535,7 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
+    wp->apply_to( dam );
     return wp->name;
 }
 
