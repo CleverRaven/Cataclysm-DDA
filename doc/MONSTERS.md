@@ -331,6 +331,7 @@ Weakpoints in the monster's protection.
 | `armor_mult`        | multipler on the monster's base protection when hitting the weakpoint.
 | `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
 | `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
+| `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
 
 ## "vision_day", "vision_night"
 (integer, optional)
