@@ -536,8 +536,18 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             mission_string = _( "Current Mission: " ) +
                              get_mission_action_string( c_mission.mission_id );
         }
+        fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
+
+        // Determine remaining time in mission, and display it
+        std::string mission_eta;
+        if( companion_mission_time_ret < calendar::turn ) {
+            mission_eta = _( "JOB COMPLETED" );
+        } else {
+            mission_eta = _( "ETA: " ) + to_string( companion_mission_time_ret - calendar::turn );
+        }
+        fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_eta );
     }
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
+
     tripoint_abs_omt guy_abspos = global_omt_location();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
