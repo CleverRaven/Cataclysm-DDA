@@ -103,6 +103,7 @@ struct talk_effect_fun_t {
         void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_assign_activity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member );

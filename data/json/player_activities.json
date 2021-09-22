@@ -812,6 +812,16 @@
     "suspendable": false
   },
   {
+    "id": "ACT_OPERATION_TEST",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "being tested on",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "interruptable_with_kb":false
+  },
+  {
     "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

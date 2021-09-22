@@ -2229,6 +2229,19 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     };
 }
 
+void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    duration_or_var dov = get_duration_or_var( jo, "duration", true );
+    activity_id act = activity_id( jo.get_string( member ) );
+    function = [is_npc, dov, act]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->assign_activity( act, to_moves<int>( dov.evaluate( d.actor( is_npc ) ) ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -3236,6 +3249,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_member( "u_assign_activity" ) ) {
+        subeffect_fun.set_assign_activity( jo, "u_assign_activity", false );
+    } else if( jo.has_member( "npc_assign_activity" ) ) {
+        subeffect_fun.set_assign_activity( jo, "npc_assign_activity", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
