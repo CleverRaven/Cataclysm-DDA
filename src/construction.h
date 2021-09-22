@@ -2,24 +2,23 @@
 #ifndef CATA_SRC_CONSTRUCTION_H
 #define CATA_SRC_CONSTRUCTION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "int_id.h"
 #include "item.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class inventory;
-class player;
+class Character;
+class read_only_visitable;
 struct construction;
 struct point;
 
@@ -114,9 +113,9 @@ void standardize_construction_times( int time );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
-void complete_construction( player *p );
+void complete_construction( Character *you );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( player &p, const inventory &inv, const construction &con );
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con );
 void check_constructions();
 void finalize_constructions();
 

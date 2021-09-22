@@ -71,5 +71,15 @@
     "id": "field_dress_no_surface",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "id": "bleed_large",
+    "type": "requirement",
+    "qualities": [ { "id": "ROPE", "level": 2 }, { "id": "SUSPENDING", "level": 2 }, { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "id": "bleed_small",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 1 } ]
   }
 ]

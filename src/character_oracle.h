@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_ORACLE_H
 #define CATA_SRC_CHARACTER_ORACLE_H
 
-#include <string>
+#include <iosfwd>
 
 #include "behavior_oracle.h"
 
@@ -15,7 +15,7 @@ enum class status_t : char;
 class character_oracle_t : public oracle_t
 {
     public:
-        character_oracle_t( const Character *subject ) {
+        explicit character_oracle_t( const Character *subject ) {
             this->subject = subject;
         }
         /**

@@ -1,10 +1,9 @@
-#include "catch/catch.hpp"
-#include "cata_variant.h"
-
 #include <sstream>
 #include <string>
-#include <utility>
+#include <type_traits>
 
+#include "cata_variant.h"
+#include "cata_catch.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "enum_conversions.h"

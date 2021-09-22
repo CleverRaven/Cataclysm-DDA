@@ -2,14 +2,15 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
+#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 
-class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -37,6 +38,8 @@ enum computer_action {
     COMPACT_MISS_DISARM,
     COMPACT_OPEN,
     COMPACT_OPEN_DISARM,
+    COMPACT_OPEN_GATE,
+    COMPACT_CLOSE_GATE,
     COMPACT_PORTAL,
     COMPACT_RADIO_ARCHIVE,
     COMPACT_RELEASE,
@@ -88,7 +91,7 @@ struct computer_option {
     computer_option( const std::string &N, computer_action A, int S );
     // Save to/load from saves
     void serialize( JsonOut &jout ) const;
-    void deserialize( JsonIn &jin );
+    void deserialize( const JsonObject &jo );
     // Load from data files
     static computer_option from_json( const JsonObject &jo );
 };
@@ -97,11 +100,11 @@ struct computer_failure {
     computer_failure_type type;
 
     computer_failure();
-    computer_failure( computer_failure_type t ) : type( t ) {
+    explicit computer_failure( computer_failure_type t ) : type( t ) {
     }
     // Save to/load from saves
     void serialize( JsonOut &jout ) const;
-    void deserialize( JsonIn &jin );
+    void deserialize( const JsonObject &jo );
     // Load from data files
     static computer_failure from_json( const JsonObject &jo );
 };
@@ -122,7 +125,7 @@ class computer
         // Save/load
         void load_legacy_data( const std::string &data );
         void serialize( JsonOut &jout ) const;
-        void deserialize( JsonIn &jin );
+        void deserialize( const JsonValue &jv );
 
         friend class computer_session;
     private:

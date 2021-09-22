@@ -6,11 +6,14 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <numeric>
+#include <set>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -18,9 +21,10 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
+#include "item_stack.h"
 #include "kill_tracker.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
@@ -142,16 +146,37 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     monster *mon = dynamic_cast<monster *>( &poor_dead_dude );
     if( mon != nullptr ) {
-        if( mon->mission_id == -1 ) {
+
+        if( mon->is_nemesis() ) {
+            //the nemesis monster doesn't have a mission attached bc it's an overmap horde
+            //so we loop to find the appropriate mission and complete it
+            avatar &player_character = get_avatar();
+            for( std::pair<const int, mission> &e : world_missions ) {
+                mission &i = e.second;
+
+                if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                    i.step_complete( 1 );
+                    return;
+                }
+            }
+        }
+
+        if( mon->mission_ids.empty() ) {
             return;
         }
-        mission *found_mission = mission::find( mon->mission_id );
-        const mission_type *type = found_mission->type;
-        if( type->goal == MGOAL_FIND_MONSTER ) {
-            found_mission->fail();
-        }
-        if( type->goal == MGOAL_KILL_MONSTER ) {
-            found_mission->step_complete( 1 );
+        for( const int mission_id : mon->mission_ids ) {
+            mission *found_mission = mission::find( mission_id );
+            if( !found_mission ) {
+                debugmsg( "invalid mission id %d", mission_id );
+                continue;
+            }
+            const mission_type *type = found_mission->type;
+            if( type->goal == MGOAL_FIND_MONSTER ) {
+                found_mission->fail();
+            }
+            if( type->goal == MGOAL_KILL_MONSTER ) {
+                found_mission->step_complete( 1 );
+            }
         }
         return;
     }
@@ -186,6 +211,39 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             i.fail();
         }
     }
+}
+
+bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
+{
+    if( fuser.is_hallucination() || fused.is_hallucination() ) {
+        return false;
+    }
+    monster *mon_fuser = dynamic_cast<monster *>( &fuser );
+    if( mon_fuser == nullptr ) {
+        debugmsg( "Unimplemented: fuser is not a monster" );
+        return false;
+    }
+    monster *mon_fused = dynamic_cast<monster *>( &fused );
+    if( mon_fused == nullptr ) {
+        debugmsg( "Unimplemented: fused is not a monster" );
+        return false;
+    }
+    bool mission_transfered = false;
+    for( const int mission_id : mon_fused->mission_ids ) {
+        const mission *const found_mission = mission::find( mission_id );
+        if( !found_mission ) {
+            debugmsg( "invalid mission id %d", mission_id );
+            continue;
+        }
+        const mission_type *const type = found_mission->type;
+        if( type->goal == MGOAL_KILL_MONSTER ) {
+            // the fuser has to be killed now!
+            mon_fuser->mission_ids.emplace( mission_id );
+            mon_fused->mission_ids.erase( mission_id );
+            mission_transfered = true;
+        }
+    }
+    return mission_transfered;
 }
 
 void mission::on_talk_with_npc( const character_id &npc_id )
@@ -314,7 +372,7 @@ void mission::wrap_up()
                 container, itype_id( "null" ), specific_container_required );
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
-                comps.push_back( item_comp( cnt.first, cnt.second ) );
+                comps.emplace_back( cnt.first, cnt.second );
 
             }
 
@@ -323,10 +381,10 @@ void mission::wrap_up()
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
                 if( !empty_container.is_null() ) {
-                    container_comp.push_back( item_comp( empty_container, type->item_count ) );
+                    container_comp.emplace_back( empty_container, type->item_count );
                     player_character.consume_items( container_comp );
                 } else {
-                    container_comp.push_back( item_comp( container, type->item_count ) );
+                    container_comp.emplace_back( container, type->item_count );
                     player_character.consume_items( container_comp );
                 }
             }
@@ -346,7 +404,7 @@ void mission::wrap_up()
                     }
                 }
             } else {
-                comps.push_back( item_comp( type->item_id, item_count ) );
+                comps.emplace_back( type->item_id, item_count );
                 player_character.consume_items( comps );
             }
         }
@@ -468,7 +526,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             }
             return g->get_creature_if( [&]( const Creature & critter ) {
                 const monster *const mon_ptr = dynamic_cast<const monster *>( &critter );
-                return mon_ptr && mon_ptr->mission_id == uid;
+                return mon_ptr && mon_ptr->mission_ids.count( uid );
             } );
 
         case MGOAL_RECRUIT_NPC: {
@@ -492,6 +550,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_NEMESIS:
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
 
@@ -553,7 +612,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //recursively check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
-            std::list<item *> content_list = itm->contents.all_items_top();
+            std::list<item *> content_list = itm->all_items_top();
             std::vector<item *> content = std::vector<item *>();
 
             //list of item into list item*
@@ -689,7 +748,7 @@ character_id mission::get_assigned_player_id() const
     return player_id;
 }
 
-std::string mission::name()
+std::string mission::name() const
 {
     if( type == nullptr ) {
         return "NULL";
@@ -697,7 +756,7 @@ std::string mission::name()
     return type->tname();
 }
 
-mission_type_id mission::mission_id()
+mission_type_id mission::mission_id() const
 {
     if( type == nullptr ) {
         return mission_type_id( "NULL" );
@@ -772,8 +831,7 @@ std::string enum_to_string<mission::mission_status>( mission::mission_status dat
             break;
 
     }
-    debugmsg( "Invalid mission_status" );
-    abort();
+    cata_fatal( "Invalid mission_status" );
 }
 
 } // namespace io

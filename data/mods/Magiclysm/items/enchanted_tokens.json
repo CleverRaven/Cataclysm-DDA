@@ -19,6 +19,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a longsword.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "longsword",
       "active": false,
       "moves": 200,
@@ -33,6 +34,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case an arming sword.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "arming_sword",
       "active": false,
       "moves": 200,
@@ -47,6 +49,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a broadsword.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "broadsword",
       "active": false,
       "moves": 200,
@@ -61,6 +64,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "battleaxe",
       "active": false,
       "moves": 200,
@@ -75,6 +79,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a pike.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "pike",
       "active": false,
       "moves": 200,
@@ -89,6 +94,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a mace.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "mace",
       "active": false,
       "moves": 200,
@@ -103,6 +109,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a quarterstaff.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "q_staff",
       "active": false,
       "moves": 200,
@@ -117,6 +124,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a hammer.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "hammer",
       "active": false,
       "moves": 200,
@@ -131,24 +139,11 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a screwdriver.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "screwdriver_set",
       "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine screwdriver set!"
-    }
-  },
-  {
-    "copy-from": "mtoken",
-    "type": "GENERIC",
-    "id": "mtoken_toolbox",
-    "name": "toolbox token",
-    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a toolbox.",
-    "use_action": {
-      "type": "transform",
-      "target": "toolbox",
-      "active": false,
-      "moves": 200,
-      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine toolbox!"
     }
   },
   {
@@ -159,6 +154,7 @@
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a crowbar.",
     "use_action": {
       "type": "transform",
+      "menu_text": "Whisper command",
       "target": "crowbar",
       "active": false,
       "moves": 200,

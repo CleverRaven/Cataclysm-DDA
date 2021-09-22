@@ -17,57 +17,12 @@
           { "group": "cloning_vat", "prob": 1 },
           { "group": "dissection", "prob": 50 },
           { "group": "electronics", "prob": 40 },
-          { "group": "bionics", "prob": 10 },
           { "group": "radio", "prob": 15 },
-          { "group": "textbooks", "prob": 25 }
+          { "group": "textbooks", "prob": 25 },
+          { "group": "autodoc_installation_programs", "prob": 5 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "bionics_sci",
-    "subtype": "distribution",
-    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
-    "items": [
-      [ "burnt_out_bionic", 60 ],
-      [ "bio_batteries", 30 ],
-      [ "bio_power_storage", 30 ],
-      [ "bio_metabolics", 5 ],
-      [ "bio_ethanol", 5 ],
-      [ "bio_ups", 10 ],
-      [ "bio_torsionratchet", 30 ],
-      [ "bio_tools", 10 ],
-      [ "bio_flashlight", 30 ],
-      [ "bio_lighter", 25 ],
-      [ "bio_magnet", 20 ],
-      [ "bio_memory", 15 ],
-      [ "bio_ears", 10 ],
-      [ "bio_sunglasses", 10 ],
-      [ "bio_eye_optic", 10 ],
-      [ "bio_eye_enhancer", 5 ],
-      [ "bio_dex_enhancer", 5 ],
-      [ "bio_int_enhancer", 10 ],
-      [ "bio_night_vision", 1 ],
-      [ "bio_infrared", 2 ],
-      [ "bio_synaptic_regen", 12 ],
-      [ "bio_gills", 5 ],
-      [ "bio_climate", 2 ],
-      [ "bio_heatsink", 2 ],
-      [ "bio_blood_filter", 10 ],
-      [ "bio_fingerhack", 2 ],
-      [ "bio_lockpick", 2 ],
-      [ "bio_surgical_razor", 8 ],
-      [ "bio_nanobots", 15 ],
-      [ "bio_blood_anal", 10 ],
-      [ "bio_geiger", 15 ],
-      [ "bio_radscrubber", 10 ],
-      [ "bio_watch", 40 ],
-      [ "bio_leukocyte", 15 ],
-      [ "bio_syringe", 2 ],
-      [ "bio_jointservo", 10 ],
-      [ "bio_soporific", 2 ]
     ]
   },
   {
@@ -90,6 +45,17 @@
     ]
   },
   {
+    "id": "mon_devourer_lab_sec_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cop_gear", "prob": 50, "damage": [ 2, 5 ], "count": [ 1, 5 ] },
+      { "group": "security_torso", "prob": 80, "damage": [ 2, 5 ], "count": [ 1, 6 ] },
+      { "group": "cop_weapons", "prob": 50, "damage": [ 2, 5 ], "count": [ 2, 4 ] },
+      { "item": "id_science_security_black" }
+    ]
+  },
+  {
     "id": "security_pants",
     "type": "item_group",
     "items": [ [ "technician_pants_gray", 75 ], [ "leather_belt", 30 ] ]
@@ -98,7 +64,7 @@
     "id": "security_shoes",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "boots", 70 ], [ "boots_steel", 50 ], [ "boots_hiking", 20 ], [ "boots_combat", 10 ] ]
+    "items": [ [ "boots", 70 ], [ "boots_steel", 50 ], [ "sneakers_steel", 35 ], [ "boots_hiking", 20 ], [ "boots_combat", 10 ] ]
   },
   {
     "id": "security_torso",

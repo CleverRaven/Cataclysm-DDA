@@ -2,8 +2,9 @@
 #ifndef CATA_SRC_MISSION_COMPANION_H
 #define CATA_SRC_MISSION_COMPANION_H
 
+#include <iosfwd>
 #include <map>
-#include <memory>
+#include <new>
 #include <string>
 #include <vector>
 
@@ -19,8 +20,6 @@ class monster;
 class npc;
 class npc_template;
 struct comp_rank;
-template<typename T>
-class string_id;
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;

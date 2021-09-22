@@ -1,23 +1,26 @@
 #include "debug.h"
 
-#include <algorithm>
 #include <cctype>
-#include <cerrno>
+// IWYU pragma: no_include <sys/errno.h>
+#include <sys/stat.h>
+// IWYU pragma: no_include <sys/unistd.h>
+#include <clocale>
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <fstream>
 #include <iomanip>
 #include <iterator>
-#include <locale>
 #include <map>
 #include <memory>
+#include <new>
+#include <regex>
 #include <set>
 #include <sstream>
-#include <sys/stat.h> // IWYU pragma
+#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -57,23 +60,29 @@
 #       if defined(LIBBACKTRACE)
 #           include <backtrace.h>
 #       endif
+#   elif defined(__ANDROID__)
+#       include <unwind.h>
+#       include <dlfcn.h>
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
+#   if defined(__GNUC__) || defined(__clang__)
+#       include <cxxabi.h>
+#   endif
 #endif
 
 #if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif // TILES
 
 #if defined(__ANDROID__)
 // used by android_version() function for __system_property_get().
 #include <sys/system_properties.h>
+#endif
+
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
 #endif
 
 // Static defines                                                   {{{1
@@ -140,6 +149,57 @@ bool debug_has_error_been_observed()
 
 bool debug_mode = false;
 
+namespace debugmode
+{
+std::list<debug_filter> enabled_filters;
+std::string filter_name( debug_filter value )
+{
+    // see debug.h for commentary
+    switch( value ) {
+        // *INDENT-OFF*
+        case DF_ACT_BUTCHER: return "DF_ACT_BUTCHER";
+        case DF_ACT_EBOOK: return "DF_ACT_EBOOK";
+        case DF_ACT_HARVEST: return "DF_ACT_HARVEST";
+        case DF_ACT_LOCKPICK: return "DF_ACT_LOCKPICK";
+        case DF_ACT_READ: return "DF_ACT_READ";
+        case DF_ACT_SAFECRACKING: return "DF_ACT_SAFECRACKING";
+        case DF_ACT_SHEARING: return "DF_ACT_SHEARING";
+        case DF_ACT_WORKOUT: return "DF_ACT_WORKOUT";
+        case DF_ANATOMY_BP: return "DF_ANATOMY_BP";
+        case DF_AVATAR: return "DF_AVATAR";
+        case DF_BALLISTIC: return "DF_BALLISTIC";
+        case DF_CHARACTER: return "DF_CHARACTER";
+        case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
+        case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CREATURE: return "DF_CREATURE";
+        case DF_EFFECT: return "DF_EFFECT";
+        case DF_EXPLOSION: return "DF_EXPLOSION";
+        case DF_FOOD: return "DF_FOOD";
+        case DF_GAME: return "DF_GAME";
+        case DF_IEXAMINE: return "DF_IEXAMINE";
+        case DF_IUSE: return "DF_IUSE";
+        case DF_MAP: return "DF_MAP";
+        case DF_MATTACK: return "DF_MATTACK";
+        case DF_MELEE: return "DF_MELEE";
+        case DF_MONSTER: return "DF_MONSTER";
+        case DF_NPC: return "DF_NPC";
+        case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RANGED: return "DF_RANGED";
+        case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
+        case DF_SOUND: return "DF_SOUND";
+        case DF_TALKER: return "DF_TALKER";
+        case DF_VEHICLE: return "DF_VEHICLE";
+        case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
+        case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        // *INDENT-ON*
+        case DF_LAST:
+        default:
+            debugmsg( "Invalid DF_FILTER : %d", value );
+            return "DF_INVALID";
+    }
+}
+} // namespace debugmode
+
 struct buffered_prompt_info {
     std::string filename;
     std::string line;
@@ -186,8 +246,9 @@ static void debug_error_prompt(
             " DEBUG    : %s\n\n"
             " FUNCTION : %s\n"
             " FILE     : %s\n"
-            " LINE     : %s\n",
-            text, funcname, filename, line
+            " LINE     : %s\n"
+            " VERSION  : %s\n",
+            text, funcname, filename, line, getVersionString()
         );
 
 #if defined(BACKTRACE)
@@ -361,7 +422,7 @@ struct time_info {
     }
 };
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
@@ -379,9 +440,10 @@ static time_info get_time() noexcept
     gettimeofday( &tv, nullptr );
 
     const time_t tt      = time_t {tv.tv_sec};
-    struct tm *const current = localtime( &tt );
+    tm current;
+    localtime_r( &tt, &current );
 
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+    return time_info { current.tm_hour, current.tm_min, current.tm_sec,
                        static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }
@@ -459,8 +521,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                     rename_failed = !rename_file( filename, oldfile );
                 }
             }
-            file = std::make_shared<std::ofstream>(
-                       filename.c_str(), std::ios::out | std::ios::app );
+            file = std::make_shared<cata::ofstream>(
+                       fs::u8path( filename ), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
             DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
@@ -581,12 +643,15 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
         if( cl & D_SDL ) {
             out << "SDL ";
         }
+        if( cl & D_MMAP ) {
+            out << "MMAP ";
+        }
     }
     return out;
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -624,11 +689,12 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
         return binary;
     }
 
+    std::string suffix = "/" + binary;
     for( const std::string &path_elem : string_split( path, ':' ) ) {
         if( path_elem.empty() ) {
             continue;
         }
-        std::string candidate = path_elem + "/" + binary;
+        std::string candidate = path_elem + suffix;
         if( 0 == access( candidate.c_str(), X_OK ) ) {
             return candidate;
         }
@@ -779,11 +845,91 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 #if defined(LIBBACKTRACE)
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
-#else
+#elif !defined(__ANDROID__)
 static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+static std::string demangle( const char *symbol )
+{
+#if defined(_MSC_VER)
+    // TODO: implement demangling on MSVC
+#elif defined(__GNUC__) || defined(__clang__)
+    int status = -1;
+    char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
+    if( status == 0 ) {
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
+    }
+#if defined(_WIN32)
+    // https://stackoverflow.com/questions/54333608/boost-stacktrace-not-demangling-names-when-cross-compiled
+    // libbacktrace may strip leading underscore character in the symbol name returned
+    // so if demangling failed, try again with an underscore prepended
+    std::string prepend_underscore( "_" );
+    prepend_underscore = prepend_underscore + symbol;
+    demangled = abi::__cxa_demangle( prepend_underscore.c_str(), nullptr, nullptr, &status );
+    if( status == 0 ) {
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
+    }
+#endif // defined(_WIN32)
+#endif // compiler macros
+    return std::string( symbol );
+}
+
+#if !defined(_WIN32) && !defined(__ANDROID__)
+static void write_demangled_frame( std::ostream &out, const char *frame )
+{
+#if defined(__linux__)
+    // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
+    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match file_name = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match address = match_result[4];
+        out << "\n    " << file_name.str() << "(" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << ") [" << address.str() << "]";
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(MACOSX)
+    //1   cataclysm-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
+    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match prefix = match_result[1];
+        std::csub_match address = match_result[2];
+        std::csub_match raw_symbol_name = match_result[3];
+        std::csub_match offset = match_result[4];
+        out << "\n    " << prefix.str() << address.str() << ' ' << demangle( raw_symbol_name.str().c_str() )
+            << " + " << offset.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#else
+    out << "\n    " << frame;
+#endif
+}
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
+
+#if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
@@ -800,7 +946,7 @@ void debug_write_backtrace( std::ostream &out )
         out << "\n  #" << i;
         out << "\n    (dbghelp: ";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
-            out << sym.Name << "+0x" << std::hex << off << std::dec;
+            out << demangle( sym.Name ) << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
         const DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
@@ -852,7 +998,7 @@ void debug_write_backtrace( std::ostream &out )
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
-                out << "\n    (libbacktrace: " << ( symname ? symname : "[unknown symbol]" )
+                out << "\n    (libbacktrace: " << ( symname ? demangle( symname ) : "[unknown symbol]" )
                     << "+0x" << std::hex << pc - symval << std::dec
                     << "@0x" << std::hex << pc << std::dec
                     << "),";
@@ -892,7 +1038,7 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( bt, bt_cnt );
     char **funcNames = backtrace_symbols( bt, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n    " << funcNames[i];
+        write_demangled_frame( out, funcNames[i] );
     }
     out << "\n\n    Attempting to repeat stack trace using debug symbols…\n";
     // Try to print the backtrace again, but this time using addr2line
@@ -1022,6 +1168,51 @@ void debug_write_backtrace( std::ostream &out )
 #endif
 }
 #endif
+#endif
+
+// Probably because there are too many nested #if..#else..#endif in this file
+// NDK compiler doesn't understand #if defined(__ANDROID__)..#else..#endif
+// So write as two separate #if blocks
+#if defined(__ANDROID__)
+
+// The following Android backtrace code was originally written by Eugene Shapovalov
+// on https://stackoverflow.com/questions/8115192/android-ndk-getting-the-backtrace
+struct android_backtrace_state {
+    void **current;
+    void **end;
+};
+
+static _Unwind_Reason_Code unwindCallback( struct _Unwind_Context *context, void *arg )
+{
+    android_backtrace_state *state = static_cast<android_backtrace_state *>( arg );
+    uintptr_t pc = _Unwind_GetIP( context );
+    if( pc ) {
+        if( state->current == state->end ) {
+            return _URC_END_OF_STACK;
+        } else {
+            *state->current++ = reinterpret_cast<void *>( pc );
+        }
+    }
+    return _URC_NO_REASON;
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+    const size_t max = 50;
+    void *buffer[max];
+    android_backtrace_state state = {buffer, buffer + max};
+    _Unwind_Backtrace( unwindCallback, &state );
+    const std::size_t count = state.current - buffer;
+    // Start from 1: skip debug_write_backtrace ourselves
+    for( size_t idx = 1; idx < count && idx < max; ++idx ) {
+        const void *addr = buffer[idx];
+        Dl_info info;
+        if( dladdr( addr, &info ) && info.dli_sname ) {
+            out << "#" << std::setw( 2 ) << idx << ": " << addr << " " << demangle( info.dli_sname ) << "\n";
+        }
+    }
+}
+#endif
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
@@ -1089,7 +1280,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#elif defined(BSD)
     return "BSD";
 #else
     return "Unix";

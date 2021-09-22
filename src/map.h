@@ -8,19 +8,21 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "colony.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -30,18 +32,17 @@
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_selector.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "point.h"
-#include "rng.h"
-#include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "reachability_cache.h"
+#include "rng.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 struct scent_block;
-template <typename T> class safe_reference;
-template <typename T> class string_id;
 
 namespace catacurses
 {
@@ -55,11 +56,9 @@ class computer;
 class field;
 class field_entry;
 class item_location;
-class map_cursor;
 class mapgendata;
 class monster;
 class optional_vpart_position;
-class player;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -67,7 +66,6 @@ class zone_data;
 struct fragment_cloud;
 struct maptile;
 struct partial_con;
-struct rl_vec2d;
 struct spawn_data;
 struct trap;
 template<typename Tripoint>
@@ -81,8 +79,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-template<typename T>
-class visitable;
 
 struct wrapped_vehicle {
     tripoint pos;
@@ -92,11 +88,12 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
-enum ter_bitflags : int;
+enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+struct field_proc_data;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
 
@@ -159,6 +156,122 @@ struct bash_params {
     bool bashing_from_above = false;
 };
 
+/** Draw parameters used by map::drawsq() and similar methods. */
+struct drawsq_params {
+    private:
+        tripoint view_center = tripoint_min;
+        bool do_highlight = false;
+        bool do_show_items = true;
+        bool do_low_light = false;
+        bool do_bright_light = false;
+        bool do_memorize = false;
+        bool do_output = true;
+
+    public:
+        constexpr drawsq_params() = default;
+
+        /**
+         * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &highlight( bool v ) {
+            do_highlight = v;
+            return *this;
+        }
+        constexpr bool highlight() const {
+            return do_highlight;
+        }
+        //@}
+
+        /**
+         * Whether to draw items on the tile.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &show_items( bool v ) {
+            do_show_items = v;
+            return *this;
+        }
+        constexpr bool show_items() const {
+            return do_show_items;
+        }
+        //@}
+
+        /**
+         * Whether tile is low light, and should be drawn with muted color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &low_light( bool v ) {
+            do_low_light = v;
+            return *this;
+        }
+        constexpr bool low_light() const {
+            return do_low_light;
+        }
+        //@}
+
+        /**
+         * Whether tile is in bright light. Affects NV overlay, and nothing else.
+         * Default: false;
+         */
+        //@{
+        constexpr drawsq_params &bright_light( bool v ) {
+            do_bright_light = v;
+            return *this;
+        }
+        constexpr bool bright_light() const {
+            return do_bright_light;
+        }
+        //@}
+
+        /**
+         * Whether the tile should be memorized. Used only in map::draw().
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &memorize( bool v ) {
+            do_memorize = v;
+            return *this;
+        }
+        constexpr bool memorize() const {
+            return do_memorize;
+        }
+        //@}
+
+        /**
+         * HACK: Whether the tile should be printed. Used only in map::draw()
+         * as a hack for memorizing off-screen tiles.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &output( bool v ) {
+            do_output = v;
+            return *this;
+        }
+        constexpr bool output() const {
+            return do_output;
+        }
+        //@}
+
+        /**
+         * Set view center.
+         * Default: uses avatar's current view center.
+         */
+        //@{
+        constexpr drawsq_params &center( const tripoint &p ) {
+            view_center = p;
+            return *this;
+        }
+        constexpr drawsq_params &center_at_avatar() {
+            view_center = tripoint_min;
+            return *this;
+        }
+        tripoint center() const;
+        //@}
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -183,15 +296,31 @@ struct bash_params {
 class map
 {
         friend class editmap;
-        friend class visitable<map_cursor>;
+        friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
+                int );
 
+        //FIXME some field processor use private methods
+        friend void field_processor_fd_fire( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_spread_gas( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_wandering_field( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_fire_vent( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_flame_burst( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_bees( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_incendiary( const tripoint &, field_entry &, field_proc_data & );
+
+        // for testing
+        friend void clear_fields( int zlevel );
+
+    protected:
+        map( int mapsize, bool zlev );
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = true );
-        map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        map() : map( MAPSIZE, true ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -309,7 +438,8 @@ class map
                 return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
                        cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
             }
-            tripoint upper, lower;
+            tripoint upper;
+            tripoint lower;
             std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
             // z-bounds depend on the invariant that both points are inbounds and their z are different
             return get_cache( lower.z ).r_up_cache->has_potential_los(
@@ -342,8 +472,6 @@ class map
         visibility_type get_visibility( lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( const catacurses::window &w, visibility_type vis ) const;
-
         // See field.cpp
         std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
                 const tripoint &pos );
@@ -361,21 +489,14 @@ class map
          */
         void draw( const catacurses::window &w, const tripoint &center );
 
-        /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-        *
-        * @param w The window we are drawing in
-        * @param u The player
-        * @param p The tile on this map to draw.
-        * @param invert Invert colors if this flag is true
-        * @param show_items Draw items in tile if this flag is true see `center` in `map::draw()`
-        */
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert, bool show_items,
-                     const tripoint &view_center,
-                     bool low_light = false, bool bright_light = false,
-                     bool inorder = false ) const;
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const;
+        /**
+         * Draw the map tile at the given coordinate. Called by `map::draw()`.
+         *
+         * @param w The window we are drawing in
+         * @param p The tile on this map to draw.
+         * @param params Draw parameters.
+         */
+        void drawsq( const catacurses::window &w, const tripoint &p, const drawsq_params &params ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -398,8 +519,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint_abs_sm &w, bool update_vehicles,
+                   bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -432,7 +558,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
-        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
+        int burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -614,6 +740,7 @@ class map
         * @param p Tile to check for vehicle
         */
         optional_vpart_position veh_at( const tripoint &p ) const;
+        optional_vpart_position veh_at( const tripoint_abs_ms &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
@@ -647,7 +774,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, const units::angle &direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -677,7 +804,11 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * furn_reset should be true if new_furniture is being set to f_null
+        * when the player is grab-moving furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -685,7 +816,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
         }
-        bool can_move_furniture( const tripoint &pos, player *p = nullptr );
+        bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
         ter_id ter( const tripoint &p ) const;
@@ -768,7 +899,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &you, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -813,23 +944,23 @@ class map
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // Checks terrain, furniture and vehicles
-        bool has_flag( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag( ter_bitflags flag, const point &p ) const {
+        bool has_flag( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag( ter_furn_flag flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain
-        bool has_flag_ter( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter( ter_bitflags flag, const point &p ) const {
+        bool has_flag_ter( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks furniture
-        bool has_flag_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_furn( ter_bitflags flag, const point &p ) const {
+        bool has_flag_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain or furniture
-        bool has_flag_ter_or_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const {
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z ) );
         }
 
@@ -1068,12 +1199,13 @@ class map
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" );
         void spawn_item( const point &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags,
+                        variant );
         }
 
         // FIXME: remove these overloads and require spawn_item to take an
@@ -1081,14 +1213,15 @@ class map
         void spawn_item( const tripoint &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant );
         }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags,
+                        variant );
         }
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -1150,6 +1283,15 @@ class map
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /**
+        * Consume UPS from UPS sources from area centered at origin.
+        * @param origin the position of player
+        * @param range how far the UPS can be used from
+        * @return Amount of UPS used which will be between 0 and qty
+        */
+        int consume_ups( const tripoint &origin, int range, int qty );
+
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
@@ -1231,8 +1373,6 @@ class map
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
-                                           const oter_id &om_ter );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1306,12 +1446,12 @@ class map
 
         // returns true, if there **might** be a field at `p`
         // if false, there's no fields at `p`
-        bool has_field_at( const tripoint &p, bool check_bounds = true );
+        bool has_field_at( const tripoint &p, bool check_bounds = true ) const;
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_type_id &type );
+        field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
@@ -1323,6 +1463,13 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+
+    private:
+        // Is called when field intensity is changed.
+        // Invalidates relevan map caches, such as transparency cache.
+        void on_field_modified( const tripoint &p, const field_type &fd_type );
+
+    public:
 
         // Splatters of various kind
         void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );
@@ -1379,7 +1526,7 @@ class map
         void support_dirty( const tripoint &p );
     public:
 
-        // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
+        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
@@ -1411,13 +1558,12 @@ class map
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
-        void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
-        void place_gas_pump( const point &p, int charges ) {
-            place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
-        }
+        void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
+        void place_gas_pump( const point &p, int charges );
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
+                            bool lootable = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
@@ -1484,6 +1630,7 @@ class map
          * Output is in the same scale, but in global system.
          */
         tripoint getabs( const tripoint &p ) const;
+        tripoint_abs_ms getglobal( const tripoint &p ) const;
         point getabs( const point &p ) const {
             return getabs( tripoint( p, abs_sub.z ) ).xy();
         }
@@ -1491,10 +1638,12 @@ class map
          * Inverse of @ref getabs
          */
         tripoint getlocal( const tripoint &p ) const;
+        tripoint getlocal( const tripoint_abs_ms &p ) const;
         point getlocal( const point &p ) const {
             return getlocal( tripoint( p, abs_sub.z ) ).xy();
         }
         virtual bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint_abs_ms &p ) const;
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
@@ -1511,17 +1660,27 @@ class map
         int getmapsize() const {
             return my_MAPSIZE;
         }
-        bool has_zlevels() const {
-            return zlevels;
-        }
 
-        // Not protected/private for mapgen_functions.cpp access
+        // Not protected/private for mapgen.cpp and mapgen_functions.cpp access
         // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
         // @param turns number of 90 clockwise turns to make
         // @param setpos_safe if true, being used outside of mapgen and can use setpos to
         // set NPC positions.  if false, cannot use setpos
         void rotate( int turns, bool setpos_safe = false );
+
+        // Not protected/private for mapgen.cpp access
+        // Mirrors the current map horizontally and/or vertically (both is technically
+        // equivalent to a 180 degree rotation, while neither is a null operation).
+        // Intended to base recipe usage to allow recipes to specify the mirroring of
+        // a common blueprint. Note that the operation is NOT safe to use for purposes
+        // other than mirroring the map, place assets on it, and then mirroring it
+        // back (so the asset modification takes place in between calls to this
+        // operation). This allows us to skip the shuffling of NPCs and zones
+        // that the rotate operation above has to deal with.
+        // @param mirror_horizontal causes horizontal mirroring of the map
+        // @param mirror_vertical causes vertical mirroring of the map
+        void mirror( bool mirror_horizontal, bool mirror_vertical );
 
         // Monster spawning:
     public:
@@ -1544,7 +1703,8 @@ class map
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
-        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight );
+        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
+                                          const tripoint_abs_sm &submap_pos, bool ignore_sight );
 
     protected:
         void saven( const tripoint &grid );
@@ -1602,7 +1762,7 @@ class map
         void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
         void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
-        void player_in_field( player &u );
+        void player_in_field( Character &you );
         void monster_in_field( monster &z );
         /**
          * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.
@@ -1616,11 +1776,9 @@ class map
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( const mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_spider_pit( const mapgendata &dat );
-        void draw_triffid( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
@@ -1750,21 +1908,13 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
-                           const maptile &tile,
-                           bool invert, bool show_items,
-                           const tripoint &view_center,
-                           bool low_light, bool bright_light, bool inorder ) const;
-        bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                       const tripoint &view_center,
-                                       bool move_cursor = true ) const;
+        bool draw_maptile( const catacurses::window &w, const tripoint &p,
+                           const maptile &tile, const drawsq_params &params ) const;
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
-                              const maptile &tile, bool invert,
-                              const tripoint &view_center,
-                              bool low_light, bool bright_light, bool inorder ) const;
+        void draw_from_above( const catacurses::window &w, const tripoint &p,
+                              const maptile &tile, const drawsq_params &params ) const;
 
         int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
@@ -1913,6 +2063,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const ter_furn_flag flag,
+                size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );
@@ -1920,6 +2074,9 @@ class map
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint &p );
+
+        bool has_haulable_items( const tripoint &pos );
+        std::vector<item_location> get_haulable_items( const tripoint &pos );
 };
 
 map &get_map();
@@ -1927,12 +2084,12 @@ map &get_map();
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
-bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
+bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
 class tinymap : public map
 {
         friend class editmap;
     public:
-        tinymap( int mapsize = 2, bool zlevels = false );
+        tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
 };
 
@@ -1941,8 +2098,8 @@ class fake_map : public tinymap
     private:
         std::vector<std::unique_ptr<submap>> temp_submaps_;
     public:
-        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                  int fake_map_z );
+        explicit fake_map( const ter_id &ter_type = t_dirt );
         ~fake_map() override;
+        static constexpr int fake_map_z = -OVERMAP_DEPTH;
 };
 #endif // CATA_SRC_MAP_H

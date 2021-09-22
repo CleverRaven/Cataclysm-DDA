@@ -1,13 +1,12 @@
 #include "event_field_transformations.h"
 
 #include <set>
+#include <string>
 
-#include "int_id.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
@@ -42,8 +41,8 @@ static std::vector<cata_variant> is_mounted( const cata_variant &v )
 static std::vector<cata_variant> is_swimming_terrain( const cata_variant &v )
 {
     const ter_id ter = v.get<ter_id>();
-    const bool swimming = ter->has_flag( ter_bitflags::TFLAG_DEEP_WATER ) &&
-                          ter->has_flag( ter_bitflags::TFLAG_SWIMMABLE );
+    const bool swimming = ter->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) &&
+                          ter->has_flag( ter_furn_flag::TFLAG_SWIMMABLE );
     std::vector<cata_variant> result = { cata_variant( swimming ) };
     return result;
 }
@@ -61,7 +60,7 @@ static std::vector<cata_variant> species_of_monster( const cata_variant &v )
     std::vector<cata_variant> result;
     result.reserve( species.size() );
     for( const species_id &s : species ) {
-        result.push_back( cata_variant( s ) );
+        result.emplace_back( s );
     }
     return result;
 }

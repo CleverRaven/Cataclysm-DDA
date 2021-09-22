@@ -2,17 +2,15 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
 #include "flat_set.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class item;
 
@@ -23,8 +21,8 @@ struct zone_priority_data {
     bool filthy = false;
     cata::flat_set<flag_id> flags;
 
-    void deserialize( JsonIn &jsin );
-    void load( JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
 };
 /**
  * Contains metadata for one category of items

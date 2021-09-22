@@ -36,7 +36,7 @@
       "rotation": 2,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
       "terrain": { "9": "t_gates_control_concrete" },
-      "vendingmachines": { "v": { "item": "alcohol" }, "V": { "item": "misc_smoker" } },
+      "vendingmachines": { "v": { "item_group": "alcohol" }, "V": { "item_group": "misc_smoking" } },
       "traps": { "_": "tr_engine" },
       "monster": { "z": { "monster": "mon_frog_giant" } }
     }

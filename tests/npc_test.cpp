@@ -1,6 +1,4 @@
-#include "catch/catch.hpp"
-#include "npc.h"
-
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
@@ -9,8 +7,10 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "common_types.h"
+#include "creature_tracker.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -19,6 +19,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
 #include "overmapbuffer.h"
@@ -27,6 +28,7 @@
 #include "point.h"
 #include "text_snippets.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -229,6 +231,7 @@ static void check_npc_movement( const tripoint &origin )
     const efftype_id effect_bouldering( "bouldering" );
 
     INFO( "Should not crash from infinite recursion" );
+    creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             switch( setup[y][x] ) {
@@ -239,7 +242,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'B':
                 case 'C':
                     tripoint p = origin + point( x, y );
-                    npc *guy = g->critter_at<npc>( p );
+                    npc *guy = creatures.creature_at<npc>( p );
                     REQUIRE( guy != nullptr );
                     guy->move();
                     break;
@@ -252,7 +255,7 @@ static void check_npc_movement( const tripoint &origin )
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'A' ) {
                 tripoint p = origin + point( x, y );
-                npc *guy = g->critter_at<npc>( p );
+                npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( !guy->has_effect( effect_bouldering ) );
             }
@@ -264,7 +267,7 @@ static void check_npc_movement( const tripoint &origin )
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'R' ) {
                 tripoint p = origin + point( x, y );
-                npc *guy = g->critter_at<npc>( p );
+                npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( guy->has_effect( effect_bouldering ) );
             }
@@ -279,7 +282,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'M':
                     CAPTURE( setup[y][x] );
                     tripoint p = origin + point( x, y );
-                    npc *guy = g->critter_at<npc>( p );
+                    npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy != nullptr );
                     break;
             }
@@ -293,7 +296,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'B':
                 case 'C':
                     tripoint p = origin + point( x, y );
-                    npc *guy = g->critter_at<npc>( p );
+                    npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy == nullptr );
                     break;
             }
@@ -303,7 +306,7 @@ static void check_npc_movement( const tripoint &origin )
 
 TEST_CASE( "npc-movement" )
 {
-    const ter_id t_reinforced_glass( "t_reinforced_glass" );
+    const ter_id t_wall_metal( "t_wall_metal" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
@@ -314,6 +317,7 @@ TEST_CASE( "npc-movement" )
 
     clear_map();
 
+    creature_tracker &creatures = get_creature_tracker();
     Character &player_character = get_player_character();
     map &here = get_map();
     for( int y = 0; y < height; ++y ) {
@@ -322,7 +326,7 @@ TEST_CASE( "npc-movement" )
             const tripoint p = player_character.pos() + point( x, y );
             // create walls
             if( type == '#' ) {
-                here.ter_set( p, t_reinforced_glass );
+                here.ter_set( p, t_wall_metal );
             } else {
                 here.ter_set( p, t_floor );
             }
@@ -361,7 +365,7 @@ TEST_CASE( "npc-movement" )
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
                 } while( guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( get_map().get_abs_sub().xy(), p );
+                guy->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.
@@ -393,7 +397,7 @@ TEST_CASE( "npc-movement" )
             } else {
                 REQUIRE( !here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
             }
-            npc *guy = g->critter_at<npc>( p );
+            npc *guy = creatures.creature_at<npc>( p );
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 

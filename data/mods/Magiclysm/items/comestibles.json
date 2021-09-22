@@ -25,6 +25,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "whiskey",
+    "name": { "str_sp": "whiskey" },
+    "copy-from": "whiskey",
+    "//": "Normal whiskey has been greatly devalued in the apocalypse by the disproportionate quantity of endless whiskey flasks in comparison to the number of survivors.",
+    "price": 250,
+    "price_postapoc": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_owlbear",
     "name": "owlbear egg yolk",
     "copy-from": "egg_chicken",

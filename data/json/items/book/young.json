@@ -169,7 +169,7 @@
     "id": "book_fict_soft_ya_pbbr",
     "type": "BOOK",
     "name": { "str": "Peanut Butter Bruised", "str_pl": "copies of Peanut Butter Bruised" },
-    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of become a professional chef.",
+    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of becoming a professional chef.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {

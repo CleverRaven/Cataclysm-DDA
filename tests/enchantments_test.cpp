@@ -1,15 +1,16 @@
-#include "catch/catch.hpp"
-
 #include "avatar.h"
-#include "bionics.h"
-#include "character.h"
+#include "cata_catch.h"
 #include "field.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "mutation.h"
+#include "npc.h"
 #include "player_helpers.h"
-#include "item.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 
 static void test_generic_ench( avatar &p, int str_before )
 {

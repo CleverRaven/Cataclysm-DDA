@@ -1,16 +1,18 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "mtype.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -55,8 +57,19 @@ static float dodge_with_effect( Creature &critter, const std::string &effect_nam
 static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
+
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
+    while( true ) {
+        item &it = dummy.i_at( -2 );
+
+        if( it.is_null() ) {
+            break;
+        }
+        if( !dummy.takeoff( item_location( *dummy.as_character(), &it ), &temp ) ) {
+            break;
+        }
+    }
+
     dummy.wear_item( clothing );
 
     return dummy.get_dodge();
@@ -78,6 +91,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dummy.dodges_left = 1;
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
         CHECK( hit_base_with_dex( dummy, 1 ) == 0.25f );
@@ -201,19 +215,6 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
 
     const float base_dodge = dummy.get_dodge_base();
 
-    SECTION( "each dodge after the first subtracts 2 points" ) {
-        // Simulate some dodges, so dodges_left will go to 0, -1
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 2 );
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 4 );
-
-        // Reset dodges_left, so subsequent tests are not affected
-        dummy.set_moves( 100 );
-        dummy.process_turn();
-        REQUIRE( dummy.dodges_left > 0 );
-    }
-
     SECTION( "speed below 100 linearly decreases dodge" ) {
         dummy.set_speed_base( 90 );
         CHECK( dummy.get_dodge() == Approx( 0.9 * base_dodge ) );
@@ -289,6 +290,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 {
     clear_map();
 
+    creature_tracker &creatures = get_creature_tracker();
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
@@ -308,10 +310,10 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     monster *zed4 = g->place_critter_at( mtype_id( "debug_mon" ), mon4_pos );
 
     // Make sure zombies are in their places
-    REQUIRE( g->critter_at<monster>( mon1_pos ) );
-    REQUIRE( g->critter_at<monster>( mon2_pos ) );
-    REQUIRE( g->critter_at<monster>( mon3_pos ) );
-    REQUIRE( g->critter_at<monster>( mon4_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon2_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon3_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon4_pos ) );
 
     // Get grabbed
     dummy.add_effect( efftype_id( "grabbed" ), 1_minutes );
@@ -408,4 +410,3 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
         }
     }
 }
-

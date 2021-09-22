@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -21,14 +22,14 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "submap.h"
+#include "temp_crafting_inventory.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -36,19 +37,15 @@
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
-static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
 /** @relates visitable */
-template <typename T>
-item *visitable<T>::find_parent( const item &it )
+item *read_only_visitable::find_parent( const item &it ) const
 {
     item *res = nullptr;
     if( visit_items( [&]( item * node, item * parent ) {
@@ -64,15 +61,7 @@ item *visitable<T>::find_parent( const item &it )
 }
 
 /** @relates visitable */
-template <typename T>
-const item *visitable<T>::find_parent( const item &it ) const
-{
-    return const_cast<visitable<T> *>( this )->find_parent( it );
-}
-
-/** @relates visitable */
-template <typename T>
-std::vector<item *> visitable<T>::parents( const item &it )
+std::vector<item *> read_only_visitable::parents( const item &it ) const
 {
     std::vector<item *> res;
     for( item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
@@ -82,30 +71,17 @@ std::vector<item *> visitable<T>::parents( const item &it )
 }
 
 /** @relates visitable */
-template <typename T>
-std::vector<const item *> visitable<T>::parents( const item &it ) const
+bool read_only_visitable::has_item( const item &it ) const
 {
-    std::vector<const item *> res;
-    for( const item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
-        res.push_back( obj );
-    }
-    return res;
-}
-
-/** @relates visitable */
-template <typename T>
-bool visitable<T>::has_item( const item &it ) const
-{
-    return visit_items( [&it]( const item * node ) {
+    return visit_items( [&it]( const item * node, item * ) {
         return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
 
 /** @relates visitable */
-template <typename T>
-bool visitable<T>::has_item_with( const std::function<bool( const item & )> &filter ) const
+bool read_only_visitable::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
-    return visit_items( [&filter]( const item * node ) {
+    return visit_items( [&filter]( const item * node, item * ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
@@ -132,7 +108,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty]( const item * e ) {
+    self.visit_items( [&qual, level, &limit, &qty]( item * e, item * ) {
         if( e->get_quality( qual ) >= level ) {
             qty = sum_no_wrap( qty, static_cast<int>( e->count() ) );
             if( qty >= limit ) {
@@ -150,11 +126,11 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int qty = 0;
 
-    point pos = veh.cpart( part ).mount;
+    point pos = veh.part( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( !veh.cpart( n ).is_broken() ) {
+        if( !veh.part( n ).is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -167,18 +143,16 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
     return std::min( qty, limit );
 }
 
-template <typename T>
-bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) const
+bool read_only_visitable::has_quality( const quality_id &qual, int level, int qty ) const
 {
     return has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
 /** @relates visitable */
-template <>
-bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
+bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
 {
     int res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+    for( const auto &stack : this->items ) {
         res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
         if( res >= qty ) {
             return true;
@@ -188,10 +162,13 @@ bool visitable<inventory>::has_quality( const quality_id &qual, int level, int q
 }
 
 /** @relates visitable */
-template <>
-bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level, int qty ) const
+bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    for( const auto &cursor : static_cast<const vehicle_selector &>( *this ) ) {
+    for( const auto &cursor : *this ) {
+        if( cursor.ignore_vpart ) {
+            continue;
+        }
+
         qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
         if( qty <= 0 ) {
             return true;
@@ -201,22 +178,18 @@ bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level
 }
 
 /** @relates visitable */
-template <>
-bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, int qty ) const
+bool vehicle_cursor::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    const vehicle_cursor *self = static_cast<const vehicle_cursor *>( this );
-
-    qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
+    if( !ignore_vpart ) {
+        qty -= has_quality_from_vpart( veh, part, qual, level, qty );
+    }
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
 /** @relates visitable */
-template <>
-bool visitable<Character>::has_quality( const quality_id &qual, int level, int qty ) const
+bool Character::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    const Character *self = static_cast<const Character *>( this );
-
-    for( const auto &bio : *self->my_bionics ) {
+    for( const auto &bio : *this->my_bionics ) {
         if( bio.get_quality( qual ) >= level ) {
             if( qty <= 1 ) {
                 return true;
@@ -229,11 +202,29 @@ bool visitable<Character>::has_quality( const quality_id &qual, int level, int q
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+bool read_only_visitable::has_tools( const itype_id &it, int quantity,
+                                     const std::function<bool( const item & )> &filter ) const
+{
+    return has_amount( it, quantity, true, filter );
+}
+
+bool read_only_visitable::has_components( const itype_id &it, int quantity,
+        const std::function<bool( const item & )> &filter ) const
+{
+    return has_amount( it, quantity, false, filter );
+}
+
+bool read_only_visitable::has_charges( const itype_id &it, int quantity,
+                                       const std::function<bool( const item & )> &filter ) const
+{
+    return ( charges_of( it, INT_MAX, filter ) >= quantity );
+}
+
 template <typename T>
 static int max_quality_internal( const T &self, const quality_id &qual )
 {
     int res = INT_MIN;
-    self.visit_items( [&res, &qual]( const item * e ) {
+    self.visit_items( [&res, &qual]( item * e, item * ) {
         res = std::max( res, e->get_quality( qual ) );
         return VisitResponse::NEXT;
     } );
@@ -244,11 +235,11 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int res = INT_MIN;
 
-    point pos = veh.cpart( part ).mount;
+    point pos = veh.part( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( !veh.cpart( n ).is_broken() ) {
+        if( !veh.part( n ).is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -261,26 +252,22 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
     return res;
 }
 
-template <typename T>
-int visitable<T>::max_quality( const quality_id &qual ) const
+int read_only_visitable::max_quality( const quality_id &qual ) const
 {
     return max_quality_internal( *this, qual );
 }
 
 /** @relates visitable */
-template<>
-int visitable<Character>::max_quality( const quality_id &qual ) const
+int Character::max_quality( const quality_id &qual ) const
 {
     int res = INT_MIN;
 
-    const Character *self = static_cast<const Character *>( this );
-
-    for( const bionic &bio : *self->my_bionics ) {
+    for( const bionic &bio : *my_bionics ) {
         res = std::max( res, bio.get_quality( qual ) );
     }
 
     if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : self->get_mutations() ) {
+        for( const trait_id &mut : get_mutations() ) {
             res = std::max( res, mut->butchering_quality );
         }
     }
@@ -288,34 +275,44 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
     return std::max( res, max_quality_internal( *this, qual ) );
 }
 
-/** @relates visitable */
-template <>
-int visitable<vehicle_cursor>::max_quality( const quality_id &qual ) const
+int Character::max_quality( const quality_id &qual, int radius )
 {
-    const vehicle_cursor *self = static_cast<const vehicle_cursor *>( this );
-    return std::max( max_quality_from_vpart( self->veh, self->part, qual ),
-                     max_quality_internal( *this, qual ) );
+    int res = max_quality( qual );
+
+    if( radius > 0 ) {
+        res = std::max( res,
+                        crafting_inventory( tripoint_zero, radius, true )
+                        .max_quality( qual ) );
+    }
+
+    return res;
 }
 
 /** @relates visitable */
-template <>
-int visitable<vehicle_selector>::max_quality( const quality_id &qual ) const
+int vehicle_cursor::max_quality( const quality_id &qual ) const
+{
+    int vpart = ignore_vpart ? 0 : max_quality_from_vpart( veh, part, qual );
+    return std::max( vpart, max_quality_internal( *this, qual ) );
+}
+
+/** @relates visitable */
+int vehicle_selector::max_quality( const quality_id &qual ) const
 {
     int res = INT_MIN;
-    for( const auto &e : static_cast<const vehicle_selector &>( *this ) ) {
+    for( const auto &e : *this ) {
         res = std::max( res, e.max_quality( qual ) );
     }
     return res;
 }
 
-/** @relates visitable */
-template <typename T>
-std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
+template<typename T, typename V>
+static inline std::vector<T> items_with_internal( V &self, const std::function<bool( const item & )>
+        &filter )
 {
-    std::vector<item *> res;
-    visit_items( [&res, &filter]( item * node, item * ) {
+    std::vector<T> res;
+    self.visit_items( [&res, &filter]( const item * node, item * ) {
         if( filter( *node ) ) {
-            res.push_back( node );
+            res.push_back( const_cast<T>( node ) );
         }
         return VisitResponse::NEXT;
     } );
@@ -323,58 +320,30 @@ std::vector<item *> visitable<T>::items_with( const std::function<bool( const it
 }
 
 /** @relates visitable */
-template <typename T>
-std::vector<const item *>
-visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
+std::vector<const item *> read_only_visitable::items_with(
+    const std::function<bool( const item & )> &filter ) const
 {
-    std::vector<const item *> res;
-    visit_items( [&res, &filter]( const item * node, const item * ) {
-        if( filter( *node ) ) {
-            res.push_back( node );
-        }
-        return VisitResponse::NEXT;
-    } );
-    return res;
+    return items_with_internal<const item *>( *this, filter );
 }
-
 /** @relates visitable */
-template <typename T>
-VisitResponse
-visitable<T>::visit_items( const std::function<VisitResponse( const item *,
-                           const item * )> &func ) const
+std::vector<item *> read_only_visitable::items_with(
+    const std::function<bool( const item & )> &filter )
 {
-    return const_cast<visitable<T> *>( this )->visit_items(
-               static_cast<const std::function<VisitResponse( item *, item * )>&>( func ) );
+    return items_with_internal<item *>( *this, filter );
 }
-
-/** @relates visitable */
-template <typename T> VisitResponse
-visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
-{
-    return const_cast<visitable<T> *>( this )->visit_items(
-               static_cast<const std::function<VisitResponse( item * )>&>( func ) );
-}
-
-/** @relates visitable */
-template <typename T>
-VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( item * )> &func )
-{
-    return visit_items( [&func]( item * it, item * ) {
-        return func( it );
-    } );
-}
-
-// Specialize visitable<T>::visit_items() for each class that will implement the visitable interface
 
 static VisitResponse visit_internal( const std::function<VisitResponse( item *, item * )> &func,
-                                     item *node, item *parent = nullptr )
+                                     const item *node, item *parent = nullptr )
 {
-    switch( func( node, parent ) ) {
+    // hack to avoid repetition
+    item *m_node = const_cast<item *>( node );
+
+    switch( func( m_node, parent ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( node->contents.visit_contents( func, node ) == VisitResponse::ABORT ) {
+            if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         /* intentional fallthrough */
@@ -385,6 +354,12 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 
     /* never reached but suppresses GCC warning */
     return VisitResponse::ABORT;
+}
+
+VisitResponse item::visit_contents( const std::function<VisitResponse( item *, item * )>
+                                    &func, item *parent )
+{
+    return contents.visit_contents( func, parent );
 }
 
 VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
@@ -420,22 +395,18 @@ VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( it
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<item>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse item::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    item *it = static_cast<item *>( this );
-    return visit_internal( func, it );
+    return visit_internal( func, this );
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<inventory>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse inventory::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    inventory *inv = static_cast<inventory *>( this );
-    for( auto &stack : inv->items ) {
-        for( auto &it : stack ) {
+    for( const auto &stack : items ) {
+        for( const auto &it : stack ) {
             if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -445,39 +416,53 @@ VisitResponse visitable<inventory>::visit_items(
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<Character>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse temp_crafting_inventory::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    Character *ch = static_cast<Character *>( this );
+    for( item *it : items ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
 
-    if( !ch->weapon.is_null() &&
-        visit_internal( func, &ch->weapon ) == VisitResponse::ABORT ) {
+/** @relates visitable */
+VisitResponse Character::visit_items( const std::function<VisitResponse( item *, item * )> &func )
+const
+{
+    if( !weapon.is_null() &&
+        visit_internal( func, &weapon ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 
-    for( auto &e : ch->worn ) {
+    for( const auto &e : worn ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
 
-    return ch->inv->visit_items( func );
+    for( const item *e : get_pseudo_items() ) {
+        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
+    return inv->visit_items( func );
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<map_cursor>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse map_cursor::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    const map_cursor *cur = static_cast<map_cursor *>( this );
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( "SEALED", *cur ) && !here.has_flag( "LIQUIDCONT", *cur ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, pos() ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos() ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( *cur ) ) {
+    for( item &e : here.i_at( pos() ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -486,11 +471,10 @@ VisitResponse visitable<map_cursor>::visit_items(
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<map_selector>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse map_selector::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    for( auto &cursor : static_cast<map_selector &>( *this ) ) {
+    for( auto &cursor : * ( const_cast<map_selector *>( this ) ) ) {
         if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -499,15 +483,12 @@ VisitResponse visitable<map_selector>::visit_items(
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<vehicle_cursor>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse vehicle_cursor::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    const vehicle_cursor *self = static_cast<vehicle_cursor *>( this );
-
-    int idx = self->veh.part_with_feature( self->part, "CARGO", true );
+    int idx = veh.part_with_feature( part, "CARGO", true );
     if( idx >= 0 ) {
-        for( auto &e : self->veh.get_items( idx ) ) {
+        for( auto &e : veh.get_items( idx ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -517,11 +498,10 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 }
 
 /** @relates visitable */
-template <>
-VisitResponse visitable<vehicle_selector>::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse vehicle_selector::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
+    for( const auto &cursor :  *this ) {
         if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -529,11 +509,8 @@ VisitResponse visitable<vehicle_selector>::visit_items(
     return VisitResponse::NEXT;
 }
 
-// Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
-
 /** @relates visitable */
-template <typename T>
-item visitable<T>::remove_item( item &it )
+item visitable::remove_item( item &it )
 {
     auto obj = remove_items_with( [&it]( const item & e ) {
         return &e == &it;
@@ -548,11 +525,9 @@ item visitable<T>::remove_item( item &it )
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
+std::list<item> item::remove_items_with( const std::function<bool( const item &e )>
         &filter, int count )
 {
-    item *it = static_cast<item *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -560,16 +535,14 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
         return res;
     }
 
-    it->contents.remove_internal( filter, count, res );
+    contents.remove_internal( filter, count, res );
     return res;
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<inventory>::remove_items_with( const
+std::list<item> inventory::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    inventory *inv = static_cast<inventory *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -577,7 +550,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
         return res;
     }
 
-    for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
+    for( auto stack = items.begin(); stack != items.end() && count > 0; ) {
         std::list<item> &istack = *stack;
         const char original_invlet = istack.front().invlet;
 
@@ -594,30 +567,28 @@ std::list<item> visitable<inventory>::remove_items_with( const
                 }
 
             } else {
-                istack_iter->contents.remove_internal( filter, count, res );
+                istack_iter->remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
 
         if( istack.empty() ) {
-            stack = inv->items.erase( stack );
+            stack = items.erase( stack );
         } else {
             ++stack;
         }
     }
 
     // Invalidate binning cache
-    inv->binned = false;
+    binned = false;
 
     return res;
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<Character>::remove_items_with( const
+std::list<item> Character::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    Character *ch = static_cast<Character *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -626,22 +597,22 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // first try and remove items from the inventory
-    res = ch->inv->remove_items_with( filter, count );
+    res = inv->remove_items_with( filter, count );
     count -= res.size();
     if( count == 0 ) {
         return res;
     }
 
     // then try any worn items
-    for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
+    for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
-            iter->on_takeoff( *ch );
-            res.splice( res.end(), ch->worn, iter++ );
+            iter->on_takeoff( *this );
+            res.splice( res.end(), worn, iter++ );
             if( --count == 0 ) {
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -650,22 +621,20 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // finally try the currently wielded item (if any)
-    if( filter( ch->weapon ) ) {
-        res.push_back( ch->remove_weapon() );
+    if( filter( weapon ) ) {
+        res.push_back( remove_weapon() );
         count--;
     } else {
-        ch->weapon.contents.remove_internal( filter, count, res );
+        weapon.remove_internal( filter, count, res );
     }
 
     return res;
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<map_cursor>::remove_items_with( const
+std::list<item> map_cursor::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    const map_cursor *cur = static_cast<map_cursor *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -674,14 +643,14 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     }
 
     map &here = get_map();
-    if( !here.inbounds( *cur ) ) {
+    if( !here.inbounds( pos() ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point offset;
-    submap *sub = here.get_submap_at( *cur, offset );
+    submap *sub = here.get_submap_at( pos(), offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -700,25 +669,24 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
             ++iter;
         }
     }
-    here.update_submap_active_item_status( *cur );
+    here.update_submap_active_item_status( pos() );
     return res;
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<map_selector>::remove_items_with( const
+std::list<item> map_selector::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     std::list<item> res;
 
-    for( auto &cursor : static_cast<map_selector &>( *this ) ) {
+    for( auto &cursor : *this ) {
         std::list<item> out = cursor.remove_items_with( filter, count );
         count -= out.size();
         res.splice( res.end(), out );
@@ -728,11 +696,9 @@ std::list<item> visitable<map_selector>::remove_items_with( const
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<vehicle_cursor>::remove_items_with( const
+std::list<item> vehicle_cursor::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    const vehicle_cursor *cur = static_cast<vehicle_cursor *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -740,25 +706,25 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res;
     }
 
-    int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
+    int idx = veh.part_with_feature( part, "CARGO", false );
     if( idx < 0 ) {
         return res;
     }
 
-    vehicle_part &part = cur->veh.part( idx );
-    for( auto iter = part.items.begin(); iter != part.items.end(); ) {
+    vehicle_part &p = veh.part( idx );
+    for( auto iter = p.items.begin(); iter != p.items.end(); ) {
         if( filter( *iter ) ) {
             // remove from the active items cache (if it isn't there does nothing)
-            cur->veh.active_items.remove( &*iter );
+            veh.active_items.remove( &*iter );
 
             res.push_back( *iter );
-            iter = part.items.erase( iter );
+            iter = p.items.erase( iter );
 
             if( --count == 0 ) {
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -768,20 +734,19 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
 
     if( !res.empty() ) {
         // if we removed any items then invalidate the cached mass
-        cur->veh.invalidate_mass();
+        veh.invalidate_mass();
     }
 
     return res;
 }
 
 /** @relates visitable */
-template <>
-std::list<item> visitable<vehicle_selector>::remove_items_with( const
+std::list<item> vehicle_selector::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     std::list<item> res;
 
-    for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
+    for( auto &cursor : *this ) {
         std::list<item> out = cursor.remove_items_with( filter, count );
         count -= out.size();
         res.splice( res.end(), out );
@@ -798,64 +763,116 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     int qty = 0;
 
     bool found_tool_with_UPS = false;
-    self.visit_items( [&]( const item * e ) {
-        if( filter( *e ) ) {
-            if( e->is_tool() ) {
-                if( e->typeId() == id ) {
-                    // includes charges from any included magazine.
-                    qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
-                        found_tool_with_UPS = true;
-                    }
-                }
-                if( !e->has_pockets() ) {
-                    return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
-                }
-
-            } else if( e->count_by_charges() ) {
-                if( e->typeId() == id ) {
+    bool found_bionic_tool = false;
+    self.visit_items( [&]( const item * e, item * ) {
+        if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
+            if( id != itype_UPS_off ) {
+                if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
+                } else {
+                    qty = sum_no_wrap( qty, e->ammo_remaining() );
                 }
-                // items counted by charges are not themselves expected to be containers
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                    found_tool_with_UPS = true;
+                } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                    found_bionic_tool = true;
+                }
+            } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
+                qty = sum_no_wrap( qty, e->ammo_remaining() );
             }
         }
-        // recurse through any nested containers
-        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+        if( qty >= limit ) {
+            return VisitResponse::ABORT;
+        }
+        // recurse through nested containers if any
+        return e->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
     } );
 
+    if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
+        qty = sum_no_wrap( qty, static_cast<int>( units::to_kilojoule(
+                               get_player_character().get_power_level() ) ) );
+    }
+
+    if( found_bionic_tool ) {
+        qty = sum_no_wrap( qty, static_cast<int>( units::to_kilojoule(
+                               get_player_character().get_power_level() ) ) );
+    }
+
     if( qty < limit && found_tool_with_UPS ) {
-        qty += main.charges_of( itype_UPS, limit - qty );
+        int used_ups = main.charges_of( itype_UPS, limit - qty );
+        qty += used_ups;
         if( visitor ) {
-            visitor( qty );
+            visitor( used_ups );
         }
     }
 
     return std::min( qty, limit );
 }
 
-/** @relates visitable */
 template <typename T>
-int visitable<T>::charges_of( const itype_id &what, int limit,
-                              const std::function<bool( const item & )> &filter,
-                              const std::function<void( int )> &visitor ) const
+static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
 {
-    return charges_of_internal( *this, *this, what, limit, filter, visitor );
+    std::pair<int, int> result( INT_MAX, INT_MIN );
+    self.visit_items( [&result, &id, &filter, &player_character]( const item * e, item * ) {
+        if( e->typeId() == id && filter( *e ) ) {
+            int kcal = player_character.compute_effective_nutrients( *e ).kcal();
+            if( kcal < result.first ) {
+                result.first = kcal;
+            }
+            if( kcal > result.second ) {
+                result.second = kcal;
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    return result;
+}
+
+std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> inventory::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> Character::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 /** @relates visitable */
-template <>
-int visitable<inventory>::charges_of( const itype_id &what, int limit,
-                                      const std::function<bool( const item & )> &filter,
-                                      const std::function<void( int )> &visitor ) const
+int read_only_visitable::charges_of( const itype_id &what, int limit,
+                                     const std::function<bool( const item & )> &filter,
+                                     const std::function<void( int )> &visitor ) const
 {
     if( what == itype_UPS ) {
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
         return std::min( qty, limit );
     }
-    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+
+    return charges_of_internal( *this, *this, what, limit, filter, visitor );
+}
+
+/** @relates visitable */
+int inventory::charges_of( const itype_id &what, int limit,
+                           const std::function<bool( const item & )> &filter,
+                           const std::function<void( int )> &visitor ) const
+{
+    if( what == itype_UPS ) {
+        int qty = 0;
+        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
+        return std::min( qty, limit );
+    }
+
+    const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
         return 0;
@@ -872,38 +889,17 @@ int visitable<inventory>::charges_of( const itype_id &what, int limit,
 }
 
 /** @relates visitable */
-template <>
-int visitable<Character>::charges_of( const itype_id &what, int limit,
-                                      const std::function<bool( const item & )> &filter,
-                                      const std::function<void( int )> &visitor ) const
+int Character::charges_of( const itype_id &what, int limit,
+                           const std::function<bool( const item & )> &filter,
+                           const std::function<void( int )> &visitor ) const
 {
-    const Character *self = static_cast<const Character *>( this );
-    const player *p = dynamic_cast<const player *>( self );
-
-    if( what == itype_toolset ) {
-        if( p && p->has_active_bionic( bio_tools ) ) {
-            return std::min( units::to_kilojoule( p->get_power_level() ), limit );
-        } else {
-            return 0;
-        }
-    }
-
     if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
-        if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
+        int ups_power = available_ups();
+        if( has_active_bionic( bio_ups ) ) {
+            ups_power -= units::to_kilojoule( get_power_level() );
         }
-        if( p && p->is_mounted() ) {
-            const auto *mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
-                qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
-            }
-        }
-        return std::min( qty, limit );
+        return std::min( ups_power, limit );
     }
-
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 
@@ -912,8 +908,9 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
                                const std::function<bool( const item & )> &filter )
 {
     int qty = 0;
-    self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
-        if( ( id.str() == "any" || e->typeId() == id ) && filter( *e ) &&
+    self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
+        if( !e->has_flag( STATIC( flag_id( "ITEM_BROKEN" ) ) ) &&
+            ( id == STATIC( itype_id( "any" ) ) || e->typeId() == id ) && filter( *e ) &&
             ( pseudo || !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
@@ -923,21 +920,19 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 }
 
 /** @relates visitable */
-template <typename T>
-int visitable<T>::amount_of( const itype_id &what, bool pseudo, int limit,
-                             const std::function<bool( const item & )> &filter ) const
+int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit,
+                                    const std::function<bool( const item & )> &filter ) const
 {
     return amount_of_internal( *this, what, pseudo, limit, filter );
 }
 
 /** @relates visitable */
-template <>
-int visitable<inventory>::amount_of( const itype_id &what, bool pseudo, int limit,
-                                     const std::function<bool( const item & )> &filter ) const
+int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
+                          const std::function<bool( const item & )> &filter ) const
 {
-    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto &binned = get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() && what != itype_id( "any" ) ) {
+    if( iter == binned.end() && what != STATIC( itype_id( "any" ) ) ) {
         return 0;
     }
 
@@ -958,19 +953,20 @@ int visitable<inventory>::amount_of( const itype_id &what, bool pseudo, int limi
 }
 
 /** @relates visitable */
-template <>
-int visitable<Character>::amount_of( const itype_id &what, bool pseudo, int limit,
-                                     const std::function<bool( const item & )> &filter ) const
+int Character::amount_of( const itype_id &what, bool pseudo, int limit,
+                          const std::function<bool( const item & )> &filter ) const
 {
-    const Character *self = static_cast<const Character *>( this );
-
-    if( what == itype_toolset && pseudo && self->has_active_bionic( bio_tools ) ) {
-        return 1;
+    if( pseudo ) {
+        for( const item *pseudos : get_pseudo_items() ) {
+            if( pseudos->typeId() == what ) {
+                return 1;
+            }
+        }
     }
 
     if( what == itype_apparatus && pseudo ) {
         int qty = 0;
-        visit_items( [&qty, &limit, &filter]( const item * e ) {
+        visit_items( [&qty, &limit, &filter]( const item * e, item * ) {
             if( e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1 && filter( *e ) ) {
                 qty = sum_no_wrap( qty, 1 );
             }
@@ -983,18 +979,8 @@ int visitable<Character>::amount_of( const itype_id &what, bool pseudo, int limi
 }
 
 /** @relates visitable */
-template <typename T>
-bool visitable<T>::has_amount( const itype_id &what, int qty, bool pseudo,
-                               const std::function<bool( const item & )> &filter ) const
+bool read_only_visitable::has_amount( const itype_id &what, int qty, bool pseudo,
+                                      const std::function<bool( const item & )> &filter ) const
 {
     return amount_of( what, pseudo, qty, filter ) == qty;
 }
-
-// explicit template initialization for all classes implementing the visitable interface
-template class visitable<item>;
-template class visitable<inventory>;
-template class visitable<Character>;
-template class visitable<map_selector>;
-template class visitable<map_cursor>;
-template class visitable<vehicle_selector>;
-template class visitable<vehicle_cursor>;

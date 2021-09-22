@@ -1,18 +1,23 @@
 [
   {
-    "type": "vehicle_part",
-    "id": "afs_hauling_space",
-    "categories": [ "cargo" ],
-    "copy-from": "cargo_space",
-    "name": { "str": "hauling space" },
-    "looks_like": "cargo_space",
-    "item": "afs_hauling_space",
-    "location": "center",
-    "durability": 400,
-    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
-    "size": 6000,
-    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
+    "id": "afs_sungel",
+    "type": "COMESTIBLE",
+    "name": "sungel",
+    "copy-from": "afs_sundew",
+    "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
+    "stim": 50,
+    "phase": "liquid",
+    "charges": 2,
+    "fun": 20,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
+      "effects": [
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 }
+      ]
+    }
   },
   {
     "id": "afs_solderers_item",
@@ -23,6 +28,209 @@
     "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
   },
   {
+    "id": "afs_fridge",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": { "str": "vehicle refrigerator" },
+    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
+    "symbol": "{",
+    "color": "white",
+    "weight": "142882 g",
+    "volume": "300 L",
+    "price": 40000,
+    "price_postapoc": 10000,
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 8,
+    "flags": [ "DURABLE_MELEE" ],
+    "looks_like": "minifridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_fridge",
+    "copy-from": "minifridge",
+    "name": { "str": "refrigerator" },
+    "symbol": "{",
+    "categories": [ "cargo" ],
+    "color": "white",
+    "broken_color": "white",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
+    "epower": -100,
+    "size": 1200,
+    "item": "afs_fridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_freezer",
+    "copy-from": "minifreezer",
+    "name": { "str": "freezer" },
+    "symbol": "{",
+    "categories": [ "cargo" ],
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
+    "epower": -120,
+    "size": 1200,
+    "item": "afs_freezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_metal_rig",
+    "name": { "str": "MetalMaster forge buddy" },
+    "symbol": "&",
+    "categories": [ "utility" ],
+    "color": "red",
+    "broken_symbol": "x",
+    "broken_color": "red",
+    "looks_like": "welding_rig",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
+    "size": 200,
+    "item": "afs_metal_rig",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
+    "pseudo_tools": [ { "id": "welder", "hotkey": "w" }, { "id": "soldering_iron", "hotkey": "s" }, { "id": "forge" }, { "id": "kiln" } ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] },
+      { "item": "welder", "charges": 0, "prob": 50 },
+      { "item": "forge", "charges": 0, "prob": 50 },
+      { "item": "kiln", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_cooking_rig",
+    "name": { "str": "cooking rig" },
+    "symbol": "&",
+    "categories": [ "utility" ],
+    "color": "blue",
+    "broken_symbol": "x",
+    "broken_color": "blue",
+    "looks_like": "kitchen_unit",
+    "damage_modifier": 10,
+    "durability": 125,
+    "description": "An all-in-one kitchen unit and chemistry lab.  'e'xamine it to use its hotplate to heat up food or drinks.",
+    "size": 200,
+    "item": "afs_cooking_rig",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [
+      { "id": "water_faucet" },
+      { "id": "hotplate", "hotkey": "h" },
+      { "id": "pot" },
+      { "id": "pan" },
+      { "id": "chemistry_set" },
+      { "id": "electrolysis_kit" }
+    ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] },
+      { "item": "pot", "prob": 50 },
+      { "item": "pan", "prob": 50 },
+      { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "hotplate", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_kitchen_rig",
+    "name": { "str": "KitchenMaster cooking buddy" },
+    "symbol": "&",
+    "categories": [ "utility" ],
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "looks_like": "kitchen_unit",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
+    "size": 200,
+    "item": "afs_kitchen_rig",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [
+      { "id": "water_faucet" },
+      { "id": "vac_sealer" },
+      { "id": "dehydrator" },
+      { "id": "food_processor" },
+      { "id": "press" },
+      { "id": "puller" },
+      { "id": "hotplate", "hotkey": "h" },
+      { "id": "pot" },
+      { "id": "pan" },
+      { "id": "chemistry_set" },
+      { "id": "electrolysis_kit" },
+      { "id": "water_purifier", "hotkey": "p" }
+    ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 9, 18 ] },
+      { "item": "steel_chunk", "count": [ 9, 18 ] },
+      { "item": "scrap", "count": [ 9, 18 ] },
+      { "item": "pot", "prob": 50 },
+      { "item": "pan", "prob": 50 },
+      { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "hotplate", "charges": 0, "prob": 50 },
+      { "item": "water_purifier", "charges": 0, "prob": 50 },
+      { "item": "vac_sealer", "charges": 0, "prob": 50 },
+      { "item": "dehydrator", "charges": 0, "prob": 50 },
+      { "item": "food_processor", "charges": 0, "prob": 50 },
+      { "item": "press", "prob": 50 }
+    ]
+  },
+  {
+    "id": "afs_freezer",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": { "str": "vehicle freezer" },
+    "copy-from": "afs_fridge",
+    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
+    "color": "light_blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_metal_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_kitchen_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
+    "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_cooking_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "cooking rig" },
+    "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
+  },
+  {
     "id": "afs_bio_precision_solderers",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -30,40 +238,6 @@
     "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
     "price": 20000,
     "difficulty": 3
-  },
-  {
-    "type": "GENERIC",
-    "id": "afs_hauling_space",
-    "name": { "str": "hauling space" },
-    "description": "A huge metal space used in conjunction with extension of a vehicle's roof to create a very large amount of space for transporting goods.",
-    "weight": "120 kg",
-    "to_hit": -6,
-    "color": "cyan",
-    "symbol": "]",
-    "looks_like": "cargo_aisle",
-    "material": [ "steel" ],
-    "volume": "100 L",
-    "bashing": 2,
-    "category": "veh_parts",
-    "price": 50000
-  },
-  {
-    "id": "afs_dough",
-    "type": "COMESTIBLE",
-    "name": "dough",
-    "weight": "226 g",
-    "color": "yellow",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 86,
-    "quench": -5,
-    "description": "Flour mixed with water, kneaded into a gooey paste.  This dough can be used to bake bread more efficiently than with just flour.",
-    "price": 100,
-    "volume": "500 ml",
-    "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "looks_like": "flour",
-    "fun": -5
   },
   {
     "id": "afs_blatant_half_life_reference",
@@ -77,11 +251,7 @@
     "price": 100000000,
     "price_postapoc": 50000,
     "material": [ "superalloy", "kevlar" ],
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
     "material_thickness": 2,
-    "encumbrance": 4,
-    "max_encumbrance": 9,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -99,7 +269,14 @@
       "OUTER",
       "STURDY"
     ],
-    "looks_like": "depowered_armor"
+    "looks_like": "depowered_armor",
+    "armor": [
+      {
+        "encumbrance": [ 4, 9 ],
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "afs_hev_helmet",
@@ -113,10 +290,7 @@
     "price": 10000000,
     "price_postapoc": 5000,
     "material": [ "superalloy", "plastic" ],
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
     "material_thickness": 2,
-    "encumbrance": 15,
     "warmth": 20,
     "environmental_protection": 11,
     "qualities": [ [ "GLARE", 3 ] ],
@@ -131,7 +305,7 @@
       "need_charges_msg": "The helmet's batteries are dead."
     },
     "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet",
+    "looks_like": "afs_hev_helmet_on",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -148,7 +322,8 @@
           "light_disposable_cell"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
     "id": "afs_hev_helmet_on",
@@ -160,89 +335,7 @@
     "turns_per_charge": 20,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
     "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet"
-  },
-  {
-    "id": "afs_boot_quiver",
-    "type": "ARMOR",
-    "name": { "str": "boot quiver" },
-    "description": "This is a makeshift quiver made from a thigh-high boot with the heel removed and patched shut, and strings used as a strap run through a hole punched into its side.  It can hold 40 arrows or bolts for easy access.",
-    "weight": "770 g",
-    "volume": "2 L",
-    "price": 500,
-    "bashing": 4,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "quiver",
-    "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 5,
-    "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "arrow": 40, "bolt": 40 }, "moves": 20 } ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "afs_survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
-    "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" }
-  },
-  {
-    "id": "survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (sheath)", "str_pl": "survivor utility belts (sheath)" }
-  },
-  {
-    "id": "afs_brigandine",
-    "type": "ARMOR",
-    "name": { "str": "brigandine" },
-    "description": "A piece of body armor from the Middle Ages consisting of boiled leather with riveted metal plates lying underneath.  Typically used to protect from arrows, it has very good protection against cuts.",
-    "weight": "3268 g",
-    "volume": "1500 ml",
-    "price": 5000,
-    "to_hit": -3,
-    "material": [ "leather", "steel" ],
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 100,
-    "encumbrance": 16,
-    "warmth": 25,
-    "material_thickness": 3,
-    "flags": [ "RAINPROOF", "STURDY", "OUTER", "ONLY_ONE", "VARSIZE" ]
-  },
-  {
-    "id": "afs_mbr_titanium",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "MBR vest (titanium)", "str_pl": "MBR vests (titanium)" },
-    "description": "A Modular Bullet Resistant Vest.  Titanium scraps have been inserted to improve its protection.  It has four pouches capable of carrying magazines.",
-    "weight": "3108 g",
-    "volume": "6 L",
-    "price": 110000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar", "titanium" ],
-    "symbol": "[",
-    "looks_like": "kevlar",
-    "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
-    ],
-    "warmth": 15,
-    "material_thickness": 3,
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "looks_like": "afs_hev_helmet"
   },
   {
     "id": "afs_sunesthesia",
@@ -251,7 +344,7 @@
     "copy-from": "afs_sungel",
     "description": "This sungel has been mixed with several drugs and yet inherits none of their effects.  Its painkilling effect hasn't changed, but its stimulative properties have been reversed, and it could be used as anesthesia for installation of bionics.",
     "stim": -30,
-    "phase": "solid",
+    "phase": "liquid",
     "color": "light_red",
     "flags": [ "LIGHT_4", "EATEN_HOT" ],
     "use_action": {
@@ -266,23 +359,163 @@
     }
   },
   {
-    "id": "afs_brigandine_crafted",
-    "type": "ARMOR",
-    "name": "crafted brigandine",
-    "description": "Modeled after a proper brigandine from medieval times, this makeshift piece of body armor consists of layered cloth with small pieces of sheet metal affixed to the underside.  While not as protective as a proper piece of armor, it'll still keep you relatively safe.",
-    "weight": "3268 g",
-    "volume": "1500 ml",
-    "price": 1000,
-    "to_hit": -3,
-    "material": [ "cotton", "steel" ],
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 95,
-    "encumbrance": 14,
-    "warmth": 20,
-    "material_thickness": 2,
-    "flags": [ "OUTER", "VARSIZE" ]
+    "id": "afs_textbook_shotguns",
+    "type": "BOOK",
+    "name": { "str": "USMC M1014 technical manual" },
+    "description": "A pocket-sized book printed in 2000 by the United States Marine Corps for official use.  It describes the operation, repair, and cleaning of the Benilli M1014 shotgun.  Though specific to the M4, it can provide a wealth of information to the trained eye.",
+    "weight": "600 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "manual_shotgun",
+    "color": "green",
+    "skill": "shotgun",
+    "required_level": 2,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "15 m"
+  },
+  {
+    "id": "afs_textbook_handguns",
+    "type": "BOOK",
+    "name": { "str": "Black Powder to Berettas", "str_pl": "copies of Black Powder to Berettas" },
+    "description": "This hardcover book, aimed at the gun nut, provides an illustrated, concise history of the handgun throughout history, including technical specifications and use techniques.  It's difficult to follow without a passing knowledge in pistols, but an experienced handgun user could glean much from it.",
+    "weight": "732 g",
+    "volume": "750 ml",
+    "price": 3000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "manual_shotgun",
+    "color": "green",
+    "skill": "pistol",
+    "required_level": 2,
+    "max_level": 6,
+    "intelligence": 6,
+    "time": "20 m"
+  },
+  {
+    "id": "afs_textbook_rifles",
+    "type": "BOOK",
+    "name": { "str": "America's Rifle", "str_pl": "copies of America's Rifle" },
+    "description": "A history book penned by an anonymous author.  Starting from its design by John Garand and ending with the Vietnam War, it provides a detailed run-down of the M1 Garand rifle's use throughout history as well as its design and quirks with the weapon.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": 3000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "manual_shotgun",
+    "color": "green",
+    "skill": "rifle",
+    "required_level": 2,
+    "max_level": 6,
+    "intelligence": 6,
+    "time": "20 m"
+  },
+  {
+    "id": "afs_textbook_launchers",
+    "type": "BOOK",
+    "name": { "str": "Jane's Flamethrowers and Firestarters", "str_pl": "copies of Jane's Flamethrowers and Firestarters" },
+    "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge.",
+    "weight": "734 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "manual_shotgun",
+    "color": "green",
+    "skill": "launcher",
+    "required_level": 2,
+    "max_level": 6,
+    "intelligence": 5,
+    "time": "18 m"
+  },
+  {
+    "id": "afs_bio_wind_turbine",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Wind Turbine CBM" },
+    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_flame",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "red",
+    "name": "broken military flame robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flamethrower.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_308",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_8x40mm",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 8x40mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_rail",
+    "copy-from": "broken_advbot_disarmed",
+    "color": "magenta",
+    "name": "broken advanced robot",
+    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
+  },
+  {
+    "id": "40mm_emp",
+    "type": "AMMO",
+    "name": { "str": "40mm EMP grenade" },
+    "description": "A 40mm grenade with an EMP charge.  It will release an electromagnetic pulse capable of damaging robots and some equipment.",
+    "weight": "230 g",
+    "volume": "250 ml",
+    "price": 40000,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 4,
+    "stack_size": 4,
+    "ammo_type": "40x46mm",
+    "casing": "40x46mm_m118_casing",
+    "range": 40,
+    "bashing": 5,
+    "dispersion": 30,
+    "recoil": 225,
+    "drop": "40mmEMP_act",
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NO_EMBED" ]
+  },
+  {
+    "id": "40mmEMP_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active EMP grenade",
+    "description": "This EMP grenade is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.",
+    "weight": "400 g",
+    "volume": "250 ml",
+    "price": 0,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "cyan",
+    "initial_charges": 0,
+    "max_charges": 0,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "draw_explosion_radius": 8,
+      "draw_explosion_color": "light_blue",
+      "emp_blast_radius": 8,
+      "sound_volume": 0
+    },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

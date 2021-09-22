@@ -3,7 +3,7 @@
     "id": "mon_zhark",
     "type": "MONSTER",
     "name": { "str": "jawed terror" },
-    "description": "A once aggressive and hungry bull shark, this jawed terror is now even more aggressive, possibly thanks to its lack of a functioning brain.",
+    "description": "Once a normally-aggressive, normally-hungry bull shark, this jawed terror is now even more of the same, possibly thanks to its lack of a functioning brain.",
     "default_faction": "zombie_aquatic",
     "bodytype": "fish",
     "species": [ "ZOMBIE" ],
@@ -26,15 +26,26 @@
     "armor_bullet": 2,
     "luminance": 0,
     "harvest": "zombie_leather",
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
+    ]
   },
   {
     "id": "mon_zombie_dog",
     "alias": "mon_zombie_fast",
     "type": "MONSTER",
     "name": { "str": "zombie dog" },
-    "description": "The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
+    "description": "The deformed, animated corpse of a canine; a sinewy beast which can easily outpace its two-legged friends.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "categories": [ "CLASSIC" ],
@@ -56,7 +67,6 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -91,7 +101,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -99,7 +108,7 @@
     "id": "mon_dog_zombie_rot",
     "type": "MONSTER",
     "name": { "str": "rot-weiler" },
-    "description": "Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime-dribbling ulcers.",
+    "description": "An acrid smell accompanies this canine corpse.  Its whole body is covered in chains of pulsing cysts and slime-dribbling ulcers.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "categories": [ "CLASSIC" ],
@@ -118,11 +127,11 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
-    "death_function": [ "NORMAL" ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "upgrades": { "half_life": 28, "into": "mon_dog_zombie_brute" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -130,7 +139,7 @@
     "id": "mon_zolf",
     "type": "MONSTER",
     "name": { "str": "grim howler" },
-    "description": "A zombified wolf.  Its mouth oozes with a black substance, coating the vicious-looking white fangs.",
+    "description": "A zombified wolf.  Its mouth oozes with a black substance, coating its vicious-looking white fangs.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "categories": [ "CLASSIC" ],
@@ -154,7 +163,6 @@
     "special_attacks": [ [ "HOWL", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -189,7 +197,6 @@
     "harvest": "zombie_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -222,7 +229,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },
@@ -230,7 +237,7 @@
     "id": "mon_zombeaver",
     "type": "MONSTER",
     "name": { "str": "zombeaver" },
-    "description": "This wall-eyed beast has a large wound on its side, and ribs with some flesh on them are seen through it.  The most prominent feature of this abomination is large incisors in its ominously open mouth, strange black goo is oozing out of it.  Seems like it isn't interested in trees anymore and is looking for some warm flesh to feed.",
+    "description": "This wall-eyed beast has a large wound on its side, and inside, its gore-stained ribs are clearly visible.  Its most prominent features are the fearsome incisors and thick, black goo in its mouth that it seems proud to display.  It doesn't look interested in chewing on trees anymore.",
     "default_faction": "zombie_aquatic",
     "bodytype": "dog",
     "categories": [ "CLASSIC" ],
@@ -254,14 +261,13 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ]
   },
   {
     "id": "mon_zoose",
     "type": "MONSTER",
     "name": { "str": "antlered horror" },
-    "description": "This formerly-majestic moose has succumbed to the infection which is killing the world.  Shiny green blowflies swarm the vast suppurated patches of purulent flesh where its skin has sloughed away, and its remaining fur is black and matted with necrotic discharge.",
+    "description": "This formerly-majestic moose has succumbed to the infection which is killing the world.  Shiny green blowflies swarm the vast, suppurated patches of purulent flesh where its skin has sloughed away, and its remaining fur is black and matted with necrotic discharge.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
@@ -287,7 +293,6 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOOSE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -321,7 +326,6 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOUGAR_UPGRADE" },
     "flags": [
       "SEES",
@@ -342,7 +346,7 @@
     "id": "mon_zombie_horse",
     "type": "MONSTER",
     "name": { "str": "zombie horse" },
-    "description": "From the looks of this zombie horse's ghastly features, with its protruding ribs, whitish skull, and empty eyes, the exposed part of the internal organs shows a seemingly lifeless color, and the black body fluid drips slowly.  The new strength makes the horse no longer dependent on its muscles, but it can still pursue the enemy quickly.",
+    "description": "From the looks of this zombie horse's ghastly features--its protruding ribs, off-white skull, and decayed, tattered muscles--it doesn't seem like it should put up much of a fight, but its mutant strength gives it power.  Black, reeking ichor drips from its wounds.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
@@ -367,14 +371,13 @@
     "vision_night": 3,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES", "BONES", "FAT" ]
   },
   {
     "id": "mon_ziger",
     "type": "MONSTER",
-    "name": { "str": "Tiger wight" },
-    "description": "This otherwise normal looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
+    "name": { "str": "tiger wight" },
+    "description": "This otherwise normal-looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
     "copy-from": "mon_zougar",
     "volume": "150 L",
     "weight": "190 kg",
@@ -413,15 +416,14 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombull",
     "type": "MONSTER",
     "name": { "str": "zombull" },
-    "description": "This enormous and massive creature with oily black eyes and dread horns once was a domestic bull.  Its nasty character makes it attack everyone it meets with an unbridled rage and tremendous speed.",
+    "description": "This enormous, massive creature with oily black eyes and dread horns was once a domestic bull.  Its nasty character makes it attack everyone it meets with tremendous speed and an unbridled rage.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
@@ -446,9 +448,8 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 } ],
     "flags": [
       "SEES",
       "HEARS",
@@ -461,8 +462,7 @@
       "REVIVES",
       "FILTHY",
       "PUSH_MON",
-      "PUSH_VEH",
-      "ATTACKMON"
+      "PUSH_VEH"
     ]
   },
   {
@@ -470,7 +470,7 @@
     "type": "MONSTER",
     "name": { "str": "woodland wight" },
     "looks_like": "mon_deer",
-    "description": "Pale, stumbling white-tailed deer with blackened eyes and drooling slime down its neck.  Its legs twist and bend in strange, haphazard directions, but with unnatural strength and speed.  Preys on coyotes, wolves, and giant spider mutants.",
+    "description": "A pale, stumbling, white-tailed deer, rivulets of slime running down its neck.  Its limbs twist and bend in unnatural, haphazard directions, and yet it moves with uncanny strength and speed.  Thanks to the Cataclysm, it has now turned the tables; what was once prey, now itself preys on coyotes, wolves, and giant mutated spiders.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
@@ -492,7 +492,6 @@
     "armor_bash": 1,
     "armor_cut": 3,
     "vision_night": 15,
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -525,7 +524,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -546,16 +544,16 @@
   {
     "id": "mon_zeindeer",
     "type": "MONSTER",
-    "name": { "str": "Zeindeer" },
+    "name": { "str": "zeindeer" },
     "looks_like": "mon_zeer",
-    "description": " A once majestic Caribou, this undead creature barely resembles the reindeer of tradition and seems to only be interested in human flesh.",
+    "description": "A once-majestic caribou, this undead creature barely resembles the reindeer of tradition and seems to only be interested in human flesh.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE" ],
     "volume": "79 L",
     "weight": "85 kg",
-    "hp": 200,
+    "hp": 160,
     "speed": 253,
     "material": [ "flesh" ],
     "symbol": "R",
@@ -568,8 +566,7 @@
     "melee_cut": 0,
     "armor_bash": 5,
     "armor_cut": 4,
-    "vision_night": 16,
-    "death_function": [ "NORMAL" ],
+    "vision_night": 10,
     "harvest": "zombie_leather",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }

@@ -2,15 +2,14 @@
 #ifndef CATA_SRC_MISSION_H
 #define CATA_SRC_MISSION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -20,8 +19,6 @@
 #include "omdata.h"
 #include "optional.h"
 #include "overmap.h"
-#include "point.h"
-#include "string_id.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
@@ -36,7 +33,6 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
-class player;
 template<typename T> struct enum_traits;
 
 enum npc_mission : int;
@@ -73,6 +69,7 @@ enum mission_goal {
     MGOAL_ASSASSINATE,       // Kill a given NPC
     MGOAL_KILL_MONSTER,      // Kill a particular hostile monster
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
+    MGOAL_KILL_NEMESIS,      // Kill the nemesis monster from the "hunted" trait
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
@@ -106,6 +103,7 @@ struct mission_start {
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
+    static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
@@ -356,10 +354,10 @@ class mission
         character_id player_id;
     public:
 
-        std::string name();
-        mission_type_id mission_id();
+        std::string name() const;
+        mission_type_id mission_id() const;
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         mission();
         /** Getters, they mostly return the member directly, mostly. */
@@ -446,6 +444,8 @@ class mission
          */
         /*@{*/
         static void on_creature_death( Creature &poor_dead_dude );
+        // returns: whether any mission is tranferred to fuser
+        static bool on_creature_fusion( Creature &fuser, Creature &fused );
         /*@}*/
 
         // Serializes and unserializes all missions

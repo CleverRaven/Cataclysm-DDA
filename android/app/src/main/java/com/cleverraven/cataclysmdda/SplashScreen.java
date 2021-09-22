@@ -1,6 +1,8 @@
 package com.cleverraven.cataclysmdda;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
@@ -14,11 +16,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -28,7 +32,7 @@ public class SplashScreen extends Activity {
     private static final int INSTALL_DIALOG_ID = 0;
     private ProgressDialog installDialog;
 
-    public CharSequence[] mSettingsNames = { "Software rendering", "Force fullscreen", "Trap Back button" };
+    public CharSequence[] mSettingsNames;
     public boolean[] mSettingsValues = { false, false, true };
 
     private String getVersionName() {
@@ -42,6 +46,49 @@ public class SplashScreen extends Activity {
         }
     }
 
+    private void showCrashAlert() {
+        String externalFilesDir = getExternalFilesDir(null).getPath();
+        File crashAlertPrompt = new File(externalFilesDir + "/config/crash.log.prompt");
+        try {
+            crashAlertPrompt.delete();
+            if(crashAlertPrompt.exists()) { // Sometimes .delete() doesn't really delete the file and I don't know why
+                crashAlertPrompt.getCanonicalFile().delete();
+            }
+        } catch(IOException e) {
+            return;
+        }
+        File crashLog = new File(externalFilesDir + "/config/crash.log");
+        StringBuilder text = new StringBuilder();
+        text.append(getString(R.string.crashMessage));
+        text.append("\n\n");
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(crashLog));
+            String line;
+            while((line = br.readLine()) != null) {
+                text.append(line);
+                text.append("\n");
+            }
+            br.close();
+        } catch (IOException e) {
+            return;
+        }
+        final String message = text.toString();
+        this.runOnUiThread(new Runnable() {
+           public void run() {
+                AlertDialog errorAlert = new AlertDialog.Builder(SplashScreen.this)
+                .setTitle(getString(R.string.crashAlert))
+                .setCancelable(false)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SplashScreen.this.startGameActivity(false);
+                    }
+                }).create();
+                errorAlert.show();
+           }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e(TAG, "onCreate()");
@@ -49,7 +96,14 @@ public class SplashScreen extends Activity {
 
         // Start the game if already installed, otherwise start installing...
         if (getVersionName().equals(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("installed", ""))) {
-            startGameActivity(false);
+            // Show an alert box if the game crashed last time
+            String externalFilesDir = getExternalFilesDir(null).getPath();
+            File crashAlertPrompt = new File(externalFilesDir + "/config/crash.log.prompt");
+            if(crashAlertPrompt.exists()) {
+                showCrashAlert();
+            } else {
+                startGameActivity(false);
+            }
         }
         else {
             new InstallProgramTask().execute();
@@ -145,23 +199,30 @@ public class SplashScreen extends Activity {
                     }
                 }).create();
 
+            mSettingsNames = new CharSequence[] {
+                getString(R.string.softwareRendering),
+                getString(R.string.forceFullscreen),
+                getString(R.string.trapBackButton)
+            };
+
             settingsAlert = new AlertDialog.Builder(SplashScreen.this)
-                .setTitle("Settings")
+                .setTitle(getString(R.string.settings))
                 .setMultiChoiceItems(SplashScreen.this.mSettingsNames, SplashScreen.this.mSettingsValues, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         SplashScreen.this.mSettingsValues[which] = isChecked;
                     }})
                 .setCancelable(false)
-                .setPositiveButton("Start game", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.startGame), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        for (int i = 0; i < mSettingsNames.length; ++i)
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SplashScreen.this.mSettingsNames[i].toString(), SplashScreen.this.mSettingsValues[i]).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Software rendering", SplashScreen.this.mSettingsValues[0]).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Force fullscreen", SplashScreen.this.mSettingsValues[1]).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Trap Back button", SplashScreen.this.mSettingsValues[2]).commit();
                         SplashScreen.this.startGameActivity(false);
                         return;
                     }
                 })
-                .setNeutralButton("Show help", new DialogInterface.OnClickListener() {
+                .setNeutralButton(getString(R.string.showHelp), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         helpAlert.show();
                         return;

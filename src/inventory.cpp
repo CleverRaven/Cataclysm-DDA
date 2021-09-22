@@ -1,10 +1,11 @@
 #include "inventory.h"
 
 #include <algorithm>
-#include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <memory>
+#include <string>
+#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -14,13 +15,10 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
-#include "flat_set.h"
-#include "game.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory_ui.h" // auto inventory blocking
-#include "item_contents.h"
 #include "item_pocket.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -29,12 +27,12 @@
 #include "optional.h"
 #include "options.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
@@ -357,6 +355,15 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     return &it;
 }
 
+book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
+{
+    book_proficiency_bonuses ret;
+    for( const std::list<item> &it : this->items ) {
+        ret += it.front().get_book_proficiency_bonuses();
+    }
+    return ret;
+}
+
 void inventory::restack( Character &p )
 {
     // tasks that the old restack seemed to do:
@@ -441,6 +448,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, 
                                 bool assign_invlet )
 {
     std::vector<tripoint> pts;
+    pts.reserve( zone_pts.size() );
     for( const tripoint &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
@@ -474,13 +482,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( "TREE" ) ) {
+        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_id( "butchery_tree_pseudo" ), 0 );
         }
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
             const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
                 item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                 furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
@@ -723,24 +731,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
         }
     }
     return ret;
-}
-
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, true, filter );
-}
-
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, false, filter );
-}
-
-bool inventory::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
-{
-    return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
 int inventory::leak_level( const flag_id &flag ) const
@@ -1040,17 +1030,18 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     update_cache_with_item( it );
 }
 
-void inventory::update_invlet( item &newit, bool assign_invlet )
+void inventory::update_invlet( item &newit, bool assign_invlet,
+                               const item *ignore_invlet_collision_with )
 {
-    // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
-        assigned_invlet[newit.invlet] != newit.typeId() ) {
-        newit.invlet = '\0';
-    }
-
-    // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
-        if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
+        // Avoid letters that have been manually assigned to other things.
+        if( assigned_invlet.find( newit.invlet ) != assigned_invlet.end() ) {
+            if( assigned_invlet[newit.invlet] != newit.typeId() ) {
+                newit.invlet = '\0';
+            }
+
+            // Remove letters that are not in the favorites cache
+        } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
     }
@@ -1060,7 +1051,9 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( player_character.invlet_to_item( tmp_invlet ) == nullptr ) {
+        item *collidingItem = player_character.invlet_to_item( tmp_invlet );
+
+        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) {
             newit.invlet = tmp_invlet;
         }
     }
@@ -1100,7 +1093,7 @@ const itype_bin &inventory::get_binned_items() const
 
     // HACK: Hack warning
     inventory *this_nonconst = const_cast<inventory *>( this );
-    this_nonconst->visit_items( [ this ]( item * e ) {
+    this_nonconst->visit_items( [ this ]( item * e, item * ) {
         binned_items[ e->typeId() ].push_back( e );
         for( const item *it : e->softwares() ) {
             binned_items[it->typeId()].push_back( it );

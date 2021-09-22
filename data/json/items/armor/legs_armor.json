@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of 2-by-shin guards", "str_pl": "pairs of 2-by-shin guards" },
-    "description": "A pair of improvised shin guards made from broken pieces of a two by four that are tied to your shins with rags and string.  They offer good protection, but are really hard to run with.",
+    "description": "A pair of improvised shin guards made from broken pieces of a plank that are tied to your shins with rags and string.",
     "weight": "300 g",
     "volume": "1500 ml",
     "price": 500,
@@ -15,12 +15,44 @@
     "symbol": "[",
     "looks_like": "leg_splint",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "legguard_chitin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
+    "description": "A pair of leg guards made from the exoskeletons of insects.",
+    "weight": "790 g",
+    "volume": "5000 ml",
+    "price": 25000,
+    "price_postapoc": 750,
+    "to_hit": 1,
+    "material": [ "chitin" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "green",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "legguard_acidchitin",
+    "copy-from": "legguard_chitin",
+    "looks_like": "legguard_chitin",
+    "type": "ARMOR",
+    "price_postapoc": 1250,
+    "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "bunker_pants",
@@ -29,7 +61,7 @@
     "category": "armor",
     "name": { "str_sp": "turnout trousers" },
     "//": "Fire-resistant outerwear ain't cheap.",
-    "description": "A heavy pair of protective overalls worn by firefighters.  Highly resistant to heat and flame, they provide excellent protection from injury.",
+    "description": "A heavy pair of protective overalls worn by firefighters as protection against heat.",
     "weight": "2290 g",
     "volume": "5 L",
     "price": 81500,
@@ -39,21 +71,42 @@
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 24,
-    "max_encumbrance": 30,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 100
+      }
     ],
     "warmth": 30,
-    "material_thickness": 4,
+    "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": [ 24, 30 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "chainmail_legs",
@@ -70,17 +123,15 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "chainmail_legs",
-    "name": { "str": "gigantic chainmail leggings", "str_pl": "pairs of gigantic chainmail leggings" },
+    "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
     "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
@@ -99,23 +150,21 @@
     "symbol": "[",
     "looks_like": "pants_leather",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 65,
-    "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "chaps_cut_resistant",
     "type": "ARMOR",
     "name": { "str_sp": "chainsaw chaps" },
-    "description": "A pair of tough chaps made of kevlar.  Chainsaw kickbacks are potentially fatal; personal protective equipment like these chaps help protect your femoral arteries.  The layered kevlar is designed to fray on contact with the chain and bind up the tool.",
+    "description": "A pair of tough chaps made of Kevlar.  Chainsaw kickbacks are potentially fatal; personal protective equipment like these chaps help protect your femoral arteries.  The layered Kevlar is designed to fray on contact with the chain and bind up the tool.",
     "weight": "1519 g",
     "copy-from": "chaps_leather",
     "price": 7800,
     "material": [ "kevlar_layered" ],
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "fencing_pants",
@@ -131,17 +180,26 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "white",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 13,
-    "max_encumbrance": 15,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
     ],
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 13, 15 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "knee_pads",
@@ -158,10 +216,9 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ],
+    "armor": [ { "coverage": 30, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_bronze",
@@ -178,18 +235,16 @@
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 70,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "gigantic bronze greaves", "str_pl": "pairs of gigantic bronze greaves" },
+    "name": { "str": "XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
     "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "STURDY", "OVERSIZE" ]
@@ -209,13 +264,11 @@
     "symbol": "[",
     "looks_like": "leg_warmers",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 10,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 10, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_lightplate",
@@ -232,18 +285,16 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_lightplate",
     "type": "ARMOR",
     "copy-from": "legguard_lightplate",
-    "name": { "str": "pair of huge steel leg guards", "str_pl": "pairs of huge steel leg guards" },
+    "name": { "str": "pair of XL steel leg guards", "str_pl": "pairs of XL steel leg guards" },
     "description": "A full assembly of medieval leg protection for the largest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "STURDY", "OVERSIZE", "VARSIZE" ]
@@ -263,25 +314,24 @@
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 70,
-    "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 6, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_metal",
     "type": "ARMOR",
     "copy-from": "legguard_metal",
     "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
-    "description": "A pair of extra larger iron leg guards with a simple leather lining.",
+    "description": "A pair of extra large iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "legguard_paper",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of paper leg guards", "str_pl": "pairs of paper leg guards" },
     "description": "Leg guards made of stacked paper sheets held together with duct tape.",
     "weight": "370 g",
@@ -293,19 +343,37 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "improvised_legguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
+    "description": "Leg guards made of thick chunks of tire held together with duct tape.",
+    "weight": "4800 g",
+    "volume": "4000 ml",
+    "price": 2300,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_scrap",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
-    "description": "A pair of leg guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
     "weight": "3104 g",
     "volume": "5 L",
     "price": 20000,
@@ -317,21 +385,48 @@
     "symbol": "[",
     "looks_like": "legguard_metal",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 18,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_scrap",
     "type": "ARMOR",
     "copy-from": "legguard_scrap",
-    "name": { "str": "pair of gigantic scrap leg guards", "str_pl": "pairs of gigantic scrap leg guards" },
-    "description": "A pair of leg guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
+    "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "legguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "5 L",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "legguard_metal",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "xl_legguard_tire",
+    "type": "ARMOR",
+    "copy-from": "legguard_tire",
+    "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE" ]
   },
   {
     "id": "lsurvivor_pants",
@@ -347,28 +442,61 @@
     "symbol": "[",
     "looks_like": "pants_survivor",
     "color": "green",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 8,
-    "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
     ],
     "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_lsurvivor_pants",
     "type": "ARMOR",
     "copy-from": "lsurvivor_pants",
-    "name": { "str_sp": "xl light survivor cargo pants" },
+    "name": { "str_sp": "XL light survivor cargo pants" },
     "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof and sized for larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OVERSIZE" ]
@@ -387,13 +515,11 @@
     "symbol": "[",
     "looks_like": "pants_leather",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 35,
-    "material_thickness": 3,
+    "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_survivor",
@@ -409,25 +535,70 @@
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "green",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": [ 10, 20 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_pants_survivor",
@@ -443,39 +614,35 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "EOD trousers" },
-    "description": "Thick armored trousers constructed from kevlar and nomex for explosive ordnance disposal.  It is designed to protect against overpressure, fragmentation, impact and heat.",
+    "description": "Thick armored trousers constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.",
     "weight": "6400 g",
     "volume": "12 L",
     "price": 200000,
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 80,
     "warmth": 65,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 15,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "trousers_eod_light",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "light EOD trousers" },
-    "description": "Armored trousers constructed from kevlar and nomex designed to protect against overpressure, fragmentation, impact and heat in hostile environments.  It is lighter than normal EOD armor to provide more maneuverability.",
+    "description": "Armored trousers constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.  They are lighter than normal EOD armor to provide more maneuverability.",
     "weight": "3000 g",
     "volume": "12 L",
     "price": 200000,
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 40,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 7,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   }
 ]

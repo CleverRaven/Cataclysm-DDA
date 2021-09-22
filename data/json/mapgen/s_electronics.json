@@ -79,7 +79,7 @@
         { "item": "bionics_common", "x": [ 9, 12 ], "y": 8, "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "elecsto_lights", "x": 2, "y": [ 9, 12 ], "chance": 80, "repeat": [ 2, 6 ] },
         { "item": "elecsto_pcs", "x": [ 5, 8 ], "y": 10, "chance": 85, "repeat": [ 1, 4 ] },
-        { "item": "elecsto_stor", "x": [ 9, 10 ], "y": 10, "chance": 75, "repeat": [ 1, 4 ] },
+        { "item": "electronics", "x": [ 9, 10 ], "y": 10, "chance": 75, "repeat": [ 1, 4 ] },
         { "item": "elecsto_entapl", "x": [ 5, 7 ], "y": 11, "chance": 70, "repeat": [ 2, 4 ] },
         { "item": "elecsto_persele", "x": [ 8, 9 ], "y": 11, "chance": 70, "repeat": [ 1, 6 ] },
         { "item": "elecsto_homapl", "x": [ 5, 10 ], "y": [ 13, 14 ], "chance": 90, "repeat": [ 1, 4 ] },
@@ -93,7 +93,7 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "snacks", "x": 16, "y": 9, "chance": 85 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [ 1, 8 ] },
-        { "item": "electronics", "x": 21, "y": [ 12, 13 ], "chance": 85, "repeat": [ 1, 4 ] },
+        { "item": "autodoc_installation_programs", "x": 21, "y": [ 12, 13 ], "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "trash", "x": 18, "y": 15, "chance": 65 },
         { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 }
       ],

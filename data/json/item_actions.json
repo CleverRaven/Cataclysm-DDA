@@ -61,11 +61,6 @@
   },
   {
     "type": "item_action",
-    "id": "BURROW",
-    "name": { "str": "Burrow through rock" }
-  },
-  {
-    "type": "item_action",
     "id": "GEIGER",
     "name": { "str": "Use geiger counter" }
   },
@@ -191,6 +186,16 @@
   },
   {
     "type": "item_action",
+    "id": "CHANGE_EYES",
+    "name": { "str": "Change the eye colour" }
+  },
+  {
+    "type": "item_action",
+    "id": "CHANGE_SKIN",
+    "name": { "str": "Change skin colour" }
+  },
+  {
+    "type": "item_action",
     "id": "transform",
     "name": { "str": "Turn on" }
   },
@@ -248,11 +253,6 @@
     "type": "item_action",
     "id": "ALCOHOL_WEAK",
     "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "ANTIASTHMATIC",
-    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -336,11 +336,6 @@
   },
   {
     "type": "item_action",
-    "id": "CATFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "CHAINSAW_OFF",
     "name": { "str": "Turn on" }
   },
@@ -358,6 +353,11 @@
     "type": "item_action",
     "id": "COIN_FLIP",
     "name": { "str": "Flip" }
+  },
+  {
+    "type": "item_action",
+    "id": "BINDER_ADD_RECIPE",
+    "name": { "str": "Copy a recipe" }
   },
   {
     "type": "item_action",
@@ -426,11 +426,6 @@
   },
   {
     "type": "item_action",
-    "id": "DOGFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "DOG_WHISTLE",
     "name": { "str": "Blow" }
   },
@@ -458,6 +453,16 @@
     "type": "item_action",
     "id": "EINKTABLETPC",
     "name": { "str": "Use SD-Card apps" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKSAVE",
+    "name": { "str": "Store a book" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKREAD",
+    "name": { "str": "Read stored books" }
   },
   {
     "type": "item_action",
@@ -726,8 +731,8 @@
   },
   {
     "type": "item_action",
-    "id": "PHEROMONE",
-    "name": { "str": "Squeeze" }
+    "id": "PETFOOD",
+    "name": { "str": "Feed a wild animal…  or a human" }
   },
   {
     "type": "item_action",
@@ -747,7 +752,7 @@
   {
     "type": "item_action",
     "id": "FITNESS_CHECK",
-    "name": "Check health metrics"
+    "name": { "str": "Check health metrics" }
   },
   {
     "type": "item_action",
@@ -858,11 +863,6 @@
     "type": "item_action",
     "id": "SIPHON",
     "name": { "str": "Siphon" }
-  },
-  {
-    "type": "item_action",
-    "id": "SLEEP",
-    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -1036,16 +1036,6 @@
   },
   {
     "type": "item_action",
-    "id": "CATTLEFODDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
-    "id": "BIRDFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "install_bionic",
     "name": { "str": "Install bionic" }
   },
@@ -1088,5 +1078,20 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
+  },
+  {
+    "type": "item_action",
+    "id": "effect_on_conditions",
+    "name": { "str": "Activate item" }
+  },
+  {
+    "type": "item_action",
+    "id": "SEXTANT",
+    "name": { "str": "Measure Sun altitude" }
+  },
+  {
+    "type": "item_action",
+    "id": "LUX_METER",
+    "name": { "str": "Measure light level" }
   }
 ]

@@ -74,13 +74,21 @@ Special prefixes that are used include:
 
 `vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
 
+`explosion_` for spell explosion effects.  Multitile is required; only supports "center", "edge" and "corner".
+
 #### Optional gendered variants
 
-Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.
+Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix before other parts: `overlay_female_` or `overlay_male_`, `overlay_female_worn_`, `overlay_male_worn_`.
 
 #### Optional seasonal variants
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
+
+#### Item variant sprite variants
+
+Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
+
+e.g. for an item with the id `item1`, with variants `orange` and `pear`, to specify a tile for the item, simply use `item1`. For the variants, use `item1_var_orange` and `item1_var_pear`.
 
 #### Rotations
 
@@ -109,7 +117,7 @@ Each JSON file can have either a single object or an array of one or more object
 [
     { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg" },
     { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg" },
-    { "id": "overlay_wielding_corse_mon_zombie", "fg": "wielded_mon_zombie_corpse", "bg": "" }
+    { "id": "overlay_wielded_corpse_mon_zombie", "fg": "wielded_mon_zombie_corpse" }
 ]
 ```
 
@@ -160,32 +168,70 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### Usage
 
-`compose.py [-h] [--use-all] source_dir [output_dir]`
+`compose.py [-h] [--use-all] [--obsolete-fillers] [--palette] [--palette-copies] source_dir [output_dir]`
 
 `source_dir` - the compositing tileset directory.
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
-`--use-all` instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in the `id`:
+`--use-all`: instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in a `fg` or `bg` value:
 ```JSON
 {
     "id": "overlay_wielded_spear_survivor",
-    "fg": "overlay_wielded_spear_survivor",
-    "bg": ""
+    "fg": "overlay_wielded_spear_survivor"
 }
 ```
 
-Requires `pyvips` module.
+`--obsolete-fillers`: print which fillers were skipped and are thus ready to be removed.
 
-### Installing pyvips on Windows
+`--palette`: Quantize all tilesheets to 8bpp colormaps. May severely reduce quality as there is only 256 possible colors but reduces file size.
 
-- Download Python https://www.python.org/downloads/
-- Download `libvips` https://libvips.github.io/libvips/install.html
-- Add both to your `PATH` environment variable
-- Press `Windows key + r` to open the "Run" dialog box
-- type `cmd` to get the console
-- run: `pip install --user pyvips`
-- run: `py -m pip install --upgrade pip`
+`--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless.
+
+Requires `pyvips` module, see below.
+
+## pyvips
+
+### Windows
+
+#### Python and pyvips
+ * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing)
+ * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
+ * Install pyvips with these commands:
+```
+py -m pip install --upgrade pip
+py -m pip install --user pyvips
+```
+
+#### libvips
+ * Extract the latest libvips distribution to a folder (get the `vips-dev-w64-web-#.#.#.zip` NOT the `vips-dev-w64-all-#.#.#.zip`) https://libvips.github.io/libvips/install.html
+ * Press start menu and search for "`environment variables`".
+ * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
+ * In the `User variables` section, select `Path` and click `Edit`.
+ * Select an empty line and press `New`
+ * Copy and paste the path to the extracted `vips-dev-#.##\bin` folder, it should look something like `C:\Users\username\Downloads\vips-dev-8.10\bin`
+ * If you have the Console open, close it so the changes take effect.
+
+#### Launching scripts
+Navigate on Console to a directory with the script you want to launch.
+Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
+
+### Linux
+_TODO, please ask if you need it or send suggestions if you want to help_
+
+### MacOS
+_TODO, please ask if you need it or send suggestions if you want to help_
+
+
+## Including tilesets with the distribution
+
+In order to be included in the distribution of the game, a tileset must meet the following criteria:
+
+- Licensing: ALL ART must be distributed under a CC-BY-SA 3.0 license or compatible.  Any exceptions cannot be tolerated.  If an art item's license is unclear it cannot be included.
+- Crediting: Appropriate crediting as requested by artists must be met.  You probably don't need to be told this, adding a credits.txt costs you nothing.
+- Maintenance: A tileset must have had at least one PR updating its art since the previous stable release to be included in subsequent stable releases.  While a formal maintainer isn't required for a tileset, it's much more likely that sets will not be marked obsolete if they have someone to speak up for them.
+- Imagery: in general we do not have rules about imagery and content in tilesets, but we may request changes or refuse admission if a set includes overt hate imagery (swastikas for example).
+
 
 ## Legacy tilesets
 

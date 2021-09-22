@@ -2,25 +2,43 @@
   {
     "type": "SPECIES",
     "id": "MAGICAL_BEAST",
-    "description": "A magical beast."
+    "description": "a magical beast"
   },
   {
     "type": "SPECIES",
     "id": "DRAGON",
-    "description": "A dragon.",
+    "description": "a dragon",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
   },
   {
     "type": "SPECIES",
     "id": "LIZARDFOLK",
-    "description": "A lizard-like humanoid.",
+    "description": "a lizard-like humanoid",
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "GOBLIN",
-    "description": "A short and cruel humanoid.",
+    "description": "a short and cruel humanoid",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ORC",
+    "description": "a stocky, green-skinned humanoid",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "GOLEM",
+    "description": "an automaton, animated by magical forces",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "OGRE",
+    "description": "a monstrous, powerful humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   }
 ]

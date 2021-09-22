@@ -1,7 +1,7 @@
-#include "catch/catch.hpp"
-
 #include <set>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "game_constants.h"
 #include "item.h"
 #include "map.h"

@@ -251,6 +251,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_metal_trashcan",
+    "name": "Build Metal Trash Can"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_gravelbag_wall",
+    "name": "Build Gravelbag Wall"
+  },
+  {
+    "type": "construction_group",
     "id": "build_earthbag_wall",
     "name": "Build Earthbag Wall"
   },
@@ -258,6 +268,11 @@
     "type": "construction_group",
     "id": "build_entertainment_center",
     "name": "Build Entertainment Center"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_exercise_machine",
+    "name": "Build Exercise Machine"
   },
   {
     "type": "construction_group",
@@ -283,6 +298,21 @@
     "type": "construction_group",
     "id": "build_fire_ring",
     "name": "Build Fire Ring"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_treadmill_mechanical",
+    "name": "Build Gravity Treadmill"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_glass_door",
+    "name": "Build Glass Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_glass_wall",
+    "name": "Build Glass Wall"
   },
   {
     "type": "construction_group",
@@ -351,6 +381,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_mechanical_winch",
+    "name": "Build Mechanical Winch"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_ergometer_mechanical",
+    "name": "Build Mechanical Ergometer"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_bars",
     "name": "Build Metal Bars"
   },
@@ -363,6 +403,11 @@
     "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gate",
+    "name": "Build Metal Gate"
   },
   {
     "type": "construction_group",
@@ -766,6 +811,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_woven_wattle_fence",
+    "name": "Build Woven Wattle Fence"
+  },
+  {
+    "type": "construction_group",
     "id": "carpet_floor_green",
     "name": "Carpet Floor Green"
   },
@@ -818,6 +868,11 @@
     "type": "construction_group",
     "id": "dig_a_deep_pit",
     "name": "Dig a Deep Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "underground_pit",
+    "name": "Dig a Deep Pit Underground"
   },
   {
     "type": "construction_group",
@@ -1113,5 +1168,95 @@
     "type": "construction_group",
     "id": "remove_gravel",
     "name": "Remove Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_empty_window",
+    "name": "Remove an empty window frame"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_linoleum_tiles",
+    "name": "Remove linoleum tiles"
+  },
+  {
+    "type": "construction_group",
+    "id": "advanced_object_deconstruction",
+    "name": "Advanced Object Deconstruction"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_reinforced_concrete_floor",
+    "name": "Remove a reinforced concrete floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_floor",
+    "name": "Remove a concrete floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_floor",
+    "name": "Remove a wooden floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_wall",
+    "name": "Remove a concrete wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_brick_wall",
+    "name": "Remove a brick wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wooden_wall",
+    "name": "Remove a wooden wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wall",
+    "name": "Remove a wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rock_wall",
+    "name": "Remove a rock wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_roadway",
+    "name": "Remove a segment of the road/sidewalk"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_metal_door",
+    "name": "Remove metal door"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_column",
+    "name": "Remove concrete column"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_reinforced_concrete_wall",
+    "name": "Remove reinforced concrete wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rebar_cage",
+    "name": "Remove rebar cage"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_glass_wall",
+    "name": "Remove glass wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_glass_door",
+    "name": "Remove glass door"
   }
 ]

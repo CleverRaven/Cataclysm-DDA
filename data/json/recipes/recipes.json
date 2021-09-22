@@ -61,7 +61,6 @@
     "id": "CC_ELECTRONIC",
     "recipe_subcategories": [
       "CSC_ALL",
-      "CSC_ELECTRONIC_CBMS",
       "CSC_ELECTRONIC_TOOLS",
       "CSC_ELECTRONIC_PARTS",
       "CSC_ELECTRONIC_LIGHTING",
@@ -110,5 +109,24 @@
     "id": "CC_BUILDING",
     "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
     "is_hidden": true
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_PRACTICE",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_PRACTICE_SCIENCE",
+      "CSC_PRACTICE_ELECTRONICS",
+      "CSC_PRACTICE_FABRICATION",
+      "CSC_PRACTICE_FOOD",
+      "CSC_PRACTICE_SURVIVAL",
+      "CSC_PRACTICE_TAILORING",
+      "CSC_PRACTICE_ATHLETICS",
+      "CSC_PRACTICE_COMPUTERS",
+      "CSC_PRACTICE_DEVICES",
+      "CSC_PRACTICE_HEALTH",
+      "CSC_PRACTICE_MECHANICS",
+      "CSC_PRACTICE_SOCIAL"
+    ]
   }
 ]

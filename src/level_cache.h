@@ -4,36 +4,18 @@
 
 #include <array>
 #include <bitset>
-#include <climits>
-#include <cstddef>
-#include <cstdint>
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
 #include <set>
-#include <string>
-#include <tuple>
+#include <unordered_map>
 #include <utility>
-#include <vector>
 
-#include "cata_utility.h"
-#include "coordinates.h"
 #include "game_constants.h"
 #include "lightmap.h"
-#include "line.h"
-#include "lru_cache.h"
 #include "point.h"
 #include "reachability_cache.h"
 #include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 class vehicle;
-struct pathfinding_cache;
-struct pathfinding_settings;
 
 struct level_cache {
     public:
@@ -55,11 +37,11 @@ struct level_cache {
         float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
 
         // if false, means tile is under the roof ("inside"), true means tile is "outside"
-        // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
+        // "inside" tiles are protected from sun, rain, etc. (see ter_furn_flag::TFLAG_INDOORS flag)
         bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
 
-        // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
-        //      or terrain doesn't have "NO_FLOOR" flag
+        // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has ter_furn_flag::TFLAG_SUN_ROOF_ABOVE
+        //      or terrain doesn't have ter_furn_flag::TFLAG_NO_FLOOR flag
         // false otherwise
         // i.e. true == has floor
         bool floor_cache[MAPSIZE_X][MAPSIZE_Y];

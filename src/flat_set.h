@@ -51,7 +51,7 @@ class flat_set : private Compare, Data
         using reverse_iterator = const_reverse_iterator;
 
         flat_set() = default;
-        flat_set( const key_compare &kc ) : Compare( kc ) {}
+        explicit flat_set( const key_compare &kc ) : Compare( kc ) {}
         template<typename InputIt>
         flat_set( InputIt first, InputIt last ) : Data( first, last ) {
             sort_data();

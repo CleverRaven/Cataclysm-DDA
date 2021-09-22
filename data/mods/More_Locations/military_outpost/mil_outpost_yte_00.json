@@ -34,7 +34,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "mil_outpost_bandit" ],
-      "place_traps": [ { "x": [ 0, 23 ], "y": [ 2, 18 ], "trap": "tr_landmine", "chance": 85, "repeat": [ 30, 65 ] } ]
+      "place_traps": [ { "x": [ 0, 23 ], "y": [ 2, 18 ], "trap": "tr_landmine", "repeat": [ 30, 65 ] } ]
     }
   }
 ]

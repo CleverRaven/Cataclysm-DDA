@@ -23,7 +23,8 @@ DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 # Add no-sign-compare to fix MXE issue when compiling
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
-CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
+CPPFLAGS += -I../src -isystem ../src/third-party
+CXXFLAGS += -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
 ifndef PCH
@@ -54,13 +55,19 @@ endif
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
-	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
-# Iterate over all the individual tests.
-check: $(TEST_TARGET)
+TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
+
+$(TEST_BATCHES): $(TEST_TARGET)
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+
+check: $(TEST_TARGET) $(TEST_BATCHES)
+
+check-single: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
 
 clean:
@@ -77,7 +84,7 @@ $(shell mkdir -p $(ODIR))
 $(ODIR)/%.o: %.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
-.PHONY: clean check tests precompile_header
+.PHONY: clean check check-single tests precompile_header
 
 .SECONDARY: $(OBJS)
 

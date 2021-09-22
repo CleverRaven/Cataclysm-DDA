@@ -12,7 +12,7 @@
     "spells_learned": [ [ "spy_wasp", 5 ], [ "artificer_toolkit", 5 ] ],
     "crafting_speed_multiplier": 1.2,
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -41,15 +41,16 @@
     "flags": [ "ATTUNEMENT" ]
   },
   {
-    "id": "AURA_MAGE",
+    "id": "ALCHEMIST",
     "type": "mutation",
-    "name": { "str": "Aura Mage" },
+    "name": { "str": "Alchemist" },
     "points": 8,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The alchemist comes from the technomancer's skills with unliving matter combined with the animist's grasp on the ambient ley lines.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -92,7 +93,7 @@
     "bionic_slot_bonuses": { "torso": 20 },
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -100,7 +101,6 @@
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
@@ -137,7 +137,7 @@
     "spells_learned": [ [ "banishment_greater", 5 ], [ "demonic_possession", 5 ] ],
     "bleed_resist": 200,
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -174,9 +174,10 @@
     "valid": false,
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -213,6 +214,7 @@
     "purifiable": false,
     "valid": false,
     "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
+    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -254,11 +256,12 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
+    "spells_learned": [ [ "holy_shield", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
     "hp_modifier": 1,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -301,7 +304,7 @@
     "passive_mods": { "str_mod": 5 },
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -380,10 +383,9 @@
     "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.",
     "prereqs": [ "MAGUS", "STORMSHAPER" ],
     "spells_learned": [ [ "force_blade", 5 ], [ "force_magical_armor", 5 ] ],
-    "speed_modifier": 1.2,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -409,7 +411,8 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.2 } ] } ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -422,9 +425,10 @@
     "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
     "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gaiaschosen_samsara", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -460,10 +464,10 @@
     "valid": false,
     "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
-    "spells_learned": [ [ "ice_clave", 5 ] ],
+    "spells_learned": [ [ "ice_clave", 5 ], [ "frozen_winds", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -501,10 +505,10 @@
     "valid": false,
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
-    "spells_learned": [ [ "golem_push", 5 ] ],
+    "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -540,10 +544,11 @@
     "valid": false,
     "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gravitymage_graviton", 5 ] ],
     "weight_capacity_modifier": 2,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -581,10 +586,10 @@
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
     "passive_mods": { "int_mod": 5 },
     "casting_time_multiplier": 0.75,
-    "spells_learned": [ [ "overaccelerate", 5 ] ],
+    "spells_learned": [ [ "overaccelerate", 5 ], [ "overclocker_drive", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -621,7 +626,7 @@
     "valid": false,
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
     "enchantments": [ "ICE_ELEMENTAL" ],
-    "spells_learned": [ [ "summon_subzero_talons", 5 ] ],
+    "spells_learned": [ [ "summon_subzero_talons", 5 ], [ "cold_heart", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -666,7 +671,7 @@
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -690,7 +695,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "HARDTOHIT" ]
   },
   {
     "id": "MAGNETISM_MAGE",
@@ -702,10 +707,10 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
-    "spells_learned": [ [ "railgun", 5 ] ],
+    "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -745,7 +750,7 @@
     "prereqs": [ "KELVINIST", "MAGUS" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -786,7 +791,7 @@
     "spells_learned": [ [ "shortwave", 5 ], [ "gamma_burst", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -825,7 +830,7 @@
     "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world.  Shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
     "prereqs": [ "ANIMIST", "DRUID" ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -865,7 +870,7 @@
     "//": "Purposefully omits torso, head, etc.",
     "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -906,7 +911,7 @@
     "prereqs": [ "KELVINIST", "ANIMIST" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1027,10 +1032,10 @@
     "prereqs": [ "MAGUS", "KELVINIST" ],
     "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
-    "spells_learned": [ [ "solar_beam", 5 ] ],
+    "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1109,10 +1114,11 @@
     "valid": false,
     "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
+    "spells_learned": [ [ "voidmage_final_grasp", 5 ], [ "voidmage_horizon_vortex", 5 ] ],
     "enchantments": [ "VOID_MAGE" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1149,11 +1155,11 @@
     "purifiable": false,
     "valid": false,
     "description": "One of the most destructive forces on earth, a Volcano Mage takes some aspect of its namesake.  Their spells tend to be a little slow, but their resilience in proximity to a volcano is legendary.",
-    "spells_learned": [ [ "lava_bomb_main", 5 ] ],
+    "spells_learned": [ [ "lava_bomb_main", 5 ], [ "vulcanist_pyroclastic_flow", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -1191,9 +1197,9 @@
     "valid": false,
     "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.",
     "prereqs": [ "DRUID", "MAGUS" ],
-    "spells_learned": [ [ "assassin_strike", 5 ] ],
+    "spells_learned": [ [ "assassin_strike", 5 ], [ "life_drain", 5 ] ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",

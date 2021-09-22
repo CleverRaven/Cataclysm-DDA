@@ -39,24 +39,13 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
-    "id": "bthk_stock",
+    "id": "folding_bthk_stock",
     "type": "GUNMOD",
-    "name": "butt hook stock",
-    "description": "A military-grade stock which folds reducing the guns volume.  The weight and the pivoting hook which latches onto your forearm allows for greater stability.",
-    "weight": "500 g",
-    "volume": "125 ml",
-    "integral_volume": "0 L",
-    "price": 42000,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "stock",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
-    "install_time": "40 m",
-    "dispersion_modifier": -20,
-    "handling_modifier": 2,
-    "min_skills": [ [ "weapon", 1 ] ],
-    "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
+    "name": "folding butt hook stock",
+    "copy-from": "bthk_stock",
+    "looks_like": "bthk_stock",
+    "description": "A replacement folding stock that partially encloses arm allowing for greater stability.  Good fit and padding also helps with recoil control.",
+    "extend": { "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ] }
   },
   {
     "id": "beam_difractor",
@@ -126,6 +115,6 @@
     "revert_to": "flash_acc",
     "flags": [ "LIGHT_75", "CHARGEDIM", "TRADER_AVOID" ],
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
   }
 ]

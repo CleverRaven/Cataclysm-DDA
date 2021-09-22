@@ -2,7 +2,7 @@
   {
     "id": "mon_frog_small",
     "type": "MONSTER",
-    "name": { "str": "huge frog" },
+    "name": { "str": "frog" },
     "description": "A mutant bullfrog the size of a person.  It looks unwell.",
     "copy-from": "mon_frog_giant",
     "proportional": { "hp": 0.67, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -38,7 +38,6 @@
     "upgrades": { "half_life": 50, "into": "mon_frog_mother" },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
@@ -69,7 +68,7 @@
     "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
-    "harvest": "animal_large_noskin",
+    "harvest": "mammal_large_leather",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -81,14 +80,13 @@
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
         "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
-        "no_infection_chance": 2
+        "infection_chance": 50
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -121,7 +119,6 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into": "mon_rattlesnake_giant" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
@@ -130,7 +127,7 @@
     "type": "MONSTER",
     "name": { "str": "giant rattlesnake" },
     "description": "A mutated timber rattlesnake, about three times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggressive and dangerous compared to a normal rattler.",
-    "default_faction": "animal",
+    "default_faction": "mutant",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],
@@ -165,7 +162,6 @@
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
@@ -175,7 +171,7 @@
     "type": "MONSTER",
     "name": { "str": "sewer snake" },
     "description": "An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
-    "default_faction": "mutant",
+    "default_faction": "sewer_snake",
     "bodytype": "snake",
     "species": [ "REPTILE" ],
     "diff": 2,
@@ -197,7 +193,6 @@
     "vision_night": 30,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
   }
 ]

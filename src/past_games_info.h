@@ -1,23 +1,24 @@
 #ifndef CATA_SRC_PAST_GAMES_INFO_H
 #define CATA_SRC_PAST_GAMES_INFO_H
 
+#include <iosfwd>
 #include <memory>
 #include <unordered_map>
 #include <vector>
 
+#include "achievement.h"
 #include "cata_variant.h"
+#include "memorial_logger.h"
+#include "stats_tracker.h"
 #include "type_id.h"
 
-class achievements_tracker;
-class JsonIn;
-class memorial_log_entry;
+class JsonObject;
 class score;
-class stats_tracker;
 
 class past_game_info
 {
     public:
-        past_game_info( JsonIn &jsin );
+        explicit past_game_info( const JsonObject &jo );
 
         stats_tracker &stats() {
             return *stats_;

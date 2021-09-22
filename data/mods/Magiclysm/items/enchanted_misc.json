@@ -61,8 +61,7 @@
     "max_charges": 5,
     "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 50 ] ],
-    "flags": [ "PERFECT_LOCKPICK" ],
-    "use_action": [ "PICK_LOCK" ]
+    "flags": [ "PERFECT_LOCKPICK" ]
   },
   {
     "id": "mtorch_everburning",
@@ -72,6 +71,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": "150 USD",
     "to_hit": 1,
     "bashing": 8,
     "material": [ "wood" ],
@@ -111,17 +111,16 @@
     "id": "mflask_hip_whiskey",
     "type": "GENERIC",
     "copy-from": "flask_hip",
+    "price_postapoc": "850 USD",
     "category": "clothing",
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
       "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 14400,
-      "not_ready_msg": "The flask isn't done refilling yet.",
-      "//": "24 hours"
+      "type": "transform"
     }
   },
   {
@@ -131,6 +130,7 @@
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
     "price": 100000,
+    "price_postapoc": "1700 USD",
     "material": [ "steel" ],
     "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
@@ -143,6 +143,7 @@
         "materials": [
           "cotton",
           "leather",
+          "lycra",
           "wool",
           "fur",
           "faux_fur",
@@ -161,7 +162,20 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
@@ -176,13 +190,12 @@
     "weight": "100 g",
     "volume": "100 ml",
     "price": 100000,
+    "price_postapoc": "1150 USD",
     "to_hit": -2,
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "thread" ],
-    "initial_charges": 500,
-    "max_charges": 1000,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ]
   },

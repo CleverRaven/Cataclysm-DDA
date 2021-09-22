@@ -94,7 +94,15 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "38": 6 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "rigid": true,
+        "ammo_restriction": { "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ]
   },
   {
     "id": "rifle_38",
@@ -171,7 +179,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "38": 5 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "rigid": true,
+        "ammo_restriction": { "38": 5 },
+        "allowed_speedloaders": [ "38_speedloader5" ]
+      }
+    ]
   },
   {
     "id": "sw_619",
@@ -206,6 +222,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "rigid": true,
+        "ammo_restriction": { "357mag": 7, "38": 7 },
+        "allowed_speedloaders": [ "38_speedloader" ]
+      }
+    ]
   }
 ]

@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "pldata.h"
-#include "string_id.h"
+#include "calendar.h"
+#include "effect_on_condition.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -48,14 +48,17 @@ class scenario
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
+        std::vector<effect_on_condition_id> _eoc;
 
-        bool _custom_initial_date = false;
-        int _initial_hour = 8;
-        int _initial_day = 0;
-        season_type _initial_season = SPRING;
-        int _initial_year = 1;
+        bool _custom_start_date = false;
+        int _start_hour = 8;
+        int _start_day = 0;
+        season_type _start_season = SPRING;
+        int _start_year = 1;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
+
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
@@ -87,14 +90,17 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
-        bool custom_initial_date() const;
+        bool custom_start_date() const;
         bool is_random_hour() const;
         bool is_random_day() const;
         bool is_random_year() const;
-        int initial_hour() const;
-        int initial_day() const;
-        season_type initial_season() const;
-        int initial_year() const;
+        int start_hour() const;
+        // Returns day of the season this scenario starts on
+        int day_of_season() const;
+        // Returns the day of the year this scenario starts on
+        int start_day() const;
+        season_type start_season() const;
+        int start_year() const;
 
         vproto_id vehicle() const;
 
@@ -129,6 +135,8 @@ class scenario
         bool can_pick( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<effect_on_condition_id> &eoc() const;
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };
 

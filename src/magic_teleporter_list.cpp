@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <map>
 #include <memory>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
@@ -12,6 +14,7 @@
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
@@ -65,7 +68,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     tinymap checker;
     checker.load( sm_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }
@@ -74,7 +77,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
 
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
 {
-    tinymap omt_dest( 2, true );
+    tinymap omt_dest;
     tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
     omt_dest.load( sm_dest, true );
     cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
@@ -103,7 +106,7 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
 
     bool valid_targets = false;
     for( const tripoint &pt : targets ) {
-        Character *you = g->critter_at<Character>( pt );
+        Character *you = get_creature_tracker().creature_at<Character>( pt );
 
         if( you && you->is_avatar() ) {
             valid_targets = true;
@@ -141,10 +144,8 @@ void teleporter_list::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void teleporter_list::deserialize( JsonIn &jsin )
+void teleporter_list::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
-
     for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint_abs_omt temp_pos;
         jo.read( "position", temp_pos );
@@ -161,7 +162,7 @@ class teleporter_callback : public uilist_callback
         // to make it easier to get the callback from the known_teleporters
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
-        teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
+        explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
         void refresh( uilist *menu ) override {
             const int entnum = menu->selected;
             const int start_x = menu->w_width - menu->pad_right;

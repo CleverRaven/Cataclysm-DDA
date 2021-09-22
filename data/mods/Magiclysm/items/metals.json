@@ -66,5 +66,39 @@
     "color": "light_gray",
     "symbol": "~",
     "weight": "1356 mg"
+  },
+  {
+    "id": "mithril_lump",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "lump of mithril", "str_pl": "lumps of mithril" },
+    "description": "A lump of raw mithril.  Needs to be reformed into an ingot to be useful.",
+    "weight": "675 g",
+    "volume": "250 ml",
+    "price": 2500,
+    "bashing": 12,
+    "to_hit": -4,
+    "stack_size": 2,
+    "material": [ "mithril_metal" ],
+    "symbol": ",",
+    "color": "light_blue",
+    "ammo_type": "components",
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "mithril_ingot",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "mithril ingot",
+    "description": "An ingot of mithril.  About 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
+    "//": "density of aluminum",
+    "weight": "683 g",
+    "volume": "253 ml",
+    "price": 6399,
+    "bashing": 6,
+    "to_hit": -3,
+    "material": [ "mithril_metal" ],
+    "symbol": "=",
+    "color": "light_blue"
   }
 ]

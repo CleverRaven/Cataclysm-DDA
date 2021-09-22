@@ -7,43 +7,34 @@
 
 #include "assign.h"
 #include "debug.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 
-// TODO: Make a generic factory
-static std::map<harvest_id, harvest_list> harvest_all;
+namespace
+{
+generic_factory<harvest_list> harvest_list_factory( "harvest_list" );
+} //namespace
 
 /** @relates string_id */
 template<>
 const harvest_list &string_id<harvest_list>::obj() const
 {
-    const auto found = harvest_all.find( *this );
-    if( found == harvest_all.end() ) {
-        debugmsg( "Tried to get invalid harvest list: %s", c_str() );
-        static const harvest_list null_list{};
-        return null_list;
-    }
-    return found->second;
+    return harvest_list_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<harvest_list>::is_valid() const
 {
-    return harvest_all.count( *this ) > 0;
+    return harvest_list_factory.is_valid( *this );
 }
 
-harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
-
-const harvest_id &harvest_list::id() const
-{
-    return id_;
-}
+harvest_list::harvest_list() : id( harvest_id::NULL_ID() ) {}
 
 std::string harvest_list::message() const
 {
@@ -52,10 +43,10 @@ std::string harvest_list::message() const
 
 bool harvest_list::is_null() const
 {
-    return id_ == harvest_id::NULL_ID();
+    return id == harvest_id::NULL_ID();
 }
 
-bool harvest_list::has_entry_type( std::string type ) const
+bool harvest_list::has_entry_type( const std::string &type ) const
 {
     for( const harvest_entry &entry : entries() ) {
         if( entry.type == type ) {
@@ -65,50 +56,22 @@ bool harvest_list::has_entry_type( std::string type ) const
     return false;
 }
 
-harvest_entry harvest_entry::load( const JsonObject &jo, const std::string &src )
+void harvest_entry::load( const JsonObject &jo )
 {
-    const bool strict = src == "dda";
+    mandatory( jo, was_loaded, "drop", drop );
 
-    harvest_entry ret;
-    assign( jo, "drop", ret.drop, strict );
-    assign( jo, "base_num", ret.base_num, strict, -1000.0f );
-    assign( jo, "scale_num", ret.scale_num, strict, -1000.0f );
-    assign( jo, "max", ret.max, strict, 1 );
-    assign( jo, "type", ret.type, strict );
-    assign( jo, "mass_ratio", ret.mass_ratio, strict, 0.00f );
-    assign( jo, "flags", ret.flags );
-    assign( jo, "faults", ret.faults );
-
-    return ret;
+    optional( jo, was_loaded, "type", type );
+    optional( jo, was_loaded, "base_num", base_num, { 1.0f, 1.0f } );
+    optional( jo, was_loaded, "scale_num", scale_num, { 0.0f, 0.0f } );
+    optional( jo, was_loaded, "max", max, 1000 );
+    optional( jo, was_loaded, "mass_ratio", mass_ratio, 0.00f );
+    optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "faults", faults );
 }
 
-const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &src,
-                                      const std::string &force_id )
+void harvest_entry::deserialize( const JsonObject &jo )
 {
-    harvest_list ret;
-    if( jo.has_string( "id" ) ) {
-        ret.id_ = harvest_id( jo.get_string( "id" ) );
-    } else if( !force_id.empty() ) {
-        ret.id_ = harvest_id( force_id );
-    } else {
-        jo.throw_error( "id was not specified for harvest" );
-    }
-
-    jo.read( "message", ret.message_ );
-
-    assign( jo, "leftovers", ret.leftovers );
-
-    for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
-        ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
-    }
-
-    if( !jo.read( "butchery_requirements", ret.butchery_requirements_ ) ) {
-        ret.butchery_requirements_ = butchery_requirements_id( "default" );
-    }
-
-    auto &new_entry = harvest_all[ ret.id_ ];
-    new_entry = ret;
-    return new_entry.id();
+    load( jo );
 }
 
 void harvest_list::finalize()
@@ -122,26 +85,36 @@ void harvest_list::finalize()
 
 void harvest_list::finalize_all()
 {
-    for( auto &pr : harvest_all ) {
-        pr.second.finalize();
+    for( const harvest_list &pr : get_all() ) {
+        const_cast<harvest_list &>( pr ).finalize();
     }
 }
 
-void harvest_list::reset()
+void harvest_list::load( const JsonObject &obj, const std::string & )
 {
-    harvest_all.clear();
+    mandatory( obj, was_loaded, "id", id );
+    mandatory( obj, was_loaded, "entries", entries_ );
+
+    optional( obj, was_loaded, "butchery_requirements", butchery_requirements_,
+              butchery_requirements_id( "default" ) );
+    optional( obj, was_loaded, "message", message_ );
+    optional( obj, was_loaded, "leftovers", leftovers, itype_id( "ruined_chunks" ) );
 }
 
-const std::map<harvest_id, harvest_list> &harvest_list::all()
+void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src )
 {
-    return harvest_all;
+    harvest_list_factory.load( jo, src );
+}
+
+const std::vector<harvest_list> &harvest_list::get_all()
+{
+    return harvest_list_factory.get_all();
 }
 
 void harvest_list::check_consistency()
 {
-    for( const auto &pr : harvest_all ) {
-        const auto &hl = pr.second;
-        const std::string hl_id = hl.id().c_str();
+    for( const harvest_list &hl : get_all() ) {
+        const std::string hl_id = hl.id.c_str();
         auto error_func = [&]( const harvest_entry & entry ) {
             std::string errorlist;
             bool item_valid = true;
@@ -159,6 +132,7 @@ void harvest_list::check_consistency()
                     }
                     errorlist += "null type";
                 } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "blood" ||
                               entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
                     if( !item_valid ) {
                         errorlist += ", ";
@@ -173,11 +147,15 @@ void harvest_list::check_consistency()
         if( !errors.empty() ) {
             debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
-        if( !pr.first->leftovers.is_valid() ) {
-            debugmsg( "Harvest id %s has invalid leftovers: %s", pr.first.c_str(),
-                      pr.first->leftovers.c_str() );
+        if( !hl.leftovers.is_valid() ) {
+            debugmsg( "Harvest id %s has invalid leftovers: %s", hl.id.c_str(), hl.leftovers.c_str() );
         }
     }
+}
+
+void harvest_list::reset()
+{
+    harvest_list_factory.reset();
 }
 
 std::list<harvest_entry>::const_iterator harvest_list::begin() const

@@ -1,10 +1,13 @@
 #include "teleport.h"
 
+#include <cmath>
 #include <memory>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -30,18 +33,10 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );
         return false;
     }
-    Character *const p = critter.as_character();
-    const bool c_is_u = p != nullptr && p->is_avatar();
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos = origin;
     map &here = get_map();
-    //The teleportee is dimensionally anchored so nothing happens
-    if( p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-               p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
-        p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
-        return false;
-    }
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
@@ -49,8 +44,27 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
     } while( here.impassable( new_pos ) && tries < 20 );
+    return teleport_to_point( critter, new_pos, safe, add_teleglow );
+}
+
+bool teleport::teleport_to_point( Creature &critter, const tripoint &target, bool safe,
+                                  bool add_teleglow )
+{
+
+    if( critter.pos() == target ) {
+        return false;
+    }
+    Character *const p = critter.as_character();
+    const bool c_is_u = p != nullptr && p->is_avatar();
+    map &here = get_map();
+    //The teleportee is dimensionally anchored so nothing happens
+    if( p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+               p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+        p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
+        return false;
+    }
     //handles teleporting into solids.
-    if( here.impassable( new_pos ) ) {
+    if( here.impassable( target ) ) {
         if( safe ) {
             if( c_is_u ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
@@ -59,14 +73,14 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         }
         critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
         if( c_is_u ) {
-            get_event_bus().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( new_pos ) );
+            get_event_bus().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( target ) );
             add_msg( m_bad, _( "You die after teleporting into a solid." ) );
         }
         critter.check_dead_state();
 
     }
     //handles telefragging other creatures
-    if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
+    if( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( safe ) {
             if( c_is_u ) {
@@ -74,7 +88,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             }
             return false;
         } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-                                    poor_player->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+                                    poor_player->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
             poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         } else {
@@ -101,7 +115,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         }
     }
 
-    critter.setpos( new_pos );
+    critter.setpos( target );
     //player and npc exclusive teleporting effects
     if( p ) {
         if( add_teleglow ) {

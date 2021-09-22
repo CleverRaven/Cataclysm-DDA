@@ -3,8 +3,11 @@
 #define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -19,10 +22,8 @@
 #include "value_ptr.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class item;
-class time_duration;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
@@ -54,7 +55,7 @@ struct recipe_proficiency {
     cata::optional<time_duration> max_experience = cata::nullopt;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct book_recipe_data {
@@ -63,7 +64,21 @@ struct book_recipe_data {
     bool hidden = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
+};
+
+struct practice_recipe_data {
+    // recipe difficulty will be set dynamically between min and max
+    // based on current skill level; max is optional and defaults to
+    // MAX_SKILL - 1
+    int min_difficulty;
+    int max_difficulty;
+    // character cannot raise the primary skill above this limit regardless
+    // of recipe difficulty; defaults to MAX_SKILL
+    int skill_limit;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 class recipe
@@ -73,15 +88,19 @@ class recipe
     private:
         itype_id result_ = itype_id::NULL_ID();
 
-        int time = 0; // in movement points (100 per turn)
+        int64_t time = 0; // in movement points (100 per turn)
 
         float exertion = 0.0f;
 
     public:
         recipe();
 
-        operator bool() const {
-            return !result_.is_null();
+        bool is_null() const {
+            return ident_.is_null();
+        }
+
+        explicit operator bool() const {
+            return !is_null();
         }
 
         const itype_id &result() const {
@@ -94,8 +113,17 @@ class recipe
         std::string subcategory;
 
         translation description;
+        // overrides the result name; used by practice recipes
+        translation name_;
 
         int difficulty = 0;
+
+        // Returns the recipe difficulty. For practice recipes, this is adjusted
+        // for the crafter's current skill level.
+        int get_difficulty( const Character &crafter ) const;
+        // Returns the maximum skill level at which crafting this recipe would still
+        // give xp (matching the definition of cap from Character::practice).
+        int get_skill_cap() const;
 
         /** Fetch combined requirement data (inline and via "using" syntax).
          *
@@ -138,7 +166,8 @@ class recipe
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
-        std::string result_name() const;
+        /// @param decorated whether the result includes decoration (favorite mark, etc).
+        std::string result_name( bool decorated = false ) const;
 
         std::map<itype_id, int> byproducts;
 
@@ -150,6 +179,8 @@ class recipe
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         // Books containing this recipe, and the skill level required
         std::map<itype_id, book_recipe_data> booksets;
+        // Parameters for practice recipes
+        cata::optional<practice_recipe_data> practice_data;
 
         std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
@@ -159,28 +190,25 @@ class recipe
 
         // These are primarily used by the crafting menu.
         // Format the primary skill string.
-        std::string primary_skill_string( const Character *c, bool print_skill_level ) const;
-
-        // Format the other skills string.  This is also used for searching within the crafting
-        // menu which includes the primary skill.
-        std::string required_skills_string( const Character *, bool include_primary_skill,
-                                            bool print_skill_level ) const;
+        std::string primary_skill_string( const Character &c ) const;
+        // Format the other skills string.
+        std::string required_skills_string( const Character &c ) const;
         // Format the proficiencies string.
         std::string required_proficiencies_string( const Character *c ) const;
         std::string used_proficiencies_string( const Character *c ) const;
         std::string missing_proficiencies_string( const Character *c ) const;
         // Proficiencies for search
         std::string recipe_proficiencies_string() const;
-        // Required proficiencies
-        std::set<proficiency_id> required_proficiencies() const;
-        //
+        // Required proficiencies, mandatory to craft
+        std::vector<proficiency_id> required_proficiencies() const;
+        // True if character and helpers have all required proficiencies
         bool character_has_required_proficiencies( const Character &c ) const;
-        // Helpful proficiencies
-        std::set<proficiency_id> assist_proficiencies() const;
+        // Used proficiencies, will impede crafting if missing
+        std::vector<proficiency_id> used_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_time_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &crafter ) const;
         // The failure malus due to proficiencies lacking
-        float proficiency_failure_maluses( const Character &guy ) const;
+        float proficiency_failure_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
@@ -202,14 +230,14 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
+        int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
         time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
         time_duration time_to_craft( const Character &guy,
                                      recipe_time_flag flags = recipe_time_flag::none ) const;
-        int time_to_craft_moves( const Character &guy,
-                                 recipe_time_flag flags = recipe_time_flag::none ) const;
+        int64_t time_to_craft_moves( const Character &guy,
+                                     recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -223,6 +251,7 @@ class recipe
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
         std::string get_consistency_error() const;
 
+        bool is_practice() const;
         bool is_blueprint() const;
         const std::string &get_blueprint() const;
         const translation &blueprint_name() const;
@@ -239,6 +268,8 @@ class recipe
         void check_blueprint_requirements();
 
         bool hot_result() const;
+
+        bool removes_raw() const;
 
         // Returns the amount or charges recipe will produce.
         int makes_amount() const;

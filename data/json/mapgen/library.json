@@ -32,7 +32,48 @@
         ".....4..................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "library_palette" ]
+      "palettes": [ "standard_building_palette", "library_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 95 ], [ "fire_field", 5 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_library" ],
+    "weight": 1000,
+    "//": "vandalized variant.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "------------------------",
+        "..pp----pp##o#######o##.",
+        "..pp----pp#%dy|L[[| dd#.",
+        "..pp----pp#dh |  [| h%#.",
+        ".#:::**:::#||+|+|||+||#.",
+        ".#[h      %           o.",
+        ".#[h      ccc%ccc%ccc #.",
+        ".#[h                  #.",
+        ".#||||||              #.",
+        ".o hhh +  h%[%h h%[%h #.",
+        ".# [[[ |              o.",
+        ".#||||||  h%[%h h%[%h #.",
+        ".# hhh +              #.",
+        ".o [[[ |  K  JW  QQ  P#.",
+        ".# hhh |  K  JW  QQ  N#.",
+        ".#||||||  K  JW  QQ  N#.",
+        ".#cScSc|  U  OW  QQ  M#.",
+        ".o     +  U  OW  QQ  M#.",
+        ".#+|+|+|  U  TI  QQ  Q#.",
+        ".# | | |  U  TI  QQ  Q#.",
+        ".#t|t|t|             [#.",
+        ".########o##o###o###o##.",
+        ".....4..................",
+        "........................"
+      ],
+      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "set": [ { "point": "bash", "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
+      "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
     }
   },
   {
@@ -124,6 +165,48 @@
         "..........######o####..."
       ],
       "palettes": [ "standard_building_palette", "library_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 95 ], [ "fire_field", 5 ] ], "x": [ 3, 22 ], "y": [ 10, 14 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 16, 21 ], "y": [ 5, 7 ], "density": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_library_1" ],
+    "weight": 1000,
+    "//": "vandalized variant.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "------------------------",
+        "------------------------",
+        "........--..............",
+        ".ppppppp--ppppppppppppp.",
+        ".#####::**:::::###oo###.",
+        ".#d bc         | hh h #.",
+        ".#d  %     h[h | [[[[ #.",
+        ".#d bc     h[h |  hhh #.",
+        ".#y  %         |+|||||#.",
+        ".#   c                o.",
+        ".o        h%%h   JJ  U#.",
+        ".#M  WW   h%%h   JJ  I#.",
+        ".#M  TT   h%%h   JJ  I#.",
+        ".#M  PP   h%%h   OO  N#.",
+        ".#M  AA   h%%h   OO  N#.",
+        ".#                    #.",
+        ".#QQQQQQQQQQQQQQ NNNNN#.",
+        ".##########|||||+|||###.",
+        ".....5...4#y cc| | [#...",
+        "..........#C   : + S#...",
+        "....5..5..#C   * |||#...",
+        "..........o  B : + S#...",
+        ".5.....5..#[[[y| | [#...",
+        "..........######o####..."
+      ],
+      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "set": [ { "point": "bash", "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
+      "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 3, 22 ], "y": [ 10, 14 ] } ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 16, 21 ], "y": [ 5, 7 ], "density": 1 } ]
     }
   },
@@ -220,6 +303,52 @@
       ],
       "palettes": [ "standard_building_palette", "library_palette" ],
       "nested": { "G": { "chunks": [ "roof_6x6_garden_1" ] } },
+      "place_nested": [ { "chunks": [ [ "null", 95 ], [ "fire_field", 5 ] ], "x": [ 5, 9 ], "y": [ 4, 16 ] } ],
+      "terrain": { "G": "t_grass" },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_library_2" ],
+    "weight": 2000,
+    "//": "vandalized variant.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "..###oo####++####oo###..",
+        "..#           c b   [#..",
+        "..#QQQQQQQ    c     y#..",
+        "..#QQQQQQQ    ccccc y#..",
+        "..o                  o..",
+        "..o             h    o..",
+        "..#OOOOOJJJJJ  [[h  Q#..",
+        "..#OOOOOJJJJJ h[[h  Q#..",
+        "..o                 Q#..",
+        "..o                 Q#..",
+        "..#UUUUUUUUUU h[[h  Q#..",
+        "..#IIIIIIIIII  [[h  Q#..",
+        "..o                 Q#..",
+        "..o                 Q#..",
+        "..#WWWWMMMMNNNNPy   Q#..",
+        "..##########||||o+|||#..",
+        "..G.......4#MAW   + S#..",
+        "...........o b    | t#..",
+        "...........oB  [ y|||#..",
+        "...........o      | S#..",
+        "...........#y CC  + t#..",
+        "...........###########.."
+      ],
+      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "set": [ { "point": "bash", "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
+      "nested": {
+        "G": { "chunks": [ "roof_6x6_garden_1" ] },
+        "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] }
+      },
+      "place_nested": [ { "chunks": [ [ "null", 95 ], [ "fire_field", 5 ] ], "x": [ 5, 9 ], "y": [ 4, 16 ] } ],
       "terrain": { "G": "t_grass" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }

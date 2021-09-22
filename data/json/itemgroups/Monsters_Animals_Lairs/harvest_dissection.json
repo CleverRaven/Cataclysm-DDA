@@ -1,0 +1,8 @@
+[
+  {
+    "id": "rabbit_foot",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rabbit_foot", "prob": 30 } ]
+  }
+]

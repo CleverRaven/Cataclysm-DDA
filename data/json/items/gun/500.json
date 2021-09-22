@@ -68,6 +68,13 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "500": 5 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "ammo_restriction": { "500": 5 },
+        "allowed_speedloaders": [ "500_speedloader5" ]
+      }
+    ]
   }
 ]

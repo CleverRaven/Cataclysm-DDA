@@ -117,7 +117,7 @@
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt_underground",
       "rows": [
         "########################",
         "########################",

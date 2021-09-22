@@ -3,12 +3,17 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
-#include <string>
+#include <map>
+#include <string> // IWYU pragma: keep
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
+
+#include "json.h"
 
 class JsonIn;
 class JsonOut;
@@ -198,6 +203,13 @@ double temp_to_celsius( double fahrenheit );
 double temp_to_kelvin( double fahrenheit );
 
 /**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
+
+/**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.
@@ -265,7 +277,7 @@ class list_circularizer
         std::vector<T> *_list;
     public:
         /** Construct list_circularizer from an existing std::vector. */
-        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
+        explicit list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
         }
 
         /** Advance list to next item, wrapping back to 0 at end of list */
@@ -380,11 +392,21 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
+           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
+           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -432,6 +454,36 @@ bool return_true( const T & )
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+/**
+ * Append all arguments after the first to the first.
+ *
+ * This provides a way to append several strings to a single root string
+ * in a single line without an expression like 'a += b + c' which can cause an
+ * unnecessary allocation in the 'b + c' expression.
+ */
+template<typename... T>
+std::string &str_append( std::string &root, T &&...a )
+{
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+    std::array<bool, sizeof...( T )> { {
+            ( root.append( std::forward<T>( a ) ), false )...
+        }
+    } );
+    return root;
+}
+
+/**
+ * Concatenates a bunch of strings with append, to minimze unnecessary
+ * allocations
+ */
+template<typename T0, typename... T>
+std::string str_cat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    return str_append( result, std::forward<T>( a )... );
+}
 
 /**
  * Erases elements from a set that match given predicate function.
@@ -502,6 +554,19 @@ bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignore
                                           set2.upper_bound( *prev ), set2.end() ) );
 }
 
+/**
+ * Return a copy of a std::map with some keys removed.
+ */
+template<typename K, typename V>
+std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vector<K> &remove_keys )
+{
+    std::map<K, V> filtered( original );
+    for( const K &key : remove_keys ) {
+        filtered.erase( key );
+    }
+    return filtered;
+}
+
 int modulo( int v, int m );
 
 class on_out_of_scope
@@ -509,8 +574,13 @@ class on_out_of_scope
     private:
         std::function<void()> func;
     public:
-        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
+
+        on_out_of_scope( const on_out_of_scope & ) = delete;
+        on_out_of_scope( on_out_of_scope && ) = delete;
+        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
+        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
 
         ~on_out_of_scope() {
             if( func ) {
@@ -532,14 +602,38 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
 
-        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
+
+        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
+        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
+
+/** Add elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, const std::unordered_set<T> &rhv )
+{
+    lhv.insert( rhv.begin(), rhv.end() );
+    return lhv;
+}
+
+/** Move elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_set<T> &&rhv )
+{
+    for( const T &value : rhv ) {
+        lhv.insert( std::move( value ) );
+    }
+    rhv.clear();
+    return lhv;
+}
 
 #endif // CATA_SRC_CATA_UTILITY_H

@@ -2,21 +2,20 @@
 #ifndef CATA_SRC_CRAFT_COMMAND_H
 #define CATA_SRC_CRAFT_COMMAND_H
 
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
+#include "optional.h"
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
-class inventory;
 class item;
-struct item_comp;
-struct tool_comp;
+class read_only_visitable;
 template<typename T> struct enum_traits;
 
 /**
@@ -50,7 +49,7 @@ struct comp_selection {
     std::string nname() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 /**
@@ -116,10 +115,10 @@ class craft_command
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<item_comp>> check_item_components_missing(
-                                                const inventory &map_inv ) const;
+                                                const read_only_visitable &map_inv ) const;
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<tool_comp>> check_tool_components_missing(
-                                                const inventory &map_inv ) const;
+                                                const read_only_visitable &map_inv ) const;
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

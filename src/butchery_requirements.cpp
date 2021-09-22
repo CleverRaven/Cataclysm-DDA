@@ -1,10 +1,18 @@
 #include "butchery_requirements.h"
 
+#include <cstddef>
+#include <functional>
+#include <iterator>
+#include <set>
+#include <string>
+
 #include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
-#include "inventory.h"
+#include "item.h"
+#include "json.h"
 #include "requirements.h"
 
 namespace
@@ -93,7 +101,7 @@ void butchery_requirements::check_consistency()
 }
 
 std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements(
-    const inventory &crafting_inv, creature_size size, butcher_type butcher ) const
+    const read_only_visitable &crafting_inv, creature_size size, butcher_type butcher ) const
 {
     for( const std::pair<const float, std::map<creature_size, std::map<butcher_type, requirement_id>>>
          &riter : requirements ) {

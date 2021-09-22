@@ -3,22 +3,32 @@
 #define CATCH_CONFIG_IMPL_ONLY
 #endif
 #define CATCH_CONFIG_RUNNER
-#include "catch/catch.hpp"
-
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
-#include <string>
+#include <exception>
+#include <memory>
+#include <ostream>
 #include <string>
 #include <utility>
-#include <utility>
+#include <vector>
+
+#include "calendar.h"
+#include "cata_catch.h"
+#include "coordinates.h"
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "compatibility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -32,13 +42,10 @@
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pldata.h"
-#include "point.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
-
-class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -82,7 +89,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 {
     if( !assure_dir_exist( user_dir ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make user_dir directory.  Check permissions." );
+        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -91,17 +98,17 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make config directory.  Check permissions." );
+        cata_fatal( "Unable to make config directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make save directory.  Check permissions." );
+        cata_fatal( "Unable to make save directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make templates directory.  Check permissions." );
+        cata_fatal( "Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -126,7 +133,12 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
-    WORLDPTR test_world = world_generator->make_new_world( mods );
+#ifndef _WIN32
+    const std::string test_world_name = "Test World " + std::to_string( getpid() );
+#else
+    const std::string test_world_name = "Test World";
+#endif
+    WORLDPTR test_world = world_generator->make_new_world( test_world_name, mods );
     cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
     cata_assert( world_generator->active_world != nullptr );
@@ -150,6 +162,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     map &here = get_map();
     // TODO: fix point types
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+    get_avatar().move_to( tripoint_abs_ms( tripoint_zero ) );
 
     get_weather().update_weather();
 }
@@ -237,11 +250,16 @@ struct CataListener : Catch::TestEventListenerBase {
 
     void sectionEnded( Catch::SectionStats const &sectionStats ) override {
         TestEventListenerBase::sectionEnded( sectionStats );
-        if( !sectionStats.assertions.allPassed() ) {
+        if( !sectionStats.assertions.allPassed() ||
+            m_config->includeSuccessfulResults() ) {
             std::vector<std::pair<std::string, std::string>> messages =
                         Messages::recent_messages( 0 );
             if( !messages.empty() ) {
-                stream << "Log messages during failed test:\n";
+                if( !sectionStats.assertions.allPassed() ) {
+                    stream << "Log messages during failed test:\n";
+                } else {
+                    stream << "Log messages during successful test:\n";
+                }
             }
             for( const std::pair<std::string, std::string> &message : messages ) {
                 stream << message.first << ": " << message.second << '\n';
@@ -270,6 +288,7 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+    reset_floating_point_mode();
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );
@@ -285,6 +304,33 @@ int main( int argc, const char *argv[] )
 
     std::string user_dir = extract_user_dir( arg_vec );
 
+    std::string error_fmt = extract_argument( arg_vec, "--error-format=" );
+    if( error_fmt == "github-action" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        error_log_format = error_log_format_t::github_action;
+    } else if( error_fmt == "human-readable" || error_fmt.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        error_log_format = error_log_format_t::human_readable;
+    } else {
+        printf( "Unknown format %s", error_fmt.c_str() );
+        return EXIT_FAILURE;
+    }
+
+    std::string check_plural_str = extract_argument( arg_vec, "--check-plural=" );
+    if( check_plural_str == "none" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::none;
+    } else if( check_plural_str == "certain" || check_plural_str.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::certain;
+    } else if( check_plural_str == "possible" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::possible;
+    } else {
+        printf( "Unknown check_plural value %s", check_plural_str.c_str() );
+        return EXIT_FAILURE;
+    }
+
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
@@ -294,10 +340,18 @@ int main( int argc, const char *argv[] )
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
         printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
+        printf( "  --error-format=<value>       Format of error messages.  Possible values are:\n" );
+        printf( "                                   human-readable (default)\n" );
+        printf( "                                   github-action\n" );
         return result;
     }
 
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     test_mode = true;
+
+    on_out_of_scope print_newline( []() {
+        printf( "\n" );
+    } );
 
     setupDebug( DebugOutput::std_err );
 
@@ -358,8 +412,6 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
-
-    printf( "\n" );
 
     return result;
 }

@@ -139,7 +139,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
         ".........",
@@ -821,13 +821,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "b..|.|T.B",
-        "b..|.W..B",
+        "b..W.W..B",
         "..s|.|S..",
-        "-W--.----",
+        "----.----",
         ".........",
-        "----.--W-",
+        "----.----",
         "..s|.|s..",
-        "b..W.|...",
+        "b..W.W...",
         "b..|.|.bb"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],

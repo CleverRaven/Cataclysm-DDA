@@ -9,7 +9,6 @@
       [ "sports_drink", 60 ],
       [ "bottle_plastic", 80 ],
       [ "towel", 80 ],
-      [ "towel_soiled", 20 ],
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
       [ "bandages", 20 ],
@@ -187,7 +186,7 @@
         "                                                                                                                        "
       ],
       "palettes": [ "field_football" ],
-      "vendingmachines": { "V": { "item_group": "vending_drink" } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "toilets": { ";": {  } },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] },

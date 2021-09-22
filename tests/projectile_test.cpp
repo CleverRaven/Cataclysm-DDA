@@ -1,22 +1,22 @@
-#include "catch/catch.hpp"
-#include "projectile.h"
-
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "ballistics.h"
+#include "cata_catch.h"
 #include "character.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"
-#include "game.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -44,6 +44,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 {
     clear_map();
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
 
     // Move the player out of the way of the test area
     get_player_character().setpos( { 2, 2, 0 } );
@@ -56,7 +57,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
         REQUIRE( here.inbounds( pt ) );
         here.ter_set( pt, ter_id( "t_dirt" ) );
         here.furn_set( pt, furn_id( "f_null" ) );
-        REQUIRE_FALSE( g->critter_at( pt ) );
+        REQUIRE_FALSE( creatures.creature_at( pt ) );
         REQUIRE( here.is_transparent( pt ) );
     }
 

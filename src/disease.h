@@ -2,16 +2,16 @@
 #ifndef CATA_SRC_DISEASE_H
 #define CATA_SRC_DISEASE_H
 
+#include <iosfwd>
+#include <new>
 #include <set>
-#include <string>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
-#include "json.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
+
+class JsonObject;
 
 class disease_type
 {

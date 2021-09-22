@@ -3,7 +3,7 @@
     "id": "mon_deep_go",
     "type": "MONSTER",
     "name": { "str": "deep one" },
-    "description": "An alien that appears to have evolved for survival in the depths.  Its tubular grey body bears numerous sets of paired appendages of with clawed portrusions, and a pair of thick muscular fins.  You see glimpses of its shape, shifting in and out of the water.",
+    "description": "An alien that appears to have evolved for survival in the depths.  Its tubular grey body bears numerous sets of paired appendages with clawed protrusions, and a pair of thick muscular fins.  You see glimpses of its shape, shifting in and out of the water.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "NETHER" ],
@@ -27,14 +27,13 @@
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
-    "path_settings": { "max_dist": 50 },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 19, "armor_multiplier": 0.8 } ] },
       [ "TENTACLE", 5 ]
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -44,7 +43,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"
@@ -54,7 +53,7 @@
     "id": "mon_deep_go_slaver",
     "type": "MONSTER",
     "name": { "str": "deep one slaver" },
-    "description": "An alien that appears to have evolved for survival in the depths.  Its tubular grey body bears numerous sets of paired appendages of with clawed portrusions, and a pair of thick muscular fins.  You see glimpses of its shape, shifting in and out of the water.  It is carrying a conical object that hums with an odd keening sound.",
+    "description": "An alien that appears to have evolved for survival in the depths.  Its tubular grey body bears numerous sets of paired appendages with clawed protrusions, and a pair of thick muscular fins.  You see glimpses of its shape, shifting in and out of the water.  It is carrying a conical object that hums with an odd keening sound.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "NETHER" ],
@@ -78,7 +77,7 @@
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
-    "path_settings": { "max_dist": 50 },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -86,7 +85,6 @@
       [ "TENTACLE", 5 ],
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 1 }, "cooldown": 400 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -96,7 +94,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"

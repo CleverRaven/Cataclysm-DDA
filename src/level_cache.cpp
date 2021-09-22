@@ -1,8 +1,6 @@
 #include "level_cache.h"
 
-#include <cstdlib>
-
-#include "vehicle.h"
+#include <algorithm>
 
 level_cache::level_cache()
 {

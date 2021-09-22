@@ -3,10 +3,9 @@
 #define CATA_SRC_CONSTRUCTION_CATEGORY_H
 
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

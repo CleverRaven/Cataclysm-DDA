@@ -3,8 +3,8 @@
 #define CATA_SRC_MAPGEN_FUNCTIONS_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <utility>
 
 #include "coordinates.h"
@@ -13,6 +13,7 @@
 class map;
 class mapgendata;
 class mission;
+struct mapgen_parameters;
 struct point;
 struct tripoint;
 
@@ -65,14 +66,6 @@ void mapgen_sewer_curved( mapgendata &dat );
 void mapgen_sewer_four_way( mapgendata &dat );
 void mapgen_sewer_straight( mapgendata &dat );
 void mapgen_sewer_tee( mapgendata &dat );
-void mapgen_ants_curved( mapgendata &dat );
-void mapgen_ants_four_way( mapgendata &dat );
-void mapgen_ants_straight( mapgendata &dat );
-void mapgen_ants_tee( mapgendata &dat );
-void mapgen_ants_food( mapgendata &dat );
-void mapgen_ants_larvae( mapgendata &dat );
-void mapgen_ants_queen( mapgendata &dat );
-void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );
 
@@ -83,12 +76,14 @@ void madd_field( map *m, const point &, field_type_id type, int intensity );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
-                             mission *miss = nullptr, bool cancel_on_collision = true );
+                             mission *miss = nullptr, bool cancel_on_collision = true,
+                             bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &dat,
                              bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id );
+mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
 

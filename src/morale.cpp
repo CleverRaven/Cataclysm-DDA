@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <numeric>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "bodypart.h"
@@ -16,10 +17,10 @@
 #include "debug.h"
 #include "enums.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "make_static.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -43,6 +44,7 @@ static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
+static const trait_id trait_NUMB( "NUMB" );
 
 namespace
 {
@@ -52,6 +54,7 @@ bool is_permanent_morale( const morale_type &id )
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,
             MORALE_PERM_BADTEMPER,
+            MORALE_PERM_NUMB,
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
@@ -69,7 +72,7 @@ bool is_permanent_morale( const morale_type &id )
 struct morale_mult {
     morale_mult(): good( 1.0 ), bad( 1.0 ) {}
     morale_mult( double good, double bad ): good( good ), bad( bad ) {}
-    morale_mult( double both ): good( both ), bad( both ) {}
+    explicit morale_mult( double both ): good( both ), bad( both ) {}
 
     double good;    // For good morale
     double bad;     // For bad morale
@@ -105,6 +108,8 @@ static const morale_mult optimist( 1.2, 0.8 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
 static const morale_mult badtemper( 0.8, 1.2 );
+// Numb characters have trouble feeling anything
+static const morale_mult numb( 0.25, 0.25 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
@@ -250,6 +255,8 @@ player_morale::player_morale() :
                                     _2, nullptr );
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
+    const auto set_numb           = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_NUMB,
+                                    _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
@@ -260,11 +267,14 @@ player_morale::player_morale() :
     mutations[trait_BADTEMPER]     = mutation_data(
                                          std::bind( set_badtemper, _1, -9 ),
                                          std::bind( set_badtemper, _1, 0 ) );
+    mutations[trait_NUMB]          = mutation_data(
+                                         std::bind( set_numb, _1, -1 ),
+                                         std::bind( set_numb, _1, 0 ) );
     mutations[trait_STYLISH]       = mutation_data(
                                          std::bind( set_stylish, _1, true ),
                                          std::bind( set_stylish, _1, false ) );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
-    mutations[trait_ROOTS1]         = mutation_data( update_constrained );
+    mutations[trait_ROOTS1]        = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
     mutations[trait_ROOTS3]        = mutation_data( update_constrained );
     mutations[trait_LEAVES2]       = mutation_data( update_constrained );
@@ -278,7 +288,7 @@ void player_morale::add( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
-    if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
+    if( ( duration == 0_turns ) && !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
                   type.obj().describe( item_type ) );
         return;
@@ -357,6 +367,9 @@ morale_mult player_morale::get_temper_mult() const
     }
     if( has( MORALE_PERM_BADTEMPER ) ) {
         mult *= morale_mults::badtemper;
+    }
+    if( has( MORALE_PERM_NUMB ) ) {
+        mult *= morale_mults::numb;
     }
 
     return mult;
@@ -501,7 +514,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
 
         public:
             morale_line() = default;
-            morale_line( const separation_line ) : sep_line( true ) {}
+            explicit morale_line( const separation_line ) : sep_line( true ) {}
             morale_line( const std::string &text, const nc_color &color )
                 : left( text ), color( color ) {}
             morale_line( const std::string &left, const std::string &right,
@@ -596,7 +609,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     const std::vector<morale_line> top_lines {
         {},
         { _( "Morale" ), c_white },
-        { morale_line::separation_line {} },
+        morale_line{ morale_line::separation_line {} },
 
         positive_morale.empty() &&negative_morale.empty() ?
         morale_line( _( "Nothing affects your morale" ), c_dark_gray ) :
@@ -838,6 +851,11 @@ bool player_morale::has_mutation( const trait_id &mid )
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
+bool player_morale::has_flag( const json_character_flag &flag )
+{
+    return get_player_character().has_flag( flag );
+}
+
 void player_morale::set_mutation( const trait_id &mid, bool active )
 {
     const auto &mutation = mutations.find( mid );
@@ -1045,7 +1063,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 ) {
+    if( max_hot_penalty != 0 && !has_flag( STATIC( json_character_flag( "HEATPROOF" ) ) ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }

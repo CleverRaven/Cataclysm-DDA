@@ -736,24 +736,6 @@
     "description": { "str": "skill level gained", "str_pl": "skill levels gained" }
   },
   {
-    "id": "avatar_gains_barter_level_7",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "barter" ] },
-      "new_level": { "equals": [ "int", "7" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_barter_level_7",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter_level_7",
-    "description": { "str_sp": "bartering skill level 7 gained" }
-  },
-  {
     "id": "avatar_gains_speech_level_7",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
@@ -769,7 +751,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_speech_level_7",
-    "description": { "str_sp": "speaking skill level 7 gained" }
+    "description": { "str_sp": "social skill level 7 gained" }
   },
   {
     "id": "avatar_gains_computer_level_7",
@@ -805,7 +787,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_firstaid_level_7",
-    "description": { "str_sp": "first aid skill level 7 gained" }
+    "description": { "str_sp": "health care skill level 7 gained" }
   },
   {
     "id": "avatar_gains_mechanics_level_7",
@@ -841,7 +823,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_traps_level_7",
-    "description": { "str_sp": "trapping skill level 7 gained" }
+    "description": { "str_sp": "devices skill level 7 gained" }
   },
   {
     "id": "avatar_gains_driving_level_7",
@@ -859,7 +841,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_driving_level_7",
-    "description": { "str_sp": "driving skill level 7 gained" }
+    "description": { "str_sp": "vehicles skill level 7 gained" }
   },
   {
     "id": "avatar_gains_swimming_level_7",
@@ -877,7 +859,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_swimming_level_7",
-    "description": { "str_sp": "swimming skill level 7 gained" }
+    "description": { "str_sp": "athletics skill level 7 gained" }
   },
   {
     "id": "avatar_gains_fabrication_level_7",
@@ -913,7 +895,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_cooking_level_7",
-    "description": { "str_sp": "cooking skill level 7 gained" }
+    "description": { "str_sp": "food handling skill level 7 gained" }
   },
   {
     "id": "avatar_gains_tailor_level_7",
@@ -1219,7 +1201,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_unarmed_level_7",
-    "description": { "str_sp": "unarmed skill level 7 gained" }
+    "description": { "str_sp": "unarmed combat skill level 7 gained" }
   },
   {
     "id": "avatar_gains_chemistry_level_7",
@@ -1237,25 +1219,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_chemistry_level_7",
-    "description": { "str_sp": "chemistry skill level 7 gained" }
-  },
-  {
-    "id": "avatar_gains_barter_level_10",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "barter" ] },
-      "new_level": { "equals": [ "int", "10" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_barter_level_10",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter_level_10",
-    "description": { "str_sp": "bartering skill level 10 gained" }
+    "description": { "str_sp": "applied science skill level 7 gained" }
   },
   {
     "id": "avatar_gains_speech_level_10",
@@ -1273,7 +1237,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_speech_level_10",
-    "description": { "str_sp": "speaking skill level 10 gained" }
+    "description": { "str_sp": "social skill level 10 gained" }
   },
   {
     "id": "avatar_gains_computer_level_10",
@@ -1309,7 +1273,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_firstaid_level_10",
-    "description": { "str_sp": "first aid skill level 10 gained" }
+    "description": { "str_sp": "health care skill level 10 gained" }
   },
   {
     "id": "avatar_gains_mechanics_level_10",
@@ -1345,7 +1309,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_traps_level_10",
-    "description": { "str_sp": "trapping skill level 10 gained" }
+    "description": { "str_sp": "devices skill level 10 gained" }
   },
   {
     "id": "avatar_gains_driving_level_10",
@@ -1363,7 +1327,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_driving_level_10",
-    "description": { "str_sp": "driving skill level 10 gained" }
+    "description": { "str_sp": "vehicles skill level 10 gained" }
   },
   {
     "id": "avatar_gains_swimming_level_10",
@@ -1381,7 +1345,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_swimming_level_10",
-    "description": { "str_sp": "swimming skill level 10 gained" }
+    "description": { "str_sp": "athletics skill level 10 gained" }
   },
   {
     "id": "avatar_gains_fabrication_level_10",
@@ -1417,7 +1381,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_cooking_level_10",
-    "description": { "str_sp": "cooking skill level 10 gained" }
+    "description": { "str_sp": "food handling skill level 10 gained" }
   },
   {
     "id": "avatar_gains_tailor_level_10",
@@ -1723,7 +1687,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_unarmed_level_10",
-    "description": { "str_sp": "unarmed skill level 10 gained" }
+    "description": { "str_sp": "unarmed combat skill level 10 gained" }
   },
   {
     "id": "avatar_gains_chemistry_level_10",
@@ -1741,7 +1705,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_chemistry_level_10",
-    "description": { "str_sp": "chemistry skill level 10 gained" }
+    "description": { "str_sp": "applied science skill level 10 gained" }
   },
   {
     "id": "avatar_reads_book",

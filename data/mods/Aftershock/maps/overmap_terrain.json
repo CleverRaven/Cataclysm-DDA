@@ -85,6 +85,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "afs_formless_ruins_dynamic" ],
+    "name": "formless ruins",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "sym": "r",
+    "color": "light_gray",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "afs_augmentation_clinic_n1",
       "afs_augmentation_clinic_n2",
@@ -106,6 +116,15 @@
     "sym": "Q",
     "color": "cyan",
     "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_stratoscomm_relay_s1", "afs_stratoscomm_relay_n1", "afs_stratoscomm_relay_n2" ],
+    "name": "stratoscomm relay station",
+    "sym": "t",
+    "color": "yellow",
+    "flags": [ "SIDEWALK" ],
     "see_cost": 3
   },
   {
@@ -206,5 +225,87 @@
     "color": "i_pink",
     "see_cost": 2,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_shelter_1" ],
+    "name": "house",
+    "sym": "<",
+    "color": "green",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_shelter_1_roof" ],
+    "name": "house roof",
+    "sym": "<",
+    "color": "green",
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "arcology_interior_center_robots",
+      "arcology_interior_w_side_robots",
+      "arcology_interior_e_side_robots",
+      "arcology_interior_n_side_robots",
+      "arcology_interior_s_side_robots",
+      "arcology_interior_ne_corner_robots",
+      "arcology_interior_nw_corner_robots",
+      "arcology_interior_se_corner_robots",
+      "arcology_interior_sw_corner_robots",
+      "arcology_exterior_e_side_robots",
+      "arcology_exterior_n_side_robots",
+      "arcology_exterior_s_side_robots",
+      "arcology_exterior_w_side_robots",
+      "arcology_exterior_ne_corner_robots",
+      "arcology_exterior_nw_corner_robots",
+      "arcology_exterior_se_corner_robots",
+      "arcology_exterior_sw_corner_robots",
+      "arcology_exterior_n_entrance_robots",
+      "arcology_exterior_s_entrance_robots",
+      "arcology_exterior_e_entrance_robots",
+      "arcology_exterior_w_entrance_robots"
+    ],
+    "name": "Desolate Arcology - Ground Level",
+    "sym": "A",
+    "color": "light_blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "arcology_interior_center_uplifts",
+      "arcology_interior_w_side_uplifts",
+      "arcology_interior_e_side_uplifts",
+      "arcology_interior_n_side_uplifts",
+      "arcology_interior_s_side_uplifts",
+      "arcology_interior_ne_corner_uplifts",
+      "arcology_interior_nw_corner_uplifts",
+      "arcology_interior_se_corner_uplifts",
+      "arcology_interior_sw_corner_uplifts",
+      "arcology_exterior_e_side_uplifts",
+      "arcology_exterior_n_side_uplifts",
+      "arcology_exterior_s_side_uplifts",
+      "arcology_exterior_w_side_uplifts",
+      "arcology_exterior_ne_corner_uplifts",
+      "arcology_exterior_nw_corner_uplifts",
+      "arcology_exterior_se_corner_uplifts",
+      "arcology_exterior_sw_corner_uplifts",
+      "arcology_exterior_n_entrance_uplifts",
+      "arcology_exterior_s_entrance_uplifts",
+      "arcology_exterior_e_entrance_uplifts",
+      "arcology_exterior_w_entrance_uplifts"
+    ],
+    "name": "Arcology - Ground Level",
+    "sym": "A",
+    "color": "light_blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   }
 ]

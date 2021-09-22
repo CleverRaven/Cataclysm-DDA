@@ -4,6 +4,8 @@
 
 #include "type_id.h"
 
+class item;
+class json_talk_topic;
 class npc;
 class time_duration;
 
@@ -57,6 +59,7 @@ void stop_guard( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );
+void drop_items_in_place( npc &p );
 void follow( npc & );                // p becomes a member of your_followers
 void follow_only( npc & );           // p starts following you
 void deny_follow( npc & );           // p gets "asked_to_follow"
@@ -66,9 +69,12 @@ void deny_train( npc & );            // p gets "asked_to_train"
 void deny_personal_info( npc & );    // p gets "asked_personal_info"
 void hostile( npc & );               // p turns hostile to u
 void flee( npc & );
+void lightning( npc &p );
 void leave( npc & );                 // p becomes indifferent
 void stop_following( npc & );
 void stranger_neutral( npc & );      // p is now neutral towards you
+
+bool drop_stolen_item( item &cur_item, npc &p );
 
 void start_mugging( npc & );
 void player_leaving( npc & );
@@ -89,6 +95,7 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
+void do_disassembly( npc &p );
 } // namespace talk_function
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
@@ -97,4 +104,7 @@ time_duration calc_proficiency_training_time( const npc &, const proficiency_id 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency );
 time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );
 int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ );
+
+const json_talk_topic *get_talk_topic( const std::string &id );
+
 #endif // CATA_SRC_NPCTALK_H

@@ -1,12 +1,16 @@
 #include "main_menu.h"
 
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <functional>
 #include <istream>
 #include <memory>
+#include <string>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -138,7 +142,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     switch( current_holiday ) {
         case holiday::new_year:
-            break;
         case holiday::easter:
             break;
         case holiday::halloween:
@@ -147,9 +150,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
                                  25, 0, c_white, halloween_graves() );
             break;
         case holiday::thanksgiving:
-            break;
         case holiday::christmas:
-            break;
         case holiday::none:
         case holiday::num_holiday:
         default:
@@ -305,10 +306,9 @@ void main_menu::init_windows()
     const int total_h = FULL_SCREEN_HEIGHT + extra_h;
 
     // position of window within main display
-    const int x0 = ( TERMX - total_w ) / 2;
-    const int y0 = ( TERMY - total_h ) / 2;
+    const point p0( ( TERMX - total_w ) / 2, ( TERMY - total_h ) / 2 );
 
-    w_open = catacurses::newwin( total_h, total_w, point( x0, y0 ) );
+    w_open = catacurses::newwin( total_h, total_w, p0 );
 
     menu_offset.y = total_h - 3;
     // note: if iMenuOffset is changed,
@@ -347,15 +347,15 @@ void main_menu::init_strings()
 
     // fill menu with translated menu items
     vMenuItems.clear();
-    vMenuItems.push_back( pgettext( "Main Menu", "<M|m>OTD" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<W|w>orld" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<S|s>pecial" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<C|c>redits" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<M|m>OTD" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<W|w>orld" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<S|s>pecial" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
 
     // determine hotkeys from translated menu item text
     vMenuHotkeys.clear();
@@ -364,11 +364,11 @@ void main_menu::init_strings()
     }
 
     vWorldSubItems.clear();
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -376,11 +376,11 @@ void main_menu::init_strings()
     }
 
     vSettingsSubItems.clear();
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
@@ -409,9 +409,7 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
-    if( selected < 0 ) {
-        selected = 0;
-    } else if( iLines < height ) {
+    if( selected < 0 || iLines < height ) {
         selected = 0;
     } else if( selected >= iLines - height ) {
         selected = iLines - height;
@@ -430,7 +428,6 @@ void main_menu::load_char_templates()
 
     for( std::string path : get_files_from_path( ".template", PATH_INFO::templatedir(), false,
             true ) ) {
-        path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
         path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
@@ -743,23 +740,22 @@ bool main_menu::opening_screen()
 bool main_menu::new_character_tab()
 {
     std::vector<std::string> vSubItems;
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
+        vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
+        vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::string> hints;
-    hints.push_back(
+    hints.emplace_back(
         _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
-    hints.push_back(
-        _( "Select from one of previously created character templates." ) );
-    hints.push_back(
+    hints.emplace_back( _( "Select from one of previously created character templates." ) );
+    hints.emplace_back(
         _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
-    hints.push_back(
+    hints.emplace_back(
         _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
-    hints.push_back(
+    hints.emplace_back(
         _( "Puts you right in the game, randomly choosing scenario and character's traits, profession, skills and other parameters." ) );
 
     std::vector<std::vector<std::string>> vNewGameHotkeys;
@@ -878,7 +874,7 @@ bool main_menu::new_character_tab()
                     }
                     if( !player_character.create( play_type ) ) {
                         load_char_templates();
-                        MAPBUFFER.reset();
+                        MAPBUFFER.clear();
                         overmap_buffer.clear();
                         continue;
                     }
@@ -921,8 +917,8 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    const auto path = PATH_INFO::templatedir() + utf8_to_native( templates[sel3] ) + ".template";
-                    if( std::remove( path.c_str() ) != 0 ) {
+                    const auto path = PATH_INFO::templatedir() + templates[sel3] + ".template";
+                    if( !remove_file( path ) ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
                         templates.erase( templates.begin() + sel3 );
@@ -950,7 +946,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !player_character.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
-                    MAPBUFFER.reset();
+                    MAPBUFFER.clear();
                     overmap_buffer.clear();
                     continue;
                 }
@@ -994,7 +990,7 @@ bool main_menu::load_character_tab( bool transfer )
 
         const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
         []( const save_t &it ) {
-            return it.player_name() == world_generator->last_character_name;
+            return it.decoded_name() == world_generator->last_character_name;
         } ) - savegames.begin();
         if( last_character_pos < savegames.size() ) {
             sel3 = last_character_pos;
@@ -1018,7 +1014,8 @@ bool main_menu::load_character_tab( bool transfer )
                     int line = menu_offset.y - 2 - i;
                     std::string world_name = all_worldnames[i];
                     int savegames_count = world_generator->get_world( world_name )->world_saves.size();
-                    nc_color color1, color2;
+                    nc_color color1;
+                    nc_color color2;
                     if( world_name == "TUTORIAL" || world_name == "DEFENSE" ) {
                         color1 = c_light_cyan;
                         color2 = h_light_cyan;
@@ -1050,7 +1047,7 @@ bool main_menu::load_character_tab( bool transfer )
                     const bool selected = sel3 + line == menu_offset.y - 2;
                     mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
-                               "%s", savename.player_name() );
+                               "%s", savename.decoded_name() );
                 }
             }
             wnoutrefresh( w_open );
@@ -1098,7 +1095,7 @@ bool main_menu::load_character_tab( bool transfer )
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
                 []( const save_t &str ) {
-                    return str.player_name() != MAP_SHARING::getUsername();
+                    return str.decoded_name() != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
             }
@@ -1136,7 +1133,7 @@ bool main_menu::load_character_tab( bool transfer )
                     g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
-                    world_generator->last_character_name = savegames[sel3].player_name();
+                    world_generator->last_character_name = savegames[sel3].decoded_name();
                     world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
 
@@ -1205,7 +1202,8 @@ void main_menu::world_tab()
                 for( auto it = all_worldnames.begin(); it != all_worldnames.end(); ++it, i++ ) {
                     int savegames_count = world_generator->get_world( *it )->world_saves.size();
                     int line = menu_offset.y - 2 - i;
-                    nc_color color1, color2;
+                    nc_color color1;
+                    nc_color color2;
                     if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
                         color1 = c_light_cyan;
                         color2 = h_light_cyan;
@@ -1232,18 +1230,12 @@ void main_menu::world_tab()
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
             if( load_character_tab( true ) ) {
-                points_left points;
-                points.stat_points = 0;
-                points.trait_points = 0;
-                points.skill_points = 0;
-                points.limit = points_left::TRANSFER;
-
                 player_character.setID( character_id(), true );
                 player_character.reset_all_missions();
-                player_character.save_template( player_character.name, points );
+                player_character.character_to_template( player_character.name );
 
                 player_character = avatar();
-                MAPBUFFER.reset();
+                MAPBUFFER.clear();
                 overmap_buffer.clear();
 
                 load_char_templates();
@@ -1319,7 +1311,7 @@ void main_menu::world_tab()
                         world_generator->delete_world( all_worldnames[sel2 - 1], do_delete );
 
                         savegames.clear();
-                        MAPBUFFER.reset();
+                        MAPBUFFER.clear();
                         overmap_buffer.clear();
 
                         if( do_delete ) {

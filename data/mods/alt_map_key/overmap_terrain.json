@@ -57,6 +57,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_forest",
+    "copy-from": "special_forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "copy-from": "special_forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hiway_ns",
     "copy-from": "hiway_ns",
     "name": "highway",
@@ -1836,11 +1852,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "copy-from": "mine_shaft",
-    "name": "mine shaft",
-    "sym": "m",
-    "color": "i_black"
+    "id": "mine_entrance_roof",
+    "copy-from": "mine_entrance_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_middle",
+    "copy-from": "mine_shaft_middle"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_lower",
+    "copy-from": "mine_shaft_lower"
   },
   {
     "type": "overmap_terrain",
@@ -1865,22 +1888,6 @@
     "name": "mine",
     "sym": "M",
     "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "copy-from": "spiral_hub",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "copy-from": "spiral",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink"
   },
   {
     "type": "overmap_terrain",

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -d lang/po ]
 then
@@ -27,7 +27,7 @@ xgettext --default-domain="cataclysm-dda" \
          --output="lang/po/cataclysm-dda.pot" \
          --keyword="_" \
          --keyword="pgettext:1c,2" \
-         --keyword="ngettext:1,2" \
+         --keyword="n_gettext:1,2" \
          --keyword="npgettext:1c,2,3" \
          --keyword="translate_marker" \
          --keyword="translate_marker_context:1c,2" \
@@ -69,7 +69,8 @@ then
 fi
 
 # convert line endings to unix
-if [[ $(uname -s) =~ ^\(CYGWIN|MINGW\)* ]]
+os="$(uname -s)"
+if (! [ "${os##CYGWIN*}" ]) || (! [ "${os##MINGW*}" ])
 then
     echo "> Converting line endings to Unix"
     if ! sed -i -e 's/\r$//' lang/po/cataclysm-dda.pot

@@ -15,6 +15,22 @@
     "color": "light_gray"
   },
   {
+    "id": "labmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "handwritten note" },
+    "description": "A small, meticulously folded piece of paper, filled with tiny handwriting and some surprisingly precise diagrams of subway tunnels, access codes, ventilation shafts, and…guard shifts?  You have the feeling they weren't supposed to write any of this stuff down.",
+    "color": "blue",
+    "volume": "10 ml",
+    "weight": "10 g",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "message": "You add the hidden stations to your map",
+      "terrain": [ "lab_subway", "microlab_sub_connector", "microlab_sub_station", "central_lab_train_depot", "lab_train_depot" ]
+    }
+  },
+  {
     "id": "militarymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
@@ -23,7 +39,7 @@
     "color": "green",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [
         "hiway",
         "road",
@@ -48,7 +64,7 @@
     "color": "white",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "s_hunting", "mil_surplus", "s_gas" ],
       "message": "You add roads and possible supply points to your map."
     }
@@ -62,7 +78,7 @@
     "color": "yellow",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [
         "hiway",
         "road",
@@ -81,13 +97,13 @@
     "id": "subwaymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "subway maintenance map",
+    "name": { "str": "subway maintenance map" },
     "looks_like": "roadmap",
     "description": "This is a map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [ "subway", "sub_station" ],
       "message": "You add subway lines and underground stations to your map."
     }
@@ -101,7 +117,7 @@
     "color": "green",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [ "forest_trail", "trailhead" ],
       "message": "You add trails and trailheads to your map."
     }
@@ -115,7 +131,7 @@
     "color": "blue",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
       "message": "You add roads and tourist attractions to your map."
     }
@@ -129,7 +145,7 @@
     "color": "pink",
     "use_action": {
       "type": "reveal_map",
-      "radius": 180,
+      "radius": 90,
       "terrain": [
         "hiway",
         "road",
@@ -141,6 +157,20 @@
         "s_restaurant_fast"
       ],
       "message": "You add roads and restaurants to your map."
+    }
+  },
+  {
+    "id": "satellitemap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "satellite map" },
+    "description": "This is a printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognise most buildings.  Using it will add terrain and roads to your map.",
+    "color": "light_gray",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "hiway", "road", "bridge", "field", "swamp", "forest", "lake", "river" ],
+      "message": "You add terrain and roads to your map."
     }
   }
 ]

@@ -22,7 +22,8 @@
       { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+      { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "freeze_dried_meal", "prob": 10 }
     ]
   },
   {
@@ -38,13 +39,18 @@
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
+      { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "item": "oatmeal", "prob": 40 },
       { "item": "fruit_leather", "prob": 15 },
       { "item": "salted_fish", "prob": 15 },
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
-      { "item": "dry_rice", "prob": 40 }
+      { "item": "dry_rice", "prob": 40 },
+      { "item": "freeze_dried_meal", "prob": 10 },
+      { "item": "gelatin_powder", "prob": 40 },
+      { "item": "chem_agar", "prob": 15 },
+      { "item": "gelatin_dessert_powder", "prob": 40 }
     ]
   },
   {
@@ -96,6 +102,7 @@
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_daintydishes", "prob": 20 },
       { "item": "cookbook_liverforkids", "prob": 12 },
+      { "item": "sweets_book", "prob": 6 },
       { "item": "family_cookbook", "prob": 6 },
       { "item": "brewing_cookbook", "prob": 4 },
       { "group": "ketchup_sealed_rng", "prob": 35 },
@@ -105,7 +112,8 @@
       { "item": "horseradish", "prob": 15 },
       { "item": "spread_peanutbutter", "prob": 10 },
       { "item": "honey_bottled", "prob": 35 },
-      { "item": "honey_glassed", "prob": 35 }
+      { "item": "honey_glassed", "prob": 35 },
+      { "item": "oyster_crackers", "prob": 15 }
     ]
   },
   {
@@ -128,6 +136,7 @@
       { "item": "apple_canned", "prob": 1 },
       { "item": "can_cheese", "prob": 1 },
       { "item": "fish_canned", "prob": 1 },
+      { "item": "brown_bread", "prob": 1 },
       { "item": "can_spam", "prob": 1 },
       { "item": "can_sardine", "prob": 1 },
       { "item": "ravioli", "prob": 1 },
@@ -183,8 +192,10 @@
       { "item": "can_chowder", "prob": 35 },
       { "item": "can_herring", "prob": 30 },
       { "item": "can_chicken", "prob": 40 },
+      { "item": "brown_bread", "prob": 20 },
       { "item": "broth", "prob": 15 },
       { "item": "crackers", "prob": 10 },
+      { "item": "oyster_crackers", "prob": 10 },
       { "item": "grahmcrackers", "prob": 10 },
       { "item": "marshmallow", "prob": 10 },
       { "item": "syrup", "prob": 15 },
@@ -212,6 +223,7 @@
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
+      { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "item": "oatmeal", "prob": 40 },
       { "item": "toastem", "prob": 30 },
@@ -286,6 +298,7 @@
       { "item": "cornbread", "prob": 7 },
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },
+      { "item": "oyster_crackers", "prob": 15 },
       { "item": "grahmcrackers", "prob": 20 },
       { "item": "marshmallow", "prob": 20 },
       { "item": "biscuit", "prob": 12 },
@@ -421,13 +434,15 @@
       { "item": "candy", "prob": 70 },
       { "item": "candy2", "prob": 70 },
       { "item": "candy3", "prob": 70 },
+      { "item": "candy4", "prob": 70 },
       { "item": "cow_candy", "prob": 20 },
       { "item": "maltballs", "prob": 60 },
       { "item": "mintpatties", "prob": 60 },
       { "item": "neccowafers", "prob": 55 },
       { "item": "powder_candy", "prob": 50 },
       { "item": "candycigarette", "prob": 15 },
-      { "item": "maple_candy", "prob": 10 }
+      { "item": "maple_candy", "prob": 10 },
+      { "item": "candy_coated_peanuts", "prob": 50 }
     ]
   },
   {
@@ -529,7 +544,8 @@
       { "item": "pizza_veggy", "prob": 8 },
       { "item": "pizza_cheese", "prob": 8 },
       { "item": "pizza_meat", "prob": 8 },
-      { "item": "cheeseburger", "prob": 8 },
+      { "item": "cheeseburger", "prob": 4 },
+      { "item": "deluxe_cheeseburger", "prob": 6 },
       { "item": "hamburger", "prob": 8 },
       { "item": "tofu_rice", "prob": 4 },
       { "item": "fish_fried", "prob": 8 },
@@ -547,7 +563,8 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
-      { "item": "pie_maple", "prob": 9 }
+      { "item": "pie_maple", "prob": 9 },
+      { "item": "gelatin_dessert_processed", "prob": 40 }
     ]
   },
   {
@@ -558,6 +575,8 @@
       { "item": "milkshake", "prob": 15 },
       { "item": "milkshake_deluxe", "prob": 5 },
       { "item": "icecream", "prob": 10 },
+      { "item": "sundae_cup", "prob": 10 },
+      { "item": "frozen_lemonade", "prob": 5 },
       { "item": "milkshake_choc", "prob": 7 },
       { "item": "milkshake_deluxe_choc", "prob": 2 },
       { "item": "icecream_choc", "prob": 5 },
@@ -569,38 +588,6 @@
       { "item": "pie_veggy", "prob": 15 },
       { "item": "pie_meat", "prob": 15 },
       { "item": "pie_maple", "prob": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "MRE",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "mre_chilibeans_box" },
-      { "item": "mre_bbqbeef_box" },
-      { "item": "mre_chickennoodle_box" },
-      { "item": "mre_spaghetti_box" },
-      { "item": "mre_chicken_box" },
-      { "item": "mre_beeftaco_box" },
-      { "item": "mre_beef_box" },
-      { "item": "mre_meatball_box" },
-      { "item": "mre_beefstew_box" },
-      { "item": "mre_chilimac_box" },
-      { "item": "mre_veggy_box" },
-      { "item": "mre_macaronimarinara_box" },
-      { "item": "mre_sfettuccine_box" },
-      { "item": "mre_ratatouille_box" },
-      { "item": "mre_cheesetort_box" },
-      { "item": "mre_mushroomfettuccine_box" },
-      { "item": "mre_mexicanchickenstew_box" },
-      { "item": "mre_maplesausage_box" },
-      { "item": "mre_ravioli_box" },
-      { "item": "mre_hashbrownbacon_box" },
-      { "item": "mre_lemontuna_box" },
-      { "item": "mre_asianbeef_box" },
-      { "item": "mre_chickenpesto_box" },
-      { "item": "mre_southwestbeef_box" },
-      { "item": "mre_hotdog_box" }
     ]
   },
   {
@@ -635,6 +622,7 @@
     "entries": [
       { "item": "beer", "prob": 35 },
       { "item": "european_pilsner", "prob": 25 },
+      { "item": "drink_hard_seltzer", "prob": 25 },
       { "item": "pale_ale", "prob": 25 },
       { "item": "india_pale_ale", "prob": 25 },
       { "item": "stout", "prob": 15 },
@@ -717,11 +705,14 @@
       { "item": "glazed_tenderloin", "prob": 55 },
       { "item": "fish", "prob": 10 },
       { "item": "fish_smoked", "prob": 5 },
+      { "item": "crab_cakes", "prob": 10 },
+      { "item": "stuffed_clams", "prob": 5 },
       { "item": "meat_smoked", "prob": 60 },
       { "item": "sausage", "prob": 35 },
       { "item": "bratwurst_sausage", "prob": 30 },
       { "item": "hotdogs_frozen", "prob": 65 },
       { "item": "hotdogs_cooked", "prob": 65 },
+      { "item": "hotdogs_newyork", "prob": 45 },
       { "item": "chilidogs", "prob": 30 },
       { "item": "currywurst", "prob": 15 },
       { "item": "lettuce", "prob": 45 },
@@ -740,12 +731,49 @@
       { "group": "mustard_sealed_rng", "prob": 75 },
       { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 20 },
-      { "item": "cheeseburger", "prob": 30 },
+      { "item": "cheeseburger", "prob": 20 },
+      { "item": "deluxe_cheeseburger", "prob": 50 },
       { "item": "hamburger", "prob": 70 },
       { "item": "cheese", "prob": 45 },
       { "item": "ceramic_plate", "prob": 30 },
       { "item": "knife_steak", "prob": 45 },
       { "item": "tongs", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "food_vendor_cart_kitchen",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cheeseburger", "count": [ 0, 3 ] },
+      { "item": "deluxe_cheeseburger", "count": [ 0, 3 ] },
+      { "item": "hamburger", "count": [ 0, 3 ] },
+      { "item": "hamburger", "count": [ 0, 3 ] },
+      { "item": "sloppyjoe", "count": [ 0, 3 ] },
+      { "item": "fries", "count": [ 0, 3 ] },
+      { "item": "hotdogs_cooked", "count": [ 0, 3 ] },
+      { "item": "corndogs_cooked", "count": [ 0, 3 ] },
+      { "item": "bacon", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "food_vendor_cart_fridge",
+    "subtype": "collection",
+    "entries": [
+      { "item": "lemonade", "count": [ 0, 3 ] },
+      { "item": "cola", "count": [ 0, 3 ] },
+      { "item": "sports_drink", "count": [ 0, 3 ] },
+      { "item": "rootbeer", "count": [ 0, 3 ] },
+      { "item": "pickle", "count": [ 0, 3 ] },
+      { "item": "ketchup", "count": [ 0, 3 ], "charges": [ 10, 16 ] },
+      { "item": "mustard", "count": [ 0, 3 ], "charges": [ 10, 48 ] },
+      { "item": "mayonnaise", "count": [ 0, 3 ], "charges": [ 10, 16 ] },
+      { "item": "onion", "count": [ 0, 3 ] },
+      { "item": "chili_pepper", "count": [ 0, 3 ], "charges": [ 1, 3 ] },
+      { "item": "lettuce", "count": [ 0, 3 ], "charges": [ 5, 10 ] },
+      { "item": "tomato", "count": [ 0, 3 ] },
+      { "item": "cheese", "count": [ 0, 3 ], "charges": [ 4, 8 ] }
     ]
   },
   {
@@ -784,18 +812,22 @@
       { "item": "pepper", "prob": 20 },
       { "item": "meat_smoked", "prob": 4 },
       { "item": "fish_smoked", "prob": 4 },
-      { "item": "cheeseburger", "prob": 35 },
+      { "item": "cheeseburger", "prob": 20 },
+      { "item": "deluxe_cheeseburger", "prob": 60 },
       { "item": "hotdogs_frozen", "prob": 12 },
       { "item": "hotdogs_cooked", "prob": 35 },
       { "item": "foodplace_food", "prob": 8 },
       { "item": "chili", "prob": 20 },
       { "item": "chilidogs", "prob": 20 },
+      { "item": "hotdogs_newyork", "prob": 15 },
       { "item": "fries", "prob": 80 },
       { "item": "cheese_fries", "prob": 70 },
       { "item": "onion_rings", "prob": 80 },
       { "item": "hamburger", "prob": 30 },
       { "item": "fish_fried", "prob": 8 },
       { "item": "fish_sandwich", "prob": 8 },
+      { "item": "crab_cakes", "prob": 6 },
+      { "item": "stuffed_clams", "prob": 4 },
       { "item": "tofu_rice", "prob": 4 },
       { "item": "sloppyjoe", "prob": 8 },
       { "item": "bacon", "prob": 25 },

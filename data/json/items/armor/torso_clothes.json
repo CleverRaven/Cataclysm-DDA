@@ -3,7 +3,7 @@
     "id": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "leather apron" },
-    "description": "An apron made of thick leather.  Cumbersome, but offers excellent protection from cuts.",
+    "description": "An apron made of leather.",
     "weight": "1950 g",
     "volume": "2250 ml",
     "price": 1500,
@@ -13,16 +13,28 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "brown",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 70,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": [ 2, 2 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      }
     ],
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
   },
@@ -31,7 +43,7 @@
     "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "cut-resistant apron" },
-    "description": "An apron made of kevlar fabric which provides excellent protection from cuts.",
+    "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",
     "price": 3800,
     "material": [ "kevlar" ]
@@ -40,7 +52,7 @@
     "id": "blazer",
     "type": "ARMOR",
     "name": { "str": "blazer" },
-    "description": "A professional-looking wool blazer.  Quite cumbersome.",
+    "description": "A professional-looking wool blazer.",
     "weight": "680 g",
     "volume": "3500 ml",
     "price": 12000,
@@ -49,27 +61,44 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 85,
-    "encumbrance": 16,
-    "max_encumbrance": 20,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 16, 20 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 100
+      }
     ],
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   },
   {
     "id": "dress",
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "dress", "str_pl": "dresses" },
-    "description": "A long cotton dress.  Though comfortable to wear, it lacks any storage space.",
+    "description": "A long cotton dress.",
     "weight": "680 g",
     "volume": "3500 ml",
     "price": 18000,
@@ -79,12 +108,10 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 7,
     "warmth": 15,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "dress_shirt",
@@ -100,13 +127,21 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 4,
-    "max_encumbrance": 5,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -124,12 +159,10 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 45,
     "warmth": 30,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "flag_shirt",
@@ -145,11 +178,10 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "covers": [ "torso" ],
-    "coverage": 90,
     "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "flotation_vest",
@@ -167,12 +199,10 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 40,
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "flotation_vest_ms",
@@ -189,12 +219,10 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "gown",
@@ -210,19 +238,17 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 14,
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "halter_top",
     "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "halter top" },
-    "description": "A short top made from cotton.  It is light and easy to wear.",
+    "description": "A short top made from cotton.",
     "weight": "42 g",
     "volume": "500 ml",
     "price": 2000,
@@ -232,11 +258,10 @@
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "pink",
-    "covers": [ "torso" ],
-    "coverage": 25,
     "warmth": 2,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 25, "covers": [ "torso" ] } ]
   },
   {
     "id": "hoodie",
@@ -251,17 +276,21 @@
     "symbol": "[",
     "looks_like": "sweater",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 6,
-    "max_encumbrance": 12,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "36 cm",
+        "moves": 80
+      }
     ],
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   },
   {
@@ -270,7 +299,7 @@
     "type": "ARMOR",
     "name": { "str": "sports jersey" },
     "//": "Genuine team merch, and priced like it!",
-    "description": "A shirt made of thick material imprinted with the name and logo of a sports team.",
+    "description": "A shirt made of cotton, imprinted with the name and logo of a sports team.",
     "weight": "480 g",
     "volume": "2250 ml",
     "price": 8900,
@@ -279,58 +308,47 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "yellow",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 7,
     "warmth": 25,
-    "material_thickness": 3,
+    "material_thickness": 0.3,
     "snippet_category": [
-      {
-        "id": "decatur",
-        "text": "A pro thunderball jersey made of thick material imprinted with the logo of the Decatur Fist."
-      },
+      { "id": "decatur", "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist." },
       {
         "id": "squamish",
-        "text": "A 43-man squamish jersey made of thick material imprinted with the logo of the Gainesville Veeblefetzers."
+        "text": "A 43-man squamish jersey made of cotton, imprinted with the logo of the Gainesville Veeblefetzers."
       },
       {
         "id": "london",
-        "text": "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
+        "text": "A zero-G football jersey made of cotton, imprinted with the logo of the London Jets."
       },
       {
         "id": "endsville",
-        "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
+        "text": "A football jersey made of cotton, imprinted with the logo of the Endsville Fluffycats."
       },
-      {
-        "id": "tokyo",
-        "text": "A baseball jersey made of thick material imprinted with the logo of the Tokyo Samurai."
-      },
+      { "id": "tokyo", "text": "A baseball jersey made of cotton, imprinted with the logo of the Tokyo Samurai." },
       {
         "id": "basin",
-        "text": "A basketball jersey made of thick material imprinted with the logo of the Basin City Blues."
+        "text": "A basketball jersey made of cotton, imprinted with the logo of the Basin City Blues."
       },
       {
         "id": "deathrace",
-        "text": "A death race jersey made of thick material imprinted with Frankenstein's logo and signature."
+        "text": "A death race jersey made of cotton, imprinted with Frankenstein's logo and signature."
       },
       {
         "id": "houston",
-        "text": "A rollerball jersey made of thick material imprinted with the logo of the Houston Energy Corporation."
+        "text": "A rollerball jersey made of cotton, imprinted with the logo of the Houston Energy Corporation."
       },
       {
         "id": "monroeville",
-        "text": "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
+        "text": "A hockey jersey made of cotton, imprinted with the logo of the Monroeville Zombies."
       },
-      {
-        "id": "rugby",
-        "text": "A rugby jersey made of thick material imprinted with the logo of the Canberra Drop Bears."
-      },
+      { "id": "rugby", "text": "A rugby jersey made of cotton, imprinted with the logo of the Canberra Drop Bears." },
       {
         "id": "volleyball",
-        "text": "A volleyball jersey made of thick material imprinted with the logo of the Ooarai Ducks."
+        "text": "A volleyball jersey made of cotton, imprinted with the logo of the Ooarai Ducks."
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "leotard",
@@ -344,11 +362,10 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 55,
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "material_thickness": 0.01,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 55, "covers": [ "torso" ] } ]
   },
   {
     "id": "linuxtshirt",
@@ -364,11 +381,8 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 5,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "snippet_category": [
       {
         "id": "tux",
@@ -403,7 +417,8 @@
         "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "longshirt",
@@ -418,12 +433,10 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 3,
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "maid_dress",
@@ -439,17 +452,23 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 5,
-    "max_encumbrance": 7,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": [ 5, 7 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "10 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "polo_shirt",
@@ -465,12 +484,10 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 7,
     "warmth": 15,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "postman_shirt",
@@ -486,15 +503,26 @@
     "symbol": "[",
     "looks_like": "polo_shirt",
     "color": "light_blue",
-    "covers": [ "torso" ],
-    "coverage": 90,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "sheriffshirt",
@@ -510,13 +538,21 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 3,
-    "max_encumbrance": 5,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 3, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 3, 3 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -532,12 +568,12 @@
     "symbol": "[",
     "looks_like": "camisole",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
     ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -554,18 +590,16 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 5,
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "sundress",
     "type": "ARMOR",
     "name": { "str": "sundress", "str_pl": "sundresses" },
-    "description": "A light and breezy cotton dress.  Though cool and comfortable to wear, it lacks any storage space.",
+    "description": "A light and breezy cotton dress.",
     "weight": "60 g",
     "volume": "1 L",
     "price": 4000,
@@ -575,16 +609,15 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "yellow",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 65,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [ { "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "sweater",
     "type": "ARMOR",
     "name": { "str": "sweater" },
-    "description": "A wool shirt.  Provides warmth.",
+    "description": "A warm wool sweater.",
     "weight": "550 g",
     "volume": "2 L",
     "price": 4500,
@@ -593,20 +626,18 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 40,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "sweatshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "sweatshirt" },
-    "description": "A thick cotton shirt.  Provides warmth and a bit of padding.",
+    "description": "A thick cotton shirt.",
     "weight": "244 g",
     "volume": "3500 ml",
     "price": 1800,
@@ -615,13 +646,11 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_red",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "technician_shirt_gray",
@@ -629,7 +658,7 @@
     "type": "ARMOR",
     "name": { "str": "work t-shirt" },
     "description": "A gray work t-shirt with a small front pocket.",
-    "weight": "64 g",
+    "weight": "200 g",
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 50,
@@ -637,19 +666,24 @@
     "symbol": "[",
     "looks_like": "polo_shirt",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 4,
-    "max_encumbrance": 5,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 8,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "snippet_category": [
       { "id": "technician_shirt_blue", "text": "A blue work t-shirt with a small front pocket." },
       { "id": "technician_shirt_gray", "text": "A gray work t-shirt with a small front pocket." },
       { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "tshirt",
@@ -664,11 +698,10 @@
     "symbol": "[",
     "looks_like": "camisole",
     "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 90,
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "tshirt_text",
@@ -684,17 +717,16 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 90,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "snippet_category": [
       {
         "id": "allyourbase",
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "tshirt_tour",
@@ -756,20 +788,17 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 50,
-    "encumbrance": 4,
-    "max_encumbrance": 5,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 400 } ],
     "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather vest" },
-    "description": "A vest made from thick leather.  Offers excellent protection from cuts.",
+    "description": "A vest made from thick leather.",
     "weight": "997 g",
     "volume": "2500 ml",
     "price": 5500,
@@ -779,27 +808,41 @@
     "symbol": "[",
     "looks_like": "vest",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 4,
-    "max_encumbrance": 8,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 120
+      }
     ],
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 1.5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [ { "encumbrance": [ 4, 8 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "wool_hoodie",
     "type": "ARMOR",
     "name": { "str": "wool hoodie" },
-    "description": "A wool hooded shirt.  It offers decent protection against the cold.  The front pocket offers both storage room and shelter for your hands.",
+    "description": "A hooded wool shirt with a kangaroo pocket in the front.",
     "weight": "580 g",
     "volume": "3250 ml",
     "price": 3500,
@@ -808,17 +851,21 @@
     "symbol": "[",
     "looks_like": "hoodie",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 6,
-    "max_encumbrance": 12,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "36 cm",
+        "moves": 80
+      }
     ],
     "warmth": 45,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   }

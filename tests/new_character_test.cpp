@@ -1,17 +1,16 @@
-#include "catch/catch.hpp"
-
+#include <functional>
 #include <cstddef>
 #include <functional>
 #include <list>
 #include <memory>
 #include <set>
 #include <sstream>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
 #include "pimpl.h"
@@ -77,6 +76,15 @@ static avatar get_sanitized_player()
     return ret;
 }
 
+static int get_item_count( std::set<const item *> items )
+{
+    int sum = 0;
+    for( const item *it : items ) {
+        sum += it->count();
+    }
+    return sum;
+}
+
 struct failure {
     string_id<profession> prof;
     std::vector<trait_id> mut;
@@ -105,6 +113,7 @@ TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
+        trait_id( "ALBINO" ),
         trait_id( "ANTIFRUIT" ),
         trait_id( "ANTIJUNK" ),
         trait_id( "ANTIWHEAT" ),
@@ -138,9 +147,12 @@ TEST_CASE( "starting_items", "[slow]" )
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
+        CAPTURE( traits );
         for( const auto &pair : scen_prof_combos ) {
             set_scenario( pair.first );
+            INFO( "Scenario = " + pair.first->ident().str() );
             for( const string_id<profession> &prof : pair.second ) {
+                CAPTURE( prof );
                 player_character.prof = &prof.obj();
                 if( !try_set_traits( traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
@@ -154,18 +166,18 @@ TEST_CASE( "starting_items", "[slow]" )
 
                     player_character.add_profession_items();
                     std::set<const item *> items_visited;
-                    const auto visitable_counter = [&items_visited]( const item * it ) {
+                    const auto visitable_counter = [&items_visited]( const item * it, auto ) {
                         items_visited.emplace( it );
                         return VisitResponse::NEXT;
                     };
                     player_character.visit_items( visitable_counter );
                     player_character.inv->visit_items( visitable_counter );
-                    const int num_items_pre_migration = items_visited.size();
+                    const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 
                     player_character.migrate_items_to_storage( true );
                     player_character.visit_items( visitable_counter );
-                    const int num_items_post_migration = items_visited.size();
+                    const int num_items_post_migration = get_item_count( items_visited );
                     items_visited.clear();
 
                     if( num_items_pre_migration != num_items_post_migration ) {

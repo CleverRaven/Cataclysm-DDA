@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of 2-by-arm guards", "str_pl": "pairs of 2-by-arm guards" },
-    "description": "A pair of improvised arm guards made from broken pieces of a two by four that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
+    "description": "A pair of improvised arm guards made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
     "weight": "300 g",
     "volume": "1500 ml",
     "price": 500,
@@ -15,13 +15,11 @@
     "symbol": "[",
     "looks_like": "arm_splint",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 75,
-    "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armguard_chitin",
@@ -38,13 +36,11 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "green",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_chitin",
@@ -63,21 +59,22 @@
     "type": "ARMOR",
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 }
+    "relative": { "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of XL biosilicified chitin arm guards", "str_pl": "pairs of XL biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable and sized for the largest of survivors.",
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "relative": { "material_thickness": 1 },
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE", "NO_REPAIR" ]
   },
   {
     "id": "armguard_hard",
@@ -93,18 +90,16 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_hard",
     "type": "ARMOR",
-    "name": { "str": "pair of oversized hard arm guards", "str_pl": "pairs of oversized hard arm guards" },
+    "name": { "str": "pair of XL hard arm guards", "str_pl": "pairs of XL hard arm guards" },
     "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.  Epic sized.",
     "weight": "550 g",
     "volume": "4 L",
@@ -126,18 +121,16 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of gigantic leather arm guards", "str_pl": "pairs of gigantic leather arm guards" },
+    "name": { "str": "pair of XL leather arm guards", "str_pl": "pairs of XL leather arm guards" },
     "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
     "weight": "730 g",
     "volume": "3 L",
@@ -159,17 +152,15 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_lightplate",
     "type": "ARMOR",
-    "name": { "str": "pair of huge steel arm guards", "str_pl": "pairs of huge steel arm guards" },
+    "name": { "str": "pair of XL steel arm guards", "str_pl": "pairs of XL steel arm guards" },
     "description": "A full assembly of medieval arm protection, made for Jotun.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
     "weight": "3243 g",
     "volume": "7 L",
@@ -191,17 +182,16 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 15,
+    "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_metal",
     "type": "ARMOR",
-    "name": { "str": "pair of oversize metal arm guards", "str_pl": "pairs of oversize metal arm guards" },
+    "name": { "str": "pair of XL metal arm guards", "str_pl": "pairs of XL metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
     "weight": "1380 g",
     "volume": "3250 ml",
@@ -223,12 +213,30 @@
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "blue",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "improvised_armguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of improvised tire arm guards", "str_pl": "pairs of improvised tire arm guards" },
+    "description": "Arm guards made of thick chunks of tire held together with duct tape.",
+    "weight": "4800 g",
+    "volume": "4 L",
+    "price": 230,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "armguard_larmor",
+    "color": "blue",
+    "warmth": 5,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armguard_scrap",
@@ -247,22 +255,49 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 18,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_scrap",
     "type": "ARMOR",
-    "name": { "str": "pair of XL scrap armguards", "str_pl": "pairs of XL scrap armguards" },
+    "name": { "str": "pair of XL scrap arm guards", "str_pl": "pairs of XL scrap arm guards" },
     "description": "A pair of oversized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "3412 g",
     "volume": "6 L",
     "copy-from": "armguard_scrap",
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE" ]
+  },
+  {
+    "id": "armguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
+    "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "4750 ml",
+    "price": 20000,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "armguard_metal",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "xl_armguard_tire",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
+    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "copy-from": "armguard_scrap",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE", "NONCONDUCTIVE" ]
   },
   {
     "id": "armguard_soft",
@@ -279,13 +314,11 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "light_red",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 70,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 70, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_soft",
@@ -312,11 +345,9 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_chainmail_arms",
@@ -343,10 +374,9 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 30, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "vambrace_larmor",
@@ -363,13 +393,11 @@
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 50,
-    "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 8, "coverage": 50, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_vambrace_larmor",

@@ -245,6 +245,7 @@
     "id": "dodge",
     "name": { "str": "dodging" },
     "description": "Your ability to dodge an oncoming threat, be it an enemy's attack, a triggered trap, or a falling rock.  This skill is also used in attempts to fall gracefully, and for other acrobatic feats.  The first number shown includes modifiers, and the second does not.",
+    "tags": [ "combat_skill" ],
     "display_category": "display_melee",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 15 }, { "skill": "combat", "weight": 20 } ]
   },

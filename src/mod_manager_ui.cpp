@@ -1,12 +1,13 @@
+#include "mod_manager.h" // IWYU pragma: associated
+
 #include <algorithm>
+#include <exception>
 
 #include "color.h"
 #include "debug.h"
 #include "dependency_tree.h"
-#include "mod_manager.h" // IWYU pragma: associated
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -23,7 +24,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     std::string info;
 
     if( !mod->authors.empty() ) {
-        info += colorize( ngettext( "Author", "Authors", mod->authors.size() ),
+        info += colorize( n_gettext( "Author", "Authors", mod->authors.size() ),
                           c_light_blue ) + ": " + enumerate_as_string( mod->authors );
         if( mod->maintainers.empty() ) {
             info += "\n";
@@ -33,7 +34,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( !mod->maintainers.empty() ) {
-        info += colorize( ngettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
+        info += colorize( n_gettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
                           c_light_blue ) + u8":\u00a0"/*non-breaking space*/ + enumerate_as_string( mod->maintainers ) + "\n";
     }
 
@@ -46,7 +47,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
         } );
-        info += colorize( ngettext( "Dependency", "Dependencies", deps.size() ),
+        info += colorize( n_gettext( "Dependency", "Dependencies", deps.size() ),
                           c_light_blue ) + ": " + str + "\n";
     }
 

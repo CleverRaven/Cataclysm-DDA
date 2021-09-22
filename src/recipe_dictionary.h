@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -12,7 +13,6 @@
 #include <vector>
 
 #include "recipe.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -46,6 +46,7 @@ class recipe_dictionary
 
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
+        static void load_practice( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void check_consistency();
@@ -128,6 +129,7 @@ class recipe_subset
 
         enum class search_type : int {
             name,
+            exclude_name,
             skill,
             primary_skill,
             component,
@@ -136,6 +138,7 @@ class recipe_subset
             quality_result,
             description_result,
             proficiency,
+            difficulty,
         };
 
         /** Find marked favorite recipes */

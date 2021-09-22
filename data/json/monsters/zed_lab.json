@@ -25,11 +25,10 @@
     "dodge": 1,
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "CBM_SCI",
+    "harvest": "zombie",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
@@ -76,12 +75,16 @@
     "armor_cut": 6,
     "armor_bullet": 4,
     "armor_stab": 4,
+    "weakpoints": [
+      { "name": "the leg", "armor_mult": { "physical": 0 }, "coverage": 18 },
+      { "name": "the arm", "armor_mult": { "physical": 0 }, "coverage": 9 },
+      { "name": "the head", "armor_mult": { "physical": 0 }, "coverage": 4 }
+    ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 10 ], [ "scratch", 10 ] ],
     "death_drops": "mon_zombie_labsecurity_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -125,6 +128,12 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 10 },
+      { "name": "the arm", "armor_mult": { "physical": 0.5 }, "coverage": 5 },
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 20,
     "vision_night": 3,
     "luminance": 8,
@@ -139,7 +148,7 @@
       }
     ],
     "death_drops": "phase_zombie_death_drops",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY", "STUN_IMMUNE" ]
   },
   {
@@ -156,6 +165,12 @@
     "armor_bash": 40,
     "armor_cut": 40,
     "armor_bullet": 30,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0.25 }, "coverage": 4 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
+    ],
+    "bleed_rate": 50,
     "vision_night": 5,
     "luminance": 16,
     "special_attacks": [

@@ -2,8 +2,7 @@
 #ifndef CATA_SRC_MAP_ITEM_STACK_H
 #define CATA_SRC_MAP_ITEM_STACK_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "point.h"

@@ -1,71 +1,89 @@
-# Compilation guide for 64 bit Windows (using CYGWIN)
+# Compilation guide for 64 bit Windows (using Cygwin)
 
-This guide contains steps required to allow compilation of Cataclysm-DDA on Windows under CYGWIN.
+This guide contains instructions for compiling Cataclysm-DDA on Windows under Cygwin. **PLEASE NOTE:** These instructions *are not intended* to produce a redistributable copy of CDDA. Please download the official builds from the website or [cross-compile from Linux](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux) if that is your intention.
 
-Steps from current guide were tested on Windows 10 (64 bit) and CYGWIN (64 bit), but should work for other versions of Windows and also CYGWIN (32 bit) if you download 32 bit version of all files.
+These instructions were written using 64-bit Windows 7 and the 64-bit version of Cygwin; the steps should be the same for other versions of Windows.
+
+Due to slow environment setup and execution of the resulting binary, compilation using MSYS2 is preferred.
 
 ## Prerequisites:
 
-* Computer with 64 bit version of modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
-* NTFS partition with ~10 Gb free space (~2 Gb for CYGWIN installation, ~3 Gb for repository and ~5 Gb for ccache);
-* 64 bit version of CYGWIN (installer can be downloaded from [CYGWIN homepage](https://cygwin.com/));
+* 64-bit version of Windows 7, 8, 8.1, or 10
+* NTFS partition with ~10 Gb free space (~2 Gb for Cygwin installation, ~3 Gb for repository and ~5 Gb for ccache)
+* 64-bit version of Cygwin
 
 ## Installation:
 
-1. Go to [CYGWIN homepage](https://cygwin.com/) and download 64 bit installer (e.g. [setup-x86_64.exe](https://cygwin.com/setup-x86_64.exe).
+1. Go to the [Cygwin homepage](https://cygwin.com/) and download the 64-bit installer (e.g. [setup-x86_64.exe](https://cygwin.com/setup-x86_64.exe)).
 
-2. Run downloaded file and install CYGWIN (click `Next` button, select instalation source (e.g. `Install from Internet`), click `Next` button, specify directory where CYGWIN 64 bit will be installed (e.g. `C:\cygwin64`), select whether to install for all users or just you, click `Next` button again, select local package directory (e.g. `C:\Distr\Cygwin`), click `Next` button, select Internet connection settings, click `Next` button again, choose a download site from the list of available download sites,  click `Next` button again).
+2. Run downloaded file and install Cygwin. Select `Install from Internet` and select the desired installation directory. It is suggested that you install into a dev-specific directory (e.g. `C:\dev\cygwin64`), but it's not strictly necessary. Install for all users.
 
-3. After CYGWIN installation is complete select following packages and press `Next` button to download and install them:
+3. Give the `\downloads\` folder as the local package directory (e.g. `C:\dev\cygwin64\downloads`).
 
-* `wget`.
+4. Use system proxy settings unless you know you have a reason not to.
 
-4. System will tell you it will install following packages (you will install everything else later):
+5. On the next screen, select any mirror you like.
 
-```
-...
-```
+6. Enter `wget` into the search box, expand the "Web" category and select the latest version in the drop-down (1.21.1-1 as of the time this guide was written).
 
-5. Check boxes to add shortcuts to Start Menu and/or Desktop, then press `Finish` button.
+7. Confirm that wget is shown in the following screen by scrolling to the bottom. This is the full list of packages that Cygwin will download and install.
+
+8. Retry any packages that throw errors.
+
+9. Check boxes to add shortcuts to Start Menu and/or Desktop, then press `Finish` button.
 
 ## Configuration:
 
-1. Install `apt-cyg` for easier package installation with:
+1. Launch the Cygwin64 terminal from your desktop.
+
+2. Install `apt-cyg` for easier package installation:
 
 ```bash
 wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg -O /bin/apt-cyg
 chmod 755 /bin/apt-cyg
 ```
 
-2. Install packages required for compilation with:
+3. Install packages required for compilation:
 
 ```bash
-apt-cyg install git make astyle gcc-g++ libintl-devel libiconv-devel libSDL2_image-devel libSDL2_ttf-devel libSDL2_mixer-devel libncurses-devel xinit
+apt-cyg install astyle ccache gcc-g++ gettext-devel git libiconv-devel libintl-devel libSDL2_image-devel libSDL2_mixer-devel libSDL2_ttf-devel make xinit
 ```
+
+You will see messages saying packages are already installed, as well as Cygwin installing packages you didn't ask for; this is the result of Cygwin's package manager automatically resolving dependencies.
 
 ## Cloning and compilation:
 
-1. Clone Cataclysm-DDA repository with following command line:
+1. Clone the Cataclysm-DDA repository with following command:
 
-**Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+**Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
 ```bash
+cd /cygdrive/c/dev
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
 
-2. Compile with following command line:
+2. Compile:
 
 ```bash
-make CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
+make CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 RUNTESTS=0
 ```
 
-**Note**: This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `CYGWIN=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
+
+**Note**: This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `Cygwin=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
 
 ## Running:
 
-1. Run from within CYGWIN XWin Server (found in Start Menu) with following command line:
+1. Execute the XWin Server from the Start menu.
+
+2. When the icons appear in the system tray, right-click the one that looks like a black C (X Applications Menu.)
+
+3. Point to System Tools, then click UXTerm.
 
 ```bash
+cd /cygdrive/c/dev/Cataclysm-DDA
 ./cataclysm-tiles
 ```
+
+There is no functionality for running Cygwin-compiled CDDA from outside of UXTerm.

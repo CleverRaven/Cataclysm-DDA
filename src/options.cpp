@@ -3,9 +3,10 @@
 #include <clocale>
 #include <cfloat>
 #include <climits>
+#include <clocale>
 #include <iterator>
+#include <new>
 #include <stdexcept>
-#include <type_traits>
 
 #include "cached_options.h"
 #include "calendar.h"
@@ -13,7 +14,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -26,12 +27,13 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
 
@@ -45,13 +47,25 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+// Map from old option name to pair of <new option name and map of old option value to new option value>
+// Options and values not listed here will not be changed.
+static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>>
+&get_migrated_options()
+{
+    static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
+    = {
+        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
+        {"SKILL_RUST", { "SKILL_RUST", { {"int", "vanilla" }, {"intcap", "capped"} } } }
+    };
+    return opt;
+}
 
 options_manager &get_options()
 {
@@ -79,8 +93,6 @@ options_manager::options_manager() :
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
-
-    mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
 
     enable_json( "DEFAULT_REGION" );
     // to allow class based init_data functions to add values to a 'string' type option, add:
@@ -478,8 +490,8 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 #endif
 
-        case COPT_CURSES_HIDE:
-#if !defined(TILES) // If not defined.  it's curses interface.
+        case COPT_CURSES_HIDE: // NOLINT(bugprone-branch-clone)
+#if !defined(TILES) // If not defined, it's the curses interface.
             return true;
 #else
             return false;
@@ -852,17 +864,36 @@ void options_manager::cOpt::setValue( const std::string &sSetIn )
         bSet = sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t";
 
     } else if( sType == "int" ) {
-        iSet = atoi( sSetIn.c_str() );
+        // Some integer values are stored with a '%', e.g. "100%".
+        std::string without_percent = sSetIn;
+        if( string_ends_with( without_percent, "%" ) ) {
+            without_percent.erase( without_percent.end() - 1 );
+        }
+        ret_val<int> val = try_parse_integer<int>( without_percent, false );
 
-        if( iSet < iMin || iSet > iMax ) {
+        if( val.success() ) {
+            iSet = val.value();
+
+            if( iSet < iMin || iSet > iMax ) {
+                iSet = iDefault;
+            }
+        } else {
+            debugmsg( "Error parsing option as integer: %s", val.str() );
             iSet = iDefault;
         }
 
     } else if( sType == "int_map" ) {
-        iSet = atoi( sSetIn.c_str() );
+        ret_val<int> val = try_parse_integer<int>( sSetIn, false );
 
-        auto item = findInt( iSet );
-        if( !item ) {
+        if( val.success() ) {
+            iSet = val.value();
+
+            auto item = findInt( iSet );
+            if( !item ) {
+                iSet = iDefault;
+            }
+        } else {
+            debugmsg( "Error parsing option as integer: %s", val.str() );
             iSet = iDefault;
         }
 
@@ -893,9 +924,10 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
     resource_option.clear();
     const auto resource_dirs = get_directories_with( filename, dirname, true );
+    const std::string slash_filename = "/" + filename;
 
     for( const std::string &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
+        read_from_file( resource_dir + slash_filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -903,10 +935,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 std::string sOption;
                 fin >> sOption;
 
-                if( sOption.empty() ) {
-                    getline( fin, sOption );    // Empty line, chomp it
-                } else if( sOption[0] == '#' ) { // # indicates a comment
-                    getline( fin, sOption );
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );    // Empty line or comment, chomp it
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
                         resource_name.clear();
@@ -998,12 +1028,10 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
     const std::string start_str = locale_dir();
     std::vector<std::string> lang_dirs =
         get_directories_with( PATH_INFO::lang_file(), start_str, true );
-    const std::size_t start_len = start_str.length();
-    const std::string end_str = "/LC_MESSAGES";
     std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
-        const std::size_t start = dir.find( start_str ) + start_len + 1;
-        const std::size_t len = dir.rfind( end_str ) - start;
-        dir = dir.substr( start, len );
+        const std::size_t end = dir.rfind( "/LC_MESSAGES" );
+        const std::size_t begin = dir.rfind( '/', end - 1 ) + 1;
+        dir = dir.substr( begin, end - begin );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
 #else // !LOCALIZE
@@ -1019,16 +1047,28 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
         { "en", no_translation( R"(English)" ) },
+        { "ar", no_translation( R"(العربية)" )},
+        { "cs", no_translation( R"(Český Jazyk)" )},
+        { "da", no_translation( R"(Dansk)" )},
         { "de", no_translation( R"(Deutsch)" ) },
+        { "el", no_translation( R"(Ελληνικά)" )},
         { "es_AR", no_translation( R"(Español (Argentina))" ) },
         { "es_ES", no_translation( R"(Español (España))" ) },
         { "fr", no_translation( R"(Français)" ) },
         { "hu", no_translation( R"(Magyar)" ) },
+        { "id", no_translation( R"(Bahasa Indonesia)" )},
+        { "is", no_translation( R"(Íslenska)" )},
+        { "it_IT", no_translation( R"(Italiano)" )},
         { "ja", no_translation( R"(日本語)" ) },
         { "ko", no_translation( R"(한국어)" ) },
+        { "nb", no_translation( R"(Norsk)" )},
+        { "nl", no_translation( R"(Nederlands)" )},
         { "pl", no_translation( R"(Polski)" ) },
         { "pt_BR", no_translation( R"(Português (Brasil))" )},
         { "ru", no_translation( R"(Русский)" ) },
+        { "sr", no_translation( R"(Српски)" )},
+        { "tr", no_translation( R"(Türkçe)" )},
+        { "uk_UA", no_translation( R"(український)" )},
         { "zh_CN", no_translation( R"(中文 (天朝))" ) },
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
@@ -1387,6 +1427,16 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
+         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         false );
+    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
+         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
+       );
+
+    add_empty_line();
+
     add( "SDL_KEYBOARD_MODE", "interface", to_translation( "Use key code input mode" ),
          to_translation( "Use key code or symbol input on SDL.  "
                          "Symbol is recommended for non-qwerty layouts since currently "
@@ -1450,6 +1500,12 @@ void options_manager::add_options_interface()
         { "disable", to_translation( "Disable" ) }
     },
     "symbol"
+       );
+
+    add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
+         to_translation( "Highlight unread recipes" ),
+         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         true
        );
 
     add_empty_line();
@@ -1639,10 +1695,6 @@ void options_manager::add_options_interface()
          to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
        );
-    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
-         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
-         true
-       );
 
     add_empty_line();
 
@@ -1826,6 +1878,20 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
+         to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+
+    add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
+         to_translation( "Choose the overmap tileset you want to use." ),
+         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
@@ -1958,7 +2024,12 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
          to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
+    // Borderless window is bad for debugging in Visual Studio
+#if defined(_MSC_VER)
+    "maximized", COPT_CURSES_HIDE
+#else
     "windowedbl", COPT_CURSES_HIDE
+#endif
        );
 #endif
 
@@ -1970,9 +2041,18 @@ void options_manager::add_options_graphics()
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
+    std::string default_renderer = renderer_list.front().first;
+#   if defined(_WIN32)
+    for( const id_and_option &renderer : renderer_list ) {
+        if( renderer.first == "direct3d11" ) {
+            default_renderer = renderer.first;
+            break;
+        }
+    }
+#   endif
     add( "RENDERER", "graphics", to_translation( "Renderer" ),
          to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-         renderer_list.front().first, COPT_CURSES_HIDE );
+         default_renderer, COPT_CURSES_HIDE );
 #   endif
 
 #else
@@ -2035,13 +2115,6 @@ void options_manager::add_options_world_default()
         world_default_page_.items_.emplace_back();
     };
 
-    add( "CORE_VERSION", "world_default", to_translation( "Core version data" ),
-         to_translation( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
-    add_empty_line();
-
     add( "WORLD_END", "world_default", to_translation( "World end handling" ),
     to_translation( "Handling of game world when last character dies." ), {
         { "reset", to_translation( "Reset" ) }, { "delete", to_translation( "Delete" ) },
@@ -2064,11 +2137,6 @@ void options_manager::add_options_world_default()
     add( "SPAWN_DENSITY", "world_default", to_translation( "Spawn rate scaling factor" ),
          to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
          0.0, 50.0, 1.0, 0.1
-       );
-
-    add( "CARRION_SPAWNRATE", "world_default", to_translation( "Carrion spawn rate scaling factor" ),
-         to_translation( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
-         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
     add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
@@ -2209,18 +2277,14 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
+         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels - Capped: Skill rust cannot decrease levels - Off: None at all." ),
          //~ plain, default, normal
     {   { "vanilla", to_translation( "Vanilla" ) },
         //~ capped at a value
         { "capped", to_translation( "Capped" ) },
-        //~ based on intelligence
-        { "int", to_translation( "Int" ) },
-        //~ based on intelligence and capped
-        { "intcap", to_translation( "IntCap" ) },
         { "off", to_translation( "Off" ) }
     },
-    "off" );
+    "vanilla" );
 
     add_empty_line();
 
@@ -2235,11 +2299,6 @@ void options_manager::add_options_debug()
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
-
-    add( "ENCODING_CONV", "debug", to_translation( "Experimental path name encoding conversion" ),
-         to_translation( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
-         true
-       );
 }
 
 void options_manager::add_options_android()
@@ -2502,16 +2561,36 @@ void options_manager::add_options_android()
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                       /*precheck=*/false, /*force=*/false,
+                                       /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
+            use_tiles_overmap = false;
+        }
+        try {
+            overmap_tilecontext->reinit();
+            overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                               /*precheck=*/false, /*force=*/false,
+                                               /*pump_events=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+            overmap_tilecontext->do_tile_loading_report();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+            use_tiles = false;
+            use_tiles_overmap = false;
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
@@ -2594,7 +2673,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 4;
+    const int iTooltipHeight = 6;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
@@ -2758,9 +2837,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_width = projected_window_width();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
-                                      "%s #%s -- The window will be %d pixels wide with the selected value.",
-                                      new_window_width ),
+                            n_gettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
+                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
+                                       new_window_width ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_width );
@@ -2773,9 +2852,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_height = projected_window_height();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
-                                      "%s #%s -- The window will be %d pixels tall with the selected value.",
-                                      new_window_height ),
+                            n_gettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
+                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
+                                       new_window_height ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_height );
@@ -2788,7 +2867,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         }
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
-            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }
@@ -2999,12 +3078,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
-        int TERMX = ::get_option<int>( "TERMINAL_X" );
-        int TERMY = ::get_option<int>( "TERMINAL_Y" );
-        TERMX -= TERMX % scaling_factor;
-        TERMY -= TERMY % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
+        point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
+        TERM.x -= TERM.x % scaling_factor;
+        TERM.y -= TERM.y % scaling_factor;
+        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERM.x ) );
+        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERM.y ) );
         save();
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
@@ -3064,15 +3142,15 @@ void options_manager::deserialize( JsonIn &jsin )
 
 std::string options_manager::migrateOptionName( const std::string &name ) const
 {
-    const auto iter = mMigrateOption.find( name );
-    return iter != mMigrateOption.end() ? iter->second.first : name;
+    const auto iter = get_migrated_options().find( name );
+    return iter != get_migrated_options().end() ? iter->second.first : name;
 }
 
 std::string options_manager::migrateOptionValue( const std::string &name,
         const std::string &val ) const
 {
-    const auto iter = mMigrateOption.find( name );
-    if( iter == mMigrateOption.end() ) {
+    const auto iter = get_migrated_options().find( name );
+    if( iter == get_migrated_options().end() ) {
         return val;
     }
 
@@ -3085,6 +3163,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
@@ -3115,7 +3194,6 @@ void options_manager::load()
     } );
 
     update_global_locale();
-
     update_options_cache();
 
 #if defined(SDL_SOUND)
@@ -3178,8 +3256,16 @@ void options_manager::update_global_locale()
     try {
         if( lang == "en" ) {
             std::locale::global( std::locale( "en_US.UTF-8" ) );
+        } else if( lang == "ar" ) {
+            std::locale::global( std::locale( "ar_SA.UTF-8" ) );
+        } else if( lang == "cs" ) {
+            std::locale::global( std::locale( "cs_CZ.UTF-8" ) );
+        } else if( lang == "da" ) {
+            std::locale::global( std::locale( "da_DK.UTF-8" ) );
         } else if( lang == "de" ) {
             std::locale::global( std::locale( "de_DE.UTF-8" ) );
+        } else if( lang == "el" ) {
+            std::locale::global( std::locale( "el_GR.UTF-8" ) );
         } else if( lang == "es_AR" ) {
             std::locale::global( std::locale( "es_AR.UTF-8" ) );
         } else if( lang == "es_ES" ) {
@@ -3188,16 +3274,32 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "fr_FR.UTF-8" ) );
         } else if( lang == "hu" ) {
             std::locale::global( std::locale( "hu_HU.UTF-8" ) );
+        } else if( lang == "id" ) {
+            std::locale::global( std::locale( "id_ID.UTF-8" ) );
+        } else if( lang == "is" ) {
+            std::locale::global( std::locale( "is_IS.UTF-8" ) );
+        } else if( lang == "it_IT" ) {
+            std::locale::global( std::locale( "it_IT.UTF-8" ) );
         } else if( lang == "ja" ) {
             std::locale::global( std::locale( "ja_JP.UTF-8" ) );
         } else if( lang == "ko" ) {
             std::locale::global( std::locale( "ko_KR.UTF-8" ) );
+        } else if( lang == "nb" ) {
+            std::locale::global( std::locale( "no_NO.UTF-8" ) );
+        } else if( lang == "nl" ) {
+            std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
+        } else if( lang == "sr" ) {
+            std::locale::global( std::locale( "sr_CS.UTF-8" ) );
+        } else if( lang == "tr" ) {
+            std::locale::global( std::locale( "tr_TR.UTF-8" ) );
+        } else if( lang == "uk_UA" ) {
+            std::locale::global( std::locale( "uk_UA.UTF-8" ) );
         } else if( lang == "zh_CN" ) {
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {

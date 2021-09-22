@@ -7,14 +7,14 @@
     "weight": "4 g",
     "volume": "1 ml",
     "price": 5000,
+    "price_postapoc": "20 USD",
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "abstract": "mring_silver",
@@ -24,14 +24,14 @@
     "weight": "5 g",
     "volume": "1 ml",
     "price": 5000,
+    "price_postapoc": "20 USD",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "abstract": "mring_gold",
@@ -41,14 +41,14 @@
     "weight": "9 g",
     "volume": "1 ml",
     "price": 5000,
+    "price_postapoc": "20 USD",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "abstract": "mring_platinum",
@@ -58,14 +58,14 @@
     "weight": "11 g",
     "volume": "1 ml",
     "price": 5000,
+    "price_postapoc": "20 USD",
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "copy-from": "mring_copper",
@@ -73,12 +73,14 @@
     "id": "mring_wizardry_minor",
     "name": { "str": "minor ring of wizardry", "str_pl": "minor rings of wizardry" },
     "description": "A thin copper band ring, engraved with a single sealed scroll.  Increases mana capacity slightly.",
+    "price_postapoc": "1000 USD",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 200 } ] } ] }
   },
   {
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_wizardry_lesser",
+    "price_postapoc": "2000 USD",
     "name": { "str": "lesser ring of wizardry", "str_pl": "lesser rings of wizardry" },
     "description": "A thin silver band ring, engraved with two sealed scrolls.  Increases mana capacity somewhat.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
@@ -88,6 +90,7 @@
     "type": "TOOL_ARMOR",
     "id": "mring_wizardry_moderate",
     "name": { "str": "ring of wizardry", "str_pl": "rings of wizardry" },
+    "price_postapoc": "4000 USD",
     "description": "A thin gold band ring, engraved with a bound book.  Increases mana capacity moderately.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 800 } ] } ] }
   },
@@ -96,6 +99,7 @@
     "type": "TOOL_ARMOR",
     "id": "mring_wizardry_greater",
     "name": { "str": "greater ring of wizardry", "str_pl": "greater rings of wizardry" },
+    "price_postapoc": "8000 USD",
     "description": "A thin platinum band ring, engraved with two bound books.  Increases mana capacity greatly.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 1200 } ] } ] }
   },
@@ -104,6 +108,7 @@
     "type": "TOOL_ARMOR",
     "id": "mring_blades_lesser",
     "name": { "str": "ring of blades", "str_pl": "rings of blades" },
+    "price_postapoc": "1500 USD",
     "description": "An ornate silver ring engraved with daggers that conjures a near perfect throwing knife into your hand on activation.",
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade1", "no_fail": true, "level": 1, "need_worn": true },
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -116,6 +121,7 @@
     "type": "TOOL_ARMOR",
     "id": "mring_dodge_bonus_1",
     "name": "eel ring",
+    "price_postapoc": "1500 USD",
     "description": "A thin silver band ring, depicting an eel coiled on itself.  Allows you to dodge an extra attack per turn.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
   },
@@ -123,6 +129,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_dodge_bonus_2",
+    "price_postapoc": "3000 USD",
     "name": { "str": "bicephalous eel ring" },
     "description": "A thin gold band ring, depicting a bicephalous eel coiled on itself.  Allows you to dodge two extra attacks per turn.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
@@ -131,6 +138,7 @@
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_strength_1",
+    "price_postapoc": "1000 USD",
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
     "description": "A copper ring that makes you a little stronger when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] }
@@ -139,6 +147,7 @@
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_strength_2",
+    "price_postapoc": "2000 USD",
     "name": { "str": "ring of strength +2", "str_pl": "rings of strength +2" },
     "description": "A silver ring that makes you a good bit stronger when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
@@ -147,6 +156,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_strength_3",
+    "price_postapoc": "4000 USD",
     "name": { "str": "ring of strength +3", "str_pl": "rings of strength +3" },
     "description": "A golden ring that makes you surprisingly stronger when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 3 } ] } ] }
@@ -155,6 +165,7 @@
     "copy-from": "mring_platinum",
     "type": "TOOL_ARMOR",
     "id": "mring_strength_4",
+    "price_postapoc": "6000 USD",
     "name": { "str": "ring of strength +4", "str_pl": "rings of strength +4" },
     "description": "A platinum ring that makes you much stronger when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 4 } ] } ] }
@@ -163,6 +174,7 @@
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_dexterity_1",
+    "price_postapoc": "1000 USD",
     "name": { "str": "ring of dexterity +1", "str_pl": "rings of dexterity +1" },
     "description": "A copper ring that makes you a little more agile when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ] }
@@ -171,6 +183,7 @@
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_dexterity_2",
+    "price_postapoc": "2000 USD",
     "name": { "str": "ring of dexterity +2", "str_pl": "rings of dexterity +2" },
     "description": "A silver ring that makes you a good bit more agile when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ] }
@@ -179,6 +192,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_dexterity_3",
+    "price_postapoc": "4000 USD",
     "name": { "str": "ring of dexterity +3", "str_pl": "rings of dexterity +3" },
     "description": "A golden ring that makes you surprisingly more agile when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 3 } ] } ] }
@@ -187,6 +201,7 @@
     "copy-from": "mring_platinum",
     "type": "TOOL_ARMOR",
     "id": "mring_dexterity_4",
+    "price_postapoc": "6000 USD",
     "name": { "str": "ring of dexterity +4", "str_pl": "rings of dexterity +4" },
     "description": "A platinum ring that makes you much more agile when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 4 } ] } ] }
@@ -195,6 +210,7 @@
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_intelligence_1",
+    "price_postapoc": "1000 USD",
     "name": { "str": "ring of intelligence +1", "str_pl": "rings of intelligence +1" },
     "description": "A copper ring that makes you a little more intelligent when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ] }
@@ -203,6 +219,7 @@
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_intelligence_2",
+    "price_postapoc": "2000 USD",
     "name": { "str": "ring of intelligence +2", "str_pl": "rings of intelligence +2" },
     "description": "A silver ring that makes you a good bit more intelligent when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ] }
@@ -211,6 +228,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_intelligence_3",
+    "price_postapoc": "4000 USD",
     "name": { "str": "ring of intelligence +3", "str_pl": "rings of intelligence +3" },
     "description": "A golden ring that makes you surprisingly more intelligent when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 3 } ] } ] }
@@ -219,6 +237,7 @@
     "copy-from": "mring_platinum",
     "type": "TOOL_ARMOR",
     "id": "mring_intelligence_4",
+    "price_postapoc": "6000 USD",
     "name": { "str": "ring of intelligence +4", "str_pl": "rings of intelligence +4" },
     "description": "A platinum ring that makes you much more intelligent when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ] }
@@ -227,6 +246,7 @@
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_perception_1",
+    "price_postapoc": "1000 USD",
     "name": { "str": "ring of perception +1", "str_pl": "rings of perception +1" },
     "description": "A copper ring that makes you a little more perceptive when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ] }
@@ -235,6 +255,7 @@
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_perception_2",
+    "price_postapoc": "2000 USD",
     "name": { "str": "ring of perception +2", "str_pl": "rings of perception +2" },
     "description": "A silver ring that makes you a good bit more perceptive when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ] }
@@ -243,6 +264,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_perception_3",
+    "price_postapoc": "4000 USD",
     "name": { "str": "ring of perception +3", "str_pl": "rings of perception +3" },
     "description": "A golden ring that makes you eye-openingly more perceptive when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 3 } ] } ] }
@@ -251,6 +273,7 @@
     "copy-from": "mring_platinum",
     "type": "TOOL_ARMOR",
     "id": "mring_perception_4",
+    "price_postapoc": "6000 USD",
     "name": { "str": "ring of perception +4", "str_pl": "rings of perception +4" },
     "description": "A platinum ring that makes you much more perceptive when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 4 } ] } ] }
@@ -259,6 +282,7 @@
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_speed_3",
+    "price_postapoc": "1700 USD",
     "name": { "str": "ring of speed +3", "str_pl": "rings of speed +3" },
     "description": "A copper ring that makes you a little faster when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 3 } ] } ] }
@@ -267,6 +291,7 @@
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_speed_5",
+    "price_postapoc": "2500 USD",
     "name": { "str": "ring of speed +5", "str_pl": "rings of speed +5" },
     "description": "A silver ring that makes you a good bit faster when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 5 } ] } ] }
@@ -275,6 +300,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_speed_7",
+    "price_postapoc": "5000 USD",
     "name": { "str": "ring of speed +7", "str_pl": "rings of speed +7" },
     "description": "A golden ring that makes you quite hasty when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 7 } ] } ] }
@@ -283,6 +309,7 @@
     "copy-from": "mring_platinum",
     "type": "TOOL_ARMOR",
     "id": "mring_speed_10",
+    "price_postapoc": "8000 USD",
     "name": { "str": "ring of speed +10", "str_pl": "rings of speed +10" },
     "description": "A platinum ring that makes you much faster when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] } ] }
@@ -291,6 +318,7 @@
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_protection_2",
+    "price_postapoc": "1000 USD",
     "name": { "str": "ring of protection +2", "str_pl": "rings of protection +2" },
     "description": "A copper ring that reduces some of the force of damage you take when you wear it.",
     "relic_data": {
@@ -312,6 +340,7 @@
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_protection_4",
+    "price_postapoc": "2000 USD",
     "name": { "str": "ring of protection +4", "str_pl": "rings of protection +4" },
     "description": "A silver ring that appreciably reduces some of the force of damage you take when you wear it.",
     "relic_data": {
@@ -333,6 +362,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_protection_6",
+    "price_postapoc": "4000 USD",
     "name": { "str": "ring of protection +6", "str_pl": "rings of protection +6" },
     "description": "A golden ring that greatly reduces some of the force of damage you take when you wear it.",
     "relic_data": {
@@ -354,6 +384,7 @@
     "copy-from": "mring_platinum",
     "type": "TOOL_ARMOR",
     "id": "mring_protection_8",
+    "price_postapoc": "8000 USD",
     "name": { "str": "ring of protection +8", "str_pl": "rings of protection +8" },
     "description": "A platinum ring that vastly reduces some of the force of damage you take when you wear it.",
     "relic_data": {
@@ -370,5 +401,51 @@
         }
       ]
     }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mring_platinum",
+    "id": "storage_ring_lesser",
+    "name": { "str": "lesser storage ring" },
+    "price": "3000 USD",
+    "longest_side": "2 cm",
+    "price_postapoc": "1000 USD",
+    "description": "A glistening ring holding a small dimensional space inside.  Can store only a little but you can draw items instantly.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "35 cm",
+        "moves": 1,
+        "holster": true,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mring_platinum",
+    "id": "storage_ring_greater",
+    "name": { "str": "greater storage ring" },
+    "price": "9000 USD",
+    "longest_side": "2 cm",
+    "price_postapoc": "1750 USD",
+    "description": "A glistening ring holding a small dimensional space inside.  Capable of storing a medium-sized weapon you can draw instantly.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "100 cm",
+        "moves": 1,
+        "holster": true,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
   }
 ]

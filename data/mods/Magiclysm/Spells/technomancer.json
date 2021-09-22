@@ -15,13 +15,13 @@
     "energy_source": "MANA",
     "spell_class": "TECHNOMANCER",
     "difficulty": 1,
-    "max_level": 10,
+    "max_level": 20,
     "min_aoe": 0,
     "max_aoe": 5,
-    "aoe_increment": 0.1,
+    "aoe_increment": 0.2,
     "min_range": 1,
     "max_range": 10,
-    "range_increment": 2.0,
+    "range_increment": 1.0,
     "//": "duration is in moves",
     "min_duration": 6000,
     "max_duration": 10000,
@@ -60,13 +60,13 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "longsword",
+    "effect_str": "longsword_holy",
     "shape": "blast",
     "base_casting_time": 350,
     "base_energy_cost": 375,
-    "min_duration": 3000,
-    "max_duration": 9000,
-    "duration_increment": 3000,
+    "min_duration": 6000,
+    "max_duration": 60000,
+    "duration_increment": 4000,
     "difficulty": 5,
     "max_level": 20,
     "spell_class": "TECHNOMANCER",
@@ -84,7 +84,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "armor_lightplate",
+    "effect_str": "armor_spirit",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
@@ -92,9 +92,9 @@
     "max_level": 20,
     "base_casting_time": 350,
     "base_energy_cost": 375,
-    "min_duration": 3000,
-    "max_duration": 9000,
-    "duration_increment": 3000
+    "min_duration": 6000,
+    "max_duration": 60000,
+    "duration_increment": 4000
   },
   {
     "id": "create_atomic_lamp",
@@ -118,7 +118,7 @@
     "base_energy_cost": 750,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 2000
+    "duration_increment": 45000
   },
   {
     "id": "recover_bionic_power",
@@ -133,7 +133,7 @@
     "base_energy_cost": 250,
     "energy_increment": 50.0,
     "final_energy_cost": 15000,
-    "max_level": 10,
+    "max_level": 25,
     "spell_class": "TECHNOMANCER",
     "effect": "recover_energy",
     "effect_str": "BIONIC",
@@ -198,7 +198,7 @@
     "description": "This spell manipulates some quantum something or other to tunnel you through a short distance of space, and even matter, unfortunately there's that whole uncertainty thing as to where you come out.  It leaves you a little dazed on the other side as you reorient yourself.",
     "valid_targets": [ "none" ],
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT" ],
-    "effect": "teleport_random",
+    "effect": "short_range_teleport",
     "effect_str": "dazed",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
@@ -380,7 +380,7 @@
     "range_increment": 1,
     "min_duration": 400000,
     "max_duration": 9600000,
-    "duration_increment": 200
+    "duration_increment": 460000
   },
   {
     "id": "summon_magic_motorcycle",
@@ -401,9 +401,10 @@
     "min_range": 1,
     "max_range": 10,
     "range_increment": 1,
-    "min_duration": 400000,
-    "max_duration": 9600000,
-    "duration_increment": 200
+    "//": "40 minutes + 10 minutes / level; 4 hours at max level",
+    "min_duration": 240000,
+    "max_duration": 1440000,
+    "duration_increment": 60000
   },
   {
     "id": "overcharge_burn",

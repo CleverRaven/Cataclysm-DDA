@@ -3,19 +3,25 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstddef>
+#include <cstdlib>
 #include <limits>
+#include <string>
 
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "line.h"
+#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
+#include "units_utility.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-static constexpr double moonlight_per_quarter = 2.25;
+static constexpr double moonlight_per_quarter = 1.5;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -24,37 +30,16 @@ const time_duration calendar::INDEFINITELY_LONG_DURATION(
 static bool is_eternal_season = false;
 static int cur_season_length = 1;
 
-const time_point calendar::before_time_starts = time_point::from_turn( -1 );
-const time_point calendar::turn_zero = time_point::from_turn( 0 );
-
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
 time_point calendar::start_of_game = calendar::turn_zero;
 time_point calendar::turn = calendar::turn_zero;
 season_type calendar::initial_season = SPRING;
 
-// Internal constants, not part of the calendar interface.
-// Times for sunrise, sunset at equinoxes
-
-/** Hour of sunrise at winter solstice */
-static constexpr int sunrise_winter = 7;
-
-/** Hour of sunrise at summer solstice */
-static constexpr int sunrise_summer = 5;
-
-/** Hour of sunrise at fall and spring equinox */
-static constexpr int sunrise_equinox = ( sunrise_summer + sunrise_winter ) / 2;
-
-/** Hour of sunset at winter solstice */
-static constexpr int sunset_winter = 17;
-
-/** Hour of sunset at summer solstice */
-static constexpr int sunset_summer = 21;
-
-/** Hour of sunset at fall and spring equinox */
-static constexpr int sunset_equinox = ( sunset_summer + sunset_winter ) / 2;
-
-// How long, does sunrise/sunset last?
-static const time_duration twilight_duration = 1_hours;
+// The solar altitudes at which light changes in various ways
+static constexpr units::angle astronomical_dawn = -18_degrees;
+static constexpr units::angle nautical_dawn = -12_degrees;
+static constexpr units::angle civil_dawn = -6_degrees;
+static constexpr units::angle sunrise_angle = -1_degrees;
 
 double default_daylight_level()
 {
@@ -83,8 +68,7 @@ std::string enum_to_string<moon_phase>( moon_phase phase_num )
         case moon_phase::MOON_WANING_GIBBOUS: return "MOON_WANING_GIBBOUS";
         case moon_phase::MOON_PHASE_MAX: break;
     }
-    debugmsg( "Invalid moon_phase %d", phase_num );
-    abort();
+    cata_fatal( "Invalid moon_phase %d", phase_num );
 }
 // *INDENT-ON*
 } // namespace io
@@ -101,147 +85,306 @@ moon_phase get_moon_phase( const time_point &p )
     return static_cast<moon_phase>( current_phase );
 }
 
-// TODO: Refactor sunrise / sunset
-// The only difference between them is the start_hours array
+static constexpr time_duration angle_to_time( const units::angle a )
+{
+    return a / 15.0_degrees * 1_hours;
+}
+
+// To support the eternal season option we create a strong typedef of timepoint
+// which is a solar_effective_time.  This converts a regular time to a time
+// which would be relevant for sun position calculations.  Normally the two
+// times are the same, but when eternal seasons are used the effective time is
+// always set to the same day, so that the sun position doesn't change from day
+// to day.
+struct solar_effective_time {
+    explicit solar_effective_time( const time_point &t_ )
+        : t( t_ ) {
+        if( calendar::eternal_season() ) {
+            const time_point start_midnight =
+                calendar::start_of_game - time_past_midnight( calendar::start_of_game );
+            t = start_midnight + time_past_midnight( t_ );
+        }
+    }
+    time_point t;
+};
+
+static std::pair<units::angle, units::angle> sun_ra_declination(
+    solar_effective_time t, time_duration timezone )
+{
+    // This derivation is mostly from
+    // https://en.wikipedia.org/wiki/Position_of_the_Sun
+    // https://en.wikipedia.org/wiki/Celestial_coordinate_system#Notes_on_conversion
+
+    // The computation is inspired by the derivation based on J2000 (Greenwich
+    // noon, 2000-01-01), but because we want to be capable of handling a
+    // different year length than the real Earth, we don't use the same exact
+    // values.
+    // Instead we use as our epoch a point that won't change arbitrarily with a
+    // different year length - Greenwich midnight on the vernal equinox
+    // (note that the vernal equinox happens to be Spring day 1 in the game
+    // calendar, which is convenient).
+    const double days_since_epoch = to_days<double>( t.t - calendar::turn_zero - timezone );
+
+    // The angle per day the Earth moves around the Sun
+    const units::angle angle_per_day = 360_degrees / to_days<int>( calendar::year_length() );
+
+    // It turns out that we want mean longitude to be zero at the vernal
+    // equinox, which simplifies the calculations.
+    const units::angle mean_long = angle_per_day * days_since_epoch;
+    // Roughly 77 degrees offset between mean longitude and mean anomaly at
+    // J2000, so use that as our offset too.  The relative drift is slow, so we
+    // neglect it.
+    const units::angle mean_anomaly = 77_degrees + mean_long;
+    // The two arbitrary constants in the caclulation of ecliptic longitude
+    // relate to the non-circularity of the Earth's orbit.
+    const units::angle ecliptic_longitude =
+        mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
+
+    // Obliquity does vary slightly, but for simplicity we'll keep it fixed at
+    // its J2000 value.
+    static constexpr units::angle obliquity = 23.439279_degrees;
+
+    // ecliptic rectangular coordinates
+    const rl_vec2d eclip( cos( ecliptic_longitude ), sin( ecliptic_longitude ) );
+    // rotate to equatorial coordinates
+    const rl_vec3d rot( eclip.x, eclip.y * cos( obliquity ), eclip.y * sin( obliquity ) );
+    const units::angle right_ascension = atan2( rot.xy() );
+    const units::angle declination = units::asin( rot.z );
+    return { right_ascension, declination };
+}
+
+static units::angle sidereal_time_at( solar_effective_time t, units::angle longitude,
+                                      time_duration timezone )
+{
+    // Repeat some calculations from sun_ra_declination
+    const double days_since_epoch = to_days<double>( t.t - calendar::turn_zero - timezone );
+    const units::angle angle_per_day = 360_degrees / to_days<int>( calendar::year_length() );
+
+    // Sidereal Time
+    //
+    // For the origin of sidereal time consider that at the epoch at Greenwich,
+    // it's midnight on the vernal equinox so sidereal time should be 180°.
+    // Timezone and longitude are both zero here, so L0 = 180°.
+    const units::angle L0 = 180_degrees;
+    // Sidereal time advances by 360° per day plus an additional 360° per year
+    const units::angle L1 = 360_degrees + angle_per_day;
+    return L0 + L1 * days_since_epoch + longitude;
+}
+
+std::pair<units::angle, units::angle> sun_azimuth_altitude(
+    time_point ti )
+{
+    const solar_effective_time t = solar_effective_time( ti );
+    const lat_long location = location_boston;
+    units::angle right_ascension;
+    units::angle declination;
+    time_duration timezone = angle_to_time( location.longitude );
+    std::tie( right_ascension, declination ) = sun_ra_declination( t, timezone );
+    const units::angle sidereal_time = sidereal_time_at( t, location.longitude, timezone );
+
+    const units::angle hour_angle = sidereal_time - right_ascension;
+
+    // Use a two-step transformation to convert equatorial coordinates to
+    // horizontal.
+    // https://en.wikipedia.org/wiki/Celestial_coordinate_system#Equatorial_%E2%86%94_horizontal
+    const rl_vec3d intermediate(
+        cos( hour_angle ) * cos( declination ),
+        sin( hour_angle ) * cos( declination ),
+        sin( declination ) );
+
+    const rl_vec3d horizontal(
+        -intermediate.x * sin( location.latitude ) +
+        intermediate.z * cos( location.latitude ),
+        intermediate.y,
+        intermediate.x * cos( location.latitude ) +
+        intermediate.z * sin( location.latitude )
+    );
+
+    // Azimuth is from the South, turning positive to the west
+    const units::angle azimuth = normalize( -atan2( horizontal.xy() ) + 180_degrees );
+    const units::angle altitude = units::asin( horizontal.z );
+
+    /*printf(
+        "\n"
+        "right_ascension = %f, declination = %f\n"
+        "sidereal_time = %f, hour_angle = %f\n"
+        "aziumth = %f, altitude = %f\n",
+        to_degrees( right_ascension ), to_degrees( declination ),
+        to_degrees( sidereal_time ), to_degrees( hour_angle ),
+        to_degrees( azimuth ), to_degrees( altitude ) );*/
+
+    return std::make_pair( azimuth, altitude );
+}
+
+static units::angle sun_altitude( time_point t )
+{
+    return sun_azimuth_altitude( t ).second;
+}
+
+cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
+{
+    units::angle azimuth;
+    units::angle altitude;
+    std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
+    if( altitude <= sunrise_angle ) {
+        // Sun below horizon
+        return cata::nullopt;
+    }
+    rl_vec2d horizontal_direction( -sin( azimuth ), cos( azimuth ) );
+    rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );
+    direction /= -direction.z;
+    return direction.xy();
+}
+
+static time_point solar_noon_near( const time_point &t )
+{
+    const time_point prior_midnight = t - time_past_midnight( t );
+    return prior_midnight + 12_hours;
+    // If we were using a timezone rather than local solar time this would be
+    // calculated as follows:
+    //constexpr time_duration longitude_hours = angle_to_time( location_boston.longitude );
+    //return prior_midnight + 12_hours - longitude_hours + timezone;
+}
+
+static units::angle offset_to_sun_altitude(
+    const units::angle altitude, const units::angle longitude,
+    const solar_effective_time approx_time, const bool evening )
+{
+    units::angle ra;
+    units::angle declination;
+    time_duration timezone = angle_to_time( longitude );
+    std::tie( ra, declination ) = sun_ra_declination( approx_time, timezone );
+    double cos_hour_angle =
+        ( sin( altitude ) - sin( location_boston.latitude ) * sin( declination ) ) /
+        cos( location_boston.latitude ) / cos( declination );
+    if( std::abs( cos_hour_angle ) > 1 ) {
+        // It doesn't actually reach that angle, so we pretend that it does at
+        // its maximum possible angle
+        cos_hour_angle = cos_hour_angle > 0 ? 1 : -1;
+    }
+    units::angle hour_angle = units::acos( cos_hour_angle );
+    if( !evening ) {
+        hour_angle = -hour_angle;
+    }
+    const units::angle target_sidereal_time = hour_angle + ra;
+    const units::angle sidereal_time_at_approx_time =
+        sidereal_time_at( approx_time, location_boston.longitude, timezone );
+    return normalize( target_sidereal_time - sidereal_time_at_approx_time );
+}
+
+static time_point sun_at_altitude( const units::angle altitude, const units::angle longitude,
+                                   const time_point t, const bool evening )
+{
+    const time_point solar_noon = solar_noon_near( t );
+    units::angle initial_offset =
+        offset_to_sun_altitude( altitude, longitude, solar_effective_time( solar_noon ), evening );
+    if( !evening ) {
+        initial_offset -= 360_degrees;
+    }
+    const time_duration initial_offset_time = angle_to_time( initial_offset );
+    const time_point initial_approximation = solar_noon + initial_offset_time;
+    // Now we should have the correct time to within a few minutes; iterate to
+    // get a more precise estimate
+    units::angle correction_offset =
+        offset_to_sun_altitude( altitude, longitude, solar_effective_time( initial_approximation ),
+                                evening );
+    if( correction_offset > 180_degrees ) {
+        correction_offset -= 360_degrees;
+    }
+    const time_duration correction_offset_time = angle_to_time( correction_offset );
+    return initial_approximation + correction_offset_time;
+}
+
 time_point sunrise( const time_point &p )
 {
-    static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
-
-    static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
-    const size_t season = static_cast<size_t>( season_of_year( p ) );
-    cata_assert( season < start_hours.size() );
-
-    const double start_hour = start_hours[season];
-    const double end_hour = start_hours[( season + 1 ) % 4];
-
-    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
-                              ( calendar::season_length() );
-    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
-
-    const time_point midnight = p - time_past_midnight( p );
-    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
+    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
-
-    static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
-    const size_t season = static_cast<size_t>( season_of_year( p ) );
-    cata_assert( season < start_hours.size() );
-
-    const double start_hour = start_hours[season];
-    const double end_hour = start_hours[( season + 1 ) % 4];
-
-    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
-                              ( calendar::season_length() );
-    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
-
-    const time_point midnight = p - time_past_midnight( p );
-    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
+    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, true );
 }
 
 time_point night_time( const time_point &p )
 {
-    return sunset( p ) + twilight_duration;
+    return sun_at_altitude( civil_dawn, location_boston.longitude, p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    // TODO: Actual daylight should start 18 degrees before sunrise
-    return sunrise( p ) + 15_minutes;
+    return sun_at_altitude( civil_dawn, location_boston.longitude, p, false );
 }
 
 bool is_night( const time_point &p )
 {
-    const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
-
-    return now >= sunset + twilight_duration || now <= sunrise;
+    return sun_altitude( p ) <= nautical_dawn;
 }
 
 bool is_day( const time_point &p )
 {
-    const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
+    return sun_altitude( p ) >= sunrise_angle;
+}
 
-    return now >= sunrise + twilight_duration && now <= sunset;
+static bool is_twilight( const time_point &p )
+{
+    units::angle altitude = sun_altitude( p );
+    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
-
-    return now >= sunset && now <= sunset + twilight_duration;
+    return now > 12_hours && is_twilight( p );
 }
 
 bool is_dawn( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-
-    return now >= sunrise && now <= sunrise + twilight_duration;
+    return now < 12_hours && is_twilight( p );
 }
 
-double current_daylight_level( const time_point &p )
+static float moon_light_at( const time_point &p )
 {
-    const double percent = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
-                           ( calendar::season_length() );
-    double modifier = 1.0;
-    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
-    static double deviation = 0.25;
-
-    switch( season_of_year( p ) ) {
-        case SPRING:
-            modifier = 1. + ( percent * deviation );
-            break;
-        case SUMMER:
-            modifier = ( 1. + deviation ) - ( percent * deviation );
-            break;
-        case AUTUMN:
-            modifier = 1. - ( percent * deviation );
-            break;
-        case WINTER:
-            modifier = ( 1. - deviation ) + ( percent * deviation );
-            break;
-        default:
-            debugmsg( "Invalid season" );
-    }
-
-    return modifier * default_daylight_level();
-}
-
-float sunlight( const time_point &p, const bool vision )
-{
-    const time_duration now = time_past_midnight( p );
-
-    const double daylight = current_daylight_level( p );
-
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
+    return 1. + moonlight_per_quarter * current_phase;
+}
 
-    if( is_night( p ) ) {
-        return moonlight;
-    } else if( is_dawn( p ) ) {
-        const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-        const double percent = ( now - sunrise ) / twilight_duration;
-        return moonlight * ( 1. - percent ) + daylight * percent;
-    } else if( is_dusk( p ) ) {
-        const time_duration sunset = time_past_midnight( ::sunset( p ) );
-        const double percent = ( now - sunset ) / twilight_duration;
-        return daylight * ( 1. - percent ) + moonlight * percent;
+float sun_light_at( const time_point &p )
+{
+    const units::angle solar_alt = sun_altitude( p );
+
+    if( solar_alt < astronomical_dawn ) {
+        return 0;
+    } else if( solar_alt <= nautical_dawn ) {
+        // Sunlight rises exponentially from 0 to 3.7f as sun rises from -18° to -12°
+        return 3.7f * ( std::exp2( to_degrees( solar_alt - astronomical_dawn ) / 6.f ) - 1 );
+    } else if( solar_alt <= civil_dawn ) {
+        // Sunlight rises exponentially from 3.7f to 5.0f as sun rises from -12° to -6°
+        return ( 5.0f - 3.7f ) * ( std::exp2( to_degrees( solar_alt - nautical_dawn ) / 6.f ) - 1 ) + 3.7f;
+    } else if( solar_alt <= sunrise_angle ) {
+        // Sunlight rises exponentially from 5.0f to 60 as sun rises from -6° to -1°
+        return ( 60 - 5.0f ) * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 5.f ) - 1 ) + 5.0f;
+    } else if( solar_alt <= 60_degrees ) {
+        // Linear increase from -1° to 60° degrees light increases from 60 to 125 brightness.
+        return ( 65.f / 61 ) * to_degrees( solar_alt ) + 65.f / 61  + 60;
     } else {
-        return daylight;
+        return 125.f;
     }
+}
+
+float sun_moon_light_at( const time_point &p )
+{
+    return sun_light_at( p ) + moon_light_at( p );
+}
+
+double sun_moon_light_at_noon_near( const time_point &p )
+{
+    const time_point solar_noon = solar_noon_near( p );
+    return sun_moon_light_at( solar_noon );
 }
 
 static std::string to_string_clipped( const int num, const clipped_unit type,
@@ -255,19 +398,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d second", "%d seconds", num ), num );
+                    return string_format( n_gettext( "%d second", "%d seconds", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d minute", "%d minutes", num ), num );
+                    return string_format( n_gettext( "%d minute", "%d minutes", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hour", "%d hours", num ), num );
+                    return string_format( n_gettext( "%d hour", "%d hours", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d week", "%d weeks", num ), num );
+                    return string_format( n_gettext( "%d week", "%d weeks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d season", "%d seasons", num ), num );
+                    return string_format( n_gettext( "%d season", "%d seasons", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d year", "%d years", num ), num );
+                    return string_format( n_gettext( "%d year", "%d years", num ), num );
             }
         case clipped_align::right:
             switch( type ) {
@@ -277,25 +420,45 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     return _( "    forever" );
                 case clipped_unit::second:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  second", "%3d seconds", num ), num );
+                    return string_format( n_gettext( "%3d  second", "%3d seconds", num ), num );
                 case clipped_unit::minute:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  minute", "%3d minutes", num ), num );
+                    return string_format( n_gettext( "%3d  minute", "%3d minutes", num ), num );
                 case clipped_unit::hour:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    hour", "%3d   hours", num ), num );
+                    return string_format( n_gettext( "%3d    hour", "%3d   hours", num ), num );
                 case clipped_unit::day:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d     day", "%3d    days", num ), num );
+                    return string_format( n_gettext( "%3d     day", "%3d    days", num ), num );
                 case clipped_unit::week:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    week", "%3d   weeks", num ), num );
+                    return string_format( n_gettext( "%3d    week", "%3d   weeks", num ), num );
                 case clipped_unit::season:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  season", "%3d seasons", num ), num );
+                    return string_format( n_gettext( "%3d  season", "%3d seasons", num ), num );
                 case clipped_unit::year:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
+                    return string_format( n_gettext( "%3d    year", "%3d   years", num ), num );
+            }
+        case clipped_align::compact:
+            switch( type ) {
+                default:
+                case clipped_unit::forever:
+                    return _( "forever" );
+                case clipped_unit::second:
+                    return string_format( n_gettext( "%d sec", "%d secs", num ), num );
+                case clipped_unit::minute:
+                    return string_format( n_gettext( "%d min", "%d mins", num ), num );
+                case clipped_unit::hour:
+                    return string_format( n_gettext( "%d hr", "%d hrs", num ), num );
+                case clipped_unit::day:
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
+                case clipped_unit::week:
+                    return string_format( n_gettext( "%d wk", "%d wks", num ), num );
+                case clipped_unit::season:
+                    return string_format( n_gettext( "%d seas", "%d seas", num ), num );
+                case clipped_unit::year:
+                    return string_format( n_gettext( "%d yr", "%d yrs", num ), num );
             }
     }
 }
@@ -343,7 +506,7 @@ std::string to_string_clipped( const time_duration &d,
     return to_string_clipped( time.first, time.second, align );
 }
 
-std::string to_string( const time_duration &d )
+std::string to_string( const time_duration &d, const bool compact )
 {
     if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
@@ -369,10 +532,17 @@ std::string to_string( const time_duration &d )
     }
 
     if( d % divider != 0_turns ) {
-        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-        return string_format( _( "%1$s and %2$s" ),
-                              to_string_clipped( d ),
-                              to_string_clipped( d % divider ) );
+        if( compact ) {
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( pgettext( "time duration", "%1$s %2$s" ),
+                                  to_string_clipped( d, clipped_align::compact ),
+                                  to_string_clipped( d % divider, clipped_align::compact ) );
+        } else {
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( _( "%1$s and %2$s" ),
+                                  to_string_clipped( d ),
+                                  to_string_clipped( d % divider ) );
+        }
     }
     return to_string_clipped( d );
 }
@@ -414,6 +584,19 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
     }
     //~ %s - time (e.g. 2 hours).
     return make_result( d, _( "about %s" ), "%s" );
+}
+
+std::string to_string_writable( const time_duration &dur )
+{
+    if( dur % 1_days == 0_seconds ) {
+        return string_format( "%d d", static_cast<int>( dur / 1_days ) );
+    } else if( dur % 1_hours == 0_seconds ) {
+        return string_format( "%d h", static_cast<int>( dur / 1_hours ) );
+    } else if( dur % 1_minutes == 0_seconds ) {
+        return string_format( "%d m", static_cast<int>( dur / 1_minutes ) );
+    } else {
+        return string_format( "%d s", static_cast<int>( dur / 1_seconds ) );
+    }
 }
 
 std::string to_string_time_of_day( const time_point &p )
