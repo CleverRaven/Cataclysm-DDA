@@ -73,7 +73,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 290_minutes ) == Approx( 290 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 295_minutes ) == Approx( 295 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
         CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 3 );
@@ -88,7 +88,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 290_minutes ) == Approx( 290 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 295_minutes ) == Approx( 295 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 485_minutes ) == Approx( 485 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
@@ -128,16 +128,16 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 170 );
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= ( 160.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= 295 );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= ( 285.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 295_minutes ) <= 300 );
+            CHECK( info.transition_minutes( 1, 2, 295_minutes ) >= ( 290.0f / multiplier ) );
             CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= 395 );
             CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= ( 385.0f / multiplier ) );
             CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= ( 480.0f / multiplier ) );
         } else {
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= 160 );
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= ( 170.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= 285 );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= ( 295.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 295_minutes ) >= 290 );
+            CHECK( info.transition_minutes( 1, 2, 295_minutes ) <= ( 300.0f / multiplier ) );
             CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= 385 );
             CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= ( 395.0f / multiplier ) );
             // CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= 480 );
@@ -152,7 +152,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
             if( multiplier >= 1.0f ) {
                 CHECK( info.transition_minutes( 4, 3,
                                                 time1 ) >= to_minutes<float>( time1 ) - 9.5f );
-            } else {
+            } else if( ( 490.0f / multiplier ) < ( 8 * 60 ) ) {
                 CHECK( info.transition_minutes( 4, 3,
                                                 time1 ) <= to_minutes<float>( time1 ) + 9.5f );
             }
@@ -207,26 +207,6 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
-            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 170 );
-            CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= ( 160.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= 295 );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= ( 285.0f / multiplier ) );
-            CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= 395 );
-            CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= ( 385.0f / multiplier ) );
-            CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= ( 480.0f / multiplier ) );
-        } else {
-            CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= 160 );
-            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= ( 170.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= 285 );
-            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= ( 295.0f / multiplier ) );
-            CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= 385 );
-            CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= ( 395.0f / multiplier ) );
-            // CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= 480 );
-            if( ( 490.0f / multiplier ) < ( 8 * 60 ) ) {
-                CHECK( info.transition_minutes( 3, 4, 485_minutes ) <= ( 490.0f / multiplier ) );
-            }
-        }
         // Appears to take about 5 minutes to sleep, from messages.
         time_duration time1 = ( ( 495_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
                               8_hours;
@@ -237,7 +217,7 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
             if( multiplier2 >= 1.0f ) {
                 CHECK( info.transition_minutes( 4, 3,
                                                 time1 ) >= to_minutes<float>( time1 ) - 13.0f );
-            } else {
+            } else if( ( 490.0f / multiplier ) < ( 8 * 60 ) ) {
                 CHECK( info.transition_minutes( 4, 3,
                                                 time1 ) <= to_minutes<float>( time1 ) + 13.0f );
             }
@@ -281,7 +261,7 @@ TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
     // PERSISTENCE_HUNTER: fatigue_mod -0.1
     // PERSISTENCE_HUNGER2: fatigue_mod -0.2
     // MET_RAT: fatigue_mod 0.5, fatigue_regen_mod 0.33
-    // SLEEPY2: fatigue_mod 1.0 (does this include SLEEPY's fatigue_regen_mod?)
+    // SLEEPY2: fatigue_mod 1.0 (does this include SLEEPY's fatigue_regen_mod? looks like it?)
 
     check_weary_mutation( "WAKEFUL", -0.15f, 0.0f );
     check_weary_mutation( "SLEEPY", 0.33f, 0.33f );
@@ -387,7 +367,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 290_minutes ) == Approx( 290 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 295_minutes ) == Approx( 295 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 485_minutes ) == Approx( 485 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
