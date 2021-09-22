@@ -556,32 +556,6 @@ static bool mx_military( map &m, const tripoint & )
     return true;
 }
 
-static bool mx_science( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 5 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, *p );
-            } else {
-                m.place_items( item_group_id( "map_extra_science" ), 100, *p, *p, true,
-                               calendar::start_of_cataclysm );
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_items( item_group_id( "rare" ), 45, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   true, calendar::start_of_cataclysm );
-
-    return true;
-}
-
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
     // TODO: fix point types
@@ -2961,7 +2935,6 @@ FunctionMap builtin_functions = {
     { "mx_supplydrop", mx_supplydrop },
     { "mx_military", mx_military },
     { "mx_helicopter", mx_helicopter },
-    { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
     { "mx_house_spider", mx_house_spider },
