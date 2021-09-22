@@ -18,7 +18,6 @@ int activity_tracker::weariness() const
 // Called every 5 minutes, when activity level is logged
 void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float fatigue_regen_mod )
 {
-    tick_counter++;
     if( average_activity() < LIGHT_EXERCISE ) {
         cata_assert( fatigue_mod > 0.0f );
         low_activity_ticks += std::min( 1.0f, ( ( LIGHT_EXERCISE - average_activity() ) /
@@ -47,15 +46,11 @@ void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float f
     }
 
     // If happens to be no reduction, character is not (as) hypoglycemic
-    if( tick_counter >= 1 ) {
-        intake *= std::pow( 1 - recovery_mult, ( 1.0f / 12.0f ) );
-        tick_counter--;
-    }
+    intake *= std::pow( 1 - recovery_mult, ( 1.0f / 12.0f ) );
 
     // Normalize values, make sure we stay above 0
     intake = std::max( intake, 0 );
     tracker = std::max( tracker, 0 );
-    tick_counter = std::max( tick_counter, 0 );
     low_activity_ticks = std::max( low_activity_ticks, 0.0f );
 }
 
@@ -64,7 +59,6 @@ void activity_tracker::weary_clear()
     tracker = 0;
     intake = 0;
     low_activity_ticks = 0.0f;
-    tick_counter = 0;
 }
 
 void activity_tracker::set_intake( int ncal )
