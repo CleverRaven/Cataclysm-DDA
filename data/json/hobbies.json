@@ -583,7 +583,7 @@
     "name": "Back Yard Grilling",
     "description": "You enjoyed inviting the neighborhood to a backyard get together most weekends.  You, of course, were the grill master.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "cooking" } ],
+    "skills": [ { "level": 2, "name": "cooking" } ],
     "proficiencies": [ "prof_food_prep", "prof_knife_skills" ]
   },
   {
