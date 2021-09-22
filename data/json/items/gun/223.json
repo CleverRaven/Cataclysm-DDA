@@ -532,17 +532,32 @@
     "weight": "3330 g",
     "volume": "2400 ml",
     "longest_side": "727 mm",
-    "price": 90000,
+    "price": 3450000,
     "price_postapoc": 3500,
     "variant_type": "gun",
     "variants": [
       {
         "id": "m231pfw",
         "name": { "str": "M231 port firing weapon" },
-        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard makes it slighly less ergonomic.  It fires from an open bolt.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
+        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slighly less than ergonomic.  It fires from an open bolt.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
       }
     ],
     "dispersion": 350,
+    "sight_dispersion": 500,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "//": "This weapon has an extremely high rate of fire, due to the open bolt design. This is based on a cyclic rate of fire of 1150 RPM, which is close to 19 rounds per second. 6 rounds is comparable to to other weapons with similar rates, such as the MAC-11.",
     "modes": [ [ "DEFAULT", "auto", 6 ] ]
   },
