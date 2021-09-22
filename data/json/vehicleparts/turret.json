@@ -158,6 +158,22 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
+    "id": "mounted_m231",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M231 PFW" },
+    "symbol": "t",
+    "durability": 400,
+    "damage_modifier": 80,
+    "categories": [ "warfare" ],
+    "flags": [ "TURRET" ],
+    "item": "m231pfw",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "description": "An incredibly loud, uncontrollably fast, inaccurate 'submachinegun' screwed into a firing port.",
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 12 }, { "item": "steel_lump", "count": 7 } ],
+    "requirements": { "install": { "time": "100 s", "skills": [ [ "mechanics", 0 ], [ "rifle", 1 ] ] }, "removal": { "time": "50 s", "skills": [ [ "mechanics", 0 ] ] } }
+  },
+  {
     "id": "mounted_m240",
     "copy-from": "turret",
     "type": "vehicle_part",
