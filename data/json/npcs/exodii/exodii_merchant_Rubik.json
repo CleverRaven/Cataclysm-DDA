@@ -390,7 +390,7 @@
     "type": "talk_topic",
     "dynamic_line": "Sure an' I can make you a cyborg, here an' now, since you're a developer an' all.",
     "responses": [
-      { "text": "Let's do it.", "effect": "cyborg_conversion", "topic": "TALK_EXODII_MERCHANT_Exodized" },
+      { "text": "Let's do it.", "effect": [ { "u_add_bionic": "bio_power_storage" }, { "u_add_bionic": "bio_cable" } ], "topic": "TALK_EXODII_MERCHANT_Exodized" },
       { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "I changed my mind.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
