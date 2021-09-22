@@ -8001,7 +8001,6 @@
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
       [ [ "bread", 1 ] ],
-      [
         [ "salt", 2 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 2 ],
