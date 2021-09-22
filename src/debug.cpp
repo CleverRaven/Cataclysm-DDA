@@ -422,6 +422,7 @@ struct repetition_folder {
 };
 
 static repetition_folder rep_folder;
+void output_repetitions( std::ostream &out );
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
@@ -558,11 +559,7 @@ DebugFile::~DebugFile()
 void DebugFile::deinit()
 {
     if( file && file.get() != &std::cerr ) {
-        if( rep_folder.repeat_count > 0 ) {
-            *file << "\n";
-            *file << rep_folder.m_time << " : ";
-            *file << "[ Previous repeated " << rep_folder.repeat_count << " times ]";
-        }
+        output_repetitions( *file );
         *file << "\n";
         *file << get_time() << " : Log shutdown.\n";
         *file << "-----------------------------------------\n\n";
@@ -1291,6 +1288,25 @@ void debug_write_backtrace( std::ostream &out )
 }
 #endif
 
+void output_repetitions( std::ostream &out )
+{
+    // Need to complete the folding
+    if( rep_folder.repeat_count > 0 ) {
+        if( rep_folder.repeat_count > 1 ) {
+            out << std::endl;
+            out << "[ Previous repeated " << ( rep_folder.repeat_count - 1 ) << " times ]";
+        }
+        out << std::endl;
+        out << rep_folder.m_time << " ";
+        // repetition folding is only done through DebugLog( D_ERROR, D_MAIN )
+        out << D_ERROR;
+        out << ": ";
+        out << rep_folder.m_filename << ":" << rep_folder.m_line << " [" << rep_folder.m_funcname << "] " <<
+            rep_folder.m_text << std::flush;
+        rep_folder.reset();
+    }
+}
+
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
     if( lev & D_ERROR ) {
@@ -1302,12 +1318,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = debugFile().get_file();
 
-        if( rep_folder.repeat_count > 0 ) {
-            out << std::endl;
-            out << rep_folder.m_time << " : ";
-            out << "[ Previous repeated " << rep_folder.repeat_count << " times ]";
-            rep_folder.reset();
-        }
+        output_repetitions( out );
 
         out << std::endl;
         out << get_time() << " ";
