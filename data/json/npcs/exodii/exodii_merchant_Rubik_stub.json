@@ -62,6 +62,7 @@
   {
     "//": "table of contents: common response strings appearing in this list of topics",
     "id": [
+      "TALK_EXODII_MERCHANT_New",
       "TALK_EXODII_MERCHANT_Base",
       "TALK_EXODII_MERCHANT_Dialect_Anglic",
       "TALK_EXODII_MERCHANT_DoneTrade",
