@@ -525,3 +525,13 @@ int talker_character::get_kill_xp() const
 {
     return me_chr->kill_xp;
 }
+
+void talker_character::add_bionic( const bionic_id &new_bionic )
+{
+    me_chr->add_bionic( new_bionic );
+}
+
+void talker_character::remove_bionic( const bionic_id &old_bionic )
+{
+    me_chr->remove_bionic( old_bionic );
+}
