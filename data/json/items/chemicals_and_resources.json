@@ -1207,7 +1207,7 @@
     "type": "COMESTIBLE",
     "id": "lye",
     "name": { "str_sp": "lye" },
-    "weight": "125 g",
+    "weight": "357 g",
     "color": "white",
     "container": "bottle_plastic",
     "sealed": false,

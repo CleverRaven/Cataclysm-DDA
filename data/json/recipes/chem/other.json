@@ -32,7 +32,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "bleach", 1 ],
-        [ "lye_powder", 100 ],
+        [ "lye_powder", 7 ],
         [ "bone_any", 20, "LIST" ],
         [ "skewer_bone", 1000 ],
         [ "cured_hide", 2 ],

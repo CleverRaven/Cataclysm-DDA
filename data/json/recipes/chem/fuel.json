@@ -63,7 +63,7 @@
     "components": [
       [ [ "water_clean", 4 ], [ "water", 4 ] ],
       [ [ "chem_ethanol", 100 ], [ "chem_methanol", 100 ], [ "denat_alcohol", 100 ] ],
-      [ [ "lye_powder", 8 ] ],
+      [ [ "lye_powder", 1 ] ],
       [
         [ "cooking_oil", 64 ],
         [ "cooking_oil2", 64 ],
