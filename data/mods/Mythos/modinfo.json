@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "Mythos",
     "name": "[WIP] Mythos Mod - No Zombies",
-    "authors": [ "Occulti" ],
+    "authors": [ "occulti", "mythosmod" ],
     "description": "Removes all the zombies (including fungus zombies) from the game - a very work-in-progress start to a more Lovecraftian-focused version of Cataclysm set in the 1920s, with 99.9% of the population mysteriously disappearing at midnight of day 0.  Players will take on the roles of investigators in a variety of professions battling the denizens of the shadows to recover and rebuild society.",
     "category": "content",
     "dependencies": [ "dda" ],
