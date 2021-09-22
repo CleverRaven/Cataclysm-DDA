@@ -25,7 +25,7 @@ static const sleep_schedule sched_sleep{};
 
 TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
-    const avatar &guy = get_avatar();
+    avatar &guy = get_avatar();
 
     tasklist desk_8h;
     desk_8h.enschedule( task_firstaid, 8_hours );
@@ -297,7 +297,7 @@ TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
 
 TEST_CASE( "weary_recovery", "[weary][activities]" )
 {
-    const avatar &guy = get_avatar();
+    avatar &guy = get_avatar();
 
     tasklist soldier_8h;
     soldier_8h.enschedule( task_dig, 8_hours );
@@ -360,7 +360,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 
 TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
 {
-    const avatar &guy = get_avatar();
+    avatar &guy = get_avatar();
 
     tasklist waiting_24h;
     waiting_24h.enschedule( task_wait, 24_hours );
