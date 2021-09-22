@@ -72,7 +72,7 @@
         "value": "yes",
         "yes": [
           "And a fine return, matey.",
-          "Fine and you still ain't dead.  Lookin' t'trade?",
+          "Fine and you still ain't dead.  What brings ye roun' Rubik's neckawoods?",
           "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
         ],
         "no": "Oy, you ain't dead.  Lookin' t'trade?"
@@ -98,7 +98,25 @@
         ]
       }
     ],
-    "responses": [ { "text": "Hell no, I'm out of here.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Who are you?  What is this place?",
+        "topic": "TALK_EXODII_MERCHANT_New",
+        "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } }
+      },
+      {
+        "text": "What've you got for trade?",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Actually, I wanted to talk.",
+        "topic": "TALK_EXODII_MERCHANT_Talk",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hell no, I'm out of here.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "effect_type",
@@ -109,5 +127,73 @@
     "type": "effect_type",
     "id": "u_exodii_interaction_timer_long",
     "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly."
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_New",
+    "type": "talk_topic",
+    "dynamic_line": "Us call us the exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+    "//~": "We call ourselves the exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more."
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DoneTrade",
+    "type": "talk_topic",
+    "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk",
+    "type": "talk_topic",
+    "dynamic_line": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.",
+    "//~": "You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know."
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Dialect",
+    "type": "talk_topic",
+    "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
+    "responses": [
+      {
+        "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?",
+        "condition": { "or": [ { "u_has_int": 7 }, { "u_has_per": 7 } ] },
+        "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodus",
+    "type": "talk_topic",
+    "dynamic_line": "Oh yeah, right and so.  Each and every.  We wander, we make do.  It's a livin'.",
+    "responses": [ { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodus2",
+    "type": "talk_topic",
+    "dynamic_line": "Same as you will be, an I'm ken.  The enemy.  The dead."
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Dialect_Anglic",
+    "type": "talk_topic",
+    "dynamic_line": "Be an' as us're a gutter climber from ol' Upper Landin', this'll be our way o' yarkin'.  All an' all from our green an' brown yark like this'n.",
+    "//~": "I'm a lowlife from old Upper Landing, this is my way of talking.  Everyone from where I come from talks like this."
+  },
+  {
+    "//": "table of contents: common response strings appearing in this list of topics",
+    "id": [
+      "TALK_EXODII_MERCHANT_New",
+      "TALK_EXODII_MERCHANT_Base",
+      "TALK_EXODII_MERCHANT_Dialect_Anglic",
+      "TALK_EXODII_MERCHANT_DoneTrade",
+      "TALK_EXODII_MERCHANT_Exodii"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
+      { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
+      {
+        "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
+        "topic": "TALK_EXODII_MERCHANT_Exodii",
+        "condition": { "u_has_int": 9 }
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
   }
 ]

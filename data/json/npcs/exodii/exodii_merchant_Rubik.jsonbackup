@@ -1,65 +1,5 @@
 [
   {
-    "type": "npc",
-    "id": "exodii_merchant",
-    "name_suffix": "Cyborg",
-    "class": "NC_EXODII_TYPE_1",
-    "name_unique": "Rubik",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_EXODII_MERCHANT",
-    "mission_offered": "MISSION_EXODII_MERCHANT_1",
-    "faction": "exodii"
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_EXODII_TYPE_1_Merchant",
-    "name": { "str": "Cyborg, type 1" },
-    "job_description": "I'm a cyborg.",
-    "traits": [
-      { "trait": "EXODII_BODY_1" },
-      { "//": "This needs to give the exodii a unique sprite and hide any worn or wielded overlays" }
-    ],
-    "common": false,
-    "bonus_str": { "rng": [ 0, 6 ] },
-    "bonus_dex": { "rng": [ 0, 6 ] },
-    "bonus_int": { "rng": [ 0, 2 ] },
-    "bonus_per": { "rng": [ 0, 4 ] },
-    "shopkeeper_item_group": "EXODII_SHOP_Tier0",
-    "carry_override": "NC_EXODII_TYPE_1_carried",
-    "skills": [
-      {
-        "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
-      },
-      { "skill": "mechanics", "bonus": { "one_in": 2 } },
-      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "EXODII_BODY_1",
-    "flags": [ "Exodii_Body" ],
-    "name": { "str": "Exodii cyborg framework - style 1a" },
-    "points": 0,
-    "visibility": 4,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
-    "valid": false,
-    "purifiable": false,
-    "types": [ "Cyberframe" ],
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
-    "hp_adjustment": 20,
-    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "weight_capacity_modifier": 3
-  },
-  {
-    "type": "mutation_type",
-    "id": "Cyberframe"
-  },
-  {
     "//": "table of contents: common response strings appearing in this list of topics",
     "id": [
       "TALK_EXODII_MERCHANT_New",
@@ -172,32 +112,6 @@
     "type": "effect_type",
     "id": "u_exodii_interaction_timer_long",
     "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly."
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_New",
-    "type": "talk_topic",
-    "dynamic_line": "Us call us the exodii, eh?  An' other things, but that'n's good."
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_DoneTrade",
-    "type": "talk_topic",
-    "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ]
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_Talk",
-    "type": "talk_topic",
-    "dynamic_line": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit."
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_Exodus",
-    "type": "talk_topic",
-    "dynamic_line": "Oh yeah, right and so.  Each and every.  We wander, we make do.  It's a livin'.",
-    "responses": [ { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" } ]
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_Exodus2",
-    "type": "talk_topic",
-    "dynamic_line": "Same as you will be, an I'm ken.  The enemy.  The dead."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Base",
@@ -413,17 +327,6 @@
     "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the exodii is doin' razzin up your green and brown.",
     "responses": [
       { "text": "OK then, what are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" }
-    ]
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_Dialect",
-    "type": "talk_topic",
-    "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
-    "responses": [
-      {
-        "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?",
-        "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
-      }
     ]
   }
 ]
