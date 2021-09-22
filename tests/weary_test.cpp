@@ -72,12 +72,11 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 290_minutes ) == Approx( 290 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
         CHECK( !info.have_weary_decrease() );
-        CHECK( guy.weariness_level() == 4 );
+        CHECK( guy.weariness_level() == 3 );
     }
 
     SECTION( "Heavy tasks - Digging Pits 12 hours" ) {
@@ -88,13 +87,14 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 290_minutes ) == Approx( 290 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 485_minutes ) == Approx( 485 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 5, 6, 710_minutes ) == Approx( 710 ).margin( 5 ) );
         CHECK( !info.have_weary_decrease() );
-        CHECK( guy.weariness_level() == 5 );
+        CHECK( guy.weariness_level() == 6 );
     }
 }
 
@@ -113,6 +113,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         clear_avatar();
         set_single_trait( guy, trait_name );
         // How do we make sure they don't sleep? Set fatigue to -1000?
+        // Doesn't seem to be a problem, fortunately.
 
         soldier_8h.enschedule( task_dig, 8_hours );
         soldier_8h.enschedule( task_wait, 8_hours );
@@ -125,28 +126,27 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= 125 );
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= ( 115.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= 255 );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= ( 245.0f / multiplier ) );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= 365 );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= ( 355.0f / multiplier ) );
-            CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= 470 );
-            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= ( 460.0f / multiplier ) );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 170 );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= ( 160.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= 295 );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= ( 285.0f / multiplier ) );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= 395 );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= ( 385.0f / multiplier ) );
+            CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= ( 480.0f / multiplier ) );
         } else {
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= 115 );
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= ( 125.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= 245 );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= ( 255.0f / multiplier ) );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= 355 );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= ( 365.0f / multiplier ) );
-            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= 460 );
-            if( ( 470.0f / multiplier ) < ( 8 * 60 ) ) {
-                CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= ( 470.0f / multiplier ) );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= 160 );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= ( 170.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= 285 );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= ( 295.0f / multiplier ) );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= 385 );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= ( 395.0f / multiplier ) );
+            // CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= 480 );
+            if( ( 490.0f / multiplier ) < ( 8 * 60 ) ) {
+                CHECK( info.transition_minutes( 3, 4, 485_minutes ) <= ( 490.0f / multiplier ) );
             }
         }
-        time_duration time1 = ( ( 505_minutes - 8_hours ) * multiplier ) + 8_hours;
-        time_duration time2 = ( ( 630_minutes - 8_hours ) * multiplier ) + 8_hours;
+        time_duration time1 = ( ( 500_minutes - 8_hours ) * multiplier ) + 8_hours;
+        time_duration time2 = ( ( 620_minutes - 8_hours ) * multiplier ) + 8_hours;
         // Increased below margin for floats to 9.5 (from 5) to account for roundoff vs 5-minute weariness cycle
         if( time1 < 16_hours ) {
             if( multiplier >= 1.0f ) {
@@ -172,10 +172,10 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
             CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
         }
 
-        if( multiplier >= 1.0f ) { // instability currently prevents use of first one... sigh.
-            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
-            CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
+        if( multiplier >= 1.0f ) {
+            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 16 * 60 ) ); // should be INT_MAX
         }
+        CHECK( info.transition_minutes( 2, 1, 0_minutes ) > to_minutes<float>( time2 ) - 9.5f );
     }
 }
 
@@ -208,30 +208,29 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= 125 );
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= ( 115.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= 255 );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= ( 245.0f / multiplier ) );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= 365 );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= ( 355.0f / multiplier ) );
-            CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= 470 );
-            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= ( 460.0f / multiplier ) );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 170 );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= ( 160.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= 295 );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= ( 285.0f / multiplier ) );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= 395 );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= ( 385.0f / multiplier ) );
+            CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= ( 480.0f / multiplier ) );
         } else {
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) >= 115 );
-            CHECK( info.transition_minutes( 0, 1, 120_minutes ) <= ( 125.0f / multiplier ) );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) >= 245 );
-            CHECK( info.transition_minutes( 1, 2, 250_minutes ) <= ( 255.0f / multiplier ) );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) >= 355 );
-            CHECK( info.transition_minutes( 2, 3, 360_minutes ) <= ( 365.0f / multiplier ) );
-            CHECK( info.transition_minutes( 3, 4, 465_minutes ) >= 460 );
-            if( ( 470.0f / multiplier ) < ( 8 * 60 ) ) {
-                CHECK( info.transition_minutes( 3, 4, 465_minutes ) <= ( 470.0f / multiplier ) );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= 160 );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= ( 170.0f / multiplier ) );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) >= 285 );
+            CHECK( info.transition_minutes( 1, 2, 290_minutes ) <= ( 295.0f / multiplier ) );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) >= 385 );
+            CHECK( info.transition_minutes( 2, 3, 390_minutes ) <= ( 395.0f / multiplier ) );
+            // CHECK( info.transition_minutes( 3, 4, 485_minutes ) >= 480 );
+            if( ( 490.0f / multiplier ) < ( 8 * 60 ) ) {
+                CHECK( info.transition_minutes( 3, 4, 485_minutes ) <= ( 490.0f / multiplier ) );
             }
         }
         // Appears to take about 5 minutes to sleep, from messages.
-        time_duration time1 = ( ( 500_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
+        time_duration time1 = ( ( 495_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
                               8_hours;
-        time_duration time2 = ( ( 625_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
+        time_duration time2 = ( ( 615_minutes - 8_hours ) * multiplier2 ) + ( 5_minutes * multiplier ) +
                               8_hours;
         // Increased below margin for floats to 13 due to sleep uncertainty re 5-minute weary timer.
         if( time1 < 16_hours ) {
@@ -258,10 +257,10 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
             CHECK( info.transition_minutes( 3, 2, time2 ) >= ( 16 * 60 ) );
         }
 
-        if( multiplier2 >= 1.0f ) { // instability currently prevents use of first one... sigh.
-            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
-            CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
+        if( multiplier2 >= 1.0f ) {
+            CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 16 * 60 ) ); // should be INT_MAX
         }
+        CHECK( info.transition_minutes( 2, 1, 0_minutes ) > to_minutes<float>( time2 ) - 13.0f );
     }
 }
 
@@ -334,13 +333,13 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 4, 3, 505_minutes ) == Approx( 505 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 2, 630_minutes ) == Approx( 630 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 3, 500_minutes ) == Approx( 500 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 2, 620_minutes ) == Approx( 620 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
         CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
         CHECK( info.transition_minutes( 1, 2, 16_hours ) <= ( 8 * 60 ) );
         CHECK( info.transition_minutes( 2, 3, 16_hours ) <= ( 8 * 60 ) );
-        CHECK( info.transition_minutes( 3, 4, 16_hours ) <= ( 8 * 60 ) );
+        // CHECK( info.transition_minutes( 3, 4, 16_hours ) <= ( 8 * 60 ) );
         CHECK( guy.weariness_level() == 1 );
     }
 
@@ -387,14 +386,14 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 290_minutes ) == Approx( 290 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 485_minutes ) == Approx( 485 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 5, 6, 740_minutes ) == Approx( 740 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 6, 7, 845_minutes ) == Approx( 845 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 7, 8, 925_minutes ) == Approx( 925 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 5, 6, 715_minutes ) == Approx( 715 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 6, 7, 800_minutes ) == Approx( 800 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 7, 8, 870_minutes ) == Approx( 870 ).margin( 10 ) );
         CHECK( !info.have_weary_decrease() );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
