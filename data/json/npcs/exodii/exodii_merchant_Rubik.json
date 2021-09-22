@@ -1,0 +1,630 @@
+[
+  {
+    "type": "npc",
+    "id": "exodii_merchant",
+    "name_suffix": "Cyborg",
+    "class": "NC_EXODII_TYPE_1_Merchant",
+    "name_unique": "Rubik",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_EXODII_MERCHANT",
+    "faction": "exodii"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_TYPE_1_Merchant",
+    "name": { "str": "Cyborg, type 1" },
+    "job_description": "I'm a cyborg.",
+    "traits": [
+      { "trait": "EXODII_BODY_1" },
+      { "//": "This needs to give the exodii a unique sprite and hide any worn or wielded overlays" }
+    ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 6 ] },
+    "bonus_dex": { "rng": [ 0, 6 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "shopkeeper_item_group": "EXODII_SHOP_Tier0",
+    "carry_override": "NC_EXODII_TYPE_1_carried",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_BODY_1",
+    "flags": [ "Exodii_Body" ],
+    "name": { "str": "Exodii cyborg framework - style 1a" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cyberframe" ],
+    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "hp_adjustment": 20,
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "weight_capacity_modifier": 3
+  },
+  {
+    "type": "mutation_type",
+    "id": "Cyberframe"
+  },
+  {
+    "//": "table of contents: common response strings appearing in this list of topics",
+    "id": [
+      "TALK_EXODII_MERCHANT_Reddit",
+      "TALK_EXODII_MERCHANT_New",
+      "TALK_EXODII_MERCHANT_Talk",
+      "TALK_EXODII_MERCHANT_Aliens2",
+      "TALK_EXODII_MERCHANT_Base2",
+      "TALK_EXODII_MERCHANT_Dialect_Anglic",
+      "TALK_EXODII_MERCHANT_DoneTrade",
+      "TALK_EXODII_MERCHANT_Exodus2",
+      "TALK_EXODII_MERCHANT_ExodizeNope",
+      "TALK_EXODII_MERCHANT_Survival",
+      "TALK_EXODII_MERCHANT_Tech"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
+      { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
+      {
+        "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
+        "condition": { "u_has_intelligence": 9 },
+        "topic": "TALK_EXODII_MERCHANT_Exodii"
+      },
+      {
+        "text": "What are you doing here?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "[per 6] Some of this tech looks… weird.",
+        "topic": "TALK_EXODII_MERCHANT_Tech",
+        "condition": {
+          "and": [ { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }, { "u_has_perception": 6 } ]
+        }
+      },
+      {
+        "text": "Can you turn me into a cyborg RIGHT NOW?  I'm a developer for this game, you know.",
+        "condition": { "u_has_trait": "DEBUG_NODMG" },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeTest"
+      },
+      {
+        "text": "Any chance you could help me get some of those sweet bionic upgrades?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize",
+        "condition": { "u_has_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" }
+      },
+      { "text": "What kind of base is this?", "topic": "TALK_EXODII_MERCHANT_Base" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_effect": "u_exodii_interaction_timer_short",
+      "yes": [ "Back in a blink and a whiff, eh?", "Forgot sommat?", "Ah, a returnin', an I'm ken." ],
+      "no": {
+        "u_has_var": "u_met_Rubik",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [
+          "And a fine return, matey.",
+          "Fine and you still ain't dead.  What brings ye roun' Rubik's neckawoods?",
+          "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
+        ],
+        "no": "Oy, you ain't dead.  Lookin' t'trade?"
+      }
+    },
+    "speaker_effect": [
+      {
+        "sentinel": "interaction_timer_short",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_short" } },
+        "//": "Just coming and saying hi to Rubik regularly will give you a small boost to trust.",
+        "effect": [
+          { "u_add_effect": "u_exodii_interaction_timer_short", "duration": "30 hours" },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      },
+      {
+        "sentinel": "interaction_timer_long",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+        "//": "Gives you a less frequent boost to trust for regular interactions with the exodii.",
+        "effect": [
+          { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "7 days" },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      }
+    ],
+    "responses": [
+      { "text": "Reddit is really excited to meet you, you know.", "topic": "TALK_EXODII_MERCHANT_Reddit" },
+      {
+        "text": "Who are you?  What is this place?",
+        "topic": "TALK_EXODII_MERCHANT_New",
+        "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "What've you got for trade?",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Actually, I wanted to talk.",
+        "topic": "TALK_EXODII_MERCHANT_Talk",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hell no, I'm out of here.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Reddit",
+    "type": "talk_topic",
+    "dynamic_line": "Fine an' fine, this'n's rightly excited to get implemented, I'd razz.",
+    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_exodii_interaction_timer_short",
+    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly, and tells Rubik to use a different greeting because he saw you very recently."
+  },
+  {
+    "type": "effect_type",
+    "id": "u_exodii_interaction_timer_long",
+    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly."
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_New",
+    "type": "talk_topic",
+    "dynamic_line": "Us call us the exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+    "//~": "We call ourselves the exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more.",
+    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DoneTrade",
+    "type": "talk_topic",
+    "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
+    "responses": [
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk",
+    "type": "talk_topic",
+    "dynamic_line": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.",
+    "//~": "You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.",
+    "responses": [
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Aliens",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, you could call us as it.  Us're from otherlands mostlike.  Not otherworlds though.  Too risky bringin' them squelchies into the fold.",
+    "responses": [
+      { "text": "I don’t know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Aliens2",
+    "type": "talk_topic",
+    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the exodii is doin' razzin up your green and brown.",
+    "responses": [
+      { "text": "OK then, what are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Base",
+    "type": "talk_topic",
+    "dynamic_line": "A junker base, innit?  Pile o' gamp.  Us'll pack it up and sing along soon enough.",
+    "responses": [
+      { "text": "Pack it up?  How can you pack up something like this?", "topic": "TALK_EXODII_MERCHANT_Base2" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Base2",
+    "type": "talk_topic",
+    "dynamic_line": "For an' how, ye be needin' to think wi' them elevens o' directions, kennit?  Us'll open a gate an' wibble-an-wobble.  Same as us came.",
+    "responses": [
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Dialect",
+    "type": "talk_topic",
+    "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
+    "responses": [
+      {
+        "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?",
+        "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
+        "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodus",
+    "type": "talk_topic",
+    "dynamic_line": "Oh yeah, right and so.  Each and every.  We wander, we make do.  It's a livin'.",
+    "responses": [
+      { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodus2",
+    "type": "talk_topic",
+    "dynamic_line": "Same as you will be, an I'm ken.  The enemy.  The dead.",
+    "responses": [
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Dialect_Anglic",
+    "type": "talk_topic",
+    "dynamic_line": "Be an' as us're a gutter climber from ol' Upper Landin', this'll be our way o' yarkin'.  All an' all from our green an' brown yark like this'n.",
+    "//~": "I'm a lowlife from old Upper Landing, this is my way of talking.  Everyone from where I come from talks like this.",
+    "responses": [
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose",
+    "type": "talk_topic",
+    "dynamic_line": "Makin' do, makin' do, same as you, an I'm ken.  Last home got a bit too dead 'n putrid roun' the edges, like.  Happens to the best of 'em.  Caught a jibber that made us ken 'bout your place here, fired up the ol' wibble-wammles and boom!  Now it's all tick-tock on a zimmer, here we be.  Got a good timing this time, I razz you only been dead a few days when we wobbled in.  Freshest corpse this'n's seen in a kitchen sink.",
+    "responses": [
+      { "text": "… what?", "topic": "TALK_EXODII_MERCHANT_Purpose_Dialect" },
+      {
+        "text": "[int or per 9] Where did you come from then?  Are you aliens or something?",
+        "condition": { "or": [ { "u_has_intelligence": 9 }, { "u_has_perception": 9 } ] },
+        "topic": "TALK_EXODII_MERCHANT_Aliens"
+      },
+      { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose_Dialect",
+    "type": "talk_topic",
+    "dynamic_line": "Us're here to live and breathe, kennit?  After our last otherland got a li'l too dead an' all.  So, us'n came to a new place.  This'n.  An I'm ken, it's not so long dead round here jus' yet.",
+    "//~": "English: We're just here to survive, you understand?  Our last world got too overrun with undead.  So, we came to a new world.  This one.  If I'm not mistaken, it's not so long dead around here just yet.",
+    "responses": [
+      {
+        "text": "[int or per 7] Otherland?  Are you aliens or something?",
+        "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
+        "topic": "TALK_EXODII_MERCHANT_Aliens"
+      },
+      { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose2",
+    "type": "talk_topic",
+    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
+    "//~": "English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
+    "responses": [
+      {
+        "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.",
+        "topic": "TALK_EXODII_MERCHANT_Purpose3"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose3",
+    "type": "talk_topic",
+    "dynamic_line": "This'n be a deadland, an I'm ken.  You gots you a case o' the willies ain't gonna sing along.  No cure for these rats and fleas.",
+    "//~": "English: This is a deadland, don't you see?  You've already got an infestation and it's not going away.  There's no cure for the zombies.",
+    "responses": [
+      { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
+      {
+        "text": "[int 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "condition": { "u_has_intelligence": 8 },
+        "topic": "TALK_EXODII_MERCHANT_Survival"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose4",
+    "type": "talk_topic",
+    "dynamic_line": "Means what it means.  Your land's a deadun', still kickin' is all.",
+    "//~": "English: It means what it means.  Your land's dead already, it's just still kicking is all.",
+    "responses": [
+      {
+        "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "topic": "TALK_EXODII_MERCHANT_Survival"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Survival",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much flesh an' bone.",
+    "//~": "English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" } },
+    "responses": [
+      { "text": "Well… could you help me fix that?", "topic": "TALK_EXODII_MERCHANT_Exodize" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Tech",
+    "type": "talk_topic",
+    "dynamic_line": "Not to me it don't.  We ain't tassed from around here though.  Looks fine an' fine to you I'd razz.",
+    "responses": [
+      {
+        "text": "[int or per 7] Not from around here?  Are you aliens or something?",
+        "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
+        "topic": "TALK_EXODII_MERCHANT_Aliens"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeTest",
+    "type": "talk_topic",
+    "dynamic_line": "Sure an' I can make you a cyborg, here an' now, since you're a developer an' all.",
+    "responses": [
+      { "text": "Let's do it.", "effect": "cyborg_conversion", "topic": "TALK_EXODII_MERCHANT_Exodized" },
+      { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "I changed my mind.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_int": [ { "u_val": "sold" }, { "const": 100 } ],
+      "op": ">=",
+      "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+      "no": {
+        "u_compare_var": "exodii_trust",
+        "type": "counter",
+        "context": "exodii",
+        "op": ">=",
+        "value": 5,
+        "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+        "no": "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no exodii turn away a willin' Benny, and so it is."
+      }
+    },
+    "//~": "English: Yes: Oh, well.  Now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up. No: Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The exodii won't turn away a willing convert.",
+    "responses": [
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "Maybe try that clarity-draught?",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "OK, well, I've got some stuff I could trade right now.",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "OK, maybe I'll come back when I've traded a bit more.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeTranslate",
+    "type": "talk_topic",
+    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*\n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
+    "responses": [
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      {
+        "text": "Why can't you talk that clearly all the time?  You have no idea how hard it is to understand your accent, let alone your words.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeDialect"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
+    "type": "talk_topic",
+    "dynamic_line": "*This'n's* accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+    "//~": "English: MY accent?  You've obviously never had to listen to yourself talk.  Great Grey has more important work to do, get it?  I have to keep myself useful and keep Gret Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it.",
+    "responses": [
+      {
+        "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
+        "condition": {
+          "or": [
+            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": ">=",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": "<",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the exodii overall psych assessment of your character.",
+        "effect": [
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "The more I talk to you, the more I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      { "text": "OK, OK.  What was it you said?  I was distracted by the voice change.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
+    "type": "talk_topic",
+    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r nightie for it is 'anus fetick'.  You bring us two 'anus fetick' kits, us'll fix'n ye up wi' a wire an' a tiff.",
+    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us two anesthetic kits, we'll fix you up with a wire and everything.",
+    "responses": [
+      {
+        "text": "Two, uh, anesthetic kits, coming up.  Can we talk a bit more though?",
+        "effect": { "assign_mission": "EXODIZE_1_ANUS_FETICK" },
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "Two, uh, anesthetic kits, coming up.  See you later.",
+        "effect": { "assign_mission": "EXODIZE_1_ANUS_FETICK" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeNope",
+    "type": "talk_topic",
+    "dynamic_line": "An' that's a fine choice, I'd razz.  If'n ye change mind, ol' Rubik's here for the long an' short.  You get to know us'n better, us'n get to know you better, an' that's a good tassin'.",
+    "speaker_effect": [
+      {
+        "condition": { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+        "//": "Rubik considers it a good sign that you might be a bit unsure about diving into exodization.",
+        "effect": [
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 2 },
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "u_add_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+          { "u_add_var": "u_declined_exodization", "type": "timer", "context": "blobpsychosis", "time": true }
+        ]
+      }
+    ],
+    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized",
+    "type": "talk_topic",
+    "dynamic_line": "*Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.*/n/n*You awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anaesthesia fades you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.*/n/nAh, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.",
+    "responses": [
+      { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized2",
+    "type": "talk_topic",
+    "dynamic_line": "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more.",
+    "responses": [
+      {
+        "text": "So you can sell me more bionics, and as I get to know you better you'll have more?  Mind showing me what you've got right now?",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "EXODIZE_1_ANUS_FETICK",
+    "type": "mission_definition",
+    "name": { "str": "Bring two anesthesia kits to Rubik" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 10000,
+    "item": "anesthetic_kit",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If'n us'll to add the metal an' plastic for ye, us'll need two o' them anus-fetick kits, one for your thinkin'-meat an' one for our stock.",
+      "offer": "If'n us'll to add the metal an' plastic for ye, us'll need two o' them anus-fetick kits, one for your thinkin'-meat an' one for our stock.",
+      "accepted": "King's own luck!",
+      "rejected": "That be a choice an' you can tass.  Come back to this'n if you like.",
+      "advice": "Check round the chirurgery an' such, I'd razz.",
+      "inquire": "Us'n waits patient-like for those kits.",
+      "success": "Fine an' fine.  We can pass it in when you like.",
+      "success_lie": "Fine an' fine.  We can pass it in when you like.",
+      "failure": "Fine an' fine.  Come back to this'n if you like to try again."
+    }
+  }
+]
