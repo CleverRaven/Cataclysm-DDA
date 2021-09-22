@@ -96,8 +96,8 @@ void weakpoint::apply_to( resistances &resistances ) const
 
 void weakpoint::apply_to( damage_instance &damage ) const
 {
-    for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
-        damage.damage_units[i].damage_multiplier *= damage_mult[i];
+    for( auto &elem : damage.damage_units ) {
+        elem.damage_multiplier *= damage_mult[static_cast<int>( elem.type )];
     }
 }
 
