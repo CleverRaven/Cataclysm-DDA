@@ -422,7 +422,7 @@ struct repetition_folder {
 };
 
 static repetition_folder rep_folder;
-void output_repetitions( std::ostream &out );
+static void output_repetitions( std::ostream &out );
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
