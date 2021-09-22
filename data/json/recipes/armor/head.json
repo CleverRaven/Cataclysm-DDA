@@ -1531,7 +1531,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ], [ "fabric_standard_nostretch", 4 ]
+    "using": [ [ "sewing_standard", 3 ], [ "fabric_standard_nostretch", 4 ] ]
   },
   {
     "result": "pot_helmet",
