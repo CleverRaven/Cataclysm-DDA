@@ -55,6 +55,130 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_postit_bio",
+    "copy-from": "survnote",
+    "name": { "str": "post-it note" },
+    "description": "A bright yellow post-it note.",
+    "snippet_category": "lab_postit_bio"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_blob",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_blob"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_migo",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_migo"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_portal",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_portal"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_postit_tech",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "snippet_category": "lab_postit_tech"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_bio",
+    "name": { "str": "Lab file" },
+    "copy-from": "file",
+    "snippet_category": "lab_file_bio"
+  },
+  {
+    "type": "GENERIC",
+    "id": "sci_file",
+    "name": { "str": "lab file" },
+    "conditional_names": [
+      { "type": "VAR", "condition": "npctalk_var_file_lab_bio", "name": { "str_sp": "%s (biology)" } },
+      { "type": "VAR", "condition": "npctalk_var_file_lab_blob", "name": { "str_sp": "%s (XE037)" } },
+      { "type": "VAR", "condition": "npctalk_var_file_lab_migo", "name": { "str_sp": "%s (Mi-Go)" } },
+      { "type": "VAR", "condition": "npctalk_var_file_lab_portal", "name": { "str_sp": "%s (metatopography)" } },
+      { "type": "VAR", "condition": "npctalk_var_file_lab_psychology", "name": { "str_sp": "%s (psychology)" } },
+      { "type": "VAR", "condition": "npctalk_var_file_lab_security", "name": { "str_sp": "%s (security)" } }
+    ],
+    "copy-from": "file",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LAB_FILE_SETUP",
+          "condition": { "not": { "npc_has_var": "type_set", "type": "lab", "context": "file", "value": "yes" } },
+          "effect": [
+            { "npc_add_var": "type_set", "type": "lab", "context": "file", "value": "yes" },
+            {
+              "npc_add_var": "type",
+              "type": "lab",
+              "context": "file",
+              "possible_values": [ "bio", "blob", "migo", "portal", "psychology", "security" ]
+            }
+          ]
+        },
+        {
+          "id": "EOC_LAB_FILE_BIO",
+          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "bio" },
+          "effect": [
+            { "u_message": "lab_postit_bio", "snippet": true, "popup": true },
+            { "npc_add_var": "bio", "type": "file", "context": "lab", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_LAB_FILE_BLOB",
+          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "blob" },
+          "effect": [
+            { "u_message": "lab_postit_blob", "snippet": true, "popup": true },
+            { "npc_add_var": "blob", "type": "file", "context": "lab", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_LAB_FILE_MIGO",
+          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "migo" },
+          "effect": [
+            { "u_message": "lab_postit_migo", "snippet": true, "popup": true },
+            { "npc_add_var": "migo", "type": "file", "context": "lab", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_LAB_FILE_PORTAL",
+          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "portal" },
+          "effect": [
+            { "u_message": "lab_postit_portal", "snippet": true, "popup": true },
+            { "npc_add_var": "portal", "type": "file", "context": "lab", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_LAB_FILE_PSYCHOLOGY",
+          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "psychology" },
+          "effect": [
+            { "u_message": "You instantly feel more psycho!" },
+            { "npc_add_var": "psychology", "type": "file", "context": "lab", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_LAB_FILE_SECURITY",
+          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "security" },
+          "effect": [
+            { "u_message": "You instantly feel more secure!" },
+            { "npc_add_var": "security", "type": "file", "context": "lab", "value": "" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
     "id": "character_sheet",
     "category": "books",
     "symbol": ",",
