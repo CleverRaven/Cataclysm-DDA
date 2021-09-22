@@ -62,7 +62,6 @@
   {
     "//": "table of contents: common response strings appearing in this list of topics",
     "id": [
-      "TALK_EXODII_MERCHANT_Reddit",
       "TALK_EXODII_MERCHANT_New",
       "TALK_EXODII_MERCHANT_Talk",
       "TALK_EXODII_MERCHANT_Aliens2",
@@ -148,7 +147,6 @@
       }
     ],
     "responses": [
-      { "text": "Reddit is really excited to meet you, you know.", "topic": "TALK_EXODII_MERCHANT_Reddit" },
       {
         "text": "Who are you?  What is this place?",
         "topic": "TALK_EXODII_MERCHANT_New",
@@ -168,12 +166,6 @@
       },
       { "text": "Hell no, I'm out of here.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_Reddit",
-    "type": "talk_topic",
-    "dynamic_line": "Fine an' fine, this'n's rightly excited to get implemented, I'd razz.",
-    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "effect_type",
