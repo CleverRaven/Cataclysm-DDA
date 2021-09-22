@@ -22,7 +22,7 @@ class cardreader_examine_actor : public iexamine_actor
         std::map<ter_str_id, ter_str_id> terrain_changes;
         std::map<furn_str_id, furn_str_id> furn_changes;
         // Option 2: Regenerate entire current overmap tile
-        std::string mapgen_id;
+        update_mapgen_id mapgen_id;
 
         cata::optional<int> omt_allowed_radius;
 
