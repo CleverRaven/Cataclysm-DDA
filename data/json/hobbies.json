@@ -461,7 +461,7 @@
     "name": "Arts and Crafts",
     "description": "You loved doing crafts at home.  Hopefully this can aid you in surviving now that the world has gone to hell.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
   },
   {
     "type": "profession",
