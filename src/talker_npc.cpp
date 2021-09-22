@@ -52,6 +52,7 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 talker_npc::talker_npc( npc *new_me )
 {
+    me_npc = new_me;
     me_chr = new_me;
     me_chr_const = new_me;
 }
