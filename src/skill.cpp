@@ -277,6 +277,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
+    practice();
 }
 
 
@@ -322,6 +323,11 @@ bool SkillLevel::isRusty() const
 
 bool SkillLevel::rust( int rust_resist )
 {
+    if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
+        // don't rust within the grace period
+        return false;
+    }
+
     if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;

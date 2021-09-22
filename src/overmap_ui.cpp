@@ -1069,7 +1069,7 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
-    if( data.debug_editor && center_seen ) {
+    if( ( data.debug_editor && center_seen ) || data.debug_info ) {
         const oter_t &oter = overmap_buffer.ter( center ).obj();
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
@@ -1936,19 +1936,25 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display( center, data );
 }
 
-tripoint_abs_omt ui::omap::choose_point()
+tripoint_abs_omt ui::omap::choose_point( bool show_debug_info )
 {
-    return overmap_ui::display( get_player_character().global_omt_location() );
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
+    return overmap_ui::display( get_player_character().global_omt_location(), data );
 }
 
-tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin )
+tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin, bool show_debug_info )
 {
-    return overmap_ui::display( origin );
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
+    return overmap_ui::display( origin, data );
 }
 
-tripoint_abs_omt ui::omap::choose_point( int z )
+tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
 {
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
     tripoint_abs_omt loc = get_player_character().global_omt_location();
     loc.z() = z;
-    return overmap_ui::display( loc );
+    return overmap_ui::display( loc, data );
 }

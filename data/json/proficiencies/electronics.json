@@ -11,6 +11,38 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_elec_circuits",
+    "name": { "str": "Electrical Circuits" },
+    "description": "Practical experience building electrical circuits, and a grasp of the principles of electrical continuity, current, voltage, and resistance.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 4,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_elec_semiconductors",
+    "name": { "str": "Semiconductors" },
+    "description": "Basic working knowledge of using semiconductors such as diodes and transistors in electrical circuits, for switching or amplifying electrical signals.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2,
+    "required_proficiencies": [ "prof_elec_circuits" ],
+    "time_to_learn": "12 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_elec_integrated_circuits",
+    "name": { "str": "Integrated Circuits" },
+    "description": "Familiarity with the role of IC chips in circuit design, and ability to identify many common pre-cataclysm ICs and understand how to use them in functional circuits.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 3,
+    "required_proficiencies": [ "prof_elec_semiconductors" ],
+    "time_to_learn": "16 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_electromagnetics",
     "name": { "str": "Electromagnetics" },
     "description": "A practical working knowledge of electromagnetic fields and their creation and application.",

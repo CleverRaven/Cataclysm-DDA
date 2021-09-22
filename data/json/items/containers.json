@@ -1757,6 +1757,7 @@
     "price_postapoc": 0,
     "to_hit": -2,
     "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1782,6 +1783,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1896,6 +1898,7 @@
       }
     ],
     "material": [ "plastic", "aluminum" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "light_gray"
   },

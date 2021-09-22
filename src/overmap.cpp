@@ -4144,7 +4144,8 @@ void overmap::place_cities()
         } else {                 // 17% huge
             size = size * 2;
         }
-        size = std::max( size, 1 );
+        // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
+        size = std::max( size, 2 );
 
         // TODO: put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
@@ -4671,7 +4672,8 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
 
         const oter_id &ter_id = ter( pos );
 
-        if( ter_id->is_river() || !connection.pick_subtype_for( ter_id ) ) {
+        if( ter_id->is_river() || ter_id->is_ravine() || ter_id->is_ravine_edge() ||
+            !connection.pick_subtype_for( ter_id ) ) {
             break;
         }
 

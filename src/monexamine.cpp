@@ -381,6 +381,7 @@ void remove_leash( monster &z )
     if( !z.has_effect( effect_leashed ) ) {
         return;
     }
+    z.remove_effect( effect_led_by_leash );
     z.remove_effect( effect_leashed );
     if( z.tied_item ) {
         get_player_character().i_add( *z.tied_item );
