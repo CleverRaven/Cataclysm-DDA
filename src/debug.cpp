@@ -443,7 +443,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             rep_folder.increment_count();
 
             // Yell at user and crash if we get too high repetition count
-            if( rep_folder.repeat_count > rep_folder.repetition_killswitch ) {
+            if( rep_folder.repeat_count > repetition_folder::repetition_killswitch ) {
                 cata_fatal( "Repetition threshold exceeded, killing program" );
             }
         }
