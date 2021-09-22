@@ -31,9 +31,6 @@ struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( Character &, const tripoint & );
-using iexamine_function_ref = void( & )( Character &, const tripoint & );
-
 template <typename E> struct enum_traits;
 
 struct map_bash_info {
@@ -321,6 +318,16 @@ enum ter_connects : int {
     TERCONN_RAIL,
     TERCONN_COUNTER,
     TERCONN_CANVAS_WALL,
+    TERCONN_SAND,
+    TERCONN_PIT_DEEP,
+    TERCONN_LINOLEUM,
+    TERCONN_CARPET,
+    TERCONN_CONCRETE,
+    TERCONN_CLAY,
+    TERCONN_DIRT,
+    TERCONN_ROCKFLOOR,
+    TERCONN_METALFLOOR,
+    TERCONN_WOODFLOOR,
 };
 
 struct activity_byproduct {
@@ -547,6 +554,7 @@ struct ter_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
@@ -598,6 +606,7 @@ struct furn_t : map_data_common_t {
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
 
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
 
     cata::value_ptr<furn_workbench_info> workbench;

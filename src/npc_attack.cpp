@@ -93,7 +93,7 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
-    if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) ) {
         source.unwield();
     }
@@ -324,7 +324,7 @@ std::vector<npc_attack_rating> npc_attack_melee::all_evaluations( const npc &sou
 bool npc_attack_melee::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( weapon ).success();
+    return source.is_wielding( weapon ) || source.can_wield( weapon ).success();
 }
 
 int npc_attack_melee::base_time_penalty( const npc &source ) const
@@ -563,8 +563,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if( !source.is_wielding( *source.get_wielded_item() ) ) {
-        if( !source.wield( *source.get_wielded_item() ) ) {
+    if( !source.is_wielding( source.get_wielded_item() ) ) {
+        if( !source.wield( source.get_wielded_item() ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -582,10 +582,10 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
     }
 
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                   source.get_wielded_item()->display_name() );
-    item thrown( *source.get_wielded_item() );
-    if( source.get_wielded_item()->count_by_charges() && source.get_wielded_item()->charges > 1 ) {
-        source.get_wielded_item()->mod_charges( -1 );
+                   source.get_wielded_item().display_name() );
+    item thrown( source.get_wielded_item() );
+    if( source.get_wielded_item().count_by_charges() && source.get_wielded_item().charges > 1 ) {
+        source.get_wielded_item().mod_charges( -1 );
         thrown.charges = 1;
     } else {
         source.remove_weapon();

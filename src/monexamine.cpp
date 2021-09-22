@@ -381,6 +381,7 @@ void remove_leash( monster &z )
     if( !z.has_effect( effect_leashed ) ) {
         return;
     }
+    z.remove_effect( effect_led_by_leash );
     z.remove_effect( effect_leashed );
     if( z.tied_item ) {
         get_player_character().i_add( *z.tied_item );
@@ -690,9 +691,9 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( player_character.get_wielded_item()->is_null() && z.battery_item ) {
+        if( player_character.get_wielded_item().is_null() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !player_character.get_wielded_item()->is_null() ) {
+        } else if( !player_character.get_wielded_item().is_null() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
@@ -852,8 +853,8 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
-                                   "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
+                         n_gettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
                 player_character.use_charges( itype_cash_card, amount * 10 );

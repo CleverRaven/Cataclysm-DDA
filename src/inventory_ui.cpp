@@ -125,7 +125,7 @@ class selection_column_preset : public inventory_selector_preset
         nc_color get_color( const inventory_entry &entry ) const override {
             Character &player_character = get_player_character();
             if( entry.is_item() ) {
-                if( &*entry.any_item() == player_character.get_wielded_item() ) {
+                if( &*entry.any_item() == &player_character.get_wielded_item() ) {
                     return c_light_blue;
                 } else if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -1478,7 +1478,7 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 void inventory_selector::add_character_items( Character &character, bool include_hidden )
 {
     character.visit_items( [ this, &character, &include_hidden ]( item * it, item * ) {
-        if( it == character.get_wielded_item() ) {
+        if( it == &character.get_wielded_item() ) {
             add_item( own_gear_column, item_location( character, it ),
                       &item_category_id( "WEAPON_HELD" ).obj(), include_hidden );
         } else if( character.is_worn( *it ) ) {
@@ -1932,9 +1932,9 @@ void inventory_selector::query_set_filter()
     }
 }
 
-int inventory_selector::query_count( std::string init )
+int inventory_selector::query_count()
 {
-    std::pair< bool, std::string > query = query_string( init );
+    std::pair< bool, std::string > query = query_string( "" );
     int ret = -1;
     if( query.first ) {
         try {
@@ -2161,7 +2161,7 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
+        if( allow_hide && ( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             if( current_ui ) {
                 std::vector<item_location> inv = get_selected().locations;
@@ -2284,7 +2284,7 @@ void inventory_selector::toggle_categorize_contained()
             if( ancestor.where() != item_location::type::character ) {
                 // might have been merged from the map column
                 custom_category = entry->get_category_ptr();
-            } else if( &*ancestor == u.get_wielded_item() ) {
+            } else if( &*ancestor == &u.get_wielded_item() ) {
                 custom_category = &item_category_id( "WEAPON_HELD" ).obj();
             } else if( u.is_worn( *ancestor ) ) {
                 custom_category = &item_category_id( "ITEMS_WORN" ).obj();
@@ -2526,7 +2526,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     on_change( entry );
 }
 
-void inventory_multiselector::toggle_entries( const toggle_mode mode, int count )
+void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode )
 {
     std::vector<inventory_entry *> selected;
     switch( mode ) {
@@ -2597,18 +2597,8 @@ void inventory_multiselector::toggle_entries( const toggle_mode mode, int count 
     if( !allow_select_contained ) {
         deselect_contained_items();
     }
-}
 
-int inventory_multiselector::get_count( const inventory_input input,
-                                        const bool no_mark_count_bound )
-{
-    int count = 0;
-    if( input.action == "MARK_WITH_COUNT" || ( no_mark_count_bound && input.ch >= '0' &&
-            input.ch <= '9' ) ) {
-        count = query_count( no_mark_count_bound ? std::string( 1, input.ch ) : "" );
-    }
-
-    return count;
+    count = 0;
 }
 
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
@@ -2696,6 +2686,7 @@ inventory_iuse_selector::inventory_iuse_selector(
     inventory_multiselector( p, preset, selector_title, /*allow_select_contained=*/true ),
     get_stats( get_st )
 {}
+
 drop_locations inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
@@ -2712,6 +2703,7 @@ drop_locations inventory_iuse_selector::execute()
             }
         }
     }
+    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
@@ -2720,17 +2712,21 @@ drop_locations inventory_iuse_selector::execute()
 
         if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            toggle_entries();
+            toggle_entries( count );
         } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( toggle_mode::NON_FAVORITE_NON_WORN );
-        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
-                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
-                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
-            int count = get_count( input, noMarkCountBound );
-            if( count < 0 ) {
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
+            int query_result = query_count();
+            if( query_result < 0 ) {
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
-            toggle_entries( toggle_mode::SELECTED, count );
+            toggle_entries( query_result, toggle_mode::SELECTED );
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count, toggle_mode::SELECTED );
+        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -2823,6 +2819,7 @@ drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
+    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
@@ -2831,17 +2828,21 @@ drop_locations inventory_drop_selector::execute()
 
         if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            toggle_entries();
+            toggle_entries( count );
         } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( toggle_mode::NON_FAVORITE_NON_WORN );
-        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
-                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
-                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
-            int count = get_count( input, noMarkCountBound );
-            if( count < 0 ) {
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
+            int query_result = query_count();
+            if( query_result < 0 ) {
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
-            toggle_entries( toggle_mode::SELECTED, count );
+            toggle_entries( query_result, toggle_mode::SELECTED );
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count, toggle_mode::SELECTED );
+        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),

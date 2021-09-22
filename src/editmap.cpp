@@ -661,7 +661,7 @@ void editmap::draw_main_ui_overlay()
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
                                                 point_zero );
                     }
-                    g->draw_below_override( map_p, here.has_zlevels() &&
+                    g->draw_below_override( map_p,
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
@@ -819,7 +819,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         target_stack.begin()->tname() );
         off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off ), n_gettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );

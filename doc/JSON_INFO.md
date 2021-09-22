@@ -131,6 +131,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
+      - [`hacksaw`](#hacksaw)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -146,6 +147,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
+      - [`hacksaw`](#hacksaw-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -2373,7 +2375,17 @@ See also VEHICLE_JSON.md
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
   "balance": "neutral"                       // the item's balance value
-}
+},
+"variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
+"variants": [              // Cosmetic variants this item can have
+  {
+    "id": "varianta",                           // id used in spawning to spawn this variant specifically
+    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
+    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
+    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+  }
+],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2806,15 +2818,6 @@ Guns can be defined like this:
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
-"variants": [              // Cosmetic variants this gun can have
-  {
-    "id": "varianta",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A pistol" },      // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A pistol",  // The description used instead of the default when this variant is selected
-    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
-    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
-  }
-],
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used
@@ -3478,7 +3481,21 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "deconstruct": "TODO",
     "max_volume": "1000 L",
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
+    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" },
+    "boltcut": {
+      "result": "f_safe_open",
+      "duration": "1 seconds",
+      "message": "The safe opens.",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 3 } ]
+    },
+    "hacksaw": {
+      "result": "f_safe_open",
+      "duration": "12 seconds",
+      "message": "The safe is hacksawed open!",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 13 } ]
+    }
 }
 ```
 
@@ -3549,6 +3566,26 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 }
 ```
 
+#### `hacksaw`
+(Optional) Data for using with an hacksaw.
+```cpp
+"hacksaw": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
@@ -3596,7 +3633,21 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "transforms_into": "t_tree_harvested",
     "harvest_season": "WINTER",
     "roof": "t_roof",
-    "examine_action": "pit"
+    "examine_action": "pit",
+    "boltcut": {
+      "result": "t_door_unlocked",
+      "duration": "1 seconds",
+      "message": "The door opens.",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "2x4": 3 } ]
+    },
+    "hacksaw": {
+      "result": "t_door_unlocked",
+      "duration": "12 seconds",
+      "message": "The door is hacksawed open!",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "2x4": 13 } ]
+    }
 }
 ```
 
@@ -3666,6 +3717,26 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
     "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
     "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
     "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `hacksaw`
+(Optional) Data for using with an hacksaw.
+```cpp
+"hacksaw": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
     "byproducts": [ // ( optional ) list of items that will be spawned when finished
         {
             "item": "item_id",
@@ -4006,6 +4077,11 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+## `eocs`
+(optional, array of strings)
+
+A list of eocs that are triggered once for each new character on scenario start.
 
 ## `missions`
 (optional, array of strings)

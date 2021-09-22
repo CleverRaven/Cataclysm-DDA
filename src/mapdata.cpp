@@ -268,6 +268,16 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "RAIL",                     TERCONN_RAIL },
         { "COUNTER",                  TERCONN_COUNTER },
         { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
+        { "SAND",                     TERCONN_SAND },
+        { "PIT_DEEP",                 TERCONN_PIT_DEEP },
+        { "LINOLEUM",                 TERCONN_LINOLEUM },
+        { "CARPET",                   TERCONN_CARPET },
+        { "CONCRETE",                 TERCONN_CONCRETE },
+        { "CLAY",                     TERCONN_CLAY },
+        { "DIRT",                     TERCONN_DIRT },
+        { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
+        { "METALFLOOR",               TERCONN_METALFLOOR },
+        { "WOODFLOOR",               TERCONN_WOODFLOOR },
     }
 };
 
@@ -497,7 +507,7 @@ std::string map_data_common_t::name() const
 
 bool map_data_common_t::can_examine( const tripoint &examp ) const
 {
-    return examine_func.can_examine( examp );
+    return examine_actor || examine_func.can_examine( examp );
 }
 
 bool map_data_common_t::has_examine( iexamine_examine_function func ) const
@@ -1301,6 +1311,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
+        examine_func = iexamine_functions_from_string( "invalid" );
     } else {
         examine_func = iexamine_functions_from_string( "none" );
     }
@@ -1381,6 +1392,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     boltcut = cata::make_value<activity_data_ter>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
+    hacksaw = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
     optional( jo, was_loaded, "emissions", emissions );
@@ -1536,6 +1552,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
+    hacksaw = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );

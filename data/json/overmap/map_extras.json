@@ -14,7 +14,7 @@
     "type": "map_extra",
     "name": { "str": "College Kids" },
     "description": "Several corpses of college kids are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_collegekids" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_collegekids" },
     "sym": "c",
     "color": "light_red",
     "autonote": true

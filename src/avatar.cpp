@@ -57,6 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -181,6 +182,29 @@ void avatar::control_npc( npc &np )
     // center the map on the new avatar character
     g->vertical_shift( posz() );
     g->update_map( *this );
+}
+
+void avatar::control_npc_menu()
+{
+    std::vector<shared_ptr_fast<npc>> followers;
+    uilist charmenu;
+    int charnum = 0;
+    for( const auto &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            followers.emplace_back( follower );
+            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
+        }
+    }
+    if( followers.empty() ) {
+        return;
+    }
+    charmenu.w_y_setup = 0;
+    charmenu.query();
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
+        return;
+    }
+    get_avatar().control_npc( *followers.at( charmenu.ret ) );
 }
 
 void avatar::toggle_map_memory()
@@ -687,8 +711,8 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "A training session with this book takes %s." ),
                  to_string( time_duration::from_minutes( reading->time ) ) );
     } else {
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                   "A chapter of this book takes %d minutes to read.", reading->time ),
+        add_msg( m_info, n_gettext( "A chapter of this book takes %d minute to read.",
+                                    "A chapter of this book takes %d minutes to read.", reading->time ),
                  reading->time );
     }
 
@@ -793,6 +817,16 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     _( "You (%s)" ),
                                     get_name() ) - 1;
 }
+
+
+mfaction_id avatar::get_monster_faction() const
+{
+    // Can't be a static int_id, because mods add factions
+    static const string_id<monfaction> player_fac( "player" );
+
+    return player_fac.id();
+}
+
 
 void avatar::disp_morale()
 {
@@ -1120,31 +1154,6 @@ void avatar::reset_stats()
 
 }
 
-int avatar::get_str_base() const
-{
-    return Character::get_str_base() + std::max( 0, str_upgrade );
-}
-
-int avatar::get_dex_base() const
-{
-    return Character::get_dex_base() + std::max( 0, dex_upgrade );
-}
-
-int avatar::get_int_base() const
-{
-    return Character::get_int_base() + std::max( 0, int_upgrade );
-}
-
-int avatar::get_per_base() const
-{
-    return Character::get_per_base() + std::max( 0, per_upgrade );
-}
-
-int avatar::kill_xp() const
-{
-    return g->get_kill_tracker().kill_xp();
-}
-
 // based on  D&D 5e level progression
 static const std::array<int, 20> xp_cutoffs = { {
         300, 900, 2700, 6500, 14000,
@@ -1156,16 +1165,15 @@ static const std::array<int, 20> xp_cutoffs = { {
 
 int avatar::free_upgrade_points() const
 {
-    const int xp = kill_xp();
     int lvl = 0;
     for( const int &xp_lvl : xp_cutoffs ) {
-        if( xp >= xp_lvl ) {
+        if( kill_xp >= xp_lvl ) {
             lvl++;
         } else {
             break;
         }
     }
-    return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
+    return lvl - spent_upgrade_points;
 }
 
 void avatar::upgrade_stat_prompt( const character_stat &stat )
@@ -1173,13 +1181,11 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
     const int free_points = free_upgrade_points();
 
     if( free_points <= 0 ) {
-        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
-                xp_cutoffs.end(), kill_xp() );
-        if( xp_next_level == xp_cutoffs.end() ) {
+        const std::size_t lvl = spent_upgrade_points + free_points;
+        if( lvl >= xp_cutoffs.size() ) {
             popup( _( "You've already reached maximum level." ) );
         } else {
-            popup( _( "Needs %d more experience to gain next level." ),
-                   *xp_next_level - kill_xp() );
+            popup( _( "Needs %d more experience to gain next level." ), xp_cutoffs[lvl] - kill_xp );
         }
         return;
     }
@@ -1210,23 +1216,27 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
                   free_points ) ) {
         switch( stat ) {
             case character_stat::STRENGTH:
-                str_upgrade++;
+                str_max++;
+                spent_upgrade_points++;
+                recalc_hp();
                 break;
             case character_stat::DEXTERITY:
-                dex_upgrade++;
+                dex_max++;
+                spent_upgrade_points++;
                 break;
             case character_stat::INTELLIGENCE:
-                int_upgrade++;
+                int_max++;
+                spent_upgrade_points++;
                 break;
             case character_stat::PERCEPTION:
-                per_upgrade++;
+                per_max++;
+                spent_upgrade_points++;
                 break;
             case character_stat::DUMMY_STAT:
                 debugmsg( "Tried to use invalid stat" );
                 break;
         }
     }
-    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1319,8 +1329,8 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
-    item *weapon = get_wielded_item();
-    if( weapon->has_item( target ) ) {
+    item &weapon = get_wielded_item();
+    if( weapon.has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
@@ -1329,7 +1339,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    bool combine_stacks = target.can_combine( *weapon );
+    bool combine_stacks = target.can_combine( weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
@@ -1356,28 +1366,28 @@ bool avatar::wield( item &target, const int obtain_cost )
     if( has_item( target ) ) {
         item removed = i_rem( &target );
         if( combine_stacks ) {
-            weapon->combine( removed );
+            weapon.combine( removed );
         } else {
             set_wielded_item( removed );
 
         }
     } else {
         if( combine_stacks ) {
-            weapon->combine( target );
+            weapon.combine( target );
         } else {
             set_wielded_item( target );
         }
     }
 
-    last_item = weapon->typeId();
+    last_item = weapon.typeId();
     recoil = MAX_RECOIL;
 
-    weapon->on_wield( *this );
+    weapon.on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv->update_invlet( *weapon );
-    inv->update_cache_with_item( *weapon );
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
 
     return true;
 }

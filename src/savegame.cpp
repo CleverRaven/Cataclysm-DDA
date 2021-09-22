@@ -95,8 +95,6 @@ void game::serialize( std::ostream &fout )
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
-    json.member( "stair_monsters", coming_to_stairs );
-    json.member( "monstairz", monstairz );
 
     json.member( "driving_view_offset", driving_view_offset );
     json.member( "turnssincelastmon", turnssincelastmon );
@@ -211,34 +209,14 @@ void game::unserialize( std::istream &fin, const std::string &path )
         }
         data.read( "active_monsters", *critter_tracker );
 
-        coming_to_stairs.clear();
-        for( JsonValue elem : data.get_array( "stair_monsters" ) ) {
-            monster stairtmp;
-            elem.read( stairtmp );
-            coming_to_stairs.push_back( stairtmp );
-        }
-        data.read( "monstairz", monstairz );
+        data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
+        data.has_null( "monstairz" ); // TEMPORARY until 0.G
 
         data.read( "driving_view_offset", driving_view_offset );
         data.read( "turnssincelastmon", turnssincelastmon );
         data.read( "bVMonsterLookFire", bVMonsterLookFire );
 
-        if( data.has_object( "kill_tracker" ) ) {
-            data.read( "kill_tracker", *kill_tracker_ptr );
-        } else {
-            // Legacy support for when kills were stored directly in game
-            std::map<mtype_id, int> kills;
-            std::vector<std::string> npc_kills;
-            for( const JsonMember member : data.get_object( "kills" ) ) {
-                kills[mtype_id( member.name() )] = member.get_int();
-            }
-
-            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
-                npc_kills.push_back( npc_name );
-            }
-
-            kill_tracker_ptr->reset( kills, npc_kills );
-        }
+        data.read( "kill_tracker", *kill_tracker_ptr );
 
         data.read( "player", u );
         inp_mngr.pump_events();
@@ -413,6 +391,21 @@ void overmap::convert_terrain(
             ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
             ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
             ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
+        } else if( old == "anthill" ||
+                   old == "acid_anthill" ||
+                   old == "ants_larvae" ||
+                   old == "ants_larvae_acid" ||
+                   old == "ants_queen" ||
+                   old == "ants_queen_acid" ||
+                   old == "ants_food" ) {
+            std::string new_ = old;
+            if( string_ends_with( new_, "_acid" ) ) {
+                new_.erase( new_.end() - 5, new_.end() );
+            }
+            if( string_starts_with( new_, "acid_" ) ) {
+                new_.erase( new_.begin(), new_.begin() + 5 );
+            }
+            ter_set( pos, oter_id( new_ + "_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -667,7 +660,7 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" ) > 0;
+                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {

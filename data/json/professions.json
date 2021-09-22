@@ -1014,7 +1014,7 @@
           {
             "item": "m4_carbine",
             "variant": "m4a1",
-            "ammo-item": "556",
+            "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
@@ -1966,7 +1966,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "ar15", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "item": "ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3879,7 +3879,7 @@
           {
             "item": "m4_carbine",
             "variant": "m4a1",
-            "ammo-item": "556",
+            "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
@@ -4019,6 +4019,42 @@
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "mafia_boss",
+    "name": "Mafia boss",
+    "description": "Born into poverty, you joined one of the organized crime families to make a living.  There, you quickly made it to the top and became the boss.  The government was building a RICO case against you, but the doomsday arrived first.  Your crew is gone, but your past life prepared you for a world where violence is common currency.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "smg" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 4, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tux",
+          "fedora",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "gold_watch",
+          "diamond_ring",
+          "cigar",
+          "gold_bracelet",
+          "knuckle_brass"
+        ],
+        "entries": [
+          { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
+          { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     },
     "traits": [ "LIAR" ]
   }

@@ -462,7 +462,8 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void finalize_parameters();
         void check() const;
         bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-                         mission *miss, bool verify = false ) const;
+                         mission *miss, bool verify = false,
+                         bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 ) const;
         bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 
@@ -546,7 +547,6 @@ enum room_type {
 
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
