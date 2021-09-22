@@ -67,6 +67,11 @@ void activity_tracker::weary_clear()
     tick_counter = 0;
 }
 
+void activity_tracker::set_intake( int ncal )
+{
+    intake = ncal;
+}
+
 std::string activity_tracker::debug_weary_info() const
 {
     return string_format( "Intake: %.1f Tracker: %.1f", intake / 1000.0f, tracker / 1000.0f );

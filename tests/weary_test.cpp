@@ -42,7 +42,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
         clear_avatar();
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( desk_8h, false );
         INFO( info.summarize() );
@@ -53,7 +53,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Moderate tasks" ) {
         INFO( "\nPlanting 8 hours:" );
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( moderate_8h );
         INFO( info.summarize() );
@@ -66,7 +66,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Heavy tasks - Digging Pits 8 hours" ) {
         clear_avatar();
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
@@ -82,7 +82,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Heavy tasks - Digging Pits 12 hours" ) {
         clear_avatar();
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_12h, false );
         INFO( info.summarize() );
@@ -118,7 +118,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         soldier_8h.enschedule( task_wait, 8_hours );
 
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
@@ -201,7 +201,7 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
         soldier_8h.enschedule( sched_sleep, 8_hours );
 
         INFO( "\nDigging Pits 8 hours, then sleeping 8:" );
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
@@ -328,7 +328,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
     SECTION( "Heavy tasks" ) {
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         clear_avatar();
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h, false );
         INFO( info.summarize() );
@@ -370,7 +370,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
 
     SECTION( "Waiting 24 hours" ) {
         clear_avatar();
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( waiting_24h, false );
         INFO( info.summarize() );
@@ -381,7 +381,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
 
     SECTION( "Digging 24 hours" ) {
         clear_avatar();
-        guy.activity_history.intake = ( guy.base_bmr() * 1000 * 19 ) / 24;
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( digging_24h, false );
         INFO( info.summarize() );
