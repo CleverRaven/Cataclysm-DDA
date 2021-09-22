@@ -324,7 +324,9 @@ float Character::hit_roll() const
 
     // Difficult to land a hit while prone
     if( is_on_ground() ) {
-        hit -= one_in(4) ? 4.0f : 10.0f;
+        hit -= one_in( 4 ) ? 4.0f : 10.0f;
+    } else if( is_crouching() ) {
+        hit -= one_in( 4 ) ? 0.0f : 4.0f;
     }
 
     //Unstable ground chance of failure
@@ -686,6 +688,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // being prone affects how much leverage you can use to deal damage
         if( is_on_ground() ) {
             d.mult_damage( 0.3 );
+        } else if( is_crouching() ) {
+            d.mult_damage( 0.8 );
         }
 
         const ma_technique &technique = technique_id.obj();
@@ -821,9 +825,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     const int melee = get_skill_level( skill_melee );
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
-    const int prone_malus = is_on_ground() ? 50 : 0;
+    const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
 
-    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus - prone_malus ) );
+    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus - stance_malus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn: %d", std::min( -50, mod_sta ) );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
@@ -921,6 +925,8 @@ int stumble( Character &u, const item &weap )
     int str_mod = u.str_cur;
     if( u.is_on_ground() ) {
         str_mod /= 4;
+    } else if( u.is_crouching() ) {
+        str_mod /= 2;
     }
 
     // Examples:
@@ -2520,7 +2526,9 @@ int Character::attack_speed( const item &weap ) const
     move_cost *= mutation_value( "attackcost_modifier" );
 
     if( is_on_ground() ) {
-        move_cost *= 4.0f;
+        move_cost *= 4.0;
+    } else if( is_crouching() ) {
+        move_cost *= 1.5;
     }
 
     if( move_cost < 25.0 ) {
