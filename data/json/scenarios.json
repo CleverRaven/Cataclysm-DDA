@@ -115,7 +115,7 @@
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED", "CITY_START" ],
+    "flags": [ "CITY_START" ],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -135,7 +135,7 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+    "eoc": [ "scenario_infected" ]
   },
   {
     "type": "scenario",
@@ -194,7 +194,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
+    "eoc": [ "scenario_fungal_infection" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -249,7 +250,8 @@
       "sloc_cemetery"
     ],
     "professions": [ "svictim", "tweaker" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START", "LONE_START" ]
+    "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -333,7 +335,7 @@
     "id": "lab_cargo_staff_1",
     "name": "Challenge - Trans-Coast Logistics Concourse",
     "points": -6,
-    "description": "You were deemed essential and required stay behind during the facility's evacuation.  Find a way to escape and you better find that lanyard you misplaced before the automated defenses notice you don't have one.",
+    "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find your misplaced lanyard with your badge before the automated defenses notice that you don't have one.",
     "start_name": "Locked Lab",
     "professions": [ "security" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],

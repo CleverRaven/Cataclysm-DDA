@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "character_id.h"
+#include "effect.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"
@@ -198,9 +199,14 @@ bool talker_character::knows_proficiency( const proficiency_id &proficiency ) co
     return me_chr->has_proficiency( proficiency );
 }
 
-bool talker_character::has_effect( const efftype_id &effect_id ) const
+bool talker_character::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
-    return me_chr->has_effect( effect_id );
+    return me_chr->has_effect( effect_id, bp );
+}
+
+effect talker_character::get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
+{
+    return me_chr->get_effect( effect_id, bp );
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
@@ -299,7 +305,7 @@ bool talker_character::unarmed_attack() const
 
 bool talker_character::can_stash_weapon() const
 {
-    return me_chr->can_pickVolume( me_chr->weapon );
+    return me_chr->can_pickVolume( me_chr->get_wielded_item() );
 }
 
 bool talker_character::has_stolen_item( const talker &guy ) const
@@ -391,7 +397,7 @@ bool talker_character::worn_with_flag( const flag_id &flag ) const
 
 bool talker_character::wielded_with_flag( const flag_id &flag ) const
 {
-    return me_chr->weapon.has_flag( flag );
+    return me_chr->get_wielded_item().has_flag( flag );
 }
 
 units::energy talker_character::power_cur() const
@@ -424,9 +430,9 @@ bool talker_character::can_see() const
     return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
 }
 
-void talker_character::mod_fatigue( int amount )
+void talker_character::set_fatigue( int amount )
 {
-    me_chr->mod_fatigue( amount );
+    me_chr->set_fatigue( amount );
 }
 
 void talker_character::mod_healthy_mod( int amount, int cap )
@@ -460,7 +466,72 @@ void talker_character::mod_focus( int amount )
     me_chr->mod_focus( amount );
 }
 
-void talker_character::mod_rad( int amount )
+void talker_character::set_rad( int amount )
 {
-    me_chr->mod_rad( amount );
+    me_chr->set_rad( amount );
+}
+
+int talker_character::get_rad() const
+{
+    return me_chr->get_rad();
+}
+
+int talker_character::get_stim() const
+{
+    return me_chr->get_stim();
+}
+
+void talker_character::set_stim( int amount )
+{
+    me_chr->set_stim( amount );
+}
+
+int talker_character::get_pkill() const
+{
+    return me_chr->get_painkiller();
+}
+
+void talker_character::set_pkill( int amount )
+{
+    me_chr->set_painkiller( amount );
+}
+
+int talker_character::get_stamina() const
+{
+    return me_chr->get_stamina();
+}
+
+void talker_character::set_stamina( int amount )
+{
+    me_chr->set_stamina( amount );
+}
+
+int talker_character::get_sleep_deprivation() const
+{
+    return me_chr->get_sleep_deprivation();
+}
+
+void talker_character::set_sleep_deprivation( int amount )
+{
+    me_chr->set_sleep_deprivation( amount );
+}
+
+void talker_character::set_kill_xp( int amount )
+{
+    me_chr->kill_xp = amount;
+}
+
+int talker_character::get_kill_xp() const
+{
+    return me_chr->kill_xp;
+}
+
+void talker_character::add_bionic( const bionic_id &new_bionic )
+{
+    me_chr->add_bionic( new_bionic );
+}
+
+void talker_character::remove_bionic( const bionic_id &old_bionic )
+{
+    me_chr->remove_bionic( old_bionic );
 }

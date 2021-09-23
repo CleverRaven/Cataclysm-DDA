@@ -87,9 +87,6 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_TREE( "TREE" );
-
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
@@ -504,6 +501,96 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
+static bool extract_and_check_orientation_flags( const recipe_id recipe,
+        const point &dir,
+        bool &mirror_horizontal,
+        bool &mirror_vertical,
+        int &rotation,
+        const std::string base_error_message,
+        const std::string actor )
+{
+    mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
+    mirror_vertical = recipe->has_flag( "MAP_MIRROR_VERTICAL" );
+    rotation = 0;
+    std::string dir_string;
+
+    const auto check_rotation = [&]( const std::string & flag, int rotation_value ) {
+        if( recipe->has_flag( flag ) ) {
+            if( rotation != 0 ) {
+                debugmsg( "%s, the blueprint specifies multiple concurrent rotations, which is not supported",
+                          string_format( base_error_message, actor, recipe->get_blueprint() ) );
+                return false;
+            }
+            rotation = rotation_value;
+        }
+        return true;
+    };
+
+    if( !check_rotation( "MAP_ROTATE_90", 1 ) ) {
+        return false;
+    }
+
+    if( !check_rotation( "MAP_ROTATE_180", 2 ) ) {
+        return false;
+    }
+
+    if( !check_rotation( "MAP_ROTATE_270", 3 ) ) {
+        return false;
+    }
+
+    if( dir.x == -1 && dir.y == -1 ) {
+        dir_string = "NW";
+    } else if( dir.x == 0 && dir.y == -1 ) {
+        dir_string = "N";
+    } else if( dir.x == 1 && dir.y == -1 ) {
+        dir_string = "NE";
+    } else if( dir.x == -1 && dir.y == 0 ) {
+        dir_string = "W";
+    } else if( dir.x == 0 && dir.y == 0 ) {
+        dir_string = "";  //  Will result in "hidden" flags that can actually affect the core.
+    } else if( dir.x == 1 && dir.y == 0 ) {
+        dir_string = "E";
+    } else if( dir.x == -1 && dir.y == 1 ) {
+        dir_string = "SW";
+    } else if( dir.x == 0 && dir.y == 1 ) {
+        dir_string = "S";
+    } else if( dir.x == 1 && dir.y == 1 ) {
+        dir_string = "SE";
+    }
+
+    if( recipe->has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + dir_string ) ) {
+        if( mirror_horizontal ) {
+            debugmsg( "%s, the blueprint specifies multiple concurrent horizontal mirroring, which is not supported",
+                      string_format( base_error_message, actor, recipe->get_blueprint() ) );
+            return false;
+        }
+        mirror_horizontal = true;
+    }
+
+    if( recipe->has_flag( "MAP_MIRROR_VERTICAL_IF_" + dir_string ) ) {
+        if( mirror_vertical ) {
+            debugmsg( "%s, the blueprint specifies multiple concurrent vertical mirroring, which is not supported",
+                      string_format( base_error_message, actor, recipe->get_blueprint() ) );
+            return false;
+        }
+        mirror_vertical = true;
+    }
+
+    if( !check_rotation( "MAP_ROTATE_90_IF_" + dir_string, 1 ) ) {
+        return false;
+    }
+
+    if( !check_rotation( "MAP_ROTATE_180_IF_" + dir_string, 2 ) ) {
+        return false;
+    }
+
+    if( !check_rotation( "MAP_ROTATE_270_IF_" + dir_string, 3 ) ) {
+        return false;
+    }
+
+    return true;
+}
+
 static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
 
@@ -630,7 +717,8 @@ void talk_function::basecamp_mission( npc &p )
             mgr.cache_vzones();
         }
         tripoint src_loc;
-        const tripoint abspos = p.global_square_location().raw();
+        // TODO: fix point types
+        const tripoint abspos = p.get_location().raw();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -2305,7 +2393,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter->has_flag( flag_PLOWABLE );
+        return farm_ter->has_flag( ter_furn_flag::TFLAG_PLOWABLE );
     };
 
     std::set<std::string> plant_names;
@@ -2314,16 +2402,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
         seed_inv = comp->companion_mission_inv.items_with( farm_valid_seed );
     }
 
-    //farm_json is what the area should look like according to jsons
-    tinymap farm_json;
-    // We're probably going to rotate this tinymap to match the actual map.
-    // Let's make sure we don't move NPCs around when doing this.
-    farm_json.no_rotate_npcs = true;
-    // TODO: fix point types
-    farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
-    //farm_map is what the area actually looks like
+    // farm_map is what the area actually looks like
     tinymap farm_map;
     farm_map.load( project_to<coords::sm>( omt_tgt ), false );
+    // farm_json is what the area should look like according to jsons (loaded on demand)
+    std::unique_ptr<fake_map> farm_json;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     bool done_planting = false;
@@ -2334,15 +2417,24 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
             break;
         }
         switch( op ) {
-            case farm_ops::plow:
-                //Needs to be plowed to match json
-                if( is_dirtmound( pos, farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
+            case farm_ops::plow: {
+                if( !farm_json ) {
+                    farm_json = std::make_unique<fake_map>();
+                    mapgendata dat( omt_tgt, *farm_json, 0, calendar::turn, nullptr );
+                    if( !run_mapgen_func( dat.terrain_type()->get_mapgen_id(), dat ) ) {
+                        debugmsg( "Failed to run mapgen for farm map" );
+                        break;
+                    }
+                }
+                // Needs to be plowed to match json
+                if( is_dirtmound( pos, *farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         farm_map.ter_set( pos, t_dirtmound );
                     }
                 }
                 break;
+            }
             case farm_ops::plant:
                 if( is_dirtmound( pos, farm_map, farm_map ) ) {
                     plots_cnt += 1;
@@ -2573,7 +2665,23 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
     if( comp == nullptr ) {
         return false;
     }
-    if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
+
+    bool mirror_horizontal;
+    bool mirror_vertical;
+    int rotation;
+
+    if( !extract_and_check_orientation_flags( making.ident(),
+            dir,
+            mirror_horizontal,
+            mirror_vertical,
+            rotation,
+            "%s failed to build the %s upgrade",
+            comp->disp_name() ) ) {
+        return false;
+    }
+
+    if( !run_mapgen_update_func( making.get_blueprint(), upos, nullptr, true, mirror_horizontal,
+                                 mirror_vertical, rotation ) ) {
         popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                making.get_blueprint() );
@@ -2823,7 +2931,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
+    recruit->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
     recruit->mission = NPC_MISSION_NULL;
@@ -2913,7 +3021,22 @@ bool basecamp::survey_return()
     const recipe_id expansion_type = base_camps::select_camp_option( pos_expansions,
                                      _( "Select an expansion:" ) );
 
-    if( !run_mapgen_update_func( expansion_type.str(), where ) ) {
+    bool mirror_horizontal;
+    bool mirror_vertical;
+    int rotation;
+
+    if( !extract_and_check_orientation_flags( expansion_type,
+            dir,
+            mirror_horizontal,
+            mirror_vertical,
+            rotation,
+            "%s failed to build the %s expansion",
+            comp->disp_name() ) ) {
+        return false;
+    }
+
+    if( !run_mapgen_update_func( expansion_type.str(), where, nullptr, true, mirror_horizontal,
+                                 mirror_vertical, rotation ) ) {
         popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name() );
@@ -3144,7 +3267,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.ter( p ).obj().has_flag( flag_TREE ) && rng( 0, 100 ) < chance ) {
+        if( target_bay.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
             if( estimate ) {
                 continue;

@@ -77,9 +77,6 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_RAMP_END( "RAMP_END" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool check_water_affect_items( avatar &you )
@@ -158,7 +155,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+    if( ( you.get_working_leg_count() < 2 && !you.get_wielded_item().has_flag( flag_CRUTCHES ) ) &&
         !you.is_prone() ) {
         you.set_movement_mode( move_mode_id( "prone" ) );
         you.add_msg_if_player( m_bad,
@@ -182,27 +179,28 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     bool via_ramp = false;
-    if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
+    if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest_loc ) ) {
         dest_loc.z += 1;
         via_ramp = true;
-    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ) {
+    } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest_loc ) ) {
         dest_loc.z -= 1;
         via_ramp = true;
     }
 
-    if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
+    item &weapon = you.get_wielded_item();
+    if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
-        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) &&
-                you.weapon.ammo_sufficient( &you ) ) {
-                you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
+        if( weapon.has_flag( flag_DIG_TOOL ) ) {
+            if( weapon.type->can_use( "JACKHAMMER" ) &&
+                weapon.ammo_sufficient( &you ) ) {
+                you.invoke_item( &weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
+            } else if( weapon.type->can_use( "PICKAXE" ) ) {
+                you.invoke_item( &weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -402,10 +400,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
-    bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
+    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
+    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
+    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
+    bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
     bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
     if( is_riding ) {
@@ -527,7 +525,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // We're moving onto a tile with no support, check if it has a ramp below
     if( !m.has_floor_or_support( dest_loc ) ) {
         tripoint below( dest_loc.xy(), dest_loc.z - 1 );
-        if( m.has_flag( TFLAG_RAMP, below ) ) {
+        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
             move( you, m, tripoint( dp.xy(), -1 ) );
@@ -539,7 +537,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         return false;
     }
 
-    if( !m.has_flag( TFLAG_RAMP, you.pos() ) ||
+    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos() ) ||
         m.passable( dest_loc ) ) {
         return false;
     }
@@ -548,7 +546,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( flag_RAMP_END, pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -573,7 +571,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
-    if( !m.has_flag( flag_SWIMMABLE, p ) ) {
+    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );
@@ -660,7 +658,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return np->weapon_value( np->get_wielded_item() );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -669,7 +667,8 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    int reach = you.weapon.reach_range( you );
+    const item &weapon = you.get_wielded_item();
+    int reach = weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -795,7 +794,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item &weapon = you.weapon;
+    const item &weapon = you.get_wielded_item();
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -803,7 +802,8 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
+    } else if( weapon.ammo_data() &&
+               !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
@@ -849,7 +849,7 @@ void avatar_action::mend( avatar &you, item_location loc )
 
     if( !loc ) {
         if( you.is_armed() ) {
-            loc = item_location( you, &you.weapon );
+            loc = item_location( you, &you.get_wielded_item() );
         } else {
             add_msg( m_info, _( "You're not wielding anything." ) );
             return;
@@ -1027,7 +1027,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
+    item &weapon = you.get_wielded_item();
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1039,8 +1040,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
-        you.weapon.mod_charges( -1 );
+    if( weapon.count_by_charges() && weapon.charges > 1 ) {
+        weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.remove_weapon();

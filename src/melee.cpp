@@ -65,6 +65,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -129,7 +130,7 @@ static const efftype_id effect_amigara( "amigara" );
 static const species_id species_HUMAN( "HUMAN" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
-                                Creature &t, int dam, bool crit = false );
+                                Creature &t, int dam, bool crit = false, bool technique = false, std::string wp_hit = {} );
 static int  stumble( Character &u, const item &weap );
 static std::string melee_message( const ma_technique &tec, Character &p,
                                   const dealt_damage_instance &ddi );
@@ -585,6 +586,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             getID(), cur_weapon->typeId(), hits, c->getID(), c->get_name() );
     }
 
+    const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
+                                   MAX_SKILL;
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
@@ -624,7 +627,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
-            melee_train( *this, 2, 5, *cur_weapon );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), *cur_weapon );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -703,7 +706,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             if( allow_special ) {
                 perform_special_attacks( t, dealt_special_dam );
             }
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            weakpoint_attack attack;
+            attack.source = this;
+            attack.weapon = cur_weapon;
+            attack.is_melee = true;
+            attack.wp_skill = melee_weakpoint_skill( *cur_weapon );
+            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
                 dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
@@ -757,13 +765,14 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
-                melee_train( *this, 5, 10, *cur_weapon );
+                melee_train( *this, 5, std::min( 10, skill_training_cap ), *cur_weapon );
             }
 
             // Treat monster as seen if we see it before or after the attack
             if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
-                player_hit_message( this, message, t, dam, critical_hit );
+                player_hit_message( this, message, t, dam, critical_hit, technique.id != tec_none,
+                                    dealt_dam.wp_hit );
             } else {
                 add_msg_player_or_npc( m_good, _( "You hit something." ),
                                        _( "<npcname> hits something." ) );
@@ -862,7 +871,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
-                      here.has_flag( "THIN_OBSTACLE", path_point ) &&
+                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
@@ -1690,8 +1699,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = here.has_flag( "SWIMMABLE", prev_pos );
-            bool to_deepwater = here.has_flag( TFLAG_DEEP_WATER, prev_pos );
+            bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
+            bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile
             bool move_issue =
@@ -1762,7 +1771,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             melee_attack( *c, false );
         }
 
-        t.add_msg_if_player( m_good, ngettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
+        t.add_msg_if_player( m_good, n_gettext( "%d enemy hit!", "%d enemies hit!", count_hit ),
+                             count_hit );
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
         set_stamina( temp_stamina );
@@ -2027,7 +2037,11 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
         if( hit_spread >= 0 ) {
-            t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
+            weakpoint_attack attack;
+            attack.source = this;
+            attack.is_melee = true;
+            attack.wp_skill = melee_weakpoint_skill( null_item_reference() );
+            t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam, attack );
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
@@ -2149,7 +2163,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.weapon.is_two_handed( u ) || !u.has_two_arms_lifting() ||
+        if( u.get_wielded_item().is_two_handed( u ) || !u.has_two_arms_lifting() ||
             u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
@@ -2369,12 +2383,19 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         index = cutting ? 8 : 5;
     }
 
+    std::string message;
     if( dominant_type == damage_type::STAB ) {
-        return npc ? _( npc_stab[index] ) : _( player_stab[index] );
+        message = npc ? _( npc_stab[index] ) : _( player_stab[index] );
     } else if( dominant_type == damage_type::CUT ) {
-        return npc ? _( npc_cut[index] ) : _( player_cut[index] );
+        message = npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type == damage_type::BASH ) {
-        return npc ? _( npc_bash[index] ) : _( player_bash[index] );
+        message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
+    }
+    if( ddi.wp_hit.empty() ) {
+        return message;
+    } else {
+        //~ %1$s: "Somone hit something", %2$s: the weakpoint that was hit
+        return string_format( _( "%1$s in %2$s" ), message, ddi.wp_hit );
     }
 
     return _( "The bugs attack %s" );
@@ -2382,7 +2403,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
 
 // display the hit message for an attack
 void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit )
+                         Creature &t, int dam, bool crit, bool technique, std::string wp_hit )
 {
     std::string msg;
     game_message_type msgtype = m_good;
@@ -2404,6 +2425,10 @@ void player_hit_message( Character *attacker, const std::string &message,
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
+        } else if( technique && !wp_hit.empty() ) {
+            //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
+            msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s.  Critical!" ), message, dam,
+                                 wp_hit );
         } else {
             //~ someone hits something for %d damage (critical)
             msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
@@ -2414,6 +2439,9 @@ void player_hit_message( Character *attacker, const std::string &message,
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
+        } else if( technique && !wp_hit.empty() ) {
+            //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
+            msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s." ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage
             msg = string_format( _( "%s for %d damage." ), message, dam );
@@ -2557,8 +2585,8 @@ void avatar::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item &it = target.weapon;
-
+    item &it = target.get_wielded_item();
+    const item &weapon = get_wielded_item();
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
@@ -2598,7 +2626,7 @@ void avatar::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( weapon ) );
+    mod_moves( -100 - attack_speed( get_wielded_item() ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.get_name(), it.tname() );

@@ -18,9 +18,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "lab_security_check_surface_1",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "id": "lab_security_check_surface_3",
+    "recurrence_min": 5,
+    "recurrence_max": 30,
     "condition": {
       "and": [ { "u_at_om_location": "lab_res_8_SWU_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
     },
@@ -29,8 +29,8 @@
   {
     "type": "effect_on_condition",
     "id": "lab_security_check_surface_2",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence_min": 5,
+    "recurrence_max": 30,
     "condition": {
       "and": [ { "u_at_om_location": "lab_res_8_SWD_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
     },

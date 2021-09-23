@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -66,13 +67,13 @@ std::unique_ptr<mattack_actor> leap_actor::clone() const
 
 bool leap_actor::call( monster &z ) const
 {
-    if( !z.can_act() || !z.move_effects( false ) ) {
+    if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
     }
 
     std::vector<tripoint> options;
-    tripoint target = z.move_target();
-    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
+    const tripoint_abs_ms target_abs = z.get_dest();
+    const float best_float = rl_dist( z.get_location(), target_abs );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -84,6 +85,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
+    const tripoint target = here.getlocal( target_abs );
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
@@ -493,24 +495,30 @@ std::unique_ptr<mattack_actor> gun_actor::clone() const
     return std::make_unique<gun_actor>( *this );
 }
 
+int gun_actor::get_max_range()  const
+{
+    int max_range = 0;
+    for( const auto &e : ranges ) {
+        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+    }
+    return max_range;
+}
+
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
 
     if( z.friendly ) {
-        int max_range = 0;
-        for( const auto &e : ranges ) {
-            max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
-        }
+        int max_range = get_max_range();
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
         if( !target ) {
             if( hostiles > 0 ) {
                 add_msg_if_player_sees( z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  hostiles ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   hostiles ),
                                         z.name(), hostiles );
             }
             return false;
@@ -526,20 +534,22 @@ bool gun_actor::call( monster &z ) const
     int dist = rl_dist( z.pos(), target->pos() );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
-            shoot( z, *target, e.second );
+            if( try_target( z, *target ) ) {
+                shoot( z, target->pos(), e.second );
+            }
             return true;
         }
     }
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
+bool gun_actor::try_target( monster &z, Creature &target ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player_sees( z, failure_msg.translated(), z.name() );
         }
-        return;
+        return false;
     }
 
     const bool require_targeting = ( require_targeting_player && target.is_avatar() ) ||
@@ -565,9 +575,22 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         }
 
         z.moves -= targeting_cost;
-        return;
+        return false;
     }
 
+    if( require_targeting ) {
+        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
+    }
+    if( laser_lock ) {
+        // To prevent spamming laser locks when the player can tank that stuff somehow
+        target.add_effect( effect_was_laserlocked, 5_turns );
+    }
+    return true;
+}
+
+void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                       int inital_recoil ) const
+{
     z.moves -= move_cost;
 
     item gun( gun_type );
@@ -608,25 +631,25 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.worn.emplace_back( "backpack" );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
-    tmp.recoil = 0; // no need to aim
 
+    tmp.recoil = inital_recoil; // set inital recoil
+    bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
+        throwing |= pr.first == skill_id( "throw" );
     }
 
-    tmp.weapon = gun;
+    tmp.set_wielded_item( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(), tmp.weapon.tname() );
+    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),
+                            tmp.get_wielded_item().tname() );
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
-
-    if( require_targeting ) {
-        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
-    }
-
-    if( laser_lock ) {
-        // To prevent spamming laser locks when the player can tank that stuff somehow
-        target.add_effect( effect_was_laserlocked, 5_turns );
+    if( throwing ) {
+        tmp.throw_item( target, item( ammo, calendar::turn, 1 ) );
+        z.ammo[ammo]--;
+    } else {
+        z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
 }
+

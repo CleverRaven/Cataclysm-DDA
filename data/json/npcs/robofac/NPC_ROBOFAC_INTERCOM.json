@@ -116,7 +116,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
-      "effect": [ { "u_buy_item": "mind_splicer" }, { "u_buy_item": "data_card" } ]
+      "effect": [ { "u_spawn_item": "mind_splicer" }, { "u_spawn_item": "data_card" } ]
     },
     "end": {
       "update_mapgen": [
@@ -130,7 +130,7 @@
         }
       ],
       "effect": [
-        { "u_buy_item": "RobofacCoin", "count": 4 },
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
       ]
     },
@@ -169,7 +169,7 @@
       },
       "update_mapgen": [ { "place_nested": [ { "chunks": [ "robofac_mi3_photonics_chunk" ], "x": 10, "y": 22 } ] } ]
     },
-    "end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 8 } ] },
+    "end": { "effect": [ { "u_spawn_item": "RobofacCoin", "count": 8 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -195,10 +195,10 @@
     "value": 1000,
     "start": {
       "effect": [
-        { "u_buy_item": "UPS_off", "count": 1 },
-        { "u_buy_item": "heavy_battery_cell", "count": 1 },
-        { "u_buy_item": "robofac_yrax_deactivation_manual", "count": 1 },
-        { "u_buy_item": "hm12", "count": 1 }
+        { "u_spawn_item": "UPS_off", "count": 1 },
+        { "u_spawn_item": "heavy_battery_cell", "count": 1 },
+        { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
+        { "u_spawn_item": "hm12", "count": 1 }
       ],
       "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 70 },
       "update_mapgen": {
@@ -235,7 +235,7 @@
     "end": {
       "effect": [
         { "u_sell_item": "bot_yrax_trifacet", "count": 1 },
-        { "u_buy_item": "RobofacCoin", "count": 2 },
+        { "u_spawn_item": "RobofacCoin", "count": 2 },
         {
           "u_add_var": "completed_robofac_intercom_robot_sm_1",
           "type": "dialogue",
@@ -379,7 +379,11 @@
             { "npc_has_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" }
           ]
         },
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [
+          { "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ] },
+          { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+        ]
       },
       {
         "text": "…",
@@ -435,7 +439,7 @@
       "Say again?",
       "If/you speak to/understand… you/me. Yes?"
     ],
-    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": "600" } },
+    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": 600 } },
     "responses": [
       { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
@@ -551,9 +555,9 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
-          { "u_buy_item": "mask_gas" },
-          { "u_buy_item": "robofac_enviro_suit" },
-          { "u_buy_item": "gasfilter_m", "count": 100 },
+          { "u_spawn_item": "mask_gas" },
+          { "u_spawn_item": "robofac_enviro_suit" },
+          { "u_spawn_item": "gasfilter_m", "count": 100 },
           { "npc_add_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"

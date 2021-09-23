@@ -122,6 +122,8 @@
 | prof_disarming | Trap Disarming | You know how to take down a trap safely. | prof_traps
 | |
 | prof_spotting | Spotting and Awareness | You are skilled at spotting things out of the ordinary, like traps or ambushes. | None
+| |
+| prof_parkour | Parkour Expert | You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground. | None
 
 ## Magiclysm proficiencies
 

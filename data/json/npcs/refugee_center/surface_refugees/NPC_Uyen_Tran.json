@@ -18,7 +18,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "A paramedic who suffers a bit of racism for being asian",
+    "//": "A paramedic who suffers a bit of racism for being Asian",
     "bonus_str": { "rng": [ -1, 1 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ 0, 3 ] },
@@ -179,7 +179,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 8 },
+        { "u_spawn_item": "FMCNote", "count": 8 },
         { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
       ]
@@ -210,7 +210,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 7 },
+        { "u_spawn_item": "FMCNote", "count": 7 },
         { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
       ]
@@ -240,7 +240,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Uyen_Mission3", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ]

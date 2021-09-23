@@ -460,9 +460,9 @@
         "effect": { "u_buy_item": "beer", "cost": 500, "count": 2, "container": "bottle_glass" }
       },
       {
-        "text": "This is a u_buy_item plastic bottle response",
+        "text": "This is a u_spawn_item plastic bottle response",
         "topic": "TALK_DONE",
-        "effect": { "u_buy_item": "bottle_plastic" }
+        "effect": { "u_spawn_item": "bottle_plastic" }
       },
       { "text": "This is a u_spend_cash response", "topic": "TALK_DONE", "effect": { "u_spend_cash": 500 } },
       {
@@ -474,8 +474,8 @@
           { "u_add_trait": "PROF_SWAT" },
           { "npc_add_trait": "PROF_SWAT" },
           { "u_spend_cash": 1000 },
-          { "u_buy_item": "manual_speech" },
-          { "u_buy_item": "dnd_handbook" },
+          { "u_spawn_item": "manual_speech" },
+          { "u_spawn_item": "dnd_handbook" },
           "hostile"
         ],
         "//": "Response 12"
@@ -497,7 +497,7 @@
         "effect": { "npc_consume_item": "beer", "count": 1 },
         "//": "Response 15, out of order"
       },
-      { "text": "This is a u_buy_item beer response again", "topic": "TALK_DONE", "effect": { "u_buy_item": "beer" } },
+      { "text": "This is a u_spawn_item beer response", "topic": "TALK_DONE", "effect": { "u_spawn_item": "beer" } },
       {
         "text": "This is a u_consume_item beer response",
         "topic": "TALK_DONE",

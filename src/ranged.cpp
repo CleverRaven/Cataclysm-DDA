@@ -74,6 +74,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -108,8 +109,6 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
-
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
@@ -719,7 +718,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, get_wielded_item() );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
@@ -749,7 +748,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
 
     map &here = get_map();
     // usage of any attached bipod is dependent upon terrain
-    bool bipod = here.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() );
     if( !bipod ) {
         if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
@@ -788,8 +787,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        weakpoint_attack wp_attack;
+        wp_attack.source = this;
+        wp_attack.weapon = &gun;
+        wp_attack.is_melee = false;
+        wp_attack.wp_skill = ranged_weakpoint_skill( gun );
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
-                                       dispersion, this, in_veh );
+                                       dispersion, this, in_veh, wp_attack );
         curshot++;
         if( shot.hit_critter ) {
             hits++;
@@ -1163,8 +1167,13 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    weakpoint_attack wp_attack;
+    wp_attack.source = this;
+    wp_attack.weapon = &to_throw;
+    wp_attack.is_melee = false;
+    wp_attack.wp_skill = throw_weakpoint_skill();
     dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this );
+                                           this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
@@ -1553,7 +1562,8 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     dispersion.add_range( you.recoil_vehicle() );
 
     const double min_recoil = calculate_aim_cap( you, pos );
-    const double effective_recoil = you.effective_dispersion( you.weapon.sight_dispersion() );
+    const double effective_recoil = you.effective_dispersion(
+                                        you.get_wielded_item().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -2005,7 +2015,7 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = get_wielded_item().volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
@@ -2051,7 +2061,7 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
-    allow_zlevel_shift = here.has_zlevels() && get_option<bool>( "FOV_3D" );
+    allow_zlevel_shift = get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -3611,7 +3621,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
-        bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
+        bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos() );
         if( !t_mountable && !v_mountable ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),

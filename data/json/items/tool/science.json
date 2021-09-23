@@ -58,10 +58,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -470,7 +468,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "price": 100,
-    "to_hit": 10,
+    "to_hit": -1,
     "cutting": 1,
     "material": [ "paper" ],
     "qualities": [ [ "FILTER", 2 ] ]
@@ -486,7 +484,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "price": 100,
-    "to_hit": 10,
+    "to_hit": -1,
     "cutting": 1,
     "material": [ "paper" ],
     "qualities": [ [ "FILTER", 1 ] ]
@@ -837,10 +835,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -880,10 +876,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -937,6 +931,32 @@
     "weight": "3000 g",
     "volume": "1500 ml",
     "price": 6000,
+    "price_postapoc": 250,
+    "ammo": [ "battery" ],
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "multimeter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "multimeter" },
+    "description": "This gadget is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuty.",
+    "//": "Dimensions from a sampling of consumer digital multimeter models online.",
+    "weight": "500 g",
+    "volume": "650 ml",
+    "price": 9000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
     "to_hit": -5,
@@ -1377,7 +1397,7 @@
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
           "effect": [
             { "u_message": "You feel incredibly focused!" },
-            { "u_mod_focus": 30 },
+            { "arithmetic": [ { "u_val": "focus" }, { "u_val": "focus" }, { "const": 30 } ], "op": "+" },
             { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
         },
@@ -1386,7 +1406,7 @@
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "pain" },
           "effect": [
             { "u_message": "You feel your aches and pains fade away!" },
-            { "u_mod_pain": -30 },
+            { "arithmetic": [ { "u_val": "pain" }, { "u_val": "pain" }, { "const": 30 } ], "op": "-" },
             { "npc_add_var": "PAIN", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
         },
@@ -1395,7 +1415,7 @@
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
           "effect": [
             { "u_message": "You instantly feel more awake!" },
-            { "u_mod_fatigue": -30 },
+            { "arithmetic": [ { "u_val": "fatigue" }, { "u_val": "fatigue" }, { "const": 30 } ], "op": "-" },
             { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
         }

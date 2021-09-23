@@ -132,7 +132,6 @@ static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
-static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
@@ -193,16 +192,9 @@ static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_pipe( "pipe" );
-static const itype_id itype_rebar( "rebar" );
-static const itype_id itype_scrap( "scrap" );
-static const itype_id itype_sheet_metal( "sheet_metal" );
-static const itype_id itype_spike( "spike" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_steel_chunk( "steel_chunk" );
-static const itype_id itype_wire( "wire" );
-static const itype_id itype_chain( "chain" );
+
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -228,12 +220,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-
-// not to confuse with item flags (json_flag)
-static const std::string flag_AUTODOC( "AUTODOC" );
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
 using namespace activity_handlers;
 
@@ -278,7 +264,6 @@ activity_handlers::do_turn_functions = {
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
-    { ACT_HACKSAW, hacksaw_do_turn },
     { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
@@ -340,7 +325,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
-    { ACT_HACKSAW, hacksaw_finish },
     { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -370,8 +354,7 @@ std::string enum_to_string<butcher_type>( butcher_type data )
     case butcher_type::SKIN: return "SKIN";
     case butcher_type::NUM_TYPES: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 
@@ -1782,7 +1765,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     act->set_to_null();
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+        if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
@@ -1815,18 +1798,19 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
+    const item &weapon = you->get_wielded_item();
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( you->weapon.damage_melee( damage_type::CUT ),
-                                    you->weapon.damage_melee( damage_type::STAB ) / 2 );
+    const int cut_power = std::max( weapon.damage_melee( damage_type::CUT ),
+                                    weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + you->weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
-    float pulp_effort = you->str_cur + you->weapon.damage_melee( damage_type::BASH );
+    float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
 
-    const int mess_radius = you->weapon.has_flag( flag_MESSY ) ? 2 : 1;
+    const int mess_radius = weapon.has_flag( flag_MESSY ) ? 2 : 1;
 
     int moves = 0;
     // use this to collect how many corpse are pulped
@@ -1890,10 +1874,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    you->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
-                                          "The corpses are thoroughly pulped.", num_corpses ),
-                                ngettext( "<npcname> finished pulping the corpse.",
-                                          "<npcname> finished pulping the corpses.", num_corpses ) );
+    you->add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
+                                           "The corpses are thoroughly pulped.", num_corpses ),
+                                n_gettext( "<npcname> finished pulping the corpse.",
+                                           "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
 void activity_handlers::pulp_finish( player_activity *act, Character *you )
@@ -2208,19 +2192,19 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
         //Some non-muscle engines tried to start
         if( non_muscle_attempted == non_muscle_started ) {
             //All of the non-muscle engines started
-            add_msg( ngettext( "The %s's engine starts up.",
-                               "The %s's engines start up.", non_muscle_started ), veh->name );
+            add_msg( n_gettext( "The %s's engine starts up.",
+                                "The %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_muscle_started > 0 ) {
             //Only some of the non-muscle engines started
-            add_msg( ngettext( "One of the %s's engines start up.",
-                               "Some of the %s's engines start up.", non_muscle_started ), veh->name );
+            add_msg( n_gettext( "One of the %s's engines start up.",
+                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_combustion_started > 0 ) {
             //Non-combustions "engines" started
             add_msg( _( "The %s is ready for movement." ), veh->name );
         } else {
             //All of the non-muscle engines failed
-            add_msg( m_bad, ngettext( "The %s's engine fails to start.",
-                                      "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
+            add_msg( m_bad, n_gettext( "The %s's engine fails to start.",
+                                       "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
         }
     }
 
@@ -2237,6 +2221,8 @@ enum class repeat_type : int {
     FOREVER,     // Repeat for as long as possible
     FULL,        // Repeat until damage==0
     EVENT,       // Repeat until something interesting happens
+    REFIT_ONCE,  // Try refitting once
+    REFIT_FULL,  // Reapeat until item fits
     CANCEL,      // Stop repeating
 };
 
@@ -2256,7 +2242,8 @@ static constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
     return static_cast<I>( lhs ) - static_cast<I>( rhs );
 }
 
-static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+static repeat_type repeat_menu( const std::string &title, repeat_type last_selection,
+                                const bool can_refit )
 {
     uilist rmenu;
     rmenu.text = title;
@@ -2268,12 +2255,16 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
                     _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
                     _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '5', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '5',
+                    _( "Attempt to refit once" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '6',
+                    _( "Repeat until refitted" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '7', _( "Back to item selection" ) );
 
     rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
 
-    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::EVENT ) {
+    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::REFIT_FULL ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
@@ -2371,7 +2362,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         // Remember our level: we want to stop retrying on level up
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
-                fix_location );
+                fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), you );
@@ -2402,11 +2393,15 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
                                     attempt == repair_item_actor::AS_SUCCESS ||
                                     old_level != you->get_skill_level( actor->used_skill );
+        const bool can_refit = !destroyed && fix_location->has_flag( flag_VARSIZE ) &&
+                               !fix_location->has_flag( flag_FIT );
 
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
+            ( repeat == repeat_type::REFIT_ONCE ) ||
+            ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
         }
@@ -2433,6 +2428,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
     }
 
     const item &fix = *act->targets[1];
+    const bool can_refit = fix.has_flag( flag_VARSIZE ) && !fix.has_flag( flag_FIT );
     if( repeat == repeat_type::INIT ) {
         const int level = you->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
@@ -2504,7 +2500,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             act->values.resize( 1 );
         }
         do {
-            repeat = repeat_menu( title, repeat );
+            repeat = repeat_menu( title, repeat, can_refit );
 
             if( repeat == repeat_type::CANCEL ) {
                 act->set_to_null();
@@ -3041,9 +3037,9 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     map &here = get_map();
     if( autodoc && here.inbounds( you->pos() ) ) {
         const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                             flag_AUTODOC );
+                                             ter_furn_flag::TFLAG_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, you->pos() ) || autodocs.empty() ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos() ) || autodocs.empty() ) {
             you->remove_effect( effect_under_operation );
             act->set_to_null();
 
@@ -3168,7 +3164,7 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
             const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 flag_AUTODOC );
+                                                 ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
                            "Autodoc",
@@ -3177,7 +3173,7 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
             add_msg( m_bad,
                      _( "The Autodoc jerks back to its resting position after failing the operation." ) );
             const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 flag_AUTODOC );
+                                                 ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a sad beeping noise: \"Operation failed\"" ), true,
                            "Autodoc",
@@ -3225,7 +3221,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_PLANTABLE, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else {
             here.set( examp, t_dirt, f_plant_seed );
@@ -3372,87 +3368,6 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
 void activity_handlers::eat_menu_finish( player_activity *, Character * )
 {
     // Only exists to keep the eat activity alive between turns
-}
-
-void activity_handlers::hacksaw_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a metal sawing tool at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
-    }
-}
-
-void activity_handlers::hacksaw_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    const ter_id ter = here.ter( pos );
-
-    if( here.furn( pos ) == f_rack ) {
-        here.furn_set( pos, f_null );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 3 ) );
-        here.spawn_item( you->pos(), itype_steel_chunk );
-    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
-        here.ter_set( pos, t_dirt );
-        here.spawn_item( you->pos(), itype_pipe, 6 );
-        here.spawn_item( you->pos(), itype_wire, 20 );
-    } else if( ter == t_chainfence_posts ) {
-        here.ter_set( pos, t_dirt );
-        here.spawn_item( you->pos(), itype_pipe, 6 );
-    } else if( ter == t_window_bars_alarm ) {
-        here.ter_set( pos, t_window_alarm );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 8 ) );
-    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
-        here.ter_set( pos, t_window_domestic );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 8 ) );
-    } else if( ter == t_window_bars ) {
-        here.ter_set( pos, t_window_empty );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 8 ) );
-    } else if( ter == t_window_enhanced ) {
-        here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( you->pos(), itype_spike, rng( 1, 4 ) );
-    } else if( ter == t_window_enhanced_noglass ) {
-        here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( you->pos(), itype_spike, rng( 1, 4 ) );
-    } else if( ter == t_reb_cage ) {
-        here.ter_set( pos, t_pit );
-        here.spawn_item( you->pos(), itype_spike, 19 );
-        here.spawn_item( you->pos(), itype_scrap, 8 );
-    } else if( ter == t_retractable_gate_c || ter == t_retractable_gate_l ) {
-        here.ter_set( pos, t_strconc_floor );
-        here.spawn_item( pos, itype_chain, rng( 1, 2 ) );
-        here.spawn_item( pos, itype_wire, rng( 8, 22 ) );
-    } else if( ter == t_bars ) {
-        if( here.ter( pos + point_east ) == t_sewage || here.ter( pos + point_south )
-            == t_sewage ||
-            here.ter( pos + point_west ) == t_sewage || here.ter( pos + point_north ) ==
-            t_sewage ) {
-            here.ter_set( pos, t_sewage );
-            here.spawn_item( you->pos(), itype_pipe, 3 );
-        } else {
-            here.ter_set( pos, t_floor );
-            here.spawn_item( you->pos(), itype_pipe, 3 );
-        }
-    } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
-        here.ter_set( pos, t_mdoor_frame );
-        here.spawn_item( you->pos(), itype_pipe, 12 );
-    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
-               ter == t_metal_grate_window_with_curtain_open ) {
-        here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 12 ) );
-        here.spawn_item( you->pos(), itype_sheet_metal, 4 );
-    } else if( ter == t_metal_grate_window_noglass ||
-               ter == t_metal_grate_window_with_curtain_noglass ||
-               ter == t_metal_grate_window_with_curtain_open_noglass ) {
-        here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 12 ) );
-        here.spawn_item( you->pos(), itype_sheet_metal, 4 );
-    }
-
-    you->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
-
-    act->set_to_null();
 }
 
 void activity_handlers::pry_nails_do_turn( player_activity *act, Character * )
@@ -4162,8 +4077,11 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
-        you->practice( studying.skill(), xp, studying.get_difficulty() );
-
+        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty(), true );
+        if( leveled_up && studying.get_difficulty() < you->get_skill_level( studying.skill() ) ) {
+            you->handle_skill_warning( studying.skill(),
+                                       true ); // show the skill warning on level up, since we suppress it in practice() above
+        }
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );

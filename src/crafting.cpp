@@ -468,7 +468,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
-
+    const item &weapon = get_wielded_item();
     conts = get_eligible_containers_recursive( weapon, true );
 
     for( const auto &it : worn ) {
@@ -640,13 +640,14 @@ static void set_components( std::list<item> &components, const std::list<item> &
 
 static cata::optional<item_location> wield_craft( Character &p, item &craft )
 {
+    item &weapon = p.get_wielded_item();
     if( p.wield( craft ) ) {
-        if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
+        if( weapon.invlet ) {
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), weapon.invlet, weapon.display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), weapon.display_name() );
         }
-        return item_location( p, &p.weapon );
+        return item_location( p, &weapon );
     }
     return cata::nullopt;
 }
@@ -787,8 +788,8 @@ static item_location place_craft_or_disassembly(
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
 
-            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.weapon ).success(),
-                            '1', _( "Dispose of your wielded %s and start working." ), ch.weapon.tname() );
+            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.get_wielded_item() ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_item().tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = ch.can_pickVolume( craft ) &&
                                    ch.can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -910,14 +911,23 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
     }
     const recipe &making = craft.get_making();
 
+    struct learn_subject {
+        proficiency_id proficiency;
+        float time_multiplier;
+        cata::optional<time_duration> max_experience;
+    };
+
     // The proficiency, and the multiplier on the time we learn it for
-    std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
+    std::vector<learn_subject> subjects;
     for( const recipe_proficiency &prof : making.proficiencies ) {
         if( !_proficiencies->has_learned( prof.id ) &&
             prof.id->can_learn() &&
             _proficiencies->has_prereqs( prof.id ) ) {
-            std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
-                    prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
+            learn_subject subject{
+                prof.id,
+                prof.learning_time_mult / prof.time_multiplier,
+                prof.max_experience
+            };
             subjects.push_back( subject );
         }
     }
@@ -928,20 +938,20 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     int npc_helper_bonus = 1;
     for( npc *helper : get_crafting_helpers() ) {
-        for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-            if( helper->has_proficiency( std::get<0>( subject ) ) ) {
+        for( const learn_subject &subject : subjects ) {
+            if( helper->has_proficiency( subject.proficiency ) ) {
                 // NPCs who know the proficiency and help teach you faster
                 npc_helper_bonus = 2;
             }
-            helper->practice_proficiency( std::get<0>( subject ), std::get<1>( subject ) * learn_time,
-                                          std::get<2>( subject ) );
+            helper->practice_proficiency( subject.proficiency, subject.time_multiplier * learn_time,
+                                          subject.max_experience );
         }
     }
 
     bool gained_prof = false;
-    for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-        gained_prof |= practice_proficiency( std::get<0>( subject ),
-                                             learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
+    for( const learn_subject &subject : subjects ) {
+        gained_prof |= practice_proficiency( subject.proficiency,
+                                             learn_time * subject.time_multiplier * npc_helper_bonus, subject.max_experience );
     }
     return gained_prof;
 }
@@ -1718,7 +1728,7 @@ static void empty_buckets( Character &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
-        return it.is_bucket_nonempty() && &it != &p.weapon;
+        return it.is_bucket_nonempty() && &it != &p.get_wielded_item();
     }, INT_MAX );
     for( auto &it : buckets ) {
         for( const item *in : it.all_items_top() ) {
@@ -2120,8 +2130,8 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
-                const char *msg = ngettext( "You need at least %d charge of %s.",
-                                            "You need at least %d charges of %s.", qty );
+                const char *msg = n_gettext( "You need at least %d charge of %s.",
+                                             "You need at least %d charges of %s.", qty );
                 return ret_val<bool>::make_failure( msg, qty, obj.tname() );
             }
         }
@@ -2151,7 +2161,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
                                                     item::nname( tool_required.type ) );
             } else {
                 //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
+                return ret_val<bool>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
                                                     "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );
@@ -2164,35 +2174,38 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 
 item_location Character::create_in_progress_disassembly( item_location target )
 {
-    const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
     item &orig_item = *target.get_item();
+    item new_disassembly;
+    if( target->typeId() == itype_disassembly ) {
+        new_disassembly = item( orig_item );
+    } else {
+        const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
+        new_disassembly = item( &r, orig_item );
 
-    item new_disassembly( &r, orig_item );
-
-    // Remove any batteries, ammo, contents and mods first
-    remove_ammo( orig_item, *this );
-    remove_radio_mod( orig_item, *this );
-    if( orig_item.is_container() ) {
-        orig_item.spill_contents( pos() );
-    }
-    if( orig_item.count_by_charges() ) {
-        // remove the charges that one would get from crafting it
-        if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-            //subtract selected number of rounds to disassemble
-            orig_item.charges -= activity.position;
-            new_disassembly.charges = activity.position;
-        } else {
-            orig_item.charges -= r.create_result().charges;
-            new_disassembly.charges = r.create_result().charges;
+        // Remove any batteries, ammo, contents and mods first
+        remove_ammo( orig_item, *this );
+        remove_radio_mod( orig_item, *this );
+        if( orig_item.is_container() ) {
+            orig_item.spill_contents( pos() );
+        }
+        if( orig_item.count_by_charges() ) {
+            // remove the charges that one would get from crafting it
+            if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
+                //subtract selected number of rounds to disassemble
+                orig_item.charges -= activity.position;
+                new_disassembly.charges = activity.position;
+            } else {
+                orig_item.charges -= r.create_result().charges;
+                new_disassembly.charges = r.create_result().charges;
+            }
         }
     }
     // remove the item, except when it's counted by charges and still has some
-    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
+    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ||
+        target->typeId() == itype_disassembly ) {
         target.remove_item();
     }
 
-    // Mark the new item, avoid conflict with other ppl
-    new_disassembly.set_var( "activity_var", name );
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
 
@@ -2520,7 +2533,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2s." ), this->disp_name( false,
+                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s." ), this->disp_name( false,
                                         true ), newit.tname() );
             }
             continue;
@@ -2531,7 +2544,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover  recover %2$s from the %3$s." ),
+                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s from the %3$s." ),
                                         this->disp_name( false, true ), newit.tname(), dis_item.tname() );
             }
             continue;
@@ -2562,7 +2575,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
         }
 
-        if( act_item.made_of( phase_id::LIQUID ) ) {
+        //NPCs are too dumb to be able to handle liquid (for now)
+        if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
             liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
@@ -2610,7 +2624,7 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() ) {
+        if( it.is_irremovable() || ( !it.is_gunmod() && !it.is_toolmod() ) ) {
             return false;
         }
         drop_or_handle( it, p );

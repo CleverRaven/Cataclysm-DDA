@@ -528,7 +528,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
 - ```BARRICADABLE_WINDOW_CURTAINS```
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
-- ```BASHABLE``` Players + Monsters can bash this.
 - ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```BURROWABLE``` Burrowing monsters can travel under this terrain, while most others can't (e.g. graboid will traverse under the chain link fence, while ordinary zombie will be stopped by it).
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
@@ -538,7 +537,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
-- ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER``` This is water that can submerge the player
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
@@ -556,7 +554,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_SEED``` This plant is in its seed stage of growth.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
 - ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
 - ```GROWTH_HARVEST``` This plant is ready for harvest.
@@ -987,6 +984,7 @@ Other monster flags.
 - ```VENOM``` Attack may poison the player.
 - ```VERMIN``` Obsolete flag for inconsequential monsters, now prevents loading.
 - ```WARM``` Warm blooded.
+- ```WATER_CAMOUFLAGE``` If in water, stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges. Can also make it harder to see in deep water or across Z-levels if it is underwater and the viewer is not.
 - ```WEBWALK``` Doesn't destroy webs and won't get caught in them.
 - ```WOOL``` May produce wool when butchered.
 
@@ -1227,19 +1225,33 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
+### Categories
+
+- ```CC_BUILDING```
+
+### Flags
+
+These flags apply only to camp building recipes (hubs and expansions). The purpose is to allow reuse of blueprints to create the "same"
+facility oriented differently. Mirroring takes place before rotation, and it is an error to try to apply mirroring multiple times with the
+same orientation, as well as to try to apply multiple rotations. It is permitted to apply different versions of the flags if they apply to
+different directions (and it is indeed the primary intended usage).
+
+- ```MAP_MIRROR_HORIZONTAL``` Causes the building recipe to mirror both the location and contents of the blueprint(s) used by the recipe.
+- ```MAP_MIRROR_VERTICAL``` Causes the building recipe to mirror both the location and contents of the blueprint(s) used by the recipe.
+- ```MAP_ROTATE_[X]``` X has to be one of 90, 180, or 270 and requests the blueprint to be rotated by the given number of degrees before being applied.
+- ```MAP_MIRROR_HORIZONTAL_IF_[Y]``` Similar to MAP_MIRROR_HORIZONTAL, but is applied only if the tile the expansion is on is Y. The legal values for Y are "NW", "N", "NE", "E", "SE", "S", SW", and "W".
+- ```MAP_MIRROR_VERTICAL_IF_[Y]``` The vertical version of the previous flag.
+- ```MAP_ROTATE_[X]_IF_[Y]``` The expansion location dependent version of "MAP_ROTATE_X", with Y having the same legal values as the two sets of flags above.
 
 ## Scenarios
 
 ### Flags
 
-- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
 - ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
-- ```INFECTED``` Player starts the game infected.
-- ```FUNGAL_INFECTION``` Player starts the game with a fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
 
 #### Profession Flags

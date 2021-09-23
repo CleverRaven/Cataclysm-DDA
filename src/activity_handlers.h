@@ -22,6 +22,8 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest );
 
+std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest );
+
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
     CAN_DO_LOCATION,
@@ -84,7 +86,7 @@ struct activity_reason_info {
         can_do( can_do_ ),
         con_idx( con_idx_ )
     { }
-    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data req ):
+    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data &req ):
         reason( reason_ ),
         can_do( can_do_ ),
         req( req )
@@ -179,7 +181,6 @@ void cracking_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void butcher_do_turn( player_activity *act, Character *you );
 void pry_nails_do_turn( player_activity *act, Character *you );
-void hacksaw_do_turn( player_activity *act, Character *you );
 void chop_tree_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
@@ -231,7 +232,6 @@ void hand_crank_finish( player_activity *act, Character *you );
 void atm_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
 void washing_finish( player_activity *act, Character *you );
-void hacksaw_finish( player_activity *act, Character *you );
 void pry_nails_finish( player_activity *act, Character *you );
 void chop_tree_finish( player_activity *act, Character *you );
 void chop_logs_finish( player_activity *act, Character *you );

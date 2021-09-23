@@ -39,6 +39,7 @@
 #include "map.h"
 #include "messages.h"
 #include "move_mode.h"
+#include "mtype.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -64,6 +65,8 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -74,6 +77,7 @@ static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
 static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
+static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
@@ -259,6 +263,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     const int start_x = start_input.x;
     const point mid( width / 2, height / 2 );
     map &here = get_map();
+    const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
@@ -386,6 +391,16 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color,
                           ter_sym );
             }
+
+            if( i < -1 || i > 1 || j < -1 || j > 1 ) {
+                // Show hordes on minimap, leaving a one-tile space around the player
+                int horde_size = overmap_buffer.get_horde_size( omp );
+                if( horde_size >= HORDE_VISIBILITY_SIZE &&
+                    overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
+                    mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), c_green,
+                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
+                }
+            }
         }
     }
 
@@ -437,25 +452,6 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             }
 
             mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
-        }
-    }
-    avatar &player_character = get_avatar();
-    const int sight_points = player_character.overmap_sight_range( g->light_level(
-                                 player_character.posz() ) );
-    for( int i = -3; i <= 3; i++ ) {
-        for( int j = -3; j <= 3; j++ ) {
-            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
-                continue; // only do hordes on the border, skip inner map
-            }
-            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
-            int horde_size = overmap_buffer.get_horde_size( omp );
-            if( horde_size >= HORDE_VISIBILITY_SIZE ) {
-                if( overmap_buffer.seen( omp )
-                    && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, mid + point( i, j ), c_green,
-                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                }
-            }
         }
     }
 }
@@ -555,6 +551,26 @@ std::string display::time_approx()
         return _( "Around dusk" );
     }
     return _( "Night" );
+}
+
+std::string display::date_string()
+{
+    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
+    const int day_num = day_of_season<int>( calendar::turn ) + 1;
+    return string_format( "%s, day %d", season, day_num );
+}
+
+std::string display::time_string( const Character &u )
+{
+    // Return exact time if character has a watch, or approximate time if aboveground
+    if( u.has_watch() ) {
+        return to_string_time_of_day( calendar::turn );
+    } else if( get_map().get_abs_sub().z >= 0 ) {
+        return display::time_approx();
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        return _( "???" );
+    }
 }
 
 static nc_color value_color( int stat )
@@ -876,9 +892,22 @@ std::pair<std::string, nc_color> display::mana_text_color( const Character &you 
     return std::make_pair( s_mana, c_mana );
 }
 
-static nc_color safe_color()
+std::pair<std::string, nc_color> display::safe_mode_text_color( const bool classic_mode )
 {
+    // "classic" mode used by draw_limb2 and draw_health_classic are "SAFE" or (empty)
+    // draw_stat_narrow and draw_stat_wide display "On" or "Off" value
+    std::string s_text;
+    if( classic_mode ) {
+        if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
+            s_text = "SAFE";
+        }
+    } else {
+        s_text = g->safe_mode ? _( "On" ) : _( "Off" );
+    }
+
+    // By default, color is green if safe, red otherwise
     nc_color s_color = g->safe_mode ? c_green : c_red;
+    // If auto-safe-mode is enabled, go to light red, yellow, and green as the turn limit approaches
     if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
         time_duration s_return = time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
         int iPercent = g->turnssincelastmon * 100 / s_return;
@@ -892,7 +921,8 @@ static nc_color safe_color()
             s_color = c_red;
         }
     }
-    return s_color;
+
+    return std::make_pair( s_text, s_color );
 }
 
 // ===============================
@@ -971,7 +1001,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
         } else {
             wmove( w, point( 11, i / 2 ) );
         }
-        wprintz( w, u.limb_color( bp, true, true, true ), str );
+        wprintz( w, display::limb_color( u, bp, true, true, true ), str );
         if( i % 2 == 0 ) {
             wmove( w, point( 5, i / 2 ) );
         } else {
@@ -984,12 +1014,8 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     // print mood
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
 
-    // print safe mode
-    std::string safe_str;
-    if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = _( "SAFE" );
-    }
-    mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( true );
+    mvwprintz( w, point( 22, 2 ), safe_pair.second, safe_pair.first );
     mvwprintz( w, point( 27, 2 ), morale_pair.second, morale_pair.first );
 
     // print stamina
@@ -1026,6 +1052,18 @@ std::pair<translation, nc_color> display::weariness_text_color( size_t weariness
         weariness = 5;
     }
     return weary_descriptions[weariness];
+}
+
+std::pair<std::string, nc_color> display::weary_malus_text_color( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    nc_color act_color;
+    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
+        act_color = c_red;
+    } else {
+        act_color = c_light_gray;
+    }
+    return std::make_pair( display::activity_malus_str( u ), act_color );
 }
 
 std::string display::activity_level_str( float level )
@@ -1292,6 +1330,94 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
     return std::make_pair( pain_string, pain_color );
 }
 
+nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
+{
+    nc_color color = c_light_gray; // default
+    const int temp_conv = u.get_part_temp_conv( bp );
+    if( bp == body_part_eyes ) {
+        color = c_light_gray;    // Eyes don't count towards warmth
+    } else if( temp_conv  > BODYTEMP_SCORCHING ) {
+        color = c_red;
+    } else if( temp_conv  > BODYTEMP_VERY_HOT ) {
+        color = c_light_red;
+    } else if( temp_conv  > BODYTEMP_HOT ) {
+        color = c_yellow;
+    } else if( temp_conv  > BODYTEMP_COLD ) {
+        color = c_green;
+    } else if( temp_conv  > BODYTEMP_VERY_COLD ) {
+        color = c_light_blue;
+    } else if( temp_conv  > BODYTEMP_FREEZING ) {
+        color = c_cyan;
+    } else {
+        color = c_blue;
+    }
+    return color;
+}
+
+nc_color display::encumb_color( const int level )
+{
+    if( level < 0 ) {
+        return c_green;
+    }
+    if( level < 10 ) {
+        return c_light_gray;
+    }
+    if( level < 40 ) {
+        return c_yellow;
+    }
+    if( level < 70 ) {
+        return c_light_red;
+    }
+    return c_red;
+}
+
+nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool bite,
+                              bool infect )
+{
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        return c_light_gray;
+    }
+    int color_bit = 0;
+    nc_color i_color = c_light_gray;
+    const int intense = u.get_effect_int( effect_bleed, bp );
+    if( bleed && intense > 0 ) {
+        color_bit += 1;
+    }
+    if( bite && u.has_effect( effect_bite, bp.id() ) ) {
+        color_bit += 10;
+    }
+    if( infect && u.has_effect( effect_infected, bp.id() ) ) {
+        color_bit += 100;
+    }
+    switch( color_bit ) {
+        case 1:
+            i_color = colorize_bleeding_intensity( intense );
+            break;
+        case 10:
+            i_color = c_blue;
+            break;
+        case 100:
+            i_color = c_green;
+            break;
+        case 11:
+            if( intense < 21 ) {
+                i_color = c_magenta;
+            } else {
+                i_color = c_magenta_red;
+            }
+            break;
+        case 101:
+            if( intense < 21 ) {
+                i_color = c_yellow;
+            } else {
+                i_color = c_yellow_red;
+            }
+            break;
+    }
+
+    return i_color;
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1494,7 +1620,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
         std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
-        wprintz( w, u.limb_color( bp, true, true, true ), str + ":" );
+        wprintz( w, display::limb_color( u, bp, true, true, true ), str + ":" );
         i++;
     }
     wnoutrefresh( w );
@@ -1511,7 +1637,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
                                          left_justify( body_part_hp_bar_ui_text( bp ), 5 ) );
-        nc_color part_color = u.limb_color( bp, true, true, true );
+        nc_color part_color = display::limb_color( u, bp, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, bp );
         i++;
@@ -1620,7 +1746,8 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 8, 2 ), power_pair.second, "%s", power_pair.first );
-    mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( false );
+    mvwprintz( w, point( 26, 2 ), safe_pair.second, safe_pair.first );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
@@ -1662,7 +1789,8 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 38, 0 ), power_pair.second, "%s", power_pair.first );
-    mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( false );
+    mvwprintz( w, point( 38, 1 ), safe_pair.second, safe_pair.first );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
@@ -1707,20 +1835,11 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     wprintz( w, ll.second, ll.first );
 
     // display date
-    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s, day %d" ),
-               calendar::name_season( season_of_year( calendar::turn ) ),
-               day_of_season<int>( calendar::turn ) + 1 );
+    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s" ), display::date_string() );
 
     // display time
-    if( u.has_watch() ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
-                   to_string_time_of_day( calendar::turn ) );
-    } else if( here.get_abs_sub().z >= 0 ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_approx() );
-    } else {
-        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
-    }
+    mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_string( u ) );
+
     if( minimap ) {
         const int offset = getmaxx( w ) - 14;
         const tripoint_abs_omt curs = u.global_omt_location();
@@ -1922,18 +2041,29 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
+{
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    weather_manager &weather = get_weather();
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+
+    // Wind descriptor followed by a directional arrow
+    const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(
+                                      weather.winddirection );
+
+    return std::make_pair( wind_text, get_wind_color( windpower ) );
+}
+
 static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
                //~ translation should not exceed 5 console cells
                string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    weather_manager &weather = get_weather();
-    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
-    mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
+
+    std::pair<std::string, nc_color> wind_pair = display::wind_text_color( u );
+    mvwprintz( w, point( 8, 0 ), wind_pair.second, wind_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1966,7 +2096,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
          u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( 8, i ) );
-        wprintz( w, u.limb_color( bp, true, true, true ), str );
+        wprintz( w, display::limb_color( u, bp, true, true, true ), str );
         wmove( w, point( 14, i ) );
         draw_limb_health( u, w, bp );
         i++;
@@ -2000,12 +2130,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 38, 3 ), pair.second, pair.first );
     }
 
-    // print safe mode// print safe mode
-    std::string safe_str;
-    if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = "SAFE";
-    }
-    mvwprintz( w, point( 40, 4 ), safe_color(), safe_str );
+    // print safe mode
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( true );
+    mvwprintz( w, point( 40, 4 ), safe_pair.second, safe_pair.first );
 
     // print stamina
     auto pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
@@ -2126,17 +2253,191 @@ static void draw_mminimap( avatar &, const catacurses::window &w )
 }
 #endif
 
-static void draw_compass( avatar &, const catacurses::window &w )
+// Print monster info to the given window
+void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_padding,
+                              bool compact )
+{
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &unique_types = mon_visible.unique_types;
+    const auto &unique_mons = mon_visible.unique_mons;
+    const auto &dangerous = mon_visible.dangerous;
+
+    const int width = getmaxx( w ) - 2 * hor_padding;
+    const int maxheight = getmaxy( w ) - 1;
+
+    const int startrow = 0;
+
+    // Print the direction headings
+    // Reminder:
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+
+    const std::array<std::string, 8> dir_labels = {{
+            _( "North:" ), _( "NE:" ), _( "East:" ), _( "SE:" ),
+            _( "South:" ), _( "SW:" ), _( "West:" ), _( "NW:" )
+        }
+    };
+    std::array<int, 8> widths;
+    for( int i = 0; i < 8; i++ ) {
+        widths[i] = utf8_width( dir_labels[i] );
+    }
+    std::array<int, 8> xcoords;
+    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
+    xcoords[0] = xcoords[4] = width / 3;
+    xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
+    xcoords[5] = xcoords[6] = xcoords[7] = 0;
+    //for the alignment of the 1,2,3 rows on the right edge (East - NE)
+    xcoords[2] -= widths[2] - widths[1];
+    for( int i = 0; i < 8; i++ ) {
+        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
+                     : ( dangerous[i] ? c_light_red : c_light_gray );
+        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
+    }
+
+    // Print the symbols of all monsters in all directions.
+    for( int i = 0; i < 8; i++ ) {
+        point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
+
+        // The list of symbols needs a space on each end.
+        int symroom = ( width / 3 ) - widths[i] - 2;
+        const int typeshere_npc = unique_types[i].size();
+        const int typeshere_mon = unique_mons[i].size();
+        const int typeshere = typeshere_mon + typeshere_npc;
+        for( int j = 0; j < typeshere && j < symroom; j++ ) {
+            nc_color c;
+            std::string sym;
+            if( symroom < typeshere && j == symroom - 1 ) {
+                // We've run out of room!
+                c = c_white;
+                sym = "+";
+            } else if( j < typeshere_npc ) {
+                switch( unique_types[i][j]->get_attitude() ) {
+                    case NPCATT_KILL:
+                        c = c_red;
+                        break;
+                    case NPCATT_FOLLOW:
+                        c = c_light_green;
+                        break;
+                    default:
+                        c = c_pink;
+                        break;
+                }
+                sym = "@";
+            } else {
+                const mtype &mt = *unique_mons[i][j - typeshere_npc].first;
+                c = mt.color;
+                sym = mt.sym;
+            }
+            mvwprintz( w, pr, c, sym );
+
+            pr.x++;
+        }
+    }
+
+    // Now we print their full names!
+    struct nearest_loc_and_cnt {
+        int nearest_loc;
+        int cnt;
+    };
+    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
+    for( int loc = 0; loc < 9; loc++ ) {
+        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
+            const auto mon_it = all_mons.find( mon.first );
+            if( mon_it == all_mons.end() ) {
+                all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
+            } else {
+                // 8 being the nearest location (local monsters)
+                mon_it->second.nearest_loc = std::max( mon_it->second.nearest_loc, loc );
+                mon_it->second.cnt += mon.second;
+            }
+        }
+    }
+    std::vector<std::pair<const mtype *, int>> mons_at[9];
+    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
+        mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
+    }
+
+    // Rows 0-2 are for labels.
+    // Start monster names on row 3
+    point pr( hor_padding, 3 + startrow );
+    // In non-compact mode, leave a blank line
+    if( !compact ) {
+        pr.y++;
+    }
+
+    // Print monster names, starting with those at location 8 (nearby).
+    for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
+        // Separate names by some number of spaces (more for local monsters).
+        int namesep = ( j == 8 ? 2 : 1 );
+        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
+            const mtype *const type = mon.first;
+            const int count = mon.second;
+            if( pr.y >= maxheight ) {
+                // no space to print to anyway
+                break;
+            }
+
+            const mtype &mt = *type;
+            std::string name = mt.nname( count );
+            // Some languages don't have plural forms, but we want to always
+            // omit 1.
+            if( count != 1 ) {
+                name = string_format( pgettext( "monster count and name", "%1$d %2$s" ),
+                                      count, name );
+            }
+
+            // Move to the next row if necessary. (The +2 is for the "Z ").
+            if( pr.x + 2 + utf8_width( name ) >= width ) {
+                pr.y++;
+                pr.x = hor_padding;
+            }
+
+            if( pr.y < maxheight ) { // Don't print if we've overflowed
+                mvwprintz( w, pr, mt.color, mt.sym );
+                pr.x += 2; // symbol and space
+                nc_color danger = c_dark_gray;
+                if( mt.difficulty >= 30 ) {
+                    danger = c_red;
+                } else if( mt.difficulty >= 16 ) {
+                    danger = c_light_red;
+                } else if( mt.difficulty >= 8 ) {
+                    danger = c_white;
+                } else if( mt.agro > 0 ) {
+                    danger = c_light_gray;
+                }
+                mvwprintz( w, pr, danger, name );
+                pr.x += utf8_width( name ) + namesep;
+            }
+        }
+    }
+}
+
+static void draw_compass( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    g->mon_info( w );
+    display::print_mon_info( u, w );
     wnoutrefresh( w );
 }
 
-static void draw_compass_padding( avatar &, const catacurses::window &w )
+static void draw_compass_compact( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    g->mon_info( w, 1 );
+    display::print_mon_info( u, w, 0, true );
+    wnoutrefresh( w );
+}
+
+static void draw_compass_padding( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    display::print_mon_info( u, w, 1 );
+    wnoutrefresh( w );
+}
+
+static void draw_compass_padding_compact( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    display::print_mon_info( u, w, 1, true );
     wnoutrefresh( w );
 }
 
@@ -2308,10 +2609,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     // display date
-    mvwprintz( w, point_zero, c_white,
-               calendar::name_season( season_of_year( calendar::turn ) ) + "," );
-    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
+    mvwprintz( w, point_zero, c_white, display::date_string() );
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
@@ -2497,6 +2795,9 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
@@ -2540,6 +2841,9 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", to_translation( "Compass" ),
                                     8, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
@@ -2590,6 +2894,9 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 32, false ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
@@ -2644,6 +2951,9 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),

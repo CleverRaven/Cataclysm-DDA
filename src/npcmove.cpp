@@ -22,6 +22,8 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -127,9 +129,7 @@ static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
 static const material_id material_battery( "battery" );
-static const material_id material_chem_ethanol( "chem_ethanol" );
-static const material_id material_chem_methanol( "chem_methanol" );
-static const material_id material_denat_alcohol( "denat_alcohol" );
+static const material_id material_alcohol( "alcohol" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -207,7 +207,8 @@ bool good_for_pickup( const item &it, npc &who )
     if( ( !it.made_of_from_type( phase_id::LIQUID ) ) &&
         ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
         ( it.weight() <= weight_allowed ) &&
-        ( who.can_stash( it ) || who.weapon_value( it ) > who.weapon_value( who.weapon ) ) ) {
+        ( who.can_stash( it ) ||
+          who.weapon_value( it ) > who.weapon_value( who.get_wielded_item() ) ) ) {
         good = true;
     }
 
@@ -253,7 +254,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
-        const tripoint &abs_pos = global_square_location().raw();
+        const tripoint abs_pos = get_location().raw();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
@@ -286,7 +287,7 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-        const tripoint &pt = pos() + direction_XY( pt_dir );
+        const tripoint pt = pos() + direction_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
@@ -472,7 +473,8 @@ void npc::assess_danger()
     // first, check if we're about to be consumed by fire
     // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
     for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
-        if( pt == pos() || !here.get_field( pt, fd_fire ) || here.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
+        if( pt == pos() || !here.get_field( pt, fd_fire ) ||
+            here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
         }
         int dist = rl_dist( pos(), pt );
@@ -690,9 +692,9 @@ float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible
     float ret = 0.0f;
-    bool u_gun = uc.weapon.is_gun();
-    bool my_gun = weapon.is_gun();
-    double u_weap_val = uc.weapon_value( uc.weapon );
+    bool u_gun = uc.get_wielded_item().is_gun();
+    bool my_gun = get_wielded_item().is_gun();
+    double u_weap_val = uc.weapon_value( uc.get_wielded_item() );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -741,7 +743,7 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.my_weapon_value = weapon_value( get_wielded_item() );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -791,6 +793,7 @@ void npc::move()
 
     npc_action action = npc_undecided;
 
+    const item &weapon = get_wielded_item();
     static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
@@ -1049,7 +1052,7 @@ void npc::execute_action( npc_action action )
             worker_downtime();
             break;
         case npc_reload: {
-            do_reload( weapon );
+            do_reload( get_wielded_item() );
         }
         break;
 
@@ -1170,7 +1173,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            gun_mode mode = weapon.gun_current_mode();
+            gun_mode mode = get_wielded_item().gun_current_mode();
             if( !mode ) {
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
@@ -1189,8 +1192,9 @@ void npc::execute_action( npc_action action )
         }
 
         case npc_look_for_player:
-            if( saw_player_recently() && last_player_seen_pos && sees( *last_player_seen_pos ) ) {
-                update_path( *last_player_seen_pos );
+            if( saw_player_recently() && last_player_seen_pos &&
+                sees( here.getlocal( *last_player_seen_pos ) ) ) {
+                update_path( here.getlocal( *last_player_seen_pos ) );
                 move_to_next();
             } else {
                 look_for_player( player_character );
@@ -1435,8 +1439,9 @@ void npc::evaluate_best_weapon( const Creature *target )
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
-        // ... you can also throw anything
-        compare( std::make_shared<npc_attack_throw>( *it ) );
+        if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
+            compare( std::make_shared<npc_attack_throw>( *it ) );
+        }
         if( !it->type->use_methods.empty() ) {
             compare( std::make_shared<npc_attack_activate_item>( *it ) );
         }
@@ -1536,6 +1541,7 @@ const item &npc::find_reloadable() const
 
 bool npc::can_reload_current()
 {
+    const item &weapon = get_wielded_item();
     if( !weapon.is_gun() || !wants_to_reload( *this, weapon ) ) {
         return false;
     }
@@ -1667,7 +1673,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     item_location loc = item_location( *this, filtered_items.front() );
     const time_duration &consume_time = get_consume_time( *loc );
     moves -= to_moves<int>( consume_time );
-    return consume( loc ) != trinary::NONE;
+    return consume( loc, /*force=*/false, /*refuel=*/true ) != trinary::NONE;
 }
 
 bool npc::recharge_cbm()
@@ -1700,17 +1706,10 @@ bool npc::recharge_cbm()
                 return true;
             } else {
                 const std::vector<material_id> fuel_op = bid->fuel_opts;
-                const bool need_alcohol =
-                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_ethanol ) !=
-                    fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_methanol ) !=
-                    fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), material_denat_alcohol ) !=
-                    fuel_op.end();
 
                 if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-                } else if( need_alcohol ) {
+                } else if( std::find( fuel_op.begin(), fuel_op.end(), material_alcohol ) != fuel_op.end() ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
                 } else {
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
@@ -2118,9 +2117,10 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
         const auto &c = dynamic_cast<const Character &>( *target );
+        const item weapon = c.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
-        if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
-            c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
+        if( sees( c ) && weapon.is_gun() && rltime > 200 &&
+            weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
             return false;
         }
@@ -2132,6 +2132,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
+    const item &weapon = get_wielded_item();
     double aim_amount = aim_per_move( weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
@@ -2333,7 +2334,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( here.passable( p ) && !here.has_flag( "DOOR", p ) ) {
+    } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( here.combined_movecost( pos(), p ),
@@ -2355,7 +2356,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
             moved = true;
         }
-    } else if( get_dex() > 1 && here.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+    } else if( get_dex() > 1 && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
@@ -2369,7 +2370,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= !is_armed() ? 80 : weapon.attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : get_wielded_item().attack_time() * 0.8;
         here.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -2398,13 +2399,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 here.creature_on_trap( *mounted_creature );
             }
         }
-        if( here.has_flag( "UNSTABLE", pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos() ) ) {
             add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
-        if( here.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_SIGHT, pos() ) ) {
             add_effect( effect_no_sight, 1_turns, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
@@ -2450,7 +2451,7 @@ void npc::move_to_next()
 void npc::avoid_friendly_fire()
 {
     // TODO: To parameter
-    const tripoint &tar = current_target()->pos();
+    const tripoint tar = current_target()->pos();
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
@@ -2564,35 +2565,38 @@ void npc::worker_downtime()
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     // are we already in a chair
-    if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, pos() ) ) {
         // just chill here
         move_pause();
         return;
     }
-    //  already know of a chair, go there
-    if( chair_pos != tripoint_min ) {
-        if( here.has_flag_furn( "CAN_SIT", here.getlocal( chair_pos ) ) ) {
-            update_path( here.getlocal( chair_pos ) );
-            if( pos() == here.getlocal( chair_pos ) || path.empty() ) {
+    //  already know of a chair, go there - if there isn't already another creature there.
+    //  this is a bit of behind the scene omniscience for the npc, since ideally the npc
+    //  should walk to the chair and then change their destination due to the seat being taken.
+    tripoint local_chair_pos = chair_pos ? here.getlocal( *chair_pos ) : tripoint_zero;
+    if( chair_pos && !creatures.creature_at( local_chair_pos ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, local_chair_pos ) ) {
+            update_path( local_chair_pos );
+            if( get_location() == *chair_pos || path.empty() ) {
                 move_pause();
                 path.clear();
             } else {
                 move_to_next();
             }
-            wander_pos = tripoint_min;
+            wander_pos = cata::nullopt;
             return;
         } else {
-            chair_pos = tripoint_min;
+            chair_pos = cata::nullopt;
         }
     } else {
         // find a chair
         if( !is_mounted() ) {
             for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
-                if( here.has_flag_furn( "CAN_SIT", elem ) && !creatures.creature_at( elem ) &&
+                if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, elem ) && !creatures.creature_at( elem ) &&
                     could_move_onto( elem ) &&
                     here.point_within_camp( here.getabs( elem ) ) ) {
                     // this one will do
-                    chair_pos = here.getabs( elem );
+                    chair_pos = here.getglobal( elem );
                     return;
                 }
             }
@@ -2600,13 +2604,13 @@ void npc::worker_downtime()
     }
     // we got here if there are no chairs available.
     // wander back to near the bulletin board of the camp.
-    if( wander_pos != tripoint_min ) {
-        update_path( here.getlocal( wander_pos ) );
-        if( pos() == here.getlocal( wander_pos ) || path.empty() ) {
+    if( wander_pos ) {
+        update_path( here.getlocal( *wander_pos ) );
+        if( get_location() == *wander_pos || path.empty() ) {
             move_pause();
             path.clear();
             if( one_in( 30 ) ) {
-                wander_pos = tripoint_min;
+                wander_pos = cata::nullopt;
             }
         } else {
             move_to_next();
@@ -2625,14 +2629,14 @@ void npc::worker_downtime()
         for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
                 10 ) ) {
             if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
-                here.has_flag( TFLAG_DEEP_WATER, elem ) ||
+                here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
                 !here.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
                 continue;
             }
             pts.push_back( elem );
         }
         if( !pts.empty() ) {
-            wander_pos = here.getabs( random_entry( pts ) );
+            wander_pos = here.getglobal( random_entry( pts ) );
             return;
         }
     }
@@ -2654,7 +2658,7 @@ void npc::move_pause()
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
-    if( !weapon.is_gun() ) {
+    if( !get_wielded_item().is_gun() ) {
         pause();
         return;
     }
@@ -2845,7 +2849,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint abs_p = global_square_location().raw() - pos() + p;
+        const tripoint abs_p = get_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         const map_stack m_stack = here.i_at( p );
@@ -3171,7 +3175,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     }
     // Finally, describe the action if u can see it
     if( num_items_dropped >= 3 ) {
-        add_msg_if_player_sees( *this, ngettext( "%s drops %d item.", "%s drops %d items.",
+        add_msg_if_player_sees( *this, n_gettext( "%s drops %d item.", "%s drops %d items.",
                                 num_items_dropped ), get_name(),
                                 num_items_dropped );
     } else {
@@ -3229,8 +3233,8 @@ bool npc::find_corpse_to_pulp()
     const int range = 6;
 
     const item *corpse = nullptr;
-    if( pulp_location && square_dist( pos(), *pulp_location ) <= range ) {
-        corpse = check_tile( *pulp_location );
+    if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {
+        corpse = check_tile( here.getlocal( *pulp_location ) );
     }
 
     // Find the old target to avoid spamming
@@ -3238,13 +3242,13 @@ bool npc::find_corpse_to_pulp()
 
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
-        const tripoint &around = is_walking_with() ? player_character.pos() : pos();
+        const tripoint around = is_walking_with() ? player_character.pos() : pos();
         for( const item_location &location : here.get_active_items_in_radius( around, range,
                 special_item_type::corpse ) ) {
             corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {
-                pulp_location.emplace( location.position() );
+                pulp_location = here.getglobal( location.position() );
                 break;
             }
 
@@ -3267,13 +3271,13 @@ bool npc::do_pulp()
         return false;
     }
 
-    if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
+    if( rl_dist( *pulp_location, get_location() ) > 1 || pulp_location->z() != posz() ) {
         return false;
     }
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = get_map().getabs( *pulp_location );
+    activity.placement = pulp_location->raw();
     activity.do_turn( *this );
     return moves != old_moves;
 }
@@ -3335,6 +3339,8 @@ bool npc::wield_better_weapon()
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
+
+    item &weapon = get_wielded_item();
 
     // Check if there's something better to wield
     item *best = &weapon;
@@ -3482,7 +3488,7 @@ bool npc::alt_attack()
         used_dangerous = used_dangerous || dangerous;
     };
 
-    check_alt_item( weapon );
+    check_alt_item( get_wielded_item() );
     const auto inv_all = items_with( []( const item & ) {
         return true;
     } );
@@ -4045,7 +4051,7 @@ void npc::reach_omt_destination()
     }
     map &here = get_map();
     if( is_travelling() ) {
-        guard_pos = here.getabs( pos() );
+        guard_pos = get_location();
         goal = no_goal_point;
         if( is_player_ally() ) {
             Character &player_character = get_player_character();
@@ -4078,7 +4084,7 @@ void npc::reach_omt_destination()
     }
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
-    if( guard_pos == here.getabs( pos() ) ) {
+    if( guard_pos && *guard_pos == get_location() ) {
         // This is the specific point
         return;
     }
@@ -4086,11 +4092,11 @@ void npc::reach_omt_destination()
     if( path.size() > 1 ) {
         // No point recalculating the path to get home
         move_to_next();
-    } else if( guard_pos != tripoint_min ) {
-        update_path( here.getlocal( guard_pos ) );
+    } else if( guard_pos ) {
+        update_path( here.getlocal( *guard_pos ) );
         move_to_next();
     } else {
-        guard_pos = here.getabs( pos() );
+        guard_pos = get_location();
     }
 }
 
@@ -4109,13 +4115,6 @@ void npc::set_omt_destination()
      */
     if( is_stationary( true ) ) {
         guard_current_pos();
-        return;
-    }
-
-    // all of the following luxuries are at ground level.
-    // so please wallow in hunger & fear if below ground.
-    if( posz() != 0 && !get_map().has_zlevels() ) {
-        goal = no_goal_point;
         return;
     }
 
@@ -4255,7 +4254,7 @@ void npc::go_to_omt_destination()
 void npc::guard_current_pos()
 {
     goal = global_omt_location();
-    guard_pos = get_map().getabs( pos() );
+    guard_pos = get_location();
 }
 
 std::string npc_action_name( npc_action action )

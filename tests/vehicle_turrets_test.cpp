@@ -96,6 +96,10 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             } else {
                 CHECK( veh->part( turr_idx ).ammo_set( ammo_itype ) > 0 );
             }
+            if( veh->part( turr_idx ).get_base().ammo_effects().count( "RECYCLED" ) ) {
+                WARN( "turret [" << turret_vpi->name() << "] uses default ammo [" << ammo_itype.str() <<
+                      "], which is RECYCLED" );
+            }
 
             turret_data qry = veh->turret_query( veh->part( turr_idx ) );
             REQUIRE( qry );
@@ -103,7 +107,12 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.range() > 0 );
 
             player_character.setpos( veh->global_part_pos3( turr_idx ) );
-            CHECK( qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) ) > 0 );
+            int shots_fired = 0;
+            // 3 attempts to fire, to account for possible misfires
+            for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {
+                shots_fired += qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) );
+            }
+            CHECK( shots_fired > 0 );
 
             here.destroy_vehicle( veh );
         }

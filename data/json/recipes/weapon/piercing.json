@@ -165,7 +165,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1 }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -244,6 +244,7 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "scrap_bronze", 4 ] ],
       [ [ "stick_long", 1 ] ],
@@ -267,6 +268,7 @@
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -417,6 +419,18 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "pointy_stick_long",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_rebar",
     "category": "CC_WEAPON",
@@ -486,7 +500,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
-    "components": [ [ [ "stick_long", 1 ] ] ]
+    "components": [ [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -552,7 +566,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ] ]
+    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ], [ "pointy_stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
