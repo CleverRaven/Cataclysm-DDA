@@ -1275,6 +1275,7 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "examine_action": "locked_object",
     "bash": {
       "str_min": 30,
       "str_max": 150,
