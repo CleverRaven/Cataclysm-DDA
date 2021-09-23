@@ -187,7 +187,6 @@ class talker_character: public talker_character_const
         void set_stamina( int ) override;
         void set_sleep_deprivation( int ) override;
         void set_kill_xp( int ) override;
-        int get_kill_xp() const override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
     protected:
