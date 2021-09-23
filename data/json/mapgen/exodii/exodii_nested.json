@@ -26,5 +26,15 @@
         "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "tier1_CBM_shop_update",
+    "//": "Fill lockers with CBMs from Tier1.",
+    "object": {
+        "place_items": [ { "item": "EXODII_CBM_store_tier1", "x": 19, "y": 21, "chance": 80, "repeat": [ 1, 2 ] } ],
+        "place_items": [ { "item": "EXODII_CBM_store_tier1", "x": [ 19, 22 ], "y": 23, "chance": 90, "repeat": [ 2, 6 ] } ]
+    }
   }
 ]

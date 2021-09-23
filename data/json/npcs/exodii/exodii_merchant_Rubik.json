@@ -8,6 +8,7 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_EXODII_MERCHANT",
+    "mission_offered": "EXODIZE_1_ANUS_FETICK",
     "faction": "exodii"
   },
   {
@@ -70,7 +71,6 @@
       "TALK_EXODII_MERCHANT_DoneTrade",
       "TALK_EXODII_MERCHANT_Exodus2",
       "TALK_EXODII_MERCHANT_ExodizeNope",
-      "TALK_EXODII_MERCHANT_Survival",
       "TALK_EXODII_MERCHANT_Tech"
     ],
     "type": "talk_topic",
@@ -390,7 +390,11 @@
     "type": "talk_topic",
     "dynamic_line": "Sure an' I can make you a cyborg, here an' now, since you're a developer an' all.",
     "responses": [
-      { "text": "Let's do it.", "effect": [ { "u_add_bionic": "bio_power_storage" }, { "u_add_bionic": "bio_cable" } ], "topic": "TALK_EXODII_MERCHANT_Exodized" },
+      {
+        "text": "Let's do it.",
+        "effect": [ { "u_add_bionic": "bio_power_storage" }, { "u_add_bionic": "bio_cable" } ],
+        "topic": "TALK_EXODII_MERCHANT_Exodized"
+      },
       { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "I changed my mind.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -474,6 +478,40 @@
     "responses": [
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "condition": {
+          "or": [
+            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": ">=",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": "<",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the exodii overall psych assessment of your character.",
+        "effect": [
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
+        ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
       },
       {
@@ -540,18 +578,25 @@
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
     "type": "talk_topic",
-    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r nightie for it is 'anus fetick'.  You bring us two 'anus fetick' kits, us'll fix'n ye up wi' a wire an' a tiff.",
-    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us two anesthetic kits, we'll fix you up with a wire and everything.",
+    "dynamic_line": {
+      "u_has_var": "anusfetick",
+      "type": "mission",
+      "context": "completed",
+      "value": "yes",
+      "yes": "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik.",
+      "no": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us two 'anus fetick' kits, us'll fix'n ye up with a wire an' a tiff."
+    },
+    "//~": "No: Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us two anesthetic kits, we'll fix you up with a wire and everything.",
     "responses": [
       {
-        "text": "Two, uh, anesthetic kits, coming up.  Can we talk a bit more though?",
-        "effect": { "assign_mission": "EXODIZE_1_ANUS_FETICK" },
-        "topic": "TALK_EXODII_MERCHANT_Talk"
+        "text": "Two, uh, anesthetic kits, coming up.",
+        "condition": { "not": { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } },
+        "topic": "TALK_MISSION_LIST"
       },
       {
-        "text": "Two, uh, anesthetic kits, coming up.  See you later.",
-        "effect": { "assign_mission": "EXODIZE_1_ANUS_FETICK" },
-        "topic": "TALK_DONE"
+        "text": "All right.  Let's do this.",
+        "condition": { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_Exodized"
       }
     ]
   },
@@ -576,7 +621,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_Exodized",
     "type": "talk_topic",
-    "dynamic_line": "*Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.*/n/n*You awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anaesthesia fades you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.*/n/nAh, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.",
+    "dynamic_line": "*makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.\n\nYou awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anaesthesia fades you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.\n\n\"Ah, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.\"",
+    "speaker_effect": {
+      "effect": [ { "mapgen_update": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1-3_A" } } ]
+    },
     "responses": [
       { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -602,7 +650,7 @@
     "type": "mission_definition",
     "name": { "str": "Bring two anesthesia kits to Rubik" },
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
+    "difficulty": 2,
     "value": 10000,
     "item": "anesthetic_kit",
     "count": 2,
@@ -617,6 +665,7 @@
       "success": "Fine an' fine.  We can pass it in when you like.",
       "success_lie": "Fine an' fine.  We can pass it in when you like.",
       "failure": "Fine an' fine.  Come back to this'n if you like to try again."
-    }
+    },
+    "end": { "effect": [ { "u_add_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } ] }
   }
 ]

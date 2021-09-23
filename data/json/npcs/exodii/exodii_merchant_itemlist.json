@@ -37,6 +37,7 @@
     "type": "item_group",
     "id": "EXODII_CBM_store_tier1",
     "//": "These CBMs should be available in the exodii store from the start.",
+    "subtype": "collection",
     "items": [
       [ "bio_watch", 10 ],
       [ "bio_syringe", 10 ],
