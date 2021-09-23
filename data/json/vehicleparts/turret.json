@@ -170,7 +170,10 @@
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 12 }, { "item": "steel_lump", "count": 7 } ],
-    "requirements": { "install": { "time": "100 s", "skills": [ [ "mechanics", 0 ], [ "rifle", 1 ] ] }, "removal": { "time": "50 s", "skills": [ [ "mechanics", 0 ] ] } }
+    "requirements": {
+      "install": { "time": "100 s", "skills": [ [ "mechanics", 0 ], [ "rifle", 1 ] ] },
+      "removal": { "time": "50 s", "skills": [ [ "mechanics", 0 ] ] }
+    }
   },
   {
     "id": "mounted_m240",
