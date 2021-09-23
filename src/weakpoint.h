@@ -72,6 +72,7 @@ struct weakpoints {
 
     void clear();
     void load( const JsonArray &ja );
+    void remove( const JsonArray &ja );
 };
 
 #endif // CATA_SRC_WEAKPOINT_H
