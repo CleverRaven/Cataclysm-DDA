@@ -131,6 +131,8 @@ class uistatedata
 
         // V Menu Stuff
         int list_item_sort = 0;
+        // Pickup menu
+        int pickup_item_sort = 2;
 
         // These three aren't serialized because deserialize can extraect them
         // from the history
@@ -216,6 +218,7 @@ class uistatedata
             json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
             json.member( "vmenu_show_items", vmenu_show_items );
             json.member( "list_item_sort", list_item_sort );
+            json.member( "pickup_item_sort", pickup_item_sort );
             json.member( "list_item_filter_active", list_item_filter_active );
             json.member( "list_item_downvote_active", list_item_downvote_active );
             json.member( "list_item_priority_active", list_item_priority_active );
@@ -289,6 +292,7 @@ class uistatedata
             }
 
             jo.read( "list_item_sort", list_item_sort );
+            jo.read( "pickup_item_sort", pickup_item_sort );
             jo.read( "list_item_filter_active", list_item_filter_active );
             jo.read( "list_item_downvote_active", list_item_downvote_active );
             jo.read( "list_item_priority_active", list_item_priority_active );

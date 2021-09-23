@@ -26,6 +26,7 @@
 #include "game.h"
 #include "input.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_location.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -443,6 +444,29 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     return !problem;
 }
 
+static bool cmp_istack_alpha( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 );
+static bool cmp_istack_cat( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 );
+
+bool cmp_istack_alpha( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 )
+{
+    if( i1.empty() || i2.empty() ) {
+        return i1 < i2;
+    }
+    const std::string &it1 = i1.front()->tname(1U, false, 0U, false);
+    const std::string &it2 = i2.front()->tname(1U, false, 0U, false);
+    return it1.compare( it2 ) < 0;
+}
+
+bool cmp_istack_cat( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 )
+{
+    if( i1.empty() || i2.empty() ) {
+        return i1 < i2;
+    }
+    const item &it1 = *i1.front();
+    const item &it2 = *i2.front();
+    return it1.get_category_of_contents() < it2.get_category_of_contents();
+}
+
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 {
@@ -572,9 +596,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     // Items are stored unordered in colonies on the map, so sort them for a nice display.
-    std::sort( stacked_here.begin(), stacked_here.end(), []( const auto & lhs, const auto & rhs ) {
-        return *lhs.front() < *rhs.front();
-    } );
+    bool sort_by_cat = uistate.pickup_item_sort != 1;
+    if( !sort_by_cat ) {
+        std::sort( stacked_here.begin(), stacked_here.end(), cmp_istack_alpha );
+    } else {
+        std::sort( stacked_here.begin(), stacked_here.end(), cmp_istack_cat );
+    }
 
     std::vector<pickup_count> getitem( stacked_here.size() );
 
@@ -589,9 +616,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int start = 0;
         int selected = 0;
         int maxitems = 0;
+        int menurows = 0;
         int pickupH = 0;
         int pickupW = 44;
         int pickupX = 0;
+        int categories = 0;
+        int cur_cats = 0;
         catacurses::window w_pickup;
         catacurses::window w_item_info;
 
@@ -606,19 +636,30 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const int maxmaxitems = TERMY - minleftover;
             const int minmaxitems = 9;
             maxitems = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
-
-            start = selected - selected % maxitems;
-
-            pickupH = maxitems + pickupBorderRows;
+            menurows = maxitems;
+            categories = 0;
 
             //find max length of item name and resize pickup window width
+            item_category_id it_cat;
             for( const std::list<item_stack::iterator> &cur_list : stacked_here ) {
                 const item &this_item = *cur_list.front();
                 const int item_len = utf8_width( remove_color_tags( this_item.display_name() ) ) + 10;
                 if( item_len > pickupW && item_len < TERMX ) {
                     pickupW = item_len;
                 }
+                // Count the number of category labels to display
+                const item_category_id cur_cat = cur_list.front()->get_category_of_contents().id;
+                if( sort_by_cat && it_cat != cur_cat ) {
+                    it_cat = cur_cat;
+                    categories++;
+                }
             }
+
+            maxitems -= categories;
+
+            start = selected - selected % maxitems;
+
+            pickupH = menurows + pickupBorderRows;
 
             pickupX = 0;
             std::string position = get_option<std::string>( "PICKUP_POSITION" );
@@ -662,6 +703,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
         ctxt.register_action( "SELECT" );
+        ctxt.register_action( "SORT", to_translation( "Change sort criteria" ) );
 #if defined(__ANDROID__)
         ctxt.allow_text_entry = true; // allow user to specify pickup amount
 #endif
@@ -711,10 +753,20 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
             werase( w_pickup );
             pickup_rect::list.clear();
-            for( int cur_it = start; cur_it < start + maxitems; cur_it++ ) {
+            item_category_id this_cat;
+            cur_cats = 0;
+            int cur_row = 0;
+            for( int cur_it = start; cur_it < start + maxitems && cur_row < menurows; cur_row++ ) {
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
                     const item &this_item = *stacked_here[true_it].front();
+                    if( sort_by_cat && this_cat != this_item.get_category_of_contents().id ) {
+                        this_cat = this_item.get_category_of_contents().id;
+                        trim_and_print( w_pickup, point( 2, 2 + cur_row ),
+                                        pickupW - 4, c_magenta, to_upper_case( this_cat.str() ) );
+                        cur_cats++;
+                        continue;
+                    }
 
                     nc_color icolor;
                     if( this_item.is_food_container() && !this_item.is_craft() &&
@@ -729,7 +781,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
 
                     if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
-                        mvwputch( w_pickup, point( 0, 2 + ( cur_it % maxitems ) ), icolor,
+                        mvwputch( w_pickup, point( 0, 2 + cur_row ), icolor,
                                   static_cast<char>( pickup_chars[cur_it] ) );
                     } else if( cur_it < static_cast<int>( pickup_chars.size() ) + static_cast<int>
                                ( pickup_chars.size() ) *
@@ -737,10 +789,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         int p = cur_it - pickup_chars.size();
                         int p1 = p / pickup_chars.size();
                         int p2 = p % pickup_chars.size();
-                        mvwprintz( w_pickup, point( 0, 2 + ( cur_it % maxitems ) ), icolor, "`%c%c",
+                        mvwprintz( w_pickup, point( 0, 2 + cur_row ), icolor, "`%c%c",
                                    static_cast<char>( pickup_chars[p1] ), static_cast<char>( pickup_chars[p2] ) );
                     } else {
-                        mvwputch( w_pickup, point( 0, 2 + ( cur_it % maxitems ) ), icolor, ' ' );
+                        mvwputch( w_pickup, point( 0, 2 + cur_row ), icolor, ' ' );
                     }
                     if( getitem[true_it].pick ) {
                         if( getitem[true_it].count == 0 ) {
@@ -789,30 +841,31 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         item_name = string_format( "<color_light_red>!</color> %s", item_name );
                     }
 
-                    int y = 2 + ( cur_it % maxitems );
+                    int y = 2 + cur_row;
                     trim_and_print( w_pickup, point( 6, y ), pickupW - 6, icolor, item_name );
                     pickup_rect rect = pickup_rect( point( 6, y ), point( pickupW - 1, y ) );
                     rect.cur_it = cur_it;
                     pickup_rect::list.push_back( rect );
+                    cur_it++;
                 }
             }
 
-            mvwprintw( w_pickup, point( 0, maxitems + 2 ), _( "[%s] Unmark" ),
+            mvwprintw( w_pickup, point( 0, menurows + 2 ), _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ) );
 
-            center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] Help" ),
+            center_print( w_pickup, menurows + 2, c_light_gray, string_format( _( "[%s] Help" ),
                           ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) ) );
 
-            right_print( w_pickup, maxitems + 2, 0, c_light_gray, string_format( _( "[%s] Mark" ),
+            right_print( w_pickup, menurows + 2, 0, c_light_gray, string_format( _( "[%s] Mark" ),
                          ctxt.get_desc( "RIGHT", 1 ) ) );
 
-            mvwprintw( w_pickup, point( 0, maxitems + 3 ), _( "[%s] Prev" ),
+            mvwprintw( w_pickup, point( 0, menurows + 3 ), _( "[%s] Prev" ),
                        ctxt.get_desc( "PREV_TAB", 1 ) );
 
-            center_print( w_pickup, maxitems + 3, c_light_gray, string_format( _( "[%s] All" ),
+            center_print( w_pickup, menurows + 3, c_light_gray, string_format( _( "[%s] All" ),
                           ctxt.get_desc( "SELECT_ALL", 1 ) ) );
 
-            right_print( w_pickup, maxitems + 3, 0, c_light_gray, string_format( _( "[%s] Next" ),
+            right_print( w_pickup, menurows + 3, 0, c_light_gray, string_format( _( "[%s] Next" ),
                          ctxt.get_desc( "NEXT_TAB", 1 ) ) );
 
             const std::string fmted_weight_predict = colorize(
@@ -840,6 +893,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                            fmted_weight_predict, fmted_weight_capacity,
                                            fmted_volume_predict, fmted_volume_capacity
                                          ) );
+            right_print( w_pickup, 0, 0, c_light_gray, string_format( _( "[%s] Sort: %s" ),
+                         ctxt.get_desc( "SORT", 1 ), sort_by_cat ? _( "cat" ) : _( "alpha" ) ) );
             trim_and_print( w_pickup, point_south, pickupW, c_white,
                             string_format( _( "INDV Vol %1$s/%2$s  Lng %3$s/%4$s" ),
                                            fmted_ind_volume_predict, fmted_ind_volume_capac,
@@ -878,7 +933,34 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         }
                     }
                 }
-
+            } else if( action == "SORT" ) {
+                uistate.pickup_item_sort = uistate.pickup_item_sort == 1 ? 2 : 1;
+                sort_by_cat = uistate.pickup_item_sort != 1;
+                if( !sort_by_cat ) {
+                    std::sort( stacked_here.begin(), stacked_here.end(), cmp_istack_alpha );
+                    categories = 0;
+                    maxitems = menurows;
+                } else {
+                    std::sort( stacked_here.begin(), stacked_here.end(), cmp_istack_cat );
+                    item_category_id it_cat;
+                    for( const std::list<item_stack::iterator> &li : stacked_here ) {
+                        const item_category_id cur_cat = li.front()->get_category_of_contents().id;
+                        if( sort_by_cat && it_cat != cur_cat ) {
+                            it_cat = cur_cat;
+                            categories++;
+                        }
+                    }
+                    maxitems = menurows - categories;
+                }
+                // TODO: #1 - Get rid of maxitems
+                // TODO: #2 - What happens when sorting a filtered list?
+                // TODO: #3 - Fix picked items (+) getting changed after sorting
+                filter_changed = true;
+                update = true;
+                for( pickup_count &pc : getitem ) {
+                    pc.pick = false;
+                    pc.count = 0;
+                }
             } else if( action == "SCROLL_ITEM_INFO_UP" ) {
                 iScrollPos -= scroll_lines;
             } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
