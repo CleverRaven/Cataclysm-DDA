@@ -150,6 +150,12 @@ void weakpoints::load( const JsonArray &ja )
     for( const JsonObject jo : ja ) {
         weakpoint tmp;
         tmp.load( jo );
+
+        if( tmp.id.empty() ) {
+            default_weakpoint = tmp;
+            continue;
+        }
+
         weakpoint_list.push_back( std::move( tmp ) );
     }
     // Prioritizes weakpoints based on their coverage.
