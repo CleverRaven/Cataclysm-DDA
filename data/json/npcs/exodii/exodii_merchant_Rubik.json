@@ -148,6 +148,12 @@
     ],
     "responses": [
       {
+        "text": "I've brought those anaesthetic kits for you.  Can you help me out?",
+        "condition": { "and": [ { "u_has_items": { "item": "anesthetic_kit", "count": 2 }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
+        "effect": [ { "u_sell_item": { "item": "anesthetic_kit", "count": 2 } }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
         "text": "Who are you?  What is this place?",
         "topic": "TALK_EXODII_MERCHANT_New",
         "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
@@ -591,7 +597,7 @@
       {
         "text": "Two, uh, anesthetic kits, coming up.",
         "condition": { "not": { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } },
-        "topic": "TALK_MISSION_LIST"
+        "effect": { "assign_mission": "RUBIK_ANUS_FETICK" }
       },
       {
         "text": "All right.  Let's do this.",
@@ -646,7 +652,7 @@
     ]
   },
   {
-    "id": "EXODIZE_1_ANUS_FETICK",
+    "id": "RUBIK_ANUS_FETICK",
     "type": "mission_definition",
     "name": { "str": "Bring two anesthesia kits to Rubik" },
     "goal": "MGOAL_FIND_ITEM",
