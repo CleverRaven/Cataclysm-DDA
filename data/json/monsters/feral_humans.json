@@ -343,8 +343,8 @@
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ],
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
-	"fear_triggers":[ "FRIEND_DIED", "HURT" ]
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE", "STALK" ],
+	"fear_triggers":[ "FRIEND_DIED", "HURT", "HOSTILE_SEEN" ]
   }
 ]
 
