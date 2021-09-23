@@ -324,9 +324,9 @@ float Character::hit_roll() const
 
     // Difficult to land a hit while prone
     if( is_on_ground() ) {
-        hit -= one_in( 4 ) ? 4.0f : 10.0f;
+        hit -= 8.0f;
     } else if( is_crouching() ) {
-        hit -= one_in( 4 ) ? 0.0f : 4.0f;
+        hit -= 2.0f;
     }
 
     //Unstable ground chance of failure
