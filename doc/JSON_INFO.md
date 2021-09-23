@@ -198,6 +198,7 @@ Use the `Home` key to return to the top.
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
+  - [`eocs`](#eocs)
   - [`missions`](#missions)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)

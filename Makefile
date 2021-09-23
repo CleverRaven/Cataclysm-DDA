@@ -1149,8 +1149,10 @@ etags: $(ASTYLE_SOURCES)
 	etags $^
 	./tools/json_tools/cddatags.py
 
-astyle: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+ASTYLE_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%.astyle-check-stamp,$(ASTYLE_SOURCES)))
+astyle: $(ASTYLE_CHECK_STAMPS)
+$(ASTYLE_CHECK_STAMPS): $(ODIR)/%.astyle-check-stamp : %
+	$(ASTYLE_BINARY) --options=.astylerc -n $< && mkdir -p $(@D) && touch $@
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
@@ -1166,10 +1168,12 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-style-json: json_blacklist $(JSON_FORMATTER_BIN)
+JSON_SOURCES := $(shell find data -name "*.json")
+JSON_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%,$(JSON_SOURCES:.json=.jstyle-check-stamp)))
+style-json : $(JSON_CHECK_STAMPS) $(JSON_FORMATTER_BIN)
+$(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	find data gfx -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
-	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+	$(JSON_FORMATTER_BIN) $< && mkdir -p $(@D) && touch $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
