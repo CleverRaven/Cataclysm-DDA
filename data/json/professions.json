@@ -1324,7 +1324,7 @@
     "type": "profession",
     "id": "homeless",
     "name": "Hobo",
-    "description": "Society drove you to the fringes and left you with no home, no family, no friends. But for all the crap thrown your way, you're still breathing. For now.",
+    "description": "Society drove you to the fringes and left you with no home, no family, no friends.  But for all the crap thrown your way, you're still breathing.  For now.",
     "points": -1,
     "items": {
       "both": {
@@ -3729,7 +3729,7 @@
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
-      "female": [ "polo_shirt", "bra", "panties", "skirt", "heels", "stockings" ]
+      "female": [ "polo_shirt", "bra", "panties", "skirt", "heels", "stockings", "purse" ]
     }
   },
   {
