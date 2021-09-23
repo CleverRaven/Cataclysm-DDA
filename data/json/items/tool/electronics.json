@@ -20,18 +20,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ]
   },
@@ -56,18 +46,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ]
   },
@@ -98,18 +78,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_disposable_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ]
   },
@@ -120,7 +90,13 @@
     "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
     "power_draw": 500,
     "revert_to": "cell_phone",
-    "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "cell_phone",
+      "msg": "You stop lighting up the screen.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
@@ -193,18 +169,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       },
       {
         "pocket_type": "EBOOK",
@@ -223,7 +189,11 @@
     "power_draw": 2000,
     "revert_to": "eink_tablet_pc",
     "use_action": [
+      "EINKTABLETPC",
+      "EBOOKSAVE",
+      "EBOOKREAD",
       {
+        "ammo_scale": 0,
         "type": "transform",
         "menu_text": "Turn off the screen",
         "msg": "You power down the screen.",
@@ -255,18 +225,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -290,18 +250,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -334,19 +284,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "magazine_well": "100 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell"
-        ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -385,10 +325,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -399,7 +337,17 @@
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
     "power_draw": 1000,
     "revert_to": "laptop",
-    "use_action": { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": [
+      "EINKTABLETPC",
+      "PORTABLE_GAME",
+      {
+        "ammo_scale": 0,
+        "target": "laptop",
+        "msg": "You stop lighting up the screen.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      }
+    ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
@@ -423,18 +371,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_disposable_cell",
-          "light_minus_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -471,18 +409,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -517,18 +445,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
@@ -582,6 +500,7 @@
     "power_draw": 1500,
     "revert_to": "smart_phone",
     "use_action": {
+      "ammo_scale": 0,
       "target": "smart_phone",
       "msg": "You deactivate the flashlight app.",
       "menu_text": "Turn off flashlight",
@@ -608,10 +527,8 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
       }
     ]
   },
@@ -636,18 +553,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   }

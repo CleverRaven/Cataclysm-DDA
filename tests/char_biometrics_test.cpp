@@ -12,6 +12,7 @@
 #include "monster.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player_helpers.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -26,14 +27,14 @@ static float bmi_to_kcal_ratio( float bmi )
 }
 
 // Set enough stored calories to reach target BMI
-static void set_player_bmi( player &dummy, float bmi )
+static void set_player_bmi( Character &dummy, float bmi )
 {
     dummy.set_stored_kcal( dummy.get_healthy_kcal() * bmi_to_kcal_ratio( bmi ) );
     REQUIRE( dummy.get_bmi() == Approx( bmi ).margin( 0.001f ) );
 }
 
 // Return the player's `get_bmi` at `kcal_percent` (actually a ratio of stored_kcal to healthy_kcal)
-static float bmi_at_kcal_ratio( player &dummy, float kcal_percent )
+static float bmi_at_kcal_ratio( Character &dummy, float kcal_percent )
 {
     dummy.set_stored_kcal( dummy.get_healthy_kcal() * kcal_percent );
     REQUIRE( dummy.get_kcal_percent() == Approx( kcal_percent ).margin( 0.001f ) );
@@ -42,35 +43,35 @@ static float bmi_at_kcal_ratio( player &dummy, float kcal_percent )
 }
 
 // Return the player's `get_max_healthy` value at the given body mass index
-static int max_healthy_at_bmi( player &dummy, float bmi )
+static int max_healthy_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
     return dummy.get_max_healthy();
 }
 
 // Return the player's `kcal_speed_penalty` value at the given body mass index
-static int kcal_speed_penalty_at_bmi( player &dummy, float bmi )
+static int kcal_speed_penalty_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
     return dummy.kcal_speed_penalty();
 }
 
-// Return the player's `get_weight_string` at the given body mass index
-static std::string weight_string_at_bmi( player &dummy, float bmi )
+// Return the player's `weight_string` at the given body mass index
+static std::string weight_string_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
-    return remove_color_tags( dummy.get_weight_string() );
+    return remove_color_tags( display::weight_string( dummy ) );
 }
 
 // Return `bodyweight` in kilograms for a player at the given body mass index.
-static float bodyweight_kg_at_bmi( player &dummy, float bmi )
+static float bodyweight_kg_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
     return to_kilogram( dummy.bodyweight() );
 }
 
 // Clear player traits and give them a single trait by name
-static void set_single_trait( player &dummy, const std::string &trait_name )
+static void set_single_trait( Character &dummy, const std::string &trait_name )
 {
     dummy.clear_mutations();
     dummy.toggle_trait( trait_id( trait_name ) );
@@ -78,14 +79,14 @@ static void set_single_trait( player &dummy, const std::string &trait_name )
 }
 
 // Return player `metabolic_rate_base` with a given mutation
-static float metabolic_rate_with_mutation( player &dummy, const std::string &trait_name )
+static float metabolic_rate_with_mutation( Character &dummy, const std::string &trait_name )
 {
     set_single_trait( dummy, trait_name );
     return dummy.metabolic_rate_base();
 }
 
 // Return player `get_bmr` (basal metabolic rate) at the given activity level.
-static int bmr_at_act_level( player &dummy, float activity_level )
+static int bmr_at_act_level( Character &dummy, float activity_level )
 {
     dummy.reset_activity_level();
     dummy.update_body( calendar::turn, calendar::turn );

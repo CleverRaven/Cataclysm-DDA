@@ -837,6 +837,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CORPSE" );
         }
     }
+    if( it.typeId() == itype_id( "disassembly" ) ) {
+        if( has_near( zone_type_id( "zone_disassemble" ), where, range ) ) {
+            return zone_type_id( "zone_disassemble" );
+        }
+    }
 
     cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
     if( zone_check_first && has_near( *zone_check_first, where, range ) ) {
@@ -1128,9 +1133,9 @@ void zone_manager::serialize( JsonOut &json ) const
     json.write( zones );
 }
 
-void zone_manager::deserialize( JsonIn &jsin )
+void zone_manager::deserialize( const JsonValue &jv )
 {
-    jsin.read( zones );
+    jv.read( zones );
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
         const zone_type_id zone_type = it->get_type();
         if( !has_type( zone_type ) ) {
@@ -1155,9 +1160,8 @@ void zone_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void zone_data::deserialize( JsonIn &jsin )
+void zone_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );
@@ -1214,7 +1218,7 @@ void zone_manager::load_zones()
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
-        deserialize( jsin );
+        deserialize( jsin.get_value() );
     } );
     revert_vzones();
     added_vzones.clear();

@@ -24,7 +24,6 @@
 #include "value_ptr.h"
 
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class Trait_group;
 class item;
@@ -125,7 +124,7 @@ struct reflex_activation_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct mutation_branch {
@@ -143,6 +142,8 @@ struct mutation_branch {
         bool debug = false;
         // True if the mutation should be displayed in the `@` menu
         bool player_display = true;
+        // True if mutation is purely comestic and can be changed anytime without any effect
+        bool vanity = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;

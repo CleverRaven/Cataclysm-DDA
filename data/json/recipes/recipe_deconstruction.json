@@ -672,6 +672,15 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
+    "result": "sneakers_steel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cotton_patchwork", 3 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
     "result": "box_cigarette",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -693,6 +702,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -712,6 +722,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -798,6 +809,30 @@
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_robofac_camspy",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "lens", 1 ] ]
     ]
@@ -816,6 +851,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -835,6 +871,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -854,6 +891,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -873,6 +911,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "spike", 2 ] ],
@@ -893,6 +932,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -1002,6 +1042,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -1143,6 +1184,7 @@
       [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
       [ [ "scrap", 6 ] ],
+      [ [ "e_scrap", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
     ]
@@ -2918,6 +2960,7 @@
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "cable", 4 ] ],
+      [ [ "e_scrap", 3 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "plastic_chunk", 8 ] ],
@@ -2970,11 +3013,131 @@
     ]
   },
   {
-    "result": "money_bundle",
+    "result": "money_strap_one",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "12 s",
-    "components": [ [ [ "paper", 2 ] ] ],
+    "time": "4 s",
+    "components": [ [ [ "money_one", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_two",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_two", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_five",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_five", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_ten",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_ten", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_twenty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_fifty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_fifty", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_hundred",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_hundred", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_FMCNote",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "FMCNote", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_one",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_one", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_two",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_two", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_five",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_five", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_ten",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_ten", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_twenty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_twenty", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_fifty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_fifty", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_hundred",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_hundred", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_hundred",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_FMCNote", 10 ] ], [ [ "rubber_band", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -3108,6 +3271,14 @@
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+  },
+  {
+    "result": "makeshift_pillow",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "withered", 12 ] ] ]
   },
   {
     "result": "pipe",
@@ -3887,6 +4058,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "cable", 8 ] ],
+      [ [ "e_scrap", 4 ] ],
       [ [ "amplifier", 4 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "plastic_chunk", 8 ] ]
@@ -4195,6 +4367,7 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 6 ] ],
+      [ [ "e_scrap", 4 ] ],
       [ [ "steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "sheet_metal", 6 ] ],
@@ -5152,12 +5325,13 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "coin_quarter",
+    "result": "coin_penny",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 5 ] ] ]
+    "components": [ [ [ "copper", 3 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_nickel",
@@ -5165,7 +5339,62 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "copper", 5 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_dime",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 2 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_quarter",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 6 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_half_dollar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 11 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_dollar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 8 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 31 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 31 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "spray_can",

@@ -32,7 +32,9 @@
       { "item": "file", "prob": 10 },
       { "item": "touristmap", "prob": 20 },
       { "item": "restaurantmap", "prob": 20 },
-      { "item": "money_bundle", "prob": 55 },
+      { "item": "money_strap_one", "prob": 55 },
+      { "item": "money_strap_five", "prob": 55 },
+      { "item": "money_strap_ten", "prob": 25 },
       { "item": "gold_watch", "prob": 5 },
       { "item": "silver_watch", "prob": 10 },
       { "item": "gum", "prob": 30, "charges": [ 1, 10 ] },
@@ -617,7 +619,10 @@
     "subtype": "distribution",
     "items": [
       { "group": "supplies_metal_precious", "prob": 70 },
-      { "item": "money_bundle", "prob": 90 },
+      { "item": "money_strap_five", "prob": 90, "count": [ 1, 5 ] },
+      { "item": "money_strap_ten", "prob": 70, "count": [ 1, 3 ] },
+      { "item": "money_strap_twenty", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "money_strap_fifty", "prob": 10 },
       { "item": "gold_watch", "prob": 30 },
       { "item": "gold_ear", "prob": 30 },
       { "item": "gold_bracelet", "prob": 30 },
@@ -1053,6 +1058,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wheel_bicycle", "prob": 100 },
+      { "item": "tire_bicycle", "prob": 70 },
+      { "item": "wheel_rim_bicycle", "prob": 80 },
+      { "item": "tire_bicycle_or", "prob": 65 },
+      { "item": "deflated_wheel_bicycle", "prob": 80 },
+      { "item": "hand_pump", "prob": 100 },
       { "item": "wheel_bicycle", "prob": 80 },
       { "item": "horn_bicycle", "prob": 80 },
       { "item": "foot_crank", "prob": 80 },
@@ -1471,7 +1481,19 @@
     "type": "item_group",
     "id": "oa_ig_ts_tires",
     "//": "for cs_tire_shop",
-    "items": [ [ "wheel_small", 30 ], [ "wheel", 30 ], [ "wheel_wide", 20 ] ]
+    "items": [
+      [ "wheel_small", 30 ],
+      [ "wheel", 30 ],
+      [ "wheel_wide", 20 ],
+      [ "tire_medium", 30 ],
+      [ "tire_wide", 20 ],
+      [ "deflated_wheel", 20 ],
+      [ "deflated_wheel", 30 ],
+      [ "deflated_wheel_wide", 20 ],
+      [ "hand_pump", 10 ],
+      [ "wheel_rim_medium", 5 ],
+      [ "wheel_rim_wide", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -1639,6 +1661,7 @@
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
+      [ "breadboard", 50 ],
       [ "circuit", 35 ],
       [ "small_lcd_screen", 10 ],
       [ "large_lcd_screen", 10 ],
@@ -1670,6 +1693,7 @@
       [ "mag_electronics", 60 ],
       [ "manual_electronics", 50 ],
       [ "advanced_electronics", 35 ],
+      [ "ic_reference_electronics", 20 ],
       [ "textbook_electronics", 30 ],
       [ "radio_book", 40 ]
     ]

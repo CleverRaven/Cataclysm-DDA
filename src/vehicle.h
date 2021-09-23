@@ -39,7 +39,7 @@
 
 class Character;
 class Creature;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class map;
 class monster;
@@ -56,7 +56,7 @@ struct uilist_entry;
 template <typename E> struct enum_traits;
 
 enum vpart_bitflags : int;
-enum ter_bitflags : int;
+enum class ter_furn_flag : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -120,7 +120,7 @@ struct smart_controller_config {
     int battery_lo = 25;
     int battery_hi = 90;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
     void serialize( JsonOut &json ) const;
 };
 
@@ -483,7 +483,7 @@ struct vehicle_part {
         const vpart_info &info() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         const item &get_base() const;
         void set_base( const item &new_base );
@@ -607,7 +607,7 @@ struct label : public point {
 
     std::string text;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
     void serialize( JsonOut &json ) const;
 };
 
@@ -823,7 +823,7 @@ class vehicle
                     float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
                              int hl = -1, bool detail = false ) const;
@@ -1178,7 +1178,9 @@ class vehicle
         std::map<itype_id, int> fuels_left() const;
 
         // Checks how much certain fuel left in tanks.
-        int fuel_left( const itype_id &ftype, bool recurse = false ) const;
+        int fuel_left( const itype_id &ftype, bool recurse = false,
+                       const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
+        const;
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
@@ -1190,7 +1192,8 @@ class vehicle
 
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
-        int drain( const itype_id &ftype, int amount );
+        int drain( const itype_id &ftype, int amount,
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &> );
         int drain( int index, int amount );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
@@ -1780,7 +1783,7 @@ class vehicle
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
         void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-                                           ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+                                           ter_furn_flag ter_flag_to_check, int &wheels_on_rail,
                                            int &turning_wheels_that_are_one_axis_counter ) const;
         bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
         bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;

@@ -102,7 +102,7 @@ class faction : public faction_template
         faction() = default;
         explicit faction( const faction_template &templ );
 
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 

@@ -12,7 +12,6 @@
 #include "morale_types.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class item;
@@ -94,7 +93,7 @@ class player_morale
                     decay_start( std::max( decay_start, 0_turns ) ),
                     age( 0_turns ) {}
 
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jo );
                 void serialize( JsonOut &json ) const;
 
                 std::string get_name() const;

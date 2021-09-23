@@ -30,6 +30,7 @@
 #include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
@@ -641,9 +642,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     const std::pair <std::string, nc_color> condition = hp_description();
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
-    const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
-    const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
-    const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
+    const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
+    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
@@ -652,7 +653,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + weapon.tname() );
+                                _( "Wielding: " ) + get_wielded_item().tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {

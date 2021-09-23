@@ -41,14 +41,14 @@ static void test_consumable_charges( Character &you, std::string &itemname, bool
     REQUIRE( you.can_consume( it ) == when_max );
 }
 
-static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
+static void test_consumable_ammo( Character &you, std::string &itemname, bool when_empty,
                                   bool when_full )
 {
     item it = item( itemname, calendar::turn_zero, 0 );
 
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_empty );
+    REQUIRE( you.can_consume( it ) == when_empty );
 
     if( !it.magazine_default().is_null() ) {
         item mag( it.magazine_default() );
@@ -59,7 +59,7 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
     }
 
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_full );
+    REQUIRE( you.can_consume( it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )

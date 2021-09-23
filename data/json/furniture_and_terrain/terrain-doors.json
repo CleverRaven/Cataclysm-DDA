@@ -2012,6 +2012,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2316,6 +2321,11 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2346,6 +2356,11 @@
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2371,7 +2386,18 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "open": "t_door_bar_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 45,
       "str_max": 210,
@@ -2427,8 +2453,19 @@
     "roof": "t_flat_roof",
     "lockpick_result": "t_door_bar_o",
     "lockpick_message": "The door swings open…",
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "PICKABLE" ],
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 45,
       "str_max": 210,

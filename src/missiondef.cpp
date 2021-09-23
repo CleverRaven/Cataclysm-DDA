@@ -158,8 +158,7 @@ std::string enum_to_string<mission_origin>( mission_origin data )
         case mission_origin::NUM_ORIGIN:
             break;
     }
-    debugmsg( "Invalid mission_origin" );
-    abort();
+    cata_fatal( "Invalid mission_origin" );
 }
 
 template<>
@@ -189,8 +188,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case mission_goal::NUM_MGOAL:
             break;
     }
-    debugmsg( "Invalid mission_goal" );
-    abort();
+    cata_fatal( "Invalid mission_goal" );
 }
 } // namespace io
 

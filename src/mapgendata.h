@@ -5,10 +5,10 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coordinates.h"
-#include "json.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class JsonValue;
 class map;
 class mission;
 struct point;
@@ -24,8 +24,25 @@ struct mapgen_arguments {
 
     void merge( const mapgen_arguments & );
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonValue &ji );
 };
+
+namespace mapgendata_detail
+{
+
+// helper to get a variant value with any variant being extractable as a string
+template<typename Result>
+inline Result extract_variant_value( const cata_variant &v )
+{
+    return v.get<Result>();
+}
+template<>
+inline std::string extract_variant_value<std::string>( const cata_variant &v )
+{
+    return v.get_string();
+}
+
+} // namespace mapgendata_detail
 
 /**
  * Contains various information regarding the individual mapgen instance
@@ -164,7 +181,7 @@ class mapgendata
                 debugmsg( "No such parameter \"%s\"", name );
                 return Result();
             }
-            return it->second.get<Result>();
+            return mapgendata_detail::extract_variant_value<Result>( it->second );
         }
 
         template<typename Result>
@@ -173,7 +190,7 @@ class mapgendata
             if( it == mapgen_args_.map.end() ) {
                 return fallback;
             }
-            return it->second.get<Result>();
+            return mapgendata_detail::extract_variant_value<Result>( it->second );
         }
 };
 

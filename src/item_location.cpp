@@ -12,6 +12,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
@@ -353,7 +354,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 }
 
             } else {
-                return who->name;
+                return who->get_name();
             }
         }
 
@@ -747,9 +748,8 @@ void item_location::serialize( JsonOut &js ) const
     ptr->serialize( js );
 }
 
-void item_location::deserialize( JsonIn &js )
+void item_location::deserialize( const JsonObject &obj )
 {
-    JsonObject obj = js.get_object();
     auto type = obj.get_string( "type" );
 
     int idx = -1;
@@ -926,7 +926,8 @@ void item_location::set_should_stack( bool should_stack ) const
 
 bool item_location::held_by( Character &who ) const
 {
-    if( where() == type::character && g->critter_at<Character>( position() ) == &who ) {
+    if( where() == type::character &&
+        get_creature_tracker().creature_at<Character>( position() ) == &who ) {
         return true;
     } else if( has_parent() ) {
         return parent_item().held_by( who );

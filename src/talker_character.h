@@ -15,7 +15,7 @@
 class character_id;
 class faction;
 class item;
-class player;
+class Character;
 class time_duration;
 class vehicle;
 struct tripoint;
@@ -28,15 +28,15 @@ struct tripoint;
 class talker_character: public talker
 {
     public:
-        explicit talker_character( player *new_me ): me_chr( new_me ) {
+        explicit talker_character( Character *new_me ): me_chr( new_me ) {
         }
         ~talker_character() override = default;
 
         // underlying element accessor functions
-        player *get_character() override {
+        Character *get_character() override {
             return me_chr;
         }
-        player *get_character() const override {
+        Character *get_character() const override {
             return me_chr;
         }
         Creature *get_creature() override {
@@ -91,7 +91,8 @@ class talker_character: public talker
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
 
         // effects and values
-        bool has_effect( const efftype_id &effect_id ) const override;
+        bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
+        effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
@@ -138,7 +139,7 @@ class talker_character: public talker
         bool worn_with_flag( const flag_id &flag ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
 
-        void mod_fatigue( int amount ) override;
+        void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
         bool can_see() const override;
         void mod_healthy_mod( int, int ) override;
@@ -148,9 +149,22 @@ class talker_character: public talker
         void remove_morale( const morale_type &old_morale ) override;
         int focus_cur() const override;
         void mod_focus( int ) override;
-        void mod_rad( int ) override;
+        void set_rad( int ) override;
+        int get_rad() const override;
+        void set_stim( int ) override;
+        int get_stim() const override;
+        void set_pkill( int ) override;
+        int get_pkill() const override;
+        void set_stamina( int ) override;
+        int get_stamina() const override;
+        void set_sleep_deprivation( int ) override;
+        int get_sleep_deprivation() const override;
+        void set_kill_xp( int ) override;
+        int get_kill_xp() const override;
+        void add_bionic( const bionic_id &new_bionic ) override;
+        void remove_bionic( const bionic_id &old_bionic ) override;
     protected:
         talker_character() = default;
-        player *me_chr;
+        Character *me_chr;
 };
 #endif // CATA_SRC_TALKER_CHARACTER_H

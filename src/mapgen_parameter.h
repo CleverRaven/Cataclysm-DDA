@@ -30,7 +30,11 @@ inline bool operator<( mapgen_parameter_scope l, mapgen_parameter_scope r )
 class mapgen_parameter
 {
     public:
-        void deserialize( JsonIn & );
+        mapgen_parameter();
+        mapgen_parameter( const mapgen_value<std::string> &def, cata_variant_type,
+                          mapgen_parameter_scope );
+
+        void deserialize( const JsonObject &jo );
 
         mapgen_parameter_scope scope() const {
             return scope_;
@@ -46,11 +50,16 @@ class mapgen_parameter
         cata_variant_type type_;
         // Using a pointer here mostly to move the definition of mapgen_value to the
         // cpp file
-        std::shared_ptr<const mapgen_value<std::string>> default_;
+        shared_ptr_fast<const mapgen_value<std::string>> default_;
 };
 
 struct mapgen_parameters {
     std::unordered_map<std::string, mapgen_parameter> map;
+    using iterator = std::unordered_map<std::string, mapgen_parameter>::const_iterator;
+
+    iterator add_unique_parameter(
+        const std::string &prefix, const mapgen_value<std::string> &def, cata_variant_type,
+        mapgen_parameter_scope );
 
     mapgen_parameters params_for_scope( mapgen_parameter_scope scope ) const;
     mapgen_arguments get_args( const mapgendata &, mapgen_parameter_scope scope ) const;

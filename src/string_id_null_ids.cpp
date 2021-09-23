@@ -40,6 +40,8 @@ MAKE_NULL_ID( recipe, "null" )
 MAKE_NULL_ID( ter_furn_transform, "null" )
 MAKE_NULL_ID( translation, "null" )
 MAKE_NULL_ID( VehicleGroup, "null" )
+MAKE_NULL_ID( zone_type, "null" )
+MAKE_NULL_ID( speed_description, "SPEED_DESCRIPTION_NULL_ID" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
