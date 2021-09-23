@@ -106,7 +106,6 @@ void game::serialize( std::ostream &fout )
     json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
-    json.member( "global_values", global_values );
     json.member( "inactive_global_effect_on_condition_vector",
                  inactive_global_effect_on_condition_vector );
 
@@ -237,7 +236,6 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "kill_tracker", *kill_tracker_ptr );
 
         data.read( "player", u );
-        data.read( "global_values", global_values );
         data.read( "inactive_global_effect_on_condition_vector",
                    inactive_global_effect_on_condition_vector );
         //load queued_eocs
@@ -1257,6 +1255,9 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 weather_manager::unserialize_all( jsin );
+            } else if( name == "global_vals" ) {
+                global_variables &globvars = get_globals();
+                globvars.unserialize( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1287,6 +1288,12 @@ void weather_manager::unserialize_all( JsonIn &jsin )
     w.read( "windspeed", get_weather().windspeed );
 }
 
+void global_variables::unserialize( JsonIn &jsin )
+{
+    JsonObject gv = jsin.get_object();
+    gv.read( "global_vals", global_values );
+}
+
 void game::serialize_master( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
@@ -1312,7 +1319,11 @@ void game::serialize_master( std::ostream &fout )
         json.member( "winddirection", weather.winddirection );
         json.member( "windspeed", weather.windspeed );
         json.end_object();
-
+        json.member( "global_vals" );
+        json.start_object();
+        global_variables &globvars = get_globals();
+        globvars.serialize( json );
+        json.end_object();
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
@@ -1326,6 +1337,11 @@ void faction_manager::serialize( JsonOut &jsout ) const
         local_facs.push_back( elem.second );
     }
     jsout.write( local_facs );
+}
+
+void global_variables::serialize( JsonOut &jsout ) const
+{
+    jsout.member( "global_vals", global_values );
 }
 
 void faction_manager::deserialize( JsonIn &jsin )

@@ -54,6 +54,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "global_vars.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -2839,8 +2840,9 @@ void debug()
             write_to_file( "var_list.output", [&]( std::ostream & testfile ) {
                 testfile << "Global" << std::endl;
                 testfile << "|;key;value;" << std::endl;
-
-                for( const auto &value : g->get_global_values() ) {
+                global_variables &globvars = get_globals();
+                auto globals = globvars.get_global_values();
+                for( const auto &value : globals ) {
                     testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
                 }
 

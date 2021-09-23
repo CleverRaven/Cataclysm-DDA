@@ -22,6 +22,7 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
@@ -995,7 +996,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 int stored_value = 0;
                 std::string var;
                 if( is_global ) {
-                    var = g->get_global_value( var_name );
+                    global_variables &globvars = get_globals();
+                    var = globvars.get_global_value( var_name );
                 } else {
                     var = d.actor( is_npc )->get_value( var_name );
                 }

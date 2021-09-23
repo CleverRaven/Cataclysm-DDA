@@ -8,7 +8,7 @@
 #include <unordered_set>
 
 #include "dialogue.h"
-#include "game.h"
+#include "global_vars.h"
 #include "mission.h"
 
 class JsonObject;
@@ -63,7 +63,8 @@ struct int_or_var {
         } else if( var_val.has_value() ) {
             std::string val;
             if( global ) {
-                val = g->get_global_value( var_val.value() );
+                global_variables &globvars = get_globals();
+                val = globvars.get_global_value( var_val.value() );
             } else {
                 val = talk->get_value( var_val.value() );
             }
@@ -89,7 +90,8 @@ struct duration_or_var {
         } else if( var_val.has_value() ) {
             std::string val;
             if( global ) {
-                val = g->get_global_value( var_val.value() );
+                global_variables &globvars = get_globals();
+                val = globvars.get_global_value( var_val.value() );
             } else {
                 val = talk->get_value( var_val.value() );
             }

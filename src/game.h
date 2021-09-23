@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -163,6 +164,7 @@ class game
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
+        friend global_variables &get_globals();
     public:
         game();
         ~game();
@@ -982,16 +984,11 @@ class game
         achievements_tracker &achievements();
         memorial_logger &memorial();
 
-        // Miscellaneous key/value pairs.
-        std::unordered_map<std::string, std::string> global_values;
+        global_variables global_variables_instance;
     public:
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;
-        void set_global_value( const std::string &key, const std::string &value );
-        void remove_global_value( const std::string &key );
-        std::string get_global_value( const std::string &key ) const;
-        std::unordered_map<std::string, std::string> get_global_values() const;
 
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {

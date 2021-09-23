@@ -2575,7 +2575,8 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name, is_global]( const dialogue & d, int input ) {
                 if( is_global ) {
-                    g->set_global_value( var_name, std::to_string( input ) );
+                    global_variables &globvars = get_globals();
+                    globvars.set_global_value( var_name, std::to_string( input ) );
                 } else {
                     d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
                 }
