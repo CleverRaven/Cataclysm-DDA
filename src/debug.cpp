@@ -205,6 +205,7 @@ struct buffered_prompt_info {
     std::string line;
     std::string funcname;
     std::string text;
+    bool forced;
 };
 
 namespace
@@ -226,7 +227,8 @@ static void debug_error_prompt(
     const char *filename,
     const char *line,
     const char *funcname,
-    const char *text )
+    const char *text,
+    bool force )
 {
     cata_assert( catacurses::stdscr );
     cata_assert( filename != nullptr );
@@ -237,7 +239,7 @@ static void debug_error_prompt(
     std::string msg_key( filename );
     msg_key += line;
 
-    if( ignored_messages.count( msg_key ) > 0 ) {
+    if( !force && ignored_messages.count( msg_key ) > 0 ) {
         return;
     }
 
@@ -335,7 +337,8 @@ void replay_buffered_debugmsg_prompts()
             prompt.filename.c_str(),
             prompt.line.c_str(),
             prompt.funcname.c_str(),
-            prompt.text.c_str()
+            prompt.text.c_str(),
+            prompt.forced
         );
     }
     buffered_prompts().clear();
@@ -383,19 +386,22 @@ struct repetition_folder {
                m_text == text &&
                !timed_out();
     }
+    void set_time() {
+        m_time = get_time();
+    }
     void set( const char *filename, const char *line, const char *funcname, const std::string &text ) {
         m_filename = filename;
         m_line = line;
         m_funcname = funcname;
         m_text = text;
 
-        m_time = get_time();
+        set_time();
 
         repeat_count = 0;
     }
     void increment_count() {
         ++repeat_count;
-        m_time = get_time();
+        set_time();
     }
     void reset() {
         m_filename = nullptr;
@@ -441,11 +447,6 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             rep_folder.set( filename, line, funcname, text );
         } else {
             rep_folder.increment_count();
-
-            // Yell at user to file a bug report if we get too high repetition count
-            if( rep_folder.repeat_count > repetition_folder::repetition_threshold ) {
-                debugmsg( "Excessive error repetition detected.  Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues" );
-            }
         }
     }
 
@@ -453,12 +454,34 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
+    // Show excessive repetition prompt once per excessive set
+    bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
+
     if( !catacurses::stdscr ) {
-        buffered_prompts().push_back( {filename, line, funcname, text } );
+        buffered_prompts().push_back( {filename, line, funcname, text, false } );
+        if( excess_repetition ) {
+            // prepend excessive error repetition to original text then prompt
+            std::string rep_err =
+                "Excessive error repetition detected.  Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues\n            "
+                + text;
+            buffered_prompts().push_back( {filename, line, funcname, rep_err, true } );
+        }
         return;
     }
 
-    debug_error_prompt( filename, line, funcname, text.c_str() );
+    debug_error_prompt( filename, line, funcname, text.c_str(), false );
+
+    if( excess_repetition ) {
+        // prepend excessive error repetition to original text then prompt
+        std::string rep_err =
+            "Excessive error repetition detected.  Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues\n            "
+            + text;
+        debug_error_prompt( filename, line, funcname, rep_err.c_str(), true );
+        // Do not count this prompt when considering repetition folding
+        // Might look weird in the log if the repetitions end exactly after this prompt is displayed.
+        rep_folder.set_time();
+
+    }
 }
 
 // Normal functions                                                 {{{1
