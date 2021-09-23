@@ -22,7 +22,7 @@
   {
     "type": "item_action",
     "id": "HAMMER",
-    "name": { "str": "Pull out nails" }
+    "name": { "str": "Pry crate, window, door or nails" }
   },
   {
     "type": "item_action",
@@ -37,7 +37,7 @@
   {
     "type": "item_action",
     "id": "CROWBAR",
-    "name": { "str": "Pry crate, window or door" }
+    "name": { "str": "Pry crate, window, door or nails" }
   },
   {
     "type": "item_action",
