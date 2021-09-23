@@ -444,7 +444,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 
             // Yell at user to file a bug report if we get too high repetition count
             if( rep_folder.repeat_count > repetition_folder::repetition_threshold ) {
-                debugmsg( "Excessive error repetition detected. Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues" );
+                debugmsg( "Excessive error repetition detected.  Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues" );
             }
         }
     }
