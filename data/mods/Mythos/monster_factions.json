@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "deep_ones",
+    "base_faction": "nether",
+    "neutral": [ "small_animal", "slime" ],
+    "by_mood": [ "nether" ],
+    "hate": [ "fish", "triffid", "fungus", "exodii" ]
+  }
+]
