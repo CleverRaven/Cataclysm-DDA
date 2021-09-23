@@ -7,7 +7,7 @@
     "default_faction": "deep_ones",
     "bodytype": "human",
     "species": [ "MYTHOS" ],
-	"//": "Stats matched with Deep One from Aftershock :)",
+    "//": "Stats matched with Deep One from Aftershock :)",
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 210,
@@ -30,9 +30,7 @@
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [
-      { "id": "scratch" }
-    ],
+    "special_attacks": [ { "id": "scratch" } ],
     "flags": [
       "SEES",
       "SMELLS",
