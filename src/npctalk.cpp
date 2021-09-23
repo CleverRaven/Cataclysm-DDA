@@ -2735,9 +2735,30 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
-        std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
+    };
+}
+
+void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    bool success = jo.get_bool( "success" );
+    function = [mission_name, success]( const dialogue & ) {
+        avatar &player_character = get_avatar();
+
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
+        for( auto mission : missions ) {
+            if( mission->mission_id() == mission_type ) {
+                if( success ) {
+                    mission->wrap_up();
+                } else {
+                    mission->fail();
+                }
+                break;
+            }
+        }
     };
 }
 
@@ -3255,6 +3276,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_activity( jo, "npc_assign_activity", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
+    } else if( jo.has_string( "finish_mission" ) ) {
+        subeffect_fun.set_finish_mission( jo, "finish_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
