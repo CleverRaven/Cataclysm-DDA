@@ -717,8 +717,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         weakpoints.clear();
         weakpoints.load( jo.get_array( "weakpoints" ) );
     } else {
-        // Note: regeneration_modifers left as is, new modifiers are added to it!
-        // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();

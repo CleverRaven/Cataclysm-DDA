@@ -1899,6 +1899,7 @@
       { "item": "balance_small", "prob": 5 },
       { "item": "ph_meter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "voltmeter", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "thermometer", "prob": 5 },
       { "item": "melting_point", "prob": 5 },
       { "item": "vortex", "prob": 5 },

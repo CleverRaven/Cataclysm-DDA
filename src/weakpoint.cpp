@@ -106,8 +106,9 @@ void weakpoint::apply_to( resistances &resistances ) const
 
 void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
 {
-    for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
-        damage.damage_units[i].damage_multiplier *= is_crit ? crit_mult[i] : damage_mult[i];
+    for( auto &elem : damage.damage_units ) {
+        int idx = static_cast<int>( elem.type );
+        elem.damage_multiplier *= is_crit ? crit_mult[idx] : damage_mult[idx];
     }
 }
 
