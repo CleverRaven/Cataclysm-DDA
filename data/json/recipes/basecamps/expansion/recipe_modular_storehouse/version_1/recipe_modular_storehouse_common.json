@@ -10,7 +10,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "faction_base_storehouse_0",
-    "blueprint_name": "Storehuse survey",
+    "blueprint_name": "Storehouse survey",
     "time": "3 h",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_provides": [ { "id": "fbms_0" } ]
