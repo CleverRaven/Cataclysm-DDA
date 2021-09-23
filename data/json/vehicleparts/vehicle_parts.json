@@ -322,27 +322,15 @@
   },
   {
     "type": "vehicle_part",
-    "id": "cloth_aisle",
-    "name": { "str": "cloth floor" },
-    "symbol": "H",
-    "symbols": { "horizontal": "H", "vertical": "=" },
+    "id": "foldable_aisle",
+    "copy-from": "wooden_aisle"
+    "name": { "str": "collapsible wooden aisle" },
     "looks_like": "t_floor",
-    "categories": [ "hull", "passengers" ],
-    "broken_symbol": "#",
-    "broken_color": "dark_gray",
-    "durability": 15,
-    "description": "An aisle.",
-    "folded_volume": "3750 ml",
-    "item": "sheet",
+    "description": "A collapsible aisle.",
+    "folded_volume": "12500 ml",
+    "item": "foldwoodframe
     "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
-    },
-    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ],
-    "breaks_into": "ig_vp_cloth",
-    "damage_reduction": { "all": 0, "bash": 3 }
+    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "type": "vehicle_part",
