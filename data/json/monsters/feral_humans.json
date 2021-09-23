@@ -223,7 +223,7 @@
     "description": "A quick glance of this person would show that they have prepared well for times like these. Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral. Their hands clasp unto the grip of a handgun, seemingly having enough memory on using them.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "looks_like": "mon_zombie_survivor_elite",
+    "looks_like": "mon_zombie_survivor_",
     "species": [ "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
