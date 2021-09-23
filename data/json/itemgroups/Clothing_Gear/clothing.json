@@ -1285,10 +1285,6 @@
     "id": "shoes",
     "items": [
       [ "sneakers", 80 ],
-      [ "socks", 70 ],
-      [ "socks_ankle", 50 ],
-      [ "tights", 20 ],
-      [ "stockings", 20 ],
       [ "knee_high_boots", 20 ],
       [ "thigh_high_boots", 20 ],
       [ "boots", 70 ],

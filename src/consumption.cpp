@@ -382,7 +382,7 @@ int Character::nutrition_for( const item &comest ) const
     return compute_effective_nutrients( comest ).kcal() / islot_comestible::kcal_per_nutr;
 }
 
-std::pair<int, int> Character::fun_for( const item &comest ) const
+std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_ate ) const
 {
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
@@ -411,7 +411,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     // Food is less enjoyable when eaten too often.
-    if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
+    if( !ignore_already_ate && ( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) ) {
         for( const consumption_event &event : consumption_history ) {
             if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
                 event.component_hash == comest.make_component_hash() ) {
@@ -1547,11 +1547,11 @@ bool Character::fuel_bionic_with( item &it )
     update_fuel_storage( mat );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
-                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                           n_gettext( "You load %1$i charge of %2$s in your %3$s.",
+                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
+                           n_gettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
 
     // Return false for magazines because only their ammo is consumed

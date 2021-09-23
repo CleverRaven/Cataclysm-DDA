@@ -659,7 +659,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 }
 
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                               damage_instance dam, dealt_damage_instance &dealt_dam )
+                               damage_instance dam, dealt_damage_instance &dealt_dam,
+                               const weakpoint_attack &attack )
 {
     if( source == nullptr || source->is_hallucination() ) {
         dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
@@ -675,7 +676,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam, attack );
                 return;
             }
         }
@@ -706,7 +707,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     }
 
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d );
+    dealt_dam = deal_damage( source, bp_hit, d, attack );
     dealt_dam.bp_hit = bp_hit;
 
     // Bashing critical
@@ -983,7 +984,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
  * @param print_messages enables message printing by default.
  */
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                       bool print_messages )
+                                       bool print_messages, const weakpoint_attack &wp_attack )
 {
     const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const double missed_by = attack.missed_by;
@@ -997,7 +998,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
+                mons->mounted_player->deal_projectile_attack( source, attack, print_messages, wp_attack );
                 return;
             }
         }
@@ -1059,7 +1060,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact );
+    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
     // Retrieve the selected weakpoint from the damage instance.
@@ -1077,7 +1078,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 }
 
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &dam )
+        const damage_instance &dam, const weakpoint_attack &attack )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -1087,7 +1088,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    dealt_dams.wp_hit = absorb_hit( source, bp, d );
+    dealt_dams.wp_hit = absorb_hit( attack, bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {

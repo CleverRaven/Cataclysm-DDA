@@ -805,6 +805,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
     optional( jo, was_loaded, "death_function", mdeath_effect );
+    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -852,7 +853,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
-
+    optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
     if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {

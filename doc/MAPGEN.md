@@ -914,7 +914,7 @@ matching magazine and ammo for guns.
 | chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 | ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
-| variant  | (optional, string), gun variant id for the spawned item
+| variant  | (optional, string), itype variant id for the spawned item
 
 
 ### Plant seeds in a planter with "sealed_item"

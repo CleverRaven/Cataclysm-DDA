@@ -1744,6 +1744,24 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
+void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string new_bionic = jo.get_string( member );
+    function = [is_npc, new_bionic]( const dialogue & d ) {
+        d.actor( is_npc )->add_bionic( bionic_id( new_bionic ) );
+    };
+}
+
+void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string old_bionic = jo.get_string( member );
+    function = [is_npc, old_bionic]( const dialogue & d ) {
+        d.actor( is_npc )->remove_bionic( bionic_id( old_bionic ) );
+    };
+}
+
 void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -1791,27 +1809,23 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
-                                        const std::string &container_name )
+static void receive_item( const itype_id &item_name, int count, const std::string &container_name,
+                          const dialogue &d )
 {
-    function = [item_name, cost, count, container_name]( const dialogue & d ) {
-        if( !d.actor( true )->buy_from( cost ) ) {
-            popup( _( "You can't afford it!" ) );
-            return;
-        }
-        if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn );
-            if( new_item.count_by_charges() ) {
-                new_item.mod_charges( count - 1 );
-                d.actor( false )->i_add( new_item );
-            } else {
-                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                    if( !new_item.ammo_default().is_null() ) {
-                        new_item.ammo_set( new_item.ammo_default() );
-                    }
-                    d.actor( false )->i_add( new_item );
+    if( container_name.empty() ) {
+        item new_item = item( item_name, calendar::turn );
+        if( new_item.count_by_charges() ) {
+            new_item.mod_charges( count - 1 );
+            d.actor( false )->i_add( new_item );
+        } else {
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                if( !new_item.ammo_default().is_null() ) {
+                    new_item.ammo_set( new_item.ammo_default() );
                 }
+                d.actor( false )->i_add( new_item );
             }
+        }
+        if( d.has_beta ) {
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
@@ -1820,20 +1834,38 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
                 popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
                        new_item.tname() );
             }
-        } else {
-            item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ),
-                              item_pocket::pocket_type::CONTAINER );
-            d.actor( false )->i_add( container );
+        }
+    } else {
+        item container( container_name, calendar::turn );
+        container.put_in( item( item_name, calendar::turn, count ),
+                          item_pocket::pocket_type::CONTAINER );
+        d.actor( false )->i_add( container );
+        if( d.has_beta ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
         }
-    };
-
-    // Update structure used by mission descriptions.
-    if( cost <= 0 ) {
-        likely_rewards.emplace_back( count, item_name );
     }
+}
+
+void talk_effect_fun_t::set_u_spawn_item( const itype_id &item_name, int count,
+        const std::string &container_name )
+{
+    function = [item_name, count, container_name]( const dialogue & d ) {
+        receive_item( item_name, count, container_name, d );
+    };
+    likely_rewards.emplace_back( count, item_name );
+}
+
+void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
+                                        const std::string &container_name )
+{
+    function = [item_name, cost, count, container_name]( const dialogue & d ) {
+        if( !d.actor( true )->buy_from( cost ) ) {
+            popup( _( "You can't afford it!" ) );
+            return;
+        }
+        receive_item( item_name, count, container_name, d );
+    };
 }
 
 void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, int count )
@@ -2206,6 +2238,41 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
         if( target ) {
             wet_character( *target, iov.evaluate( d.actor( is_npc ) ) );
         }
+    };
+}
+
+void talk_effect_fun_t::set_open_dialogue()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_character() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_character() ) );
+        } else if( d.actor( true )->get_creature() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_creature() ) );
+        } else if( d.actor( true )->get_monster() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
+        } else if( d.actor( true )->get_item() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only take control if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_npc() != nullptr ) {
+            get_avatar().control_npc( *d.actor( true )->get_npc() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control_menu()
+{
+    function = []( const dialogue & ) {
+        get_avatar().control_npc_menu();
     };
 }
 
@@ -2638,9 +2705,13 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_friendly( input );
             };
+        } else if( checked_value == "exp" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_kill_xp( input );
+            };
         }
     }
-    jo.throw_error( "error setting interger destination in " + jo.str() );
+    jo.throw_error( "error setting integer destination in " + jo.str() );
     return []( const dialogue &, int ) {};
 }
 
@@ -3032,6 +3103,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
+               jo.has_string( "u_spawn_item" ) ||
                jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
                jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
         int cost = 0;
@@ -3051,9 +3123,16 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             jo.read( "u_sell_item", item_name, true );
             subeffect_fun.set_u_sell_item( item_name, cost, count );
         } else if( jo.has_string( "u_buy_item" ) ) {
+            if( cost <= 0 ) {
+                jo.throw_error( "u_buy_item expecting a non-zero cost parameter", "u_buy_item" );
+            }
             itype_id item_name;
             jo.read( "u_buy_item", item_name, true );
             subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
+        } else if( jo.has_string( "u_spawn_item" ) ) {
+            itype_id item_name;
+            jo.read( "u_spawn_item", item_name, true );
+            subeffect_fun.set_u_spawn_item( item_name, count, container_name );
         } else if( jo.has_string( "u_consume_item" ) ) {
             subeffect_fun.set_consume_item( jo, "u_consume_item", count );
         } else if( jo.has_string( "npc_consume_item" ) ) {
@@ -3179,6 +3258,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
     } else if( jo.has_string( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
+    } else if( jo.has_string( "u_add_bionic" ) ) {
+        subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
+    } else if( jo.has_string( "npc_add_bionic" ) ) {
+        subeffect_fun.set_add_bionic( jo, "npc_add_bionic", true );
+    } else if( jo.has_string( "u_lose_bionic" ) ) {
+        subeffect_fun.set_lose_bionic( jo, "u_lose_bionic", false );
+    } else if( jo.has_string( "npc_lose_bionic" ) ) {
+        subeffect_fun.set_lose_bionic( jo, "npc_lose_bionic", true );
     } else if( jo.has_member( "u_cast_spell" ) ) {
         subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
     } else if( jo.has_member( "npc_cast_spell" ) ) {
@@ -3311,6 +3398,21 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         return;
     }
 
+    if( effect_id == "open_dialogue" ) {
+        subeffect_fun.set_open_dialogue();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control" ) {
+        subeffect_fun.set_take_control();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control_menu" ) {
+        subeffect_fun.set_take_control_menu();
+        set_effect( subeffect_fun );
+        return;
+    }
     jo.throw_error( "unknown effect string", effect_id );
 }
 

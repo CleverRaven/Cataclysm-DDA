@@ -6110,11 +6110,6 @@ void map::rotate( int turns, const bool setpos_safe )
             overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
-        // I know we could break out earlier and waste less cycles, this is just easier.
-        // This is here for tinymaps who don't need to rotate NPCs.
-        if( skip_npc_rotation() ) {
-            break;
-        }
         const tripoint sq = np.get_location().raw();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );
@@ -7028,8 +7023,6 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &da
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id )
 {
-    const int fake_map_z = -9;
-
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
 
@@ -7039,23 +7032,23 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    ::fake_map fake_map( f_null, t_dirt, tr_null, fake_map_z );
+    fake_map tmp_map( t_dirt );
 
     oter_id any = oter_id( "field" );
     // just need a variable here, it doesn't need to be valid
     const regional_settings dummy_settings;
 
     mapgendata fake_md( any, any, any, any, any, any, any, any, any, any, 0, dummy_settings,
-                        fake_map, any, {}, 0.0f, calendar::turn, nullptr );
+                        tmp_map, any, {}, 0.0f, calendar::turn, nullptr );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : fake_map.points_on_zlevel( fake_map_z ) ) {
-            ter_id ter_at_pos = fake_map.ter( pos );
+        for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
+            ter_id ter_at_pos = tmp_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
                 terrains[ter_at_pos] += 1;
             }
-            if( fake_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = fake_map.furn( pos );
+            if( tmp_map.has_furn( pos ) ) {
+                furn_id furn_at_pos = tmp_map.furn( pos );
                 furnitures[furn_at_pos] += 1;
             }
         }

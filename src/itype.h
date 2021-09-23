@@ -472,9 +472,20 @@ struct islot_wheel {
         void deserialize( const JsonObject &jo );
 };
 
-struct gun_variant_data {
+enum class itype_variant_kind : int {
+    gun,
+    generic,
+    last
+};
+
+template<>
+struct enum_traits<itype_variant_kind> {
+    static constexpr itype_variant_kind last = itype_variant_kind::last;
+};
+
+struct itype_variant_data {
     std::string id;
-    translation brand_name;
+    translation alt_name;
     translation alt_description;
     ascii_art_id art;
 
@@ -486,7 +497,6 @@ struct gun_variant_data {
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
-    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -670,7 +680,6 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
-    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -891,6 +900,9 @@ struct itype {
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
+        // Potential variant items that exist of this type (same stats, different name and desc)
+        std::vector<itype_variant_data> variants;
+
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
@@ -937,6 +949,10 @@ struct itype {
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
+
+        // Needs to go so far away because padding!
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
@@ -1024,6 +1040,9 @@ struct itype {
 
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
+
+        // What it has to say.
+        std::vector<std::string> chat_topics;
 
         layer_level layer = layer_level::NUM_LAYER_LEVELS;
 

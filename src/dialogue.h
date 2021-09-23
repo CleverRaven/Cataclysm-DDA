@@ -99,6 +99,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
@@ -112,6 +114,7 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_u_spawn_item( const itype_id &item_name, int count, const std::string &container_name );
         void set_u_buy_item( const itype_id &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
@@ -146,6 +149,9 @@ struct talk_effect_fun_t {
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_open_dialogue();
+        void set_take_control();
+        void set_take_control_menu();
         void operator()( const dialogue &d ) const {
             if( !function ) {
                 return;

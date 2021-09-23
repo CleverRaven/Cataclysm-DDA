@@ -12,7 +12,7 @@ LOCAL_CPP_FEATURES := exceptions rtti
 FILE_LIST := $(sort $(wildcard $(LOCAL_PATH)/*.cpp))
 LOCAL_SRC_FILES := $(sort $(FILE_LIST:$(LOCAL_PATH)/%=%))
 
-LOCAL_SHARED_LIBRARIES := libhidapi SDL2 SDL2_mixer SDL2_image SDL2_ttf libintl-lite mpg123
+LOCAL_SHARED_LIBRARIES := libhidapi SDL2 SDL2_mixer SDL2_image SDL2_ttf mpg123
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog
 

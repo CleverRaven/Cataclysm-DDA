@@ -620,6 +620,8 @@ class game
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -824,8 +826,6 @@ class game
         void set_npcs_dirty();
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
-        void mon_info( const catacurses::window &,
-                       int hor_padding = 0 ); // Prints a list of nearby monsters
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
@@ -1087,6 +1087,7 @@ class game
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom = 0; // NOLINT(cata-serialize)
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)

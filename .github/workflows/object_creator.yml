@@ -7,9 +7,13 @@ on:
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
+    - 'data/**'
     - 'doc/**'
     - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
     - 'lgtm/**'
+    - 'tests/**'
     - 'tools/**'
     - 'utilities/**'
   pull_request:
@@ -18,9 +22,15 @@ on:
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
+    - 'data/**'
     - 'doc/**'
     - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
     - 'lgtm/**'
+    - 'src/**'
+    - '!src/messages.*'
+    - 'tests/**'
     - 'tools/**'
     - 'utilities/**'
 

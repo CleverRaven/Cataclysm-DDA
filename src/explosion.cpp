@@ -377,8 +377,14 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    fragment_cloud obstacle_cache[MAPSIZE_X][MAPSIZE_Y];
-    fragment_cloud visited_cache[MAPSIZE_X][MAPSIZE_Y];
+    struct local_caches {
+        fragment_cloud obstacle_cache[MAPSIZE_X][MAPSIZE_Y];
+        fragment_cloud visited_cache[MAPSIZE_X][MAPSIZE_Y];
+    };
+
+    std::unique_ptr<local_caches> caches = std::make_unique<local_caches>();
+    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] = caches->obstacle_cache;
+    fragment_cloud( &visited_cache )[MAPSIZE_X][MAPSIZE_Y] = caches->visited_cache;
 
     map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
@@ -460,18 +466,18 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                                                  string_format( _( "dealing %d damage" ), damage_taken ) :
                                                  _( "but they deal no damage" );
                 if( critter->is_avatar() ) {
-                    add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
-                                       "You are hit by %s bomb fragments, %s.", total_hits ),
+                    add_msg( n_gettext( "You are hit by %s bomb fragment, %s.",
+                                        "You are hit by %s bomb fragments, %s.", total_hits ),
                              impact_count, damage_description );
                 } else if( critter->is_npc() ) {
                     critter->add_msg_if_npc(
-                        ngettext( "<npcname> is hit by %s bomb fragment, %s.",
-                                  "<npcname> is hit by %s bomb fragments, %s.",
-                                  total_hits ),
+                        n_gettext( "<npcname> is hit by %s bomb fragment, %s.",
+                                   "<npcname> is hit by %s bomb fragments, %s.",
+                                   total_hits ),
                         impact_count, damage_description );
                 } else {
-                    add_msg( ngettext( "%s is hit by %s bomb fragment, %s.",
-                                       "%s is hit by %s bomb fragments, %s.", total_hits ),
+                    add_msg( n_gettext( "%s is hit by %s bomb fragment, %s.",
+                                        "%s is hit by %s bomb fragments, %s.", total_hits ),
                              critter->disp_name( false, true ), impact_count, damage_description );
                 }
             }
