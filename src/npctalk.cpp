@@ -2030,10 +2030,10 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
-    std::vector<std::string> update_ids;
+    std::vector<update_mapgen_id> update_ids;
 
     if( jo.has_string( member ) ) {
-        update_ids.emplace_back( jo.get_string( member ) );
+        update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
         for( const std::string line : jo.get_array( member ) ) {
             update_ids.emplace_back( line );
@@ -2046,7 +2046,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             update_params.guy = d.actor( true )->get_npc();
         }
         const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
-        for( const std::string &mapgen_update_id : update_ids ) {
+        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
         }
     };

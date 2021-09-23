@@ -254,7 +254,7 @@ class recipe
 
         bool is_practice() const;
         bool is_blueprint() const;
-        const std::string &get_blueprint() const;
+        const update_mapgen_id &get_blueprint() const;
         const translation &blueprint_name() const;
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
@@ -322,7 +322,7 @@ class recipe
         double batch_rscale = 0.0;
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
-        std::string blueprint;
+        update_mapgen_id blueprint;
         translation bp_name;
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;

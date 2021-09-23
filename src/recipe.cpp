@@ -325,7 +325,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
         }
         assign( jo, "construction_blueprint", blueprint );
-        if( !blueprint.empty() ) {
+        if( !blueprint.is_empty() ) {
             assign( jo, "blueprint_name", bp_name );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
@@ -986,10 +986,10 @@ bool recipe::is_practice() const
 
 bool recipe::is_blueprint() const
 {
-    return !blueprint.empty();
+    return !blueprint.is_empty();
 }
 
-const std::string &recipe::get_blueprint() const
+const update_mapgen_id &recipe::get_blueprint() const
 {
     return blueprint;
 }

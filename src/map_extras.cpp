@@ -2998,7 +2998,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
         case map_extra_method::update_mapgen: {
             mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
                             calendar::start_of_cataclysm, nullptr );
-            applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
+            applied_successfully =
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
             break;
         }
         case map_extra_method::null:
@@ -3139,8 +3140,9 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::update_mapgen: {
-            const auto update_mapgen_func = update_mapgen.find( generator_id );
-            if( update_mapgen_func == update_mapgen.end() || update_mapgen_func->second.empty() ) {
+            const auto update_mapgen_func = update_mapgens.find( update_mapgen_id( generator_id ) );
+            if( update_mapgen_func == update_mapgens.end() ||
+                update_mapgen_func->second.funcs().empty() ) {
                 debugmsg( "invalid update mapgen function (%s) defined for map extra (%s)", generator_id,
                           id.str() );
                 break;
