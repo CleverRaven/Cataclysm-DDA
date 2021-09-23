@@ -710,6 +710,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             attack.source = this;
             attack.weapon = cur_weapon;
             attack.is_melee = true;
+            attack.is_crit = critical_hit;
             attack.wp_skill = melee_weakpoint_skill( *cur_weapon );
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
