@@ -245,7 +245,7 @@
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "human",
     "starting_ammo": { "357mag_fmj": 15 },
     "special_attacks": [
       [ "GRAB", 7 ],
@@ -310,7 +310,7 @@
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 6,
-    "harvest": "zombie",
+    "harvest": "human",
     "starting_ammo": { "45_acp": 32 },
     "special_attacks": [
       [ "GRAB", 7 ],
