@@ -247,7 +247,7 @@
     "vision_night": 3,
     "harvest": "human",
     "upgrades": { "into": "mon_feral_survivalist", "half_life": 60 },
-    "starting_ammo": { "357mag_fmj": 15 },
+    "starting_ammo": { "357mag_fmj": 18 },
     "special_attacks": [
       [ "GRAB", 7 ],
       {
