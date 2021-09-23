@@ -66,13 +66,13 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "//": "Update Origins to match background traits once that part is built.",
     "dialogue": {
-      "describe": "I know the rumors say there is no government but surely that can't be true.",
+      "describe": "Strangest thing if he's survived all alone, while the world collapsed",
       "offer": "I hope you decide to help me find a safe place.",
       "accepted": "Thank you.  Once you've found it come back and get me.",
       "rejected": "You don't have to be mean about not being willing to help.",
       "advice": "I've told you what I can remember of how to get there.",
-      "inquire": "Have you found the refugee center?",
-      "success": "What do you mean they won't take us in?",
+      "inquire": "Are the stories true?",
+      "success": "Did you get anything useful from the trip?",
       "success_lie": "Well let's go then!",
       "failure": "At least you came back with your life…"
     }
