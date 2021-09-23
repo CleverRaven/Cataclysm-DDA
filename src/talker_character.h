@@ -28,7 +28,7 @@ struct tripoint;
 class talker_character_const: public talker
 {
     public:
-        talker_character_const( const Character *new_me ): me_chr_const( new_me ) {
+        explicit talker_character_const( const Character *new_me ): me_chr_const( new_me ) {
         }
         ~talker_character_const() override = default;
 
