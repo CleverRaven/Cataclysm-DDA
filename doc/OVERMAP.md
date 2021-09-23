@@ -628,7 +628,7 @@ When designing your own mutable overmap specials, you will have to think
 through these permutations to ensure that all joins will be satisfied by the
 end of the last phase.
 
-##### Optional joins
+#### Optional joins
 
 Rather than having lots of rules designed to satisfy all possible situations in
 the final phase, in some situations you can make this easier using optional
@@ -671,6 +671,30 @@ As such, this `crater_edge` overmap can satisfy any unresolved joins for the
 `Crater` special without generating any new unresolved joins of its own.  This
 makes it great to finish off the special in the final phase.
 
+#### Asymmetric joins
+
+Sometimes you want two different OMTs to connect, but wouldn't want either to
+connect with themselves.  In this case you wouldn't want to use the same join
+on both.  Instead, you can define two joins which form a pair, by specifying
+one as the opposite of the other.
+
+Another situation where this can arise is when the two sides of a join need
+different location constraints.  For example, in the anthill, the surface and
+subterranean components need different locations.  We could improve the
+definition of its joins by making the join between surface and tunnels
+asymmetric, like this:
+
+```json
+"joins": [
+  { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+  { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+  "tunnel_to_tunnel"
+],
+```
+
+As you can see, the `tunnel_to_surface` part of the pair needs to override the
+default value of `into_locations` because it points towards the surface.
+
 ### Joins
 
 A join definition can be a simple string, which will be its id.  Alternatively,
@@ -679,6 +703,7 @@ it can be a dictionary with some of these keys:
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
 | `id`        | Id of the join being defined. |
+| `opposite`  | Id of the join which must match this one from the adjacent terrain. |
 | `into_locations` | List of `overmap_location` ids that this join may point towards. |
 
 ### Mutable special overmaps
