@@ -1005,17 +1005,17 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | neighbors          | (optional, string ) Any of the neighboring overmaps that should be evaluated before placing the chunk. Despite the plural field name, only a single neighbor direction can be evaluated per chunk.  The direction itself can check for any amount of overmap `"id"` substrings.
 |
 
-Any of the 26 adjacent overmaps can be evaluated in this manner.  The direct cardinal neighbors ( `"north", "east", "south", "west"` ) the inter cardinal neighbors ( `"north_east", "north_west", "south_east", "south_west"` ), the direct vertical neighbors ( `"above", "below"` ) and combinations of the vertical and cardinal neighbors ( `"above_north", "above_north_east"`... etc).
+The following adjacent overmaps can be evaluated in this manner: the direct cardinal neighbors ( `"north", "east", "south", "west"` ) the inter cardinal neighbors ( `"north_east", "north_west", "south_east", "south_west"` ), and the direct vertical neighbors ( `"above", "below"` ).
 
 Example:
 
 ```json
       "place_nested": [
         { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
-        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "below_north_west": [ "field", "microlab" ] } }
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
       ],
 ```
-The code excerpt above will place the nested chunk "concrete_wall_ew" if the north neighbor is either a field or solid rock, otherwise potentially placing  `"concrete_wall_ns"`; the latter will be placed only if the below_north_west neighbor is neither a field nor any of the microlab overmaps).
+The code excerpt above will place the nested chunk "concrete_wall_ew" if the north neighbor is either a field or solid rock, otherwise potentially placing  `"concrete_wall_ns"`; the latter will be placed only if the north_west neighbor is neither a field nor any of the microlab overmaps).
 
 
 ## Mapgen values
