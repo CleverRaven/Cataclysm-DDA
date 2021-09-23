@@ -74,6 +74,18 @@
     "passive_mods": { "str_mod": 4, "dex_mod": 4 },
     "hp_adjustment": 20,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 30,
+        "bash": 30,
+        "stab": 30,
+        "ballistic": 25,
+        "acid": 25,
+        "fire": 15,
+        "electric": 5
+      }
+    ],
     "weight_capacity_modifier": 3
   },
   {
