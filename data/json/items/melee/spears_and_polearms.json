@@ -315,7 +315,7 @@
     "volume": "1135 ml",
     "longest_side": "184 cm",
     "bashing": 6,
-    "cutting": 30,
+    "cutting": 29,
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
