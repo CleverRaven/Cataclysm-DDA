@@ -107,6 +107,7 @@ class recipe
             return result_;
         }
 
+        bool was_loaded = false;
         bool obsolete = false;
 
         std::string category;
