@@ -156,6 +156,15 @@ void weakpoints::load( const JsonArray &ja )
             continue;
         }
 
+        // Ensure that every weakpoint has a unique ID
+        auto it = std::find_if( weakpoint_list.begin(), weakpoint_list.end(),
+        [&]( const weakpoint & wp ) {
+            return wp.id == tmp.id;
+        } );
+        if( it != weakpoint_list.end() ) {
+            weakpoint_list.erase( it );
+        }
+
         weakpoint_list.push_back( std::move( tmp ) );
     }
     // Prioritizes weakpoints based on their coverage.
@@ -163,4 +172,25 @@ void weakpoints::load( const JsonArray &ja )
     []( const weakpoint & a, const weakpoint & b ) {
         return a.coverage < b.coverage;
     } );
+}
+
+void weakpoints::remove( const JsonArray &ja )
+{
+    for( const JsonObject jo : ja ) {
+        weakpoint tmp;
+        tmp.load( jo );
+
+        if( tmp.id.empty() ) {
+            default_weakpoint = weakpoint();
+            continue;
+        }
+
+        auto it = std::find_if( weakpoint_list.begin(), weakpoint_list.end(),
+        [&]( const weakpoint & wp ) {
+            return wp.id == tmp.id;
+        } );
+        if( it != weakpoint_list.end() ) {
+            weakpoint_list.erase( it );
+        }
+    }
 }
