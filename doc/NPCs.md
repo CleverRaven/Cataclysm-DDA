@@ -609,6 +609,7 @@ Effect | Description
 `take_control`. If the npc is a character then take control of them.
 `take_control_menu`. Opens up a menu to choose a follower to take control of.
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
+`finish_mission: mission_type_id string`,`success: success_bool` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise.
 `set_queue_effect_on_condition: effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int or string or variable_object`,`time_in_future_max: time_in_future_max_int or string or variable_object` | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds, or if they are strings the future values of them or if they are variable objects the variable they name. If these are zero (their default value) the eocs will happen instantly. For instant activation eocs the current u and npc will be used. For future ones u will be the avatar and npc will be invalid. You cannot queue recurring eocs.
 `set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight. 
 Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
