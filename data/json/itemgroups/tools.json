@@ -10,7 +10,7 @@
       [ "swage", 60 ],
       [ "drift", 70 ],
       [ "hotcut", 90 ],
-      [ "metalworking_tongs", 90 ],
+      [ "tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ]
     ]

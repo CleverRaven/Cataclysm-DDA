@@ -3210,7 +3210,7 @@
   },
   {
     "type": "city_building",
-    "id": "s_bike_shop_1",
+    "id": "bike_shop_1",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_bike_shop_1_north" },

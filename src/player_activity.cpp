@@ -409,11 +409,6 @@ bool player_activity::is_interruptible() const
     return ( type.is_null() || type->interruptable() ) && interruptable;
 }
 
-bool player_activity::is_interruptible_with_kb() const
-{
-    return ( type.is_null() || type->interruptable_with_kb() ) && interruptable_with_kb;
-}
-
 bool player_activity::is_distraction_ignored( distraction_type distraction ) const
 {
     return !is_interruptible() ||

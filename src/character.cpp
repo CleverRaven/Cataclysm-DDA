@@ -8904,9 +8904,7 @@ void Character::process_effects()
     int_bonus_hardcoded = 0;
     per_bonus_hardcoded = 0;
     //Human only effects
-    effects_map effects_copy = *effects;
-    // Iterate over a copy, process_one_effect modifies the effects map, potentially invalidating iterators.
-    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : effects_copy ) {
+    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }

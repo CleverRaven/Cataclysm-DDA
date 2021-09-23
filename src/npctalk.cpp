@@ -2030,10 +2030,10 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
-    std::vector<update_mapgen_id> update_ids;
+    std::vector<std::string> update_ids;
 
     if( jo.has_string( member ) ) {
-        update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
+        update_ids.emplace_back( jo.get_string( member ) );
     } else if( jo.has_array( member ) ) {
         for( const std::string line : jo.get_array( member ) ) {
             update_ids.emplace_back( line );
@@ -2046,7 +2046,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             update_params.guy = d.actor( true )->get_npc();
         }
         const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
-        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+        for( const std::string &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
         }
     };
@@ -2226,19 +2226,6 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             target->add_msg_if_player( type, translated_message );
         }
 
-    };
-}
-
-void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::string &member,
-        bool is_npc )
-{
-    duration_or_var dov = get_duration_or_var( jo, "duration", true );
-    activity_id act = activity_id( jo.get_string( member ) );
-    function = [is_npc, dov, act]( const dialogue & d ) {
-        Character *target = d.actor( is_npc )->get_character();
-        if( target ) {
-            target->assign_activity( act, to_moves<int>( dov.evaluate( d.actor( is_npc ) ) ) );
-        }
     };
 }
 
@@ -2735,30 +2722,9 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
-    };
-}
-
-void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
-{
-    std::string mission_name = jo.get_string( member );
-    bool success = jo.get_bool( "success" );
-    function = [mission_name, success]( const dialogue & ) {
-        avatar &player_character = get_avatar();
-
-        const mission_type_id &mission_type = mission_type_id( mission_name );
-        std::vector<mission *> missions = player_character.get_active_missions();
-        for( mission *mission : missions ) {
-            if( mission->mission_id() == mission_type ) {
-                if( success ) {
-                    mission->wrap_up();
-                } else {
-                    mission->fail();
-                }
-                break;
-            }
-        }
     };
 }
 
@@ -3270,14 +3236,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
-    } else if( jo.has_member( "u_assign_activity" ) ) {
-        subeffect_fun.set_assign_activity( jo, "u_assign_activity", false );
-    } else if( jo.has_member( "npc_assign_activity" ) ) {
-        subeffect_fun.set_assign_activity( jo, "npc_assign_activity", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
-    } else if( jo.has_string( "finish_mission" ) ) {
-        subeffect_fun.set_finish_mission( jo, "finish_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {

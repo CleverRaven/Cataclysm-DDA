@@ -223,7 +223,7 @@
     "autolearn": true,
     "reversible": true,
     "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "tire_bicycle_or", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+    "components": [ [ [ "tire_bicycle_or", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
   },
   {
     "result": "reins_tackle",

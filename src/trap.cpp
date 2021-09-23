@@ -125,7 +125,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
-    optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_id( "none" ) );
+    optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
@@ -187,7 +187,7 @@ std::string trap::name() const
     return name_.translated();
 }
 
-update_mapgen_id trap::map_regen_target() const
+std::string trap::map_regen_target() const
 {
     return map_regen;
 }

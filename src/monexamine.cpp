@@ -583,9 +583,9 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
         if( z.has_effect( effect_led_by_leash ) ) {
-            amenu.addentry( stop_lead, true, 'l', _( "Stop leading %s" ), pet_name );
+            amenu.addentry( stop_lead, true, 'p', _( "Stop leading %s" ), pet_name );
         } else {
-            amenu.addentry( lead, true, 'l', _( "Lead %s by the leash" ), pet_name );
+            amenu.addentry( lead, true, 'p', _( "Lead %s by the leash" ), pet_name );
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
@@ -613,7 +613,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
         amenu.addentry( tie, true, 't', _( "Tie" ) );
-        amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
+        amenu.addentry( unleash, true, 't', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {

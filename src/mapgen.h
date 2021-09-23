@@ -489,32 +489,6 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         jmapgen_int rotation;
 };
 
-class nested_mapgen
-{
-    public:
-        const weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> &funcs() const {
-            return funcs_;
-        }
-        void add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight ) {
-            funcs_.add( p, weight );
-        }
-    private:
-        weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> funcs_;
-};
-
-class update_mapgen
-{
-    public:
-        const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs() const {
-            return funcs_;
-        }
-        void add( std::unique_ptr<update_mapgen_function_json> &&p ) {
-            funcs_.push_back( std::move( p ) );
-        }
-    private:
-        std::vector<std::unique_ptr<update_mapgen_function_json>> funcs_;
-};
-
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
 /*
@@ -542,7 +516,7 @@ bool has_mapgen_for( const std::string &key );
 /**
  * Check whether @p key is a valid update_mapgen id.
  */
-bool has_update_mapgen_for( const update_mapgen_id & );
+bool has_update_mapgen_for( const std::string &key );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -589,7 +563,9 @@ void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
-extern std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
-extern std::map<update_mapgen_id, update_mapgen> update_mapgens;
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
+extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
+        update_mapgen;
 
 #endif // CATA_SRC_MAPGEN_H

@@ -309,8 +309,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" ) {
 
-        mandatory( jo, was_loaded, "category", category );
-        mandatory( jo, was_loaded, "subcategory", subcategory );
+        assign( jo, "category", category, strict );
+        assign( jo, "subcategory", subcategory, strict );
         assign( jo, "description", description, strict );
         assign( jo, "reversible", reversible, strict );
 
@@ -325,7 +325,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
         }
         assign( jo, "construction_blueprint", blueprint );
-        if( !blueprint.is_empty() ) {
+        if( !blueprint.empty() ) {
             assign( jo, "blueprint_name", bp_name );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
@@ -377,10 +377,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     } else if( type == "practice" ) {
         mandatory( jo, false, "name", name_ );
-        mandatory( jo, was_loaded, "category", category );
-        mandatory( jo, was_loaded, "subcategory", subcategory );
+        assign( jo, "category", category, strict );
+        assign( jo, "subcategory", subcategory, strict );
         assign( jo, "description", description, strict );
-        mandatory( jo, was_loaded, "practice_data", practice_data );
+        mandatory( jo, false, "practice_data", practice_data );
 
         if( jo.has_member( "byproducts" ) ) {
             byproducts.clear();
@@ -986,10 +986,10 @@ bool recipe::is_practice() const
 
 bool recipe::is_blueprint() const
 {
-    return !blueprint.is_empty();
+    return !blueprint.empty();
 }
 
-const update_mapgen_id &recipe::get_blueprint() const
+const std::string &recipe::get_blueprint() const
 {
     return blueprint;
 }

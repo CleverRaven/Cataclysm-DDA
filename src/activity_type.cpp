@@ -47,7 +47,6 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "rooted", result.rooted_, true );
     assign( jo, "verb", result.verb_, true );
     assign( jo, "interruptable", result.interruptable_, true );
-    assign( jo, "interruptable_with_kb", result.interruptable_with_kb_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "multi_activity", result.multi_activity_, false );

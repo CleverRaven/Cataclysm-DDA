@@ -404,7 +404,6 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
-    r.was_loaded = true;
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -594,9 +593,9 @@ void recipe_dictionary::check_consistency()
     for( auto &e : recipe_dict.recipes ) {
         recipe &r = e.second;
 
-        if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
+        if( !r.blueprint.empty() && !has_update_mapgen_for( r.blueprint ) ) {
             debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
-                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint.str() );
+                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint );
         }
     }
 }

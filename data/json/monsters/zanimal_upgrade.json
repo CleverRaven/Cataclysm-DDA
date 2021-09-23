@@ -3,7 +3,7 @@
     "id": "mon_dog_skeleton",
     "type": "MONSTER",
     "name": { "str": "skeletal dog" },
-    "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  This walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
+    "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "species": [ "ZOMBIE" ],

@@ -367,7 +367,7 @@ void handle_key_blocking_activity()
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            if( u.activity.is_interruptible_with_kb() ) {
+            if( u.activity.interruptable_with_kb ) {
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {

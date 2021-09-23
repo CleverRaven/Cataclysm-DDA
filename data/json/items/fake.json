@@ -60,12 +60,12 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
   {
     "id": "fake_razor",
