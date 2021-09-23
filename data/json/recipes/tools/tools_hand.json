@@ -54,6 +54,25 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "metalworking_tongs",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [ [ [ "steel_lump", 1 ], [ "pipe", 2 ], [ "rebar", 2 ] ], [ [ "nail", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "chisel",
     "category": "CC_OTHER",
@@ -1148,7 +1167,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "cordless_drill", 20 ] ] ],
+    "qualities": [ { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
