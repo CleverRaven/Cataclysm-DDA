@@ -996,7 +996,7 @@ an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
-Place nested allows for limited conditional spawning of chunks based on the `"id"` of its overmap neighbors.  This is useful for creating smoother transitions between biome types, or to dynamically create walls at the edges of a mutable structures.
+Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
 
 | Field              | Description
 | ---                | ---
@@ -1007,7 +1007,7 @@ Place nested allows for limited conditional spawning of chunks based on the `"id
 
 Any of the 26 adjacent overmaps can be evaluated in this manner.  The direct cardinal neighbors ( `"north", "east", "south", "west"` ) the inter cardinal neighbors ( `"north_east", "north_west", "south_east", "south_west"` ), the direct vertical neighbors ( `"above", "below"` ) and combinations of the vertical and cardinal neighbors ( `"above_north", "above_north_east"`... etc).
 
-Example
+Example:
 
 ```json
       "place_nested": [
@@ -1015,7 +1015,7 @@ Example
         { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "below_north_west": [ "field", "microlab" ] } }
       ],
 ```
-The code excrept above will place the nested chunk "concrete_wall_ew" if the north neighbor is either a field or solid rock, while  `"concrete_wall_ns"` will only be placed if the below_north_west neighbor is neither a field nor a any of the microlab overmaps.
+The code excerpt above will place the nested chunk "concrete_wall_ew" if the north neighbor is either a field or solid rock, otherwise potentially placing  `"concrete_wall_ns"`; the latter will be placed only if the below_north_west neighbor is neither a field nor any of the microlab overmaps).
 
 
 ## Mapgen values
