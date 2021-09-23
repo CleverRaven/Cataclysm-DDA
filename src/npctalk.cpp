@@ -2749,7 +2749,7 @@ void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::str
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
         std::vector<mission *> missions = player_character.get_active_missions();
-        for( auto mission : missions ) {
+        for( mission* mission : missions ) {
             if( mission->mission_id() == mission_type ) {
                 if( success ) {
                     mission->wrap_up();
