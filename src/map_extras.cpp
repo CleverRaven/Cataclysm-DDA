@@ -734,25 +734,6 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
-{
-    const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
-    const int max_followers = rng( 3, 12 );
-    const int rad = 3;
-    const tripoint_range<tripoint> spawnzone = m.points_in_radius( leader_pos, rad );
-
-    m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
-    for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
-        if( const cata::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
-        return m.passable( p );
-        } ) ) {
-            m.add_spawn( one_in( 2 ) ? mon_marloss_zealot_f : mon_marloss_zealot_m, 1, *where_ );
-        }
-    }
-
-    return true;
-}
-
 static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
@@ -2951,7 +2932,6 @@ FunctionMap builtin_functions = {
     { "mx_point_dead_vegetation", mx_point_dead_vegetation },
     { "mx_burned_ground", mx_burned_ground },
     { "mx_point_burned_ground", mx_point_burned_ground },
-    { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
     { "mx_casings", mx_casings },
     { "mx_looters", mx_looters },
     { "mx_corpses", mx_corpses },
