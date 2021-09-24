@@ -143,7 +143,6 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 class npc_template;
 
@@ -553,67 +552,6 @@ static bool mx_military( map &m, const tripoint & )
                     0.1f ); //0.1 = 1-5
     m.place_items( item_group_id( "rare" ), 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                    true, calendar::start_of_cataclysm );
-
-    return true;
-}
-
-static bool mx_science( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 5 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, *p );
-            } else {
-                m.place_items( item_group_id( "map_extra_science" ), 100, *p, *p, true,
-                               calendar::start_of_cataclysm );
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_items( item_group_id( "rare" ), 45, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   true, calendar::start_of_cataclysm );
-
-    return true;
-}
-
-static bool mx_collegekids( map &m, const tripoint & )
-{
-    //college kids that got into trouble
-    int num_bodies = dice( 2, 6 );
-    int type = dice( 1, 10 );
-
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_tough, 1, *p );
-            } else {
-                if( type < 6 ) { // kids going to a cabin in the woods
-                    m.place_items( item_group_id( "map_extra_college_camping" ), 100, *p, *p,
-                                   true, calendar::start_of_cataclysm );
-                } else if( type < 9 ) { // kids going to a sporting event
-                    m.place_items( item_group_id( "map_extra_college_sports" ), 100, *p, *p,
-                                   true, calendar::start_of_cataclysm );
-                } else { // kids going to a lake
-                    m.place_items( item_group_id( "map_extra_college_lake" ), 100, *p, *p,
-                                   true, calendar::start_of_cataclysm );
-                }
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
 
     return true;
 }
@@ -2989,7 +2927,6 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_collegekids", mx_collegekids },
     { "mx_roadworks", mx_roadworks },
     { "mx_mayhem", mx_mayhem },
     { "mx_roadblock", mx_roadblock },
@@ -2998,7 +2935,6 @@ FunctionMap builtin_functions = {
     { "mx_supplydrop", mx_supplydrop },
     { "mx_military", mx_military },
     { "mx_helicopter", mx_helicopter },
-    { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
     { "mx_house_spider", mx_house_spider },
@@ -3062,7 +2998,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
         case map_extra_method::update_mapgen: {
             mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
                             calendar::start_of_cataclysm, nullptr );
-            applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
+            applied_successfully =
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
             break;
         }
         case map_extra_method::null:
@@ -3203,8 +3140,9 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::update_mapgen: {
-            const auto update_mapgen_func = update_mapgen.find( generator_id );
-            if( update_mapgen_func == update_mapgen.end() || update_mapgen_func->second.empty() ) {
+            const auto update_mapgen_func = update_mapgens.find( update_mapgen_id( generator_id ) );
+            if( update_mapgen_func == update_mapgens.end() ||
+                update_mapgen_func->second.funcs().empty() ) {
                 debugmsg( "invalid update mapgen function (%s) defined for map extra (%s)", generator_id,
                           id.str() );
                 break;

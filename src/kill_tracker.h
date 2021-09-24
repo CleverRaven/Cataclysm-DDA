@@ -29,8 +29,8 @@ class kill_tracker : public event_subscriber
         int kill_count( const species_id & ) const;
         int monster_kill_count() const;
         int npc_kill_count() const;
-        // returns player's "kill xp" for monsters via STK
-        int kill_xp() const;
+        // TEMPORARY until 0.G
+        int legacy_kill_xp() const;
 
         std::string get_kills_text() const;
 

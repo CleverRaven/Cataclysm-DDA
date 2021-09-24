@@ -713,9 +713,24 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
-    if( jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
         weakpoints.clear();
         weakpoints.load( jo.get_array( "weakpoints" ) );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.load( tmp.get_array( "weakpoints" ) );
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.remove( tmp.get_array( "weakpoints" ) );
+            }
+        }
     }
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
@@ -853,7 +868,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
-
+    optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
     if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {

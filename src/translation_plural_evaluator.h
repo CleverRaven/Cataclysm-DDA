@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TRANSLATION_PLURAL_EVALUATOR_H
 #define CATA_SRC_TRANSLATION_PLURAL_EVALUATOR_H
 
+#if defined(LOCALIZE)
+
 #include <limits>
 #include <stack>
 #include <vector>
@@ -117,5 +119,7 @@ class TranslationPluralRulesEvaluator
         std::size_t n_plurals;
         ExprNode *root;
 };
+
+#endif // defined(LOCALIZE)
 
 #endif // CATA_SRC_TRANSLATION_PLURAL_EVALUATOR_H

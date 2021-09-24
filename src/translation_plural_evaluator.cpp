@@ -1,3 +1,5 @@
+#if defined(LOCALIZE)
+
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
@@ -460,3 +462,5 @@ TranslationPluralRulesEvaluator::~TranslationPluralRulesEvaluator()
 {
     DisposeExprTree();
 }
+
+#endif // defined(LOCALIZE)

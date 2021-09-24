@@ -118,6 +118,9 @@ using morale_type = string_id<morale_type_data>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 
+class nested_mapgen;
+using nested_mapgen_id = string_id<nested_mapgen>;
+
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
@@ -194,6 +197,9 @@ using trap_str_id = string_id<trap>;
 
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+
+class update_mapgen;
+using update_mapgen_id = string_id<update_mapgen>;
 
 struct quality;
 using quality_id = string_id<quality>;

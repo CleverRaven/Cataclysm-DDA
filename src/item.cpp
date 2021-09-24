@@ -283,6 +283,12 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         activate();
     }
 
+    if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
+        for( item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+            pocket->settings.set_collapse( true );
+        }
+    }
+
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
         itype_id nanofab_recipe =
             item_group::item_from( type->nanofab_template_group ).typeId();

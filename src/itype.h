@@ -1041,6 +1041,9 @@ struct itype {
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
 
+        // What it has to say.
+        std::vector<std::string> chat_topics;
+
         layer_level layer = layer_level::NUM_LAYER_LEVELS;
 
         /**

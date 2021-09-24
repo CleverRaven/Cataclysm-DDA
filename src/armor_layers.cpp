@@ -854,20 +854,26 @@ void Character::sort_armor()
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this, armor_cat[tabindex] );
-
             // only equip if something valid selected!
             if( loc ) {
-                // wear the item
-                cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( loc.obtain( *this ) );
-                if( new_equip_it ) {
-                    // save iterator to cursor's position
-                    std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
-                    // reorder `worn` vector to place new item at cursor
-                    worn.splice( cursor_it, worn, *new_equip_it );
-                } else if( is_npc() ) {
-                    // TODO: Pass the reason here
-                    popup( _( "Can't put this on!" ) );
+                // store the item name just in case obtain() fails
+                const std::string item_name = loc->display_name();
+                item_location obtained = loc.obtain( *this );
+                if( obtained ) {
+                    // wear the item
+                    cata::optional<std::list<item>::iterator> new_equip_it =
+                        wear( obtained );
+                    if( new_equip_it ) {
+                        // save iterator to cursor's position
+                        std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
+                        // reorder `worn` vector to place new item at cursor
+                        worn.splice( cursor_it, worn, *new_equip_it );
+                    } else if( is_npc() ) {
+                        // TODO: Pass the reason here
+                        popup( _( "Can't put this on!" ) );
+                    }
+                } else {
+                    add_msg_if_player( "You chose not to wear the %s.", item_name );
                 }
             }
         } else if( action == "REMOVE_ARMOR" ) {

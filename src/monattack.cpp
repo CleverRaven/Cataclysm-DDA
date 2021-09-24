@@ -4592,26 +4592,8 @@ bool mattack::slimespring( monster *z )
 
     // This morale buff effect could get spammy
     if( player_character.get_morale_level() <= 1 ) {
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                //~ Your slimes try to cheer you up!
-                //~ Lowercase is intended: they're small voices.
-                add_msg( m_good, _( "\"hey, it's gonna be all right!\"" ) );
-                player_character.add_morale( MORALE_SUPPORT, 10, 50 );
-                break;
-            case 2:
-                //~ Your slimes try to cheer you up!
-                //~ Lowercase is intended: they're small voices.
-                add_msg( m_good, _( "\"we'll get through this!\"" ) );
-                player_character.add_morale( MORALE_SUPPORT, 10, 50 );
-                break;
-            case 3:
-                //~ Your slimes try to cheer you up!
-                //~ Lowercase is intended: they're small voices.
-                add_msg( m_good, _( "\"i'm here for you!\"" ) );
-                player_character.add_morale( MORALE_SUPPORT, 10, 50 );
-                break;
-        }
+        add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
+        player_character.add_morale( MORALE_SUPPORT, 10, 50 );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
         if( ( player_character.has_effect( effect_bleed ) ) ||
