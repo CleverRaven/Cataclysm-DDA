@@ -270,7 +270,6 @@
   {
     "type": "effect_on_condition",
     "id": "mut_eyestalk",
-    "run_for_npcs": true,
     "recurrence_min": "2 hours 15 minutes",
     "recurrence_max": "10 hours 15 minutes",
     "condition": {
