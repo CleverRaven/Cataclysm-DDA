@@ -182,14 +182,14 @@
     "type": "talk_topic",
     "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
     "speaker_effect": {
-      "conditional": {
+      "condition": {
         "and": [
           { "compare_int": [ { "u_val": "sold" }, { "const": 20 } ], "op": ">=" },
           { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<=", "value": 20 }
         ]
       },
       "effect": [
-        { "arithmetic": [ { "u_val": "sold" }, { "const": 20 } ], "op": "-" },
+        { "arithmetic": [ { "u_val": "sold" }, { "const": 20 }, { "u_val": "sold" } ], "op": "--" },
         { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
       ]
     },
@@ -411,7 +411,14 @@
     "responses": [
       {
         "text": "Let's do it.",
-        "effect": [ { "u_add_bionic": "bio_power_storage" }, { "u_add_bionic": "bio_cable" } ],
+        "effect": [
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_add_effect": "blind", "duration": "2 hours" },
+          { "u_add_effect": "deaf", "duration": "2 hours" },
+          { "u_add_trait": "CBM_Interface" }
+        ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
       { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },

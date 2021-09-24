@@ -5,8 +5,6 @@
     "//": "This stuff should be available in the exodii store from the start.",
     "subtype": "collection",
     "items": [
-      { "group": "tailoring_fabric", "prob": 70 },
-      { "group": "hardware_bulk", "prob": 50 },
       { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
       { "item": "pamd71z", "prob": 50, "count": [ 1, 2 ] },
       { "item": "exodiiminimag", "prob": 60, "charges": 0, "count": [ 1, 4 ] },
@@ -31,7 +29,6 @@
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier1",
     "//": "These CBMs should be available in the exodii store from the start.",
-    "subtype": "collection",
     "items": [
       [ "bio_watch", 10 ],
       [ "bio_syringe", 10 ],
@@ -42,7 +39,7 @@
       [ "bio_alarm", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_sunglasses", 10 ],
-      [ "bio_cable", 20 ],
+      [ "bio_cable", 5 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_meteorologist", 10 ],
       [ "bio_soporific", 3 ],
