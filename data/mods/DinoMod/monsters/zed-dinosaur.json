@@ -587,7 +587,7 @@
     "armor_cut": 21,
     "armor_bullet": 7,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the head", "armor_mult": { "physical": 0.8 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "hp": 375,
