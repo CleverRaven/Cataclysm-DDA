@@ -133,13 +133,13 @@ class talker_character: public talker_character_const
             return me_chr;
         }
         const Character *get_character() const override {
-            return me_chr;
+            return me_chr_const;
         }
         Creature *get_creature() override {
             return me_chr;
         }
         const Creature *get_creature() const override {
-            return me_chr;
+            return me_chr_const;
         }
         void set_pos( tripoint new_pos ) override;
 

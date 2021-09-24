@@ -653,7 +653,7 @@ void inventory::dump( std::vector<item *> &dest )
     }
 }
 
-void inventory::const_dump( std::vector<const item *> &dest ) const
+void inventory::dump( std::vector<const item *> &dest ) const
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {

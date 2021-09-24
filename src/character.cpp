@@ -7179,7 +7179,7 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
-std::vector<const item *> Character::const_inv_dump() const
+std::vector<const item *> Character::inv_dump() const
 {
     std::vector<const item *> ret;
     if( is_armed() && can_drop( weapon ).success() ) {
@@ -7188,7 +7188,7 @@ std::vector<const item *> Character::const_inv_dump() const
     for( const item &i : worn ) {
         ret.push_back( &i );
     }
-    inv->const_dump( ret );
+    inv->dump( ret );
     return ret;
 }
 

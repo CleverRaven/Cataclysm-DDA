@@ -33,7 +33,7 @@ class talker
         virtual Character *get_character() {
             return nullptr;
         }
-        virtual Character *get_character() const {
+        virtual const Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -57,7 +57,7 @@ class talker
         virtual Creature *get_creature() {
             return nullptr;
         }
-        virtual Creature *get_creature() const {
+        virtual const Creature *get_creature() const {
             return nullptr;
         }
         // identity and location
