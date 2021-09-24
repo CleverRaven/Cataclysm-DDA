@@ -328,8 +328,10 @@ Weakpoints in the monster's protection.
 | ---                 | ---
 | `name`              | Name of the weakpoint.
 | `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
-| `armor_multiplier`  | multipler on the monster's base protection when hitting the weakpoint.
+| `armor_mult`        | multipler on the monster's base protection when hitting the weakpoint.
 | `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
+| `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
+| `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
 
 ## "vision_day", "vision_night"
 (integer, optional)

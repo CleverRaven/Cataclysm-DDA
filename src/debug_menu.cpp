@@ -1112,14 +1112,14 @@ static void teleport_overmap( bool specific_coordinates = false )
 static void spawn_nested_mapgen()
 {
     uilist nest_menu;
-    std::vector<std::string> nest_str;
-    for( auto &nested : nested_mapgen ) {
-        nest_menu.addentry( -1, true, -1, nested.first );
-        nest_str.push_back( nested.first );
+    std::vector<nested_mapgen_id> nest_ids;
+    for( auto &nested : nested_mapgens ) {
+        nest_menu.addentry( -1, true, -1, nested.first.str() );
+        nest_ids.push_back( nested.first );
     }
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
-    if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
+    if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_ids.size() ) ) {
         const cata::optional<tripoint> where = g->look_around();
         if( !where ) {
             return;
@@ -1135,7 +1135,7 @@ static void spawn_nested_mapgen()
         // TODO: fix point types
         const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
-        const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
+        const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }

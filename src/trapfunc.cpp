@@ -1396,7 +1396,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
             map &here = get_map();
             you->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
             tripoint_abs_omt omt_pos = you->global_omt_location();
-            const std::string &regen_mapgen = here.tr_at( p ).map_regen_target();
+            const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
             if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {
                 popup( _( "Failed to generate the new map" ) );
