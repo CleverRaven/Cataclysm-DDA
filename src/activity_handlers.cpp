@@ -2393,7 +2393,8 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
                                     attempt == repair_item_actor::AS_SUCCESS ||
                                     old_level != you->get_skill_level( actor->used_skill );
-        const bool can_refit = !destroyed && !cannot_continue_repair && fix_location->has_flag( flag_VARSIZE ) &&
+        const bool can_refit = !destroyed && !cannot_continue_repair &&
+                               fix_location->has_flag( flag_VARSIZE ) &&
                                !fix_location->has_flag( flag_FIT );
 
         const bool need_input =
