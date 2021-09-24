@@ -1024,7 +1024,7 @@ class mapgen_value
 
             void check( const std::string &context, const mapgen_parameters & ) const override {
                 if( !is_valid_helper( id ) ) {
-                    debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
+                    debugmsg( "mapgen '%s' uses invalid entry '%s'",
                               context, cata_variant( id ).get_string() );
                 }
             }
