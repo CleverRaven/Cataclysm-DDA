@@ -1256,8 +1256,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "weather" ) {
                 weather_manager::unserialize_all( jsin );
             } else if( name == "global_vals" ) {
-                global_variables &globvars = get_globals();
-                globvars.unserialize( jsin );
+                global_variables_instance.unserialize( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1321,8 +1320,7 @@ void game::serialize_master( std::ostream &fout )
         json.end_object();
         json.member( "global_vals" );
         json.start_object();
-        global_variables &globvars = get_globals();
-        globvars.serialize( json );
+        global_variables_instance.serialize( json );
         json.end_object();
         json.end_object();
     } catch( const JsonError &e ) {
