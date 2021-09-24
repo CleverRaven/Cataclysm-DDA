@@ -246,21 +246,21 @@
     "vision_night": 3,
     "harvest": "human",
     "upgrades": { "into": "mon_feral_survivalist", "half_life": 60 },
-    "starting_ammo": { "357mag_fmj": 18 },
+    "starting_ammo": { "9mm": 6 },
     "special_attacks": [
       [ "GRAB", 7 ],
       {
         "type": "gun",
         "cooldown": 10,
         "move_cost": 150,
-        "gun_type": "sw_619",
-        "ammo_type": "357mag_fmj",
-        "fake_skills": [ [ "gun", 1 ], [ "handgun", 2 ] ],
+        "gun_type": "feral_mishandled_gun",
+        "ammo_type": "9mm",
+        "fake_skills": [ [ "gun", 1 ], [ "handgun", 1 ] ],
         "fake_dex": 8,
-        "fake_per": 10,
-        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "fake_per": 9,
+        "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral prepper fires their SW-619!"
+        "description": "The feral prepper haphazrdly fires their firearm!"
       }
     ],
     "death_drops": "mon_feral_prepper_death_drops",
@@ -310,21 +310,21 @@
     "vision_day": 50,
     "vision_night": 6,
     "harvest": "human",
-    "starting_ammo": { "45_acp": 32 },
+    "starting_ammo": { "9mm": 7 },
     "special_attacks": [
       [ "GRAB", 7 ],
       {
         "type": "gun",
         "cooldown": 5,
         "move_cost": 150,
-        "gun_type": "m1911",
-        "ammo_type": "45_acp",
+        "gun_type": "feral_experienced_gun",
+        "ammo_type": "9mm",
         "fake_skills": [ [ "gun", 2 ], [ "handgun", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral survivalist fires their M1911!"
+        "description": "The feral survivalist mechanically fires their firearm!"
       }
     ],
     "death_drops": "mon_feral_survivalist_death_drops",
@@ -347,5 +347,3 @@
 	"fear_triggers":[ "FRIEND_DIED", "HURT", "HOSTILE_SEEN" ]
   }
 ]
-
-
