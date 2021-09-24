@@ -37,10 +37,7 @@
         { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 100, "repeat": [ 2, 4 ] },
         { "item": "EXODII_CBM_Store_Tier1", "x": [ 19, 22 ], "y": 23, "chance": 90, "repeat": [ 3, 8 ] }
       ],
-      "faction_owner": [
-        { "id": "exodii", "x": 19, "y": 21 },
-        { "id": "exodii", "x": [ 19, 22 ], "y": 23 }
-      ]
+      "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
     }
   }
 ]
