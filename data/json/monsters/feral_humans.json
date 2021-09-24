@@ -344,6 +344,6 @@
       "DROPS_AMMO"
     ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE", "STALK" ],
-	"fear_triggers":[ "FRIEND_DIED", "HURT", "HOSTILE_SEEN" ]
+	  "fear_triggers":[ "FRIEND_DIED", "HURT", "HOSTILE_SEEN" ]
   }
 ]
