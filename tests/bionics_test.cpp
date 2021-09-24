@@ -24,43 +24,6 @@ static void clear_bionics( Character &you )
     you.set_max_power_level( 0_kJ );
 }
 
-static void test_consumable_charges( Character &you, std::string &itemname, bool should_work )
-{
-    item it = item( itemname, calendar::turn_zero, 0 );
-
-    INFO( "\'" + it.tname() + "\' is count-by-charges" );
-    CHECK( !it.count_by_charges() );
-
-    it.charges = 0;
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( you.can_fuel_bionic_with( it ) == false );
-
-    it.charges = INT_MAX;
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( you.can_fuel_bionic_with( it ) == should_work );
-}
-
-static void test_consumable_ammo( Character &you, std::string &itemname, bool when_empty,
-                                  bool when_full )
-{
-    item it = item( itemname, calendar::turn_zero, 0 );
-
-    it.ammo_unset();
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( you.can_fuel_bionic_with( it ) == when_empty );
-
-    if( !it.magazine_default().is_null() ) {
-        item mag( it.magazine_default() );
-        mag.ammo_set( mag.ammo_default() );
-        it.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-    } else if( !it.ammo_default().is_null() ) {
-        it.ammo_set( it.ammo_default() ); // fill
-    }
-
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( you.can_fuel_bionic_with( it ) == when_full );
-}
-
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
     avatar &dummy = get_avatar();
@@ -86,7 +49,12 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         REQUIRE( gasoline.charges != 0 );
         CHECK( dummy.can_fuel_bionic_with( gasoline ) );
 
+        // Bottle with gasoline does not work
+        item bottle = item( "bottle_plastic" );
+        bottle.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+        CHECK( !dummy.can_fuel_bionic_with( bottle ) );
 
+        // Armor has no reason to work.
         item armor = item( "rm13_armor" );
         CHECK( !dummy.can_fuel_bionic_with( armor ) );
     }
@@ -107,9 +75,10 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         CHECK( dummy.can_fuel_bionic_with( battery ) );
 
         // Tool with battery won't work
-        item light = item( "flashlight" );
-        light.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
-        CHECK( !dummy.can_fuel_bionic_with( light ) );
+        item flashlight = item( "flashlight" );
+        flashlight.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.ammo_remaining() == 50 );
+        CHECK( !dummy.can_fuel_bionic_with( flashlight ) );
 
     }
 
