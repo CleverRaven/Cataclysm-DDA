@@ -471,7 +471,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ] ]
   },
   {
     "result": "jack_makeshift",
@@ -714,8 +714,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "qualities": [ { "id": "GRIND", "level": 2 } ]
   },
   {
     "result": "makeshift_crowbar",
@@ -972,7 +971,6 @@
       { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "hose", 2 ] ], [ [ "gasket_plastic", 2 ] ], [ [ "well_pump", 1 ] ] ]
   },
   {

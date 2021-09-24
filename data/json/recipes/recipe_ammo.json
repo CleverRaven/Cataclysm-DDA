@@ -678,8 +678,7 @@
     "difficulty": 2,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ]
   },
   {
     "type": "recipe",

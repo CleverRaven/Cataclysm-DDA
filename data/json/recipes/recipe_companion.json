@@ -43,7 +43,7 @@
     "never_learn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -74,7 +74,7 @@
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {

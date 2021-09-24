@@ -165,7 +165,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1 }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {

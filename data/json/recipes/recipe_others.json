@@ -612,7 +612,6 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
