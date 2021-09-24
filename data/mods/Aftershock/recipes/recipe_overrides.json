@@ -207,7 +207,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "grilled_sweetbread",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREAD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 10000,
