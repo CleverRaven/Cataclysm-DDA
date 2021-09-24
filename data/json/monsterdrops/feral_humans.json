@@ -82,7 +82,7 @@
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] }
     ]
- },
+  },
   {
     "id": "mon_feral_prepper_death_drops",
     "type": "item_group",
@@ -93,15 +93,14 @@
       { "group": "feral_ninemm", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
-          { "group": "book_survival", "prob": 40 },
-          { "group": "survivor_knife", "damage": [ 1, 4 ] },
-          { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
-          { "group": "survivor_melee", "prob": 35, "damage": [ 1, 4 ] },
-          { "group": "stash_food", "prob": 100 },
-{ "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ]
-  }
- ]
-},
+      { "group": "book_survival", "prob": 40 },
+      { "group": "survivor_knife", "damage": [ 1, 4 ] },
+      { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "survivor_melee", "prob": 35, "damage": [ 1, 4 ] },
+      { "group": "stash_food", "prob": 100 },
+{ "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] }
+    ]
+  },
   {
     "id": "mon_feral_survivalist_death_drops",
     "type": "item_group",
@@ -112,19 +111,20 @@
       { "group": "feral_ninemm", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
-          { "group": "book_survival", "prob": 40 },
-          { "group": "survivor_knife", "damage": [ 1, 4 ] },
-          { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
-          { "group": "survivor_melee", "prob": 100, "damage": [ 1, 4 ] },
-          { "group": "stash_food", "prob": 100 },
-          { "group": "mil_food", "prob": 33 },
-          { "group": "mil_food_nodrugs", "prob": 48 },
-          { "group": "shelter", "prob": 16 },
+      { "group": "book_survival", "prob": 40 },
+      { "group": "survivor_knife", "damage": [ 1, 4 ] },
+      { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "survivor_melee", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "stash_food", "prob": 100 },
+      { "group": "mil_food", "prob": 33 },
+      { "group": "mil_food_nodrugs", "prob": 48 },
+      { "group": "shelter", "prob": 16 },
       { "group": "survivorzed_gloves", "damage": [ 1, 4 ] },
       { "group": "survivorzed_boots", "damage": [ 1, 4 ] },
       { "group": "survivorzed_head", "damage": [ 1, 4 ] },
       { "group": "survivorzed_extra", "damage": [ 1, 4 ] },
-{ "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] } ]
+      { "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] } 
+    ]
   },
   {
     "type": "item_group",
@@ -139,5 +139,6 @@
     "id": "feral_45cal",
     "items": [ [ "m1911", 30 ], [ "m1911-460", 30 ], [ "m1911-460", 30 ] ]
   }
- ]
+ 
+]
 
