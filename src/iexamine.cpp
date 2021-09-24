@@ -33,6 +33,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -108,6 +109,8 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+
+static const ammotype ammo_money( "money" );
 
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
@@ -208,15 +211,6 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
-static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
-static const std::string flag_WALL( "WALL" );
-
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
 
@@ -227,6 +221,30 @@ void iexamine::none( Character &/*p*/, const tripoint &examp )
 {
     add_msg( _( "That is a %s." ), get_map().name( examp ) );
 }
+
+bool iexamine::always_false( const tripoint &/*examp*/ )
+{
+    return false;
+}
+
+bool iexamine::false_and_debugmsg( const tripoint &examp )
+{
+    debugmsg( "Called false_and_debugmsg on %s - was a terrain with an actor configured incorrectly?",
+              get_map().tername( examp ) );
+    return false;
+}
+
+bool iexamine::always_true( const tripoint &/*examp*/ )
+{
+    return true;
+}
+
+bool iexamine::harvestable_now( const tripoint &examp )
+{
+    const auto hid = get_map().get_harvest( examp );
+    return !hid->is_null() && !hid->empty();
+}
+
 
 /**
  * Pick an appropriate item and apply diamond coating if possible.
@@ -270,6 +288,24 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 }
 
 /**
+ * Change player eye and skin colour
+ */
+void iexamine::change_appearance( Character &you, const tripoint & )
+{
+    uilist amenu;
+    amenu.title = _( "Change what?" );
+    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
+    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin colour" ) );
+
+    amenu.query();
+    if( amenu.ret == 0 ) {
+        you.customize_appearance( customize_appearance_choice::EYES );
+    } else if( amenu.ret == 1 ) {
+        you.customize_appearance( customize_appearance_choice::SKIN );
+    }
+}
+
+/**
  * TEMPLATE FABRICATORS
  * Generate items from found blueprints.
  */
@@ -280,7 +316,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.has_flag( flag_NANOFAB_TABLE, valid_location ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -491,7 +527,7 @@ class atm_menu
     public:
         // menu choices
         enum options : int {
-            cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
+            cancel, purchase_card, deposit_money, withdraw_money, exchange_cash, transfer_all_money
         };
 
         atm_menu()                           = delete;
@@ -515,6 +551,9 @@ class atm_menu
                         break;
                     case withdraw_money:
                         result = do_withdraw_money();
+                        break;
+                    case exchange_cash:
+                        result = do_exchange_cash();
                         break;
                     case transfer_all_money:
                         result = do_transfer_all_money();
@@ -583,6 +622,10 @@ class atm_menu
                           _( "You need a charged cash card before you can deposit money!" ) );
             }
 
+            if( card_count >= 1 && you.has_item_with_flag( flag_OLD_CURRENCY ) ) {
+                add_choice( exchange_cash, _( "Exchange Cash for eCash (1%% fee)" ) );
+            }
+
             if( card_count >= 2 && charge_count ) {
                 add_choice( transfer_all_money, _( "Transfer All Money" ) );
             }
@@ -642,7 +685,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( n_gettext(
                     "Deposit how much?  Max: %d cent.  (0 to cancel) ",
                     "Deposit how much?  Max: %d cents.  (0 to cancel) ", money ), money );
 
@@ -671,7 +714,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( n_gettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
                     "Withdraw how much?  Max: %d cents.  (0 to cancel) ", you.cash ), you.cash );
 
@@ -681,7 +724,6 @@ class atm_menu
 
             int inserted = 0;
             int remaining = amount;
-            ammotype money( "money" );
 
             std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
                 int balance_one = one->ammo_remaining();
@@ -693,7 +735,7 @@ class atm_menu
                 if( inserted == amount ) {
                     break;
                 }
-                int max_cap = cc->ammo_capacity( money ) - cc->ammo_remaining();
+                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining();
                 int to_insert = std::min( max_cap, remaining );
                 // insert whatever there's room for + the old balance.
                 cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining() );
@@ -713,6 +755,63 @@ class atm_menu
             return true;
         }
 
+        //!Deposit pre-cataclysm currency and receive equivalent amount minus fees on a card.
+        bool do_exchange_cash() {
+            item *dst;
+            if( you.activity.id() == ACT_ATM ) {
+                dst = you.activity.targets.front().get_item();
+                you.activity.set_to_null();
+                if( dst->is_null() || dst->typeId() != itype_cash_card ) {
+                    debugmsg( "do_exchange_cash lost the destination card" );
+                    return false;
+                }
+            } else {
+                const std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
+                    return i.typeId() == itype_cash_card;
+                } );
+                if( cash_cards.empty() ) {
+                    popup( _( "You do not have a cash card." ) );
+                    return false;
+                }
+                dst = *std::max_element( cash_cards.begin(), cash_cards.end(), []( const item * a,
+                const item * b ) {
+                    return a->ammo_remaining() < b->ammo_remaining();
+                } );
+                if( !query_yn( _( "Exchange all paper bills and coins in inventory?" ) ) ) {
+                    return false;
+                }
+            }
+
+            item *cash_item = nullptr;
+            you.visit_items( [&]( item * e, const item * ) {
+                if( e->type->has_flag( flag_OLD_CURRENCY ) ) {
+                    cash_item = e;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            if( !cash_item ) {
+                return false;
+            }
+            // Feeding a bill into the machine takes at least one turn
+            you.moves -= std::max( 100, you.moves );
+            int value = units::to_cent( cash_item->type->price );
+            value *= 0.99;  // subtract fee
+            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
+                popup( _( "Destination card is full." ) );
+                return false;
+            }
+            if( cash_item->charges > 1 ) {
+                cash_item->charges--;
+            } else {
+                item_location( you, cash_item ).remove_item();
+            }
+            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining() + value );
+            you.assign_activity( ACT_ATM, 0, exchange_cash );
+            you.activity.targets.emplace_back( you, dst );
+            return true;
+        }
+
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
@@ -720,9 +819,10 @@ class atm_menu
                 return i.typeId() == itype_cash_card;
             } );
             if( you.activity.id() == ACT_ATM ) {
-                you.activity.set_to_null(); // stop for now, if required, it will be created again.
                 dst = you.activity.targets.front().get_item();
+                you.activity.set_to_null(); // stop for now, if required, it will be created again.
                 if( dst->is_null() || dst->typeId() != itype_cash_card ) {
+                    debugmsg( "do_transfer_all_money lost the destination card" );
                     return false;
                 }
             } else {
@@ -746,6 +846,10 @@ class atm_menu
                     break;
                 }
                 // should we check for max capacity here?
+                if( i->ammo_remaining() > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
+                    popup( _( "Destination card is full." ) );
+                    return false;
+                }
                 dst->ammo_set( dst->ammo_default(), i->ammo_remaining() + dst->ammo_remaining() );
                 i->ammo_set( i->ammo_default(), 0 );
                 you.moves -= 10;
@@ -987,6 +1091,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
 
+    creature_tracker &creatures = get_creature_tracker();
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
@@ -997,7 +1102,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
                     if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
                         here.passable( candidate ) &&
-                        !g->critter_at( candidate ) ) {
+                        !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
@@ -1020,7 +1125,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
                 for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
                     if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != you.pos() &&
-                        !g->critter_at( candidate ) ) {
+                        !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
@@ -1150,7 +1255,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
     }
     map &here = get_map();
     if( ( here.veh_at( examp ) || here.can_see_trap_at( examp, you ) ||
-          g->critter_at( examp ) != nullptr ) &&
+          get_creature_tracker().creature_at( examp ) != nullptr ) &&
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
@@ -1171,10 +1276,11 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && you.has_proficiency( proficiency_prof_parkour ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) &&
+        you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         you.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
-    } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
+    } else if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         you.moves -= 300; // Most common move cost for barricades pre-change.
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
@@ -1478,7 +1584,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 
     map &here = get_map();
     if( prying_items.empty() ) {
-        if( here.has_flag( flag_PICKABLE, examp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
             locked_object_pickable( you, examp );
@@ -1603,24 +1709,35 @@ void iexamine::fault( Character &, const tripoint & )
 void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    if( !here.i_at( examp ).empty() ) {
-        none( you, examp );
-        return;
-    }
-    // Send in a few wyrms to start things off.
-    get_event_bus().send<event_type::awakes_dark_wyrms>();
-    int num_wyrms = rng( 1, 4 );
-    for( int i = 0; i < num_wyrms; i++ ) {
-        if( monster *const mon = g->place_critter_around( mon_dark_wyrm, you.pos(), 2 ) ) {
-            here.ter_set( mon->pos(), t_rock_floor );
+    map_stack items = here.i_at( examp );
+    if( !items.empty() ) {
+        if( items.only_item().typeId() == itype_petrified_eye &&
+            query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) {
+            here.i_clear( examp );
+
+            item eye( itype_petrified_eye );
+            you.i_add_or_drop( eye );
+
+            // Send in a few wyrms to start things off.
+            get_event_bus().send<event_type::awakes_dark_wyrms>();
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                }
+            }
+
+            sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
+                           "misc", "stones_grinding" );
+            add_msg( _( "The pedestal sinks into the ground…" ) );
+            here.ter_set( examp, t_rock_floor );
+            get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                                    calendar::turn + rng( 30_seconds, 60_seconds ) );
+        } else {
+            none( you, examp );
+            add_msg( _( "You decided to leave the petrified eye on the pedestal…" ) );
+            return;
         }
     }
-    add_msg( _( "The pedestal sinks into the ground…" ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
-                   "misc", "stones_grinding" );
-    here.ter_set( examp, t_rock_floor );
-    get_timed_events().add( timed_event_type::SPAWN_WYRMS,
-                            calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
@@ -1655,7 +1772,7 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
     map &here = get_map();
     if( here.is_outside( you.pos() ) ) {
         // if door is a locked type attempt to open
-        if( here.has_flag( flag_OPENCLOSE_INSIDE, examp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, examp ) ) {
             locked_object( you, examp );
         } else {
             you.add_msg_if_player( _( "You cannot look through the peephole from the outside." ) );
@@ -1794,7 +1911,8 @@ bool iexamine_helper::drink_nectar( Character &you )
 /**
  * Spawn an item after harvesting the plant
  */
-void iexamine_helper::handle_harvest( Character &you, const std::string &itemid, bool force_drop )
+void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
+                                      bool force_drop )
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
@@ -1858,7 +1976,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
-        add_msg( m_bad, _( "You fall asleep…" ) );
+        add_msg( m_bad, _( "The flower's fragrance makes you extremely drowsy…" ) );
         you.fall_asleep( 2_hours );
         add_msg( m_bad, _( "Your legs are covered in the poppy's roots!" ) );
         you.apply_damage( nullptr, bodypart_id( "leg_l" ), 4 );
@@ -2107,7 +2225,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
-    fungal_effects( *g, here ).create_spores( examp, &you );
+    fungal_effects().create_spores( examp, &you );
     here.furn_set( examp, f_null );
     you.moves -= 50;
 }
@@ -2342,7 +2460,7 @@ ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
     map &here = get_map();
-    if( !here.has_flag_furn( "PLANT", tile ) ) {
+    if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
         return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( here.i_at( tile ).size() > 1 ) {
@@ -2357,7 +2475,8 @@ ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
     return ret_val<bool>::make_success();
 }
 
-void iexamine::fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer )
+void iexamine::fertilize_plant( Character &you, const tripoint &tile,
+                                const itype_id &fertilizer )
 {
     ret_val<bool> can_fert = can_fertilize( you, tile, fertilizer );
     if( !can_fert.success() ) {
@@ -2400,7 +2519,8 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile, const ityp
              planted.front().tname() );
 }
 
-itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname, bool ask_player )
+itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
+                                      bool ask_player )
 {
     std::vector<const item *> f_inv = you.all_items_with_flag( flag_FERTILIZER );
     if( f_inv.empty() ) {
@@ -2451,10 +2571,10 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 
     const std::string pname = seed->get_plant_name();
 
-    if( here.has_flag_furn( flag_GROWTH_HARVEST, examp ) &&
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
         query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( you, examp );
-    } else if( !here.has_flag_furn( flag_GROWTH_HARVEST, examp ) ) {
+    } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;
@@ -2572,9 +2692,9 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
-                               "It will finish burning in about %d hours.",
-                               hours ), hours );
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
@@ -2701,9 +2821,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
-                               "It will finish burning in about %d hours.",
-                               hours ), hours );
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
@@ -3116,9 +3236,9 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
-                add_msg( ngettext( "It will finish brewing in about %d hour.",
-                                   "It will finish brewing in about %d hours.",
-                                   hours ), hours );
+                add_msg( n_gettext( "It will finish brewing in about %d hour.",
+                                    "It will finish brewing in about %d hours.",
+                                    hours ), hours );
             }
             return;
         }
@@ -3643,7 +3763,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     if( ( !here.i_at( examp ).empty() ||
           here.veh_at( examp ) ||
           here.can_see_trap_at( examp, you ) ||
-          g->critter_at( examp ) != nullptr ) &&
+          get_creature_tracker().creature_at( examp ) != nullptr ) &&
         !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
         none( you, examp );
         return;
@@ -3810,7 +3930,7 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-void iexamine::reload_furniture( Character &you, const tripoint &examp )
+static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
@@ -3822,16 +3942,15 @@ void iexamine::reload_furniture( Character &you, const tripoint &examp )
     }
     map_stack items_here = here.i_at( examp );
     const int amount_in_furn = count_charges_in_list( ammo, items_here );
-    const int amount_in_inv = you.charges_of( ammo->get_id() );
-    if( amount_in_furn > 0 ) {
+    const int amount_in_inv = you.crafting_inventory().charges_of( ammo->get_id() );
+    if( allow_unload && amount_in_furn > 0 ) {
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                           ammo->nname( amount_in_furn ) ) ) {
-            Character &player_character = get_player_character();
             map_stack items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
-                    player_character.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, player_character.pos() ) ) );
+                    you.assign_activity( player_activity( pickup_activity_actor(
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos() ) ) );
                     return;
                 }
             }
@@ -3862,34 +3981,46 @@ void iexamine::reload_furniture( Character &you, const tripoint &examp )
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
-    you.use_charges( ammo->get_id(), amount );
-    map_stack items = here.i_at( examp );
-    for( auto &itm : items ) {
-        if( itm.type == ammo ) {
-            itm.charges += amount;
-            amount = 0;
-            break;
+
+    std::list<item> moved = you.consume_items( { { ammo->get_id(), amount } } );
+    auto place_item = [&]( const item & it ) {
+        for( item &e : here.i_at( examp ) ) {
+            if( e.merge_charges( it ) ) {
+                return;
+            }
         }
-    }
-    if( amount != 0 ) {
-        item it( ammo, calendar::turn, amount );
+
         here.add_item( examp, it );
+    };
+
+    for( const item &m : moved ) {
+        // We can't use map::add_item_or_charges here since the furniture has NO_ITEM
+        place_item( m );
+        you.mod_moves( -you.item_handling_cost( m ) );
     }
 
-    const int amount_in_furn_after_placing = count_charges_in_list( ammo, items );
+    const int amount_in_furn_after_placing = count_charges_in_list( ammo, here.i_at( examp ) );
     //~ %1$s - furniture, %2$d - number, %3$s items.
     add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
              ammo->nname( amount_in_furn_after_placing ) );
 
     add_msg( _( "You reload the %s." ), here.furnname( examp ) );
-    you.moves -= to_moves<int>( 5_seconds );
+
+    you.invalidate_crafting_inventory();
+}
+
+void iexamine::reload_furniture( Character &you, const tripoint &examp )
+{
+    return reload_furniture( you, examp, true );
 }
 
 void iexamine::curtains( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    const bool closed_window_with_curtains = here.has_flag( flag_BARRICADABLE_WINDOW_CURTAINS, examp );
-    if( here.is_outside( you.pos() ) && ( here.has_flag( flag_WALL, examp ) ||
+    const bool closed_window_with_curtains = here.has_flag(
+                ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
+                examp );
+    if( here.is_outside( you.pos() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
                                           closed_window_with_curtains ) ) {
         locked_object( you, examp );
         return;
@@ -4413,6 +4544,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     // Weariness scaling
     float weary_mult = 1.0f;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case 1: {
             tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
@@ -4424,9 +4556,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
             } else if( !here.valid_move( examp, dest, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
-            } else if( g->critter_at( dest ) ) {
+            } else if( creatures.creature_at( dest ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
-                         g->critter_at( dest )->disp_name() );
+                         creatures.creature_at( dest )->disp_name() );
             } else if( here.ter( dest ).obj().trap == tr_ledge ) {
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
@@ -4437,11 +4569,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 2: {
-            if( !here.has_zlevels() ) {
-                // No climbing down in 2D mode
-                return;
-            }
-
             if( !here.valid_move( you.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;
@@ -4464,9 +4591,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             const bool has_grapnel = you.has_amount( itype_grapnel, 1 );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
-            const char *query_str = ngettext( "Looks like %d story.  Jump down?",
-                                              "Looks like %d stories.  Jump down?",
-                                              height );
+            const char *query_str = n_gettext( "Looks like %d story.  Jump down?",
+                                               "Looks like %d stories.  Jump down?",
+                                               height );
 
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
@@ -4499,7 +4626,8 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
             if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, examp + tripoint_below ) &&
+                       g->slip_down( true ) ) {
                 return;
             }
 
@@ -4522,7 +4650,7 @@ static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( you.pos() == couch_loc ) {
@@ -4543,7 +4671,7 @@ static Character &operator_present( Character &you, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, loc ) ) {
             if( you.pos() == loc ) {
                 return you;
             }
@@ -5749,14 +5877,19 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
         }
     }
 
+    const furn_t &f = here.furn( examp ).obj();
+    const itype *type = f.crafting_pseudo_item_type();
+    const itype *ammo = f.crafting_ammo_item_type();
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto remaining_capacity_portable = sm_rack::MAX_FOOD_VOLUME_PORTABLE - f_volume;
-    const bool has_coal_in_inventory = you.charges_of( itype_charcoal ) > 0;
+    const bool has_coal_in_inventory = you.crafting_inventory().charges_of( itype_charcoal ) > 0;
     const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
     const int need_charges = get_charcoal_charges( f_volume );
+    const int max_charges = type == nullptr || ammo == nullptr ||
+                            !ammo->ammo ? 0 : item( type ).ammo_capacity( ammo->ammo->type );
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 
@@ -5797,9 +5930,10 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             smenu.addentry( 4, f_check, 'e', _( "Remove food from smoking rack" ) );
         }
 
-        smenu.addentry_desc( 3, has_coal_in_inventory, 'r',
+        smenu.addentry_desc( 3, has_coal_in_inventory && coal_charges < max_charges, 'r',
                              !has_coal_in_inventory ? _( "Reload with charcoal… you don't have any" ) :
-                             _( "Reload with charcoal" ),
+                             ( coal_charges >= max_charges ? _( "Reload with charcoal… at maximum capacity" ) :
+                               _( "Reload with charcoal" ) ),
                              string_format(
                                  _( "You need %d charges of charcoal for %s %s of food.  Minimal amount of charcoal is %d charges." ),
                                  sm_rack::CHARCOAL_PER_LITER, format_volume( 1_liter ), volume_units_long(),
@@ -5827,9 +5961,9 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                 pop += colorize( _( "There's a smoking rack here.  It is lit and smoking." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish smoking in about %d hour.",
-                                                        "It will finish smoking in about %d hours.",
-                                                        hours_left ), hours_left ) + "\n\n";
+                        pop += string_format( n_gettext( "It will finish smoking in about %d hour.",
+                                                         "It will finish smoking in about %d hours.",
+                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
                         pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {
@@ -5873,7 +6007,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             break;
         case 3:
             // load charcoal
-            reload_furniture( you, examp );
+            reload_furniture( you, examp, false );
             break;
         case 4:
             // remove food
@@ -6060,7 +6194,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                 }
                 const recipe &rec = selected_craft->get_making();
                 const inventory &inv = you.crafting_inventory();
-                if( you.has_recipe( &rec, inv, you.get_crafting_helpers() ) == -1 ) {
+                if( !you.has_recipe( &rec, inv, you.get_crafting_helpers() ) ) {
                     you.add_msg_player_or_npc(
                         _( "You don't know the recipe for the %s and can't continue crafting." ),
                         _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -6095,6 +6229,11 @@ void iexamine::workout( Character &you, const tripoint &examp )
     you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
 }
 
+void iexamine::invalid( Character &/*you*/, const tripoint &examp )
+{
+    debugmsg( "Called invalid iexamine function on %s!", get_map().tername( examp ) );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6102,13 +6241,14 @@ void iexamine::workout( Character &you, const tripoint &examp )
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-iexamine_function iexamine_function_from_string( const std::string &function_name )
+iexamine_functions iexamine_functions_from_string( const std::string &function_name )
 {
-    static const std::map<std::string, iexamine_function> function_map = {{
+    static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
             { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
+            { "change_appearance", &iexamine::change_appearance },
             { "nanofab", &iexamine::nanofab },
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },
@@ -6180,18 +6320,36 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
-            { "workout", &iexamine::workout }
+            { "workout", &iexamine::workout },
+            { "invalid", &iexamine::invalid },
         }
+    };
+
+    static const std::set<std::string> harvestable_functions = {
+        "harvest_furn_nectar",
+        "harvest_furn",
+        "harvest_ter_nectar",
+        "harvest_ter",
+        "tree_hickory",
     };
 
     auto iter = function_map.find( function_name );
     if( iter != function_map.end() ) {
-        return iter->second;
+        iexamine_examine_function func = iter->second;
+        if( function_name == "none" ) {
+            return iexamine_functions{&iexamine::always_false, func};
+        } else if( function_name == "invalid" ) {
+            return iexamine_functions{&iexamine::false_and_debugmsg, func};
+        } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
+            return iexamine_functions{&iexamine::harvestable_now, func};
+        } else {
+            return iexamine_functions{&iexamine::always_true, func};
+        }
     }
 
     //No match found
     debugmsg( "Could not find an iexamine function matching '%s'!", function_name );
-    return &iexamine::none;
+    return iexamine_functions{&iexamine::always_false, &iexamine::none};
 }
 
 void iexamine::practice_survival_while_foraging( Character *you )

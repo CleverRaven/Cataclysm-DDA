@@ -99,6 +99,7 @@
       [ "gloves_work", 20 ],
       [ "boots", 20 ],
       [ "boots_steel", 20 ],
+      [ "sneakers_steel", 15 ],
       [ "boots_hiking", 30 ],
       [ "knee_high_boots", 5 ],
       [ "boots_combat", 15 ],
@@ -440,7 +441,7 @@
     "id": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
     "type": "talk_topic",
     "dynamic_line": "And so we did.  You didn't do the full job, but we're fair people here.  Here's five merch a head for the folks you found a new home for.",
-    "speaker_effect": { "effect": { "u_buy_item": "FMCNote", "count": 20 } },
+    "speaker_effect": { "effect": { "u_spawn_item": "FMCNote", "count": 20 } },
     "responses": [ { "text": "Thanks.", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
@@ -514,7 +515,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ],
@@ -605,7 +606,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 30 },
+        { "u_spawn_item": "FMCNote", "count": 30 },
         { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -644,7 +645,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 50 },
+        { "u_spawn_item": "FMCNote", "count": 50 },
         { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
       ],
       "update_mapgen": {
@@ -683,7 +684,7 @@
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 100 },
+        { "u_spawn_item": "FMCNote", "count": 100 },
         { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -711,7 +712,7 @@
     "count": 100,
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -736,7 +737,7 @@
     "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "start": {
-      "effect": [ { "u_buy_item": "fema_data", "count": 1 } ],
+      "effect": [ { "u_spawn_item": "fema_data", "count": 1 } ],
       "assign_mission_target": {
         "om_terrain": "robofachq_surface_entrance",
         "om_special": "hub_01",

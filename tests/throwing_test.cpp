@@ -257,13 +257,13 @@ static void test_player_kills_monster(
 
             ++turns;
             mon.process_turn();
-            mon.set_dest( you.pos() );
+            mon.set_dest( you.get_location() );
             while( mon.moves > 0 ) {
                 mon.move();
             }
 
             // zombie made it to player, we're done with this iteration
-            if( ( last_range = rl_dist( you.pos(), mon.pos() ) ) <= dist_thresh ) {
+            if( ( last_range = rl_dist( you.get_location(), mon.get_location() ) ) <= dist_thresh ) {
                 break;
             }
 

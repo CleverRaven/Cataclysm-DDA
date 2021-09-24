@@ -80,7 +80,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
         if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
-            debugmsg( "Failed to apply magen function %s", mapgen_id );
+            debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
         here.set_seen_cache_dirty( examp );
         here.set_transparency_cache_dirty( examp.z );
@@ -173,7 +173,7 @@ void cardreader_examine_actor::finalize() const
         }
     }
 
-    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.empty() ) {
+    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.is_empty() ) {
         debugmsg( "Cardreader examine actor does not change either terrain or furniture" );
     }
 

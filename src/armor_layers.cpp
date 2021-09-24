@@ -218,11 +218,11 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             body_part_names( penalties.body_parts_with_stacking_penalty );
         std::string message =
             string_format(
-                ngettext( "Wearing multiple items %s on your "
-                          "<color_light_red>%s</color> is adding encumbrance there.",
-                          "Wearing multiple items %s on your "
-                          "<color_light_red>%s</color> is adding encumbrance there.",
-                          penalties.body_parts_with_stacking_penalty.size() ),
+                n_gettext( "Wearing multiple items %s on your "
+                           "<color_light_red>%s</color> is adding encumbrance there.",
+                           "Wearing multiple items %s on your "
+                           "<color_light_red>%s</color> is adding encumbrance there.",
+                           penalties.body_parts_with_stacking_penalty.size() ),
                 layer_description, body_parts
             );
         i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
@@ -235,21 +235,21 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
 
         if( penalties.bad_items_within.empty() ) {
             message = string_format(
-                          ngettext( "Wearing this outside items it would normally be beneath "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    "Wearing this outside items it would normally be beneath "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          n_gettext( "Wearing this outside items it would normally be beneath "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     "Wearing this outside items it would normally be beneath "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     penalties.body_parts_with_out_of_order_penalty.size() ),
                           body_parts
                       );
         } else {
             std::string bad_item_name = *penalties.bad_items_within.begin();
             message = string_format(
-                          ngettext( "Wearing this outside your <color_light_blue>%s</color> "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    "Wearing this outside your <color_light_blue>%s</color> "
-                                    "is adding encumbrance to your <color_light_red>%s</color>.",
-                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          n_gettext( "Wearing this outside your <color_light_blue>%s</color> "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     "Wearing this outside your <color_light_blue>%s</color> "
+                                     "is adding encumbrance to your <color_light_red>%s</color>.",
+                                     penalties.body_parts_with_out_of_order_penalty.size() ),
                           bad_item_name, body_parts
                       );
         }
@@ -717,11 +717,11 @@ void Character::sort_armor()
         } else {
             // Player is sorting NPC's armor here
             if( rl_dist( player_character.pos(), pos() ) > 1 ) {
-                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), get_name() );
                 return;
             }
             if( attitude_to( player_character ) != Creature::Attitude::FRIENDLY ) {
-                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), get_name() );
                 return;
             }
         }
@@ -854,20 +854,26 @@ void Character::sort_armor()
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this, armor_cat[tabindex] );
-
             // only equip if something valid selected!
             if( loc ) {
-                // wear the item
-                cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( loc.obtain( *this ) );
-                if( new_equip_it ) {
-                    // save iterator to cursor's position
-                    std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
-                    // reorder `worn` vector to place new item at cursor
-                    worn.splice( cursor_it, worn, *new_equip_it );
-                } else if( is_npc() ) {
-                    // TODO: Pass the reason here
-                    popup( _( "Can't put this on!" ) );
+                // store the item name just in case obtain() fails
+                const std::string item_name = loc->display_name();
+                item_location obtained = loc.obtain( *this );
+                if( obtained ) {
+                    // wear the item
+                    cata::optional<std::list<item>::iterator> new_equip_it =
+                        wear( obtained );
+                    if( new_equip_it ) {
+                        // save iterator to cursor's position
+                        std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
+                        // reorder `worn` vector to place new item at cursor
+                        worn.splice( cursor_it, worn, *new_equip_it );
+                    } else if( is_npc() ) {
+                        // TODO: Pass the reason here
+                        popup( _( "Can't put this on!" ) );
+                    }
+                } else {
+                    add_msg_if_player( "You chose not to wear the %s.", item_name );
                 }
             }
         } else if( action == "REMOVE_ARMOR" ) {

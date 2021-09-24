@@ -131,6 +131,10 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     for( const std::pair<skill_id, int> req : recipe.required_skills ) {
         character.set_skill_level( req.first, req.second );
     }
+    for( const recipe_proficiency &prof : recipe.proficiencies ) {
+        character.add_proficiency( prof.id );
+    }
+    character.learn_recipe( &recipe );
 
     get_map().add_vehicle( vproto_id( "test_rv" ), test_origin, -90_degrees, 0, 0 );
     const optional_vpart_position &ovp = get_map().veh_at( test_origin );
@@ -176,7 +180,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
             character.activity.do_turn( character );
         }
 
-        REQUIRE( character.weapon.type->get_id() == recipe.result() );
+        REQUIRE( character.get_wielded_item().type->get_id() == recipe.result() );
     } else {
         REQUIRE_FALSE( can_craft );
     }

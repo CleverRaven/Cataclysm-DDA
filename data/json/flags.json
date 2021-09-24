@@ -89,6 +89,11 @@
     "info": "This clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
   },
   {
+    "id": "COLLAPSE_CONTENTS",
+    "type": "json_flag",
+    "info": "Contents are hidden by default in inventory view."
+  },
+  {
     "id": "DEAF",
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
@@ -413,6 +418,11 @@
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
+    "id": "SPAWN_ACTIVE",
+    "type": "json_flag",
+    "//": "This item will spawn active. Not advised for items that drain power when active."
+  },
+  {
     "id": "STAB",
     "type": "json_flag"
   },
@@ -511,6 +521,11 @@
   {
     "id": "FREEZERBURN",
     "type": "json_flag"
+  },
+  {
+    "id": "OLD_CURRENCY",
+    "type": "json_flag",
+    "info": "This item used to be legal tender before the Cataclysm."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -1703,5 +1718,29 @@
     "id": "SCIENCE_CARD_MEDICAL_RED",
     "type": "json_flag",
     "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "BATTERY_ULTRA_LIGHT",
+    "type": "json_flag",
+    "info": "This item fits in items that use ultra-light batteries.",
+    "name": "ultra-light battery"
+  },
+  {
+    "id": "BATTERY_LIGHT",
+    "type": "json_flag",
+    "info": "This item fits in items that use light batteries.",
+    "name": "light battery"
+  },
+  {
+    "id": "BATTERY_MEDIUM",
+    "type": "json_flag",
+    "info": "This item fits in items that use medium batteries.",
+    "name": "medium battery"
+  },
+  {
+    "id": "BATTERY_HEAVY",
+    "type": "json_flag",
+    "info": "This item fits in items that use heavy batteries.",
+    "name": "heavy battery"
   }
 ]

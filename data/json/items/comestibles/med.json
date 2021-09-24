@@ -12,7 +12,7 @@
     "stack_size": 30,
     "symbol": "!",
     "color": "yellow",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You pop a melatonin tablet.",
@@ -37,7 +37,7 @@
     "fun": 10,
     "addiction_potential": 10,
     "addiction_type": "amphetamine",
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some stimulants." }
   },
   {
@@ -54,7 +54,7 @@
     "symbol": "!",
     "color": "white",
     "charges": 10,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 200 }
   },
   {
@@ -93,7 +93,7 @@
     "symbol": "!",
     "color": "white",
     "use_action": [ "ANTIBIOTIC" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
   {
     "id": "antifungal",
@@ -111,7 +111,7 @@
     "symbol": "!",
     "color": "white",
     "use_action": [ "ANTIFUNGAL" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
   {
     "id": "antiparasitic",
@@ -130,7 +130,7 @@
     "color": "white",
     "healthy": -5,
     "use_action": [ "ANTIPARASITIC" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
   {
     "id": "aspirin",
@@ -148,7 +148,7 @@
     "symbol": "!",
     "color": "white",
     "healthy": -1,
-    "flags": [ "WATER_DISSOLVE" ],
+    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some aspirin.",
@@ -170,7 +170,7 @@
     "color": "white",
     "charges": 3,
     "stack_size": 9,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 300 }
   },
   {
@@ -180,7 +180,7 @@
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  Better than nothing.",
     "price_postapoc": 100,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 300 }
   },
   {
@@ -190,7 +190,7 @@
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  It is white, as real bandages should be.",
     "price_postapoc": 150,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
   },
   {
@@ -200,7 +200,7 @@
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
     "price_postapoc": 150,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
   },
   {
@@ -219,7 +219,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
   },
   {
@@ -257,7 +257,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "cyan",
-    "flags": [ "WATER_DISSOLVE" ],
+    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "stim": 12,
     "addiction_potential": 3,
     "addiction_type": "caffeine",
@@ -326,7 +326,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "use_action": [ "SMOKING" ]
   },
   {
@@ -347,7 +347,7 @@
     "fun": 15,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "use_action": [ "SMOKING" ]
   },
   {
@@ -382,7 +382,7 @@
     "color": "cyan",
     "stim": -2,
     "fun": 10,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "addiction_potential": 10,
     "addiction_type": "opiate",
     "use_action": {
@@ -412,7 +412,7 @@
     "fun": 25,
     "addiction_potential": 50,
     "addiction_type": "cocaine",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": [ "COKE" ]
   },
   {
@@ -477,7 +477,7 @@
     "symbol": "*",
     "color": "white",
     "container": "bag_plastic",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 300 }
   },
   {
@@ -501,7 +501,7 @@
     "fun": 50,
     "addiction_potential": 80,
     "addiction_type": "crack",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke your crack rocks.  Mother would be proud.",
@@ -575,7 +575,7 @@
     "stim": -8,
     "healthy": -1,
     "fun": 8,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "addiction_potential": 20,
     "addiction_type": "diazepam",
     "use_action": [ "ANTICONVULSANT" ]
@@ -1061,7 +1061,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": [ "SMOKING" ]
   },
   {
@@ -1085,7 +1085,7 @@
     "fun": 50,
     "addiction_potential": 75,
     "addiction_type": "opiate",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
@@ -1111,6 +1111,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some potassium iodide.",
@@ -1135,7 +1136,7 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": [ "SMOKING" ]
   },
   {
@@ -1154,7 +1155,7 @@
     "color": "pink",
     "stim": 20,
     "fun": 25,
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You eat the pink tablet.",
@@ -1174,7 +1175,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 200 }
   },
   {
@@ -1199,7 +1200,32 @@
     "fun": 30,
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": [ "METH" ]
+  },
+  {
+    "id": "pure_meth",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "high-grade methamphetamine" },
+    "description": "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.  This one could have only been made by a great chemist.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 25000,
+    "price_postapoc": 10000,
+    "charges": 6,
+    "stack_size": 100,
+    "material": [ "powder" ],
+    "symbol": "!",
+    "color": "light_cyan",
+    "container": "bag_zipper",
+    "quench": -1,
+    "stim": 30,
+    "healthy": -5,
+    "fun": 25,
+    "addiction_potential": 40,
+    "addiction_type": "amphetamine",
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": [ "METH" ]
   },
   {
@@ -1222,7 +1248,7 @@
     "fun": 25,
     "addiction_potential": 25,
     "addiction_type": "opiate",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
@@ -1309,7 +1335,7 @@
     "healthy": -1,
     "stim": -4,
     "fun": 18,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 16,
     "addiction_type": "opiate",
     "use_action": {
@@ -1335,7 +1361,7 @@
     "color": "light_red",
     "stim": -8,
     "fun": 5,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
     "use_action": {
@@ -1362,6 +1388,7 @@
     "healthy": -2,
     "addiction_potential": 10,
     "addiction_type": "opiate",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some poppy painkiller.",
@@ -1385,6 +1412,7 @@
     "color": "magenta",
     "healthy": -2,
     "addiction_type": "opiate",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Can be used to treat insomnia.",
@@ -1451,7 +1479,7 @@
     "symbol": "!",
     "color": "light_green",
     "stim": -5,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 5,
     "addiction_type": "amphetamine",
     "use_action": [ "PROZAC" ]
@@ -1469,7 +1497,7 @@
     "charges": 10,
     "stack_size": 200,
     "material": [ "powder" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "blue",
     "use_action": {
@@ -1494,7 +1522,7 @@
     "symbol": "!",
     "color": "light_gray",
     "container": "bag_plastic",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 100 }
   },
   {
@@ -1530,7 +1558,7 @@
     "symbol": "!",
     "color": "light_red",
     "stim": -30,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": [ "THORAZINE" ]
   },
   {
@@ -1571,7 +1599,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some tobacco.",
@@ -1598,7 +1626,7 @@
     "symbol": "!",
     "color": "yellow",
     "fun": 6,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 6,
     "addiction_type": "opiate",
     "use_action": {
@@ -1637,7 +1665,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
@@ -1656,7 +1684,7 @@
     "price_postapoc": 1000,
     "charges": 20,
     "stack_size": 20,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 75 ] ] }
@@ -1678,6 +1706,7 @@
     "symbol": "!",
     "color": "white",
     "looks_like": "calcium_tablet",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] }
   },
   {
@@ -1697,6 +1726,7 @@
     "symbol": "!",
     "color": "yellow",
     "looks_like": "calcium_tablet",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] }
   },
   {
@@ -1707,7 +1737,7 @@
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "price_postapoc": 1000,
     "fun": 4,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "charges": 10,
     "stack_size": 10
   },
@@ -1726,6 +1756,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "white",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
     "snippet_category": [
       {
@@ -1817,7 +1848,7 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some weed.  Good stuff, man!",
@@ -1847,7 +1878,7 @@
     "stim": -4,
     "healthy": -2,
     "fun": 20,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
     "use_action": [ "XANAX" ]
@@ -1866,7 +1897,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 2,
@@ -1890,7 +1921,7 @@
     "symbol": "*",
     "color": "white",
     "category": "drugs",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 3,
@@ -1916,7 +1947,7 @@
     "color": "white",
     "healthy": -2,
     "use_action": [ "WEAK_ANTIBIOTIC" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
   {
     "id": "pepto",
@@ -1960,7 +1991,7 @@
       "activation_message": "You feel AMAZING!",
       "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
   {
     "id": "cattail_jelly",
@@ -2002,7 +2033,7 @@
     "symbol": "!",
     "color": "white",
     "healthy": -10,
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "STRONG_ANTIBIOTIC" }
   },
   {

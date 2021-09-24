@@ -191,5 +191,50 @@
     "text": [
       "Welcome to the <color_white>Smart Engine Controller ®</color> user manual.  This document describes the features and capabilities of the Smart Engine Controller, as well as gives examples of the use cases that reap the most benefits from the Smart Engine Controller.\n\nSmart Engine Controller intelligently <color_light_green>turns controllable engines on and off</color>.  To put it simply, it tries to find the optimal state of the engines that:\n• won't completely deplete the battery\n• meets requested acceleration and speed\n• is safe for engines\n• has best fuel economy and battery charge rate\n\nSmart Engine Controller only supports engines that are controlled by electronics, such as <color_light_green>combustion and electric engines</color>.  When enabled, Smart Engine Controller will immediately take control over all compatible engines and will start and shut them down as needed.  Smart Engine Controller <color_light_green>supports between two and five</color> controllable engines.\nSmart Engine Controller allows the user to tune its settings for the usage of the electric motors.  This setting comes in the form of two sliders: <color_light_green>\"LO\"</color> and <color_light_green>\"HI\"</color> battery level, %.\n• when battery level < LO, electric motor won't engage\n• when battery level > HI, electric motor is preferred (but not guaranteed to be used)\n• between LOW and HI, electric motor usage is determined by battery charge rate and other factors\nNote: Smart Engine Controller will <color_light_green>strive to keep battery level at or above \"HI\"</color>, utilizing the engines with attached alternators.\n\nIntended use cases of the Smart Engine Controller:\n• <color_light_green>Hybrid car with gas and electric engines</color>\nWhen battery level is \"HI\" or above, a more efficient electric engine will be used.  When accelerating, gas engine may be started to provide the best acceleration.  When battery level is below \"HI\", the gas engine with the alternator will be used to recharge the battery.\n• <color_light_green>Car with two or more gas engines</color>\nWhen cruising, only one engine will be used.  When accelerating, more engines will be started to provide the best acceleration.\n• <color_light_green>Car with a small and large engine</color>\nDepending on the speed, a single engine will be chosen to provide the best acceleration and fuel economy.\n• <color_light_green>Stationary generator</color>\nWhen the battery reaches \"HI\" level, the gas engine will be turned off to save fuel.\n\nEnjoy your optimal ride with the Smart Engine Controller!  For warranty information please contact your local dealership."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_npc_not_hostile",
+    "text": [ "What is this unbearable sound!?", "STOP.  MY EARS", "I'm not a dog…", "Would you kindly not do that?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_npc_hostile",
+    "text": [
+      "I WILL MURDER YOU",
+      "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT",
+      "You're seriously pissing me off…",
+      "I'm not a dog…",
+      "What is this unbearable sound!?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_you",
+    "text": [ "You hate this loud sound." ]
+  },
+  {
+    "type": "snippet",
+    "category": "slime_cheers",
+    "text": [
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"hey, it's gonna be all right!\""
+        }
+      },
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"we'll get through this!\""
+        }
+      },
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"i'm here for you!\""
+        }
+      }
+    ]
   }
 ]

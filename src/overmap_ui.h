@@ -58,20 +58,20 @@ void display_editor();
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point();
+tripoint_abs_omt choose_point( bool show_debug_info = false );
 
 /**
  * Same as above but start at z-level z instead of players
  * current z-level, x and y are taken from the players position.
  */
-tripoint_abs_omt choose_point( int z );
+tripoint_abs_omt choose_point( int z, bool show_debug_info = false );
 /**
  * Interactive point choosing; used as the map screen.
  * The map is initially centered on the @ref origin.
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const tripoint_abs_omt &origin );
+tripoint_abs_omt choose_point( const tripoint_abs_omt &origin, bool show_debug_info = false );
 
 } // namespace omap
 
@@ -85,6 +85,8 @@ struct draw_data_t {
     bool debug_editor = false;
     // draw scent traces.
     bool debug_scent = false;
+    // draw debug info.
+    bool debug_info = false;
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
     int iZoneIndex = -1;

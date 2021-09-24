@@ -22,7 +22,6 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class item;
@@ -100,16 +99,22 @@ class item_pocket
                 /** Whether an item passes the current whitelist and blacklist filters. */
                 bool accepts_item( const item &it ) const;
 
+                /** Are pocket contents hidden?*/
+                bool is_collapsed() const;
+                /** Flag to show or hide the pocket contents in 'i'nventory screen. */
+                void set_collapse( bool );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &data );
             private:
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
                 cata::flat_set<item_category_id> category_whitelist;
                 cata::flat_set<item_category_id> category_blacklist;
+                bool collapsed = false;
         };
 
         item_pocket() = default;
@@ -149,7 +154,12 @@ class item_pocket
         size_t size() const;
         void pop_back();
 
-        ret_val<contain_code> can_contain( const item &it ) const;
+        /**
+         * Can the pocket contain the specified item?
+         * @param it the item being put in
+         * @param ignore_fullness checks if the container could hold one of these items when empty
+         */
+        ret_val<contain_code> can_contain( const item &it, const bool ignore_fullness = false ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -178,6 +188,7 @@ class item_pocket
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
+        units::length item_length_modifier() const;
 
         /** gets the spoilage multiplier depending on sealed data */
         float spoil_multiplier() const;
@@ -289,7 +300,7 @@ class item_pocket
         void favorite_info( std::vector<iteminfo> &info );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         // true if pocket state is the same as if freshly created from the pocket type
         bool is_default_state() const;
@@ -336,7 +347,7 @@ struct sealable_data {
     float spoil_multiplier = 1.0f;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 class pocket_data
@@ -412,7 +423,7 @@ class pocket_data
         std::string check_definition() const;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
     private:
 
         FlagsSetType flag_restrictions;

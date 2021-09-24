@@ -21,7 +21,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -36,21 +35,13 @@
 #include "weather.h"
 
 class Character;
-class Creature_tracker;
+class creature_tracker;
 class item;
 class location;
 class spell_events;
 class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
-
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
-static const std::string SAVE_EXTENSION_LOG( ".log" );
-static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
-static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
 // The reference to the one and only game instance.
 class game;
@@ -146,7 +137,6 @@ bool is_valid_in_w_terrain( const point &p );
 namespace turn_handler
 {
 bool cleanup_at_end();
-void update_stair_monsters();
 } // namespace turn_handler
 
 // There is only one game instance, so losing a few bytes of memory
@@ -160,9 +150,9 @@ class game
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
+        friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
-        friend location &get_player_location();
         friend viewer &get_player_view();
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();
@@ -226,7 +216,7 @@ class game
         bool save();
 
         /** Returns a list of currently active character saves. */
-        std::vector<std::string> list_active_characters();
+        std::vector<std::string> list_active_saves();
         void write_memorial_file( std::string sLastWords );
         void start_calendar();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
@@ -297,16 +287,6 @@ class game
         template<typename T = Creature>
         T * critter_by_id( const character_id &id );
         /**
-         * Returns the Creature at the given location. Optionally casted to the given
-         * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
-         * but it's not of the requested type, returns nullptr.
-         * @param allow_hallucination Whether to return monsters that are actually hallucinations.
-         */
-        template<typename T = Creature>
-        T * critter_at( const tripoint &p, bool allow_hallucination = false );
-        template<typename T = Creature>
-        const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
-        /**
         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
         * @ref Creature). The function may return an empty pointer if the given critter
         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
@@ -355,7 +335,8 @@ class game
          */
         size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
-        bool update_zombie_pos( const monster &critter, const tripoint &pos );
+        bool update_zombie_pos( const monster &critter, const tripoint_abs_ms &old_pos,
+                                const tripoint_abs_ms &new_pos );
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
@@ -420,6 +401,9 @@ class game
                 iterator end() {
                     return iterator( items, items.end() );
                 }
+                void push_back( T &new_item ) {
+                    items.push_back( new_item );
+                }
         };
 
         class monster_range : public non_dead_range<monster>
@@ -479,7 +463,7 @@ class game
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
-         * new monster there (see @ref critter_at).
+         * new monster there (see @ref creature_at).
          * @param p The place where to put the revived monster.
          * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
@@ -636,6 +620,8 @@ class game
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -841,8 +827,6 @@ class game
         void set_npcs_dirty();
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
-        void mon_info( const catacurses::window &,
-                       int hor_padding = 0 ); // Prints a list of nearby monsters
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
@@ -901,8 +885,8 @@ class game
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
-
-        void item_action_menu(); // Displays item action menu
+        // If loc is empty then use all the items in character inventory including bionics.
+        void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
@@ -1009,16 +993,13 @@ class game
 
         spell_events &spell_events_subscriber();
 
-        pimpl<Creature_tracker> critter_tracker;
+        pimpl<creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr; // NOLINT(cata-serialize)
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit; // NOLINT(cata-serialize)
         /** True if the game has just started or loaded, else false. */
         bool new_game = false; // NOLINT(cata-serialize)
-
-        std::vector<monster> coming_to_stairs;
-        int monstairz = 0;
 
         tripoint ter_view_p; // NOLINT(cata-serialize)
         catacurses::window w_terrain; // NOLINT(cata-serialize)
@@ -1062,9 +1043,6 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
-
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
@@ -1080,7 +1058,6 @@ class game
         bool safe_mode_warning_logged = false; // NOLINT(cata-serialize)
         bool bVMonsterLookFire = false;
         character_id next_npc_id; // NOLINT(cata-serialize)
-        std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
         int next_mission_id = 0; // NOLINT(cata-serialize)
         // Keep track of follower NPC IDs
         std::set<character_id> follower_ids; // NOLINT(cata-serialize)
@@ -1111,6 +1088,7 @@ class game
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom = 0; // NOLINT(cata-serialize)
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)

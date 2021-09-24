@@ -32,6 +32,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmap_types.h"
+#include "path_info.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -94,8 +95,6 @@ void game::serialize( std::ostream &fout )
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
-    json.member( "stair_monsters", coming_to_stairs );
-    json.member( "monstairz", monstairz );
 
     json.member( "driving_view_offset", driving_view_offset );
     json.member( "turnssincelastmon", turnssincelastmon );
@@ -105,26 +104,6 @@ void game::serialize( std::ostream &fout )
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
-
-    //save queued effect_on_conditions
-    std::vector<queued_eoc> temp_queue;
-    while( !g->queued_effect_on_conditions.empty() ) {
-        temp_queue.push_back( g->queued_effect_on_conditions.top() );
-        g->queued_effect_on_conditions.pop();
-    }
-    json.member( "queued_effect_on_conditions" );
-    json.start_array();
-
-    for( const auto &queued : temp_queue ) {
-        g->queued_effect_on_conditions.push( queued );
-        json.start_object();
-        json.member( "time", queued.time );
-        json.member( "eoc", queued.eoc );
-        json.member( "recurring", queued.recurring );
-        json.end_object();
-    }
-    json.end_array();
-    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -230,58 +209,20 @@ void game::unserialize( std::istream &fin, const std::string &path )
         }
         data.read( "active_monsters", *critter_tracker );
 
-        coming_to_stairs.clear();
-        for( JsonValue elem : data.get_array( "stair_monsters" ) ) {
-            monster stairtmp;
-            elem.read( stairtmp );
-            coming_to_stairs.push_back( stairtmp );
-        }
-        data.read( "monstairz", monstairz );
+        data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
+        data.has_null( "monstairz" ); // TEMPORARY until 0.G
 
         data.read( "driving_view_offset", driving_view_offset );
         data.read( "turnssincelastmon", turnssincelastmon );
         data.read( "bVMonsterLookFire", bVMonsterLookFire );
 
-        if( data.has_object( "kill_tracker" ) ) {
-            data.read( "kill_tracker", *kill_tracker_ptr );
-        } else {
-            // Legacy support for when kills were stored directly in game
-            std::map<mtype_id, int> kills;
-            std::vector<std::string> npc_kills;
-            for( const JsonMember member : data.get_object( "kills" ) ) {
-                kills[mtype_id( member.name() )] = member.get_int();
-            }
-
-            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
-                npc_kills.push_back( npc_name );
-            }
-
-            kill_tracker_ptr->reset( kills, npc_kills );
-        }
+        data.read( "kill_tracker", *kill_tracker_ptr );
 
         data.read( "player", u );
         inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
         inp_mngr.pump_events();
-
-        //load queued_eocs
-        for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
-            queued_eoc temp;
-            temp.time = time_point( elem.get_int( "time" ) );
-            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            temp.recurring = elem.get_bool( "recurring" );
-            g->queued_effect_on_conditions.push( temp );
-        }
-        //load inactive queued_eocs
-        for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
-            queued_eoc temp;
-            temp.time = time_point( elem.get_int( "time" ) );
-            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            temp.recurring = elem.get_bool( "recurring" );
-            g->queued_effect_on_conditions.push( temp );
-        }
-        data.read( "inactive_eocs", inactive_effect_on_condition_vector );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -450,6 +391,21 @@ void overmap::convert_terrain(
             ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
             ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
             ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
+        } else if( old == "anthill" ||
+                   old == "acid_anthill" ||
+                   old == "ants_larvae" ||
+                   old == "ants_larvae_acid" ||
+                   old == "ants_queen" ||
+                   old == "ants_queen_acid" ||
+                   old == "ants_food" ) {
+            std::string new_ = old;
+            if( string_ends_with( new_, "_acid" ) ) {
+                new_.erase( new_.end() - 5, new_.end() );
+            }
+            if( string_starts_with( new_, "acid_" ) ) {
+                new_.erase( new_.begin(), new_.begin() + 5 );
+            }
+            ter_set( pos, oter_id( new_ + "_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -477,7 +433,7 @@ void overmap::load_monster_groups( JsonIn &jsin )
         jsin.start_array();
 
         mongroup new_group;
-        new_group.deserialize( jsin );
+        new_group.deserialize( jsin.get_object() );
 
         jsin.start_array();
         tripoint_om_sm temp;
@@ -634,7 +590,7 @@ void overmap::unserialize( std::istream &fin )
                 tripoint_om_sm monster_location;
                 monster new_monster;
                 monster_location.deserialize( jsin );
-                new_monster.deserialize( jsin );
+                new_monster.deserialize( jsin.get_object(), project_combine( loc, monster_location ) );
                 monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
             }
@@ -681,7 +637,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
-                new_npc->deserialize( jsin );
+                new_npc->deserialize( jsin.get_object() );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
                 }
@@ -691,7 +647,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 basecamp new_camp;
-                new_camp.deserialize( jsin );
+                new_camp.deserialize( jsin.get_object() );
                 camps.push_back( new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
@@ -704,7 +660,7 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s.obj().flags.count( "SAFE_AT_WORLDGEN" ) > 0;
+                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -1181,9 +1137,8 @@ void mongroup::io( Archive &archive )
     archive.io( "monsters", monsters, io::empty_default_tag() );
 }
 
-void mongroup::deserialize( JsonIn &data )
+void mongroup::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = data.get_object();
     jo.allow_omitted_members();
     io::JsonObjectInputArchive archive( jo );
     io( archive );
@@ -1228,7 +1183,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
             json.start_array();
             while( !json.end_array() ) {
                 monster new_monster;
-                new_monster.deserialize( json );
+                new_monster.deserialize( json.get_object() );
                 monsters.push_back( new_monster );
             }
         }
@@ -1246,7 +1201,7 @@ void mission::unserialize_all( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         mission mis;
-        mis.deserialize( jsin );
+        mis.deserialize( jsin.get_object() );
         add_existing( mis );
     }
 }
@@ -1264,7 +1219,7 @@ void game::unserialize_master( std::istream &fin )
             if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
             } else if( name == "next_npc_id" ) {
-                next_npc_id.deserialize( jsin );
+                next_npc_id.deserialize( jsin.get_int() );
             } else if( name == "active_missions" ) {
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {
@@ -1380,7 +1335,7 @@ void faction_manager::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::deserialize( JsonIn &jsin )
+void creature_tracker::deserialize( JsonIn &jsin )
 {
     monsters_list.clear();
     monsters_by_location.clear();
@@ -1393,7 +1348,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::serialize( JsonOut &jsout ) const
+void creature_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( const auto &monster_ptr : monsters_list ) {

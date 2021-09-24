@@ -525,6 +525,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;
+    cpu.set_body();
     cpu.set_fake( true );
     cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
     // turrets are subject only to recoil_vehicle()
@@ -584,19 +585,19 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
-                cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
+                cpu.get_name() = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
                 // check if the player can see or hear then print chooses a message accordingly
                 if( u_see & u_hear ) {
-                    add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                                  "%s points in your direction and emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name, boo_hoo );
+                    add_msg( m_warning, n_gettext( "%s points in your direction and emits an IFF warning beep.",
+                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
+                             cpu.get_name(), boo_hoo );
                 } else if( !u_see & u_hear ) {
-                    add_msg( m_warning, ngettext( "You hear a warning beep.",
-                                                  "You hear %d annoyed sounding beeps.",
-                                                  boo_hoo ), boo_hoo );
+                    add_msg( m_warning, n_gettext( "You hear a warning beep.",
+                                                   "You hear %d annoyed sounding beeps.",
+                                                   boo_hoo ), boo_hoo );
                 } else if( u_see & !u_hear ) {
-                    add_msg( m_warning, _( "%s points in your direction." ), cpu.name );
+                    add_msg( m_warning, _( "%s points in your direction." ), cpu.get_name() );
                 }
             }
             return shots;
@@ -608,7 +609,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
         if( pos != target.first ) {
             target.second = target.first;
-            debugmsg( "%s moved after aiming but before it could fire.", cpu.name );
+            debugmsg( "%s moved after aiming but before it could fire.", cpu.get_name() );
             return shots;
         }
     }

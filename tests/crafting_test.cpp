@@ -381,8 +381,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
     const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv,
-                                          player_character.get_crafting_helpers() ) != -1 );
+    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );
@@ -647,18 +646,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     for( const item *i : player_character.inv_dump() ) {
         os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
-    os << "Wielded:\n" << player_character.weapon.tname() << "\n";
+    os << "Wielded:\n" << player_character.get_wielded_item().tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
         const bool has_item =
-            player_has_item_of_type( i ) || player_character.weapon.type->get_id() == itype_id( i );
+            player_has_item_of_type( i ) ||
+            player_character.get_wielded_item().type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
         const bool hasnt_item =
-            !player_has_item_of_type( i ) && !( player_character.weapon.type->get_id() == itype_id( i ) );
+            !player_has_item_of_type( i ) &&
+            !( player_character.get_wielded_item().type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
@@ -727,7 +728,7 @@ static void grant_proficiencies_to_character( Character &you, const recipe &r,
         bool grant_optional_proficiencies )
 {
     if( grant_optional_proficiencies ) {
-        for( const proficiency_id &prof : r.assist_proficiencies() ) {
+        for( const proficiency_id &prof : r.used_proficiencies() ) {
             you.add_proficiency( prof, true );
         }
     } else {
@@ -995,7 +996,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 
         WHEN( "player acquires partial proficiency" ) {
             int np = 0;
-            for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
+            for( const proficiency_id &prof : test_recipe.used_proficiencies() ) {
                 np++;
                 tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }

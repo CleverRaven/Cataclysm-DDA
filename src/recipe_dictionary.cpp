@@ -154,13 +154,20 @@ std::vector<const recipe *> recipe_subset::search(
         }
         switch( key ) {
             case search_type::name:
-                return lcmatch( r->result_name( /*decorated=*/true ), txt );
+                return lcmatch( r->result_name(), txt );
 
             case search_type::exclude_name:
-                return !lcmatch( r->result_name( /*decorated=*/true ), txt );
+                return !lcmatch( r->result_name(), txt );
 
-            case search_type::skill:
-                return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
+            case search_type::skill: {
+                if( r->skill_used && lcmatch( r->skill_used->name(), txt ) ) {
+                    return true;
+                }
+                const auto &skills = r->required_skills;
+                return std::any_of( skills.begin(), skills.end(), [&]( const std::pair<skill_id, int> &e ) {
+                    return lcmatch( e.first->name(), txt );
+                } );
+            }
 
             case search_type::primary_skill:
                 return lcmatch( r->skill_used->name(), txt );
@@ -375,6 +382,11 @@ void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &s
     load( jo, src, recipe_dict.uncraft );
 }
 
+void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src )
+{
+    load( jo, src, recipe_dict.recipes );
+}
+
 recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
                                  std::map<recipe_id, recipe> &out )
 {
@@ -392,6 +404,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    r.was_loaded = true;
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -581,9 +594,9 @@ void recipe_dictionary::check_consistency()
     for( auto &e : recipe_dict.recipes ) {
         recipe &r = e.second;
 
-        if( !r.blueprint.empty() && !has_update_mapgen_for( r.blueprint ) ) {
+        if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
             debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
-                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint );
+                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint.str() );
         }
     }
 }

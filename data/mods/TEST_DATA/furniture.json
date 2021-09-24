@@ -34,6 +34,39 @@
   },
   {
     "type": "furniture",
+    "id": "test_f_hacksaw1",
+    "name": "Hacksaw Test Furniture 1",
+    "description": "Hacksaw furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "hacksaw": { "duration": "5 minutes" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_hacksaw2",
+    "name": "Hacksaw Test Furniture 2",
+    "description": "Hacksaw furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "hacksaw": { "result": "test_f_hacksaw1", "duration": "5 minutes" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_hacksaw3",
+    "name": "Hacksaw Test Furniture 1",
+    "description": "Hacksaw furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "hacksaw": { "duration": "80 minutes" }
+  },
+  {
+    "type": "furniture",
     "id": "test_f_oxytorch1",
     "name": "Oxytorch Test Furniture 1",
     "description": "Oxytorch furniture with valid data.",

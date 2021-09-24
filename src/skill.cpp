@@ -277,6 +277,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
+    practice();
 }
 
 
@@ -322,6 +323,11 @@ bool SkillLevel::isRusty() const
 
 bool SkillLevel::rust( int rust_resist )
 {
+    if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
+        // don't rust within the grace period
+        return false;
+    }
+
     if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
@@ -519,8 +525,14 @@ bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 
 bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
 {
+    if( this->size() != other.size() ) {
+        return false;
+    }
     for( const auto &entry : *this ) {
         const SkillLevel &this_level = entry.second;
+        if( other.count( entry.first ) == 0 ) {
+            return false;
+        }
         const SkillLevel &other_level = other.get_skill_level_object( entry.first );
         if( this_level.level() != other_level.level() ||
             this_level.knowledgeLevel() != other_level.knowledgeLevel() ) {

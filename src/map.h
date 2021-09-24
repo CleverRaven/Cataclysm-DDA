@@ -88,7 +88,7 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
-enum ter_bitflags : int;
+enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
@@ -311,23 +311,16 @@ class map
         // for testing
         friend void clear_fields( int zlevel );
 
+    protected:
+        map( int mapsize, bool zlev );
     public:
         // Constructors & Initialization
-        explicit map( int mapsize = MAPSIZE, bool zlev = true );
-        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        map() : map( MAPSIZE, true ) { }
         virtual ~map();
 
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         map &operator=( map && );
-
-        /**
-         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
-         * Here's a little trigger for them to opt out. We won't be doing that here, though
-         */
-        virtual bool skip_npc_rotation() const {
-            return false;
-        }
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -747,6 +740,7 @@ class map
         * @param p Tile to check for vehicle
         */
         optional_vpart_position veh_at( const tripoint &p ) const;
+        optional_vpart_position veh_at( const tripoint_abs_ms &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
@@ -950,23 +944,23 @@ class map
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // Checks terrain, furniture and vehicles
-        bool has_flag( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag( ter_bitflags flag, const point &p ) const {
+        bool has_flag( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag( ter_furn_flag flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain
-        bool has_flag_ter( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter( ter_bitflags flag, const point &p ) const {
+        bool has_flag_ter( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks furniture
-        bool has_flag_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_furn( ter_bitflags flag, const point &p ) const {
+        bool has_flag_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain or furniture
-        bool has_flag_ter_or_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const {
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z ) );
         }
 
@@ -1532,7 +1526,7 @@ class map
         void support_dirty( const tripoint &p );
     public:
 
-        // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
+        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
@@ -1564,10 +1558,8 @@ class map
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
-        void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
-        void place_gas_pump( const point &p, int charges ) {
-            place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
-        }
+        void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
+        void place_gas_pump( const point &p, int charges );
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
@@ -1638,6 +1630,7 @@ class map
          * Output is in the same scale, but in global system.
          */
         tripoint getabs( const tripoint &p ) const;
+        tripoint_abs_ms getglobal( const tripoint &p ) const;
         point getabs( const point &p ) const {
             return getabs( tripoint( p, abs_sub.z ) ).xy();
         }
@@ -1645,10 +1638,12 @@ class map
          * Inverse of @ref getabs
          */
         tripoint getlocal( const tripoint &p ) const;
+        tripoint getlocal( const tripoint_abs_ms &p ) const;
         point getlocal( const point &p ) const {
             return getlocal( tripoint( p, abs_sub.z ) ).xy();
         }
         virtual bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint_abs_ms &p ) const;
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
@@ -1665,17 +1660,27 @@ class map
         int getmapsize() const {
             return my_MAPSIZE;
         }
-        bool has_zlevels() const {
-            return zlevels;
-        }
 
-        // Not protected/private for mapgen_functions.cpp access
+        // Not protected/private for mapgen.cpp and mapgen_functions.cpp access
         // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
         // @param turns number of 90 clockwise turns to make
         // @param setpos_safe if true, being used outside of mapgen and can use setpos to
         // set NPC positions.  if false, cannot use setpos
         void rotate( int turns, bool setpos_safe = false );
+
+        // Not protected/private for mapgen.cpp access
+        // Mirrors the current map horizontally and/or vertically (both is technically
+        // equivalent to a 180 degree rotation, while neither is a null operation).
+        // Intended to base recipe usage to allow recipes to specify the mirroring of
+        // a common blueprint. Note that the operation is NOT safe to use for purposes
+        // other than mirroring the map, place assets on it, and then mirroring it
+        // back (so the asset modification takes place in between calls to this
+        // operation). This allows us to skip the shuffling of NPCs and zones
+        // that the rotate operation above has to deal with.
+        // @param mirror_horizontal causes horizontal mirroring of the map
+        // @param mirror_vertical causes vertical mirroring of the map
+        void mirror( bool mirror_horizontal, bool mirror_vertical );
 
         // Monster spawning:
     public:
@@ -1698,7 +1703,8 @@ class map
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
-        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight );
+        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
+                                          const tripoint_abs_sm &submap_pos, bool ignore_sight );
 
     protected:
         void saven( const tripoint &grid );
@@ -2057,6 +2063,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const ter_furn_flag flag,
+                size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );
@@ -2074,19 +2084,13 @@ map &get_map();
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
-bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
+bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
 class tinymap : public map
 {
         friend class editmap;
     public:
-        explicit tinymap( int mapsize = 2, bool zlevels = false );
+        tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
-
-        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
-        bool skip_npc_rotation() const override {
-            return no_rotate_npcs;
-        }
-        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap
@@ -2094,8 +2098,8 @@ class fake_map : public tinymap
     private:
         std::vector<std::unique_ptr<submap>> temp_submaps_;
     public:
-        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                  int fake_map_z );
+        explicit fake_map( const ter_id &ter_type = t_dirt );
         ~fake_map() override;
+        static constexpr int fake_map_z = -OVERMAP_DEPTH;
 };
 #endif // CATA_SRC_MAP_H

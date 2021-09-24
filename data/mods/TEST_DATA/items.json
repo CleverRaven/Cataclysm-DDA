@@ -1528,6 +1528,35 @@
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
   },
   {
+    "type": "TOOL",
+    "id": "test_hacksaw",
+    "name": { "str": "test hacksaw" },
+    "description": "Test hacksaw.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";",
+    "qualities": [ [ "SAW_M", 10 ] ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_hacksaw_elec",
+    "copy-from": "test_hacksaw",
+    "name": { "str": "test electric hacksaw" },
+    "description": "Test hacksaw which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "test_milk",
     "name": { "str_sp": "intolerant milk" },

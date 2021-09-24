@@ -47,10 +47,6 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
-#  Special note for MinGW: due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
-#  using English without a `.mo` file would cause significant slow down on MinGW
-#  targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`.
-#  `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
@@ -453,6 +449,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
+CPPFLAGS += -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -534,22 +531,6 @@ ifeq ($(NATIVE), osx)
     endif
   endif
   ifeq ($(LOCALIZE), 1)
-    LDFLAGS += -lintl
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/gettext/lib
-      CXXFLAGS += -I$(LIBSDIR)/gettext/include
-    endif
-    # link to gettext from Homebrew if it exists
-    # Homebrew may be installed in /usr/local or /opt/homebrew
-    ifneq ("$(wildcard /usr/local/opt/gettext)", "")
-      LDFLAGS += -L/usr/local/opt/gettext/lib
-      CXXFLAGS += -I/usr/local/opt/gettext/include
-    else
-      ifneq ("$(wildcard /opt/homebrew/opt/gettext)", "")
-        LDFLAGS += -L/opt/homebrew/opt/gettext/lib
-        CXXFLAGS += -I/opt/homebrew/opt/gettext/include
-      endif
-    endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
         CXXFLAGS += -I$(shell ncursesw6-config --includedir)
@@ -609,9 +590,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -static-libgcc -static-libstdc++
   else
     LDFLAGS += -static
-  endif
-  ifeq ($(LOCALIZE), 1)
-    LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
@@ -721,7 +699,7 @@ ifeq ($(TILES), 1)
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
       else
         ifeq ($(MSYS2),1)
-          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lwebp -ljpeg -luuid
         else
           LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
         endif
@@ -780,13 +758,6 @@ else
   endif # HAVE_PKGCONFIG
 endif # TILES
 
-ifeq ($(TARGETSYSTEM),CYGWIN)
-  ifeq ($(LOCALIZE),1)
-    # Work around Cygwin not including gettext support in glibc
-    LDFLAGS += -lintl -liconv
-  endif
-endif
-
 ifeq ($(BSD), 1)
   # BSDs have backtrace() and friends in a separate library
   ifeq ($(BACKTRACE), 1)
@@ -795,12 +766,7 @@ ifeq ($(BSD), 1)
     CXXFLAGS += -fno-omit-frame-pointer
   endif
 
-  # And similarly, their libcs don't have gettext built in
-  ifeq ($(LOCALIZE),1)
-    LDFLAGS += -lintl -liconv
-  endif
-
-  # libexecinfo, libintl and libiconv may be located in /usr/local on BSD
+  # libexecinfo may be located in /usr/local on BSD
   CXXFLAGS += -I/usr/local/include
   LDFLAGS += -L/usr/local/lib
 endif
@@ -965,6 +931,8 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
+
+$(ODIR)/resource.o: data/cataicon.ico data/application_manifest.xml
 
 src/version.h: version
 
@@ -1181,8 +1149,10 @@ etags: $(ASTYLE_SOURCES)
 	etags $^
 	./tools/json_tools/cddatags.py
 
-astyle: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+ASTYLE_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%.astyle-check-stamp,$(ASTYLE_SOURCES)))
+astyle: $(ASTYLE_CHECK_STAMPS)
+$(ASTYLE_CHECK_STAMPS): $(ODIR)/%.astyle-check-stamp : %
+	$(ASTYLE_BINARY) --options=.astylerc -n $< && mkdir -p $(@D) && touch $@
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
@@ -1198,10 +1168,12 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-style-json: json_blacklist $(JSON_FORMATTER_BIN)
+JSON_SOURCES := $(shell find data -name "*.json")
+JSON_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%,$(JSON_SOURCES:.json=.jstyle-check-stamp)))
+style-json : $(JSON_CHECK_STAMPS) $(JSON_FORMATTER_BIN)
+$(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	find data gfx -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
-	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+	$(JSON_FORMATTER_BIN) $< && mkdir -p $(@D) && touch $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif

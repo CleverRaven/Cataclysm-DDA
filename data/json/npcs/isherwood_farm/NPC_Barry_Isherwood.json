@@ -84,7 +84,7 @@
       "effect": [
         "leave",
         { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
-        { "u_buy_item": "hsurvivor_suit", "count": 1 }
+        { "u_spawn_item": "hsurvivor_suit", "count": 1 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
