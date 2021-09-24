@@ -2165,6 +2165,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
+    const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
@@ -2194,17 +2195,29 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         jo.throw_error( "Invalid message type." );
     }
 
-    function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
-        std::string translated_message;
-        if( snippet ) {
-            translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
-                    translation() ).translated() );
-        } else {
-            translated_message = _( message );
-        }
+    function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
+             is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target ) {
             return;
+        }
+        std::string translated_message;
+        if( snippet ) {
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
+        } else {
+            translated_message = _( message );
         }
         if( sound ) {
             bool display = false;

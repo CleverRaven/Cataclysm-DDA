@@ -11118,7 +11118,12 @@ std::string item::type_name( unsigned int quantity ) const
                 }
                 break;
             case condition_type::VAR:
-                if( has_var( cname.condition ) ) {
+                if( has_var( cname.condition ) && get_var( cname.condition ) == cname.value ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+            case condition_type::SNIPPET_ID:
+                if( has_var( cname.condition + "_snippet_id" ) &&
+                    get_var( cname.condition + "_snippet_id" ) == cname.value ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
             case condition_type::num_condition_types:

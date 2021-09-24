@@ -40,6 +40,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "COMPONENT_ID";
         case condition_type::VAR:
             return "VAR";
+        case condition_type::SNIPPET_ID:
+            return "SNIPPET_ID";
         case condition_type::num_condition_types:
             break;
     }
