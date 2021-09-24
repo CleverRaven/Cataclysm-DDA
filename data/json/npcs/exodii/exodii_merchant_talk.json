@@ -468,9 +468,9 @@
         "text": "Maybe try that clarity-draught?",
         "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate",
         "condition": {
-          "and": [
-            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
-            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
           ]
         }
       },
