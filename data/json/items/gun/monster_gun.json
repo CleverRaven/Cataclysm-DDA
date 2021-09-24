@@ -97,15 +97,9 @@
     "color": "dark_gray",
     "name": { "str": "feral's half-working firearm" },
     "description": "A little-bit broken, mishandled firearm, used haphazardly by a feral who thinks they know what they're doing.",
-"//": "(I do not know what I'm doing.)",
+    "//": "(I do not know what I'm doing.)",
     "material": [ "steel", "plastic" ],
-    "flags": [
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "NO_UNLOAD",
-      "RELOAD_AND_SHOOT"
-    ],
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
     "ammo": [ "9mm" ],
     "clip_size": 1,
     "weight": "600 g",
@@ -126,13 +120,7 @@
     "name": { "str": "feral survivalists' firearm" },
     "description": "A little-bit broken firearm, used by an experienced feral with the help of muscle memory.",
     "material": [ "steel", "plastic" ],
-    "flags": [
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "NO_UNLOAD",
-      "RELOAD_AND_SHOOT"
-    ],
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
     "ammo": [ "9mm" ],
     "//": "(There as a weird error, the ammo is supposed to be 45_acp, but the game found it invalid, so we will be using 9mm as substitute.)",
     "clip_size": 1,
