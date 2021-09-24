@@ -1518,10 +1518,11 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_instance &dam )
+std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                 damage_instance &dam )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( source );
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1534,6 +1535,7 @@ std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_i
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
+    wp->apply_to( dam, attack.is_crit );
     return wp->name;
 }
 
@@ -1584,7 +1586,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
     dealt_damage_instance dealt_dam;
 
     if( hitspread >= 0 ) {
-        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        weakpoint_attack attack;
+        attack.source = this;
+        attack.is_melee = true;
+        attack.wp_skill = weakpoint_skill();
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }
 
     const int total_dealt = dealt_dam.total_damage();
@@ -1727,7 +1733,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                      bool print_messages )
+                                      bool print_messages, const weakpoint_attack &wp_attack )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1748,7 +1754,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = accuracy_headshot;
     }
 
-    Creature::deal_projectile_attack( source, attack, print_messages );
+    Creature::deal_projectile_attack( source, attack, print_messages, wp_attack );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by

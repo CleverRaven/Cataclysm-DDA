@@ -610,7 +610,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "carton_sealed",
@@ -740,7 +741,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "can_medium",
@@ -762,6 +764,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
+    "qualities": [ [ "BOIL", 1 ] ],
     "volume": "503 ml"
   },
   {
@@ -1681,7 +1684,8 @@
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "survival_kit_box",
@@ -1753,6 +1757,7 @@
     "price_postapoc": 0,
     "to_hit": -2,
     "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1778,6 +1783,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1892,6 +1898,7 @@
       }
     ],
     "material": [ "plastic", "aluminum" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "light_gray"
   },

@@ -96,7 +96,7 @@ static void f( const time_duration &duration, Creature &c )
     add_msg_debug( debugmode::DF_ACT_BUTCHER, pgettext( "Skill", "foo" ) );
     // CHECK-MESSAGES: [[@LINE-1]]:47: warning: string arguments to debug message functions should not be translated, because this is an unnecessary performance cost. [cata-translations-in-debug-messages]
 
-    add_msg_debug( debugmode::DF_ACT_BUTCHER, ngettext( "Skill", "Skills", 0 ) );
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, n_gettext( "Skill", "Skills", 0 ) );
     // CHECK-MESSAGES: [[@LINE-1]]:47: warning: string arguments to debug message functions should not be translated, because this is an unnecessary performance cost. [cata-translations-in-debug-messages]
 
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "%s", to_translation( "Skill" ) );

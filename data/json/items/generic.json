@@ -200,6 +200,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "rabbit_foot",
+    "symbol": "q",
+    "color": "brown",
+    "name": { "str": "rabbit sample" },
+    "description": "A tiny paw that came off of a rabbit.  Please, no luck jokes.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "fur", "leather" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
@@ -2591,7 +2606,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 6, "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2626,7 +2643,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -2661,7 +2680,9 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "material": [ "paper" ],
+    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
     "type": "GENERIC",
@@ -3258,6 +3279,7 @@
     "price": 1,
     "price_postapoc": 10,
     "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -3464,7 +3486,7 @@
     "price": 15000,
     "price_postapoc": 250,
     "material": [ "plastic", "leather" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "COLLAPSE_CONTENTS" ],
     "weight": "708 g",
     "volume": "500 ml",
     "bashing": 1,
@@ -3681,5 +3703,37 @@
     "cutting": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "training_dummy_light",
+    "symbol": "@",
+    "color": "brown",
+    "name": { "str": "training dummy" },
+    "category": "other",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.",
+    "price": 15000,
+    "price_postapoc": 600,
+    "material": [ "wood" ],
+    "weight": "50 kg",
+    "volume": "80 L",
+    "bashing": 12,
+    "to_hit": -2
+  },
+  {
+    "type": "TOOL",
+    "id": "training_dummy_heavy",
+    "symbol": "@",
+    "color": "light_gray",
+    "name": { "str": "armored training dummy" },
+    "category": "other",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.",
+    "price": 15000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "wood" ],
+    "weight": "55 kg",
+    "volume": "80 L",
+    "bashing": 14,
+    "to_hit": -2
   }
 ]

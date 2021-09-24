@@ -405,6 +405,7 @@
     "longest_side": "758 mm",
     "price": "325 USD",
     "price_postapoc": "48 USD",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "acr",

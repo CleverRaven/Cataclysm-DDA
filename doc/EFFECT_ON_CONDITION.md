@@ -5,6 +5,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 
 |Identifier|Type|Description|
 |-|-|-|
+| `scenario_specific`| int | The effect_on_condition is automatically invoked once on scenario start.
 | `recurrence_min`| int | The effect_on_condition is automatically invoked (activated) with at least this many seconds in-between.
 | `recurrence_max`| int | The effect_on_condition is automatically invoked (activated) at least once this many seconds.
 | `condition`| condition | The condition(s) under which this effect_on_condition, upon activation, will cause its effect.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
