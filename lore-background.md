@@ -33,7 +33,6 @@ Note: Canon date of game start is in "YEAR", which equals the IRL year the game 
 - Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
 
 #### YEAR -15 (+/- 5 years)
-- Improved fuel cell designs make solar-electric cars a viable alternative to gasoline.  The first privately made electric cars are announced.  The leading electric car companies could, with enough information, be tracked back to the shell companies created to launder wealth obtained through portal research.
 - Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient. These technologies are novel but were derived from concepts laid out in the dimensional craft.
 
 #### YEAR -8
