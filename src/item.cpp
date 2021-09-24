@@ -627,13 +627,23 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( mag_item.ammo_capacity( ammo_type ) < qty ) {
                 std::vector<item> opts;
                 for( const itype_id &mag_type : mags ) {
-                    if( mag->magazine->type.count( ammo_type ) ) {
+                    if( mag_type->magazine->type.count( ammo_type ) ) {
                         opts.emplace_back( mag_type );
                     }
                 }
                 if( opts.empty() ) {
-                    debugmsg( "Cannot find magazine with enough %s ammo capacity for %s", ammo.c_str(),
-                              typeId().c_str() );
+                    const std::string magazines_str = enumerate_as_string( mags,
+                    []( const itype_id & mag ) {
+                        return string_format(
+                                   "%s (taking %s)", mag.str(),
+                                   enumerate_as_string( mag->magazine->type,
+                        []( const ammotype & a ) {
+                            return a.str();
+                        } ) );
+                    } );
+                    debugmsg( "Cannot find magazine fitting %s with any capacity for ammo %s "
+                              "(ammotype %s).  Magazines considered were %s",
+                              typeId().str(), ammo.str(), ammo_type.str(), magazines_str );
                     return *this;
                 }
                 std::sort( opts.begin(), opts.end(), [&ammo_type]( const item & lhs, const item & rhs ) {
