@@ -5741,9 +5741,6 @@ void Character::mod_rad( int mod )
 
 int Character::get_stamina() const
 {
-    if( has_trait( trait_DEBUG_STAMINA ) ) {
-        return get_stamina_max();
-    }
     return stamina;
 }
 
