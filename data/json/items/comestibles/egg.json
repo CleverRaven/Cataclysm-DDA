@@ -547,7 +547,7 @@
     "copy-from": "egg_chicken",
     "weight": "20 g",
     "volume": "650 ml",
-    "description": "A large clump of the eggs of a frog. The eggs themselves are gelatinous and transparent.",
+    "description": "A large clump of the eggs of a frog.  The eggs themselves are gelatinous and transparent.",
     "rot_spawn": "GROUP_EGG_FROG"
   }
 ]
