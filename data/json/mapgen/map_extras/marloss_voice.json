@@ -3,19 +3,13 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "marloss_zealot",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_monster": [ { "monster": "mon_marloss_zealot_f", "x": 0, "y": 0 } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_marloss_zealot_f", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "marloss_zealot",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_monster": [ { "monster": "mon_marloss_zealot_m", "x": 0, "y": 0 } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_marloss_zealot_m", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -50,9 +44,7 @@
       ],
       "terrain": { "1": "t_null" },
       "npcs": { "1": { "class": "marloss_voice" } },
-      "nested": {
-        "2": { "chunks": [ [ "marloss_zealot", 50 ], [ "null", 50 ] ] }
-      }
+      "nested": { "2": { "chunks": [ [ "marloss_zealot", 50 ], [ "null", 50 ] ] } }
     }
   }
 ]
