@@ -2076,6 +2076,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
+    "prying": {
+      "result": "t_door_metal_o",
+      "message": "You pry open the metal door.",
+      "prying_data": { "difficulty": 6, "prying_level": 4, "noisy": true, "failure": "The metal door is too thick." }
+    },
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
@@ -2332,6 +2337,11 @@
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
+    "prying": {
+      "result": "t_door_metal_o_peep",
+      "message": "You pry open the metal door.",
+      "prying_data": { "difficulty": 6, "prying_level": 4, "noisy": true, "failure": "The metal door is too thick." }
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
