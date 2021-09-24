@@ -3763,6 +3763,8 @@ void game::mon_info_update( )
                 case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
+                case direction::last:
+                    cata_fatal( "invalid direction" );
             }
         }
 
