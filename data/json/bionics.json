@@ -133,7 +133,13 @@
       "PATCHSKIN1",
       "PATCHSKIN2",
       "RABBIT_FUR",
-      "PAWS_LITTLE"
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2"
     ]
   },
   {
@@ -147,7 +153,7 @@
     "cut_protec": [ [ "eyes", 3 ] ],
     "bullet_protec": [ [ "eyes", 3 ] ],
     "encumbrance": [ [ "eyes", 1 ] ],
-    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
     "cant_remove_reason": "The Intradermal Plating is too thoroughly entwined with %1$s to be removed safely.",
     "social_modifiers": { "intimidate": 10 }
   },
@@ -259,7 +265,15 @@
       "RABBIT_NOSE",
       "SLIT_NOSTRILS",
       "WHISKERS",
-      "WHISKERS_RAT"
+      "WHISKERS_RAT",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2",
+      "WIDE_MOUTH"
     ]
   },
   {
@@ -349,7 +363,16 @@
       "PATCHSKIN2",
       "RABBIT_FUR",
       "TAIL_RABBIT",
-      "RABBIT_FEET"
+      "RABBIT_FEET",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2"
     ]
   },
   {
@@ -431,7 +454,16 @@
       "SHELL2",
       "PATCHSKIN1",
       "PATCHSKIN2",
-      "RABBIT_FUR"
+      "RABBIT_FUR",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "INSECT_RESEVOIR",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2",
+      "SHELL3"
     ]
   },
   {
