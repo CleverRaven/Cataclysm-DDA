@@ -71,7 +71,6 @@ static const ter_str_id ter_test_t_oxytorch1( "test_t_oxytorch1" );
 static const ter_str_id ter_test_t_oxytorch2( "test_t_oxytorch2" );
 static const ter_str_id ter_test_t_prying1( "test_t_prying1" );
 static const ter_str_id ter_test_t_prying2( "test_t_prying2" );
-static const ter_str_id ter_test_t_prying3( "test_t_prying3" );
 static const ter_str_id ter_test_t_prying4( "test_t_prying4" );
 
 TEST_CASE( "safecracking", "[activity][safecracking]" )
