@@ -104,6 +104,19 @@
           { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "7 days" },
           { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
         ]
+      },
+      {
+        "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 20 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<=", "value": 20 }
+          ]
+        },
+        "effect": [
+          { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
       }
     ],
     "responses": [
@@ -189,7 +202,7 @@
         ]
       },
       "effect": [
-        { "arithmetic": [ { "u_val": "sold" }, { "const": 20 }, { "u_val": "sold" } ], "op": "--" },
+        { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] },
         { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
       ]
     },
