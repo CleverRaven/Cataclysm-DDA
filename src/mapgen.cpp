@@ -387,6 +387,12 @@ static mapgen_factory oter_mapgen;
 std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
 std::map<update_mapgen_id, update_mapgen> update_mapgens;
 
+template<>
+bool string_id<nested_mapgen>::is_valid() const
+{
+    return str() == "null" || nested_mapgens.find( *this ) != nested_mapgens.end();
+}
+
 /*
  * setup mapgen_basic_container::weights_ which mapgen uses to diceroll. Also setup mapgen_function_json
  */
@@ -2726,8 +2732,8 @@ class jmapgen_nested : public jmapgen_piece
         };
 
     public:
-        weighted_int_list<nested_mapgen_id> entries;
-        weighted_int_list<nested_mapgen_id> else_entries;
+        weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
+        weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
         neighborhood_check neighbors;
         jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ ) :
             neighbors( jsi.get_object( "neighbors" ) ) {
@@ -2743,41 +2749,48 @@ class jmapgen_nested : public jmapgen_piece
         }
         void merge_parameters_into( mapgen_parameters &params,
                                     const std::string &outer_context ) const override {
-            auto merge_from = [&]( const nested_mapgen_id & name ) {
-                if( name.is_null() ) {
-                    return;
-                }
-                const auto iter = nested_mapgens.find( name );
-                if( iter == nested_mapgens.end() ) {
-                    debugmsg( "Unknown nested mapgen function id '%s'", name.str() );
-                    return;
-                }
-                using Obj = weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>;
-                for( const Obj &nested : iter->second.funcs() ) {
-                    nested.obj->merge_non_nest_parameters_into( params, outer_context );
+            auto merge_from = [&]( const mapgen_value<nested_mapgen_id> &val ) {
+                for( const nested_mapgen_id &id : val.all_possible_results( params ) ) {
+                    if( id.is_null() ) {
+                        return;
+                    }
+                    const auto iter = nested_mapgens.find( id );
+                    if( iter == nested_mapgens.end() ) {
+                        debugmsg( "Unknown nested mapgen function id '%s'", id.str() );
+                        return;
+                    }
+                    using Obj = weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>;
+                    for( const Obj &nested : iter->second.funcs() ) {
+                        nested.obj->merge_non_nest_parameters_into( params, outer_context );
+                    }
                 }
             };
 
-            for( const weighted_object<int, nested_mapgen_id> &name : entries ) {
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
 
-            for( const weighted_object<int, nested_mapgen_id> &name : else_entries ) {
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            const nested_mapgen_id *res =
+            const mapgen_value<nested_mapgen_id> *val =
                 neighbors.test( dat ) ? entries.pick() : else_entries.pick();
-            if( res == nullptr || res->is_empty() || res->is_null() ) {
-                // This will be common when neighbors.test(...) is false, since else_entires is often empty.
+            if( val == nullptr ) {
                 return;
             }
 
-            const auto iter = nested_mapgens.find( *res );
+            const nested_mapgen_id res = val->get( dat );
+            if( res.is_empty() || res.is_null() ) {
+                // This will be common when neighbors.test(...) is false, since else_entires is
+                // often empty.
+                return;
+            }
+            const auto iter = nested_mapgens.find( res );
             if( iter == nested_mapgens.end() ) {
-                debugmsg( "Unknown nested mapgen function id %s", res->c_str() );
+                debugmsg( "Unknown nested mapgen function id %s", res.str() );
                 return;
             }
 
@@ -2790,17 +2803,18 @@ class jmapgen_nested : public jmapgen_piece
             ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
-            const weighted_int_list<nested_mapgen_id> &selected_entries =
-                neighbors.test( dat ) ? entries : else_entries;
+            const weighted_int_list<mapgen_value<nested_mapgen_id>> &selected_entries =
+                        neighbors.test( dat ) ? entries : else_entries;
             if( selected_entries.empty() ) {
                 return false;
             }
 
             for( const auto &entry : selected_entries ) {
-                if( entry.obj.is_null() ) {
+                nested_mapgen_id id = entry.obj.get( dat );
+                if( id.is_null() ) {
                     continue;
                 }
-                const auto iter = nested_mapgens.find( entry.obj );
+                const auto iter = nested_mapgens.find( id );
                 if( iter == nested_mapgens.end() ) {
                     return false;
                 }
