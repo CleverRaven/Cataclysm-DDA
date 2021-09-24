@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>
@@ -10,6 +9,7 @@
 #include <memory>
 #include <set>
 #include <stack>
+#include <unordered_map>
 #include <unordered_set>
 
 #include "cata_assert.h"
@@ -19,7 +19,6 @@
 #include "debug.h"
 #include "debug_menu.h"
 #include "enum_traits.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
@@ -30,8 +29,8 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
+#include "value_ptr.h"
 #include "visitable.h"
 
 static const itype_id itype_char_forge( "char_forge" );
@@ -49,6 +48,11 @@ static const itype_id itype_welder_crude( "welder_crude" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static std::map<requirement_id, requirement_data> requirements_all;
+
+static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
+static bool a_satisfies_b( const std::vector<quality_requirement> &a,
+                           const std::vector<quality_requirement> &b );
+
 
 /** @relates string_id */
 template<>
@@ -73,6 +77,7 @@ const requirement_data &string_id<requirement_data>::obj() const
 std::vector<requirement_data> requirement_data::get_all()
 {
     std::vector<requirement_data> ret;
+    ret.reserve( requirements_all.size() );
     for( const std::pair<const requirement_id, requirement_data> &pair : requirements_all ) {
         ret.push_back( pair.second );
     }
@@ -123,16 +128,16 @@ bool string_id<quality>::is_valid() const
 std::string quality_requirement::to_string( const int, const int ) const
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
-    return string_format( ngettext( "%1$d tool with %2$s of %3$d or more.",
-                                    "%1$d tools with %2$s of %3$d or more.", count ),
+    return string_format( n_gettext( "%1$d tool with %2$s of %3$d or more.",
+                                     "%1$d tools with %2$s of %3$d or more.", count ),
                           count, type.obj().name, level );
 }
 
 std::string quality_requirement::to_colored_string() const
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
-    return string_format( ngettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
-                                    "%1$d tools with <info>%2$s of %3$d</info> or more", count ),
+    return string_format( n_gettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
+                                     "%1$d tools with <info>%2$s of %3$d</info> or more", count ),
                           count, type.obj().name, level );
 }
 
@@ -318,18 +323,75 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     return res;
 }
 
+static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b )
+{
+    return a.type == b.type && a.level >= b.level
+           && a.requirement == b.requirement && a.count == b.count;
+}
+
+static bool a_satisfies_b( const std::vector<quality_requirement> &a,
+                           const std::vector<quality_requirement> &b )
+{
+    // every b_x is satisfied by some a_x
+    for( const quality_requirement &b_x : b ) {
+        bool satisfied = false;
+        for( const quality_requirement &a_x : a ) {
+            if( a_satisfies_b( a_x, b_x ) ) {
+                satisfied = true;
+                break;
+            }
+        }
+        if( !satisfied ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 requirement_data requirement_data::operator+( const requirement_data &rhs ) const
 {
     requirement_data res = *this;
 
     res.components.insert( res.components.end(), rhs.components.begin(), rhs.components.end() );
     res.tools.insert( res.tools.end(), rhs.tools.begin(), rhs.tools.end() );
-    res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
+    /*
+    TODO: what is / isn't implemented:
+    I will represent type by letter and level by number, always true: count = 1 && requirement = false
+    A1 then has type A with level 1, (count = 1, requirement = false)
+    X) [implemented ? "x" else " "] What's required -> How should it be displayed
+    1) [x] A1 && A1 -> A1
+    2) [x] A1 && A2 -> A2
+    3) [x] (A1 || B1) && A1 -> A1
+    4) [ ] A1 || A2 -> A1
+    5) [ ] (A1 || B1) && A2 -> A2
+    6) [ ] (A1 || B1 || C1) || (A1 || B1) -> A1 || B1 || C1
+    Note: (1) covers most cases, (2) probably the rest, (3..6) probably isn't anywhere?
+
+    It all takes O(n^2), but that's acceptable since n is very small.
+    @Brambor
+    */
+    for( const std::vector<quality_requirement> &new_quality : rhs.qualities ) {
+        bool add = true;
+        for( std::vector<quality_requirement> &old_quality : res.qualities ) {
+            if( a_satisfies_b( new_quality, old_quality ) ) {
+                add = false;
+                old_quality = new_quality;
+                break;
+            } else if( a_satisfies_b( old_quality, new_quality ) ) {
+                add = false;
+                break;
+            }
+        }
+        if( add ) {
+            res.qualities.emplace_back( new_quality );
+        }
+    }
 
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // TODO: deduplicate qualities and combine other requirements
+    // TODO: combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -639,6 +701,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
         std::vector<std::string> list_as_string;
+        std::vector<std::string> list_as_string_unavailable;
         std::vector<std::string> buffer_has;
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
@@ -662,12 +725,19 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 color = yellow_background( color );
             }
 
-            if( !no_unavailable || component.has( crafting_inv, filter, batch ) ) {
+            if( component.has( crafting_inv, filter, batch ) ) {
                 list_as_string.push_back( colorize( text, color ) );
+            } else if( !no_unavailable ) {
+                list_as_string_unavailable.push_back( colorize( text, color ) );
             }
             buffer_has.push_back( text + color_tag );
         }
+
         std::sort( list_as_string.begin(), list_as_string.end(), localized_compare );
+        std::sort( list_as_string_unavailable.begin(), list_as_string_unavailable.end(),
+                   localized_compare );
+        list_as_string.insert( list_as_string.end(), list_as_string_unavailable.begin(),
+                               list_as_string_unavailable.end() );
 
         const std::string separator = colorize( _( " OR " ), c_white );
         const std::string unfolded = join( list_as_string, separator );
@@ -737,17 +807,21 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
-    for( const auto &set_of_tools : vec ) {
+    for( const std::vector<T> &set_of_tools : vec ) {
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
         const std::function<void( int )> use_ups = [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
         };
 
-        for( const auto &tool : set_of_tools ) {
+        for( const T &tool : set_of_tools ) {
             if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
             } else {
+                // Trying to track down why the crafting tests are failing?
+                // Uncomment the below to see the group of requirements that are lacking satisfaction
+                // Add a printf("\n") to the loop above this to separate different groups onto a separate line
+                // printf( "T: %s ", tool.type.str().c_str() );
                 tool.available = available_status::a_false;
             }
             has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;
@@ -965,39 +1039,35 @@ void requirement_data::blacklist_item( const itype_id &id )
 }
 
 template <typename T>
-static void apply_replacement( std::vector<std::vector<T>> &vec, const itype_id &id,
-                               const itype_id &replacement )
+static void apply_replacements( std::vector<std::vector<T>> &vec,
+                                const std::unordered_map<itype_id, itype_id> &replacements )
 {
-    // If the target and replacement are both present, remove the target.
-    // If only the target is present, replace it.
-    for( auto &opts : vec ) {
-        typename std::vector<T>::iterator target = opts.end();
-        typename std::vector<T>::iterator replacement_target = opts.end();
-        for( typename std::vector<T>::iterator iter = opts.begin(); iter != opts.end(); ++iter ) {
-            if( iter->type == id ) {
-                target = iter;
-            } else if( iter->type == replacement ) {
-                replacement_target = iter;
+    for( std::vector<T> &opts : vec ) {
+        for( typename std::vector<T>::iterator iiter = opts.begin(); iiter != opts.end(); ) {
+            auto riter = replacements.find( iiter->type );
+            if( riter != replacements.end() ) {
+                itype_id to_id = riter->second;
+                // Replace an item or outright remove it if its replacement
+                // is already present in the vector, to prevent duplicates
+                bool has_duplicates = std::count_if( opts.cbegin(), opts.cend(), [&to_id]( const T & item ) {
+                    return item.type == to_id;
+                } ) != 0;
+                if( has_duplicates ) {
+                    iiter = opts.erase( iiter );
+                    continue;
+                } else {
+                    iiter->type = to_id;
+                }
             }
+            ++iiter;
         }
-        // No target to replace, do nothing.
-        if( target == opts.end() ) {
-            continue;
-        }
-        // Target but no replacement, replace.
-        if( replacement_target == opts.end() ) {
-            target->type = replacement;
-            continue;
-        }
-        // Both target and replacement, remove the target entry and leave the existing replacement.
-        opts.erase( target );
     }
 }
 
-void requirement_data::replace_item( const itype_id &id, const itype_id &replacement )
+void requirement_data::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
-    apply_replacement( tools, id, replacement );
-    apply_replacement( components, id, replacement );
+    apply_replacements( tools, replacements );
+    apply_replacements( components, replacements );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const

@@ -2,14 +2,11 @@
 
 #include <cstdlib>
 
-#include "bodypart.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
-#include "string_id.h"
 
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_fire( "fd_fire" );
@@ -58,7 +55,6 @@ const field_type_str_id fd_fungicidal_gas( "fd_fungicidal_gas" );
 const field_type_str_id fd_insecticidal_gas( "fd_insecticidal_gas" );
 const field_type_str_id fd_smoke_vent( "fd_smoke_vent" );
 const field_type_str_id fd_tindalos_rift( "fd_tindalos_rift" );
-const field_type_str_id fd_mechanical_fluid( "fd_mechanical_fluid" );
 
 namespace io
 {
@@ -82,8 +78,7 @@ std::string enum_to_string<game_message_type>( game_message_type data )
         case game_message_type::num_game_message_type:
             break;
     }
-    debugmsg( "Invalid game_message_type" );
-    abort();
+    cata_fatal( "Invalid game_message_type" );
 }
 
 template<>
@@ -151,7 +146,10 @@ const field_type &string_id<field_type>::obj() const
 template<>
 int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallback ) const
 {
-    return all_field_types.convert( *this, fallback, false );
+    if( all_field_types.initialized ) {
+        return all_field_types.convert( *this, fallback, false );
+    }
+    return fallback;
 }
 
 /** @relates string_id */
@@ -305,7 +303,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "legacy_make_rubble", legacy_make_rubble, false );
-    optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
+    optional( jo, was_loaded, "wandering_field", wandering_field, field_type_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
 
@@ -318,13 +316,28 @@ void field_type::load( const JsonObject &jo, const std::string & )
 
 void field_type::finalize()
 {
-    wandering_field = field_type_id( wandering_field_id );
-    wandering_field_id.clear();
+    dangerous = std::any_of( intensity_levels.begin(), intensity_levels.end(),
+    []( const field_intensity_level & elem ) {
+        return elem.dangerous;
+    } );
+    transparent = std::all_of( intensity_levels.begin(), intensity_levels.end(),
+    []( const field_intensity_level & elem ) {
+        return elem.transparent;
+    } );
+
+    if( !wandering_field.is_valid() ) {
+        debugmsg( "Invalid wandering_field_id %s in field %s.", wandering_field.c_str(), id.c_str() );
+        wandering_field = fd_null;
+    }
+
     for( const mtype_id &m_id : immune_mtypes ) {
         if( !m_id.is_valid() ) {
             debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
         }
     }
+
+    // should be the last operation for the type
+    processors = map_field_processing::processors_for_type( *this );
 }
 
 void field_type::check() const

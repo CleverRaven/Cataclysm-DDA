@@ -49,9 +49,17 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [
+      "sloc_mall_loading_area",
+      "sloc_mall_food_court",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital",
+      "sloc_school"
+    ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -78,7 +86,8 @@
       "sloc_police"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -95,7 +104,9 @@
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
       "sloc_cabin_lake",
-      "sloc_freshwater_research_station"
+      "sloc_lodge_ground",
+      "sloc_freshwater_research_station",
+      "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -104,7 +115,7 @@
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED", "CITY_START" ],
+    "flags": [ "CITY_START" ],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -124,7 +135,41 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+    "eoc": [ "scenario_infected" ]
+  },
+  {
+    "type": "scenario",
+    "id": "hunted_start",
+    "name": "Challenge - Hunted",
+    "points": -2,
+    "forced_traits": [ "HAS_NEMESIS" ],
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_gun_store",
+      "sloc_garage",
+      "sloc_pawn_shop",
+      "sloc_bank",
+      "sloc_military_surplus",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital"
+    ],
+    "start_name": "In Town",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "missions": [ "MISSION_KILL_NEMESIS" ]
   },
   {
     "type": "scenario",
@@ -149,7 +194,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
+    "eoc": [ "scenario_fungal_infection" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -204,7 +250,8 @@
       "sloc_cemetery"
     ],
     "professions": [ "svictim", "tweaker" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START", "LONE_START" ]
+    "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -285,6 +332,28 @@
   },
   {
     "type": "scenario",
+    "id": "lab_cargo_staff_1",
+    "name": "Challenge - Trans-Coast Logistics Concourse",
+    "points": -6,
+    "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find your misplaced lanyard with your badge before the automated defenses notice that you don't have one.",
+    "start_name": "Locked Lab",
+    "professions": [ "security" ],
+    "allowed_locs": [ "sloc_lab_concourse_area" ],
+    "map_extra": "mx_lab_concourse_area",
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "bordered",
+    "name": "Challenge - Bordered",
+    "points": -2,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CHALLENGE", "CITY_START", "BORDERED" ]
+  },
+  {
+    "type": "scenario",
     "id": "ambushed",
     "name": "Ambush",
     "points": -3,
@@ -296,10 +365,12 @@
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
+      "sloc_lodge_ground",
       "sloc_campground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
@@ -314,6 +385,7 @@
       "sloc_field",
       "sloc_forest",
       "sloc_cabin",
+      "sloc_lodge_ground",
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
@@ -377,8 +449,8 @@
     "id": "alcatraz",
     "name": "Challenge - Island Prison",
     "points": -6,
-    "description": "You were at a high-security prison right before the Cataclysm.  You managed to make it outside the inner walls…  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
-    "allowed_locs": [ "sloc_prison_alcatraz" ],
+    "description": "You were in a high-security prison right before the Cataclysm.  Unfortunately, you're still in it, so you need to figure out how to escape.  It's located on a remote island to boot; you'll eventually need to escape that also.",
+    "allowed_locs": [ "sloc_prison_alcatraz", "sloc_prison_island" ],
     "start_name": "Island prison",
     "professions": [
       "convict",
@@ -390,7 +462,7 @@
       "k9_cop",
       "cop"
     ],
-    "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
@@ -509,7 +581,7 @@
     "points": -5,
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "professions": [
       "rifleman",
       "recruit",
@@ -568,11 +640,22 @@
     "type": "scenario",
     "id": "presort",
     "name": "Crazy Party",
-    "points": 0,
+    "points": -2,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "car_crash",
+    "name": "Car Crash",
+    "points": -2,
+    "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a wreck.  Injured and alone, death seems inevitable.",
+    "allowed_locs": [ "sloc_road" ],
+    "start_name": "Crash Site",
+    "map_extra": "mx_mayhem",
+    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   }
 ]

@@ -1,5 +1,3 @@
-#include <string>
-
 #include "behavior.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -19,7 +17,7 @@ status_t monster_oracle_t::not_hallucination( const std::string & ) const
 
 status_t monster_oracle_t::items_available( const std::string & ) const
 {
-    if( !get_map().has_flag( TFLAG_SEALED, subject->pos() ) &&
+    if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos() ) &&
         get_map().has_items( subject->pos() ) ) {
         return status_t::running;
     }
@@ -30,7 +28,7 @@ status_t monster_oracle_t::items_available( const std::string & ) const
 status_t monster_oracle_t::adjacent_plants( const std::string & ) const
 {
     for( const tripoint &p : get_map().points_in_radius( subject->pos(), 1 ) ) {
-        if( get_map().has_flag( "PLANT", p ) ) {
+        if( get_map().has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             return status_t::running;
         }
     }

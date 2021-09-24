@@ -165,7 +165,7 @@
     "description": "A luxurious remnant of civilization.",
     "symbol": "~",
     "color": "white",
-    "container": "box_medium",
+    "container": "bag_plastic",
     "price": 89,
     "price_postapoc": 180,
     "volume": "250 ml",

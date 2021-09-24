@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_HARVEST_H
 #define CATA_SRC_HARVEST_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -10,12 +10,11 @@
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class butchery_requirements;
 class JsonObject;
+class butchery_requirements;
 
 using butchery_requirements_id = string_id<butchery_requirements>;
 
@@ -36,6 +35,10 @@ struct harvest_entry {
 
     std::vector<flag_id> flags;
     std::vector<fault_id> faults;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 class harvest_list
@@ -45,7 +48,7 @@ class harvest_list
 
         itype_id leftovers = itype_id( "ruined_chunks" );
 
-        const harvest_id &id() const;
+        harvest_id id;
 
         std::string message() const;
 
@@ -59,7 +62,7 @@ class harvest_list
             return entries().empty();
         }
 
-        bool has_entry_type( std::string type ) const;
+        bool has_entry_type( const std::string &type ) const;
 
         /**
          * Returns a set of cached, translated names of the items this harvest entry could produce.
@@ -80,23 +83,20 @@ class harvest_list
         std::list<harvest_entry>::const_reverse_iterator rbegin() const;
         std::list<harvest_entry>::const_reverse_iterator rend() const;
 
-        /** Load harvest data, create relevant global entries, then return the id of the new list */
-        static const harvest_id &load( const JsonObject &jo, const std::string &src,
-                                       const std::string &force_id = "" );
-
-        /** Get all currently loaded harvest data */
-        static const std::map<harvest_id, harvest_list> &all();
-
         /** Fills out the set of cached names. */
         static void finalize_all();
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
-
-        /** Clear all loaded harvest data (invalidating any pointers) */
+        /** Reset all loaded harvest data */
         static void reset();
+
+        bool was_loaded = false;
+        void load( const JsonObject &obj, const std::string & );
+        static void load_harvest_list( const JsonObject &jo, const std::string &src );
+        static const std::vector<harvest_list> &get_all();
+
     private:
-        harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
         translation message_;

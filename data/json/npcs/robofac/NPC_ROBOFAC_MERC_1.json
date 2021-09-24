@@ -65,7 +65,13 @@
     "id": "NC_ROBOFAC_MERC_1_wield",
     "subtype": "collection",
     "items": [
-      { "item": "acr", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+      {
+        "item": "m16_auto_rifle",
+        "variant": "acr",
+        "ammo-item": "556",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+      }
     ]
   },
   {
@@ -257,7 +263,7 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "RobofacCoin", "count": 8 },
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
       ]
@@ -266,7 +272,7 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_RADIO",
     "type": "mission_definition",
-    "name": "Active Noise Control",
+    "name": { "str": "Active Noise Control" },
     "description": "Investigate Hub 01's radio tower, discover the source of the interference, and fix the problem.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
@@ -300,14 +306,14 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
     "type": "mission_definition",
-    "name": "Return to Hub 01",
+    "name": { "str": "Return to Hub 01" },
     "description": "Return to Hub 01.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "robofachq_surface_entrance",
     "difficulty": 0,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 90, "z": 0 }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 360, "z": 0 }
     },
     "end": {
       "effect": [

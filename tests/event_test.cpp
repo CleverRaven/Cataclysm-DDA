@@ -1,13 +1,12 @@
-#include "catch/catch.hpp"
-#include "event.h"
-
+#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
+#include "cata_catch.h"
 #include "character_id.h"
+#include "event.h"
 #include "event_bus.h"
-#include "event_field_transformations.h"
 #include "event_subscriber.h"
 #include "type_id.h"
 

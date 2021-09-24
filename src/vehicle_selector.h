@@ -2,20 +2,27 @@
 #ifndef CATA_SRC_VEHICLE_SELECTOR_H
 #define CATA_SRC_VEHICLE_SELECTOR_H
 
+#include <climits>
+#include <cstddef>
+#include <functional>
+#include <list>
 #include <vector>
-#include <iosfwd>
 
+#include "type_id.h"
 #include "visitable.h"
 
+class item;
 class vehicle;
 struct tripoint;
 
 class vehicle_cursor : public visitable
 {
     public:
-        vehicle_cursor( vehicle &veh, std::ptrdiff_t part ) : veh( veh ), part( part ) {}
+        vehicle_cursor( vehicle &veh, std::ptrdiff_t part, bool ignore_vpart = false ) : veh( veh ),
+            part( part ), ignore_vpart( ignore_vpart ) {}
         vehicle &veh;
         std::ptrdiff_t part;
+        bool ignore_vpart;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
@@ -43,8 +50,8 @@ class vehicle_selector : public visitable
          *  @param accessible whether found items must be accessible from pos to be considered
          *  @param visibility_only accessibility based on line of sight, not walkability
          */
-        vehicle_selector( const tripoint &pos, int radius = 0, bool accessible = true,
-                          bool visibility_only = false );
+        explicit vehicle_selector( const tripoint &pos, int radius = 0, bool accessible = true,
+                                   bool visibility_only = false );
 
         /**
          *  Constructs vehicle_selector used for querying items located on vehicle tiles

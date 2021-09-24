@@ -6,13 +6,10 @@
 
 #include "cuboid_rectangle.h"
 #include "point.h"
-#include "ui.h"
 
 class Character;
 class item;
 class item_location;
-class map;
-struct tripoint;
 
 namespace Pickup
 {

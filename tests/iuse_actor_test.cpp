@@ -1,33 +1,46 @@
-#include "catch/catch.hpp"
-
-#include <list>
+#include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "colony.h"
+#include "creature_tracker.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
+#include "material.h"
 #include "monster.h"
 #include "mtype.h"
-#include "pimpl.h"
-#include "player.h"
+#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 
 static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
+    creature_tracker &creatures = get_creature_tracker();
     for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
         for( target.y = pos.y - 1; target.y <= pos.y + 1; target.y++ ) {
             if( target == pos ) {
                 continue;
             }
-            if( monster *const candidate = g->critter_at<monster>( target ) ) {
+            if( monster *const candidate = creatures.creature_at<monster>( target ) ) {
                 return candidate;
             }
         }
@@ -38,7 +51,7 @@ static monster *find_adjacent_monster( const tripoint &pos )
 TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_avatar();
-    player &player_character = get_avatar();
+    Character &player_character = get_avatar();
     clear_map();
 
     g->clear_zombies();
@@ -64,7 +77,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
 TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
     clear_avatar();
 
     GIVEN( "flashlight with a charged battery installed" ) {
@@ -78,7 +91,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
@@ -106,7 +119,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 static void cut_up_yields( const std::string &target )
 {
     map &here = get_map();
-    player &guy = get_avatar();
+    Character &guy = get_avatar();
     clear_avatar();
     // Nominal dex to avoid yield penalty.
     guy.dex_cur = 12;
@@ -140,7 +153,6 @@ static void cut_up_yields( const std::string &target )
         salvaged_mass += salvage.weight();
     }
     CHECK( salvaged_mass <= cut_up_target_mass );
-    CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
 
 TEST_CASE( "cut_up_yields" )
@@ -166,7 +178,7 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "stick" );
     cut_up_yields( "stick_long" );
     cut_up_yields( "tazer" );
-    cut_up_yields( "control_laptop" );
+    cut_up_yields( "laptop" );
     cut_up_yields( "voltmeter" );
     cut_up_yields( "burette" );
     cut_up_yields( "eink_tablet_pc" );

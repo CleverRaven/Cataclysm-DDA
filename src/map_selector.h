@@ -2,10 +2,15 @@
 #ifndef CATA_SRC_MAP_SELECTOR_H
 #define CATA_SRC_MAP_SELECTOR_H
 
+#include <climits>
+#include <functional>
+#include <list>
 #include <vector>
 
 #include "point.h"
 #include "visitable.h"
+
+class item;
 
 class map_cursor : public visitable
 {
@@ -13,8 +18,8 @@ class map_cursor : public visitable
         tripoint pos_;
 
     public:
-        map_cursor( const tripoint &pos );
-        operator tripoint() const;
+        explicit map_cursor( const tripoint &pos );
+        tripoint pos() const;
 
         // inherited from visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
@@ -39,7 +44,7 @@ class map_selector : public visitable
          *  @param radius number of adjacent tiles to include (searching from pos outwards)
          *  @param accessible whether found items must be accessible from pos to be considered
          */
-        map_selector( const tripoint &pos, int radius = 0, bool accessible = true );
+        explicit map_selector( const tripoint &pos, int radius = 0, bool accessible = true );
 
         // similar to item_location you are not supposed to store this class between turns
         map_selector( const map_selector &that ) = delete;

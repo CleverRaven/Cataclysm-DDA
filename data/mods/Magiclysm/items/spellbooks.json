@@ -14,6 +14,7 @@
       "spells": [
         "debug_hp",
         "debug_stamina",
+        "debug_teleport_to",
         "example_template",
         "debug_bionic",
         "pain_split",
@@ -42,10 +43,24 @@
     "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
   },
   {
+    "id": "novice_stormshaper_book",
+    "type": "BOOK",
+    "name": { "str": "An Introduction to Applied Meteorology", "str_pl": "copies of An Introduction to Applied Meteorology" },
+    "//": "2 stormshaper",
+    "description": "A professional-looking book on stormshaping, structured after many college textbooks.  It has less to apply than one might expect from its size.",
+    "weight": "900 g",
+    "volume": "1200 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+  },
+  {
     "id": "wizard_utility",
     "type": "BOOK",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
-    "//": "1 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
+    "//": "2 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
@@ -53,7 +68,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "magus_force_jar" ]
+    }
   },
   {
     "id": "pyro",
@@ -182,7 +200,8 @@
         "create_atomic_light",
         "mirror_image",
         "invisibility",
-        "holographic_transposition"
+        "holographic_transposition",
+        "shadow_field"
       ]
     }
   },
@@ -194,6 +213,7 @@
     "description": "A small tome, seemingly covered in tanned human skin.",
     "weight": "355 g",
     "volume": "500 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "red",
@@ -206,14 +226,18 @@
     "id": "druid_spellbook",
     "type": "BOOK",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
-    "//": "4 Druid spells",
+    "//": "5 Druid spells",
     "description": "A bark covered book.",
     "weight": "355 g",
     "volume": "500 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1", "druid_natures_commune" ]
+    }
   },
   {
     "id": "recovery_spellbook",
@@ -223,6 +247,7 @@
     "//": "1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
     "weight": "728 g",
     "volume": "3 L",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_blue",
@@ -239,6 +264,7 @@
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
     "weight": "434 g",
     "volume": "750 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -255,6 +281,7 @@
     "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
     "weight": "483 g",
     "volume": "825 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "brown",
@@ -271,6 +298,7 @@
     "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
     "weight": "231 g",
     "volume": "500 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -284,6 +312,7 @@
     "description": "This looks like someone was designing a new spell, but spilled a mug of coffee on it and crumpled it up in anger.  You can tell that it will definitely cast something, but you can't be sure that it will work very well.",
     "weight": "129 g",
     "volume": "100 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -297,6 +326,7 @@
     "description": "This book details various ways of summoning an undead minion to fight for you.  They all appear to disappear after a short time, crumbling to dust.",
     "weight": "788 g",
     "volume": "2250 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -310,6 +340,7 @@
     "description": "This thick manual instructs the spellcaster on manipulating and empowering various forms of matter and energy.",
     "weight": "258 g",
     "volume": "750 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -326,6 +357,7 @@
     "//": "2 Technomancer spells",
     "weight": "211 g",
     "volume": "500 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -342,6 +374,7 @@
     "description": "This lab reference material book is thick and overflowing with information on combining magic with EM radiation.",
     "weight": "284 g",
     "volume": "1 L",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
@@ -355,6 +388,7 @@
     "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes glow over its surface, and slowly shift into intelligible sentences when you stare at them.",
     "weight": "4000 g",
     "volume": "2500 ml",
+    "price": 5000,
     "material": [ "stone" ],
     "symbol": "?",
     "color": "light_gray",
@@ -368,6 +402,7 @@
     "description": "This book outlines in great detail how time and space are wibbly-wobbly and non-Euclidean.  It also appears to have a dozen different coordinate systems that it uses nearly interchangeably, which makes it hard to follow.  There's lots of jargon, but with intense study you can probably learn a thing or two about portals.",
     "weight": "1200 g",
     "volume": "2500 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_blue",
@@ -381,6 +416,7 @@
     "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",
     "weight": "1300 g",
     "volume": "2500 ml",
+    "price": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "yellow",

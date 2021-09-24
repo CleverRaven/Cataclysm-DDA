@@ -30,33 +30,6 @@
     "color": "yellow"
   },
   {
-    "id": "afs_fridge",
-    "category": "veh_parts",
-    "type": "GENERIC",
-    "name": { "str": "vehicle refrigerator" },
-    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
-    "symbol": "{",
-    "color": "white",
-    "weight": "142882 g",
-    "volume": "300 L",
-    "price": 40000,
-    "price_postapoc": 10000,
-    "material": [ "steel" ],
-    "to_hit": -4,
-    "bashing": 8,
-    "flags": [ "DURABLE_MELEE" ],
-    "looks_like": "minifridge"
-  },
-  {
-    "id": "afs_freezer",
-    "category": "veh_parts",
-    "type": "GENERIC",
-    "name": { "str": "vehicle freezer" },
-    "copy-from": "afs_fridge",
-    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
-    "color": "light_blue"
-  },
-  {
     "type": "GENERIC",
     "id": "afs_scrap_titanium",
     "symbol": ",",
@@ -73,27 +46,6 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
-    "id": "afs_metal_rig",
-    "copy-from": "vehicle_rig",
-    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
-    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
-  },
-  {
-    "type": "GENERIC",
-    "id": "afs_kitchen_rig",
-    "copy-from": "vehicle_rig",
-    "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
-    "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
-  },
-  {
-    "type": "GENERIC",
-    "id": "afs_cooking_rig",
-    "copy-from": "vehicle_rig",
-    "name": { "str": "cooking rig" },
-    "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
-  },
-  {
     "id": "nuclear_waste",
     "type": "GENERIC",
     "name": { "str_sp": "nuclear waste" },
@@ -106,6 +58,15 @@
     "symbol": "*",
     "color": "light_green",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "clearcrete_chunk",
+    "copy-from": "rock",
+    "name": { "str": "clearcrete chunk" },
+    "category": "other",
+    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
+    "material": [ "clearcrete" ]
   },
   {
     "id": "nuclear_fuel",
@@ -175,7 +136,7 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str_sp": "titanium" },
-    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio, it was an excellent upgrade to aluminum for those properties albeit a lot more expensive due to rarity.  More commonly used in jewelery and medical implants.",
+    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio and an excellent upgrade to aluminum for those properties - albeit a lot more expensive due to rarity.  More commonly used in jewelry and medical implants.",
     "weight": "1 g",
     "//": "Density 4.506g/cm³ ~ 1.127kg/250ml @ stack 1000 = 1g/unit",
     "volume": "50 ml",
@@ -207,7 +168,7 @@
     "id": "afs_titanium_tooth",
     "type": "GENERIC",
     "name": { "str": "titanium tooth" },
-    "description": "A dental implant made of pure titanium, used to replace teeth due to its bio-compatibility and durability.",
+    "description": "A dental implant made of pure titanium, used to replace teeth due to its biocompatibility and durability.",
     "price": 5000,
     "price_postapoc": 50,
     "weight": "10 g",
@@ -230,10 +191,9 @@
     "material": [ "titanium" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "flags": [ "WATCH", "STURDY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "STURDY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "afs_titanium_ring",

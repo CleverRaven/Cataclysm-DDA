@@ -1,0 +1,197 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_triffid_bark_wall",
+    "name": "solid bark wall",
+    "description": "A solid wall of bark, enclosing the trunk of a massive tree.  It will probably burn quite well.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_barkfloor",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 60,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_bark_wall_chipped",
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bark_wall_chipped",
+    "name": "chipped bark wall",
+    "description": "A solid wall of bark enclosing the trunk of a massive tree.  Some of it has been broken away.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 40,
+      "str_max": 160,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_bark_wall_broken",
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bark_wall_broken",
+    "name": "broken bark wall",
+    "description": "A formerly solid wall of bark, now almost completely destroyed and waiting to collapse.",
+    "symbol": "&",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_barkfloor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_triffid_wood_wall",
+    "name": "solid wood wall",
+    "description": "A solid wall of naturally grown wood.  Likely very flammable.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_barkfloor",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_barkfloor",
+      "items": [ { "item": "splinter", "count": [ 20, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_barkfloor",
+    "name": "bark",
+    "description": "A solid piece of bark covers the floor here.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_barkfloor",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_dirt",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_triffid_leaves",
+    "name": "branches with leaves",
+    "description": "Thin branches emerge here, covered with thick, large leaves.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_root_floor",
+    "name": "root floor",
+    "description": "A dirt floor covered with roots.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_root_floor",
+    "flags": [ "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_triffid_slope_down",
+    "name": "downward root slope",
+    "connects_to": "PAVEMENT",
+    "description": "A downward-facing slope of root-covered dirt.",
+    "symbol": ">",
+    "color": "brown",
+    "roof": "t_barkfloor",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_triffid_slope_up",
+    "name": "upward root slope",
+    "connects_to": "WALL",
+    "description": "An upward-facing slope of root-covered dirt.",
+    "symbol": "<",
+    "color": "brown",
+    "roof": "t_barkfloor",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_bramble_door_c",
+    "name": "closed bramble roots",
+    "description": "A bramble of roots are here, covering a hole.  They could easily be pulled apart.",
+    "symbol": "+",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "open": "t_bramble_door_o",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bramble_door_o",
+    "name": "open bramble roots",
+    "description": "A bramble of roots are here, they are pulled apart revealing a hole.",
+    "symbol": "'",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
+    "close": "t_bramble_door_c",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+    }
+  }
+]

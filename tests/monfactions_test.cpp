@@ -1,38 +1,85 @@
-#include "catch/catch.hpp"
+#include <vector>
 
-#include <fstream>
+#include "cata_catch.h"
+#include "filesystem.h"
 #include "monfaction.h"
+#include "type_id.h"
+
+static std::string att_enum_to_string( mf_attitude att )
+{
+    switch( att ) {
+        case MFA_BY_MOOD:
+            return "MFA_BY_MOOD";
+        case MFA_NEUTRAL:
+            return "MFA_NEUTRAL";
+        case MFA_FRIENDLY:
+            return "MFA_FRIENDLY";
+        case MFA_HATE:
+            return "MFA_HATE";
+        case MFA_SIZE:
+            return "MFA_SIZE";
+        default:
+            break;
+    }
+
+    printf( "Unknown monster faction attitude %d\n", static_cast<int>( att ) );
+    return "?";
+}
+
 
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
-    std::ofstream outfile;
-    outfile.open( "monfactions.txt" );
+    cata::ofstream outfile;
+    outfile.open( fs::u8path( "monfactions.txt" ) );
     for( const auto &f : monfactions::get_all() ) {
         for( const auto &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
-            outfile << f.id.str() << "->" << f1.id.str() << ": ";
-            switch( att ) {
-                case MFA_BY_MOOD:
-                    outfile << "MFA_BY_MOOD";
-                    break;
-                case MFA_NEUTRAL:
-                    outfile << "MFA_NEUTRAL";
-                    break;
-                case MFA_FRIENDLY:
-                    outfile << "MFA_FRIENDLY";
-                    break;
-                case MFA_HATE:
-                    outfile << "MFA_HATE";
-                    break;
-                case MFA_SIZE:
-                    outfile << "MFA_SIZE";
-                    break;
-            }
-            outfile << "\n";
+            mf_attitude rev_att = f1.attitude( f.id );
+            // NOLINTNEXTLINE(cata-text-style)
+            outfile << f.id.str() << "->" << f1.id.str() << ":\t";
+            outfile << att_enum_to_string( att );
+            // NOLINTNEXTLINE(cata-text-style)
+            outfile << "\t(Rev: ";
+            outfile << att_enum_to_string( rev_att );
+            outfile << ")\n";
         }
     }
 }
+
+TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
+{
+    for( const auto &f : monfactions::get_all() ) {
+        SECTION( f.id.str() ) {
+            for( const auto &f1 : monfactions::get_all() ) {
+                mf_attitude att = f.attitude( f1.id );
+                mf_attitude rev_att = f1.attitude( f.id );
+
+                INFO( f1.id.str() );
+                REQUIRE( att != MFA_SIZE );
+                REQUIRE( rev_att != MFA_SIZE );
+
+                if( att == MFA_FRIENDLY || att == MFA_NEUTRAL ) {
+                    CHECK_FALSE( rev_att == MFA_BY_MOOD );
+                    CHECK_FALSE( rev_att == MFA_HATE );
+
+                    if( ( rev_att != MFA_FRIENDLY ) && ( rev_att != MFA_NEUTRAL ) ) {
+                        std::string att_str = att_enum_to_string( att );
+                        std::string rev_att_str = att_enum_to_string( rev_att );
+                        printf( "\n%s has an attitude of %s to %s, but %s has an attitude of %s to %s."
+                                "\nEither %s should not be FRIENDLY/NEUTRAL to %s, or"
+                                "\n%s should be FRIENDLY/NEUTRAL to %s\n\n",
+                                f.id.c_str(), att_str.c_str(), f1.id.c_str(), f1.id.c_str(), rev_att_str.c_str(), f.id.c_str(),
+                                f.id.c_str(), f1.id.c_str(), f1.id.c_str(), f.id.c_str() );
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
 TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 {
@@ -50,22 +97,29 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         // based on the current state of json
         REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
         REQUIRE( mfaction_str_id( "small_animal" )->base_faction == mfaction_str_id( "animal" ) );
+        REQUIRE( mfaction_str_id( "vermin" )->base_faction == mfaction_str_id( "small_animal" ) );
         REQUIRE( mfaction_str_id( "fish" )->base_faction == mfaction_str_id( "animal" ) );
-        REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
+        REQUIRE( mfaction_str_id( "bear" )->base_faction == mfaction_str_id( "animal" ) );
+
+        INFO( "fish is a child of animal, is friendly to itself" );
+        CHECK( attitude( "animal", "animal" ) == MFA_BY_MOOD );
 
         INFO( "default attitude towards self takes precedence over inheritance from parents" );
-        CHECK( attitude( "small_animal", "small_animal" ) == MFA_FRIENDLY );
+        CHECK( attitude( "animal", "fish" ) == MFA_NEUTRAL );
+        CHECK( attitude( "fish", "fish" ) == MFA_FRIENDLY );
 
         INFO( "fish is inherited from animal and should be neutral toward small_animal" );
         CHECK( attitude( "fish", "small_animal" ) == MFA_NEUTRAL );
 
-        INFO( "fish is a child of small_animal, and small_animal is friendly to itself" );
-        CHECK( attitude( "small_animal", "fish" ) == MFA_FRIENDLY );
+        INFO( "dog is inherited from animal, but hates small animals, of which vermin is a child" );
+        CHECK( attitude( "dog", "vermin" ) == MFA_HATE );
+        CHECK( attitude( "dog", "fish" ) == MFA_NEUTRAL );
+
     }
 
     SECTION( "some random samples" ) {
         CHECK( attitude( "aquatic_predator", "fish" ) == MFA_HATE );
-        CHECK( attitude( "robofac", "cop_zombie" ) == MFA_HATE );
+        CHECK( attitude( "robofac", "zombie" ) == MFA_HATE );
 
         CHECK( attitude( "dragonfly", "defense_bot" ) == MFA_NEUTRAL );
         CHECK( attitude( "dragonfly", "dermatik" ) == MFA_HATE );
@@ -73,10 +127,15 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         CHECK( attitude( "zombie_aquatic", "zombie" ) == MFA_FRIENDLY );
         CHECK( attitude( "zombie", "zombie_aquatic" ) == MFA_FRIENDLY );
         CHECK( attitude( "zombie", "spider_web" ) == MFA_NEUTRAL );
+        CHECK( attitude( "zombie", "small_animal" ) == MFA_NEUTRAL );
 
         CHECK( attitude( "plant", "triffid" ) == MFA_FRIENDLY );
         CHECK( attitude( "plant", "utility_bot" ) == MFA_NEUTRAL );
 
         CHECK( attitude( "bee", "military" ) == MFA_NEUTRAL );
+
+        CHECK( attitude( "bear", "bee" ) == MFA_HATE );
+        CHECK( attitude( "wolf", "pig" ) == MFA_HATE );
+        CHECK( attitude( "small_animal", "zombie" ) == MFA_NEUTRAL );
     }
 }

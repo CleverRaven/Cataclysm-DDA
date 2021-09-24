@@ -26,7 +26,7 @@
       [ "knife_combat", 10 ],
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
-      [ "mask_gas", 10 ],
+      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "ballistic_vest_esapi", 15 ],
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
@@ -126,12 +126,11 @@
       [ "knee_pads", 5 ],
       [ "elbow_pads", 5 ],
       [ "legrig", 5 ],
-      [ "UPS_off", 5 ],
-      [ "adv_UPS_off", 2 ],
+      { "item": "UPS_off", "prob": 7, "charges": [ 0, 1000 ] },
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
-      [ "oxygen_tank", 15 ],
+      { "item": "oxygen_tank", "prob": 15, "charges-min": 0 },
       [ "fireman_belt", 15 ],
       [ "jack", 5 ],
       [ "throw_extinguisher", 10 ],
@@ -140,7 +139,7 @@
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "smoxygen_tank", "prob": 35, "charges-min": 0 },
       { "item": "watercannon", "prob": 10, "charges-min": 0 },
-      [ "l-stick", 1 ],
+      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
@@ -154,9 +153,9 @@
       { "item": "rad_monitor", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "oxygen_tank", "prob": 10, "charges-min": 0 },
       { "item": "smoxygen_tank", "prob": 15, "charges-min": 0 },
-      [ "adv_UPS_off", 2 ],
-      [ "prussian_blue", 25 ],
-      [ "iodine", 50 ]
+      [ "UPS_off", 2 ],
+      { "item": "prussian_blue", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "iodine", "prob": 50, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -199,5 +198,12 @@
         "prob": 20
       }
     ]
+  },
+  {
+    "id": "SUS_woodcrafts_gear",
+    "type": "item_group",
+    "//": "This group is for lockers storing safety gear for woodcrafts. SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "subtype": "collection",
+    "items": [ [ "glasses_safety", 95 ], [ "mask_dust", 30 ], [ "gloves_work", 30 ], [ "apron_leather", 95 ] ]
   }
 ]

@@ -3,11 +3,13 @@
 #define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -67,9 +69,10 @@ using FunctionMap = std::unordered_map<std::string, map_extra_pointer>;
 
 map_extra_pointer get_function( const std::string &name );
 FunctionMap all_functions();
+std::vector<std::string> get_all_function_names();
 
-void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub );
-void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
+void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_sm &abs_sub );
+void apply_function( const std::string &id, map &m, const tripoint_abs_sm &abs_sub );
 
 void load( const JsonObject &jo, const std::string &src );
 void check_consistency();

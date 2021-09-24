@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <tuple>
@@ -12,20 +13,22 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
-#include "int_id.h"
 #include "mapdata.h"
-#include "string_id.h"
+#include "map_field.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
+
+class field_entry;
+struct field_proc_data;
 
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
@@ -108,6 +111,7 @@ struct field_intensity_level {
     std::vector<field_effect> field_effects;
 };
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
 extern const field_type_str_id fd_null;
 extern const field_type_str_id fd_fire;
@@ -156,7 +160,8 @@ extern const field_type_str_id fd_fungicidal_gas;
 extern const field_type_str_id fd_insecticidal_gas;
 extern const field_type_str_id fd_smoke_vent;
 extern const field_type_str_id fd_tindalos_rift;
-extern const field_type_str_id fd_mechanical_fluid;
+
+struct field_type;
 
 struct field_type {
     public:
@@ -164,15 +169,10 @@ struct field_type {
         void finalize();
         void check() const;
 
-    public:
         // Used by generic_factory
         field_type_str_id id;
         bool was_loaded = false;
 
-        // Used only during loading
-        std::string wandering_field_id = "fd_null";
-
-    public:
         int legacy_enum_id = -1;
 
         std::vector<field_intensity_level> intensity_levels;
@@ -206,94 +206,43 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         bool legacy_make_rubble = false;
-        field_type_id wandering_field;
+        field_type_str_id wandering_field;
         std::string looks_like;
 
         bool decrease_intensity_on_contact = false;
+
+    private:
+        // any_of( intensity_levels::dangerous )
+        bool dangerous = false;
+        // all_of( intensity_levels::transparent )
+        bool transparent = false;
+
+        std::vector<map_field_processing::FieldProcessorPtr> processors;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;
         std::string get_name( int level = 0 ) const {
             return get_intensity_level( level ).name.translated();
         }
-        uint32_t get_codepoint( int level = 0 ) const {
-            return get_intensity_level( level ).symbol;
-        }
         std::string get_symbol( int level = 0 ) const {
             return utf32_to_utf8( get_intensity_level( level ).symbol );
         }
-        nc_color get_color( int level = 0 ) const {
-            return get_intensity_level( level ).color;
+        // any_of( intensity_levels::dangerous )
+        inline bool is_dangerous() const {
+            return dangerous;
         }
-        bool get_dangerous( int level = 0 ) const {
-            return get_intensity_level( level ).dangerous;
+        // all_of( intensity_levels::transparent )
+        inline bool is_transparent() const {
+            return transparent;
         }
-        bool get_transparent( int level = 0 ) const {
-            return get_intensity_level( level ).transparent;
-        }
-        int get_move_cost( int level = 0 ) const {
-            return get_intensity_level( level ).move_cost;
-        }
-        int get_extra_radiation_min( int level = 0 ) const {
-            return get_intensity_level( level ).extra_radiation_min;
-        }
-        int get_extra_radiation_max( int level = 0 ) const {
-            return get_intensity_level( level ).extra_radiation_max;
-        }
-        int get_radiation_hurt_damage_min( int level = 0 ) const {
-            return get_intensity_level( level ).radiation_hurt_damage_min;
-        }
-        int get_radiation_hurt_damage_max( int level = 0 ) const {
-            return get_intensity_level( level ).radiation_hurt_damage_max;
-        }
-        std::string get_radiation_hurt_message( int level = 0 ) const {
-            return get_intensity_level( level ).radiation_hurt_message.translated();
-        }
-        int get_intensity_upgrade_chance( int level = 0 ) const {
-            return get_intensity_level( level ).intensity_upgrade_chance;
-        }
-        time_duration get_intensity_upgrade_duration( int level = 0 ) const {
-            return get_intensity_level( level ).intensity_upgrade_duration;
-        }
-        int get_monster_spawn_chance( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_chance;
-        }
-        int get_monster_spawn_count( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_count;
-        }
-        int get_monster_spawn_radius( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_radius;
-        }
-        mongroup_id get_monster_spawn_group( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_group;
-        }
-        float get_light_emitted( int level = 0 ) const {
-            return get_intensity_level( level ).light_emitted;
-        }
-        float get_local_light_override( int level = 0 )const {
-            return get_intensity_level( level ).local_light_override;
-        }
-        float get_translucency( int level = 0 ) const {
-            return get_intensity_level( level ).translucency;
-        }
-        int get_convection_temperature_mod( int level = 0 ) const {
-            return get_intensity_level( level ).convection_temperature_mod;
-        }
-
-        bool is_dangerous() const {
-            return std::any_of( intensity_levels.begin(), intensity_levels.end(),
-            []( const field_intensity_level & elem ) {
-                return elem.dangerous;
-            } );
-        }
-        bool is_transparent() const {
-            return std::all_of( intensity_levels.begin(), intensity_levels.end(),
-            []( const field_intensity_level & elem ) {
-                return elem.transparent;
-            } );
-        }
-        int get_max_intensity() const {
+        inline int get_max_intensity() const {
             return intensity_levels.size();
+        }
+        bool gas_can_spread() const {
+            return phase == phase_id::GAS && percent_spread > 0;
+        }
+        const std::vector<map_field_processing::FieldProcessorPtr> &get_processors() const {
+            return processors;
         }
 
         static size_t count();

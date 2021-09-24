@@ -1,7 +1,8 @@
-#include "catch/catch.hpp"
-
-#include "temp_crafting_inventory.h"
 #include "../src/temp_crafting_inventory.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "item.h"
+#include "type_id.h"
 
 TEST_CASE( "temp_crafting_inv_test_amount", "[crafting][inventory]" )
 {

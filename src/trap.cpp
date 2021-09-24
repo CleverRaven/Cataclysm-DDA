@@ -1,5 +1,7 @@
 #include "trap.h"
 
+#include <algorithm>
+#include <cmath>
 #include <set>
 #include <vector>
 
@@ -10,7 +12,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "line.h"
@@ -19,7 +20,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 
 static const skill_id skill_traps( "traps" );
 
@@ -110,11 +110,22 @@ void trap::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
+
+    optional( jo, was_loaded, "memorial_male", memorial_male );
+    optional( jo, was_loaded, "memorial_female", memorial_female );
+
+    // Require either none, or both
+    if( !!memorial_male != !!memorial_female ) {
+        jo.throw_error( "Only one gender of memorial message specified for trap %s, but none or both required.",
+                        id.str() );
+    }
+
+    optional( jo, was_loaded, "flags", _flags );
     optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
-    optional( jo, was_loaded, "map_regen", map_regen, "none" );
+    optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_id( "none" ) );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
@@ -176,7 +187,7 @@ std::string trap::name() const
     return name_.translated();
 }
 
-std::string trap::map_regen_target() const
+update_mapgen_id trap::map_regen_target() const
 {
     return map_regen;
 }
@@ -195,8 +206,8 @@ bool trap::is_trivial_to_spot() const
 
 bool trap::detected_by_ground_sonar() const
 {
-    // @TODO make this a property
-    return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
+    static const flag_id sonar_detectable = flag_id( "SONAR_DETECTABLE" );
+    return has_flag( sonar_detectable );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
@@ -219,7 +230,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
 
     // Your current focus strongly affects your ability to spot things.
-    const float focus_effect = ( p.focus_pool / 25.0f ) - 2.0f;
+    const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
@@ -322,29 +333,28 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
-trap_id
-tr_null,
-tr_beartrap_buried,
-tr_shotgun_2,
-tr_shotgun_1,
-tr_blade,
-tr_landmine,
-tr_landmine_buried,
-tr_telepad,
-tr_goo,
-tr_dissector,
-tr_sinkhole,
-tr_pit,
-tr_lava,
-tr_portal,
-tr_ledge,
-tr_temple_flood,
-tr_temple_toggle,
-tr_glow,
-tr_hum,
-tr_shadow,
-tr_drain,
-tr_snake;
+trap_id tr_null;
+const trap_str_id tr_beartrap_buried( "tr_beartrap_buried" );
+const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
+const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
+const trap_str_id tr_blade( "tr_blade" );
+const trap_str_id tr_landmine( "tr_landmine" );
+const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
+const trap_str_id tr_telepad( "tr_telepad" );
+const trap_str_id tr_goo( "tr_goo" );
+const trap_str_id tr_dissector( "tr_dissector" );
+const trap_str_id tr_sinkhole( "tr_sinkhole" );
+const trap_str_id tr_pit( "tr_pit" );
+const trap_str_id tr_lava( "tr_lava" );
+const trap_str_id tr_portal( "tr_portal" );
+const trap_str_id tr_ledge( "tr_ledge" );
+const trap_str_id tr_temple_flood( "tr_temple_flood" );
+const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
+const trap_str_id tr_glow( "tr_glow" );
+const trap_str_id tr_hum( "tr_hum" );
+const trap_str_id tr_shadow( "tr_shadow" );
+const trap_str_id tr_drain( "tr_drain" );
+const trap_str_id tr_snake( "tr_snake" );
 
 void trap::check_consistency()
 {
@@ -378,31 +388,8 @@ void trap::finalize()
             funnel_traps.push_back( &t );
         }
     }
-    const auto trapfind = []( const char *id ) {
-        return trap_str_id( id ).id();
-    };
+
     tr_null = trap_str_id::NULL_ID().id();
-    tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
-    tr_shotgun_2 = trapfind( "tr_shotgun_2" );
-    tr_shotgun_1 = trapfind( "tr_shotgun_1" );
-    tr_blade = trapfind( "tr_blade" );
-    tr_landmine = trapfind( "tr_landmine" );
-    tr_landmine_buried = trapfind( "tr_landmine_buried" );
-    tr_telepad = trapfind( "tr_telepad" );
-    tr_goo = trapfind( "tr_goo" );
-    tr_dissector = trapfind( "tr_dissector" );
-    tr_sinkhole = trapfind( "tr_sinkhole" );
-    tr_pit = trapfind( "tr_pit" );
-    tr_lava = trapfind( "tr_lava" );
-    tr_portal = trapfind( "tr_portal" );
-    tr_ledge = trapfind( "tr_ledge" );
-    tr_temple_flood = trapfind( "tr_temple_flood" );
-    tr_temple_toggle = trapfind( "tr_temple_toggle" );
-    tr_glow = trapfind( "tr_glow" );
-    tr_hum = trapfind( "tr_hum" );
-    tr_shadow = trapfind( "tr_shadow" );
-    tr_drain = trapfind( "tr_drain" );
-    tr_snake = trapfind( "tr_snake" );
 }
 
 std::string trap::debug_describe() const

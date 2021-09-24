@@ -1,32 +1,31 @@
-#include "catch/catch.hpp"
-#include "mutation.h"
-
 #include <map>
 #include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_catch.h"
+#include "character.h"
+#include "mutation.h"
 #include "npc.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
-static std::string get_mutations_as_string( const player &p );
+static std::string get_mutations_as_string( const Character &you );
 
 // Mutate player toward every mutation in a category (optionally including post-threshold mutations)
 //
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
-static void give_all_mutations( player &p, const mutation_category_trait &category,
+static void give_all_mutations( Character &you, const mutation_category_trait &category,
                                 const bool include_postthresh )
 {
-    p.set_body();
+    you.set_body();
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first
     if( include_postthresh && !category.threshold_mut.is_empty() ) {
-        p.set_mutation( category.threshold_mut );
+        you.set_mutation( category.threshold_mut );
     }
 
     for( const trait_id &mut : category_mutations ) {
@@ -34,10 +33,10 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
         if( include_postthresh || ( !mut_data.threshold && mut_data.threshreq.empty() ) ) {
             // Try up to 10 times to mutate towards this trait
             int mutation_attempts = 10;
-            while( mutation_attempts > 0 && p.mutation_ok( mut, false, false ) ) {
-                INFO( "Current mutations: " << get_mutations_as_string( p ) );
+            while( mutation_attempts > 0 && you.mutation_ok( mut, false, false ) ) {
+                INFO( "Current mutations: " << get_mutations_as_string( you ) );
                 INFO( "Mutating towards " << mut.c_str() );
-                if( !p.mutate_towards( mut ) ) {
+                if( !you.mutate_towards( mut ) ) {
                     --mutation_attempts;
                 }
             }
@@ -46,10 +45,10 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
 }
 
 // Return total strength of all mutation categories combined
-static int get_total_category_strength( const player &p )
+static int get_total_category_strength( const Character &you )
 {
     int total = 0;
-    for( const std::pair<const mutation_category_id, int> &cat : p.mutation_category_level ) {
+    for( const std::pair<const mutation_category_id, int> &cat : you.mutation_category_level ) {
         total += cat.second;
     }
 
@@ -57,10 +56,10 @@ static int get_total_category_strength( const player &p )
 }
 
 // Returns the list of mutations a player has as a string, for debugging
-std::string get_mutations_as_string( const player &p )
+std::string get_mutations_as_string( const Character &you )
 {
     std::ostringstream s;
-    for( trait_id &m : p.get_mutations() ) {
+    for( trait_id &m : you.get_mutations() ) {
         s << static_cast<std::string>( m ) << " ";
     }
     return s.str();
@@ -257,4 +256,159 @@ TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mut
             CHECK( dummy.mutation_value( "overmap_sight" ) == -10 );
         }
     }
+}
+
+static void check_test_mutation_is_triggered( const Character &dummy, bool trigger_on )
+{
+    if( trigger_on ) {
+        THEN( "the mutation turns on" ) {
+            CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+            CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+        }
+    } else {
+        THEN( "the mutation turns off" ) {
+            CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+            CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+        }
+    }
+}
+
+
+TEST_CASE( "The various type of triggers work", "[mutations]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    WHEN( "character has OR test trigger mutation" ) {
+        dummy.toggle_trait( trait_id( "TEST_TRIGGER" ) );
+
+        WHEN( "character is happy" ) {
+            dummy.add_morale( morale_type( "morale_perm_debug" ), 21 );
+            dummy.apply_persistent_morale();
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer happy" ) {
+            dummy.clear_morale();
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "it is the full moon" ) {
+            static const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
+            calendar::turn = full_moon;
+            INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "it's no longer the full moon" ) {
+            calendar::turn = calendar::turn_zero;
+            INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "character is very hungry" ) {
+            dummy.set_hunger( 120 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer very hungry" ) {
+            dummy.set_hunger( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "character is in pain" ) {
+            dummy.set_pain( 120 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer in pain" ) {
+            dummy.set_pain( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "character is thirsty" ) {
+            dummy.set_thirst( 120 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer thirsty" ) {
+            dummy.set_thirst( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "character is low on stamina" ) {
+            dummy.set_stamina( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer low on stamina " ) {
+            dummy.set_stamina( dummy.get_stamina_max() );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "it's 2 am" ) {
+            calendar::turn = calendar::turn_zero + 2_hours;
+            INFO( "TIME OF DAY : " << to_string_time_of_day( calendar::turn ) );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "it's no longer 2 am" ) {
+            calendar::turn = calendar::turn_zero;
+            INFO( "TIME OF DAY : " << to_string_time_of_day( calendar::turn ) );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+    }
+
+    clear_avatar();
+
+    WHEN( "character has AND test trigger mutation" ) {
+        dummy.toggle_trait( trait_id( "TEST_TRIGGER_2" ) );
+
+        WHEN( "it is the full moon but character is not in pain" ) {
+            static const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
+            calendar::turn = full_moon;
+            INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+            dummy.process_turn();
+
+            THEN( "the mutation stays turned off" ) {
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+            }
+        }
+
+        WHEN( "character is in pain and it's the full moon" ) {
+            dummy.set_pain( 120 );
+            dummy.process_turn();
+
+            THEN( "the mutation turns on" ) {
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+            }
+        }
+
+        WHEN( "character is no longer in pain" ) {
+            dummy.set_pain( 0 );
+            dummy.process_turn();
+
+            THEN( "the mutation turns off" ) {
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+            }
+        }
+    }
+
 }

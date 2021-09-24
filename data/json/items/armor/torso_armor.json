@@ -15,12 +15,10 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_armor_cuirass",
@@ -44,12 +42,10 @@
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 80,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 8,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_armor_lamellar",
@@ -74,12 +70,10 @@
     "symbol": "[",
     "looks_like": "armor_lamellar",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_lorica",
@@ -94,7 +88,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bookplate" },
-    "description": "A crude form of armor made from stacked paper and rolls of duct tape, this breastplate offers a surprising amount of protection.",
+    "description": "A crude form of armor made from thickly-stacked paper and rolls of duct tape.",
     "weight": "5790 g",
     "volume": "9500 ml",
     "price": 4200,
@@ -104,12 +98,30 @@
     "symbol": "O",
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 80,
-    "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 12,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tireplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tireplate" },
+    "description": "Armor fashioned from from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
+    "weight": "5790 g",
+    "volume": "9500 ml",
+    "price": 4200,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "O",
+    "looks_like": "armor_scrapsuit",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "chainmail_vest",
@@ -126,11 +138,9 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
-    "covers": [ "torso" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_chainmail_vest",
@@ -156,13 +166,11 @@
     "symbol": "H",
     "looks_like": "cuirass_lightplate",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "cuirass_lightplate",
@@ -179,12 +187,10 @@
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_cuirass_lightplate",
@@ -199,7 +205,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
-    "description": "A cuirass made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A cuirass made from scraps of metal secured by simple strings.",
     "weight": "3366 g",
     "volume": "5750 ml",
     "price": 20000,
@@ -211,12 +217,10 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 80,
-    "encumbrance": 18,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_cuirass_scrap",
@@ -227,11 +231,39 @@
     "flags": [ "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "cuirass_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
+    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "5750 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "cuirass_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "xl_cuirass_tire",
+    "type": "ARMOR",
+    "name": { "str": "XL tire cuirass", "str_pl": "XL tire cuirasses" },
+    "copy-from": "cuirass_scrap",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "OVERSIZE", "OUTER", "NONCONDUCTIVE" ]
+  },
+  {
     "id": "fencing_jacket",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "fencing jacket" },
-    "description": "A padded jacket with the zipper on the back used by fencers to prevent accidents.  It doesn't have any storage room, but it is very comfortable.",
+    "description": "A padded jacket with a zipper on the back, used by fencers to prevent accidents.",
     "weight": "800 g",
     "volume": "2500 ml",
     "price": 3000,
@@ -240,19 +272,17 @@
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 5,
     "warmth": 25,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "jacket_leather_mod",
     "type": "ARMOR",
     "name": { "str": "armored leather jacket" },
-    "description": "An armored jacket made from thick leather and metal plates.  Cumbersome, but offers excellent protection from harm.",
+    "description": "An armored jacket made from thick leather and metal plates.",
     "weight": "2180 g",
     "volume": "5500 ml",
     "price": 17900,
@@ -262,7 +292,7 @@
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 20, 23 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 20, 22 ] }
     ],
@@ -287,6 +317,35 @@
     "material": [ "leather", "bone" ]
   },
   {
+    "id": "jacket_leather_tire",
+    "repairs_like": "jacket_leather",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "tire leather armor" },
+    "description": "A jacket reinforced with chunks of thick rubber tire on the shoulders, back and front.  Bulky and heavy, but thick and electric proof.",
+    "weight": "6250 g",
+    "volume": "7 L",
+    "price": 11000,
+    "price_postapoc": 250,
+    "material": [ "rubber", "leather" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_mod",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "NONCONDUCTIVE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 20, 23 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 20, 22 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ]
+  },
+  {
     "id": "lame_foil",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
@@ -299,12 +358,10 @@
     "material": [ "cotton", "budget_steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 100,
-    "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "torso" ] } ]
   },
   {
     "id": "lame_saber",
@@ -319,12 +376,10 @@
     "material": [ "cotton", "budget_steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "football_armor",
@@ -332,21 +387,19 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football armor" },
-    "description": "Heavy plastic armor for your upper torso.  Normally worn by football players.",
+    "description": "Heavy polycarbonate armor for your upper torso.  Normally worn by football players.",
     "weight": "2810 g",
     "volume": "7 L",
     "price": 11000,
     "price_postapoc": 250,
-    "material": [ "plastic", "cotton" ],
+    "material": [ "thermo_resin", "cotton" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 45,
-    "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 6,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": 35, "coverage": 45, "covers": [ "torso" ] } ]
   },
   {
     "id": "kevlar",
@@ -365,12 +418,10 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 5,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "STURDY", "SKINTIGHT" ]
+    "flags": [ "STURDY", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "lsurvivor_armor",
@@ -386,10 +437,6 @@
     "symbol": "[",
     "looks_like": "lsurvivor_suit",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 95,
-    "encumbrance": 8,
-    "max_encumbrance": 16,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -401,7 +448,8 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_lsurvivor_armor",
@@ -426,7 +474,7 @@
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 28, 30 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 28, 28 ] }
     ],
@@ -452,11 +500,10 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 65,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "coverage": 65, "covers": [ "torso" ] } ]
   },
   {
     "id": "plastron_plastic",
@@ -470,18 +517,16 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 35,
-    "encumbrance": 2,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 2, "coverage": 35, "covers": [ "torso" ] } ]
   },
   {
     "id": "vest_leather_mod",
     "type": "ARMOR",
     "name": { "str": "armored leather vest" },
-    "description": "An armored vest made from thick leather and metal plates.  Cumbersome, but offers excellent protection from harm.",
+    "description": "An armored vest made from thick leather and metal plates.",
     "weight": "1210 g",
     "volume": "3 L",
     "price": 17900,
@@ -491,10 +536,6 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 17,
-    "max_encumbrance": 24,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -504,7 +545,8 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [ { "encumbrance": [ 17, 24 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "jacket_eod",
@@ -512,20 +554,18 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "EOD jacket" },
-    "description": "A thick armored jacket constructed from kevlar and nomex for explosive ordnance disposal.  It is designed to protect against overpressure, fragmentation, impact and heat.",
+    "description": "A thick armored jacket constructed from Kevlar and Nomex for use by explosive ordinance disposal technicians.",
     "weight": "16300 g",
     "volume": "15 L",
     "price": 200000,
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 80,
     "warmth": 65,
     "material": [ "kevlar_layered", "kevlar_rigid", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 15,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "jacket_eod_light",
@@ -533,19 +573,17 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "light EOD jacket" },
-    "description": "An armored jacket constructed from kevlar and nomex designed to protect against overpressure, fragmentation, impact and heat in hostile environments.  It is lighter than normal EOD armor to provide more maneuverability and can be worn over ballistic armor.",
+    "description": "An armored jacket constructed from Kevlar and Nomex for use by explosive ordinance disposal technicians.  It is lighter than normal EOD armor to provide more maneuverability and can be worn over ballistic armor.",
     "weight": "7000 g",
     "volume": "15 L",
     "price": 200000,
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 40,
     "material": [ "kevlar_layered", "kevlar_rigid", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 7,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   }
 ]

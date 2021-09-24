@@ -11,7 +11,6 @@
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
   * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-  * [Troubleshooting](#linux-troubleshooting)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
@@ -121,6 +120,10 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 
 Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 
+# Accelerating Linux builds with llama
+
+[llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [../../tools/llama/README.md](our llama README) for more details.
+
 # Debian
 
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
@@ -191,45 +194,50 @@ Run:
 
 ## Cross-compile to Windows from Linux
 
-To cross-compile to Windows from Linux, you will need MXE. The main difference between the native build process and this one is the use of the CROSS flag for make. The other make flags are still applicable.
-
-  * `CROSS=` - should be the full path to MXE g++ without the *g++* part at the end
+To cross-compile to Windows from Linux, you will need MXE, which changes your `make` command slightly. These instructions were written from Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
 
 Dependencies:
 
   * [MXE](http://mxe.cc)
   * [MXE Requirements](http://mxe.cc/#requirements)
 
-Install:
+Installation
 
-    sudo apt-get install autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+<!-- astyle and lzip added to initial sudo apt install string to forestall complaints from MinGW and make -->
+<!-- ncurses removed from make MXE_TARGETS because we're not gonna be cross-compiling ncurses -->
+
+    sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+    mkdir -p ~/src/Cataclysm-DDA
     mkdir -p ~/src/mxe
-    git clone https://github.com/mxe/mxe.git ~/src/mxe
-    cd ~/src/mxe
-    make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext ncurses
+    cd ~/src
+    git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
+    git clone https://github.com/mxe/mxe.git ./mxe
+    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 
-If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have to use a different command than apt-get to install [the MXE requirements](http://mxe.cc/#requirements). Building all these packages from MXE might take a while even on a fast computer. Be patient. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+
+Edit your `~/.profile` as follows:
+
+    export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
+    export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+
+This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 
 ### Building (SDL)
 
-Run:
+    cd ~/src/Cataclysm-DDA
 
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1
+***IMPORTANT:***
 
-Change PLATFORM to `x86_64-w64-mingw32.static` for a 64-bit Windows build.
+The first time you set up your build environment, you must `touch VERSION.txt` to create a dummy file to avoid `make` complaining about not having a rule. You will need to add "VERSION.txt" to /.git/info/exclude in order to prevent your system from trying to `git push` this dummy file. Subsequent builds should not require `touch` again.
 
-To create a nice zip file with all the required resources for a trouble free copy on Windows use the bindist target like this:
+Run one of the following commands based on your targeted environment:
 
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
 
-### Building (ncurses)
 
-Run:
-
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" RELEASE=1 LOCALIZE=1
+<!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
 
 ## Cross-compile to Mac OS X from Linux
 
@@ -308,7 +316,6 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_ttf (tested with 2.0.14)
   * SDL2_mixer (tested with 2.0.2)
   * SDL2_image (tested with 2.0.3)
-  * libintl-lite (tested with a custom fork of libintl-lite 0.5)
 
 The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
 
@@ -369,10 +376,6 @@ To build a signed release APK (ie. one that can be installed on a device), [buil
 ### Additional notes
 
 The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
-
-## Linux Troubleshooting
-
-If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found`, clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
 
 # Mac OS X
 
@@ -486,16 +489,15 @@ The Cataclysm source is compiled using `make`.
 
 ### Make options
 
-* `NATIVE=osx` build for OS X. Required for all Mac builds.
-* `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5. 10.12 or higher is highly recommended (see ISSUES below).
+* `NATIVE=osx` build for OS X. Required for all Mac builds. This is automatically set if compiling natively on macOS.
+* `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5. 10.12 or higher is highly recommended (see ISSUES below). The default value is current system version.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
-* `BREWGETTEXT=1` set this if you don't set LOCALIZE=0 and have installed `gettext` from homebrew--homebrew will refuse to link gettext in recent versions.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
-* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
+* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++. This is enabled by default.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 * `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 * `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
@@ -508,15 +510,15 @@ For more info, see the comments in the `Makefile`.
 
 Build a release SDL version using Clang without gettext:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
+    make RELEASE=1 TILES=1 LOCALIZE=0
 
 Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, don't use `gettext`, and package it into `Cataclysm.app`:
 
-    make app NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
+    make app RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0
 
 Build a release curses version with gettext supplied by Macports:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 LOCALIZE=1 MACPORTS=1 CLANG=1
+    make RELEASE=1 LOCALIZE=1 MACPORTS=1
 
 ### Running
 
@@ -553,12 +555,6 @@ You should see a `Cataclysm.dmg` file.
 
 ## Mac OS X Troubleshooting
 
-### ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier
-
-For versions of OS X 10.11 and earlier, run-time optimizations are disabled for native builds (`-O0` is specified as a compilation flag) due to errors that can occur in compilation. See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
-
-If you're on a newer version of OS X, please use an appropriate value for the `OSX_MIN=` option, i.e. `OSX_MIN=10.14` if you are on Mojave.
-
 ### ISSUE: crash on startup due to libint.8.dylib aborting
 
 If you're compiling on Mountain Lion or above, it won't be possible to run successfully on older OS X versions due to libint.8 / pthreads version issue.
@@ -576,11 +572,9 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
-## Building with Visual Studio
-
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
+This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs. -->
 
 ## Building with MSYS2
 
@@ -602,39 +596,24 @@ Clang by default uses MSVC on Windows, but also supports the MinGW64 library. Si
 
 There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
 
-### Building on FreeBSD/amd64 10.1 with the system compiler
+### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box. You will however need gmake (examples for binary packages):
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
 
-`pkg install gmake`
+Install the following with pkg (or from Ports):
+
+`pkg install gmake libiconv`
 
 Tiles builds will also require SDL2:
 
-`pkg install sdl2 sdl2_image sdl2_mixer sdl2_ttf`
+`pkg install sdl20 sdl2_image sdl2_mixer sdl2_ttf`
 
-Then you should be able to build with something like this (you can of course set CXXFLAGS and LDFLAGS in your .profile or something):
+Then you should be able to build with something like this:
 
 ```
-export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
-gmake # ncurses builds
-gmake TILES=1 # tiles builds
+gmake RELEASE=1 # ncurses builds
+gmake RELEASE=1 TILES=1 # tiles builds
 ```
-
-The author has not tested tiles builds, as the build VM lacks X; they do at least compile/link successfully.
-
-### Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports
-
-For ncurses build add to `Makefile`, before `VERSION`:
-
-```Makefile
-OTHERS += -D_GLIBCXX_USE_C99
-CXX = g++48
-CXXFLAGS += -I/usr/local/lib/gcc48/include
-LDFLAGS += -rpath=/usr/local/lib/gcc48
-```
-Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
-
-And then build with `gmake LOCALIZE=0 RELEASE=1`.
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 

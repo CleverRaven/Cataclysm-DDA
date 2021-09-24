@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "debug.h"
@@ -11,7 +12,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "string_id.h"
 
 namespace
 {

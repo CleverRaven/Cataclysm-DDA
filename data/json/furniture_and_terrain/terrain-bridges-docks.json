@@ -118,7 +118,7 @@
     "type": "terrain",
     "id": "t_pontoon_dp",
     "name": "pontoon bridge",
-    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "description": "A floating temporary bridge over still water, like the ones armies used to make to cross lakes.",
     "looks_like": "t_pontoon",
     "symbol": "8",
     "color": "brown",
@@ -141,7 +141,7 @@
     "type": "terrain",
     "id": "t_riverbridge_dp",
     "name": "river bridge",
-    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "description": "A floating temporary bridge over flowing water, like the ones armies used to make to cross rivers.",
     "looks_like": "t_pontoon",
     "symbol": "8",
     "color": "brown",
@@ -156,7 +156,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "whump!",
-      "ter_set": "t_water_dp",
+      "ter_set": "t_water_moving_dp",
       "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
     }
   },

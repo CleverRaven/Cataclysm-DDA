@@ -1,12 +1,13 @@
-#include "catch/catch.hpp"
-
 #include <array>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
@@ -15,7 +16,9 @@
 #include "monster.h"
 #include "optional.h"
 #include "point.h"
+#include "tileray.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

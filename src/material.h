@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_MATERIAL_H
 #define CATA_SRC_MATERIAL_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -12,7 +13,6 @@
 
 #include "fire.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -22,7 +22,6 @@ enum class damage_type : int;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
-using mat_compacts_into = std::vector<itype_id>;
 using material_list = std::vector<material_type>;
 using material_id_list = std::vector<material_id>;
 
@@ -37,7 +36,7 @@ struct fuel_explosion_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct fuel_data {
@@ -50,7 +49,7 @@ struct fuel_data {
 
         bool was_loaded = false;
         void load( const JsonObject &jsobj );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 class material_type
@@ -71,10 +70,12 @@ class material_type
         int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
+        // How resistant this material is to wind as a percentage - 0 to 100
+        cata::optional<int> _wind_resist;
         float _specific_heat_liquid = 4.186f;
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
-        int _freeze_point = 32; // Fahrenheit
+        float _freeze_point = 0; // Celsius
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
@@ -92,9 +93,6 @@ class material_type
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
-
-        material_id_list _compact_accepts;
-        mat_compacts_into _compacts_into;
 
     public:
         material_type();
@@ -126,8 +124,9 @@ class material_type
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;
-        int freeze_point() const;
+        float freeze_point() const;
         int density() const;
+        cata::optional<int> wind_resist() const;
         bool edible() const;
         bool rotting() const;
         bool soft() const;
@@ -142,8 +141,6 @@ class material_type
 
         const mat_burn_data &burn_data( size_t intensity ) const;
         const mat_burn_products &burn_products() const;
-        const material_id_list &compact_accepts() const;
-        const mat_compacts_into &compacts_into() const;
 };
 
 namespace materials
@@ -154,7 +151,6 @@ void check();
 void reset();
 
 material_list get_all();
-material_list get_compactable();
 std::set<material_id> get_rotting();
 
 } // namespace materials

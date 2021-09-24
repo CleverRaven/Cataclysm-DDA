@@ -9,6 +9,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_black", "hair_crewcut" ],
     "types": [ "hair_style" ]
   },
@@ -22,6 +23,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_black", "hair_mohawk" ],
     "types": [ "hair_style" ]
   },
@@ -35,6 +37,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_black", "hair_fro" ],
     "types": [ "hair_style" ]
   },
@@ -48,6 +51,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_black", "hair_short" ],
     "types": [ "hair_style" ]
   },
@@ -61,6 +65,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_black", "hair_medium" ],
     "types": [ "hair_style" ]
   },
@@ -74,6 +79,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_black", "hair_long" ],
     "types": [ "hair_style" ]
   },
@@ -87,6 +93,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_brown", "hair_crewcut" ],
     "types": [ "hair_style" ]
   },
@@ -100,6 +107,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_brown", "hair_mohawk" ],
     "types": [ "hair_style" ]
   },
@@ -113,6 +121,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_brown", "hair_fro" ],
     "types": [ "hair_style" ]
   },
@@ -126,6 +135,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_brown", "hair_short" ],
     "types": [ "hair_style" ]
   },
@@ -139,6 +149,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_brown", "hair_medium" ],
     "types": [ "hair_style" ]
   },
@@ -152,6 +163,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_brown", "hair_long" ],
     "types": [ "hair_style" ]
   },
@@ -165,6 +177,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_blond", "hair_crewcut" ],
     "types": [ "hair_style" ]
   },
@@ -178,6 +191,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_blond", "hair_mohawk" ],
     "types": [ "hair_style" ]
   },
@@ -191,6 +205,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_blond", "hair_fro" ],
     "types": [ "hair_style" ]
   },
@@ -204,6 +219,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_blond", "hair_short" ],
     "types": [ "hair_style" ]
   },
@@ -217,6 +233,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_blond", "hair_medium" ],
     "types": [ "hair_style" ]
   },
@@ -230,6 +247,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_blond", "hair_long" ],
     "types": [ "hair_style" ]
   },
@@ -243,6 +261,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_red", "hair_crewcut" ],
     "types": [ "hair_style" ]
   },
@@ -256,6 +275,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_red", "hair_mohawk" ],
     "types": [ "hair_style" ]
   },
@@ -269,6 +289,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_red", "hair_fro" ],
     "types": [ "hair_style" ]
   },
@@ -282,6 +303,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_red", "hair_short" ],
     "types": [ "hair_style" ]
   },
@@ -295,6 +317,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_red", "hair_medium" ],
     "types": [ "hair_style" ]
   },
@@ -308,6 +331,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_red", "hair_long" ],
     "types": [ "hair_style" ]
   },
@@ -321,6 +345,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_gray", "hair_crewcut" ],
     "types": [ "hair_style" ]
   },
@@ -334,6 +359,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_gray", "hair_mohawk" ],
     "types": [ "hair_style" ]
   },
@@ -347,6 +373,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_gray", "hair_fro" ],
     "types": [ "hair_style" ]
   },
@@ -360,6 +387,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_gray", "hair_short" ],
     "types": [ "hair_style" ]
   },
@@ -373,6 +401,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_gray", "hair_medium" ],
     "types": [ "hair_style" ]
   },
@@ -386,6 +415,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_gray", "hair_long" ],
     "types": [ "hair_style" ]
   },
@@ -399,6 +429,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_white", "hair_crewcut" ],
     "types": [ "hair_style" ]
   },
@@ -412,6 +443,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_white", "hair_mohawk" ],
     "types": [ "hair_style" ]
   },
@@ -425,6 +457,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_white", "hair_fro" ],
     "types": [ "hair_style" ]
   },
@@ -438,6 +471,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_white", "hair_short" ],
     "types": [ "hair_style" ]
   },
@@ -451,6 +485,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_white", "hair_medium" ],
     "types": [ "hair_style" ]
   },
@@ -464,6 +499,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "flags": [ "hair_white", "hair_long" ],
     "types": [ "hair_style" ]
   },
@@ -477,7 +513,86 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "hair_style" ]
+  },
+  {
+    "id": "eye_blue",
+    "type": "mutation",
+    "name": { "str": "Eye color: blue" },
+    "description": "You have blue eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_brown",
+    "type": "mutation",
+    "name": { "str": "Eye color: brown" },
+    "description": "You have brown eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_hazel",
+    "type": "mutation",
+    "name": { "str": "Eye color: hazel" },
+    "description": "You have hazel eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_amber",
+    "type": "mutation",
+    "name": { "str": "Eye color: amber" },
+    "description": "You have amber eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_gray",
+    "type": "mutation",
+    "name": { "str": "Eye color: gray" },
+    "description": "You have gray eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_green",
+    "type": "mutation",
+    "name": { "str": "Eye color: green" },
+    "description": "You have green eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "eye_color" ]
   },
   {
     "id": "SKIN_DARK",
@@ -489,6 +604,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "skin_tone" ]
   },
   {
@@ -501,6 +617,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "skin_tone" ]
   },
   {
@@ -513,6 +630,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "skin_tone" ]
   },
   {
@@ -525,6 +643,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "skin_tone" ]
   },
   {
@@ -537,6 +656,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "skin_tone" ]
   },
   {
@@ -549,6 +669,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -561,6 +682,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -573,6 +695,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -585,6 +708,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -597,6 +721,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -609,6 +734,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -621,6 +747,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -633,6 +760,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -645,6 +773,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -657,6 +786,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -669,6 +799,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -681,6 +812,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -693,6 +825,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -705,6 +838,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -717,6 +851,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -729,6 +864,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -741,6 +877,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -753,6 +890,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -765,6 +903,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -777,6 +916,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -789,6 +929,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -801,6 +942,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -813,6 +955,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -825,6 +968,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -837,6 +981,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   },
   {
@@ -849,6 +994,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "vanity": true,
     "types": [ "facial_hair" ]
   }
 ]

@@ -8960,7 +8960,7 @@
             "multitile":false
         },
         {
-            "id": "money_bundle",
+            "id": "money_one",
             "fg":-1,
             "bg":-1,
             "rotates":false,

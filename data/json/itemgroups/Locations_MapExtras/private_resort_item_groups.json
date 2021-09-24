@@ -128,7 +128,9 @@
       { "group": "bar_table", "prob": 40 },
       { "group": "bar_alcohol", "prob": 20 },
       { "group": "underwear_mens", "prob": 10 },
-      { "item": "money_bundle", "prob": 50 },
+      { "item": "money_strap_twenty", "prob": 50 },
+      { "item": "money_strap_fifty", "prob": 50 },
+      { "item": "money_strap_hundred", "prob": 50 },
       { "item": "deck_of_cards", "prob": 90 },
       { "item": "plastic_six_dice", "prob": 40 }
     ]
@@ -148,9 +150,9 @@
     "type": "item_group",
     "items": [
       { "item": "cup_plastic", "prob": 50 },
-      { "item": "cig", "prob": 50 },
-      { "item": "matches", "prob": 50 },
-      { "item": "rolling_paper", "prob": 50 },
+      { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "matches", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "rolling_paper", "prob": 50, "charges": [ 1, 30 ] },
       { "item": "wrapper", "prob": 50 },
       { "item": "news_regional", "prob": 50 },
       { "item": "mag_news", "prob": 50 },

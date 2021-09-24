@@ -12,7 +12,7 @@
     "transforms_into": "t_tree_walnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "walnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "walnut_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -50,15 +50,13 @@
     "looks_like": "t_tree",
     "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  You could peel off the bark sections if you examined the tree more closely.  You could cut it down with the right tools.",
     "symbol": "7",
-    "color": "brown",
+    "color": "yellow",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -75,7 +73,7 @@
     "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  All usable bark has been stripped off.  You could cut it down with the right tools.",
     "name": "blackjack oak",
     "symbol": "7",
-    "color": "green",
+    "color": "brown",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
@@ -102,7 +100,7 @@
     "transforms_into": "t_tree_chestnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "chestnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "chestnut_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -146,7 +144,7 @@
     "transforms_into": "t_tree_beech_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "beech_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -190,7 +188,7 @@
     "transforms_into": "t_tree_hazelnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "hazelnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "hazelnut_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -234,7 +232,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorns", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "oak_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -360,7 +358,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_apple_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "apple_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -407,7 +405,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_pear_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pear", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pear_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -454,15 +452,7 @@
     "transforms_into": "t_tree_coffee_harvested",
     "looks_like": "t_tree_plum",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "autumn" ],
-        "entries": [
-          { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "tea_raw", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "coffee_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -509,7 +499,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_cherry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "cherry_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -556,7 +546,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_juniper_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "juniper", "base_num": [ 12, 24 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "juniper_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -603,7 +593,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_peach_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "peach", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "peach_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -650,7 +640,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_apricot_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "apricot_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -697,7 +687,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_plum_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "plum_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -744,15 +734,7 @@
     "transforms_into": "t_tree_mulberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_tree_apple",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_mulberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "mulberry_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -799,15 +781,7 @@
     "transforms_into": "t_tree_elderberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_tree_plum",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_elderberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "elderberry_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -853,12 +827,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_pine_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn", "winter" ],
-        "entries": [ { "drop": "pine_bough", "base_num": [ 2, 8 ] }, { "drop": "pinecone", "base_num": [ 1, 4 ] } ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "pine_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -914,9 +883,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_birch_harvested",
-    "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "birch_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -961,9 +928,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_willow_harvested",
-    "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 2, 8 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "willow_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -1049,9 +1014,7 @@
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "tree_hickory",
-    "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "hickory_nut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "hickory_harv" } ],
     "transforms_into": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -1098,7 +1061,7 @@
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pistachio", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pistachio_harv" } ],
     "transforms_into": "t_tree_pistachio_harvested",
     "bash": {
       "str_min": 80,
@@ -1144,7 +1107,7 @@
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "almond", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "almond_harv" } ],
     "transforms_into": "t_tree_almond_harvested",
     "bash": {
       "str_min": 80,
@@ -1190,7 +1153,7 @@
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pecan_harv" } ],
     "transforms_into": "t_tree_pecan_harvested",
     "bash": {
       "str_min": 80,
@@ -1422,7 +1385,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_peanut_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "peanut", "base_num": [ 5, 10 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_peanut_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1467,15 +1430,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_blueberry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blueberry_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1520,15 +1475,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_strawberry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_strawberry_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1573,15 +1520,7 @@
     "transforms_into": "t_shrub_blackberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "blackberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_blackberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blackberry_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1626,15 +1565,7 @@
     "transforms_into": "t_shrub_huckleberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "huckleberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_huckleberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_huckleberry_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1679,15 +1610,7 @@
     "transforms_into": "t_shrub_raspberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "raspberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_raspberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_raspberry_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1732,15 +1655,7 @@
     "transforms_into": "t_shrub_grape_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [
-      {
-        "seasons": [ "summer" ],
-        "entries": [
-          { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_grape_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1785,7 +1700,7 @@
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_rose_harv" } ],
     "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
@@ -2067,7 +1982,7 @@
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "fern_harv" } ],
     "transforms_into": "t_fern_harvested",
     "bash": {
       "str_min": 2,

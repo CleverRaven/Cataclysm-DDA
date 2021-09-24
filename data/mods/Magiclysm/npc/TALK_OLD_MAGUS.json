@@ -20,7 +20,7 @@
       { "text": "Let's trade items.", "topic": "TALK_OLD_MAGUS", "effect": "start_trade" },
       {
         "text": "Can I do anything for you?",
-        "topic": "TALK_MISSION_OFFER",
+        "topic": "TALK_MISSION_LIST",
         "condition": {
           "and": [
             { "not": "has_assigned_mission" },

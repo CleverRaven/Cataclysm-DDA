@@ -2,21 +2,18 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <map>
-#include <ostream>
 #include <sstream>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "compatibility.h"
 #include "json.h"
 #include "math_defines.h"
 #include "translations.h"
@@ -50,7 +47,9 @@ class quantity
          * `quantity<float, foo>`. The unit type stays the same!
          */
         template<typename other_value_type>
-        constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
+            value_( other.value() ) {
         }
 
         /**
@@ -136,7 +135,7 @@ class quantity
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 
     private:
         value_type value_;
@@ -619,14 +618,14 @@ inline std::string display( const units::energy v )
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
     if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
     if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
-    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units
@@ -856,9 +855,24 @@ inline double tan( angle a )
     return std::tan( to_radians( a ) );
 }
 
+inline double cot( angle a )
+{
+    return std::tan( M_PI_2 - to_radians( a ) );
+}
+
 inline units::angle atan2( double y, double x )
 {
     return from_radians( std::atan2( y, x ) );
+}
+
+inline units::angle asin( double x )
+{
+    return from_radians( std::asin( x ) );
+}
+
+inline units::angle acos( double x )
+{
+    return from_radians( std::acos( x ) );
 }
 
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
@@ -899,27 +913,24 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 } // namespace units
 
-template<typename T>
-T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+namespace detail
 {
-    const size_t pos = jsin.tell();
-    size_t i = 0;
-    const auto error = [&]( const char *const msg ) {
-        jsin.seek( pos + i );
-        jsin.error( msg );
-    };
 
-    const std::string s = jsin.get_string();
+template<typename T, typename Error>
+T read_from_json_string_common( const std::string &s,
+                                const std::vector<std::pair<std::string, T>> &units, Error &&error )
+{
+    size_t i = 0;
     // returns whether we are at the end of the string
     const auto skip_spaces = [&]() {
-        while( i < s.size() && s[i] == ' ' ) {
+        while( i < s.size() && s[ i ] == ' ' ) {
             ++i;
         }
         return i >= s.size();
     };
     const auto get_unit = [&]() {
         if( skip_spaces() ) {
-            error( "invalid quantity string: missing unit" );
+            error( "invalid quantity string: missing unit", i );
         }
         for( const auto &pair : units ) {
             const std::string &unit = pair.first;
@@ -928,33 +939,51 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit" );
+        error( "invalid quantity string: unknown unit", i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };
 
     if( skip_spaces() ) {
-        error( "invalid quantity string: empty string" );
+        error( "invalid quantity string: empty string", i );
+        // above always throws but lambdas cannot be marked [[noreturn]]
+        throw std::string( "Exceptionally impossible" );
     }
     T result{};
     do {
         int sign_value = +1;
-        if( s[i] == '-' ) {
+        if( s[ i ] == '-' ) {
             sign_value = -1;
             ++i;
-        } else if( s[i] == '+' ) {
+        } else if( s[ i ] == '+' ) {
             ++i;
         }
-        if( i >= s.size() || !isdigit( s[i] ) ) {
-            error( "invalid quantity string: number expected" );
+        if( i >= s.size() || !isdigit( s[ i ] ) ) {
+            error( "invalid quantity string: number expected", i );
+            // above always throws but lambdas cannot be marked [[noreturn]]
+            throw std::string( "Exceptionally impossible" );
         }
         int value = 0;
-        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
-            value = value * 10 + ( s[i] - '0' );
+        for( ; i < s.size() && isdigit( s[ i ] ); ++i ) {
+            value = value * 10 + ( s[ i ] - '0' );
         }
         result += sign_value * value * get_unit();
     } while( !skip_spaces() );
     return result;
+}
+
+} // namespace detail
+
+template<typename T>
+T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
+{
+    const auto error = [&]( const char *const msg, size_t offset ) {
+        jv.throw_error( msg, offset );
+    };
+
+    const std::string s = jv;
+
+    return detail::read_from_json_string_common<T>( s, units, error );
 }
 
 template<typename T>

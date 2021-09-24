@@ -4,10 +4,10 @@
 #include <array>
 #include <cstdio>
 #include <cstdlib>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -19,7 +19,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
@@ -37,12 +36,9 @@ using namespace std::placeholders;
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
-save_t::save_t( const std::string &name )
-    : name( name )
-{
-}
+save_t::save_t( const std::string &name ): name( name ) {}
 
-std::string save_t::player_name() const
+std::string save_t::decoded_name() const
 {
     return name;
 }
@@ -52,9 +48,9 @@ std::string save_t::base_path() const
     return base64_encode( name );
 }
 
-save_t save_t::from_player_name( const std::string &name )
+save_t save_t::from_save_id( const std::string &save_id )
 {
-    return save_t( name );
+    return save_t( save_id );
 }
 
 save_t save_t::from_base_path( const std::string &base_path )
@@ -78,6 +74,15 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
+WORLD::WORLD( const std::string &name )
+{
+    world_name = name;
+    WORLD_OPTIONS = get_options().get_world_defaults();
+
+    world_saves.clear();
+    active_mod_order = world_generator->get_mod_manager().get_default_mods();
+}
+
 void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 {
     world_name = world_to_copy->world_name + "_copy";
@@ -87,7 +92,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    return PATH_INFO::savedir() + utf8_to_native( world_name );
+    return PATH_INFO::savedir() + world_name;
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -107,9 +112,9 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2, _3 ) );
+    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
+    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
+    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2, _3 ) );
 }
 
 worldfactory::~worldfactory() = default;
@@ -125,6 +130,13 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
+    retworld->active_mod_order = mods;
+    return add_world( std::move( retworld ) );
+}
+
+WORLDPTR worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
+{
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
@@ -282,7 +294,7 @@ void worldfactory::init()
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
-        worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
+        worldname = world_dir.substr( name_index + 1 );
 
         // create and store the world
         all_worlds[worldname] = std::make_unique<WORLD>();
@@ -398,7 +410,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    size_t sel = 0, selpage = 0;
+    size_t sel = 0;
+    size_t selpage = 0;
 
     catacurses::window w_worlds_border;
     catacurses::window w_worlds_tooltip;
@@ -602,7 +615,8 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file( PATH_INFO::lastworld(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
+                         std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
     }
@@ -724,19 +738,20 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     }
 
                     const mod_id &mod_entry_id = *iter;
-                    std::string mod_entry_name = string_format( _( " [%s]" ), mod_entry_id.str() );
+                    std::string mod_entry_name;
                     nc_color mod_entry_color = c_white;
                     if( mod_entry_id.is_valid() ) {
                         const MOD_INFORMATION &mod = *mod_entry_id;
-                        mod_entry_name = mod.name() + mod_entry_name;
+                        mod_entry_name = mod.name();
                         if( mod.obsolete ) {
                             mod_entry_color = c_dark_gray;
                         }
                     } else {
                         mod_entry_color = c_light_red;
-                        mod_entry_name = _( "N/A" ) + mod_entry_name;
+                        mod_entry_name = _( "N/A" );
 
                     }
+                    mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
 
                     if( w_shift ) {
@@ -949,8 +964,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ui.on_screen_resize( init_windows );
 
     std::vector<std::string> headers;
-    headers.push_back( _( "Mod List" ) );
-    headers.push_back( _( "Mod Load Order" ) );
+    headers.emplace_back( _( "Mod List" ) );
+    headers.emplace_back( _( "Mod Load Order" ) );
 
     size_t active_header = 0;
     int startsel[2] = {0, 0};
@@ -1518,9 +1533,6 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
 
 void WORLD::load_options( JsonIn &jsin )
 {
-    // if core data version isn't specified then assume version 1
-    int version = 1;
-
     auto &opts = get_options();
 
     jsin.start_array();
@@ -1531,11 +1543,6 @@ void WORLD::load_options( JsonIn &jsin )
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
                                   jo.get_string( "value" ) );
 
-        if( name == "CORE_VERSION" ) {
-            version = std::max( std::atoi( value.c_str() ), 0 );
-            continue;
-        }
-
         if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
             WORLD_OPTIONS[ name ].setValue( value );
         }
@@ -1544,8 +1551,6 @@ void WORLD::load_options( JsonIn &jsin )
     if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
         WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
-
-    WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
 }
 
 bool WORLD::load_options()
@@ -1592,7 +1597,7 @@ void load_external_option( const JsonObject &jo )
         } else {
             opt.setValue( "false" );
         }
-    } else if( stype == "string" ) {
+    } else if( stype == "string" || stype == "string_input" ) {
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );

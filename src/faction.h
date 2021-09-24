@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_FACTION_H
 #define CATA_SRC_FACTION_H
 
-#include <algorithm>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -14,10 +14,13 @@
 
 #include "character_id.h"
 #include "color.h"
-#include "cursesdef.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 // TODO: Redefine?
 static constexpr int MAX_FAC_NAME_SIZE = 40;
@@ -71,7 +74,7 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        explicit faction_template( const faction_template & ) = default;
+        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -97,9 +100,9 @@ class faction : public faction_template
 {
     public:
         faction() = default;
-        faction( const faction_template &templ );
+        explicit faction( const faction_template &templ );
 
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
@@ -113,8 +116,8 @@ class faction : public faction_template
         void add_to_membership( const character_id &guy_id, const std::string &guy_name, bool known );
         void remove_member( const character_id &guy_id );
         std::vector<int> opinion_of;
-        bool validated = false;
-        std::map<character_id, std::pair<std::string, bool>> members;
+        bool validated = false; // NOLINT(cata-serialize)
+        std::map<character_id, std::pair<std::string, bool>> members; // NOLINT(cata-serialize)
 };
 
 class faction_manager

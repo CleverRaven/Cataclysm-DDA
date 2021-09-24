@@ -7,7 +7,7 @@
     "name_unique": "Mikhail Frolov",
     "name_suffix": "Fisherman",
     "attitude": 0,
-    "mission": 3,
+    "mission": 8,
     "chat": "TALK_lighthouse_man_1",
     "faction": "fisherman_family",
     "mission_offered": "MISSION_lighthouse_man_1"
@@ -19,7 +19,7 @@
     "name": { "str": "Fisherman" },
     "job_description": "I'm just wandering.",
     "shopkeeper_item_group": "NPC_lighthouse_man_shop",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Caucasian" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ]
@@ -29,19 +29,18 @@
     "id": "NPC_lighthouse_man_shop",
     "subtype": "collection",
     "items": [
-      [ "fish_bait", 35 ],
-      [ "fishspear", 1 ],
-      [ "fish", 20 ],
-      [ "fish_smoked", 4 ],
-      [ "fish_cooked", 14 ],
-      [ "salted_fish", 4 ],
-      [ "dry_fish", 2 ],
-      [ "fish_fried", 6 ],
-      [ "soup_fish", 50 ],
-      [ "doublespeargun", 1 ],
-      [ "fish_trap", 4 ],
-      [ "fishing_hook_bone", 2 ],
-      [ "fishing_rod_basic", 1 ]
+      { "item": "fish_bait", "count": [ 15, 35 ] },
+      { "item": "fish", "count": [ 5, 20 ] },
+      { "item": "fish_smoked", "count": [ 1, 4 ] },
+      { "item": "fish_cooked", "count": [ 4, 14 ] },
+      { "item": "salted_fish", "count": [ 2, 6 ] },
+      { "item": "fish_fried", "count": [ 2, 6 ] },
+      { "item": "soup_fish", "count": [ 35, 50 ], "container-item": "bottle_plastic" },
+      { "item": "fishspear", "prob": 20, "count": [ 4, 8 ] },
+      [ "doublespeargun", 20 ],
+      [ "fish_trap", 55 ],
+      [ "fishing_hook_bone", 100 ],
+      [ "fishing_rod_basic", 100 ]
     ]
   },
   {
@@ -103,12 +102,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_survivors_yes",
-    "dynamic_line": "Заходил один, ну и остался.  Можешь поговорить с ним внизу."
+    "dynamic_line": "Good news, <name_g>.  One survivor sailed to us recently."
   },
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_survivors_no",
-    "dynamic_line": "Никого не было, <name_g>.  Я уж начинаю сомневаться, что кто-то ещё остался, кроме нас."
+    "dynamic_line": "Nobody came, <name_g>.  I'm beginning to doubt that anyone else has survived besides us…"
   },
   {
     "type": "talk_topic",
@@ -211,6 +210,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
+        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }
@@ -255,14 +255,12 @@
             { "not": { "u_has_var": "lighthouse_woman", "type": "flag", "context": "safe", "value": "yes" } },
             { "u_has_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" }
           ]
-        },
-        "effect": { "npc_first_topic": "TALK_lighthouse_man_1" }
+        }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your wife alive…",
         "topic": "TALK_lighthouse_man_fail",
-        "condition": { "and": [ "mission_complete", { "u_has_var": "lighthouse_girl", "type": "flag", "context": "safe", "value": "yes" } ] },
-        "effect": { "npc_first_topic": "TALK_lighthouse_man_1" }
+        "condition": { "and": [ "mission_complete", { "u_has_var": "lighthouse_girl", "type": "flag", "context": "safe", "value": "yes" } ] }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your daughter alive…",
@@ -273,8 +271,7 @@
             { "u_has_var": "lighthouse_woman", "type": "flag", "context": "safe", "value": "yes" },
             { "u_has_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" }
           ]
-        },
-        "effect": { "npc_first_topic": "TALK_lighthouse_man_1" }
+        }
       },
       { "text": "Nothing, really.", "topic": "TALK_DONE" }
     ]
@@ -283,7 +280,9 @@
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_fail",
     "dynamic_line": "<name_g>… I entrusted you with the most valuable thing that I have left, and you…",
-    "responses": [ { "text": "I'm sorry…", "topic": "TALK_DONE", "effect": "end_conversation" } ]
+    "responses": [
+      { "text": "I'm sorry…", "topic": "TALK_DONE", "effect": [ "mission_failure", "clear_mission", "end_conversation" ] }
+    ]
   },
   {
     "id": "MISSION_lighthouse_man_1",
@@ -295,7 +294,33 @@
     "difficulty": 0,
     "value": 5000,
     "start": {
-      "assign_mission_target": { "om_terrain": "lighthouse_ground", "reveal_radius": 10 },
+      "assign_mission_target": { "om_terrain": "lighthouse_ground", "om_special": "Lighthouse Island", "reveal_radius": 10, "search_range": 360 },
+      "update_mapgen": [
+        {
+          "om_terrain": "lighthouse_ground",
+          "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 } ]
+        },
+        {
+          "om_terrain": "lighthouse_z1",
+          "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 16 ], "y": [ 8, 16 ], "density": 0.3 } ]
+        },
+        {
+          "om_terrain": "lighthouse_z2",
+          "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 16 ], "y": [ 8, 16 ], "density": 0.3 } ]
+        },
+        {
+          "om_terrain": "lighthouse_z3",
+          "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 16 ], "y": [ 8, 16 ], "density": 0.3 } ]
+        },
+        {
+          "om_terrain": "lighthouse_z4",
+          "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 16 ], "y": [ 8, 16 ], "density": 0.3 } ]
+        },
+        {
+          "om_terrain": "lighthouse_z5",
+          "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 16 ], "y": [ 8, 16 ], "density": 0.3 } ]
+        }
+      ],
       "effect": [ "follow_only", { "npc_first_topic": "TALK_lighthouse_man_lighthouse" } ]
     },
     "end": { "opinion": { "trust": 3, "value": 3 } },
@@ -307,7 +332,7 @@
       "accepted": "Good.  I'll be right behind you.",
       "rejected": "Well, it's your choice.",
       "advice": "First we need to find a transport to get there.",
-      "inquire": "Finally reached it.",
+      "inquire": "We finally reached it.",
       "success": "Looks nice, <name_g>.  Now I need to clean it from <zombies> somehow…",
       "success_lie": "-",
       "failure": "-"
@@ -317,10 +342,10 @@
     "id": "MISSION_lighthouse_man_2",
     "type": "mission_definition",
     "has_generic_rewards": false,
-    "name": { "str": "Clean lighthouse" },
+    "name": { "str": "House cleaning" },
     "description": "Clean lighthouse from <zombies> with Mikhail.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "6" },
+    "goal_condition": { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "7" },
     "difficulty": 0,
     "value": 5000,
     "start": {
@@ -332,6 +357,11 @@
     },
     "end": {
       "opinion": { "trust": 3, "value": 3 },
+      "update_mapgen": {
+        "om_terrain": "lighthouse_ground",
+        "faction_owner": [ { "id": "fisherman_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+        "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "fisherman_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+      },
       "effect": [
         "stop_following",
         { "npc_first_topic": "TALK_lighthouse_man_1" },
@@ -402,7 +432,7 @@
       "opinion": { "trust": 3, "value": 3 },
       "update_mapgen": {
         "om_terrain": "lighthouse_ground",
-        "place_vehicles": [ { "vehicle": "canoe", "x": 3, "y": 3, "rotation": 0, "status": 0 } ]
+        "place_vehicles": [ { "vehicle": "canoe", "x": 3, "y": 3, "rotation": 0, "status": 0, "chance": 100 } ]
       },
       "effect": [ { "npc_add_var": "helped_lighthouse_man", "type": "flag", "context": "help", "value": "yes" } ]
     },
@@ -421,11 +451,10 @@
     }
   },
   {
-    "//": "TODO change update_mapgen",
     "id": "MISSION_lighthouse_man_5",
     "type": "mission_definition",
-    "name": { "str": "Fix lighthouse" },
-    "description": "Find someone to fix lighthouse.",
+    "name": { "str": "Fixing lighthouse" },
+    "description": "Mikhail asked you to find someone, who have enough expertise to fix the mechanism of lighthouse.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "ready" },
     "difficulty": 0,
@@ -455,10 +484,9 @@
     }
   },
   {
-    "//": "TODO change npc to random npc or something like that",
     "type": "mapgen",
     "update_mapgen_id": "lighthouse_man_survivor",
     "method": "json",
-    "object": { "place_npcs": [ { "class": "survivor_cop", "x": [ 7, 17 ], "y": [ 10, 15 ] } ] }
+    "object": { "place_npcs": [ { "class": "NPC_survivor_lighthouse", "x": [ 7, 17 ], "y": [ 10, 15 ] } ] }
   }
 ]

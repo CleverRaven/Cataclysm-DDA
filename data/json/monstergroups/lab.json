@@ -5,6 +5,7 @@
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_zombie_soldier", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_manhack", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_manhack", "freq": 45, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 0 },
@@ -19,7 +20,8 @@
       { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
-      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_lab_rat", "freq": 30, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
     ]
   },
   {
@@ -28,6 +30,9 @@
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_blob_small", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 18, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 18, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "freq": 200, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zombie_tough", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
@@ -52,14 +57,20 @@
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 }
-    ]
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_mole_cricket", "freq": 20, "cost_multiplier": 3 },
+      { "monster": "mon_lab_rat", "freq": 30, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
+    ],
+    "freq_total": 2642
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_SURFACE",
     "default": "mon_zombie_scientist",
     "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 18, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 18, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie_labsecurity", "freq": 400, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zombie_scientist", "freq": 600, "cost_multiplier": 1 },
       { "monster": "mon_zombie_scientist", "freq": 400, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
@@ -84,17 +95,22 @@
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 }
-    ]
+      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_lab_rat", "freq": 50, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
+    ],
+    "freq_total": 2639
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_SECURITY",
     "default": "mon_zombie_labsecurity",
     "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 22, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 22, "cost_multiplier": 2 },
       { "monster": "mon_zombie_labsecurity", "freq": 700, "cost_multiplier": 2 },
       { "monster": "mon_science_bot", "freq": 50, "cost_multiplier": 4 },
       { "monster": "mon_manhack", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_tazer_hack", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_manhack", "freq": 45, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_skitterbot", "freq": 85, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "freq": 85, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
@@ -107,7 +123,8 @@
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
       { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 }
-    ]
+    ],
+    "freq_total": 1323
   },
   {
     "type": "monstergroup",
@@ -115,6 +132,9 @@
     "default": "mon_zombie_scientist",
     "//": "Mostly scientists, lab personnel and regular zombies.",
     "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 18, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 18, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 20, "cost_multiplier": 8 },
       { "monster": "mon_zombie", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_zombie_fat", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_zombie_tough", "freq": 75, "cost_multiplier": 2 },
@@ -135,16 +155,31 @@
     "monsters": [ { "monster": "mon_prototype_cyborg", "freq": 400, "cost_multiplier": 0 } ]
   },
   {
+    "name": "GROUP_LAB_MUTANT_BOSS",
+    "type": "monstergroup",
+    "default": "mon_mutant_evolved",
+    "monsters": [
+      { "monster": "mon_mutant_antler", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_arthropod", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_mollusk", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_camouflaged", "freq": 150, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_MICROLAB",
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_blob_small", "freq": 40, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 18, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 18, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie_scientist", "freq": 40, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_science_bot", "freq": 40, "cost_multiplier": 2 },
       { "monster": "mon_zombie_labsecurity", "freq": 40, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zombie_hazmat", "freq": 40, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
       { "monster": "mon_manhack", "freq": 20, "cost_multiplier": 1, "pack_size": [ 3, 12 ] },
+      { "monster": "mon_tazer_hack", "freq": 20, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mutant_experimental", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_skitterbot", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zombie_phase_skulker", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
@@ -159,7 +194,97 @@
       { "monster": "mon_zombie_armored", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 1, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 },
+      { "monster": "mon_mole_cricket", "freq": 2, "cost_multiplier": 3 },
+      { "monster": "mon_lab_rat", "freq": 20, "cost_multiplier": 20, "pack_size": [ 2, 8 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_BASIC_SECURITY",
+    "default": "mon_zombie_labsecurity",
+    "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 18, "cost_multiplier": 12 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 18, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_labsecurity", "freq": 40, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_hazmat", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie", "freq": 30, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_zombie_fat", "freq": 20, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_tough", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_technician", "freq": 3, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_necro", "freq": 1, "cost_multiplier": 15 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_MILITARY",
+    "default": "mon_zombie_soldier",
+    "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "freq": 12, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 12, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_labsecurity", "freq": 5, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_hazmat", "freq": 5, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_bio_op", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_bio_op2", "freq": 10, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_armored", "freq": 3, "cost_multiplier": 15 },
+      { "monster": "mon_zombie_soldier", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_MAINTENANCE",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hazmat", "freq": 20, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_feral_human_pipe", "freq": 18, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_feral_human_crowbar", "freq": 18, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_eyebot", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_hazmatbot", "freq": 7, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie", "freq": 30, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_tough", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_electric", "freq": 3, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_static", "freq": 15, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_RESEARCHERS",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_hazmat", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_scientist", "freq": 30, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_manhack", "freq": 5, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_tazer_hack", "freq": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_fat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_tough", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler", "freq": 5, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_HOSPTIAL",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_zombie_medical", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_medical_brute", "freq": 10, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_technician", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_hazmat", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_scientist", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_fat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_tough", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_static", "freq": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 10 }
     ]
   }
 ]

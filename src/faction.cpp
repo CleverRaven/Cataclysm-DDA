@@ -2,15 +2,18 @@
 
 #include <bitset>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -22,10 +25,12 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "memory_fast.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
@@ -394,8 +399,8 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const auto &fac_temp : npc_factions::all_templates ) {
-        factions[fac_temp.id] = fac_temp;
+    for( const faction_template &fac_temp : npc_factions::all_templates ) {
+        factions[fac_temp.id] = faction( fac_temp );
     }
 }
 
@@ -446,7 +451,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
     for( const faction_template &elem : npc_factions::all_templates ) {
         // id isn't already in factions map, so load in the template.
         if( elem.id == id ) {
-            factions[elem.id] = elem;
+            factions[elem.id] = faction( elem );
             if( !factions.empty() ) {
                 factions[elem.id].validated = true;
             }
@@ -458,6 +463,12 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
         debugmsg( "Requested non-existing faction '%s'", id.str() );
     }
     return nullptr;
+}
+
+template<>
+bool string_id<faction>::is_valid() const
+{
+    return g->faction_manager_ptr->get( *this, false ) != nullptr;
 }
 
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -631,9 +642,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     const std::pair <std::string, nc_color> condition = hp_description();
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
-    const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
-    const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
-    const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
+    const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
+    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
@@ -642,7 +653,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + weapon.tname() );
+                                _( "Wielding: " ) + get_wielded_item().tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -666,8 +677,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                                   best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[2] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[2] );
     return retval;
 }
 
@@ -702,7 +713,7 @@ void faction_manager::display() const
     g->validate_npc_followers();
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
+    input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_cardinal();
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );

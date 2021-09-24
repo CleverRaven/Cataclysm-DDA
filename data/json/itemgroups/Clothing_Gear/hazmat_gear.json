@@ -8,7 +8,7 @@
       { "item": "mask_gas", "prob": 60, "charges-min": 0 },
       { "item": "gasfilter_m", "prob": 60, "charges-min": 0 },
       { "item": "rad_monitor", "prob": 33, "charges": [ 0, 100 ] },
-      { "item": "iodine", "prob": 33 },
+      { "item": "iodine", "prob": 33, "charges": [ 1, 10 ] },
       { "group": "full_1st_aid", "prob": 15 },
       { "item": "geiger_off", "prob": 15, "charges": [ 0, 100 ] }
     ]

@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "stats_tracker.h"
 
 #include <algorithm>
@@ -883,7 +883,7 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
     CHECK( get_stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
 
-struct test_subscriber : public event_subscriber {
+struct stats_test_subscriber : public event_subscriber {
     void notify( const cata::event &e ) override {
         if( e.type() == event_type::player_gets_achievement ||
             e.type() == event_type::player_fails_conduct ) {
@@ -898,7 +898,7 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
     get_stats().clear();
     get_achievements().clear();
-    test_subscriber sub;
+    stats_test_subscriber sub;
     get_event_bus().subscribe( &sub );
 
     const character_id u_id = get_player_character().getID();
@@ -960,7 +960,7 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
     std::istringstream is( json_string );
     JsonIn jsin( is );
     stats_tracker s;
-    s.deserialize( jsin );
+    s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );
     CHECK( s.get_events( event_type::character_kills_monster ).count() == 0 );
 }

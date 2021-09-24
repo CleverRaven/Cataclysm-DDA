@@ -1,7 +1,18 @@
 #include "activity_scheduling_helper.h"
 
-#include "player_helpers.h"
+#include <climits>
+#include <cstdlib>
+#include <list>
+
+#include "avatar.h"
+#include "cata_catch.h"
+#include "debug.h"
+#include "item.h"
 #include "map_helpers.h"
+#include "player_activity.h"
+#include "player_helpers.h"
+#include "stomach.h"
+#include "string_formatter.h"
 
 void activity_schedule::setup( avatar &guy ) const
 {
@@ -9,7 +20,7 @@ void activity_schedule::setup( avatar &guy ) const
     // This may be longer than the interval, which means that we
     // never finish this task
     if( actor ) {
-        guy.assign_activity( *actor, false );
+        guy.assign_activity( player_activity( *actor ), false );
     } else {
         guy.assign_activity( player_activity( act, calendar::INDEFINITELY_LONG, -1, INT_MIN,
                                               "" ), false );
@@ -93,14 +104,14 @@ weariness_events do_activity( tasklist tasks )
         // How many turn's we've been at it
         time_duration turns = 0_seconds;
         while( turns <= task.interval && !task.instantaneous() ) {
-            // Start each turn with a fresh set of moves
-            guy.moves = 100;
-            task.do_turn( guy );
             // Advance a turn
             calendar::turn += 1_turns;
             turns += 1_seconds;
             // Consume food, become weary, etc
             guy.update_body();
+            // Start each turn with a fresh set of moves
+            guy.moves = 100;
+            task.do_turn( guy );
         }
         // Cancel our activity, now that we're done
         guy.cancel_activity();
@@ -110,7 +121,10 @@ weariness_events do_activity( tasklist tasks )
         tasks.advance( task.interval );
         // If we're more weary than we were when we started, report it
         if( new_weariness != weariness_lvl ) {
-            activity_log.log( weariness_lvl, new_weariness, spent );
+            int new_weary = guy.weariness();
+            int new_thresh = guy.weary_threshold();
+            activity_log.log( weariness_lvl, new_weariness, spent,
+                              new_weary, new_thresh );
             weariness_lvl = new_weariness;
         }
     }
@@ -122,9 +136,7 @@ const schedule &tasklist::next_task()
     // Uh oh! We ran out of tasks!
     if( cursor >= tasks.size() ) {
         debugmsg( "Requested task when none existed!" );
-        if( tasks.empty() ) {
-            abort();
-        }
+        REQUIRE( !tasks.empty() );
         return *tasks[0].first;
     }
     return *tasks[cursor].first;
@@ -167,12 +179,15 @@ time_duration tasklist::duration()
     return ret;
 }
 
-void weariness_events::log( const int old_level, const int new_level, const time_duration &when )
+void weariness_events::log( const int old_level, const int new_level, const time_duration &when,
+                            const int new_weariness, const int new_threshold )
 {
     weary_transition added;
     added.from = old_level;
     added.to = new_level;
     added.minutes = to_minutes<int>( when );
+    added.new_weariness = new_weariness;
+    added.new_threshold = new_threshold;
 
     transitions.insert( transitions.end(), added );
 }
@@ -192,12 +207,24 @@ int weariness_events::transition_minutes( const int from, const int to,
     return ret.first;
 }
 
+bool weariness_events::have_weary_decrease() const
+{
+    for( const weary_transition &change : transitions ) {
+        if( change.from > change.to ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 std::string weariness_events::summarize() const
 {
     std::string buffer;
     for( const weary_transition &change : transitions ) {
-        buffer += string_format( "Transition: Weariness from %d to %d at %d minutes\n", change.from,
-                                 change.to, change.minutes );
+        buffer += string_format( "Transition: Weariness lvl from %d to %d at %d min (W %d Th %d)\n",
+                                 change.from, change.to, change.minutes,
+                                 change.new_weariness, change.new_threshold );
     }
     return buffer;
 }

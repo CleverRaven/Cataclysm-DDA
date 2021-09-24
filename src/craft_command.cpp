@@ -2,10 +2,11 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <list>
+#include <string>
 
 #include "character.h"
 #include "crafting.h"
@@ -21,6 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -60,8 +62,7 @@ std::string enum_to_string<usage_from>( usage_from data )
         case usage_from::num_usages_from:
             break;
     }
-    debugmsg( "Invalid usage" );
-    abort();
+    cata_fatal( "Invalid usage" );
 }
 
 } // namespace io
@@ -79,10 +80,8 @@ void comp_selection<CompType>::serialize( JsonOut &jsout ) const
 }
 
 template<typename CompType>
-void comp_selection<CompType>::deserialize( JsonIn &jsin )
+void comp_selection<CompType>::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
-
     std::string use_from_str;
     data.read( "use_from", use_from_str );
     use_from = io::string_to_enum<usage_from>( use_from_str );
@@ -92,8 +91,8 @@ void comp_selection<CompType>::deserialize( JsonIn &jsin )
 
 template void comp_selection<tool_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
-template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
-template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
+template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
+template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
 void craft_command::execute( const cata::optional<tripoint> &new_loc )
 {
@@ -160,7 +159,7 @@ void craft_command::execute()
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }

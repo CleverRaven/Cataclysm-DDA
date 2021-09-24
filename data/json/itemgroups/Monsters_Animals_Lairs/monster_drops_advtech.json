@@ -19,7 +19,7 @@
       { "item": "ceramic_armor", "prob": 15 },
       { "item": "motor", "prob": 2 },
       { "group": "ammo_heavy_batteries_full", "prob": 50 },
-      { "item": "plut_cell", "prob": 10 }
+      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] }
     ]
   },
   {

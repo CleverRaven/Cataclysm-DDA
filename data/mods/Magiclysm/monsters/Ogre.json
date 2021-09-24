@@ -24,7 +24,7 @@
     "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
     "vision_day": 10,
     "vision_night": 3,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2", "FIREPROOF" ]
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "FIREPROOF" ]
   }
 ]

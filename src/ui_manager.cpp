@@ -1,16 +1,14 @@
 #include "ui_manager.h"
 
-#include <algorithm>
+#include <functional>
 #include <iterator>
-#include <memory>
 #include <vector>
 
 #include "cached_options.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "game_ui.h"
 #include "point.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
@@ -108,7 +106,7 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 // 2. Optimize the invalidated flag so completely occluded UIs will not be redrawn.
 //
 // The current implementation may still invalidate UIs that in fact do not need to
-// be redrawn, but all UIs that need to be redrawn are guaranteed be invalidated.
+// be redrawn, but all UIs that need to be redrawn are guaranteed to be invalidated.
 void ui_adaptor::invalidation_consistency_and_optimization()
 {
     // Only ensure consistency and optimize for UIs not disabled by another UI
@@ -212,39 +210,72 @@ void ui_adaptor::redraw()
 
 void ui_adaptor::redraw_invalidated()
 {
-    if( test_mode ) {
+    if( test_mode || ui_stack.empty() ) {
         return;
     }
-    ui_stack_t ui_stack_copy = ui_stack;
-    // apply deferred resizing
-    auto first = ui_stack_copy.rbegin();
-    for( ; first != ui_stack_copy.rend(); ++first ) {
+
+    // Find the first enabled UI. From now on enabling and disabling UIs
+    // have no effect until the end of this call.
+    auto first = ui_stack.rbegin();
+    for( ; first != ui_stack.rend(); ++first ) {
         if( first->get().disabling_uis_below ) {
             break;
         }
     }
-    for( auto it = first == ui_stack_copy.rend() ? ui_stack_copy.begin() : std::prev( first.base() );
-         it != ui_stack_copy.end(); ++it ) {
+
+    // Avoid a copy if possible to improve performance. `ui_stack_orig`
+    // always contains the original UI stack, and `first_enabled` always points
+    // to elements of `ui_stack_orig`.
+    std::unique_ptr<ui_stack_t> ui_stack_copy;
+    auto first_enabled = first == ui_stack.rend() ? ui_stack.begin() : std::prev( first.base() );
+    ui_stack_t *ui_stack_orig = &ui_stack;
+
+    // Apply deferred resizing.
+    bool needs_resize = false;
+    for( auto it = first_enabled; it != ui_stack_orig->end(); ++it ) {
         ui_adaptor &ui = *it;
-        if( ui.deferred_resize ) {
-            if( ui.screen_resized_cb ) {
-                ui.screen_resized_cb( ui );
-            }
-            ui.deferred_resize = false;
+        if( ui.deferred_resize && ui.screen_resized_cb ) {
+            needs_resize = true;
+            break;
         }
     }
-    reinitialize_framebuffer();
-
-    // redraw invalidated uis
-    if( !ui_stack_copy.empty() ) {
-        auto first = ui_stack_copy.crbegin();
-        for( ; first != ui_stack_copy.crend(); ++first ) {
-            if( first->get().disabling_uis_below ) {
-                break;
+    if( needs_resize ) {
+        if( !ui_stack_copy ) {
+            // Callbacks may modify the UI stack; make a copy of the original one.
+            ui_stack_copy = std::make_unique<ui_stack_t>( *ui_stack_orig );
+            first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
+            ui_stack_orig = &*ui_stack_copy;
+        }
+        for( auto it = first_enabled; it != ui_stack_orig->end(); ++it ) {
+            ui_adaptor &ui = *it;
+            if( ui.deferred_resize ) {
+                if( ui.screen_resized_cb ) {
+                    ui.screen_resized_cb( ui );
+                }
+                ui.deferred_resize = false;
             }
         }
-        for( auto it = first == ui_stack_copy.crend() ? ui_stack_copy.cbegin() : std::prev( first.base() );
-             it != ui_stack_copy.cend(); ++it ) {
+        // Callbacks may have changed window sizes; reinitialize the frame buffer.
+        reinitialize_framebuffer();
+    }
+
+    // Redraw invalidated UIs.
+    bool needs_redraw = false;
+    for( auto it = first_enabled; it != ui_stack_orig->end(); ++it ) {
+        const ui_adaptor &ui = *it;
+        if( ui.invalidated && ui.redraw_cb ) {
+            needs_redraw = true;
+            break;
+        }
+    }
+    if( needs_redraw ) {
+        if( !ui_stack_copy ) {
+            // Callbacks may change the UI stack; make a copy of the original one.
+            ui_stack_copy = std::make_unique<ui_stack_t>( *ui_stack_orig );
+            first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
+            ui_stack_orig = &*ui_stack_copy;
+        }
+        for( auto it = first_enabled; it != ui_stack_orig->end(); ++it ) {
             const ui_adaptor &ui = *it;
             if( ui.invalidated ) {
                 if( ui.redraw_cb ) {

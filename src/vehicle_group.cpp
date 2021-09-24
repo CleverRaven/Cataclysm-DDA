@@ -1,8 +1,10 @@
 #include "vehicle_group.h"
 
-#include <cstddef>
 #include <functional>
-#include <memory>
+#include <cmath>
+#include <cstddef>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "debug.h"

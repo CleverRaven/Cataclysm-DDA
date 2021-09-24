@@ -3,13 +3,12 @@
 #define CATA_SRC_STRING_FORMATTER_H
 
 #include <cstddef>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
-#include <utility>
 
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 // TODO: replace with std::optional
 #include "optional.h"
 
@@ -129,7 +128,7 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
 &&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
         int )
 {
-    return string_formatter_set_temp_buffer( sf, to_string( value ) );
+    return string_formatter_set_temp_buffer( sf, std::to_string( value ) );
 }
 template<typename RT, typename T>
 inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
@@ -242,8 +241,8 @@ class string_formatter
         /**@{*/
         template<typename RT, unsigned int current_index>
         RT get_nth_arg_as( const unsigned int requested ) const {
-            throw_error( "Requested argument " + to_string( requested ) + " but input has only " + to_string(
-                             current_index ) );
+            throw_error( "Requested argument " + std::to_string( requested ) + " but input has only " +
+                         std::to_string( current_index ) );
         }
         template<typename RT, unsigned int current_index, typename T, typename ...Args>
         RT get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const {
@@ -268,7 +267,7 @@ class string_formatter
                 consume_next_input_if( 'l' );
             } else if( consume_next_input_if( 'h' ) ) {
                 consume_next_input_if( 'h' );
-            } else if( consume_next_input_if( 'z' ) ) {
+            } else if( consume_next_input_if( 'z' ) ) { // NOLINT(bugprone-branch-clone)
                 // done with it
             } else if( consume_next_input_if( 't' ) ) {
                 // done with it
@@ -318,7 +317,7 @@ class string_formatter
 
     public:
         /// @param format The format string as required by `sprintf`.
-        string_formatter( std::string format ) : format( std::move( format ) ) { }
+        explicit string_formatter( std::string format ) : format( std::move( format ) ) { }
         /// Does the actual `sprintf`. It uses @ref format and puts the formatted
         /// string into @ref output.
         /// Note: use @ref get_output to get the formatted string after a successful
@@ -346,11 +345,11 @@ class string_formatter
                 read_flags();
                 if( const cata::optional<int> width_argument_index = read_width() ) {
                     const int w = get_nth_arg_as<int, 0>( *width_argument_index, std::forward<Args>( args )... );
-                    current_format += to_string( w );
+                    current_format += std::to_string( w );
                 }
                 if( const cata::optional<int> precision_argument_index = read_precision() ) {
                     const int p = get_nth_arg_as<int, 0>( *precision_argument_index, std::forward<Args>( args )... );
-                    current_format += to_string( p );
+                    current_format += std::to_string( p );
                 }
                 const int arg = format_arg_index ? *format_arg_index : current_argument_index++;
                 read_conversion( arg, std::forward<Args>( args )... );
@@ -366,6 +365,13 @@ class string_formatter
 #else
 #define PRINTF_LIKE(a,b)
 #endif
+
+        // A stupid thing happens in certain situations. On Windows, when using clang, the PRINTF_LIKE
+        // macro expands to something containing the token printf, which might be defined to libintl_printf,
+        // which is not a valid __attribute__ name. To prevent that we use an *MSVC* pragma which gcc and clang
+        // support to temporarily suppress expanding printf to libintl_printf so the attribute applies correctly.
+#pragma push_macro("printf")
+#undef printf
         /**
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
@@ -374,6 +380,8 @@ class string_formatter
          */
         // Implemented in output.cpp
         static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
+#pragma pop_macro("printf")
+
 #undef PRINTF_LIKE
 };
 

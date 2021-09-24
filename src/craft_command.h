@@ -2,21 +2,20 @@
 #ifndef CATA_SRC_CRAFT_COMMAND_H
 #define CATA_SRC_CRAFT_COMMAND_H
 
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
+#include "optional.h"
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
-class read_only_visitable;
 class item;
-struct item_comp;
-struct tool_comp;
+class read_only_visitable;
 template<typename T> struct enum_traits;
 
 /**
@@ -50,7 +49,7 @@ struct comp_selection {
     std::string nname() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 /**

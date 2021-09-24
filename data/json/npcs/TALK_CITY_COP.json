@@ -18,7 +18,7 @@
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
-      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I gotta go.", "topic": "TALK_DONE" }
     ]
   },

@@ -17,7 +17,7 @@
     "type": "SPECIES",
     "id": "BIRD",
     "description": "a bird",
-    "fear_triggers": [ "HURT", "SOUND" ],
+    "fear_triggers": [ "HURT", "SOUND", "FRIEND_ATTACKED" ],
     "bleeds": "fd_blood"
   },
   {
@@ -43,8 +43,7 @@
   {
     "type": "SPECIES",
     "id": "MUTANT",
-    "description": "a mutant",
-    "fear_triggers": [ "FIRE" ]
+    "description": "a mutant"
   },
   {
     "type": "SPECIES",
@@ -93,7 +92,7 @@
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "LOUDMOVES" ],
     "bleeds": "fd_blood_insect"
   },
   {

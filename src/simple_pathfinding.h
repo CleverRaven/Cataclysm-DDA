@@ -2,189 +2,132 @@
 #ifndef CATA_SRC_SIMPLE_PATHFINDING_H
 #define CATA_SRC_SIMPLE_PATHFINDING_H
 
-#include <limits>
-#include <queue>
+#include <functional>
 #include <vector>
 
+#include "coordinates.h"
 #include "enums.h"
+#include "omdata.h"
+#include "optional.h"
 #include "point.h"
-#include "point_traits.h"
 
 namespace pf
 {
 
-static const int rejected = std::numeric_limits<int>::min();
-
+/*
+ * A node in a path, containing position and direction.
+ */
 template<typename Point>
-struct node {
+struct directed_node {
     Point pos;
-    int dir;
-    int priority;
+    om_direction::type dir;
 
-    node( const Point &p, int dir, int priority = 0 ) :
-        pos( p ),
-        dir( dir ),
-        priority( priority ) {}
-
-    // Operator overload required by priority queue interface.
-    bool operator< ( const node &n ) const {
-        return priority > n.priority;
-    }
+    explicit directed_node( Point pos,
+                            om_direction::type dir = om_direction::type::invalid ) : pos( pos ), dir( dir ) {}
 };
 
+/*
+ * Data structure representing a path from a source to a destination.
+ * The nodes are given in reverse order (from destination to source) in order to allow
+ * efficient consumption through pop_back().
+ */
 template<typename Point>
-struct path {
-    std::vector<node<Point>> nodes;
+struct directed_path {
+    std::vector<directed_node<Point>> nodes;
 };
+
+/*
+ * Data structure representing a path from a source to a destination.
+ * The points are given in reverse order (from destination to source) in order to allow
+ * efficient consumption through pop_back().
+ */
+template<typename Point>
+struct simple_path {
+    std::vector<Point> points;
+};
+
+// Data structure returned by a node scoring function.
+struct node_score {
+    // cost of traversing the "current" node
+    // value < 0 means it can not be traversed
+    int node_cost;
+    // estimated cost to reach the destination from the "current" node
+    // if node_cost is negative, this is ignored
+    int estimated_dest_cost;
+
+    node_score( int node_cost, int estimated_dest_cost );
+
+    static const node_score rejected;
+};
+
+// A node scoring function that provides a node to score and optionally provides the
+// previous node in the path as context.
+template<typename Point>
+using two_node_scoring_fn =
+    std::function<node_score( directed_node<Point>, cata::optional<directed_node<Point>> )>;
+
+// non-templated implementation
+directed_path<point> greedy_path( const point &source, const point &dest, const point &max,
+                                  two_node_scoring_fn<point> scorer );
 
 /**
+ * Uses Greedy Best-First-Search to find a short path from source to destination [2D only].
+ * The search area is a rectangle with corners at (0,0) and max.
+ *
  * @param source Starting point of path
  * @param dest End point of path
  * @param max Max permissible coordinates for a point on the path
- * @param estimator BinaryPredicate( node &previous, node *current ) returns
- * integer estimation (smaller - better) for the current node or a negative value
- * if the node is unsuitable.
+ * @param scorer function of (node &current, node *previous) that returns node_score.
  */
-template<typename Point, class BinaryPredicate>
-path<Point> find_path( const Point &source,
-                       const Point &dest,
-                       const Point &max,
-                       BinaryPredicate estimator )
+template<typename Point, typename = std::enable_if_t<Point::dimension == 2>>
+directed_path<Point> greedy_path( const Point &source, const Point &dest, const Point &max,
+                                  two_node_scoring_fn<Point> scorer )
 {
-    static_assert( Point::dimension == 2, "This pathfinding function doesn't work for tripoints" );
-    using Traits = point_traits<Point>;
-    using Node = node<Point>;
-
-    const auto inbounds = [ max ]( const Point & p ) {
-        return Traits::x( p ) >= 0 && Traits::x( p ) < Traits::x( max ) &&
-               Traits::y( p ) >= 0 && Traits::y( p ) < Traits::y( max );
-    };
-
-    const auto map_index = [ max ]( const Point & p ) {
-        return Traits::y( p ) * Traits::x( max ) + Traits::x( p );
-    };
-
-    path<Point> res;
-
-    if( source == dest ) {
-        return res;
-    }
-
-    if( !inbounds( source ) || !inbounds( dest ) ) {
-        return res;
-    }
-
-    const Node first_node( source, 5, 1000 );
-
-    if( estimator( first_node, nullptr ) == rejected ) {
-        return res;
-    }
-
-    const size_t map_size = Traits::x( max ) * Traits::y( max );
-
-    std::vector<bool> closed( map_size, false );
-    std::vector<int> open( map_size, 0 );
-    std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<Node, std::vector<Node>> nodes[2];
-
-    int i = 0;
-    nodes[i].push( first_node );
-    open[map_index( source )] = std::numeric_limits<int>::max();
-
-    // use A* to find the shortest path from (x1,y1) to (x2,y2)
-    while( !nodes[i].empty() ) {
-        const Node mn( nodes[i].top() ); // get the best-looking node
-
-        nodes[i].pop();
-        // mark it visited
-        closed[map_index( mn.pos )] = true;
-
-        // if we've reached the end, draw the path and return
-        if( mn.pos == dest ) {
-            Point p = mn.pos;
-
-            res.nodes.reserve( nodes[i].size() );
-
-            while( p != source ) {
-                const int n = map_index( p );
-                const int dir = dirs[n];
-                res.nodes.emplace_back( p, dir );
-                p += four_adjacent_offsets[dir];
-            }
-
-            res.nodes.emplace_back( p, -1 );
-
-            return res;
+    directed_path<Point> res;
+    const two_node_scoring_fn<point> point_scorer
+    = [scorer]( directed_node<point> current, cata::optional<directed_node<point>> prev ) {
+        cata::optional<directed_node<Point>> prev_node;
+        if( prev ) {
+            prev_node = directed_node<Point>( Point( prev->pos ), prev->dir );
         }
-
-        for( int dir = 0; dir < 4; dir++ ) {
-            const Point p = mn.pos + four_adjacent_offsets[dir];
-            const int n = map_index( p );
-            // don't allow:
-            // * out of bounds
-            // * already traversed tiles
-            if( !inbounds( p ) || closed[n] ) {
-                continue;
-            }
-
-            Node cn( p, dir );
-            cn.priority = estimator( cn, &mn );
-
-            if( cn.priority == rejected ) {
-                continue;
-            }
-            // record direction to shortest path
-            if( open[n] == 0 || open[n] > cn.priority ) {
-                dirs[n] = ( dir + 2 ) % 4;
-
-                if( open[n] != 0 ) {
-                    while( nodes[i].top().pos != p ) {
-                        nodes[1 - i].push( nodes[i].top() );
-                        nodes[i].pop();
-                    }
-                    nodes[i].pop();
-
-                    if( nodes[i].size() > nodes[1 - i].size() ) {
-                        i = 1 - i;
-                    }
-                    while( !nodes[i].empty() ) {
-                        nodes[1 - i].push( nodes[i].top() );
-                        nodes[i].pop();
-                    }
-                    i = 1 - i;
-                }
-                open[n] = cn.priority;
-                nodes[i].push( cn );
-            }
-        }
+        return scorer( directed_node<Point>( Point( current.pos ), current.dir ), prev_node );
+    };
+    directed_path<point> path = greedy_path( source.raw(), dest.raw(), max.raw(), point_scorer );
+    res.nodes.reserve( path.nodes.size() );
+    for( const auto &node : path.nodes ) {
+        res.nodes.emplace_back( Point( node.pos ), node.dir );
     }
-
     return res;
 }
 
-template<typename Point = point>
-inline path<Point> straight_path( const Point &source, int dir, size_t len )
-{
-    path<Point> res;
+struct omt_score {
+    // cost of traversing the "current" OMT
+    // value < 0 means it can not be traversed
+    int node_cost;
+    // Set to true if it *may* be possible to go up/down from the "current" node.
+    // The relevant scoring function will be invoked to determine if it is
+    // actually possible.
+    bool allow_z_change;
 
-    if( len == 0 ) {
-        return res;
-    }
+    explicit omt_score( int node_cost, bool allow_z_change = false );
 
-    Point p = source;
+    static const omt_score rejected;
+};
 
-    res.nodes.reserve( len );
+using omt_scoring_fn = std::function<omt_score( tripoint_abs_omt )>;
 
-    for( size_t i = 0; i + 1 < len; ++i ) {
-        res.nodes.emplace_back( p, dir );
-
-        p += four_adjacent_offsets[dir];
-    }
-
-    res.nodes.emplace_back( p, -1 );
-
-    return res;
-}
+/**
+ * Uses A* to find an approximately-cheapest path from source to destination (in 3D).
+ *
+ * @param source Starting point of path
+ * @param dest End point of path
+ * @param radius Maximum search radius
+ * @param scorer function that returns the omt_score for the given OMT
+ * @param max_cost Maximum path cost (optional)
+ */
+simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
+        const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
+        cata::optional<int> max_cost = cata::nullopt );
 
 } // namespace pf
 

@@ -19,7 +19,7 @@
     "entries": [
       { "group": "clothing_military_pilot", "prob": 65, "damage-min": 1, "damage-max": 4 },
       { "group": "gear_soldier_sidearm", "prob": 30, "damage-min": 1, "damage-max": 4 },
-      { "item": "two_way_radio", "prob": 50, "damage-min": 1, "damage-max": 4 },
+      { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ], "damage-min": 1, "damage-max": 4 },
       { "item": "adderall", "prob": 40 },
       { "group": "wallets_military", "prob": 5 },
       { "item": "militarymap", "prob": 5 },
@@ -27,7 +27,7 @@
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
       { "item": "hstomach", "prob": 100 },
-      { "group": "misc_smoking", "prob": 30 }
+      { "group": "misc_smoking_legal", "prob": 30 }
     ]
   },
   {
@@ -67,11 +67,11 @@
       },
       {
         "distribution": [
-          { "item": "mask_gas", "prob": 0, "damage-min": 1, "damage-max": 4 },
-          { "item": "two_way_radio", "prob": 50 },
+          { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ], "damage-min": 1, "damage-max": 4 },
+          { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ] },
           { "item": "grenade", "prob": 5 },
           { "group": "wallets_military", "prob": 5 },
-          { "group": "misc_smoking", "prob": 30 }
+          { "group": "misc_smoking_legal", "prob": 30 }
         ]
       },
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },

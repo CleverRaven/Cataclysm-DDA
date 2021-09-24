@@ -80,7 +80,7 @@
     "symbol": "<",
     "color": "light_red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
     "deconstruct": {
       "deconstruct_above": true,
       "ter_set": "t_floor",
@@ -123,7 +123,7 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
@@ -151,6 +151,7 @@
     "name": "ladder",
     "description": "A ladder leading up.",
     "symbol": "<",
+    "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
@@ -161,9 +162,20 @@
     "name": "ladder",
     "description": "A ladder leading down.",
     "symbol": ">",
+    "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ladder_up_down",
+    "name": "ladder",
+    "description": "A ladder leading up and down.",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
   },
   {
     "type": "terrain",
@@ -208,6 +220,48 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_down_high",
+    "name": "earth ramp down (high end)",
+    "description": "The upper end of an earth ramp leading down.",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_down_low",
+    "name": "earth ramp down (low end)",
+    "description": "The lower end of an earth ramp leading down.",
+    "connects_to": "WALL",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_up_high",
+    "name": "earth ramp up (high end)",
+    "connects_to": "WALL",
+    "description": "The upper end of an earth ramp leading up.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_up_low",
+    "name": "earth ramp up (low end)",
+    "description": "The lower end of an earth ramp leading up.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -292,7 +346,7 @@
     "symbol": "<",
     "color": "dark_gray_white",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -314,7 +368,7 @@
     "symbol": "<",
     "color": "black_white",
     "move_cost": 0,
-    "flags": [ "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
     "bash": {
       "str_min": 20,
       "str_max": 50,
@@ -327,5 +381,49 @@
         { "item": "splinter", "count": [ 1, 4 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_down_high",
+    "name": "railroad ramp down (high end)",
+    "description": "The upper end of a railroad ramp leading down.",
+    "connects_to": "RAIL",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAIL", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_down_low",
+    "name": "railroad ramp down (low end)",
+    "description": "The lower end of a railroad ramp leading down.",
+    "connects_to": "WALL",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_up_high",
+    "name": "railroad ramp up (high end)",
+    "connects_to": "WALL",
+    "description": "The upper end of a railroad ramp leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "RAIL", "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_up_low",
+    "name": "railroad ramp up (low end)",
+    "connects_to": "RAIL",
+    "description": "The lower end of a railroad ramp leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAIL" ]
   }
 ]

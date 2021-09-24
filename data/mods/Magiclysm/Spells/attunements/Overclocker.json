@@ -8,7 +8,7 @@
     "effect_str": "neuro_boost",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "self" ],
-    "flags": [ "SOMATIC", "CONCENTRATE", "NO_PROJECTILE" ],
+    "flags": [ "SOMATIC", "CONCENTRATE", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "max_level": 35,
     "min_damage": 0,
     "max_damage": 35,
@@ -28,5 +28,26 @@
     "energy_source": "MANA",
     "difficulty": 8,
     "damage_type": "heat"
+  },
+  {
+    "id": "overclocker_drive",
+    "type": "SPELL",
+    "name": "Overdrive",
+    "description": "The power of mana flows into you, heightening your speed to supernatural levels in a self-destructive way.  You are a blur amongst your enemies, felling them with blows too swift to see.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT" ],
+    "effect": "attack",
+    "shape": "blast",
+    "effect_str": "overclocker_drive_effect",
+    "max_damage": 1,
+    "min_duration": 1000,
+    "max_duration": 150000,
+    "duration_increment": 4300,
+    "spell_class": "OVERCLOCKER",
+    "difficulty": 9,
+    "max_level": 35,
+    "base_casting_time": 600,
+    "base_energy_cost": 900,
+    "energy_source": "MANA"
   }
 ]

@@ -6,6 +6,7 @@
     "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
     "symbol": ".",
     "color": "brown",
+    "connects_to": "DIRT",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -18,6 +19,7 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 3,
+    "connects_to": "SAND",
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
@@ -40,6 +42,7 @@
     "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
     "symbol": ".",
     "color": "light_red",
+    "connects_to": "CLAY",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -52,6 +55,7 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
+    "connects_to": "CLAY",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "BURROWABLE" ],
     "bash": {
@@ -71,6 +75,7 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
+    "connects_to": "SAND",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "BURROWABLE" ],
     "bash": {
@@ -84,11 +89,25 @@
   },
   {
     "type": "terrain",
+    "id": "t_glassed_sand",
+    "name": "glassed sand",
+    "description": "A patch of sand that has a crust of natural glass atop it, after exposure to intense heat.",
+    "looks_like": "t_sand",
+    "symbol": "~",
+    "color": "brown",
+    "connects_to": "SAND",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "crunch", "ter_set": "t_sand", "str_min": 25, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_dirtmound",
     "name": "mound of dirt",
     "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
     "symbol": "#",
     "color": "brown",
+    "connects_to": "DIRT",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
@@ -102,6 +121,7 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
+    "connects_to": "DIRT",
     "move_cost": 3,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS" ],
@@ -160,6 +180,7 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_rock_floor",
+    "connects_to": "ROCKFLOOR",
     "move_cost": 2,
     "roof": "t_open_air",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
@@ -228,6 +249,7 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_concrete",
+    "connects_to": "CONCRETE",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
@@ -246,6 +268,7 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_pavement",
+    "connects_to": "CONCRETE",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
@@ -264,6 +287,7 @@
     "symbol": ".",
     "color": "yellow",
     "looks_like": "t_pavement_y",
+    "connects_to": "CONCRETE",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
@@ -301,6 +325,7 @@
     "description": "High-quality and tough checkered flooring to reduce risk of slips and falls.",
     "symbol": ".",
     "color": "light_cyan",
+    "connects_to": "METALFLOOR",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": {
@@ -324,6 +349,7 @@
     "description": "A section of flooring made out of a tough, rubbery material.  Colored a simple white.",
     "symbol": ".",
     "color": "white",
+    "connects_to": "LINOLEUM",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
     "bash": {
@@ -343,6 +369,7 @@
     "description": "A section of flooring made out of a tough, gray, rubbery material.",
     "symbol": ".",
     "color": "light_gray",
+    "connects_to": "LINOLEUM",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
     "bash": {
@@ -361,9 +388,33 @@
     "description": "Floor consisting of finely mixed earth that has been tamped down.",
     "symbol": ".",
     "color": "brown",
+    "connects_to": "DIRT",
     "move_cost": 2,
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAT", "DIGGABLE" ],
     "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gelatinous_groundcover",
+    "name": "gelatinous ground",
+    "description": "An incursion of a large area of otherwordly substrate, it feels like walking on hardened gelatin.",
+    "symbol": ".",
+    "color": "pink",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_orifice",
+    "name": "orifice",
+    "description": "A large round orifice with trails of fresh and dried up strange green liquid with a strong acid odor covering its inner sides.",
+    "symbol": "O",
+    "color": "green",
+    "looks_like": "t_pit",
+    "move_cost": 0,
+    "roof": "t_rock_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
   }
 ]

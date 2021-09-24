@@ -36,7 +36,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -46,7 +45,6 @@
         "ammo_restriction": { "extinguishing_agent": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "EXTINGUISHER" ]
@@ -72,9 +70,9 @@
     "use_action": [ "CROWBAR" ],
     "pocket_data": [
       {
-        "max_contains_volume": "1250 ml",
+        "max_contains_volume": "550 ml",
         "max_contains_weight": "5500 g",
-        "max_item_length": "61 cm",
+        "max_item_length": "76 cm",
         "moves": 150,
         "item_restriction": [ "halligan" ],
         "holster": true
@@ -87,8 +85,8 @@
     "name": { "str": "Halligan bar" },
     "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "5443 g",
-    "volume": "1250 ml",
-    "longest_side": "60 cm",
+    "volume": "550 ml",
+    "longest_side": "76 cm",
     "price": 7500,
     "price_postapoc": 1500,
     "bashing": 45,
@@ -125,8 +123,6 @@
         "ammo_restriction": { "extinguishing_agent": 10 }
       }
     ],
-    "initial_charges": 10,
-    "max_charges": 10,
     "ammo": "extinguishing_agent",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -192,7 +188,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "3100 g",
-    "volume": "3250 ml",
+    "//": " If the pole itself has a diameter of around 3 cm which is thick, to be frank, then we half it for the radius -> 1,5 cm, square it -> 2,25, mulitplicate with pi -> ~7,07 cm² multiplicate with 160 cm length -> 1130 cm³ which is 1,13 liters. We add the hook which is around 100 ml of volume.",
+    "volume": "1250 ml",
     "longest_side": "160 cm",
     "bashing": 20,
     "cutting": 6,
@@ -212,7 +209,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_AXE" ],
     "weight": "2900 g",
-    "volume": "1900 ml",
+    "volume": "400 ml",
     "longest_side": "90 cm",
     "bashing": 15,
     "cutting": 13,

@@ -2,16 +2,16 @@
 #ifndef CATA_SRC_BUTCHERY_REQUIREMENTS_H
 #define CATA_SRC_BUTCHERY_REQUIREMENTS_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
+#include <utility>
 #include <vector>
 
-#include "optional.h"
-#include "string_id.h"
+#include "creature.h"
 #include "type_id.h"
 
-class read_only_visitable;
 class JsonObject;
+class read_only_visitable;
 
 enum class butcher_type : int;
 enum class creature_size : int;

@@ -2,31 +2,30 @@
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <numeric>
 #include <string>
 #include <tuple>
+#include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "crafting.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class Character;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class read_only_visitable;
 class item;
 class nc_color;
-class player;
+class read_only_visitable;
 template <typename E> struct enum_traits;
 
 enum class available_status : int {
@@ -236,7 +235,7 @@ struct requirement_data {
                     typename Container::value_type, std::pair<const requirement_id, int >>::value
                 >
             >
-        requirement_data( const Container &cont ) :
+        explicit requirement_data( const Container &cont ) :
             requirement_data(
                 std::accumulate(
                     cont.begin(), cont.end(), requirement_data() ) )
@@ -292,7 +291,7 @@ struct requirement_data {
          * Serialize custom created requirement objects for fetch activities
          */
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
@@ -323,10 +322,11 @@ struct requirement_data {
          * will be marked as @ref blacklisted
          */
         void blacklist_item( const itype_id &id );
+
         /**
-         * Replace tools or components of the given type.
+         * Replace tools or components using a provided replacement map.
          */
-        void replace_item( const itype_id &id, const itype_id &replacement );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
@@ -382,7 +382,7 @@ struct requirement_data {
         void dump( JsonOut &jsout ) const;
 
     private:
-        requirement_id id_ = requirement_id::NULL_ID();
+        requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 

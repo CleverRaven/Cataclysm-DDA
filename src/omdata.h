@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_OMDATA_H
 #define CATA_SRC_OMDATA_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <list>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,12 +18,10 @@
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
-#include "cuboid_rectangle.h"
 #include "enum_bitset.h"
-#include "int_id.h"
+#include "mapgen_parameter.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -33,13 +32,13 @@ template <typename E> struct enum_traits;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 class JsonObject;
+class JsonValue;
 class overmap_connection;
 class overmap_special;
 class overmap_special_batch;
+struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
-
-using overmap_special_id = string_id<overmap_special>;
 
 static const overmap_land_use_code_id land_use_code_forest( "forest" );
 static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
@@ -136,7 +135,7 @@ struct overmap_spawns {
 
     protected:
         template<typename JsonObjectType>
-        void load( JsonObjectType &jo ) {
+        void load( const JsonObjectType &jo ) {
             jo.read( "group", group );
             jo.read( "population", population );
         }
@@ -149,8 +148,8 @@ struct overmap_static_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    template<typename JsonStream>
-    void deserialize( JsonStream &jsin ) {
+    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+    void deserialize( const Value &jsin ) {
         auto jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "chance", chance );
@@ -213,6 +212,7 @@ struct oter_type_t {
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
@@ -249,9 +249,18 @@ struct oter_type_t {
             return has_flag( oter_flags::line_drawing );
         }
 
+        bool has_connections() const {
+            return !connect_group.empty();
+        }
+
+        bool connects_to( const oter_type_id &other ) const {
+            return has_connections() && connect_group == other->connect_group;
+        }
+
     private:
         enum_bitset<oter_flags> flags;
         std::vector<oter_id> directional_peers;
+        std::string connect_group; // Group for connection when rendering overmap tiles
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
@@ -264,7 +273,7 @@ struct oter_t {
         oter_str_id id;         // definitive identifier.
 
         oter_t();
-        oter_t( const oter_type_t &type );
+        explicit oter_t( const oter_type_t &type );
         oter_t( const oter_type_t &type, om_direction::type dir );
         oter_t( const oter_type_t &type, size_t line );
 
@@ -283,10 +292,17 @@ struct oter_t {
             return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
         nc_color get_color( const bool from_land_use_code = false ) const {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }
 
+        // dir is only meaningful for rotatable, non-linear terrain.  If you
+        // need an answer that also works for linear terrain, call
+        // get_rotation() instead.
         om_direction::type get_dir() const {
             return dir;
         }
@@ -294,6 +310,8 @@ struct oter_t {
         size_t get_line() const {
             return line;
         }
+        void get_rotation_and_subtile( int &rotation, int &subtile ) const;
+        int get_rotation() const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;
@@ -395,48 +413,50 @@ struct overmap_special_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    template<typename JsonStream>
-    void deserialize( JsonStream &jsin ) {
+    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+    void deserialize( const Value &jsin ) {
         auto jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
 };
 
-struct overmap_special_terrain {
-    overmap_special_terrain() = default;
+// This is the information needed to know whether you can place a particular
+// piece of an overmap_special at a particular location
+struct overmap_special_locations {
     tripoint p;
-    oter_str_id terrain;
-    std::set<std::string> flags;
-    std::set<string_id<overmap_location>> locations;
-
-    template<typename JsonStream>
-    void deserialize( JsonStream &jsin ) {
-        auto om = jsin.get_object();
-        om.read( "point", p );
-        om.read( "overmap", terrain );
-        om.read( "flags", flags );
-        om.read( "locations", locations );
-    }
+    cata::flat_set<string_id<overmap_location>> locations;
 
     /**
      * Returns whether this terrain of the special can be placed on the specified terrain.
      * It's true if oter meets any of locations.
      */
     bool can_be_placed_on( const oter_id &oter ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+struct overmap_special_terrain : overmap_special_locations {
+    overmap_special_terrain() = default;
+    overmap_special_terrain( const tripoint &, const oter_str_id &,
+                             const cata::flat_set<string_id<overmap_location>> &,
+                             const std::set<std::string> & );
+    oter_str_id terrain;
+    std::set<std::string> flags;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct overmap_special_connection {
     tripoint p;
     cata::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid;
+    om_direction::type initial_dir = om_direction::type::invalid; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    template<typename JsonStream>
-    void deserialize( JsonStream &jsin ) {
+    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+    void deserialize( const Value &jsin ) {
         auto jo = jsin.get_object();
         jo.read( "point", p );
         jo.read( "terrain", terrain );
@@ -446,36 +466,92 @@ struct overmap_special_connection {
     }
 };
 
+struct overmap_special_placement_constraints {
+    numeric_interval<int> city_size{ 0, INT_MAX };
+    numeric_interval<int> city_distance{ 0, INT_MAX };
+    numeric_interval<int> occurrences;
+};
+
+enum class overmap_special_subtype {
+    fixed,
+    mutable_,
+    last
+};
+
+template<>
+struct enum_traits<overmap_special_subtype> {
+    static constexpr overmap_special_subtype last = overmap_special_subtype::last;
+};
+
+struct fixed_overmap_special_data {
+    std::vector<overmap_special_terrain> terrains;
+    std::vector<overmap_special_connection> connections;
+};
+
+struct mutable_overmap_special_data;
+
 class overmap_special
 {
     public:
+        overmap_special() = default;
+        overmap_special( const overmap_special_id &, const overmap_special_terrain & );
+        overmap_special_subtype get_subtype() const {
+            return subtype_;
+        }
+        const overmap_special_placement_constraints &get_constraints() const {
+            return constraints_;
+        }
+        bool is_rotatable() const {
+            return rotatable_;
+        }
+        bool can_spawn() const;
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
+        const cata::flat_set<std::string> &get_flags() const {
+            return flags_;
+        }
+        bool has_flag( const std::string & ) const;
+        int longest_side() const;
+        std::vector<overmap_special_terrain> preview_terrains() const;
+        std::vector<overmap_special_locations> required_locations() const;
+        const fixed_overmap_special_data &get_fixed_data() const;
+        const mutable_overmap_special_data &get_mutable_data() const;
+        const overmap_special_spawns &get_monster_spawns() const {
+            return monster_spawns_;
+        }
+
+        void force_one_occurrence();
+
+        const mapgen_parameters &get_params() const {
+            return mapgen_params_;
+        }
+        mapgen_arguments get_args( const mapgendata & ) const;
 
         overmap_special_id id;
-        std::list<overmap_special_terrain> terrains;
-        std::vector<overmap_special_connection> connections;
-
-        numeric_interval<int> city_size{ 0, INT_MAX };
-        numeric_interval<int> city_distance{ 0, INT_MAX };
-        numeric_interval<int> occurrences;
-
-        bool rotatable = true;
-        overmap_special_spawns spawns;
-        std::set<std::string> flags;
 
         // Used by generic_factory
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
+        void finalize_mapgen_parameters();
         void check() const;
     private:
+        overmap_special_subtype subtype_;
+        overmap_special_placement_constraints constraints_;
+        fixed_overmap_special_data fixed_data_;
+        shared_ptr_fast<const mutable_overmap_special_data> mutable_data_;
+
+        bool rotatable_ = true;
+        overmap_special_spawns monster_spawns_;
+        cata::flat_set<std::string> flags_;
+
         // These locations are the default values if ones are not specified for the individual OMTs.
-        std::set<string_id<overmap_location>> default_locations;
+        cata::flat_set<string_id<overmap_location>> default_locations_;
+        mapgen_parameters mapgen_params_;
 };
 
 namespace overmap_terrains
@@ -507,6 +583,7 @@ namespace overmap_specials
 
 void load( const JsonObject &jo, const std::string &src );
 void finalize();
+void finalize_mapgen_parameters();
 void check_consistency();
 void reset();
 

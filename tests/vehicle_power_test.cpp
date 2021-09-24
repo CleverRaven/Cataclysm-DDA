@@ -1,15 +1,15 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
 #include <cstdlib>
 #include <vector>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -31,9 +31,9 @@ static void reset_player()
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
+    clear_vehicles();
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
     map &here = get_map();
 
     SECTION( "vehicle with reactor" ) {
@@ -75,7 +75,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
             calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
             const time_point start_time = sunrise( calendar::turn ) + 3_hours;
             veh_ptr->update_time( start_time );
-            get_weather().weather_override = weather_type_id( "sunny" );
+            scoped_weather_override sunny_weather( weather_type_id( "sunny" ) );
 
             AND_GIVEN( "the battery has no charge" ) {
                 veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
@@ -105,7 +105,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
         GIVEN( "it is 3 hours after sunset, with clear weather" ) {
             const time_point at_night = sunset( calendar::turn ) + 3_hours;
-            get_weather().weather_override = WEATHER_CLEAR;
+            scoped_weather_override clear_weather( WEATHER_CLEAR );
             veh_ptr->update_time( at_night );
 
             AND_GIVEN( "the battery has no charge" ) {

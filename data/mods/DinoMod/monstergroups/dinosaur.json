@@ -65,15 +65,15 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS",
-    "default": "mon_null",
+    "default": "mon_coelophysis",
     "monsters": [
-      { "monster": "mon_coelophysis", "freq": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_coelophysis", "freq": 200, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dilophosaurus", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus", "freq": 100, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_allosaurus", "freq": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_velociraptor", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_deinonychus", "freq": 150, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utahraptor", "freq": 100, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -188,13 +188,13 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
-    "default": "mon_null",
+    "default": "mon_tyrannosaurus",
     "monsters": [
-      { "monster": "mon_spinosaurus", "freq": 3, "cost_multiplier": 40 },
-      { "monster": "mon_acrocanthosaurus", "freq": 8, "cost_multiplier": 40 },
-      { "monster": "mon_siats", "freq": 8, "cost_multiplier": 40 },
-      { "monster": "mon_tyrannosaurus", "freq": 8, "cost_multiplier": 40 },
-      { "monster": "mon_albertosaurus", "freq": 4, "cost_multiplier": 35 }
+      { "monster": "mon_spinosaurus", "freq": 50, "cost_multiplier": 40 },
+      { "monster": "mon_acrocanthosaurus", "freq": 250, "cost_multiplier": 40 },
+      { "monster": "mon_siats", "freq": 250, "cost_multiplier": 40 },
+      { "monster": "mon_tyrannosaurus", "freq": 250, "cost_multiplier": 40 },
+      { "monster": "mon_albertosaurus", "freq": 200, "cost_multiplier": 35 }
     ]
   },
   {

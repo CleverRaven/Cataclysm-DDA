@@ -4,94 +4,198 @@ on:
   push:
     branches:
     - master
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
   pull_request:
     branches:
     - master
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
 
+# Overall strategy for what sorts of builds to include:
+# We want a build for the newest and oldest supported version of each compiler.
+# We want a build for each platform.
+# We also want to ensure that each of the following tweaks are covered in at
+# least one PR build:
+# - TILES=1
+# - SOUND=1
+# - RELEASE=1
+# - CMAKE=1
+# - LOCALIZE=0
+# - LTO=1
+# - Tests with important mods enabled (Magiclysm)
+# - A clang-tidy run
+# - SANITIZE=address,undefined
+# We try to minimize the number of builds subject to those constraints.
+#
+# To see what toolchains are available, the following may be useful:
+# https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
+# https://apt.llvm.org/
 
 jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**"]'
+  skip-duplicates-mods:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip_mods: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
+    needs: skip-duplicates
     strategy:
+      max-parallel: 1
       matrix:
+        release: [0]
+        cmake: [0]
+        tiles: [1]
+        sound: [0]
+        localize: [1]
+        native: [linux64]
+
         include:
-          - compiler: g++-9
-            cmake: 0
+          - compiler: clang++-12
+            os: ubuntu-latest
+            sanitize: address
+            mods: --mods=magiclysm
+            title: Clang 12, Ubuntu, Tiles, ASan
+
+          - compiler: g++-11
+            os: ubuntu-latest
             tiles: 0
+            sanitize: address
+            title: GCC 11, Ubuntu, Curses, ASan
+
+          - compiler: clang++
+            os: macos-10.15
+            native: osx
+            sanitize: undefined
+            tiles: 1
+            sound: 1
+            title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
+
+          - compiler: g++
+            os: ubuntu-latest
+            native:
+            tiles: 1
+            sound: 1
             test-stage: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static
+            wine: wine
+
+          - compiler: clang++-6.0
+            os: ubuntu-18.04
+            tiles: 0
+            release: 1
+            title: Clang 6, Ubuntu, Curses, Release
+
           - compiler: g++-7
+            os: ubuntu-18.04
             cmake: 1
             tiles: 1
-          - compiler: g++-8
-            cmake: 0
-            tiles: 1
-            sanitize: address
-          - compiler: clang++-9
-            cmake: 0
-            tiles: 1
-            sanitize: address,undefined
-    runs-on: ubuntu-latest
+            sound: 1
+            localize: 0
+            title: GCC 7, Ubuntu, Tiles, Sound, CMake
+
+    name: ${{ matrix.title }}
+    runs-on: ${{ matrix.os }}
     env:
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
+        MXE_TARGET: ${{ matrix.mxe_target }}
+        WINE: ${{ matrix.wine }}
+        OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
-        SOUND: ${{ matrix.tiles }}
+        SOUND: ${{ matrix.sound }}
+        LOCALIZE: ${{ matrix.localize }}
+        MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
-        RELEASE: 1
+        NUM_TEST_JOBS: ${{ matrix.num_test_jobs }}
+        NATIVE: ${{ matrix.native }}
+        GOLD: ${{ matrix.gold }}
+        LTO: ${{ matrix.lto }}
+        RELEASE: ${{ matrix.release }}
+        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
+      if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: install dependencies
+    - name: install dependencies (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext
+            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+    - name: install old GCC (Ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
+      run: |
+          sudo apt-get install g++-7 g++-8
+    - name: install new GCC (Ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-11') }}
+      run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install g++-11
+    - name: install old Clang (Ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-6.0') }}
+      run: |
+          sudo apt-get install clang-6.0
+    - name: install dependencies (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+      run: |
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
     - name: prepare
+      if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
     - name: Get Date
       id: get-date
+      if: ${{ env.SKIP == 'false' }}
       run: |
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
       shell: bash
-    - name: ccache cache files
+    - name: ccache cache files (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       uses: actions/cache@v2
       with:
         path: ~/.ccache
-        key: ccache-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        key: ccache-linux-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
         restore-keys: |
-          ccache-${{ matrix.compiler }}-
-          ccache-
+          ccache-linux-${{ matrix.compiler }}-
+    - name: ccache cache files (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+      uses: actions/cache@v2
+      with:
+        path: /Users/runner/Library/Caches/ccache
+        key: ccache-mac-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        restore-keys: |
+          ccache-mac-${{ matrix.compiler }}-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
+      if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: cata_test
         path: tests/cata_test
+        if-no-files-found: ignore

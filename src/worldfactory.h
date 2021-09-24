@@ -29,13 +29,13 @@ class save_t
     private:
         std::string name;
 
-        save_t( const std::string &name );
+        explicit save_t( const std::string &name );
 
     public:
-        std::string player_name() const;
+        std::string decoded_name() const;
         std::string base_path() const;
 
-        static save_t from_player_name( const std::string &name );
+        static save_t from_save_id( const std::string &save_id );
         static save_t from_base_path( const std::string &base_path );
 
         bool operator==( const save_t &rhs ) const {
@@ -67,6 +67,7 @@ struct WORLD {
         std::vector<mod_id> active_mod_order;
 
         WORLD();
+        explicit WORLD( const std::string &name );
         void COPY_WORLD( const WORLD *world_to_copy );
 
         bool save_exists( const save_t &name ) const;
@@ -94,6 +95,7 @@ class worldfactory
         WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
         WORLDPTR make_new_world( special_game_type special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
+        WORLDPTR make_new_world( const std::string &name, const std::vector<mod_id> &mods );
         WORLDPTR make_new_world( const std::vector<mod_id> &mods );
         /// Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );

@@ -36,7 +36,7 @@
     "id": "afs_material_5",
     "copy-from": "afs_scrap_5",
     "name": { "str": "phase uneven matter" },
-    "description": "Matter condensed from the liminal spaces between dimmensions.",
+    "description": "Matter condensed from the liminal spaces between dimensions.",
     "looks_like": "scrap"
   }
 ]

@@ -1,7 +1,11 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <memory>
+#include <vector>
 
-#include <string>
+#include "cata_catch.h"
 #include "item_factory.h"
+#include "itype.h"
+#include "type_id.h"
 #include "units.h"
 
 TEST_CASE( "casings_are_stackable", "[item]" )

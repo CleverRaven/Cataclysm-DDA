@@ -4,12 +4,14 @@
 
 #include <array>
 #include <bitset>
+#include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <string>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -17,9 +19,8 @@
 
 #include "cata_utility.h"
 #include "item.h"
-#include "item_stack.h"
 #include "magic_enchantment.h"
-#include "string_id.h"
+#include "proficiency.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "visitable.h"
@@ -27,9 +28,9 @@
 class Character;
 class JsonIn;
 class JsonOut;
+class item_stack;
 class map;
 class npc;
-class player;
 struct tripoint;
 
 using invstack = std::list<std::list<item> >;
@@ -49,7 +50,7 @@ using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 class invlet_wrapper : private std::string
 {
     public:
-        invlet_wrapper( const char *chars ) : std::string( chars ) { }
+        explicit invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
         bool valid( int invlet ) const;
         std::string get_allowed_chars() const {
@@ -73,7 +74,7 @@ class invlet_favorites
 {
     public:
         invlet_favorites() = default;
-        invlet_favorites( const std::unordered_map<itype_id, std::string> & );
+        explicit invlet_favorites( const std::unordered_map<itype_id, std::string> & );
 
         void set( char invlet, const itype_id & );
         void erase( char invlet );
@@ -210,7 +211,8 @@ class inventory : public visitable
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
-        void update_invlet( item &it, bool assign_invlet = true );
+        void update_invlet( item &it, bool assign_invlet = true,
+                            const item *ignore_invlet_collision_with = nullptr );
 
         invlets_bitset allocated_invlets() const;
 
@@ -243,6 +245,9 @@ class inventory : public visitable
         int amount_of( const itype_id &what, bool pseudo = true,
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+
+        std::pair<int, int> kcal_range( const itype_id &id,
+                                        const std::function<bool( const item & )> &filter, Character &player_character );
 
     private:
         invlet_favorites invlet_cache;

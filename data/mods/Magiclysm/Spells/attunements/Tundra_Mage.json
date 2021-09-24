@@ -19,7 +19,7 @@
     "base_energy_cost": 100,
     "base_casting_time": 33,
     "difficulty": 7,
-    "flags": [ "NO_LEGS" ],
+    "flags": [ "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "crack",
     "valid_targets": [ "hostile" ],
     "extra_effects": [ { "id": "cold_snap_freeze" } ]
@@ -61,7 +61,7 @@
     "range_increment": 0.2,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "min_duration": 36000,
     "max_duration": 180000,
     "duration_increment": 5000

@@ -19,8 +19,8 @@
     "color": "light_gray",
     "material": [ "neoprene", "kevlar" ],
     "warmth": 35,
-    "coverage": 100,
-    "flags": [ "WATERPROOF", "VARSIZE", "STURDY" ]
+    "flags": [ "WATERPROOF", "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "crt_dress_pants",
@@ -32,11 +32,9 @@
     "symbol": "[",
     "material": [ "cotton", "neoprene" ],
     "warmth": 17,
-    "covers": [ "leg_l", "leg_r" ],
-    "encumbrance": 10,
-    "coverage": 100,
     "material_thickness": 2,
-    "flags": [ "WATERPROOF", "VARSIZE", "FANCY" ]
+    "flags": [ "WATERPROOF", "VARSIZE", "FANCY" ],
+    "armor": [ { "encumbrance": [ 10, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "crt_helmet_liner",
@@ -62,13 +60,11 @@
     "material": [ "cotton", "plastic", "rubber" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 65,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "crt_rec_gloves",
@@ -82,13 +78,11 @@
     "material": [ "cotton", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 90,
-    "encumbrance": 4,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 4, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "crt_belt",
@@ -123,10 +117,6 @@
     "material": [ "cotton", "neoprene", "rubber" ],
     "symbol": "[",
     "color": "black_green",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 6,
-    "max_encumbrance": 13,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -136,7 +126,8 @@
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY" ]
+    "flags": [ "POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY" ],
+    "armor": [ { "encumbrance": [ 6, 13 ], "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "crt_rec_hat",
@@ -149,12 +140,10 @@
     "material": [ "cotton", "neoprene", "rubber" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "head" ],
-    "coverage": 50,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE", "RAINPROOF", "WATERPROOF" ]
+    "flags": [ "FANCY", "VARSIZE", "RAINPROOF", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
   }
 ]

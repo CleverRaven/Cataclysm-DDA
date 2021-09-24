@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_MOVE_MODE_H
 #define CATA_SRC_MOVE_MODE_H
 
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
 #include "color.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -23,6 +23,7 @@ enum class steed_type : int {
 };
 
 enum class move_mode_type : int {
+    PRONE,
     CROUCHING,
     WALKING,
     RUNNING

@@ -1,0 +1,122 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_inner_garden",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...$..GssMMMMMMMMsssss..",
+        ".$.....ssM......Msssssu.",
+        ".......ssM.....##xxxxx%#",
+        ".#MMM##8]#8#8#8#~~~~~~u#",
+        ".#888#E  #5    #~~~~~~~#",
+        "^#yay##8]#     #~~~~~~##",
+        "##4            #~~~~~~N#",
+        "#h             #~~~~~~U#",
+        "##             #~~~~~~U#",
+        ".#             +~~~~~~U#",
+        ".#     y y8]#88#888888##",
+        ".###iL## #8sssssssssss#.",
+        ".p#n      8s#3..3..sFs#.",
+        ".M#K  JA  ]s.......sFs#.",
+        ".^#QllJA  8s#......sFs#.",
+        "######## #8sssssssssss#.",
+        "#y    +  y8]#8]#8]8888#.",
+        "o  6  #R    +     1   #.",
+        "o     #R #++#HLH      #.",
+        "#O    ##+#Wg####      #.",
+        "#######j ####j +      #.",
+        ".....^#t d#dd t# #OOOO#.",
+        "......###o#o###########.",
+        "........................"
+      ],
+      "palettes": [ "house_w_foundation_palette" ],
+      "terrain": {
+        "8": "t_wall_glass",
+        "#": "t_rock_wall",
+        "]": "t_door_glass_c",
+        "%": "t_wall_w",
+        "F": "t_concrete",
+        "U": "t_thconc_floor",
+        "N": "t_thconc_floor"
+      },
+      "furniture": { "a": "f_displaycase" },
+      "place_vehicles": [
+        { "vehicle": "showroom_small_vehicles", "x": 17, "y": 5, "rotation": 270, "chance": 20 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 5, "rotation": 270, "chance": 20 }
+      ],
+      "items": {
+        "E": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+        "G": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+        "a": { "item": "art", "chance": 70 },
+        "n": [
+          { "item": "SUS_dishes", "chance": 50 },
+          { "item": "SUS_silverware", "chance": 50 },
+          { "item": "SUS_kitchen_sink", "chance": 50 }
+        ],
+        "Q": [ { "item": "SUS_cookware", "chance": 50 }, { "item": "SUS_spice_collection", "chance": 20 } ],
+        "K": [
+          { "item": "SUS_utensils", "chance": 50 },
+          { "item": "SUS_knife_drawer", "chance": 50 },
+          { "item": "SUS_junk_drawer", "chance": 50 },
+          { "item": "SUS_appliances_cupboard", "chance": 30 }
+        ],
+        "J": [ { "item": "SUS_breakfast_cupboard", "chance": 5 }, { "item": "SUS_coffee_cupboard", "chance": 5 } ],
+        "l": { "item": "SUS_fridge", "chance": 10 },
+        "i": { "item": "SUS_oven", "chance": 50 }
+      },
+      "nested": {
+        "1": { "chunks": [ [ "bedroom_4x4_adult_1_E", 20 ] ] },
+        "3": { "chunks": [ [ "garden_3x3_1", 50 ], [ "garden_3x3_2", 33 ], [ "garden_3x3_3", 33 ] ] },
+        "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_6x6_N_S_1A", 50 ] ] },
+        "5": {
+          "chunks": [
+            [ "livingroom_5x5_N_1", 20 ],
+            [ "livingroom_5x5_S_1", 20 ],
+            [ "livingroom_5x5_E_1", 20 ],
+            [ "livingroom_5x5_E_2", 20 ],
+            [ "livingroom_5x5_W_1", 20 ]
+          ]
+        },
+        "6": { "chunks": [ [ "bonus_room_3x3_S_6", 40 ], [ "bonus_room_3x3_S_5", 20 ], [ "bonus_room_3x3_S_7", 40 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_inner_garden_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "               --------|",
+        " ---------------.......|",
+        " |................ooo..|",
+        " |.....................|",
+        "5|................ooo.A|",
+        "|~.....................|",
+        "||................ooo..|",
+        " |.....................|",
+        " |..........22222222223|",
+        " |..........3           ",
+        " |..&.......3           ",
+        " |..........3           ",
+        " |..........3           ",
+        "||..........3           ",
+        "|...........22222222222 ",
+        "|.....................| ",
+        "|.....................| ",
+        "|................... .| ",
+        "-------...............| ",
+        "      5..&............| ",
+        "      ----------------- ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

@@ -10,7 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.0,
     "deconstruct": {
@@ -230,7 +230,7 @@
         { "item": "pipe", "count": [ 6, 12 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 50, 75 ] },
+        { "item": "epoxy_chunk", "count": [ 50, 75 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
@@ -245,7 +245,7 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
-        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "epoxy_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
@@ -735,8 +735,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 6,
-    "flags": [ "BLOCKS_DOOR" ],
-    "looks_like": "f_standing_tank",
+    "flags": [ "BLOCKSDOOR" ],
+    "looks_like": "f_ventilator",
     "deconstruct": {
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
@@ -781,7 +781,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 5,
-    "flags": [ "BLOCKS_DOOR" ],
+    "flags": [ "BLOCKSDOOR" ],
     "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [
@@ -825,7 +825,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 4,
-    "flags": [ "BLOCKS_DOOR" ],
+    "flags": [ "BLOCKSDOOR" ],
     "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [

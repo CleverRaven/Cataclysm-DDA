@@ -1,14 +1,17 @@
-#include "catch/catch.hpp"
-
-#include <iomanip>
-#include <memory>
-#include <utility>
+#include <functional>
+#include <new>
+#include <ostream>
 #include <vector>
 
 #include "cached_options.h"
+#include "cata_catch.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_test_case.h"
-#include "map_helpers.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "options_helpers.h"
 #include "point.h"
 
 using namespace map_test_case_common;
@@ -67,7 +70,6 @@ static void test_reachability( std::vector<std::string> setup, bool up )
     CHECK( rejected_cnt > 100 );
 }
 
-
 TEST_CASE( "reachability_horizontal", "[map][cache][vision][los][reachability]" )
 {
     test_reachability( {{
@@ -89,6 +91,8 @@ TEST_CASE( "reachability_horizontal", "[map][cache][vision][los][reachability]" 
 TEST_CASE( "reachability_vertical", "[map][cache][vision][los][reachability]" )
 {
     // vertical cache makes sense only for 3d vision
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+    override_option opt( "FOV_3D", "true" );
     fov_3d = true;
 
     test_reachability( {{

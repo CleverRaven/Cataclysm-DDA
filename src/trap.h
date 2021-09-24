@@ -2,22 +2,19 @@
 #ifndef CATA_SRC_TRAP_H
 #define CATA_SRC_TRAP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
 #include "color.h"
-#include "int_id.h"
 #include "magic.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
 class Creature;
@@ -136,14 +133,19 @@ struct trap {
         int trap_radius = 0;
         bool benign = false;
         bool always_invisible = false;
-        // a valid overmap id, for map_regen action traps
-        std::string map_regen;
+        update_mapgen_id map_regen;
         trap_function act;
         translation name_;
+
+        cata::optional<translation> memorial_male;
+        cata::optional<translation> memorial_female;
+
+        cata::flat_set<flag_id> _flags;
+
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
-        units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
+        units::mass trigger_weight = 500_gram;
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -169,6 +171,21 @@ struct trap {
             return loadid != id;
         }
 
+        bool has_flag( const flag_id &flag ) const {
+            return _flags.count( flag );
+        }
+
+        bool has_memorial_msg() const {
+            return memorial_male && memorial_female;
+        }
+
+        std::string memorial_msg( bool male ) const {
+            if( male ) {
+                return memorial_male->translated();
+            }
+            return memorial_female->translated();
+        }
+
         /**
          * Called when the player examines a tile. This is supposed to handled
          * all kind of interaction of the player with the trap, including removal.
@@ -178,7 +195,7 @@ struct trap {
         // Implemented for historical reasons in iexamine.cpp
         void examine( const tripoint &examp ) const;
 
-        std::string  map_regen_target() const;
+        update_mapgen_id map_regen_target() const;
 
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
@@ -325,28 +342,27 @@ struct trap {
 
 const trap_function &trap_function_from_string( const std::string &function_name );
 
-extern trap_id
-tr_null,
-tr_beartrap_buried,
-tr_shotgun_2,
-tr_shotgun_1,
-tr_blade,
-tr_landmine,
-tr_landmine_buried,
-tr_telepad,
-tr_goo,
-tr_dissector,
-tr_sinkhole,
-tr_pit,
-tr_lava,
-tr_portal,
-tr_ledge,
-tr_temple_flood,
-tr_temple_toggle,
-tr_glow,
-tr_hum,
-tr_shadow,
-tr_drain,
-tr_snake;
+extern trap_id tr_null;
+extern const trap_str_id tr_beartrap_buried;
+extern const trap_str_id tr_shotgun_2;
+extern const trap_str_id tr_shotgun_1;
+extern const trap_str_id tr_blade;
+extern const trap_str_id tr_landmine;
+extern const trap_str_id tr_landmine_buried;
+extern const trap_str_id tr_telepad;
+extern const trap_str_id tr_goo;
+extern const trap_str_id tr_dissector;
+extern const trap_str_id tr_sinkhole;
+extern const trap_str_id tr_pit;
+extern const trap_str_id tr_lava;
+extern const trap_str_id tr_portal;
+extern const trap_str_id tr_ledge;
+extern const trap_str_id tr_temple_flood;
+extern const trap_str_id tr_temple_toggle;
+extern const trap_str_id tr_glow;
+extern const trap_str_id tr_hum;
+extern const trap_str_id tr_shadow;
+extern const trap_str_id tr_drain;
+extern const trap_str_id tr_snake;
 
 #endif // CATA_SRC_TRAP_H

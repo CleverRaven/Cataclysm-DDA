@@ -26,6 +26,7 @@ exemptLabels:
   - "0.E Content Freeze"
   - "0.F Feature Freeze"
   - "0.F Content Freeze"
+  - "0.F String Freeze"
 
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: true

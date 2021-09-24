@@ -222,7 +222,8 @@
     "difficulty": 4,
     "time": "60 m",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "WELD", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "using": [ [ "welding_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 20 ] ] ]
@@ -383,15 +384,16 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],
-    "time": "80 m",
+    "time": "100 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 140 ] ],
+    "using": [ [ "sewing_standard", 160 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "sheath", 1 ] ],
-      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ]
+      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ],
+      [ [ "sholster", 1 ], [ "holster", 1 ] ]
     ]
   },
   {
@@ -409,13 +411,15 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "towel",
+    "activity_level": "NO_EXERCISE",
+    "result": "makeshift_ear_plugs_off",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "survival",
-    "time": "4 m",
+    "skill_used": "fabrication",
+    "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "towel_soiled", 1 ] ] ]
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "wax", 1 ], [ "candle", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   }
 ]
