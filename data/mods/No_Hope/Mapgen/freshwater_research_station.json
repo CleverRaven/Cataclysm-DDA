@@ -19,7 +19,7 @@
         "~~~~~~~~~#~~~~#~~~~~~~~~",
         "~~~~~~~~########~~~~~~~~",
         "~~~~~~~~##||o|##~~~~~~~~",
-        "~~~~~~~~##|>A|##~~~~~~~~",
+        "~~~~~~~~#<|>A|##~~~~~~~~",
         "~~~~~~~~##+..|##~~~~~~~~",
         "~~~~~~~~##||o|##~~~~~~~~",
         "~~~~~~~~########~~~~~~~~",
@@ -34,19 +34,61 @@
       ],
       "palettes": [ "underwater_structure" ],
       "place_loot": [
-        { "item": "rope_30", "x": 9, "y": [ 7, 9 ], "chance": 100 },
-        { "item": "rope_30", "x": 14, "y": [ 7, 9 ], "chance": 100 },
-        { "item": "rope_30", "x": 9, "y": [ 13, 15 ], "chance": 100 },
-        { "item": "rope_30", "x": 14, "y": [ 13, 15 ], "chance": 100 }
+        { "item": "rope_30", "x": 9, "y": [ 7, 9 ], "chance": 30 },
+        { "item": "rope_30", "x": 14, "y": [ 7, 9 ], "chance": 30 },
+        { "item": "rope_30", "x": 9, "y": [ 13, 15 ], "chance": 30 },
+        { "item": "rope_30", "x": 14, "y": [ 13, 15 ], "chance": 30 }
       ],
       "items": { "#": { "item": "fishing_items", "chance": 10 } },
       "place_vehicles": [
-        { "vehicle": "boat_motor_single", "x": 11, "y": 9, "rotation": 270, "chance": 70, "status": 3 },
+        { "vehicle": "boat_motor_single", "x": 11, "y": 9, "rotation": 270, "chance": 70, "status": 0 },
+        { "vehicle": "lake", "x": 20, "y": 1, "rotation": 0, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 2, "y": 22, "rotation": 180, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 2, "y": 10, "rotation": 270, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 17, "y": 10, "rotation": 270, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 6, "y": 15, "rotation": 90, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 21, "y": 15, "rotation": 90, "chance": 30, "status": 0 },
         { "vehicle": "kayak", "x": 10, "y": 8, "rotation": 270, "chance": 10, "status": 0 },
         { "vehicle": "canoe", "x": 10, "y": 17, "rotation": 90, "chance": 30, "status": 0 },
         { "vehicle": "kayak_racing", "x": 13, "y": 17, "rotation": 90, "chance": 10, "status": 0 },
         { "vehicle": "portable_generator", "x": 11, "y": 13, "rotation": 0, "chance": 100, "status": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "sealab_small_roof",
+    "weight": 25000,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         #___X          ",
+        "         >___&          ",
+        "         #___=          ",
+        "         #:__N          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "underwater_structure_roof" ]
     }
   },
   {
@@ -161,7 +203,7 @@
         { "item": "hotplate", "x": 12, "y": 19, "chance": 50 }
       ],
       "items": {
-        "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+        "S": [ { "item": "SUS_bathroom_sink", "chance": 40 }, { "item": "SUS_bathroom_medicine", "chance": 50 } ],
         "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
         "f": [
           { "item": "dishes_dining", "chance": 30 },
@@ -179,14 +221,15 @@
           { "item": "cannedfood", "chance": 5, "repeat": [ 1, 2 ] }
         ],
         "@": { "item": "bed", "chance": 50 },
+        "C": [ { "item": "tools_science", "chance": 20 }, { "item": "tools_common", "chance": 60 } ],
         "c": [
-          { "item": "SUS_utensils", "chance": 50 },
-          { "item": "SUS_cookware", "chance": 50 },
-          { "item": "SUS_knife_drawer", "chance": 50 }
+          { "item": "SUS_utensils", "chance": 40 },
+          { "item": "SUS_cookware", "chance": 40 },
+          { "item": "SUS_knife_drawer", "chance": 30 }
         ],
         "l": [
-          { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+          { "item": "SUS_dresser_mens", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "SUS_dresser_womens", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       }
     }
@@ -226,15 +269,15 @@
       ],
       "palettes": [ "underwater_structure" ],
       "place_loot": [
-        { "item": "shark_suit", "x": [ 9, 10 ], "y": 12, "chance": 60 },
+        { "item": "shark_suit", "x": [ 9, 10 ], "y": 12, "chance": 20 },
         { "item": "fish", "x": 13, "y": 12, "chance": 100, "repeat": [ 2, 6 ] },
         { "item": "fish_bait", "x": 13, "y": 12, "chance": 100, "repeat": [ 2, 6 ] }
       ],
       "items": {
-        "Q": { "item": "SUS_scuba_gear", "chance": 100 },
-        "f": { "item": "dissection", "chance": 100 },
+        "Q": { "item": "SUS_scuba_gear", "chance": 60 },
+        "f": { "item": "dissection", "chance": 30 },
         "B": [
-          { "item": "prepared_teas", "chance": 30 },
+          { "item": "prepared_teas", "chance": 20 },
           { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "pizza_beer", "chance": 30, "repeat": [ 1, 12 ] }
         ],

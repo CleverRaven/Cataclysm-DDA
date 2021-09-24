@@ -8,7 +8,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "magenta_green",
     "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY", "SWIMS" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY", "SWIMS" ]
   },
   {
     "id": "mon_ceratosaurus_juvenile",
@@ -19,7 +20,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "magenta_green",
     "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_spinosaurus_juvenile",
@@ -31,7 +33,8 @@
     "color": "red_white",
     "hp": 200,
     "upgrades": { "age_grow": 365, "into": "mon_spinosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY", "SWIMS" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY", "SWIMS" ]
   },
   {
     "id": "mon_allosaurus_juvenile",
@@ -42,7 +45,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_white",
     "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_acrocanthosaurus_juvenile",
@@ -53,7 +57,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_white",
     "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_siats_juvenile",
@@ -64,7 +69,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_white",
     "upgrades": { "age_grow": 365, "into": "mon_siats" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_albertosaurus_juvenile",
@@ -76,7 +82,8 @@
     "color": "light_red_white",
     "dodge": 5,
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_qianzhousaurus_juvenile",
@@ -88,7 +95,8 @@
     "color": "light_red_white",
     "dodge": 6,
     "upgrades": { "age_grow": 365, "into": "mon_qianzhousaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_tyrannosaurus_juvenile",
@@ -101,7 +109,8 @@
     "color": "red_white",
     "dodge": 5,
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_gallimimus_juvenile",
@@ -127,7 +136,8 @@
     "melee_cut": 1,
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "NO_BREED", "CANPLAY" ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"
   },
   {
@@ -148,7 +158,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "red_green",
     "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_utahraptor_juvenile",
@@ -159,7 +170,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "dark_gray_white",
     "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_amargasaurus_juvenile",
@@ -182,24 +194,14 @@
     "melee_dice_sides": 4,
     "zombify_into": "mon_zamargasaurus_juvenile",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 6 } ] },
-      [ "SMASH", 30 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 5 ]
     ],
     "harvest": "mammal_large_leather",
     "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "NO_BREED",
-      "CANPLAY",
-      "GROUP_MORALE"
-    ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
   },
   {
     "id": "mon_apatosaurus_juvenile",
@@ -406,6 +408,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "light_gray_yellow",
     "upgrades": { "age_grow": 14, "into": "mon_pteranodon" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [
       "SEES",
       "HEARS",
@@ -414,7 +417,7 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "CATFOOD",
+      "CANPLAY",
       "NO_BREED",
       "CANPLAY",
       "HIT_AND_RUN"
@@ -429,6 +432,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "light_gray_yellow",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [
       "SEES",
       "HEARS",
@@ -437,7 +441,7 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "CATFOOD",
+      "CANPLAY",
       "NO_BREED",
       "CANPLAY",
       "HIT_AND_RUN"
@@ -452,6 +456,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "red_white",
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD", "NO_BREED", "CANPLAY", "SWIMS", "AQUATIC" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "CANPLAY", "SWIMS", "AQUATIC" ]
   }
 ]

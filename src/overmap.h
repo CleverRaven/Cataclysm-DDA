@@ -42,7 +42,7 @@ struct regional_settings;
 namespace pf
 {
 template<typename Point>
-struct path;
+struct directed_path;
 } // namespace pf
 
 struct city {
@@ -420,6 +420,12 @@ class overmap
         void process_mongroups();
         void move_hordes();
 
+        //nemesis movement for "hunted" trait
+        void signal_nemesis( const tripoint_abs_sm p );
+        void move_nemesis();
+        void place_nemesis( const tripoint_abs_omt p );
+        bool remove_nemesis(); // returns true if nemesis found and removed
+
         static bool obsolete_terrain( const std::string &ter );
         void convert_terrain(
             const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
@@ -450,23 +456,20 @@ class overmap
                                 om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
-                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
 
         // Connection laying
-        pf::path<point_om_omt> lay_out_connection(
+        pf::directed_path<point_om_omt> lay_out_connection(
             const overmap_connection &connection, const point_om_omt &source,
             const point_om_omt &dest, int z, bool must_be_unexplored ) const;
-        pf::path<point_om_omt> lay_out_street(
+        pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
             om_direction::type dir, size_t len ) const;
-
+    public:
         void build_connection(
-            const overmap_connection &connection, const pf::path<point_om_omt> &path, int z,
+            const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
             const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
                                const overmap_connection &connection, bool must_be_unexplored,
@@ -490,9 +493,10 @@ class overmap
         bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                 om_direction::type dir, bool must_be_unexplored ) const;
 
-        void place_special(
+        std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
+    private:
         /**
          * Iterate over the overmap and place the quota of specials.
          * If the stated minimums are not reached, it will spawn a new nearby overmap

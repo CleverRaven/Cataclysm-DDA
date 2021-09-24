@@ -15,7 +15,6 @@
 #include "point.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 // from overmap.h
@@ -86,9 +85,11 @@ struct mongroup {
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
     tripoint_om_sm pos;
+    tripoint_abs_sm abs_pos; // position of the mongroup in absolute submap coordinates
     unsigned int radius = 1;
     unsigned int population = 1;
     tripoint_om_sm target; // location the horde is interested in.
+    tripoint_abs_sm nemesis_target; // abs target for nemesis hordes
     int interest = 0; //interest to target in percents
     bool dying = false;
     bool horde = false;
@@ -129,6 +130,10 @@ struct mongroup {
         target.x() = p.x();
         target.y() = p.y();
     }
+    void set_nemesis_target( const tripoint_abs_sm &p ) {
+        nemesis_target.x() = p.x();
+        nemesis_target.y() = p.y();
+    }
     void wander( const overmap & );
     void inc_interest( int inc ) {
         interest += inc;
@@ -157,7 +162,7 @@ struct mongroup {
     void io( Archive & );
     using archive_type_tag = io::object_archive_tag;
 
-    void deserialize( JsonIn &data );
+    void deserialize( const JsonObject &jo );
     void deserialize_legacy( JsonIn &json );
     void serialize( JsonOut &json ) const;
 };

@@ -13,6 +13,7 @@
     "type": "overmap_terrain",
     "id": "microlab_rock_border",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,

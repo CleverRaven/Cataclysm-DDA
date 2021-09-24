@@ -54,7 +54,7 @@
     "coverage": 45,
     "required_str": 16,
     "crafting_pseudo_item": "boulder_anvil",
-    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 32,
       "str_max": 80,
@@ -73,7 +73,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 64,
       "str_max": 160,

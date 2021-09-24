@@ -924,11 +924,6 @@
     "replace": "chestrig"
   },
   {
-    "id": "tool_black_powder_bomb",
-    "type": "MIGRATION",
-    "replace": "can_bomb"
-  },
-  {
     "id": "surv_levershotgun",
     "type": "MIGRATION",
     "replace": "winchester_1887"
@@ -1487,5 +1482,85 @@
     "id": "adv_UPS_off",
     "type": "MIGRATION",
     "replace": "UPS_off"
+  },
+  {
+    "id": "money_bundle",
+    "type": "MIGRATION",
+    "replace": "money_bundle_twenty"
+  },
+  {
+    "id": "bootleg_grenade",
+    "type": "MIGRATION",
+    "replace": "military_explosive_small_grenade"
+  },
+  {
+    "id": "bootleg_pipebomb",
+    "type": "MIGRATION",
+    "replace": "military_explosive_pipebomb"
+  },
+  {
+    "id": "tool_small_bootleg_fragmentation_device",
+    "type": "MIGRATION",
+    "replace": "military_explosive_bomb"
+  },
+  {
+    "id": "tool_bootleg_barrel_bomb",
+    "type": "MIGRATION",
+    "replace": "military_explosive_full_barrel_bomb"
+  },
+  {
+    "id": "can_bomb",
+    "type": "MIGRATION",
+    "replace": "small_homemade_grenade"
+  },
+  {
+    "id": "primitive_grenade",
+    "type": "MIGRATION",
+    "replace": "small_homemade_grenade"
+  },
+  {
+    "id": "improvised_grenade",
+    "type": "MIGRATION",
+    "replace": "small_homemade_grenade"
+  },
+  {
+    "id": "primitive_pipebomb",
+    "type": "MIGRATION",
+    "replace": "pipebomb"
+  },
+  {
+    "id": "improvised_pipebomb",
+    "type": "MIGRATION",
+    "replace": "pipebomb"
+  },
+  {
+    "id": "tool_small_primitive_fragmentation_device",
+    "type": "MIGRATION",
+    "replace": "homemade_bomb"
+  },
+  {
+    "id": "tool_small_improvised_fragmentation_device",
+    "type": "MIGRATION",
+    "replace": "homemade_bomb"
+  },
+  {
+    "id": "primitive_demolition_charge",
+    "type": "MIGRATION",
+    "replace": "homemade_demolition_charge"
+  },
+  {
+    "id": "improvised_demolition_charge",
+    "type": "MIGRATION",
+    "replace": "homemade_demolition_charge"
+  },
+  {
+    "id": "tool_improvised_barrel_bomb",
+    "type": "MIGRATION",
+    "replace": "full_barrel_bomb"
+  },
+  {
+    "id": "manual_computers",
+    "type": "MIGRATION",
+    "replace": "manual_computer"
   }
 ]

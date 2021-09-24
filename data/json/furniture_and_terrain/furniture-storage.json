@@ -205,17 +205,7 @@
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE_ASH",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "EASY_DECONSTRUCT",
-      "BASHABLE",
-      "HIDE_PLACE",
-      "NO_SIGHT",
-      "CONTAINER"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
@@ -350,6 +340,7 @@
     "lockpick_result": "f_gunsafe_o",
     "lockpick_message": "With a satisfying click, the lock on the gun safe door opens.",
     "examine_action": "locked_object_pickable",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -375,6 +366,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -400,6 +392,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "gunsafe_el",
     "bash": {
       "str_min": 40,
@@ -517,7 +510,13 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "hacksaw": {
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -684,6 +683,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "safe",
     "bash": {
       "str_min": 40,
@@ -996,6 +996,79 @@
   },
   {
     "type": "furniture",
+    "id": "f_fireman_cabinet",
+    "name": "fireman's cabinet",
+    "looks_like": "f_displaycase",
+    "description": "A metallic cabinet painted to stand out, visibly holding tools behind a thin panel of tempered glass.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
+    "lockpick_result": "f_fireman_cabinet_o",
+    "lockpick_message": "With a satisfying click, the lock on the cabinet opens.",
+    "examine_action": "locked_object_pickable",
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_fireman_cabinet_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireman_cabinet_o",
+    "name": "unlocked fireman's cabinet",
+    "looks_like": "f_displaycase",
+    "description": "A metallic cabinet painted to stand out.  Its glass panel door was left unlocked and slightly ajar.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_fireman_cabinet_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireman_cabinet_b",
+    "name": "open fireman's cabinet",
+    "looks_like": "f_displaycase_b",
+    "description": "A metallic cabinet painted to stand out.  Its protective glass panel lies broken from some past emergency or looting attempt.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "water_faucet", "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_standing_tank",
     "name": "standing tank",
     "description": "A huge metal tank that can be used to safely store large amounts of liquid.",
@@ -1004,7 +1077,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
     "keg_capacity": 1200,
@@ -1202,6 +1275,7 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "examine_action": "locked_object",
     "bash": {
       "str_min": 30,
       "str_max": 150,

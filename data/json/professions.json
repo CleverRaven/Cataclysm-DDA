@@ -608,7 +608,6 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" },
       { "level": 1, "name": "speech" },
       { "level": 1, "name": "traps" }
     ],
@@ -1015,7 +1014,7 @@
           {
             "item": "m4_carbine",
             "variant": "m4a1",
-            "ammo-item": "556",
+            "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
@@ -1622,6 +1621,42 @@
   },
   {
     "type": "profession",
+    "id": "cop_motor",
+    "name": "Motorized Police Officer",
+    "description": "Just a small-town deputy, you got the call and were ready to come to the rescue.  Soon it was you who needed rescuing, and you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents doesn't exist anymore?",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
+    "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "police_breeches",
+          "badge_deputy",
+          "sheriffshirt",
+          "undershirt",
+          "police_belt",
+          "motor_police_boots",
+          "whistle",
+          "wristwatch",
+          "leather_police_jacket"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "salesman",
     "name": "Used Car Salesman",
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",
@@ -1762,7 +1797,7 @@
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
     "points": 5,
     "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
-    "vehicle": "semi_truck",
+    "vehicle": "semi_truck_scenario",
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
@@ -1778,7 +1813,7 @@
     "name": "Day Driver",
     "description": "You love driving and making a living with it.  On your way to pick up someone with your car, you start to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  All that's left is your car.",
     "points": 4,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 4, "name": "driving" } ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 4, "name": "driving" } ],
     "vehicle": "car",
     "items": {
       "both": {
@@ -1858,7 +1893,7 @@
     "name": "Bus Driver",
     "description": "You are making a living with delivering noisy brats to their schools, where you wish with every delivery, that they don't break a seat or window for you.  On your way to pick up the first row of brats, you start to notice all the chaos happening around you.  By the time you arrive at the station, all the brats look like zombies, so you took a long detour to safety, only to find yourself in a different place.  At last you have been freed of the hellish noises they release, but new ones are on the merge.",
     "points": 4,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 3, "name": "driving" } ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 3, "name": "driving" } ],
     "vehicle": "schoolbus",
     "items": {
       "both": {
@@ -1931,7 +1966,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "ar15", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "item": "ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2536,7 +2571,7 @@
           "knit_scarf",
           "wristwatch",
           "briefcase",
-          "money_bundle",
+          "money_strap_fifty",
           "file"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
@@ -2730,7 +2765,7 @@
           "sneakers",
           "pizza_veggy",
           "pizza_meat",
-          "money_bundle",
+          "money_strap_one",
           "wristwatch",
           "mbag"
         ],
@@ -3358,7 +3393,7 @@
           { "group": "charged_matches" },
           { "group": "full_gasmask" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "jackhammer", "charges": 400 },
+          { "item": "jackhammer", "charges": 0 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
           { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
         ]
@@ -3689,7 +3724,7 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_bundle", "cig" ],
+        "items": [ "gold_watch", "water_mineral", "money_strap_twenty", "cig" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
@@ -3844,7 +3879,7 @@
           {
             "item": "m4_carbine",
             "variant": "m4a1",
-            "ammo-item": "556",
+            "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
@@ -3984,6 +4019,42 @@
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "mafia_boss",
+    "name": "Mafia boss",
+    "description": "Born into poverty, you joined one of the organized crime families to make a living.  There, you quickly made it to the top and became the boss.  The government was building a RICO case against you, but the doomsday arrived first.  Your crew is gone, but your past life prepared you for a world where violence is common currency.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "smg" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 4, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tux",
+          "fedora",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "gold_watch",
+          "diamond_ring",
+          "cigar",
+          "gold_bracelet",
+          "knuckle_brass"
+        ],
+        "entries": [
+          { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
+          { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     },
     "traits": [ "LIAR" ]
   }

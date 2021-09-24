@@ -30,7 +30,6 @@ class JsonObject;
 class item;
 class item_location;
 class npc_template;
-class player;
 struct furn_t;
 struct iteminfo;
 struct tripoint;
@@ -760,7 +759,7 @@ class holster_actor : public iuse_actor
         bool can_holster( const item &holster, const item &obj ) const;
 
         /** Store an object in the holster */
-        bool store( player &p, item &holster, item &obj ) const;
+        bool store( Character &you, item &holster, item &obj ) const;
 
         explicit holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 
@@ -829,20 +828,20 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item_location &fix ) const;
+        attempt_hint repair( Character &pl, item &tool, item_location &fix, bool refit_only = false ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
-        bool can_repair_target( player &pl, const item &fix, bool print_msg ) const;
+        bool can_repair_target( Character &pl, const item &fix, bool print_msg ) const;
         /** Checks if we are allowed to use the tool. */
         bool can_use_tool( const Character &p, const item &tool, bool print_msg ) const;
 
         /** Returns a list of items that can be used to repair this item. */
         std::set<itype_id> get_valid_repair_materials( const item &fix ) const;
         /** Returns if components are available. Consumes them if `just_check` is false. */
-        bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
+        bool handle_components( Character &pl, const item &fix, bool print_msg, bool just_check ) const;
         /** Returns the chance to repair and to damage an item. */
         std::pair<float, float> repair_chance(
-            const player &pl, const item &fix, repair_type action_type ) const;
+            const Character &pl, const item &fix, repair_type action_type ) const;
         /** What are we most likely trying to do with this item? */
         repair_type default_action( const item &fix, int current_skill_level ) const;
         /**
@@ -850,7 +849,7 @@ class repair_item_actor : public iuse_actor
          * based on recipes to craft it and player's knowledge of them.
          * If `training` is true, player's lacking knowledge and skills are not used to increase difficulty.
          */
-        int repair_recipe_difficulty( const player &pl, const item &fix, bool training = false ) const;
+        int repair_recipe_difficulty( const Character &pl, const item &fix, bool training = false ) const;
         /** Describes members of `repair_type` enum */
         static std::string action_description( repair_type );
 

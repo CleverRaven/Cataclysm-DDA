@@ -245,7 +245,7 @@ class overmapbuffer
         cata::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
-         * Only npcs on the given z-level are considered.
+         * All z-levels are considered.
          * Uses square_dist for distance calculation.
          * @param p Central point in submap coordinates.
          * @param radius Maximal distance of npc from (x,y). If the npc
@@ -262,9 +262,9 @@ class overmapbuffer
         std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs( int range = 100 );
         /**
          * Uses overmap terrain coordinates, this also means radius is
-         * in overmap terrain.
+         * in overmap terrain. All z-levels are considered.
          * A radius of 0 returns all npcs that are on that specific
-         * overmap terrain tile.
+         * overmap terrain tile or above/below.
          */
         std::vector<shared_ptr_fast<npc>> get_npcs_near_omt( const tripoint_abs_omt &p, int radius );
         /**
@@ -418,6 +418,25 @@ class overmapbuffer
          * therefore you should probably call @ref map::spawn_monsters to spawn them.
          */
         void move_hordes();
+        /**
+         * Signal nemesis horde to player location
+         * @param p is the player's location, which functions as the signal origin
+         * only the nemesis horde can 'hear' this signal.
+         */
+        void signal_nemesis( const tripoint_abs_sm p );
+        /**
+         * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
+         */
+        void add_nemesis( const tripoint_abs_omt &p );
+        /**
+         * moves 'nemesis' horde spawned by the "hunted" trait across every overmap
+         * regardless of distance from player
+         */
+        void move_nemesis();
+        /**
+         * removes 'nemesis' horde spawned by the "hunted" on player death
+         */
+        void remove_nemesis();
         // hordes -- this uses overmap terrain coordinates!
         std::vector<mongroup *> monsters_at( const tripoint_abs_omt &p );
         /**
@@ -475,11 +494,11 @@ class overmapbuffer
          * @param must_be_unexplored If true, will require that all of the terrains where the special would be
          * placed are unexplored.
          * @param force If true, placement will bypass the checks for valid placement.
-         * @returns True if the special was placed, else false.
+         * @returns If the special was placed, a vector of the points used, else nullopt.
          */
-        bool place_special( const overmap_special &special, const tripoint_abs_omt &p,
-                            om_direction::type dir,
-                            bool must_be_unexplored, bool force );
+        cata::optional<std::vector<tripoint_abs_omt>> place_special(
+                    const overmap_special &special, const tripoint_abs_omt &origin,
+                    om_direction::type dir, bool must_be_unexplored, bool force );
         /**
          * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
          * when you have a special that you want placed but it should be placed similarly to as if it were
@@ -550,6 +569,11 @@ class overmapbuffer
          * groups to the correct overmap (if it exists), also removes empty groups.
          */
         void fix_mongroups( overmap &new_overmap );
+        /**
+         * Go thorough the monster groups of the overmap to find the nemesis
+         * horde from the "hunted" trait and move it across overmaps.
+         */
+        void fix_nemesis( overmap &new_overmap );
         /**
          * Moves out-of-bounds NPCs to the overmaps they should be in.
          */

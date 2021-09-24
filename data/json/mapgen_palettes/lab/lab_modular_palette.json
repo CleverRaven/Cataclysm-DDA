@@ -326,7 +326,11 @@
     "items": {
       "3": { "item": "vending_food", "chance": 90 },
       "4": { "item": "vending_drink", "chance": 90 },
-      "U": [ { "item": "home_hw", "chance": 10, "repeat": [ 1, 2 ] }, { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] } ],
+      "U": [
+        { "item": "home_hw", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] }
+      ],
       "∞": [
         { "item": "clothing_soldier_set", "chance": 100 },
         { "item": "gear_soldier_sidearm", "chance": 33 },
@@ -338,6 +342,7 @@
     "type": "palette",
     "id": "lab_mutagen_palette",
     "//": "for mutagen research areas of labs.",
+    "palettes": [ "lab_common_palette" ],
     "furniture": {
       "W": "f_generator_broken",
       "Z": "f_control_station",
@@ -482,10 +487,10 @@
       ],
       "b": { "item": "hospital_bed", "chance": 20 },
       "c": [
-        { "item": "hospital_lab", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "chem_lab", "chance": 50, "repeat": [ 1, 2 ] }
+        { "item": "hospital_lab", "chance": 75, "repeat": [ 1, 5 ] },
+        { "item": "chem_lab", "chance": 75, "repeat": [ 1, 2 ] }
       ],
-      "d": [ { "item": "tools_science", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "d": [ { "item": "tools_science", "chance": 70, "repeat": [ 1, 2 ] } ],
       "f": [
         { "item": "tools_science", "chance": 30 },
         { "item": "baked_goods", "chance": 1 },
@@ -541,7 +546,7 @@
       ],
       "P": { "item": "office_paper", "chance": 100 },
       "Q": [
-        { "item": "harddrugs", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs", "chance": 100, "repeat": [ 1, 6 ] },
         { "item": "drugs_rare", "chance": 40, "repeat": [ 1, 2 ] }
       ],
       "R": [

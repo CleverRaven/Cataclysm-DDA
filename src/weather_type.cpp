@@ -31,8 +31,7 @@ std::string enum_to_string<precip_class>( precip_class data )
         case precip_class::last:
             break;
     }
-    debugmsg( "Invalid precip_class" );
-    abort();
+    cata_fatal( "Invalid precip_class" );
 }
 
 template<>
@@ -50,8 +49,7 @@ std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
         case sun_intensity_type::last:
             break;
     }
-    debugmsg( "Invalid sun_intensity_type" );
-    abort();
+    cata_fatal( "Invalid sun_intensity_type" );
 }
 
 template<>
@@ -75,8 +73,7 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
         case weather_sound_category::last:
             break;
     }
-    debugmsg( "Invalid weather sound category." );
-    abort();
+    cata_fatal( "Invalid weather sound category." );
 }
 
 } // namespace io
@@ -104,7 +101,6 @@ void weather_type::check() const
     for( const auto &type : required_weathers ) {
         if( !type.is_valid() ) {
             debugmsg( "Weather type %s does not exist.", type.c_str() );
-            abort();
         }
     }
 }
@@ -171,12 +167,10 @@ const std::vector<weather_type> &weather_types::get_all()
 void weather_types::check_consistency()
 {
     if( !WEATHER_CLEAR.is_valid() ) {
-        debugmsg( "Weather type clear is required." );
-        abort();
+        cata_fatal( "Weather type clear is required." );
     }
     if( !WEATHER_NULL.is_valid() ) {
-        debugmsg( "Weather type null is required." );
-        abort();
+        cata_fatal( "Weather type null is required." );
     }
     weather_type_factory.check();
 }
