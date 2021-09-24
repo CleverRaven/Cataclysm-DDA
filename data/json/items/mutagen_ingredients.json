@@ -1,0 +1,47 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "snail_sample",
+    "symbol": "q",
+    "color": "brown",
+    "name": { "str": "snail sample" },
+    "description": "A sample of things that make up key parts of being a snail.  You will probably need to find a very large snail.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "rabbit_foot",
+    "symbol": "q",
+    "color": "brown",
+    "name": { "str": "rabbit sample" },
+    "description": "A tiny paw that came off of a rabbit.  Please, no luck jokes.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "fur", "leather" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "frog_sample",
+    "symbol": "q",
+    "color": "brown",
+    "name": { "str": "frog sample" },
+    "description": "A sample of things that make up key parts of being a frog.  You will probably need to find a very large frog.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  }
+]
