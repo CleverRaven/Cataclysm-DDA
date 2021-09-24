@@ -116,10 +116,7 @@
       {
         "text": "I've brought those anaesthetic kits for you.  Can you help me out?",
         "condition": { "and": [ { "u_has_items": { "item": "anesthetic_kit", "count": 2 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
-        "effect": [
-          { "u_sell_item": "anesthetic_kit", "count": 2 },
-          { "finish_mission": "RUBIK_ANUS_FETICK", "success": true }
-        ],
+        "effect": [ { "u_sell_item": "anesthetic_kit", "count": 2 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
@@ -671,9 +668,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodized",
     "type": "talk_topic",
     "dynamic_line": "*makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.\n\nYou awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anaesthesia fades you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.\n\n\"Ah, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.\"",
-    "speaker_effect": {
-      "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" }
-    },
+    "speaker_effect": { "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } },
     "responses": [
       { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
