@@ -584,7 +584,7 @@ struct islot_gun : common_ranged_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.

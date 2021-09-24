@@ -1912,9 +1912,8 @@ void islot_gun::load( const JsonObject &jo )
     assign( jo, "modes", modes );
 }
 
-void islot_gun::deserialize( JsonIn &jsin )
+void islot_gun::deserialize( const JsonObject &jo )
 {
-    const JsonObject jo = jsin.get_object();
     load( jo );
 }
 
