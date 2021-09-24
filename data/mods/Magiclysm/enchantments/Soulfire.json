@@ -32,10 +32,10 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": -0.4 } ] } ]
     },
-    "covers": [ "torso" ],
     "symbol": "~",
     "color": "red",
     "weight": "1 g",
-    "volume": "1 ml"
+    "volume": "1 ml",
+    "armor": [ { "covers": [ "torso" ] } ]
   }
 ]

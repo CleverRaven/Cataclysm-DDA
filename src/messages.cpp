@@ -37,12 +37,12 @@ namespace
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
     time_point timestamp_in_turns  = calendar::turn_zero;
-    int               timestamp_in_user_actions = 0;
+    int               timestamp_in_user_actions = 0; // NOLINT(cata-serialize)
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
-    unsigned cooldown_seen = 1;
+    unsigned cooldown_seen = 1; // NOLINT(cata-serialize)
     // hide the message, because at some point it was in cooldown period.
-    bool cooldown_hidden = false;
+    bool cooldown_hidden = false; // NOLINT(cata-serialize)
     game_message_type type  = m_neutral;
 
     game_message() = default;
@@ -347,6 +347,18 @@ void Messages::add_msg( const game_message_params &params, std::string msg )
     player_messages.add_msg_string( std::move( msg ), params );
 }
 
+void Messages::add_msg_debug( debugmode::debug_filter type, std::string msg )
+{
+    if( debug_mode &&
+        std::find(
+            debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
+            type ) == debugmode::enabled_filters.end() ) {
+        return;
+    }
+
+    player_messages.add_msg_string( std::move( msg ), m_debug );
+}
+
 void Messages::clear_messages()
 {
     player_messages.messages.clear();
@@ -560,7 +572,8 @@ void Messages::dialog::show()
     .apply( w );
 
     // Range of window lines to print
-    size_t line_from = 0, line_to;
+    size_t line_from = 0;
+    size_t line_to;
     if( offset < folded_filtered.size() ) {
         line_to = std::min( max_lines, folded_filtered.size() - offset );
     } else {
@@ -886,6 +899,11 @@ void add_msg( const game_message_params &params, std::string msg )
     Messages::add_msg( params, std::move( msg ) );
 }
 
+void add_msg_debug( debugmode::debug_filter type, std::string msg )
+{
+    Messages::add_msg_debug( type, std::move( msg ) );
+}
+
 void add_msg_if_player_sees( const tripoint &target, std::string msg )
 {
     if( get_player_view().sees( target ) ) {
@@ -913,5 +931,21 @@ void add_msg_if_player_sees( const Creature &target, const game_message_params &
 {
     if( get_player_view().sees( target ) ) {
         Messages::add_msg( params, std::move( msg ) );
+    }
+}
+
+void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
+                                   std::string msg )
+{
+    if( get_player_view().sees( target ) ) {
+        Messages::add_msg_debug( type, std::move( msg ) );
+    }
+}
+
+void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
+                                   std::string msg )
+{
+    if( get_player_view().sees( target ) ) {
+        Messages::add_msg_debug( type, std::move( msg ) );
     }
 }

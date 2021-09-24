@@ -312,7 +312,7 @@
   },
   {
     "id": "scar_h",
-    "copy-from": "scar_l",
+    "copy-from": "m27_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "FN SCAR-H" },

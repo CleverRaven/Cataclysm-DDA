@@ -177,7 +177,8 @@
             { "item": "sample_t_substrate" },
             { "item": "log_immersion27" },
             { "item": "HAADF_t_substrate" },
-            { "item": "report_t_substrate" }
+            { "item": "report_t_substrate" },
+            { "item": "id_science" }
           ]
         }
       },

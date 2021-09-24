@@ -3,14 +3,13 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "item.h"
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -40,7 +39,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
     return static_cast<float>( hits ) / iters;
 }
 
-static std::string full_attack_details( const player &dude )
+static std::string full_attack_details( const Character &dude )
 {
     std::stringstream ss;
     ss << "Details for " << dude.disp_name() << std::endl;
@@ -85,7 +84,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
         check_near( prob, 0.6f, 0.1f );
     }
 
-    SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
+    SECTION( "8/8/8/8, 3 all skills, plank" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
         dude.weapon = item( "2x4" );
         const float prob = brute_probability( dude, zed, num_iters );
@@ -114,7 +113,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
         check_near( prob, 0.2f, 0.05f );
     }
 
-    SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
+    SECTION( "8/8/8/8, 3 all skills, plank" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
         dude.weapon = item( "2x4" );
         const float prob = brute_probability( dude, manhack, num_iters );

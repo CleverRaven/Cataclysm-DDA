@@ -40,7 +40,7 @@
     "id": "t_wall_half",
     "name": "half-built wall",
     "looks_like": "t_wall",
-    "description": "An incomplete wall of refined wood, dotted with carefully placed nails to provide proper support.  It requires some more two by fours and nails before it'd be considered a suitable wall.",
+    "description": "An incomplete wall of refined wood, dotted with carefully placed nails to provide proper support.  It requires some more planks and nails before it'd be considered a suitable wall.",
     "symbol": "#",
     "color": "light_red",
     "move_cost": 4,
@@ -74,17 +74,7 @@
     "coverage": 60,
     "connects_to": "WALL",
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "PLACE_ITEM",
-      "INDOORS",
-      "AUTO_WALL_SYMBOL",
-      "BASHABLE",
-      "THIN_OBSTACLE",
-      "MOUNTABLE",
-      "SHORT"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
@@ -432,6 +422,11 @@
     "coverage": 100,
     "roof": "t_metal_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_scrap_wall_halfway",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -443,6 +438,28 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_corrugated",
+    "alias": [ "t_wall_metal_corrugated_h", "t_wall_metal_corrugated_v" ],
+    "name": "corrugated metal wall",
+    "description": "A wall made from a thin sheet of corrugated steel held in a frame, weather and wind proof but not very insulating or durable.",
+    "looks_like": "t_wall_metal",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -566,12 +583,17 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
+    "oxytorch": {
+      "result": "t_pit",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "spike", "count": [ 1, 19 ] }, { "item": "scrap", "count": [ 1, 8 ] } ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_pit",
+      "ter_set": "t_thconc_floor",
       "items": [ { "item": "scrap", "count": [ 4, 12 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },
@@ -579,7 +601,7 @@
     "type": "terrain",
     "id": "t_scrap_wall",
     "name": "simple metal wall",
-    "looks_like": "t_metal_wall",
+    "looks_like": "t_wall_metal",
     "description": "A relatively simple wall made of scraped together metal.  It's still capable of blocking intruders and supporting a roof with adjacent walls.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
@@ -649,7 +671,7 @@
     "id": "t_wall_wood_chipped",
     "name": "chipped wood wall",
     "looks_like": "t_wall_wood",
-    "description": "A wall of aligned two by fours that's starting to crack and break open.  Some cut wood and a number of nails could patch this up quick.",
+    "description": "A wall of aligned planks that's starting to crack and break open.  Some cut wood and a number of nails could patch this up quick.",
     "symbol": "LINE_OXOX",
     "color": "light_red",
     "move_cost": 0,
@@ -694,7 +716,8 @@
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
       ]
-    }
+    },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
   },
   {
     "type": "terrain",
@@ -778,7 +801,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 50 ], "reduce_damage_laser": [ 10, 40 ], "destroy_damage": [ 40, 120 ] }
   },
   {
     "type": "terrain",
@@ -838,6 +862,7 @@
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
     },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ]
   },
   {
@@ -973,7 +998,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -996,7 +1022,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1019,7 +1046,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1042,6 +1070,12 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "reduce_damage": [ 30, 60 ],
+      "reduce_damage_laser": [ 0, 10 ],
+      "destroy_damage": [ 80, 200 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1064,6 +1098,12 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
+    },
+    "shoot": {
+      "reduce_damage": [ 15, 30 ],
+      "reduce_damage_laser": [ 0, 10 ],
+      "destroy_damage": [ 60, 160 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1091,6 +1131,12 @@
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
+    },
+    "shoot": {
+      "reduce_damage": [ 20, 40 ],
+      "reduce_damage_laser": [ 15, 25 ],
+      "destroy_damage": [ 60, 160 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1118,6 +1164,12 @@
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
+    },
+    "shoot": {
+      "reduce_damage": [ 20, 40 ],
+      "reduce_damage_laser": [ 15, 25 ],
+      "destroy_damage": [ 60, 160 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1130,6 +1182,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -1160,8 +1213,48 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_null"
-    }
+      "ter_set": "t_floor_paper"
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_paper_brood",
+    "copy-from": "t_paper",
+    "symbol": "#",
+    "color": "white",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_floor_paper_noroof"
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_paper_hard",
+    "name": "layered paper wall",
+    "description": "A thick wall of layered tree pulp and wasp saliva, hardened to withstand the elements.  You could break through this, but it won't be easy.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "MINEABLE", "WALL", "NO_SCENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 20,
+      "sound_fail_vol": 10,
+      "ter_set": "t_floor_paper_hard"
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
   },
   {
     "type": "terrain",
@@ -1202,6 +1295,27 @@
       "sound_fail": "whump!",
       "ter_set": "t_floor_wax",
       "items": [ { "item": "wax", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_soil",
+    "name": "solid earth",
+    "description": "A wall of solid earth.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_dirt",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "wham!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dirt",
+      "ter_set_bashed_from_above": "t_dirt",
+      "items": [ { "group": "digging_soil_loam_50L", "count": 20 } ]
     }
   },
   {
@@ -1354,6 +1468,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_bollard",
+    "name": "bollard",
+    "looks_like": "t_fence_post",
+    "description": "A set of concrete and steel bollards designed to harden areas against vehicle ram attacks.  It requires a few more steps to walk in between the bollards sticking up out of the ground.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 6,
+    "coverage": 20,
+    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 350,
+      "str_max": 650,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_sidewalk",
+      "items": [ { "item": "rock", "count": [ 6, 13 ] }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_support_l",
     "name": "large metal support",
     "looks_like": "t_wall_metal",
@@ -1461,6 +1595,26 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pillar",
+    "name": "pillar",
+    "looks_like": "t_column",
+    "description": "A concrete column that helps keep the mine's ceiling and walls from collapsing.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
     }
   }
 ]

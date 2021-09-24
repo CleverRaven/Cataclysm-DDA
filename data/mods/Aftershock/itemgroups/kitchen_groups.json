@@ -1,0 +1,18 @@
+[
+  {
+    "id": "afs_kitchenette",
+    "type": "item_group",
+    "//": "A rather complete one tile kitchen. Should spawn cooking implements and kitchen objects.",
+    "subtype": "collection",
+    "items": [
+      [ "hotplate", 70 ],
+      { "group": "SUS_appliances_cupboard", "prob": 30 },
+      { "group": "SUS_knife_drawer", "prob": 20 },
+      { "group": "SUS_utensils", "prob": 20 },
+      { "group": "SUS_dishes", "prob": 20 },
+      { "group": "SUS_cookware", "prob": 20 },
+      { "group": "SUS_kitchen_sink", "prob": 30 },
+      { "group": "SUS_coffee_cupboard", "prob": 2 }
+    ]
+  }
+]

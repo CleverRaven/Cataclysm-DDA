@@ -2,12 +2,28 @@
 
 **Opening a new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
-Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
+**Want an introductory guide for creating game content?** You might want to
+read the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)
+on the CDDA wiki.
 
 Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
 
-## Guidelines
+## Using a good text editor
+
+Most of the Cataclysm: Dark Days Ahead game data is defined in JSON files.
+These files are intended to be easy for you to edit, but there are some
+pitfalls.  Using Windows Notepad can get you into trouble, because it likes to
+insert a special character called a BOM at the start of the file, which CDDA
+does not want.
+
+If you're going to be editing JSON files consider getting a more fully-featured
+editor such as [Notepad++](https://notepad-plus-plus.org/).
+
+## Contributing to GitHub
+
+Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
 There are a couple of guidelines we suggest sticking to:
 
@@ -95,12 +111,13 @@ Helpful pages:
 
 3. Set commit message template.
 
+        $ cd Cataclysm-DDA
+        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git config --local commit.template .gitmessage
+        # Set commit message template to the custom one in the repo
 
 4. Add this repository as a remote.
 
-        $ cd Cataclysm-DDA
-        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
 

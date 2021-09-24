@@ -35,7 +35,6 @@ class Item_factory;
 class JsonIn;
 class JsonObject;
 class item;
-class player;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -90,6 +89,10 @@ class gunmod_location
         }
         bool operator<( const gunmod_location &rhs ) const {
             return _id < rhs._id;
+        }
+
+        void deserialize( JsonIn &jsin ) {
+            _id = jsin.get_string();
         }
 };
 
@@ -161,8 +164,11 @@ struct islot_comestible {
         /**Amount of radiation you get from this comestible*/
         int radiation = 0;
 
-        /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-        int freeze_point = temperatures::freezing;
+        /** freezing point in degrees celsius, below this temperature item can freeze */
+        float freeze_point = 0;
+
+        /**effect on conditions to apply on consumption*/
+        std::vector<effect_on_condition_id> consumption_eocs;
 
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
@@ -216,7 +222,7 @@ struct armor_portion_data {
     int encumber = 0;
 
     // When storage is full, how much it encumbers the player.
-    int max_encumber = 0;
+    int max_encumber = -1;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
@@ -228,6 +234,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -425,6 +433,10 @@ struct common_ranged_data {
      */
     int range = 0;
     /**
+     * Range multiplier from gunmods or ammo.
+     */
+    float range_multiplier = 1.0;
+    /**
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
@@ -458,8 +470,21 @@ struct islot_wheel {
         void deserialize( JsonIn &jsin );
 };
 
+struct gun_variant_data {
+    std::string id;
+    translation brand_name;
+    translation alt_description;
+    ascii_art_id art;
+
+    int weight = 0;
+
+    void deserialize( JsonIn &jsin );
+    void load( const JsonObject &jo );
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
+    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -532,9 +557,6 @@ struct islot_gun : common_ranged_data {
 
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
     std::map<gun_mode_id, gun_modifier_data> modes;
-
-    /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
-    int burst = 0;
 
     /** How easy is control of recoil? If unset value automatically derived from weapon type */
     int handling = -1;
@@ -646,6 +668,7 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
+    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -802,6 +825,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    VAR,
     num_condition_types
 };
 
@@ -838,6 +862,8 @@ struct itype {
 
         using FlagsSetType = std::set<flag_id>;
 
+        std::vector<std::pair<itype_id, mod_id>> src;
+
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
          * this before using it.
@@ -869,6 +895,8 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
+        std::set<std::string> weapon_category;
+
         std::string snippet_category;
         translation description; // Flavor text
         ascii_art_id picture_id;
@@ -889,6 +917,9 @@ struct itype {
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
+
+        /** The factor of ammo consumption indexed by action type*/
+        std::map<std::string, float> ammo_scale;
 
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
@@ -1126,13 +1157,16 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        cata::optional<int> invoke( player &p, item &it,
+        cata::optional<int> invoke( Character &p, item &it,
                                     const tripoint &pos ) const; // Picks first method or returns 0
-        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+        cata::optional<int> invoke( Character &p, item &it, const tripoint &pos,
                                     const std::string &iuse_name ) const;
-        int tick( player &p, item &it, const tripoint &pos ) const;
+        int tick( Character &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
+
+        // returns true if it is one of the outcomes of cutting
+        bool is_basic_component() const;
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );

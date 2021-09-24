@@ -42,6 +42,8 @@ static const bionic_id bio_cqb( "bio_cqb" );
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
+static const matec_id tec_none( "tec_none" );
+
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
@@ -82,13 +84,12 @@ void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
 class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        std::pair<skill_id, int> get_next( const JsonObject &jo ) const {
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const skill_id id = skill_id( jin.get_string() );
+        void erase_next( std::string &&skill_id_str, C &container ) const {
+            const skill_id id = skill_id( std::move( skill_id_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
                 return e.first == id;
             } );
@@ -100,8 +101,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
     public:
         std::map<std::string, damage_type> dt_map = get_dt_map();
 
-        std::pair<damage_type, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        std::pair<damage_type, int> get_next( const JsonObject &jo ) const {
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
@@ -111,8 +111,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
             return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            JsonObject jo = jin.get_object();
+        void erase_next( const JsonObject &jo, C &container ) const {
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
@@ -133,8 +132,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
+    optional( jo, was_loaded, "req_buffs", req_buffs, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -245,7 +244,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonIn &jin ) const {
+        mabuff_id get_next( JsonValue jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -282,8 +281,9 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
-    optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
-    optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
+    optional( jo, was_loaded, "weapons", weapons, string_id_reader<::itype> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<std::string> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -663,6 +663,10 @@ int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
+int ma_buff::arpen_bonus( const Character &u, damage_type dt ) const
+{
+    return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, dt );
+}
 int ma_buff::block_effectiveness_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK_EFFECTIVENESS );
@@ -842,7 +846,11 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0;
+    return weapons.count( itt ) > 0 ||
+           std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
+    [&]( const std::string & weap ) {
+        return weapon_category.count( weap ) > 0;
+    } );
 }
 
 bool martialart::weapon_valid( const item &it ) const
@@ -893,94 +901,53 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
 }
 
 // defensive technique-related
-bool character_martial_arts::has_miss_recovery_tec( const item &weap ) const
-{
-    for( const matec_id &technique : get_all_techniques( weap ) ) {
-        if( technique->miss_recovery ) {
-            return true;
-        }
-    }
-    return false;
-}
 
-ma_technique character_martial_arts::get_miss_recovery_tec( const item &weap ) const
+static ma_technique get_valid_technique( const Character &owner, bool ma_technique::*  purpose )
 {
-    ma_technique tech;
-    for( const matec_id &technique : get_all_techniques( weap ) ) {
-        if( technique->miss_recovery ) {
-            tech = technique.obj();
-            break;
+    const auto &ma_data = owner.martial_arts_data;
+
+    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.weapon ) ) {
+        ma_technique candidate = candidate_id.obj();
+
+        if( candidate.*purpose && candidate.is_valid_character( owner ) ) {
+            return candidate;
         }
     }
 
-    return tech;
+    return tec_none.obj();
 }
 
-// This one isn't used with a weapon
-bool character_martial_arts::has_grab_break_tec() const
+ma_technique character_martial_arts::get_grab_break( const Character &owner ) const
 {
-    for( const matec_id &technique : get_all_techniques( item() ) ) {
-        if( technique->grab_break ) {
-            return true;
-        }
-    }
-    return false;
+    return get_valid_technique( owner, &ma_technique::grab_break );
 }
 
-ma_technique character_martial_arts::get_grab_break_tec( const item &weap ) const
+ma_technique character_martial_arts::get_miss_recovery( const Character &owner ) const
 {
-    ma_technique tec;
-    for( const matec_id &technique : get_all_techniques( weap ) ) {
-        if( technique->grab_break ) {
-            tec = technique.obj();
-            break;
-        }
-    }
-    return tec;
-}
-
-bool Character::can_grab_break( const item &weap ) const
-{
-    if( !has_grab_break_tec() ) {
-        return false;
-    }
-
-    ma_technique tec;
-    for( const matec_id &technique : martial_arts_data->get_all_techniques( weap ) ) {
-        if( technique->grab_break ) {
-            tec = technique.obj();
-            if( tec.is_valid_character( *this ) ) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-bool Character::can_miss_recovery( const item &weap ) const
-{
-    if( !martial_arts_data->has_miss_recovery_tec( weap ) ) {
-        return false;
-    }
-
-    ma_technique tec = martial_arts_data->get_miss_recovery_tec( weap );
-
-    return tec.is_valid_character( *this );
+    return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
-    int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
-                            skill_unarmed );
+    const int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
+                                  skill_unarmed );
+
+    // Before we check our legs, can you block at all?
+    const bool block_with_skill = unarmed_skill >= ma.leg_block;
+    const bool block_with_bio_armor = ma.leg_block_with_bio_armor_legs &&
+                                      owner.has_bionic( bio_armor_legs );
+    if( !( block_with_skill || block_with_bio_armor ) ) {
+        return false;
+    }
 
     // Success conditions.
     if( owner.get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
-        } else if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
+        }
+        if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
             return true;
         }
     }
@@ -992,15 +959,23 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
-    int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
-                            skill_unarmed );
+    const int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
+                                  skill_unarmed );
+
+    // before we check our arms, can you block at all?
+    const bool block_with_skill = unarmed_skill >= ma.arm_block;
+    const bool block_with_bio_armor = ma.arm_block_with_bio_armor_arms &&
+                                      owner.has_bionic( bio_armor_arms );
+    if( !( block_with_skill || block_with_bio_armor ) ) {
+        return false;
+    }
 
     // Success conditions.
-    if( !owner.is_limb_broken( bodypart_id( "arm_l" ) ) ||
-        !owner.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+    if( owner.blocking_score( body_part_type::type::arm ) >= 1.0f ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
-        } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
+        }
+        if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
             return true;
         }
     }
@@ -1140,6 +1115,14 @@ int Character::mabuff_speed_bonus() const
     } );
     return ret;
 }
+int Character::mabuff_arpen_bonus( damage_type type ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.arpen_bonus( *this, type );
+    } );
+    return ret;
+}
 int Character::mabuff_armor_bonus( damage_type type ) const
 {
     int ret = 0;
@@ -1221,7 +1204,7 @@ bool Character::has_mabuff( const mabuff_id &id ) const
 
 bool Character::has_grab_break_tec() const
 {
-    return martial_arts_data->has_grab_break_tec();
+    return martial_arts_data->get_grab_break( *this ).id != tec_none;
 }
 
 bool character_martial_arts::has_martialart( const matype_id &ma ) const
@@ -1580,9 +1563,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
 
         do {
-            if( selected < 0 ) {
-                selected = 0;
-            } else if( iLines < height ) {
+            if( selected < 0 || iLines < height ) {
                 selected = 0;
             } else if( selected >= iLines - height ) {
                 selected = iLines - height;

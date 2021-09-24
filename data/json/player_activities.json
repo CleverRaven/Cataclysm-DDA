@@ -27,6 +27,15 @@
     "auto_needs": true
   },
   {
+    "type": "activity_type",
+    "id": "ACT_EBOOKSAVE",
+    "activity_level": "NO_EXERCISE",
+    "verb": "taking pictures of the book",
+    "rooted": true,
+    "based_on": "speed",
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
@@ -75,10 +84,43 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_BIKERACK_RACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "mounting a vehicle onto rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_BIKERACK_UNRACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "taking a vehicle from rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping logs",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
+    "id": "ACT_MULTIPLE_DIS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "disassembling things",
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
@@ -114,6 +156,13 @@
     "verb": "fishing",
     "based_on": "neither",
     "auto_needs": true
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_HARVEST",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "harvesting",
+    "based_on": "speed"
   },
   {
     "id": "ACT_GENERIC_GAME",
@@ -158,7 +207,7 @@
     "verb": "disassembly",
     "suspendable": false,
     "rooted": true,
-    "based_on": "speed",
+    "based_on": "neither",
     "refuel_fires": true,
     "auto_needs": true
   },
@@ -484,13 +533,13 @@
     "no_resume": true
   },
   {
-    "id": "ACT_SHEAR",
+    "id": "ACT_SHEARING",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "shearing an animal",
     "suspendable": false,
     "rooted": true,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -641,6 +690,13 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "cutting the metal",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_BOLTCUTTING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "cutting the wire",
     "based_on": "speed"
   },
   {
@@ -851,6 +907,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_CONSUME_FUEL_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "consuming fuel",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_MIND_SPLICER",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -867,6 +932,14 @@
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
+  },
+  {
+    "id": "ACT_BINDER_COPY_RECIPE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "writing",
+    "rooted": true,
+    "based_on": "speed"
   },
   {
     "id": "ACT_MIGRATION_CANCEL",
@@ -913,6 +986,14 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_DISABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "disabling",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_FURNITURE_MOVE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
@@ -920,5 +1001,27 @@
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
+  },
+  {
+    "id": "ACT_TENT_PLACE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "pitching a tent",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_TENT_DECONSTRUCT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "packing up a tent",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
   }
 ]

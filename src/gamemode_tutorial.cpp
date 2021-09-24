@@ -35,15 +35,29 @@
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_grenade_act( "grenade_act" );
-static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
+static const skill_id skill_throwing( "throwing" );
 
-static const trait_id trait_QUICK( "QUICK" );
-
-static const mtype_id mon_zombie( "mon_zombie" );
+static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
+static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
+static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
+static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
+static const trap_str_id tr_tutorial_5( "tr_tutorial_5" );
+static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
+static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
+static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
+static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
+static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
+static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
+static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
+static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
+static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
+static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
 
 namespace io
 {
@@ -55,6 +69,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
             // *INDENT-OFF*
         case tut_lesson::LESSON_INTRO: return "LESSON_INTRO";
         case tut_lesson::LESSON_MOVE: return "LESSON_MOVE";
+        case tut_lesson::LESSON_MOVEMENT_MODES: return "LESSON_MOVEMENT_MODES";
         case tut_lesson::LESSON_LOOK: return "LESSON_LOOK";
         case tut_lesson::LESSON_OPEN: return "LESSON_OPEN";
         case tut_lesson::LESSON_CLOSE: return "LESSON_CLOSE";
@@ -93,6 +108,19 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_DARK_NO_FLASH: return "LESSON_DARK_NO_FLASH";
         case tut_lesson::LESSON_DARK: return "LESSON_DARK";
         case tut_lesson::LESSON_PICKUP_WATER: return "LESSON_PICKUP_WATER";
+        case tut_lesson::LESSON_MONSTER_SIGHTED: return "LESSON_MONSTER_SIGHTED";
+        case tut_lesson::LESSON_LOCKED_DOOR: return "LESSON_LOCKED_DOOR";
+        case tut_lesson::LESSON_RESTORE_STAMINA: return "LESSON_RESTORE_STAMINA";
+        case tut_lesson::LESSON_REACH_ATTACK: return "LESSON_REACH_ATTACK";
+        case tut_lesson::LESSON_HOLSTERS_WEAR: return "LESSON_HOLSTERS_WEAR";
+        case tut_lesson::LESSON_HOLSTERS_ACTIVATE: return "LESSON_HOLSTERS_ACTIVATE";
+        case tut_lesson::LESSON_INVENTORY: return "LESSON_INVENTORY";
+        case tut_lesson::LESSON_FLASHLIGHT: return "LESSON_FLASHLIGHT";
+        case tut_lesson::LESSON_REMOTE_USE: return "LESSON_REMOTE_USE";
+        case tut_lesson::LESSON_CRAFTING_FOOD: return "LESSON_CRAFTING_FOOD";
+        case tut_lesson::LESSON_CONSTRUCTION: return "LESSON_CONSTRUCTION";
+        case tut_lesson::LESSON_THROWING: return "LESSON_THROWING";
+        case tut_lesson::LESSON_FINALE: return "LESSON_FINALE";
             // *INDENT-ON*
         case tut_lesson::NUM_LESSONS:
             break;
@@ -106,11 +134,10 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    // Start at noon
-    calendar::turn = calendar::turn_zero + 12_hours;
+    // Start at noon at the end of the spring to prevent freezing
+    calendar::turn = calendar::start_of_cataclysm + 8_weeks + 12_hours;
     tutorials_seen.clear();
     get_scent().reset();
-    get_weather().temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     avatar &player_character = get_avatar();
@@ -122,7 +149,6 @@ bool tutorial_game::init()
 
     player_character.set_all_parts_hp_to_max();
 
-    const oter_id rock( "rock" );
     //~ default name for the tutorial
     player_character.name = _( "John Smith" );
     player_character.prof = profession::generic();
@@ -130,28 +156,21 @@ bool tutorial_game::init()
     const tripoint_om_omt lp( 50, 50, 0 );
     // Assume overmap zero
     const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
-    auto &starting_om = overmap_buffer.get( point_abs_om() );
-    for( int i = 0; i < OMAPX; i++ ) {
-        for( int j = 0; j < OMAPY; j++ ) {
-            tripoint_om_omt p( i, j, 0 );
-            starting_om.ter_set( p + tripoint_below, rock );
-            // Start with the overmap revealed
-            starting_om.seen( p ) = true;
-        }
-    }
-    starting_om.ter_set( lp, oter_id( "tutorial" ) );
-    starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
+    overmap &starting_om = overmap_buffer.get( point_abs_om() );
+    starting_om.place_special_forced( overmap_special_id( "tutorial" ), lp, om_direction::type::north );
     starting_om.clear_mon_groups();
 
-    player_character.toggle_trait( trait_QUICK );
-    item lighter( "lighter", calendar::turn_zero );
-    lighter.invlet = 'e';
-    player_character.inv->add_item( lighter, true, false );
+    player_character.wear_item( item( "boxer_shorts" ), false );
+    player_character.wear_item( item( "jeans" ), false );
+    player_character.wear_item( item( "longshirt" ), false );
+    player_character.wear_item( item( "socks" ), false );
+    player_character.wear_item( item( "sneakers" ), false );
+
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
+    player_character.set_skill_level( skill_throwing, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );
-    player_character.setx( 2 );
-    player_character.sety( 4 );
+    player_character.move_to( project_to<coords::ms>( lp_abs ) + point( 2, 2 ) );
 
     // This shifts the view to center the players pos
     g->update_map( player_character );
@@ -163,23 +182,31 @@ void tutorial_game::per_turn()
     // note that add_message does nothing if the message was already shown
     add_message( tut_lesson::LESSON_INTRO );
     add_message( tut_lesson::LESSON_MOVE );
-    add_message( tut_lesson::LESSON_LOOK );
 
     Character &player_character = get_player_character();
     if( g->light_level( player_character.posz() ) == 1 ) {
-        if( player_character.has_amount( itype_flashlight, 1 ) ) {
+        if( player_character.has_amount( itype_flashlight, 1 ) ||
+            player_character.has_amount( itype_flashlight_on, 1 ) ) {
             add_message( tut_lesson::LESSON_DARK );
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
         }
     }
 
+    if( !player_character.weapon.is_null() ) {
+        add_message( tut_lesson::LESSON_WIELD_NO_SPACE );
+    }
+
+    if( player_character.weapon.ammo_remaining( &player_character ) > 0 ) {
+        add_message( tut_lesson::LESSON_GUN_FIRE );
+    }
+
     if( player_character.get_pain() > 0 ) {
         add_message( tut_lesson::LESSON_PAIN );
     }
 
-    if( player_character.recoil >= MAX_RECOIL ) {
-        add_message( tut_lesson::LESSON_RECOIL );
+    if( player_character.get_stamina() <= 9000 ) {
+        add_message( tut_lesson::LESSON_RESTORE_STAMINA );
     }
 
     map &here = get_map();
@@ -193,29 +220,69 @@ void tutorial_game::per_turn()
     }
 
     for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
-        if( here.ter( p ) == t_door_o ) {
+        if( here.ter( p ) == t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == t_door_c ) {
+        } else if( here.ter( p ) == t_door_o ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == t_window ) {
-            add_message( tut_lesson::LESSON_SMASH );
+        } else if( here.ter( p ) == t_door_locked_interior ) {
+            add_message( tut_lesson::LESSON_LOCKED_DOOR );
             break;
-        } else if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
+        } else if( here.ter( p ) == t_window ) {
+            add_message( tut_lesson::LESSON_WINDOW );
+            break;
+        } else if( here.furn( p ) == f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
         } else if( here.ter( p ) == t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == t_water_sh ) {
+        } else if( here.ter( p ) == ter_id( "t_water_dispenser" ) ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
+            break;
+        } else if( here.tr_at( p ).id == trap_str_id( "tr_bubblewrap" ) ) {
+            add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
             break;
         }
     }
 
     if( !here.i_at( point( player_character.posx(), player_character.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
+    }
+
+    if( here.tr_at( player_character.pos() ) == tr_tutorial_1 ) {
+        add_message( tut_lesson::LESSON_LOOK );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_2 ) {
+        add_message( tut_lesson::LESSON_MOVEMENT_MODES );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_3 ) {
+        add_message( tut_lesson::LESSON_MONSTER_SIGHTED );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_4 ) {
+        add_message( tut_lesson::LESSON_REACH_ATTACK );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_5 ) {
+        add_message( tut_lesson::LESSON_HOLSTERS_WEAR );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_6 ) {
+        add_message( tut_lesson::LESSON_GUN_LOAD );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_7 ) {
+        add_message( tut_lesson::LESSON_INVENTORY );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_8 ) {
+        add_message( tut_lesson::LESSON_FLASHLIGHT );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_9 ) {
+        add_message( tut_lesson::LESSON_INTERACT );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_10 ) {
+        add_message( tut_lesson::LESSON_REMOTE_USE );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_11 ) {
+        player_character.set_hunger( 100 );
+        player_character.stomach.empty();
+        add_message( tut_lesson::LESSON_CRAFTING_FOOD );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_12 ) {
+        add_message( tut_lesson::LESSON_CONSTRUCTION );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_13 ) {
+        player_character.set_pain( 20 );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_14 ) {
+        add_message( tut_lesson::LESSON_THROWING );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_15 ) {
+        add_message( tut_lesson::LESSON_FINALE );
     }
 }
 
@@ -237,17 +304,14 @@ void tutorial_game::post_action( action_id act )
 {
     Character &player_character = get_player_character();
     switch( act ) {
-        case ACTION_RELOAD_WEAPON:
-            if( player_character.weapon.is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
-                g->place_critter_at( mon_zombie, player_character.pos() + tripoint( 0, -6, 0 ) );
-                g->place_critter_at( mon_zombie, player_character.pos() + tripoint( 2, -5, 0 ) );
-                g->place_critter_at( mon_zombie, player_character.pos() + tripoint( -2, -5, 0 ) );
-                add_message( tut_lesson::LESSON_GUN_FIRE );
-            }
-            break;
-
         case ACTION_OPEN:
             add_message( tut_lesson::LESSON_CLOSE );
+            break;
+
+        case ACTION_FIRE:
+            if( player_character.weapon.is_gun() ) {
+                add_message( tut_lesson::LESSON_RECOIL );
+            }
             break;
 
         case ACTION_CLOSE:
@@ -258,46 +322,38 @@ void tutorial_game::post_action( action_id act )
             if( player_character.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            map &here = get_map();
-            for( const tripoint &dest : here.points_in_radius( player_character.pos(), 1 ) ) {
-                if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
-                    add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
-                }
+
+            if( player_character.last_item == itype_codeine ) {
+                add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
             }
         }
         break;
 
         case ACTION_EAT:
-            if( player_character.last_item == itype_codeine ) {
-                add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
-            } else if( player_character.last_item == itype_cig ) {
+            if( player_character.last_item == itype_cig ) {
                 add_message( tut_lesson::LESSON_TOOK_CIG );
-            } else if( player_character.last_item == itype_water ) {
+            } else if( player_character.last_item == itype_water_clean ) {
                 add_message( tut_lesson::LESSON_DRANK_WATER );
             }
             break;
 
         case ACTION_WEAR: {
             item it( player_character.last_item, calendar::turn_zero );
-            if( it.is_armor() ) {
-                if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
-                    add_message( tut_lesson::LESSON_WORE_ARMOR );
-                }
+            if( it.is_holster() ) {
+                add_message( tut_lesson::LESSON_HOLSTERS_ACTIVATE );
+            } else if( it.has_pocket_type( item_pocket::pocket_type::CONTAINER ) ) {
+                add_message( tut_lesson::LESSON_WORE_STORAGE );
+            } else if( it.is_armor() ) {
                 if( it.get_env_resist() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_MASK );
+                } else if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
+                    add_message( tut_lesson::LESSON_WORE_ARMOR );
                 }
+
             }
         }
         break;
 
-        case ACTION_WIELD:
-            if( player_character.weapon.is_gun() ) {
-                add_message( tut_lesson::LESSON_GUN_LOAD );
-            }
-            break;
-
-        case ACTION_EXAMINE:
-            add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
             item it( player_character.last_item, calendar::turn_zero );

@@ -14,6 +14,7 @@ extern int message_ttl;
 extern int message_cooldown;
 extern bool tile_iso;
 extern bool use_tiles;
+extern bool use_tiles_overmap;
 extern bool pixel_minimap_option;
 
 // test_mode is not a regular game option; it's true when we are running unit

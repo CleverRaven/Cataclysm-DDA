@@ -34,7 +34,7 @@
         "###++##############++###"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -171,7 +171,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "0": "t_thconc_floor",
         "-": "t_carpet_concrete_red",
@@ -324,7 +324,7 @@
         "                        "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor" }
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor" }
     }
   },
   {
@@ -453,7 +453,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
@@ -707,7 +707,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
@@ -814,7 +814,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
@@ -962,7 +962,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_door_glass_c",
         "-": "t_carpet_concrete_purple",
@@ -1133,7 +1133,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
@@ -1325,7 +1325,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "x": "t_carpet_concrete_yellow",
         "-": "t_carpet_concrete_yellow",
@@ -1461,7 +1461,7 @@
     "om_terrain": [ "mansion_+_dn", "mansion_+1d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "#......................#",
         "#......................#",
@@ -1489,7 +1489,7 @@
         "#                      #"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor" },
       "items": { ".": { "item": "clutter_basement" } }
     }
   },
@@ -1612,7 +1612,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
@@ -1762,7 +1762,7 @@
         "###########++###########"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": {
         "&": "f_table",
         "=": "f_machinery_old",
@@ -1920,7 +1920,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "`": "t_linoleum_gray",
         "-": "t_carpet_concrete_yellow",
@@ -2103,7 +2103,7 @@
         "       ##########++#####"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "=": "f_machinery_old", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -2252,7 +2252,7 @@
         "       ##########++#####"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": { ".": { "item": "clutter_basement" }, "!": { "item": "crate_stack", "chance": 100 } },
       "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
@@ -2409,7 +2409,7 @@
         "       ##########++#####"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor" },
       "furniture": { "=": "f_table", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -2568,7 +2568,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        " ": "t_rock",
+        " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
@@ -2728,7 +2728,7 @@
         "      ###########++#####"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump", "/": "t_door_locked_interior" },
+      "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump", "/": "t_door_locked_interior" },
       "furniture": {
         "%": "f_rack_wood",
         "!": "f_wood_keg",
@@ -2737,7 +2737,7 @@
         "=": "f_machinery_old",
         "}": "f_generator_broken"
       },
-      "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] } },
+      "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] } },
       "place_loot": [ { "item": "deck_of_cards", "x": 16, "y": 11, "chance": 100 } ],
       "items": {
         "%": { "item": "wines_worthy", "chance": 70, "repeat": [ 1, 2 ] },

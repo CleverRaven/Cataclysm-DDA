@@ -1,5 +1,52 @@
 [
   {
+    "abstract": "generic_polymer_resin",
+    "type": "material",
+    "name": "Polymer resin",
+    "specific_heat_liquid": 1.25,
+    "specific_heat_solid": 1.25,
+    "density": 1,
+    "latent_heat": 18,
+    "bash_resist": 4,
+    "cut_resist": 6,
+    "bullet_resist": 6,
+    "acid_resist": 10,
+    "fire_resist": 6,
+    "elec_resist": 6,
+    "chip_resist": 8,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged"
+  },
+  {
+    "type": "material",
+    "id": "thermo_resin",
+    "name": "Thermoplastic resin",
+    "copy-from": "generic_polymer_resin",
+    "//": "This material ID is for plastics that can be reshaped and moulded by application of heat and return to their original properties when cooled, and these specific ones are quite hard and durable when in solid state.",
+    "repaired_with": "thermo_resin_chunk",
+    "salvaged_into": "thermo_resin_chunk",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "epoxy",
+    "name": "Epoxy",
+    "copy-from": "generic_polymer_resin",
+    "//": "'epoxy' is a general catch-all for strong, brittle polymers that cannot be reshaped with application of heat.  Not all of these are necessarily going to be literally epoxy, but it's close enough.",
+    "repaired_with": "epoxy_chunk",
+    "salvaged_into": "epoxy_chunk",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
     "type": "material",
     "id": "pseudo_fuel",
     "name": "Pseudo fuel",
@@ -126,33 +173,31 @@
     "repaired_with": "material_aluminium_ingot",
     "dmg_adj": [ "dented", "bent", "smashed", "destroyed" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched",
-    "compacts_into": [ "material_aluminium_ingot", "aluminum_foil" ]
+    "cut_dmg_verb": "scratched"
   },
   {
     "type": "material",
     "id": "acidchitin",
     "name": "Biosilicified Chitin",
-    "density": 15,
+    "density": 17,
     "specific_heat_liquid": 4.186,
     "specific_heat_solid": 2.108,
     "latent_heat": 333,
     "bash_resist": 3,
-    "cut_resist": 4,
+    "cut_resist": 5,
     "bullet_resist": 1,
-    "acid_resist": 13,
-    "fire_resist": 2,
+    "acid_resist": 16,
+    "fire_resist": 4,
     "elec_resist": 2,
-    "chip_resist": 10,
-    "repaired_with": "acidchitin_piece",
+    "chip_resist": 8,
     "salvaged_into": "acidchitin_piece",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
-      { "fuel": 1, "smoke": 3, "burn": 1 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 1, "smoke": 3, "burn": 1, "volume_per_turn": "200 ml" },
+      { "fuel": 1, "smoke": 5, "burn": 3 }
     ]
   },
   {
@@ -172,6 +217,7 @@
     "fire_resist": 1,
     "elec_resist": 2,
     "chip_resist": 8,
+    "wind_resist": 90,
     "repaired_with": "bone",
     "salvaged_into": "skewer_bone",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
@@ -219,8 +265,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_bronze", 1 ] ],
-    "compacts_into": [ "scrap_bronze" ]
+    "burn_products": [ [ "scrap_bronze", 1 ] ]
   },
   {
     "type": "material",
@@ -315,6 +360,7 @@
     "fire_resist": 2,
     "elec_resist": 2,
     "chip_resist": 10,
+    "wind_resist": 90,
     "repaired_with": "chitin_piece",
     "salvaged_into": "chitin_piece",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
@@ -365,8 +411,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_copper", 1 ] ],
-    "compacts_into": [ "scrap_copper", "copper" ]
+    "burn_products": [ [ "scrap_copper", 1 ] ]
   },
   {
     "type": "material",
@@ -385,8 +430,9 @@
     "fire_resist": 0,
     "elec_resist": 2,
     "chip_resist": 6,
-    "repaired_with": "rag",
-    "salvaged_into": "rag",
+    "wind_resist": 70,
+    "repaired_with": "cotton_patchwork",
+    "salvaged_into": "cotton_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
@@ -612,6 +658,32 @@
   },
   {
     "type": "material",
+    "id": "lvl4ballisticglass",
+    "name": "Ballistic Glass",
+    "//": "Values are based on thickness being a quarter of an inch.",
+    "density": 30,
+    "specific_heat_liquid": 0.2,
+    "specific_heat_solid": 0.2,
+    "latent_heat": 100,
+    "bash_resist": 5,
+    "cut_resist": 10,
+    "bullet_resist": 9,
+    "acid_resist": 10,
+    "fire_resist": 3,
+    "elec_resist": 4,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
+    ],
+    "burn_products": [ [ "glass_shard", 1 ] ]
+  },
+  {
+    "type": "material",
     "id": "glass",
     "name": "Glass",
     "density": 14,
@@ -654,8 +726,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "gold_small", 1 ] ],
-    "compacts_into": [ "gold_small" ]
+    "burn_products": [ [ "gold_small", 1 ] ]
   },
   {
     "type": "material",
@@ -781,6 +852,7 @@
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "energy": 45.8,
+      "pump_terrain": "t_avgas_pump",
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
   },
@@ -988,8 +1060,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "lead", 1 ] ],
-    "compacts_into": [ "lead" ]
+    "burn_products": [ [ "lead", 1 ] ]
   },
   {
     "type": "material",
@@ -1008,6 +1079,7 @@
     "fire_resist": 2,
     "elec_resist": 2,
     "chip_resist": 10,
+    "wind_resist": 90,
     "repaired_with": "leather",
     "salvaged_into": "leather",
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
@@ -1118,6 +1190,7 @@
     "fire_resist": 20,
     "elec_resist": 4,
     "chip_resist": 8,
+    "wind_resist": 90,
     "repaired_with": "nomex",
     "salvaged_into": "nomex",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
@@ -1168,6 +1241,33 @@
       { "fuel": 300, "smoke": 3, "burn": 1 },
       { "fuel": 600, "smoke": 6, "burn": 2 },
       { "fuel": 900, "smoke": 9, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "beeswax",
+    "name": "Beeswax",
+    "density": 1,
+    "//": "https://www.tainstruments.com/pdf/literature/TA405.pdf",
+    "specific_heat_liquid": 2.9,
+    "specific_heat_solid": 3.7,
+    "latent_heat": 210,
+    "edible": true,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "repaired_with": "wax",
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 150, "smoke": 0, "burn": 1 },
+      { "fuel": 300, "smoke": 0, "burn": 2 },
+      { "fuel": 450, "smoke": 0, "burn": 3 }
     ]
   },
   {
@@ -1229,6 +1329,7 @@
     "fire_resist": 1,
     "elec_resist": 2,
     "chip_resist": 6,
+    "wind_resist": 90,
     "repaired_with": "plastic_chunk",
     "salvaged_into": "plastic_chunk",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
@@ -1325,8 +1426,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "silver_small", 1 ] ],
-    "compacts_into": [ "silver_small" ]
+    "burn_products": [ [ "silver_small", 1 ] ]
   },
   {
     "type": "material",
@@ -1347,8 +1447,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "platinum_small", 1 ] ],
-    "compacts_into": [ "platinum_small" ]
+    "burn_products": [ [ "platinum_small", 1 ] ]
   },
   {
     "type": "material",
@@ -1381,6 +1480,22 @@
   },
   {
     "type": "material",
+    "id": "slime",
+    "name": "slime",
+    "density": 1,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged"
+  },
+  {
+    "type": "material",
     "id": "steel",
     "name": "Steel",
     "density": 30,
@@ -1398,9 +1513,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 1 ] ],
-    "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
-    "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -1489,8 +1602,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "alloy_sheet", 1 ] ],
-    "compacts_into": [ "alloy_sheet" ]
+    "burn_products": [ [ "alloy_sheet", 1 ] ]
   },
   {
     "type": "material",
@@ -1564,8 +1676,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "tin", 1 ] ],
-    "compacts_into": [ "tin" ]
+    "burn_products": [ [ "tin", 1 ] ]
   },
   {
     "type": "material",
@@ -1849,6 +1960,7 @@
     "fire_resist": 0,
     "elec_resist": 2,
     "chip_resist": 6,
+    "wind_resist": 60,
     "repaired_with": "felt_patch",
     "salvaged_into": "felt_patch",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
@@ -2051,7 +2163,6 @@
     "repaired_with": "zinc_metal",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched",
-    "compacts_into": [ "zinc_metal" ]
+    "cut_dmg_verb": "scratched"
   }
 ]

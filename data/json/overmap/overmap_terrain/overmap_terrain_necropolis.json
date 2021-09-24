@@ -352,7 +352,17 @@
       "necropolis_b_76",
       "necropolis_b_80",
       "necropolis_b_81",
-      "necropolis_b_9",
+      "necropolis_b_9"
+    ],
+    "copy-from": "generic_necropolis_underground",
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown"
+  },
+  {
+    "//": "xxx Bookmark for necropolis sewers",
+    "type": "overmap_terrain",
+    "id": [
       "necropolis_c_19",
       "necropolis_c_46",
       "necropolis_c_55",

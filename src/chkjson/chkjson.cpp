@@ -32,12 +32,14 @@ static std::vector<std::string> get_files_from_path( std::string extension, std:
         root_path = ".";
     }
 
-    std::stack<std::string> directories, tempstack;
+    std::stack<std::string> directories;
+    std::stack<std::string> tempstack;
     directories.push( root_path );
     std::string path;
 
     while( !directories.empty() ) {
         path = directories.top();
+        std::string path_with_slash = path + "/";
         directories.pop();
 
         DIR *root = opendir( path.c_str() );
@@ -52,7 +54,7 @@ static std::vector<std::string> get_files_from_path( std::string extension, std:
                 if( stat( root_file->d_name, &_buff ) != 0x4 ) {
                     // ignore '.' and '..' folder names, which are current and parent folder relative paths
                     if( ( strcmp( root_file->d_name, "." ) != 0 ) && ( strcmp( root_file->d_name, ".." ) != 0 ) ) {
-                        std::string subpath = path + "/" + root_file->d_name;
+                        std::string subpath = path_with_slash + root_file->d_name;
 
                         if( recursive_search ) {
                             subdir = opendir( subpath.c_str() );
@@ -66,7 +68,7 @@ static std::vector<std::string> get_files_from_path( std::string extension, std:
                 // check to see if it is a file with the appropriate extension
                 std::string tmp = root_file->d_name;
                 if( tmp.find( c_extension, match_extension ? tmp.size() - extsz : 0 ) != std::string::npos ) {
-                    std::string fullpath = path + "/" + tmp;
+                    std::string fullpath = path_with_slash + tmp;
                     files.push_back( fullpath );
                 }
             }

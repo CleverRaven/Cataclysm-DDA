@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "coordinates.h"
 #ifndef _WIN32
 #include <unistd.h>
@@ -28,6 +28,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "compatibility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -161,6 +162,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     map &here = get_map();
     // TODO: fix point types
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+    get_avatar().move_to( tripoint_abs_ms( tripoint_zero ) );
 
     get_weather().update_weather();
 }
@@ -248,11 +250,16 @@ struct CataListener : Catch::TestEventListenerBase {
 
     void sectionEnded( Catch::SectionStats const &sectionStats ) override {
         TestEventListenerBase::sectionEnded( sectionStats );
-        if( !sectionStats.assertions.allPassed() ) {
+        if( !sectionStats.assertions.allPassed() ||
+            m_config->includeSuccessfulResults() ) {
             std::vector<std::pair<std::string, std::string>> messages =
                         Messages::recent_messages( 0 );
             if( !messages.empty() ) {
-                stream << "Log messages during failed test:\n";
+                if( !sectionStats.assertions.allPassed() ) {
+                    stream << "Log messages during failed test:\n";
+                } else {
+                    stream << "Log messages during successful test:\n";
+                }
             }
             for( const std::pair<std::string, std::string> &message : messages ) {
                 stream << message.first << ": " << message.second << '\n';
@@ -281,6 +288,7 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+    reset_floating_point_mode();
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );

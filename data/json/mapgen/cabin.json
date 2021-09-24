@@ -32,7 +32,7 @@
         "-********..~~..********-",
         "-----------GG-----------"
       ],
-      "palettes": [ "cabin_palette" ],
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
       "place_nested": [ { "chunks": [ [ "KINDRED_Darren_Cooper_spawn", 20 ], [ "null", 80 ] ], "x": 12, "y": 14 } ]
     }
@@ -786,7 +786,7 @@
         "r": { "furniture": "f_rack", "items": { "item": "cannedfood", "chance": 30 } }
       },
       "terrain": {
-        "#": "t_rock",
+        "#": "t_soil",
         "+": "t_door_c",
         "-": "t_wall",
         "<": "t_stairs_up",

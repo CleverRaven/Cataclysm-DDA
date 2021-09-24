@@ -17,11 +17,9 @@
     "price": 100000,
     "symbol": "w",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 0,
-    "encumbrance": 0,
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] }
+    "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "ench_bearform",
@@ -55,11 +53,9 @@
     "price": 200000,
     "symbol": "w",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 0,
-    "encumbrance": 0,
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_bearform" } ] }
+    "relic_data": { "passive_effects": [ { "id": "ench_bearform" } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "ench_deerform",
@@ -91,10 +87,8 @@
     "price": 150000,
     "symbol": "w",
     "color": "green",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 0,
-    "encumbrance": 0,
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] }
+    "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   }
 ]

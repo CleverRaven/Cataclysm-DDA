@@ -3,6 +3,9 @@
 #include <unordered_set>
 
 #include "clang/Frontend/CompilerInstance.h"
+#include "clang/Lex/PPCallbacks.h"
+#include "clang/Lex/Preprocessor.h"
+#include "clang/Lex/Token.h"
 
 using namespace clang::ast_matchers;
 
@@ -46,10 +49,9 @@ class AssertMacroCallbacks : public PPCallbacks
         llvm::SmallPtrSet<SourceLocation, 10> CataAssertLocations;
 };
 
-void AssertCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void AssertCheck::registerPPCallbacks( const SourceManager &, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<AssertMacroCallbacks>( &Compiler.getPreprocessor(), this ) );
+    PP->addPPCallbacks( std::make_unique<AssertMacroCallbacks>( PP, this ) );
 }
 
 void AssertCheck::registerMatchers( MatchFinder * /*Finder*/ )

@@ -21,7 +21,7 @@ map_item_stack::item_group::item_group( const tripoint &p, const int arg_count,
 
 map_item_stack::map_item_stack() : example( nullptr ), totalcount( 0 )
 {
-    vIG.push_back( item_group() );
+    vIG.emplace_back( );
 }
 
 map_item_stack::map_item_stack( const item *const it, const tripoint &pos ) : example( it ),

@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -18,6 +19,7 @@
 #include "explosion.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
@@ -37,7 +39,7 @@
 
 static const efftype_id effect_bounced( "bounced" );
 
-static const std::string flag_LIQUID( "LIQUID" );
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
@@ -61,6 +63,21 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
+
+        const units::mass shard_mass = itype_id( "glass_shard" )->weight;
+        const int max_nb_of_shards = floor( to_gram( drop_item.type->weight ) / to_gram( shard_mass ) );
+        //between half and max_nb_of_shards-1 will be usable
+        const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );
+        //feel free to remove this msg_debug
+        /*add_msg_debug( "Shattered %s dropped %i shards out of a max of %i, based on mass %i g",
+                       drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
+
+        for( int i = 0; i < nb_of_dropped_shard; ++i ) {
+            item shard( "glass_shard" );
+            //actual dropping of shards
+            get_map().add_item_or_charges( pt, shard );
+        }
+
         return;
     }
 
@@ -124,7 +141,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         if( effects.count( "HEAVY_HIT" ) ) {
-            if( here.has_flag( flag_LIQUID, pt ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
@@ -185,12 +202,23 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     double range = rl_dist( source, target_arg );
 
-    Creature *target_critter = g->critter_at( target_arg );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
     double target_size = target_critter != nullptr ?
                          target_critter->ranged_target_size() :
                          here.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
+
+    if( target_critter && target_critter->as_character() &&
+        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+
+        projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
+        // if the target's lucky they're more likely to be missed
+        if( lucky_aim.missed_by > aim.missed_by ) {
+            aim = lucky_aim;
+        }
+    }
 
     // TODO: move to-hit roll back in here
 
@@ -220,7 +248,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // If we were targeting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
-                              ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );
+                              ( creatures.creature_at( target_arg ) == nullptr && here.passable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
@@ -266,7 +294,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = here.find_clear_path( source, target );
     }
 
-    add_msg_debug( "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+    add_msg_debug( debugmode::DF_BALLISTIC,
+                   "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
                    aim.missed_by_tiles, aim.missed_by,
                    target_arg.x, target_arg.y, target_arg.z,
                    target.x, target.y, target.z );
@@ -338,7 +367,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
-        Creature *critter = g->critter_at( tp );
+        Creature *critter = creatures.creature_at( tp );
         if( origin == critter ) {
             // No hitting self with "weird" attacks.
             critter = nullptr;
@@ -372,7 +401,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
-                critter->is_player() ) {
+                critter->is_avatar() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;

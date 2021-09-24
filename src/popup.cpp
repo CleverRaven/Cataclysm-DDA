@@ -211,9 +211,8 @@ void query_popup::init() const
                                     fullscr ? FULL_SCREEN_WIDTH : msg_width + border_width * 2 );
     const int win_height = std::min( TERMY,
                                      fullscr ? FULL_SCREEN_HEIGHT : msg_height + border_width * 2 );
-    const int win_x = ( TERMX - win_width ) / 2;
-    const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
-    win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
+    const point win_pos( ( TERMX - win_width ) / 2, ontop ? 0 : ( TERMY - win_height ) / 2 );
+    win = catacurses::newwin( win_height, win_width, win_pos );
 
     std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( ui ) {

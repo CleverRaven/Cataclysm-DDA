@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "stats_tracker.h"
 
 #include <algorithm>

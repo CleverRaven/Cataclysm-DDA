@@ -85,6 +85,7 @@
       [ "aspirin", 45 ],
       [ "caffeine", 50 ],
       [ "pills_sleep", 45 ],
+      [ "melatonin_tablet", 30 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
       [ "protein_powder", 40 ],

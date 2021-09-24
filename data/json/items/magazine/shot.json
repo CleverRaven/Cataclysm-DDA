@@ -3,8 +3,16 @@
     "id": "saiga10mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga-12 10-round magazine" },
-    "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
+    "name": { "str": "Saiga shotgun 10-round magazine" },
+    "description": "A removable plastic magazine for the Saiga shotgun.  Holds 10 rounds.",
+    "variants": [
+      {
+        "id": "saiga10mag",
+        "name": { "str": "Saiga-12 10-round magazine" },
+        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
+        "weight": 1
+      }
+    ],
     "weight": "210 g",
     "volume": "500 ml",
     "price": 4500,
@@ -20,8 +28,16 @@
     "id": "saiga30mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga-12 30-round drum magazine" },
-    "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
+    "name": { "str": "Saiga shotgun 30-round drum magazine" },
+    "description": "A removable plastic magazine for the Saiga shotgun.  Holds 30 rounds.",
+    "variants": [
+      {
+        "id": "saiga30mag",
+        "name": { "str": "Saiga-12 30-round drum magazine" },
+        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
+        "weight": 1
+      }
+    ],
     "weight": "460 g",
     "volume": "1 L",
     "price": 11000,
@@ -48,7 +64,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ] },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },

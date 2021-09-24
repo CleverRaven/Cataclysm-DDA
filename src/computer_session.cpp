@@ -18,6 +18,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -29,7 +30,6 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -46,7 +46,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -81,8 +80,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
-
-static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
@@ -207,12 +204,12 @@ void computer_session::use()
     reset_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer_session::hack_attempt( player &p, int Security )
+bool computer_session::hack_attempt( Character &you, int Security )
 {
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
     }
-    const int hack_skill = p.get_skill_level( skill_computer );
+    const int hack_skill = you.get_skill_level( skill_computer );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -221,19 +218,19 @@ bool computer_session::hack_attempt( player &p, int Security )
         Security += ( comp.alerts * 2 );
     }
 
-    p.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
+    you.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
     int player_roll = hack_skill;
     ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
-    if( p.int_cur < 8 && one_in( 2 ) ) {
-        player_roll -= rng( 0, 8 - p.int_cur );
+    if( you.int_cur < 8 && one_in( 2 ) ) {
+        player_roll -= rng( 0, 8 - you.int_cur );
         ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
-    } else if( p.int_cur > 8 && one_in( 3 ) ) {
-        player_roll += rng( 0, p.int_cur - 8 );
+    } else if( you.int_cur > 8 && one_in( 3 ) ) {
+        player_roll += rng( 0, you.int_cur - 8 );
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
-    p.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
+    you.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
 
@@ -333,8 +330,9 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
+            creature_tracker &creatures = get_creature_tracker();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                monster *const mon = g->critter_at<monster>( p );
+                monster *const mon = creatures.creature_at<monster>( p );
                 if( !mon ) {
                     continue;
                 }
@@ -405,12 +403,21 @@ void computer_session::action_unlock()
     query_any( _( "Lock disabled.  Press any key…" ) );
 }
 
-//Toll is required for the church computer/mechanism to function
+//Toll is required for the church/school computer/mechanism to function
 void computer_session::action_toll()
 {
-    sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
-                   //~ the sound of a church bell ringing
-                   _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
+    if( calendar::turn < comp.next_attempt ) {
+        print_error( _( "[Bellsystem 1.2] is currently in use." ) );
+        query_any( _( "Please wait for at least one minute." ) );
+        reset_terminal();
+    } else {
+        comp.next_attempt = calendar::turn + 1_minutes;
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+                       //~ the sound of a church bell ringing
+                       _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
+
+        query_any( _( "[Bellsystem 1.2] activated.  Have a nice day." ) );
+    }
 }
 
 void computer_session::action_sample()
@@ -433,7 +440,7 @@ void computer_session::action_sample()
                     continue;
                 }
                 sewage.charges = std::min( sewage.charges, capa );
-                if( elem.can_contain( sewage ) ) {
+                if( elem.can_contain( sewage ).success() ) {
                     elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
                 }
                 found_item = true;
@@ -479,8 +486,9 @@ void computer_session::action_terminate()
     get_event_bus().send<event_type::terminates_subspace_specimens>();
     Character &player_character = get_player_character();
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        monster *const mon = g->critter_at<monster>( p );
+        monster *const mon = creatures.creature_at<monster>( p );
         if( !mon ) {
             continue;
         }
@@ -688,6 +696,8 @@ void computer_session::action_elevator_on()
 
 void computer_session::action_amigara_log()
 {
+    get_timed_events().add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 5_minutes );
+
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     reset_terminal();
@@ -744,7 +754,7 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 10_seconds );
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );
@@ -771,8 +781,8 @@ void computer_session::action_repeater_mod()
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( mission *miss : player_character.get_active_missions() ) {
-            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
-                                         commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" );
+            static const mission_type_id commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
@@ -801,7 +811,7 @@ void computer_session::action_download_software()
         get_player_character().moves -= 30;
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
-        usb->contents.clear_items();
+        usb->clear_items();
         usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -822,12 +832,12 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.legacy_front();
+                const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -841,7 +851,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", calendar::turn_zero );
-                            usb->contents.clear_items();
+                            usb->clear_items();
                             usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
@@ -874,7 +884,7 @@ void computer_session::action_data_anal()
                        items.only_item().typeId() != itype_black_box ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
             } else if( items.only_item().typeId() == itype_usb_drive &&
-                       items.only_item().contents.empty() ) {
+                       items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
@@ -1369,7 +1379,7 @@ void computer_session::failure_shutdown()
     bool found_tile = false;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
-        if( here.has_flag( flag_CONSOLE, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_str_id( "f_console_broken" ) );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
@@ -1379,7 +1389,7 @@ void computer_session::failure_shutdown()
         return;
     }
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.has_flag( flag_CONSOLE, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_str_id( "f_console_broken" ) );
             add_msg( m_bad, _( "The console shuts down." ) );
         }
@@ -1503,9 +1513,9 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().typeId() != itype_vacutainer ) {
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1529,7 +1539,7 @@ void computer_session::failure_destroy_data()
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
             } else if( items.only_item().typeId() != itype_usb_drive ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else {
                 print_error( _( "ERROR: Data bank destroyed." ) );

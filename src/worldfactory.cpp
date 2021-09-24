@@ -4,7 +4,6 @@
 #include <array>
 #include <cstdio>
 #include <cstdlib>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -20,7 +19,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
@@ -97,7 +95,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    return PATH_INFO::savedir() + utf8_to_native( world_name );
+    return PATH_INFO::savedir() + world_name;
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -117,9 +115,9 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2, _3 ) );
+    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
+    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
+    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2, _3 ) );
 }
 
 worldfactory::~worldfactory() = default;
@@ -299,7 +297,7 @@ void worldfactory::init()
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
-        worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
+        worldname = world_dir.substr( name_index + 1 );
 
         // create and store the world
         all_worlds[worldname] = std::make_unique<WORLD>();
@@ -415,7 +413,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    size_t sel = 0, selpage = 0;
+    size_t sel = 0;
+    size_t selpage = 0;
 
     catacurses::window w_worlds_border;
     catacurses::window w_worlds_tooltip;
@@ -619,7 +618,8 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file( PATH_INFO::lastworld(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
+                         std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
     }
@@ -741,19 +741,20 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     }
 
                     const mod_id &mod_entry_id = *iter;
-                    std::string mod_entry_name = string_format( _( " [%s]" ), mod_entry_id.str() );
+                    std::string mod_entry_name;
                     nc_color mod_entry_color = c_white;
                     if( mod_entry_id.is_valid() ) {
                         const MOD_INFORMATION &mod = *mod_entry_id;
-                        mod_entry_name = mod.name() + mod_entry_name;
+                        mod_entry_name = mod.name();
                         if( mod.obsolete ) {
                             mod_entry_color = c_dark_gray;
                         }
                     } else {
                         mod_entry_color = c_light_red;
-                        mod_entry_name = _( "N/A" ) + mod_entry_name;
+                        mod_entry_name = _( "N/A" );
 
                     }
+                    mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
 
                     if( w_shift ) {
@@ -966,8 +967,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ui.on_screen_resize( init_windows );
 
     std::vector<std::string> headers;
-    headers.push_back( _( "Mod List" ) );
-    headers.push_back( _( "Mod Load Order" ) );
+    headers.emplace_back( _( "Mod List" ) );
+    headers.emplace_back( _( "Mod Load Order" ) );
 
     size_t active_header = 0;
     int startsel[2] = {0, 0};
@@ -1599,7 +1600,7 @@ void load_external_option( const JsonObject &jo )
         } else {
             opt.setValue( "false" );
         }
-    } else if( stype == "string" ) {
+    } else if( stype == "string" || stype == "string_input" ) {
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );

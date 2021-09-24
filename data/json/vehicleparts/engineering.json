@@ -1,5 +1,11 @@
 [
   {
+    "id": "crane_pseudo_item",
+    "type": "TOOL",
+    "copy-from": "butchery_rack_pseudo",
+    "name": { "str_sp": "suspending for butchering" }
+  },
+  {
     "id": "crane_medium",
     "type": "vehicle_part",
     "name": { "str": "boom crane" },
@@ -20,6 +26,7 @@
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "PROTRUSION" ],
+    "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
     "damage_reduction": { "all": 48 }
   },
   {
@@ -54,6 +61,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "PROTRUSION", "FOLDABLE" ],
+    "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
     "damage_reduction": { "all": 42 }
   },
   {
@@ -87,6 +95,7 @@
     "item": "frame",
     "location": "structure",
     "symbol": "|",
+    "symbols": { "horizontal_front": "|" },
     "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "light_gray",
@@ -107,6 +116,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "PROTRUSION" ],
+    "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
     "damage_reduction": { "all": 42 }
   },
   {

@@ -60,6 +60,24 @@
   },
   {
     "type": "effect_type",
+    "id": "test_vitamineff",
+    "name": [ "Vitamins!" ],
+    "desc": [ "" ],
+    "vitamins": [
+      { "vitamin": "test_vitv", "rate": [ [ 2, 2 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "test_vitx", "absorb_mult": [ 0.5 ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "test_fatalism",
+    "name": [ "Placebo", "Plague", "Fatalism" ],
+    "desc": [ "" ],
+    "max_intensity": 3,
+    "chance_kill": [ [ 0, 1 ], [ 1, 10 ], [ 1, 1 ] ]
+  },
+  {
+    "type": "effect_type",
     "id": "max_effected",
     "name": [ "Max-effected" ],
     "desc": [ "Affected by an effect with a maximum effective intensity." ],

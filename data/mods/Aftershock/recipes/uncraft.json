@@ -94,6 +94,38 @@
     ]
   },
   {
+    "result": "afs_plasma_torch",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "afs_heat_2_salvage", 1 ] ],
+      [ [ "afs_heat_1", 3 ] ],
+      [ [ "afs_material_1", 4 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_energy_storage_2", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "wire", 40 ] ]
+    ]
+  },
+  {
+    "result": "afs_plasma_torch_gun",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "afs_heat_2_salvage", 1 ] ],
+      [ [ "afs_heat_1", 3 ] ],
+      [ [ "afs_material_1", 4 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "wire", 40 ] ]
+    ]
+  },
+  {
     "result": "azabow_off",
     "type": "uncraft",
     "activity_level": "fake",

@@ -8,11 +8,11 @@
     "price_postapoc": "750 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ] },
-    "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "mboots_haste",
@@ -28,11 +28,11 @@
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
       ]
     },
-    "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "mboots_escape",
@@ -46,11 +46,11 @@
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
     "use_action": { "type": "cast_spell", "spell_id": "magus_escape", "no_fail": true, "level": 10, "need_worn": true },
-    "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "mboots_freerunner",
@@ -65,11 +65,11 @@
         { "has": "WORN", "condition": "ALWAYS", "mutations": [ "PARKOUR" ], "values": [ { "value": "MOVE_COST", "add": -5 } ] }
       ]
     },
-    "encumbrance": 8,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "mboots_grounding",
@@ -79,11 +79,11 @@
     "looks_like": "boots_hiking",
     "price_postapoc": "350 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of leather with small engraved runes seemingly filled with rubber.  When worn, you are immune to damage from electricity.",
-    "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] },
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   }
 ]

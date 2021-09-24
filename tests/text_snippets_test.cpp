@@ -1,6 +1,6 @@
 #include <new>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "optional.h"
 #include "text_snippets.h"
 #include "translations.h"

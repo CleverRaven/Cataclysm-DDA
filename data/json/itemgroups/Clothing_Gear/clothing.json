@@ -104,6 +104,7 @@
       { "item": "boots_winter", "prob": 50 },
       { "item": "boots_hiking", "prob": 50 },
       { "item": "boots_steel", "prob": 25 },
+      { "item": "sneakers_steel", "prob": 18 },
       { "item": "fishing_waders", "prob": 25 }
     ]
   },
@@ -249,6 +250,18 @@
     "entries": [ { "item": "tshirt" } ]
   },
   {
+    "id": "clothing_military_headwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "add in field caps when they are added to the game.",
+    "items": [
+      { "item": "beret", "prob": 60 },
+      { "item": "hat_boonie", "prob": 38 },
+      { "item": "turban", "prob": 1 },
+      { "item": "headscarf", "prob": 1 }
+    ]
+  },
+  {
     "id": "clothing_outdoor_pants",
     "type": "item_group",
     "//": "Standard (non-winter) pants suitable for wearing outdoors.",
@@ -384,7 +397,12 @@
     "type": "item_group",
     "//": "Sturdy boots often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [ { "item": "boots", "prob": 60 }, { "item": "boots_hiking", "prob": 10 }, { "item": "boots_steel", "prob": 30 } ]
+    "entries": [
+      { "item": "boots", "prob": 60 },
+      { "item": "boots_hiking", "prob": 10 },
+      { "item": "boots_steel", "prob": 30 },
+      { "item": "sneakers_steel", "prob": 21 }
+    ]
   },
   {
     "id": "clothing_work_glasses",
@@ -480,6 +498,7 @@
     "//2": "Not intended to be a set of clothing for NPCs or monsters",
     "items": [
       [ "boots_steel", 40 ],
+      [ "sneakers_steel", 28 ],
       [ "hat_hard", 40 ],
       [ "mask_dust", 30 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
@@ -513,6 +532,7 @@
       [ "boots_rubber", 20 ],
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
+      [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
       [ "jumpsuit", 20 ],
       [ "apron_leather", 20 ],
@@ -527,8 +547,7 @@
     "//": "Various types of hazmat suits, without masks",
     "items": [
       { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
-      [ "hazmat_suit", 55 ],
-      [ "anbc_suit", 5 ]
+      [ "hazmat_suit", 60 ]
     ]
   },
   {
@@ -544,7 +563,7 @@
     "id": "boxing_clothes",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       { "item": "tank_top", "prob": 40 },
       { "item": "shorts", "prob": 40 },
       { "item": "boxing_gloves", "prob": 50 },
@@ -1853,7 +1872,14 @@
   {
     "type": "item_group",
     "id": "lab_shoes",
-    "items": [ [ "sneakers", 80 ], [ "boots", 70 ], [ "boots_steel", 50 ], [ "boots_hiking", 40 ], [ "dress_shoes", 50 ] ]
+    "items": [
+      [ "sneakers", 80 ],
+      [ "boots", 70 ],
+      [ "boots_steel", 50 ],
+      [ "sneakers_steel", 35 ],
+      [ "boots_hiking", 40 ],
+      [ "dress_shoes", 50 ]
+    ]
   },
   {
     "type": "item_group",
@@ -1937,8 +1963,7 @@
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
       [ "backpack", 38 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "duffelbag", 15 ],
@@ -1978,8 +2003,7 @@
       { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
@@ -2049,6 +2073,7 @@
     "id": "survival_armor",
     "items": [
       [ "boots_steel", 50 ],
+      [ "sneakers_steel", 35 ],
       [ "boots_combat", 50 ],
       [ "boots_hiking", 50 ],
       [ "bootsheath", 8 ],
@@ -2100,8 +2125,7 @@
       [ "legpouch_large", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "legrig", 10 ],
@@ -2127,6 +2151,7 @@
     "entries": [
       { "item": "boots", "prob": 70 },
       { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
       { "item": "jumpsuit", "prob": 20 },
       { "item": "gloves_rubber", "prob": 20 },
@@ -2166,6 +2191,7 @@
     "items": [
       [ "boots_bunker", 70 ],
       [ "boots_steel", 20 ],
+      [ "sneakers_steel", 15 ],
       [ "boots_combat", 5 ],
       [ "boots_rubber", 10 ],
       [ "boots_hiking", 5 ],
@@ -2225,7 +2251,7 @@
   {
     "type": "item_group",
     "id": "hazmat_full",
-    "items": [ [ "hazmat_suit", 80 ], [ "anbc_suit", 20 ] ]
+    "items": [ [ "hazmat_suit", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2258,8 +2284,8 @@
       [ "armor_plarmor", 2 ],
       [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
-      [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
+      [ "armor_tiresuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
@@ -2294,6 +2320,7 @@
       [ "vest_leather", 22 ],
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
+      [ "tireplate", 10 ],
       [ "ballistic_vest_empty", 2 ],
       [ "ballistic_vest_esapi", 4 ],
       [ "dragonskin", 1 ],
@@ -2302,7 +2329,8 @@
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
-      [ "cuirass_scrap", 12 ]
+      [ "cuirass_scrap", 12 ],
+      [ "cuirass_tire", 12 ]
     ]
   },
   {
@@ -2317,7 +2345,8 @@
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
       [ "chaps_leather", 10 ],
-      [ "legguard_scrap", 12 ]
+      [ "legguard_scrap", 12 ],
+      [ "legguard_tire", 12 ]
     ]
   },
   {
@@ -2339,6 +2368,7 @@
       [ "vambrace_larmor", 6 ],
       [ "armguard_chitin", 1 ],
       [ "armguard_scrap", 12 ],
+      [ "armguard_tire", 12 ],
       [ "gloves_fur", 4 ],
       [ "gloves_leather", 22 ],
       [ "gloves_work", 22 ],
@@ -2359,6 +2389,7 @@
       [ "boots", 20 ],
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
+      [ "sneakers_steel", 20 ],
       [ "boots_hiking", 24 ],
       [ "boots_combat", 12 ],
       [ "boots_larmor", 14 ],
@@ -3015,6 +3046,7 @@
       {
         "distribution": [
           { "item": "case_violin", "prob": 5 },
+          { "item": "bookstrap", "prob": 5 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
@@ -3207,6 +3239,7 @@
           { "item": "boots", "prob": 80 },
           { "item": "boots_hiking", "prob": 50 },
           { "item": "boots_steel", "prob": 50 },
+          { "item": "sneakers_steel", "prob": 35 },
           { "item": "boots_combat", "prob": 45 },
           { "item": "boots_fur", "prob": 10 },
           { "item": "boots_western", "prob": 40 },

@@ -1,0 +1,92 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_mansion_+4_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_mansion_+4",
+    "blueprint_provides": [
+      { "id": "fbmc_mansion_+4" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "gathering" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "tool_storage" },
+      { "id": "bed", "amount": 8 }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_mansion_+4_garden",
+    "description": "Let's remove plants from garden and plow a few plots.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_mansion_+4_farm",
+    "blueprint_name": "prepare garden",
+    "blueprint_requires": [ { "id": "fbmc_mansion_+4" } ],
+    "blueprint_provides": [ { "id": "fbmc_mansion_+4_farm" }, { "id": "farming" }, { "id": "farm_recipes_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_mansion_+1_farm" } ],
+    "blueprint_needs": { "time": "2 h", "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 1 } ] ] } },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_mansion_+4_radio",
+    "description": "Let's set up a radio tower to improve our recruitment efforts.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_mansion_+4_radio",
+    "blueprint_name": "build a radio tower and console",
+    "blueprint_requires": [ { "id": "fbmc_mansion_+4_farm" } ],
+    "blueprint_provides": [ { "id": "fbmc_mansion_+4_radio" }, { "id": "recruiting" }, { "id": "radio" } ],
+    "blueprint_excludes": [ { "id": "fbmc_mansion_+4_radio" } ],
+    "blueprint_needs": {
+      "time": "2 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [
+            [ "wind_turbine", 4 ],
+            [ "xl_wind_turbine", 1 ],
+            [ "solar_panel", 4 ],
+            [ "reinforced_solar_panel", 4 ],
+            [ "solar_panel_v2", 2 ],
+            [ "reinforced_solar_panel_v2", 2 ],
+            [ "solar_panel_v3", 1 ]
+          ],
+          [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+          [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "processor", 2 ] ],
+          [ [ "RAM", 2 ] ],
+          [ [ "large_lcd_screen", 1 ] ],
+          [ [ "e_scrap", 8 ] ],
+          [ [ "frame", 1 ] ],
+          [ [ "circuit", 4 ] ],
+          [ [ "power_supply", 2 ] ],
+          [ [ "amplifier", 2 ] ],
+          [ [ "cable", 80 ] ],
+          [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
+        ]
+      }
+    },
+    "check_blueprint_needs": false
+  }
+]

@@ -19,15 +19,15 @@
 #include "type_id.h"
 
 class effect_type;
-class player;
 
 enum game_message_type : int;
+enum class event_type : int;
 class JsonIn;
 class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
-void weed_msg( player &p );
+void weed_msg( Character &p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.
@@ -39,6 +39,28 @@ enum effect_rating {
 /** @relates string_id */
 template<>
 const effect_type &string_id<effect_type>::obj() const;
+
+struct vitamin_rate_effect {
+    std::vector<std::pair<int, int>> rate;
+    std::vector<float> absorb_mult;
+    std::vector<time_duration> tick;
+
+    std::vector<std::pair<int, int>> red_rate;
+    std::vector<float> red_absorb_mult;
+    std::vector<time_duration> red_tick;
+
+    vitamin_id vitamin;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
+struct vitamin_applied_effect {
+    cata::optional<std::pair<int, int>> rate = cata::nullopt;
+    cata::optional<time_duration> tick = cata::nullopt;
+    cata::optional<float> absorb_mult = cata::nullopt;
+    vitamin_id vitamin;
+};
 
 class effect_type
 {
@@ -92,11 +114,20 @@ class effect_type
         bool load_miss_msgs( const JsonObject &jo, const std::string &member );
         bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
+        /** Verifies data is accurate */
+        static void check_consistency();
+        void verify() const;
+
+
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
         /** Check if the effect type has the specified flag */
         bool has_flag( const flag_id &flag ) const;
+
+        const time_duration &intensity_duration() const {
+            return int_dur_factor;
+        }
 
     protected:
         int max_intensity = 0;
@@ -154,15 +185,26 @@ class effect_type
 
         translation blood_analysis_description;
 
+        translation death_msg;
+        cata::optional<event_type> death_event;
+
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
         std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
+        std::vector<vitamin_rate_effect> vitamin_data;
+        std::vector<std::pair<int, int>> kill_chance;
+        std::vector<std::pair<int, int>> red_kill_chance;
 };
 
 class effect
 {
     public:
         effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id::NULL_ID() ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            source( effect_source::empty() ) {
+        }
+        explicit effect( const effect_type *peff_type ) : eff_type( peff_type ), duration( 0_turns ),
+            bp( bodypart_str_id::NULL_ID() ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
             source( effect_source::empty() ) {
         }
@@ -209,6 +251,8 @@ class effect
         void mod_duration( const time_duration &dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration( double dur, bool alert = false );
+
+        std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;
 
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
@@ -281,6 +325,10 @@ class effect
         /** Check if the effect has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        bool kill_roll( bool reduced ) const;
+        std::string get_death_message() const;
+        event_type death_event() const;
+
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
         /** Returns true if the coughs caused by an effect can harm the player directly. */
@@ -324,6 +372,7 @@ class effect
 
 void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
+const std::map<efftype_id, effect_type> &get_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );

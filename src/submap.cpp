@@ -36,10 +36,10 @@ submap::submap()
     is_uniform = false;
 }
 
-submap::submap( submap && ) = default;
+submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
 submap::~submap() = default;
 
-submap &submap::operator=( submap && ) = default;
+submap &submap::operator=( submap && ) noexcept = default;
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
@@ -105,7 +105,7 @@ void submap::delete_graffiti( const point &p )
 }
 bool submap::has_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -113,7 +113,7 @@ bool submap::has_signage( const point &p ) const
 }
 std::string submap::get_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;

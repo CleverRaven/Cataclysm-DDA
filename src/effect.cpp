@@ -7,15 +7,16 @@
 
 #include "bodypart.h"
 #include "color.h"
+#include "character.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "event.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -33,9 +34,10 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_holybook_bible( "holybook_bible" );
-static const itype_id itype_money_bundle( "money_bundle" );
+static const itype_id itype_money_one( "money_one" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -44,6 +46,25 @@ namespace
 {
 std::map<efftype_id, effect_type> effect_types;
 } // namespace
+
+void vitamin_rate_effect::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "vitamin", vitamin );
+
+    optional( jo, false, "rate", rate );
+    optional( jo, false, "resist_rate", red_rate, rate );
+
+    optional( jo, false, "absorb_mult", absorb_mult );
+    optional( jo, false, "resist_absorb_mult", red_absorb_mult, absorb_mult );
+
+    optional( jo, false, "tick", tick );
+    optional( jo, false, "resist_tick", red_tick, tick );
+}
+
+void vitamin_rate_effect::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
 
 /** @relates string_id */
 template<>
@@ -65,7 +86,7 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-void weed_msg( player &p )
+void weed_msg( Character &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
@@ -105,7 +126,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_one, 1 ) ) { // Half Baked
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
                                              translation() ) );
                     if( one_in( 2 ) ) {
@@ -398,6 +419,27 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     }
 }
 
+void effect_type::check_consistency()
+{
+    for( const std::pair<efftype_id, effect_type> check : effect_types ) {
+        check.second.verify();
+    }
+}
+
+void effect_type::verify() const
+{
+    if( death_event.has_value() ) {
+        const std::unordered_map<std::string, cata_variant_type> &fields = cata::event::get_fields(
+                    *death_event );
+        // Only allow events inheriting from event_spec_character at the moment.
+        if( fields.size() != 1 || fields.count( "character" ) != 1 ) {
+            debugmsg( "Invalid death event type %s in effect_type %s", "lol",
+                      io::enum_to_string( *death_event ),
+                      id.str() );
+        }
+    }
+}
+
 bool effect_type::has_flag( const flag_id &flag ) const
 {
     return flags.count( flag );
@@ -515,9 +557,12 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
             } else if( r == "mixed" ) {
                 rate = m_mixed;
             } else {
-                rate = m_neutral;
+                inner.throw_error(
+                    string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                   "\"neutral\", " "\"bad\", or \"mixed\"", r ),
+                    1 );
             }
-            decay_msgs.push_back( std::make_pair( msg, rate ) );
+            decay_msgs.emplace_back( msg, rate );
         }
         return true;
     }
@@ -581,6 +626,24 @@ struct desc_freq {
 std::string effect::disp_desc( bool reduced ) const
 {
     std::string ret;
+
+    std::string timestr;
+    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
+        timestr = _( "just now" );
+    } else {
+        timestr = string_format( _( "%s ago" ),
+                                 debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
+    }
+    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    if( debug_mode ) {
+        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+    }
+    //Newline if necessary
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
+    }
+
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
@@ -627,32 +690,32 @@ std::string effect::disp_desc( bool reduced ) const
     // place to add them.
     int val = 0;
     val = get_avg_mod( "PAIN", reduced );
-    values.push_back( desc_freq( get_percentage( "PAIN", val, reduced ), val, _( "pain" ),
-                                 _( "pain" ) ) );
+    values.emplace_back( get_percentage( "PAIN", val, reduced ), val, _( "pain" ),
+                         _( "pain" ) );
     val = get_avg_mod( "HURT", reduced );
-    values.push_back( desc_freq( get_percentage( "HURT", val, reduced ), val, _( "damage" ),
-                                 _( "damage" ) ) );
+    values.emplace_back( get_percentage( "HURT", val, reduced ), val, _( "damage" ),
+                         _( "damage" ) );
     val = get_avg_mod( "STAMINA", reduced );
-    values.push_back( desc_freq( get_percentage( "STAMINA", val, reduced ), val,
-                                 _( "stamina recovery" ), _( "fatigue" ) ) );
+    values.emplace_back( get_percentage( "STAMINA", val, reduced ), val,
+                         _( "stamina recovery" ), _( "fatigue" ) );
     val = get_avg_mod( "THIRST", reduced );
-    values.push_back( desc_freq( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
-                                 _( "quench" ) ) );
+    values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
+                         _( "quench" ) );
     val = get_avg_mod( "HUNGER", reduced );
-    values.push_back( desc_freq( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
-                                 _( "sate" ) ) );
+    values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
+                         _( "sate" ) );
     val = get_avg_mod( "FATIGUE", reduced );
-    values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
-                                 _( "rest" ) ) );
+    values.emplace_back( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
+                         _( "rest" ) );
     val = get_avg_mod( "COUGH", reduced );
-    values.push_back( desc_freq( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
-                                 _( "coughing" ) ) );
+    values.emplace_back( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
+                         _( "coughing" ) );
     val = get_avg_mod( "VOMIT", reduced );
-    values.push_back( desc_freq( get_percentage( "VOMIT", val, reduced ), val, _( "vomiting" ),
-                                 _( "vomiting" ) ) );
+    values.emplace_back( get_percentage( "VOMIT", val, reduced ), val, _( "vomiting" ),
+                         _( "vomiting" ) );
     val = get_avg_mod( "SLEEP", reduced );
-    values.push_back( desc_freq( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
-                                 _( "blackouts" ) ) );
+    values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
+                         _( "blackouts" ) );
 
     for( auto &i : values ) {
         if( i.val > 0 ) {
@@ -726,6 +789,12 @@ std::string effect::disp_desc( bool reduced ) const
         }
     }
 
+    if( debug_mode ) {
+        ret += string_format(
+                   _( "\nDEBUG: ID: <color_white>%s</color> Intensity: <color_white>%d</color>" ),
+                   eff_type->id.c_str(), intensity );
+    }
+
     return ret;
 }
 
@@ -794,7 +863,8 @@ void effect::set_duration( const time_duration &dur, bool alert )
         set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg_debug( "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
+    add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),
+                   to_string_writable( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -803,6 +873,64 @@ void effect::mod_duration( const time_duration &dur, bool alert )
 void effect::mult_duration( double dur, bool alert )
 {
     set_duration( duration * dur, alert );
+}
+
+static int cap_to_size( const int max, int attempt )
+{
+    // Intensities start at 1, indexes at 0
+    attempt -= 1;
+    if( attempt >= max ) {
+        return max - 1;
+    } else {
+        return attempt;
+    }
+}
+
+static vitamin_applied_effect applied_from_rate( const bool reduced, const int intensity,
+        const vitamin_rate_effect &vreff )
+{
+    vitamin_applied_effect added;
+    added.vitamin = vreff.vitamin;
+
+    if( reduced ) {
+        if( !vreff.red_rate.empty() ) {
+            const int idx = cap_to_size( vreff.red_rate.size(), intensity );
+            added.rate = vreff.red_rate[idx];
+        }
+        if( !vreff.red_absorb_mult.empty() ) {
+            const int idx = cap_to_size( vreff.red_absorb_mult.size(), intensity );
+            added.absorb_mult = vreff.red_absorb_mult[idx];
+        }
+        if( !vreff.red_tick.empty() ) {
+            const int idx = cap_to_size( vreff.red_tick.size(), intensity );
+            added.tick = vreff.red_tick[idx];
+        }
+    } else {
+        if( !vreff.rate.empty() ) {
+            const int idx = cap_to_size( vreff.rate.size(), intensity );
+            added.rate = vreff.rate[idx];
+        }
+        if( !vreff.absorb_mult.empty() ) {
+            const int idx = cap_to_size( vreff.absorb_mult.size(), intensity );
+            added.absorb_mult = vreff.absorb_mult[idx];
+        }
+        if( !vreff.tick.empty() ) {
+            const int idx = cap_to_size( vreff.tick.size(), intensity );
+            added.tick = vreff.tick[idx];
+        }
+    }
+
+    return added;
+}
+
+std::vector<vitamin_applied_effect> effect::vit_effects( const bool reduced ) const
+{
+    std::vector<vitamin_applied_effect> ret;
+    for( const vitamin_rate_effect &vreff : eff_type->vitamin_data ) {
+        ret.push_back( applied_from_rate( reduced, intensity, vreff ) );
+    }
+
+    return ret;
 }
 
 time_point effect::get_start_time() const
@@ -857,7 +985,7 @@ int effect::set_intensity( int val, bool alert )
 {
     if( intensity < 1 ) {
         // Fix bad intensity
-        add_msg_debug( "Bad intensity, ID: %s", get_id().c_str() );
+        add_msg_debug( debugmode::DF_EFFECT, "Bad intensity, ID: %s", get_id().c_str() );
         intensity = 1;
     }
 
@@ -872,11 +1000,7 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
-    int old_intensity = intensity;
     intensity = val;
-    if( old_intensity != intensity ) {
-        add_msg_debug( "%s intensity %d->%d", get_id().c_str(), old_intensity, intensity );
-    }
 
     return intensity;
 }
@@ -1250,6 +1374,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
         effect_lightsnare,
         effect_tied,
         effect_webbed,
+        effect_worked_on,
     }
 };
 
@@ -1295,7 +1420,10 @@ void load_effect_type( const JsonObject &jo )
         } else if( r == "mixed" ) {
             new_etype.rating = e_mixed;
         } else {
-            new_etype.rating = e_neutral;
+            jo.throw_error(
+                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
+                               "\"bad\", or \"mixed\"", r ),
+                "rating" );
         }
     } else {
         new_etype.rating = e_neutral;
@@ -1310,31 +1438,38 @@ void load_effect_type( const JsonObject &jo )
     jo.read( "blood_analysis_description", new_etype.blood_analysis_description );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
-        new_etype.resist_traits.push_back( trait_id( f ) );
+        new_etype.resist_traits.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
-        new_etype.resist_effects.push_back( efftype_id( f ) );
+        new_etype.resist_effects.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
-        new_etype.removes_effects.push_back( efftype_id( f ) );
+        new_etype.removes_effects.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
-        new_etype.blocks_effects.push_back( efftype_id( f ) );
+        new_etype.blocks_effects.emplace_back( f );
     }
 
     if( jo.has_string( "max_duration" ) ) {
-        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
+        new_etype.max_duration = read_from_json_string<time_duration>( jo.get_member( "max_duration" ),
                                  time_duration::units );
     } else {
         new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     }
 
     if( jo.has_string( "int_dur_factor" ) ) {
-        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( jo.get_member( "int_dur_factor" ),
                                    time_duration::units );
     } else {
         new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
     }
+
+    optional( jo, false, "vitamins", new_etype.vitamin_data );
+    optional( jo, false, "chance_kill", new_etype.kill_chance );
+    optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
+    optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
+    optional( jo, false, "death_event", new_etype.death_event,
+              enum_flags_reader<event_type>( "event_type" ), cata::nullopt );
 
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );
@@ -1371,9 +1506,42 @@ bool effect::has_flag( const flag_id &flag ) const
     return eff_type->has_flag( flag );
 }
 
+bool effect::kill_roll( bool reduced ) const
+{
+    const std::vector<std::pair<int, int>> &chances = reduced ? eff_type->red_kill_chance :
+                                        eff_type->kill_chance;
+    if( chances.empty() ) {
+        return false;
+    }
+
+    const int idx = cap_to_size( chances.size(), intensity );
+    const std::pair<int, int> &chance = chances[idx];
+    return x_in_y( chance.first, chance.second );
+}
+
+std::string effect::get_death_message() const
+{
+    return eff_type->death_msg.translated();
+}
+
+event_type effect::death_event() const
+{
+    if( eff_type->death_event.has_value() ) {
+        return *eff_type->death_event;
+    }
+
+    debugmsg( "Asked for death event from effect of type %s, but it lacks one!", eff_type->id.str() );
+    return event_type::num_event_types;
+}
+
 void reset_effect_types()
 {
     effect_types.clear();
+}
+
+const std::map<efftype_id, effect_type> &get_effect_types()
+{
+    return effect_types;
 }
 
 void effect_type::register_ma_buff_effect( const effect_type &eff )
@@ -1501,4 +1669,3 @@ nc_color colorize_bleeding_intensity( const int intensity )
         return c_red_red;
     }
 }
-

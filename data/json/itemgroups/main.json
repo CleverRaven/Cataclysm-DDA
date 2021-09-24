@@ -103,7 +103,7 @@
       { "item": "knife_rm42", "prob": 10 },
       { "item": "laser_rifle", "prob": 10 },
       { "item": "mininuke", "prob": 10 },
-      { "item": "adv_UPS_off", "prob": 10 },
+      { "item": "UPS_off", "prob": 10 },
       { "item": "optical_cloak", "prob": 10 },
       { "item": "superalloy_harness_dog", "prob": 10 },
       { "item": "holo_cloak", "prob": 10 },

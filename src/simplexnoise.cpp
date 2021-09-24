@@ -204,7 +204,10 @@ float raw_noise_2d( const float x, const float y )
 
     // For the 2D case, the simplex shape is an equilateral triangle.
     // Determine which simplex we are in.
-    int i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coordinates
+
+    // Offsets for second (middle) corner of simplex in (i,j) coordinates
+    int i1;
+    int j1;
     if( x0 > y0 ) {
         i1 = 1;    // lower triangle, XY order: (0,0)->(1,0)->(1,1)
         j1 = 0;
@@ -261,7 +264,11 @@ float raw_noise_2d( const float x, const float y )
 // 3D raw Simplex noise
 float raw_noise_3d( const float x, const float y, const float z )
 {
-    float n0, n1, n2, n3; // Noise contributions from the four corners
+    // Noise contributions from the four corners
+    float n0;
+    float n1;
+    float n2;
+    float n3;
 
     // Skew the input space to determine which simplex cell we're in
     float F3 = 1.0f / 3.0f;
@@ -281,8 +288,12 @@ float raw_noise_3d( const float x, const float y, const float z )
 
     // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
     // Determine which simplex we are in.
-    int i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coordinates
-    int i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coordinates
+    int i1; // Offsets for second corner of simplex in (i,j,k) coordinates
+    int j1;
+    int k1;
+    int i2; // Offsets for third corner of simplex in (i,j,k) coordinates
+    int j2;
+    int k2;
 
     if( x0 >= y0 ) {
         if( y0 >= z0 ) {
@@ -399,7 +410,12 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
     // The skewing and unskewing factors are hairy again for the 4D case
     static const float F4 = ( std::sqrt( 5.0f ) - 1.0f ) / 4.0f;
     static const float G4 = ( 5.0f - std::sqrt( 5.0f ) ) / 20.0f;
-    float n0, n1, n2, n3, n4; // Noise contributions from the five corners
+    // Noise contributions from the five corners
+    float n0;
+    float n1;
+    float n2;
+    float n3;
+    float n4;
 
     // Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
     float s = ( x + y + z + w ) * F4; // Factor for 4D skewing
@@ -434,9 +450,21 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
     int c6 = ( z0 > w0 ) ? 1 : 0;
     int c = c1 + c2 + c3 + c4 + c5 + c6;
 
-    int i1, j1, k1, l1; // The integer offsets for the second simplex corner
-    int i2, j2, k2, l2; // The integer offsets for the third simplex corner
-    int i3, j3, k3, l3; // The integer offsets for the fourth simplex corner
+    // The integer offsets for the second simplex corner
+    int i1;
+    int j1;
+    int k1;
+    int l1;
+    // The integer offsets for the third simplex corner
+    int i2;
+    int j2;
+    int k2;
+    int l2;
+    // The integer offsets for the fourth simplex corner
+    int i3;
+    int j3;
+    int k3;
+    int l3;
 
     // simplex[c] is a 4-vector with the numbers 0, 1, 2 and 3 in some order.
     // Many values of c will never occur, since e.g. x>y>z>w makes x<z, y<w and x<w

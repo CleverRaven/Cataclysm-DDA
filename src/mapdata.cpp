@@ -16,16 +16,15 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "iexamine_actors.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_TRANSPARENT( "TRANSPARENT" );
+#include "type_id.h"
 
 namespace
 {
@@ -133,61 +132,134 @@ int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
 {
 }
 
-static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
-        { "DESTROY_ITEM",             TFLAG_DESTROY_ITEM },   // add/spawn_item*()
-        { "ROUGH",                    TFLAG_ROUGH },          // monmove
-        { "UNSTABLE",                 TFLAG_UNSTABLE },       // monmove
-        { "LIQUID",                   TFLAG_LIQUID },         // *move(), add/spawn_item*()
-        { "FIRE_CONTAINER",           TFLAG_FIRE_CONTAINER }, // fire
-        { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
-        { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
-        { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
-        { "SEALED",                   TFLAG_SEALED },         // Fire, acid
-        { "ALLOW_FIELD_EFFECT",       TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
-        { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
-        { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
-        { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
-        { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
-        { "SHARP",                    TFLAG_SHARP },          // monmove
-        { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
-        { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
-        { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
-        { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::is_transparent / lightmap
-        { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
-        { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
-        { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-        { "WALL",                     TFLAG_WALL },           // connects to other walls
-        { "NO_SHOOT",                 TFLAG_NO_SHOOT },       // terrain cannot be damaged by ranged attacks
-        { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
-        { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
-        { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
-        { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
-        { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
-        { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
-        { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
-        { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibility
-        { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
-        { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
-        { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
-        { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
-        { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
-        { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
-        { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
-        { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
-        { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
-        { "RAMP_DOWN",                TFLAG_RAMP_DOWN },      // Anything entering this tile moves down a z-level
-        { "RAMP_UP",                  TFLAG_RAMP_UP },        // Anything entering this tile moves up a z-level
-        { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
-        { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
-        { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
-        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
-        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
+namespace io
+{
+
+template<>
+std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
+{
+    // see mapdata.h for commentary
+    switch( data ) {
+        // *INDENT-OFF*
+        case ter_furn_flag::TFLAG_TRANSPARENT: return "TRANSPARENT";
+        case ter_furn_flag::TFLAG_FLAMMABLE: return "FLAMMABLE";
+        case ter_furn_flag::TFLAG_REDUCE_SCENT: return "REDUCE_SCENT";
+        case ter_furn_flag::TFLAG_SWIMMABLE: return "SWIMMABLE";
+        case ter_furn_flag::TFLAG_SUPPORTS_ROOF: return "SUPPORTS_ROOF";
+        case ter_furn_flag::TFLAG_MINEABLE: return "MINEABLE";
+        case ter_furn_flag::TFLAG_NOITEM: return "NOITEM";
+        case ter_furn_flag::TFLAG_NO_SIGHT: return "NO_SIGHT";
+        case ter_furn_flag::TFLAG_NO_SCENT: return "NO_SCENT";
+        case ter_furn_flag::TFLAG_SEALED: return "SEALED";
+        case ter_furn_flag::TFLAG_ALLOW_FIELD_EFFECT: return "ALLOW_FIELD_EFFECT";
+        case ter_furn_flag::TFLAG_LIQUID: return "LIQUID";
+        case ter_furn_flag::TFLAG_COLLAPSES: return "COLLAPSES";
+        case ter_furn_flag::TFLAG_FLAMMABLE_ASH: return "FLAMMABLE_ASH";
+        case ter_furn_flag::TFLAG_DESTROY_ITEM: return "DESTROY_ITEM";
+        case ter_furn_flag::TFLAG_INDOORS: return "INDOORS";
+        case ter_furn_flag::TFLAG_LIQUIDCONT: return "LIQUIDCONT";
+        case ter_furn_flag::TFLAG_FIRE_CONTAINER: return "FIRE_CONTAINER";
+        case ter_furn_flag::TFLAG_FLAMMABLE_HARD: return "FLAMMABLE_HARD";
+        case ter_furn_flag::TFLAG_SUPPRESS_SMOKE: return "SUPPRESS_SMOKE";
+        case ter_furn_flag::TFLAG_SHARP: return "SHARP";
+        case ter_furn_flag::TFLAG_DIGGABLE: return "DIGGABLE";
+        case ter_furn_flag::TFLAG_ROUGH: return "ROUGH";
+        case ter_furn_flag::TFLAG_UNSTABLE: return "UNSTABLE";
+        case ter_furn_flag::TFLAG_WALL: return "WALL";
+        case ter_furn_flag::TFLAG_DEEP_WATER: return "DEEP_WATER";
+        case ter_furn_flag::TFLAG_SHALLOW_WATER: return "SHALLOW_WATER";
+        case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
+        case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
+        case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
+        case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
+        case ter_furn_flag::TFLAG_CONNECT_TO_WALL: return "CONNECT_TO_WALL";
+        case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";
+        case ter_furn_flag::TFLAG_GOES_DOWN: return "GOES_DOWN";
+        case ter_furn_flag::TFLAG_GOES_UP: return "GOES_UP";
+        case ter_furn_flag::TFLAG_NO_FLOOR: return "NO_FLOOR";
+        case ter_furn_flag::TFLAG_SEEN_FROM_ABOVE: return "SEEN_FROM_ABOVE";
+        case ter_furn_flag::TFLAG_RAMP_DOWN: return "RAMP_DOWN";
+        case ter_furn_flag::TFLAG_RAMP_UP: return "RAMP_UP";
+        case ter_furn_flag::TFLAG_RAMP: return "RAMP";
+        case ter_furn_flag::TFLAG_HIDE_PLACE: return "HIDE_PLACE";
+        case ter_furn_flag::TFLAG_BLOCK_WIND: return "BLOCK_WIND";
+        case ter_furn_flag::TFLAG_FLAT: return "FLAT";
+        case ter_furn_flag::TFLAG_RAIL: return "RAIL";
+        case ter_furn_flag::TFLAG_THIN_OBSTACLE: return "THIN_OBSTACLE";
+        case ter_furn_flag::TFLAG_SMALL_PASSAGE: return "SMALL_PASSAGE";
+        case ter_furn_flag::TFLAG_Z_TRANSPARENT: return "Z_TRANSPARENT";
+        case ter_furn_flag::TFLAG_SUN_ROOF_ABOVE: return "SUN_ROOF_ABOVE";
+        case ter_furn_flag::TFLAG_FUNGUS: return "FUNGUS";
+        case ter_furn_flag::TFLAG_LOCKED: return "LOCKED";
+        case ter_furn_flag::TFLAG_PICKABLE: return "PICKABLE";
+        case ter_furn_flag::TFLAG_WINDOW: return "WINDOW";
+        case ter_furn_flag::TFLAG_DOOR: return "DOOR";
+        case ter_furn_flag::TFLAG_SHRUB: return "SHRUB";
+        case ter_furn_flag::TFLAG_YOUNG: return "YOUNG";
+        case ter_furn_flag::TFLAG_PLANT: return "PLANT";
+        case ter_furn_flag::TFLAG_FISHABLE: return "FISHABLE";
+        case ter_furn_flag::TFLAG_TREE: return "TREE";
+        case ter_furn_flag::TFLAG_PLOWABLE: return "PLOWABLE";
+        case ter_furn_flag::TFLAG_ORGANIC: return "ORGANIC";
+        case ter_furn_flag::TFLAG_CONSOLE: return "CONSOLE";
+        case ter_furn_flag::TFLAG_PLANTABLE: return "PLANTABLE";
+        case ter_furn_flag::TFLAG_GROWTH_HARVEST: return "GROWTH_HARVEST";
+        case ter_furn_flag::TFLAG_MOUNTABLE: return "MOUNTABLE";
+        case ter_furn_flag::TFLAG_RAMP_END: return "RAMP_END";
+        case ter_furn_flag::TFLAG_FLOWER: return "FLOWER";
+        case ter_furn_flag::TFLAG_CAN_SIT: return "CAN_SIT";
+        case ter_furn_flag::TFLAG_FLAT_SURF: return "FLAT_SURF";
+        case ter_furn_flag::TFLAG_BUTCHER_EQ: return "BUTCHER_EQ";
+        case ter_furn_flag::TFLAG_GROWTH_SEEDLING: return "GROWTH_SEEDLING";
+        case ter_furn_flag::TFLAG_GROWTH_MATURE: return "GROWTH_MATURE";
+        case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
+        case ter_furn_flag::TFLAG_WORKOUT_LEGS: return "WORKOUT_LEGS";
+        case ter_furn_flag::TFLAG_TRANSLOCATOR: return "TRANSLOCATOR";
+        case ter_furn_flag::TFLAG_AUTODOC: return "AUTODOC";
+        case ter_furn_flag::TFLAG_AUTODOC_COUCH: return "AUTODOC_COUCH";
+        case ter_furn_flag::TFLAG_OPENCLOSE_INSIDE: return "OPENCLOSE_INSIDE";
+        case ter_furn_flag::TFLAG_SALT_WATER: return "SALT_WATER";
+        case ter_furn_flag::TFLAG_PLACE_ITEM: return "PLACE_ITEM";
+        case ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS: return "BARRICADABLE_WINDOW_CURTAINS";
+        case ter_furn_flag::TFLAG_CLIMB_SIMPLE: return "CLIMB_SIMPLE";
+        case ter_furn_flag::TFLAG_NANOFAB_TABLE: return "NANOFAB_TABLE";
+        case ter_furn_flag::TFLAG_ROAD: return "ROAD";
+        case ter_furn_flag::TFLAG_TINY: return "TINY";
+        case ter_furn_flag::TFLAG_SHORT: return "SHORT";
+        case ter_furn_flag::TFLAG_NOCOLLIDE: return "NOCOLLIDE";
+        case ter_furn_flag::TFLAG_BARRICADABLE_DOOR: return "BARRICADABLE_DOOR";
+        case ter_furn_flag::TFLAG_BARRICADABLE_DOOR_DAMAGED: return "BARRICADABLE_DOOR_DAMAGED";
+        case ter_furn_flag::TFLAG_BARRICADABLE_DOOR_REINFORCED: return "BARRICADABLE_DOOR_REINFORCED";
+        case ter_furn_flag::TFLAG_USABLE_FIRE: return "USABLE_FIRE";
+        case ter_furn_flag::TFLAG_CONTAINER: return "CONTAINER";
+        case ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE: return "NO_PICKUP_ON_EXAMINE";
+        case ter_furn_flag::TFLAG_RUBBLE: return "RUBBLE";
+        case ter_furn_flag::TFLAG_DIGGABLE_CAN_DEEPEN: return "DIGGABLE_CAN_DEEPEN";
+        case ter_furn_flag::TFLAG_DIFFICULT_Z: return "DIFFICULT_Z";
+        case ter_furn_flag::TFLAG_ALIGN_WORKBENCH: return "ALIGN_WORKBENCH";
+        case ter_furn_flag::TFLAG_NO_SPOIL: return "NO_SPOIL";
+        case ter_furn_flag::TFLAG_EASY_DECONSTRUCT: return "EASY_DECONSTRUCT";
+        case ter_furn_flag::TFLAG_LADDER: return "LADDER";
+        case ter_furn_flag::TFLAG_ALARMED: return "ALARMED";
+        case ter_furn_flag::TFLAG_CHOCOLATE: return "CHOCOLATE";
+        case ter_furn_flag::TFLAG_SIGN: return "SIGN";
+        case ter_furn_flag::TFLAG_DONT_REMOVE_ROTTEN: return "DONT_REMOVE_ROTTEN";
+        case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
+        case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
+        case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
+
+        // *INDENT-ON*
+        case ter_furn_flag::NUM_TFLAG_FLAGS:
+            break;
     }
-};
+    debugmsg( "Invalid ter_furn_flag" );
+    abort();
+}
+
+} // namespace io
 
 static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied by TFLAG_CONNECT_TO_WALL, TFLAG_AUTO_WALL_SYMBOL or TFLAG_WALL
+        { "WALL",                     TERCONN_WALL },         // implied by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
         { "CHAINFENCE",               TERCONN_CHAINFENCE },
         { "WOODFENCE",                TERCONN_WOODFENCE },
         { "RAILING",                  TERCONN_RAILING },
@@ -300,6 +372,32 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+
+    std::pair<int, int> reduce_damage;
+    std::pair<int, int> reduce_damage_laser;
+    std::pair<int, int> destroy_damage;
+
+    mandatory( j, was_loaded, "reduce_damage", reduce_damage );
+    mandatory( j, was_loaded, "reduce_damage_laser", reduce_damage_laser );
+    mandatory( j, was_loaded, "destroy_damage", destroy_damage );
+
+    reduce_dmg_min = reduce_damage.first;
+    reduce_dmg_max = reduce_damage.second;
+    reduce_dmg_min_laser = reduce_damage_laser.first;
+    reduce_dmg_max_laser = reduce_damage_laser.second;
+    destroy_dmg_min = destroy_damage.first;
+    destroy_dmg_max = destroy_damage.second;
+
+    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+
+    return true;
+}
+
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
@@ -340,8 +438,8 @@ furn_t null_furniture_t()
     new_furniture.movecost = 0;
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
-    new_furniture.set_flag( flag_TRANSPARENT );
-    new_furniture.examine_func = iexamine_function_from_string( "none" );
+    new_furniture.set_flag( ter_furn_flag::TFLAG_TRANSPARENT );
+    new_furniture.examine_func = iexamine_functions_from_string( "none" );
     new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_furniture;
 }
@@ -361,9 +459,9 @@ ter_t null_terrain_t()
     new_terrain.light_emitted = 0;
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
-    new_terrain.set_flag( flag_TRANSPARENT );
-    new_terrain.set_flag( flag_DIGGABLE );
-    new_terrain.examine_func = iexamine_function_from_string( "none" );
+    new_terrain.set_flag( ter_furn_flag::TFLAG_TRANSPARENT );
+    new_terrain.set_flag( ter_furn_flag::TFLAG_DIGGABLE );
+    new_terrain.examine_func = iexamine_functions_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
 }
@@ -398,24 +496,33 @@ std::string map_data_common_t::name() const
     return name_.translated();
 }
 
-bool map_data_common_t::can_examine() const
+bool map_data_common_t::can_examine( const tripoint &examp ) const
 {
-    return !has_examine( iexamine::none );
+    return examine_func.can_examine( examp );
 }
 
-bool map_data_common_t::has_examine( iexamine_function_ref func ) const
+bool map_data_common_t::has_examine( iexamine_examine_function func ) const
 {
-    return examine_func == &func;
+    return examine_func.examine == func;
 }
 
-void map_data_common_t::set_examine( iexamine_function_ref func )
+bool map_data_common_t::has_examine( const std::string &action ) const
 {
-    examine_func = &func;
+    return examine_actor && examine_actor->type == action;
 }
 
-void map_data_common_t::examine( player &guy, const tripoint &examp ) const
+void map_data_common_t::set_examine( iexamine_functions func )
 {
-    examine_func( guy, examp );
+    examine_func = func;
+}
+
+void map_data_common_t::examine( Character &you, const tripoint &examp ) const
+{
+    if( !examine_actor ) {
+        examine_func.examine( you, examp );
+        return;
+    }
+    examine_actor->call( you, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -490,20 +597,32 @@ void load_terrain( const JsonObject &jo, const std::string &src )
     terrain_data.load( jo, src );
 }
 
+void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
+{
+    if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
+        transparent = true;
+    }
+    // wall connection check for JSON backwards compatibility
+    if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
+        set_connects( "WALL" );
+    }
+}
+
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    const auto it = ter_bitflags_map.find( flag );
-    if( it != ter_bitflags_map.end() ) {
-        bitflags.set( it->second );
-        if( !transparent && it->second == TFLAG_TRANSPARENT ) {
-            transparent = true;
-        }
-        // wall connection check for JSON backwards compatibility
-        if( it->second == TFLAG_WALL || it->second == TFLAG_CONNECT_TO_WALL ) {
-            set_connects( "WALL" );
-        }
+    cata::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
+    if( f.has_value() ) {
+        bitflags.set( f.value() );
+        extraprocess_flags( f.value() );
     }
+}
+
+void map_data_common_t::set_flag( const ter_furn_flag flag )
+{
+    flags.insert( io::enum_to_string<ter_furn_flag>( flag ) );
+    bitflags.set( flag );
+    extraprocess_flags( flag );
 }
 
 void map_data_common_t::set_connects( const std::string &connect_group_string )
@@ -551,6 +670,8 @@ ter_id t_null,
        t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
        t_wall, t_concrete_wall, t_brick_wall,
        t_wall_metal,
+       t_scrap_wall,
+       t_scrap_wall_halfway,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
@@ -562,6 +683,7 @@ ter_id t_null,
        t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
        t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_c, t_retractable_gate_l, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
@@ -643,8 +765,6 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w;
-
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids()
@@ -707,6 +827,8 @@ void set_ter_ids()
     t_concrete_wall = ter_id( "t_concrete_wall" );
     t_brick_wall = ter_id( "t_brick_wall" );
     t_wall_metal = ter_id( "t_wall_metal" );
+    t_scrap_wall = ter_id( "t_scrap_wall" );
+    t_scrap_wall_halfway = ter_id( "t_scrap_wall_halfway" );
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
@@ -718,11 +840,6 @@ void set_ter_ids()
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
     t_reb_cage = ter_id( "t_reb_cage" );
-    t_wall_b = ter_id( "t_wall_b" );
-    t_wall_g = ter_id( "t_wall_g" );
-    t_wall_p = ter_id( "t_wall_p" );
-    t_wall_r = ter_id( "t_wall_r" );
-    t_wall_w = ter_id( "t_wall_w" );
     t_door_c = ter_id( "t_door_c" );
     t_door_c_peep = ter_id( "t_door_c_peep" );
     t_door_b = ter_id( "t_door_b" );
@@ -743,6 +860,9 @@ void set_ter_ids()
     t_fencegate_o = ter_id( "t_fencegate_o" );
     t_chaingate_c = ter_id( "t_chaingate_c" );
     t_chaingate_o = ter_id( "t_chaingate_o" );
+    t_retractable_gate_l = ter_id( "t_retractable_gate_l" );
+    t_retractable_gate_c = ter_id( "t_retractable_gate_c" );
+    t_retractable_gate_o = ter_id( "t_retractable_gate_o" );
     t_door_boarded = ter_id( "t_door_boarded" );
     t_door_boarded_damaged = ter_id( "t_door_boarded_damaged" );
     t_door_boarded_peep = ter_id( "t_door_boarded_peep" );
@@ -886,8 +1006,6 @@ void set_ter_ids()
     t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
-    t_nanofab = ter_id( "t_nanofab" );
-    t_nanofab_body = ter_id( "t_nanofab_body" );
     t_stairs_down = ter_id( "t_stairs_down" );
     t_stairs_up = ter_id( "t_stairs_up" );
     t_manhole = ter_id( "t_manhole" );
@@ -1010,10 +1128,8 @@ furn_id f_null,
         f_tourist_table,
         f_camp_chair,
         f_sign,
-        f_street_light, f_traffic_light;
-
-static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
-       f_indoor_plant_y, f_lane, f_statue;
+        f_street_light, f_traffic_light,
+        f_console, f_console_broken;
 
 void set_furn_ids()
 {
@@ -1028,7 +1144,6 @@ void set_furn_ids()
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
-    f_indoor_plant_y = furn_id( "f_indoor_plant_y" );
     f_bed = furn_id( "f_bed" );
     f_toilet = furn_id( "f_toilet" );
     f_makeshift_bed = furn_id( "f_makeshift_bed" );
@@ -1045,9 +1160,7 @@ void set_furn_ids()
     f_trashcan = furn_id( "f_trashcan" );
     f_desk = furn_id( "f_desk" );
     f_exercise = furn_id( "f_exercise" );
-    f_ball_mach = furn_id( "f_ball_mach" );
     f_bench = furn_id( "f_bench" );
-    f_lane = furn_id( "f_lane" );
     f_table = furn_id( "f_table" );
     f_pool_table = furn_id( "f_pool_table" );
     f_counter = furn_id( "f_counter" );
@@ -1086,10 +1199,6 @@ void set_furn_ids()
     f_fungal_mass = furn_id( "f_fungal_mass" );
     f_fungal_clump = furn_id( "f_fungal_clump" );
     f_flower_fungal = furn_id( "f_flower_fungal" );
-    f_bluebell = furn_id( "f_bluebell" );
-    f_dahlia = furn_id( "f_dahlia" );
-    f_datura = furn_id( "f_datura" );
-    f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
     f_lilypad = furn_id( "f_lilypad" );
     f_lotus = furn_id( "f_lotus" );
@@ -1104,13 +1213,11 @@ void set_furn_ids()
     f_fvat_full = furn_id( "f_fvat_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
     f_standing_tank = furn_id( "f_standing_tank" );
-    f_statue = furn_id( "f_statue" );
     f_egg_sackbw = furn_id( "f_egg_sackbw" );
     f_egg_sackcs = furn_id( "f_egg_sackcs" );
     f_egg_sackws = furn_id( "f_egg_sackws" );
     f_egg_sacke = furn_id( "f_egg_sacke" );
     f_flower_marloss = furn_id( "f_flower_marloss" );
-    f_floor_canvas = furn_id( "f_floor_canvas" );
     f_kiln_empty = furn_id( "f_kiln_empty" );
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
@@ -1136,6 +1243,8 @@ void set_furn_ids()
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
     f_street_light = furn_id( "f_street_light" );
     f_traffic_light = furn_id( "f_traffic_light" );
+    f_console_broken = furn_id( "f_console_broken" );
+    f_console = furn_id( "f_console" );
 }
 
 size_t ter_t::count()
@@ -1163,12 +1272,39 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
+static std::map<std::string, cata::clone_ptr<iexamine_actor>> examine_actors;
+
+static void add_actor( std::unique_ptr<iexamine_actor> ptr )
+{
+    std::string type = ptr->type;
+    examine_actors[type] = cata::clone_ptr<iexamine_actor>( std::move( ptr ) );
+}
+
+static cata::clone_ptr<iexamine_actor> iexamine_actor_from_jsobj( const JsonObject &jo )
+{
+    std::string type = jo.get_string( "type" );
+    try {
+        return examine_actors.at( type );
+    } catch( const std::exception & ) {
+        jo.throw_error( string_format( "Invalid iexamine actor %s", type ) );
+    }
+}
+
+void init_mapdata()
+{
+    add_actor( std::make_unique<cardreader_examine_actor>() );
+}
+
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
-    if( jo.has_member( "examine_action" ) ) {
-        examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+    if( jo.has_string( "examine_action" ) ) {
+        examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
+    } else if( jo.has_object( "examine_action" ) ) {
+        JsonObject data = jo.get_object( "examine_action" );
+        examine_actor = iexamine_actor_from_jsobj( data );
+        examine_actor->load( data );
     } else {
-        examine_func = iexamine_function_from_string( "none" );
+        examine_func = iexamine_functions_from_string( "none" );
     }
 
     if( jo.has_array( "harvest_by_season" ) ) {
@@ -1189,6 +1325,16 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
+
+    if( jo.has_object( "shoot" ) ) {
+        shoot = cata::make_value<map_shoot_info>();
+        shoot->load( jo, "shoot", was_loaded );
+    }
+}
+
+bool ter_t::is_null() const
+{
+    return id == ter_str_id::NULL_ID();
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
@@ -1225,6 +1371,19 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+    oxytorch = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
+    boltcut = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "boltcut" ) ) {
+        boltcut->load( jo.get_object( "boltcut" ) );
+    }
 
     optional( jo, was_loaded, "emissions", emissions );
 
@@ -1291,10 +1450,10 @@ void ter_t::check() const
     }
     // Check transition consistency for opening/closing terrain. Has an obvious
     // exception for locked terrains - those aren't expected to be locked again
-    if( open && open->close && open->close != id && !has_flag( flag_LOCKED ) ) {
+    if( open && open->close && open->close != id && !has_flag( ter_furn_flag::TFLAG_LOCKED ) ) {
         debugmsg( "opening terrain %s for %s doesn't reciprocate", open.c_str(), id.c_str() );
     }
-    if( close && close->open && close->open != id && !has_flag( flag_LOCKED ) ) {
+    if( close && close->open && close->open != id && !has_flag( ter_furn_flag::TFLAG_LOCKED ) ) {
         debugmsg( "closing terrain %s for %s doesn't reciprocate", close.c_str(), id.c_str() );
     }
 
@@ -1366,6 +1525,21 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
+              furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+
+    oxytorch = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
+    boltcut = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "boltcut" ) ) {
+        boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
     deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
 
@@ -1379,15 +1553,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
     if( jo.has_float( "surgery_skill_multiplier" ) ) {
         surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
-    }
-}
-
-void map_data_common_t::check() const
-{
-    for( const string_id<harvest_list> &harvest : harvest_by_season ) {
-        if( !harvest.is_null() && !can_examine() ) {
-            debugmsg( "Harvest data defined without examine function for %s", name_ );
-        }
     }
 }
 
@@ -1409,6 +1574,58 @@ void furn_t::check() const
                       e.str().c_str() );
         }
     }
+}
+
+int activity_byproduct::roll() const
+{
+    return count + rng( random_min, random_max );
+}
+
+void activity_byproduct::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "item", item );
+
+    if( jo.has_int( "count" ) ) {
+        mandatory( jo, was_loaded, "count", count );
+        count = std::max( 0, count );
+    } else if( jo.has_array( "count" ) ) {
+        std::vector<int> count_random = jo.get_int_array( "count" );
+        random_min = std::max( 0, count_random[0] );
+        random_max = std::max( 0, count_random[1] );
+        if( random_min > random_max ) {
+            std::swap( random_min, random_max );
+        }
+    }
+}
+
+void activity_data_common::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "duration", duration_, 1_seconds );
+    optional( jo, was_loaded, "message", message_ );
+    optional( jo, was_loaded, "sound", sound_ );
+
+    if( jo.has_array( "byproducts" ) ) {
+        std::vector<activity_byproduct> entries;
+        for( JsonObject activity_entry : jo.get_array( "byproducts" ) ) {
+            struct activity_byproduct entry {};
+            entry.load( activity_entry );
+            byproducts_.push_back( entry );
+        }
+    }
+}
+
+void activity_data_ter::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "result", result_ );
+    activity_data_common::load( jo );
+    valid_ = true;
+}
+
+void activity_data_furn::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "result", result_, f_null.id() );
+    activity_data_common::load( jo );
+    valid_ = true;
 }
 
 void check_furniture_and_terrain()

@@ -32,6 +32,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmap_types.h"
+#include "path_info.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -95,11 +96,36 @@ void game::serialize( std::ostream &fout )
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
+    json.member( "monstairz", monstairz );
+
+    json.member( "driving_view_offset", driving_view_offset );
+    json.member( "turnssincelastmon", turnssincelastmon );
+    json.member( "bVMonsterLookFire", bVMonsterLookFire );
 
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
+
+    //save queued effect_on_conditions
+    std::vector<queued_eoc> temp_queue;
+    while( !g->queued_effect_on_conditions.empty() ) {
+        temp_queue.push_back( g->queued_effect_on_conditions.top() );
+        g->queued_effect_on_conditions.pop();
+    }
+    json.member( "queued_effect_on_conditions" );
+    json.start_array();
+
+    for( const auto &queued : temp_queue ) {
+        g->queued_effect_on_conditions.push( queued );
+        json.start_object();
+        json.member( "time", queued.time );
+        json.member( "eoc", queued.eoc );
+        json.member( "recurring", queued.recurring );
+        json.end_object();
+    }
+    json.end_array();
+    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -155,7 +181,7 @@ static void chkversion( std::istream &fin )
 /*
  * Parse an open .sav file.
  */
-void game::unserialize( std::istream &fin )
+void game::unserialize( std::istream &fin, const std::string &path )
 {
     chkversion( fin );
     int tmpturn = 0;
@@ -163,7 +189,7 @@ void game::unserialize( std::istream &fin )
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -188,7 +214,7 @@ void game::unserialize( std::istream &fin )
             calendar::start_of_game = calendar::start_of_cataclysm;
         }
 
-        load_map( project_combine( com, lev ) );
+        load_map( project_combine( com, lev ), /*pump_events=*/true );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -211,6 +237,11 @@ void game::unserialize( std::istream &fin )
             elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
+        data.read( "monstairz", monstairz );
+
+        data.read( "driving_view_offset", driving_view_offset );
+        data.read( "turnssincelastmon", turnssincelastmon );
+        data.read( "bVMonsterLookFire", bVMonsterLookFire );
 
         if( data.has_object( "kill_tracker" ) ) {
             data.read( "kill_tracker", *kill_tracker_ptr );
@@ -230,8 +261,28 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+        inp_mngr.pump_events();
+
+        //load queued_eocs
+        for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            g->queued_effect_on_conditions.push( temp );
+        }
+        //load inactive queued_eocs
+        for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            g->queued_effect_on_conditions.push( temp );
+        }
+        data.read( "inactive_eocs", inactive_effect_on_condition_vector );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -265,9 +316,9 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
-void game::load_shortcuts( std::istream &fin )
+void game::load_shortcuts( std::istream &fin, const std::string &path )
 {
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -348,7 +399,7 @@ void overmap::convert_terrain(
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
             old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
-            old == "s_lot" ) {
+            old == "s_lot" || old == "mine_entrance" || old == "triffid_finale" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
@@ -359,8 +410,37 @@ void overmap::convert_terrain(
                 ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                 bridge_points.emplace_back( pos.xy() );
             }
+        } else if( old == "triffid_grove" ) {
+            {
+                ter_set( pos, oter_id( "triffid_grove_north" ) );
+                ter_set( pos + point_north, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_north_east, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_east, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_south_east, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_south, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_south_west, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_west, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_north_west, oter_id( "triffid_field_north" ) );
+                ter_set( pos + tripoint_above, oter_id( "triffid_grove_z2_north" ) );
+                ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "triffid_grove_z3_north" ) );
+                ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "triffid_grove_roof_north" ) );
+            }
+        } else if( old == "triffid_roots" ) {
+            {
+                ter_set( pos, oter_id( "triffid_roots_north" ) );
+                ter_set( pos + point_south, oter_id( "triffid_rootsn_north" ) );
+                ter_set( pos + point_south_east, oter_id( "triffid_rootsen_north" ) );
+                ter_set( pos + point_east, oter_id( "triffid_rootse_north" ) );
+                ter_set( pos + point_north_east, oter_id( "triffid_rootsse_north" ) );
+                ter_set( pos + point_north, oter_id( "triffid_rootss_north" ) );
+                ter_set( pos + point_north_west, oter_id( "triffid_rootssw_north" ) );
+                ter_set( pos + point_west, oter_id( "triffid_rootsw_north" ) );
+                ter_set( pos + point_south_west, oter_id( "triffid_rootsnw_north" ) );
+            }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old == "mine_shaft" ) {
+            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
         } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
             ter_set( pos, oter_id( "office_tower_ne_north" ) );
             ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
@@ -469,11 +549,11 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );
-            if( settings.id != new_region_id ) {
+            if( settings->id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
-                    settings = rit->second;
+                    settings = pimpl<regional_settings>( rit->second );
                 }
             }
         } else if( name == "mongroups" ) {
@@ -555,7 +635,7 @@ void overmap::unserialize( std::istream &fin )
                 tripoint_om_sm monster_location;
                 monster new_monster;
                 monster_location.deserialize( jsin );
-                new_monster.deserialize( jsin );
+                new_monster.deserialize( jsin, project_combine( loc, monster_location ) );
                 monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
             }
@@ -620,10 +700,12 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 jsin.start_object();
                 overmap_special_id s;
+                bool is_safe_zone = false;
                 while( !jsin.end_object() ) {
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
+                        is_safe_zone = s.obj().flags.count( "SAFE_AT_WORLDGEN" ) > 0;
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -640,6 +722,9 @@ void overmap::unserialize( std::istream &fin )
                                             if( name == "p" ) {
                                                 jsin.read( p );
                                                 overmap_special_placements[p] = s;
+                                                if( is_safe_zone ) {
+                                                    safe_at_worldgen.emplace( p );
+                                                }
                                             }
                                         }
                                     }
@@ -648,6 +733,15 @@ void overmap::unserialize( std::istream &fin )
                         }
                     }
                 }
+            }
+        } else if( name == "mapgen_arg_storage" ) {
+            jsin.read( mapgen_arg_storage, true );
+        } else if( name == "mapgen_arg_index" ) {
+            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+                auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+                mapgen_args_index.emplace( p.first, &*it );
             }
         }
     }
@@ -929,7 +1023,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
 
     // temporary, to allow user to manually switch regions during play until regionmap is done.
-    json.member( "region_id", settings.id );
+    json.member( "region_id", settings->id );
     fout << std::endl;
 
     save_monster_groups( json );
@@ -1048,6 +1142,22 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    json.member( "mapgen_arg_storage", mapgen_arg_storage );
+    fout << std::endl;
+    json.member( "mapgen_arg_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+         mapgen_args_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
+        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        json.write( index );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
     json.end_object();
     fout << std::endl;
 }
@@ -1059,12 +1169,14 @@ void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
     archive.io( "pos", pos, tripoint_om_sm() );
+    archive.io( "abs_pos", abs_pos, tripoint_abs_sm() );
     archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, tripoint_om_sm() );
+    archive.io( "nemesis_target", nemesis_target, tripoint_abs_sm() );
     archive.io( "interest", interest, 0 );
     archive.io( "horde_behaviour", horde_behaviour, io::empty_default_tag() );
     archive.io( "monsters", monsters, io::empty_default_tag() );
@@ -1093,6 +1205,8 @@ void mongroup::deserialize_legacy( JsonIn &json )
             type = mongroup_id( json.get_string() );
         } else if( name == "pos" ) {
             pos.deserialize( json );
+        } else if( name == "abs_pos" ) {
+            abs_pos.deserialize( json );
         } else if( name == "radius" ) {
             radius = json.get_int();
         } else if( name == "population" ) {
@@ -1105,6 +1219,8 @@ void mongroup::deserialize_legacy( JsonIn &json )
             horde = json.get_bool();
         } else if( name == "target" ) {
             target.deserialize( json );
+        } else if( name == "nemesis_target" ) {
+            nemesis_target.deserialize( json );
         } else if( name == "interest" ) {
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {
@@ -1265,7 +1381,7 @@ void faction_manager::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::deserialize( JsonIn &jsin )
+void creature_tracker::deserialize( JsonIn &jsin )
 {
     monsters_list.clear();
     monsters_by_location.clear();
@@ -1278,7 +1394,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::serialize( JsonOut &jsout ) const
+void creature_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( const auto &monster_ptr : monsters_list ) {

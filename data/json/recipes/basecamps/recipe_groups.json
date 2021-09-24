@@ -24,6 +24,73 @@
         "id": "faction_base_shelter_2_0",
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
+      },
+      {
+        "id": "faction_base_sealab_small_0",
+        "description": "Freshwater Research Station Base",
+        "om_terrains": [ "sealab_small_-3" ]
+      },
+      {
+        "id": "faction_base_lightindustry_0",
+        "description": "Light Industry Office Base",
+        "om_terrains": [ "s_lightindustry_00", "s_lightindustry_scen_00" ]
+      },
+      {
+        "id": "faction_base_lightindustry_alt_0",
+        "description": "Light Industry Office With Glass Walls Base",
+        "om_terrains": [ "s_lightindustry_10", "s_lightindustry_scen_10" ]
+      },
+      { "id": "faction_base_helipad_0", "description": "Military Helipad Base", "om_terrains": [ "helipad_nw" ] },
+      {
+        "id": "faction_base_outpost_normal_0",
+        "description": "Normal Military Outpost Base",
+        "om_terrains": [ "outpost" ]
+      },
+      {
+        "id": "faction_base_outpost_cross_0",
+        "description": "Cross Military Outpost Base",
+        "om_terrains": [ "outpost_cross" ]
+      },
+      { "id": "faction_base_lighthouse_0", "description": "Lighthouse Base", "om_terrains": [ "lighthouse_ground" ] },
+      {
+        "id": "faction_base_pottery_cottage_0",
+        "description": "Pottery Cottage Camp",
+        "om_terrains": [ "pottery_cottage" ]
+      },
+      {
+        "id": "faction_base_radio_tower_0",
+        "description": "Radio Tower Without Building Base",
+        "om_terrains": [ "radio_tower" ]
+      },
+      {
+        "id": "faction_base_radio_tower_1_0",
+        "description": "Radio Tower With Building Base",
+        "om_terrains": [ "radio_tower_1" ]
+      },
+      {
+        "id": "faction_base_fire_lookout_tower_0",
+        "description": "Fire Lookout Tower Base",
+        "om_terrains": [ "ws_fire_lookout_tower_base" ]
+      },
+      {
+        "id": "faction_base_mansion_+1_0",
+        "description": "Mansion Fountain Garden Base",
+        "om_terrains": [ "mansion_+1" ]
+      },
+      {
+        "id": "faction_base_mansion_+2_0",
+        "description": "Mansion Dance Floor Room Base",
+        "om_terrains": [ "mansion_+2" ]
+      },
+      {
+        "id": "faction_base_mansion_+3_0",
+        "description": "Mansion Basketball Room Base",
+        "om_terrains": [ "mansion_+3" ]
+      },
+      {
+        "id": "faction_base_mansion_+4_0",
+        "description": "Mansion Garden With Columns Base",
+        "om_terrains": [ "mansion_+4" ]
       }
     ]
   },
@@ -38,7 +105,31 @@
       { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
-      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] }
+      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_lightindustry_workshop_0",
+        "description": "Light Industry Workshop",
+        "om_terrains": [ "s_lightindustry_11", "s_lightindustry_01", "s_lightindustry_scen_11", "s_lightindustry_scen_01" ]
+      },
+      {
+        "id": "faction_base_helipad_garage_0",
+        "description": "Military Helipad Garage",
+        "om_terrains": [ "helipad_ne" ]
+      },
+      { "id": "faction_base_mansion_e1", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e1" ] },
+      { "id": "faction_base_mansion_e2", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e2" ] },
+      { "id": "faction_base_mansion_t1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_t1" ] },
+      { "id": "faction_base_mansion_t2", "description": "Mansion's Bedrooms", "om_terrains": [ "mansion_t2" ] },
+      { "id": "faction_base_mansion_t3", "description": "Mansion's???", "om_terrains": [ "mansion_t3" ] },
+      { "id": "faction_base_mansion_t4", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_t4" ] },
+      { "id": "faction_base_mansion_t5", "description": "Mansion's Library", "om_terrains": [ "mansion_t5" ] },
+      { "id": "faction_base_mansion_t6", "description": "Mansion's Bedroom", "om_terrains": [ "mansion_t6" ] },
+      { "id": "faction_base_mansion_t7", "description": "Mansion's Living Rooms", "om_terrains": [ "mansion_t7" ] },
+      { "id": "faction_base_mansion_c1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_c1" ] },
+      { "id": "faction_base_mansion_c2", "description": "Mansion's Bar", "om_terrains": [ "mansion_c2" ] },
+      { "id": "faction_base_mansion_c3", "description": "Mansion's Living Rooms", "om_terrains": [ "mansion_c3" ] },
+      { "id": "faction_base_mansion_c4", "description": "Mansion's Bedroom", "om_terrains": [ "mansion_c4" ] },
+      { "id": "faction_base_mansion_c5", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_c5" ] }
     ]
   },
   {
@@ -162,7 +253,6 @@
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "crucible", "description": " Craft: Crucible" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" }
     ]
@@ -271,5 +361,67 @@
       { "id": "pipe_npc_drop", "description": " Craft: Pipe, Drop Hammer" },
       { "id": "rebar_npc_drop", "description": " Craft: Rebar, Drop Hammer" }
     ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "power_saw_recipes",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "water_wheel_with_power_saw", "description": " Craft: Water Wheel, Power Saw" },
+      { "id": "xl_water_wheel_with_power_saw", "description": " Craft: Large Water Wheel, Power Saw" },
+      { "id": "wood_beam_with_planer", "description": " Craft: Wooden Beam, Planer" },
+      { "id": "2x4_with_power_saw", "description": " Craft: Planks, Power Saw" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fishing_recipes",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, plastic fish trap" },
+      { "id": "fish_npc_fish_rod", "description": " Fishing: fish, basic fishing rod" },
+      { "id": "fish_npc_fish_rod_pro", "description": " Fishing: fish, pro fishing rod" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "hack_recipes_general",
+    "building_type": "BASE",
+    "recipes": [
+      { "id": "mobile_memory_card_npc_hack", "description": " Hack & Download: random data, SD-Memory card" },
+      { "id": "software_useless_npc_hack", "description": " Hack & Download: misc software, USB drive" },
+      { "id": "software_math_npc_hack", "description": " Hack & Download: MatheMAX, USB drive" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "clay_recipes_1",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "brick", "description": " Craft: Brick" },
+      { "id": "fire_brick", "description": " Craft: Fire Brick" },
+      { "id": "pebble_clay", "description": " Craft: Clay Pellet" },
+      { "id": "clay_canister", "description": " Craft: Clay Canister" },
+      { "id": "clay_hydria", "description": " Craft: Clay Hydria" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "hack_recipes_science",
+    "building_type": "BASE",
+    "recipes": [
+      { "id": "mobile_memory_card_science_npc_hack", "description": " Hack & Download: science data, SD-Memory card" },
+      { "id": "software_medical_npc_hack", "description": " Hack & Download: MediSoft, USB drive" },
+      {
+        "id": "software_electronics_reference_npc_hack",
+        "description": " Hack & Download: IC datasheet archives, USB drive"
+      }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "hack_recipes_satellite",
+    "building_type": "BASE",
+    "recipes": [ { "id": "satellitemap_npc_hack", "description": " Hack & Download: Satellite Map, sketch" } ]
   }
 ]

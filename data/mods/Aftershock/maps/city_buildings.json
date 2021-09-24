@@ -37,5 +37,14 @@
       { "point": [ -1, 2, 0 ], "overmap": "afs_formless_ruins_dynamic_north" }
     ],
     "locations": [ "land" ]
+  },
+  {
+    "id": "afs_house_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_shelter_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_shelter_1_roof_north" }
+    ],
+    "locations": [ "land" ]
   }
 ]

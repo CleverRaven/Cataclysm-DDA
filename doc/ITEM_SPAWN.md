@@ -93,6 +93,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "ammo-group": "<group-id>",
 "container-group": "<group-id>",
 "sealed": <boolean>
+"variant": <string>
 "artifact": <object>
 ```
 
@@ -103,6 +104,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
+
+`variant`: A valid gun variant id for this item.
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```json
@@ -191,6 +194,10 @@ Another example: The group "milk" spawns a container (taken from milk_containers
     ]
 },
 ```
+
+## Adding to item groups
+
+Mods can add entries to item groups simply by specifying an item group with the same id; any entries will be added to the item group.
 
 ## Inlined item groups
 

@@ -25,6 +25,7 @@
     "armor_bash": 20,
     "armor_cut": 30,
     "armor_bullet": 24,
+    "bleed_rate": 60,
     "vision_day": 30,
     "vision_night": 20,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
@@ -32,7 +33,6 @@
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -62,9 +62,8 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_tiny",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_small",
@@ -93,9 +92,8 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_medium",
@@ -124,9 +122,8 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_large",
@@ -155,9 +152,8 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_large",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_huge",
@@ -186,9 +182,8 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_large",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_trout",
@@ -507,8 +502,7 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_fish_crayfish",
@@ -536,9 +530,8 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into": "mon_crayfish_small" },
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_fish_blinky",
@@ -563,9 +556,8 @@
     "melee_cut": 1,
     "luminance": 5,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_eel",
@@ -590,9 +582,8 @@
     "melee_cut": 1,
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_crayfish_small",
@@ -628,10 +619,10 @@
     "dodge": 2,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "bleed_rate": 85,
     "harvest": "shellfish",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
   },
@@ -645,6 +636,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "bleed_rate": 60,
     "special_attacks": [
       [ "PARROT", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
@@ -677,6 +669,7 @@
     "armor_bash": 10,
     "armor_cut": 18,
     "armor_bullet": 14,
+    "bleed_rate": 65,
     "vision_day": 30,
     "vision_night": 15,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
@@ -684,7 +677,6 @@
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -713,8 +705,7 @@
     "harvest": "mutant_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_mutant_salmon",
@@ -742,15 +733,14 @@
     "harvest": "mutant_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
     "baby_flags": [ "AUTUMN" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_sewer_fish",
     "type": "MONSTER",
     "name": { "str": "seweranha" },
     "description": "A large mutant variety of carp.  It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
-    "default_faction": "mutant",
+    "default_faction": "seweranha",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "30 L",
@@ -773,7 +763,6 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "AQUATIC" ]
+    "flags": [ "SEES", "SMELLS", "AQUATIC" ]
   }
 ]

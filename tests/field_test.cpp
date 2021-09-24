@@ -3,7 +3,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"
@@ -11,9 +11,11 @@
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "weather.h"
 
 static int count_fields( const field_type_str_id &field_type )
 {
@@ -195,6 +197,8 @@ TEST_CASE( "fd_acid falls down", "[field]" )
 TEST_CASE( "fire spreading", "[field]" )
 {
     fields_test_setup();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    weather_clear.with_windspeed( 0 );
 
     const tripoint p{ 33, 33, 0 };
     const tripoint far_p = p + tripoint_east * 3;
@@ -203,11 +207,13 @@ TEST_CASE( "fire spreading", "[field]" )
 
     m.add_field( p, fd_fire, 3 );
 
-    const auto check_spreading = [&]( const time_duration time_limit ) {
+    const auto check_spreading = [&m, &p, &far_p]( const time_duration time_limit ) {
         const int time_limit_turns = to_turns<int>( time_limit );
+        REQUIRE( fields_test_turns() == 0 );
         while( !m.get_field( far_p, fd_fire ) && fields_test_turns() < time_limit_turns ) {
             calendar::turn += 1_turns;
             m.process_fields();
+            REQUIRE( m.get_field( p, fd_fire ) );
         }
         {
             INFO( string_format( "Fire should've spread to the far point in under %d turns",
@@ -232,7 +238,7 @@ TEST_CASE( "fire spreading", "[field]" )
     }
     SECTION( "fire spreads on flammable terrain" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
-            REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( TFLAG_FLAMMABLE_ASH ) );
+            REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) );
             m.ter_set( p0, ter_str_id( "t_tree_walnut" ) );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.

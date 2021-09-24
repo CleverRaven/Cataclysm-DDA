@@ -12,7 +12,7 @@
       { "item": "adderall", "prob": 40 },
       { "group": "wallets_military", "prob": 25 },
       { "group": "military_patrol_food", "prob": 30 },
-      { "group": "misc_smoking", "prob": 30 }
+      { "group": "misc_smoking_legal", "prob": 30 }
     ]
   }
 ]

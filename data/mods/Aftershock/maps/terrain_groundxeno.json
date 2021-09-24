@@ -95,7 +95,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
     "emissions": [ "emit_smoke_plume", "emit_hot_air_migo_seep" ],
     "bash": {
       "str_min": 65,
@@ -121,7 +121,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
     "emissions": [ "emit_smoke_plume", "emit_hot_air_migo_seep" ],
     "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump.", "ter_set": "t_fumarole" }
   },
@@ -134,7 +134,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump.", "ter_set": "t_fumarole" }
   },
   {
@@ -345,7 +345,7 @@
     "move_cost_mod": 3,
     "coverage": 30,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "TINY", "BASHABLE" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "TINY" ],
     "bash": { "str_min": 8, "str_max": 40, "sound": "flump!", "sound_fail": "thump." }
   },
   {
@@ -358,7 +358,7 @@
     "move_cost_mod": 6,
     "coverage": 45,
     "required_str": 16,
-    "flags": [ "NOITEM", "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "SHORT" ],
     "bash": { "str_min": 12, "str_max": 80, "sound": "flump!", "sound_fail": "thump." }
   },
   {
@@ -371,7 +371,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 20,
-    "flags": [ "NOITEM", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "BLOCK_WIND" ],
     "bash": { "str_min": 24, "str_max": 160, "sound": "flump!", "sound_fail": "thump." }
   },
   {
@@ -397,7 +397,7 @@
     "move_cost_mod": 6,
     "coverage": 45,
     "required_str": 16,
-    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
     "bash": { "str_min": 32, "str_max": 80, "sound": "smash!", "sound_fail": "thump." }
   },
   {
@@ -410,14 +410,14 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": { "str_min": 64, "str_max": 160, "sound": "smash!", "sound_fail": "thump." }
   },
   {
     "type": "terrain",
     "id": "t_moxfloor",
     "name": "bleached coral floor",
-    "description": "Small outgrowths of white coral spring from a underlying lattice of black, pulsating veins.",
+    "description": "Small outgrowths of white coral spring from an underlying lattice of black, pulsating veins.",
     "symbol": ".",
     "looks_like": "t_fungus",
     "color": "light_red",

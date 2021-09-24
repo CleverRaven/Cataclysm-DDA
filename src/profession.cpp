@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 
+#include "game.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
@@ -14,14 +15,12 @@
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "magic.h"
 #include "options.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
@@ -30,7 +29,6 @@
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
-const string_id<profession> generic_profession_id( "unemployed" );
 } // namespace
 
 static class json_item_substitution
@@ -95,13 +93,13 @@ void profession::load_profession( const JsonObject &jo, const std::string &src )
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        std::pair<skill_id, int> get_next( JsonValue &jv ) const {
+            JsonObject jo = jv.get_object();
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const skill_id id = skill_id( jin.get_string() );
+        void erase_next( std::string &&id_str, C &container ) const {
+            const skill_id id = skill_id( std::move( id_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
                 return e.first == id;
             } );
@@ -111,13 +109,13 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
-        addiction get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        addiction get_next( JsonValue &jv ) const {
+            JsonObject jo = jv.get_object();
             return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const add_type type = addiction_type( jin.get_string() );
+        void erase_next( std::string &&type_str, C &container ) const {
+            const add_type type = addiction_type( type_str );
             reader_detail::handler<C>().erase_if( container, [&type]( const addiction & e ) {
                 return e.type == type;
             } );
@@ -127,20 +125,19 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
 class item_reader : public generic_typed_reader<item_reader>
 {
     public:
-        profession::itypedec get_next( JsonIn &jin ) const {
+        profession::itypedec get_next( JsonValue &jv ) const {
             // either a plain item type id string, or an array with item type id
             // and as second entry the item description.
-            if( jin.test_string() ) {
-                return profession::itypedec( jin.get_string() );
+            if( jv.test_string() ) {
+                return profession::itypedec( jv.get_string() );
             }
-            JsonArray jarr = jin.get_array();
+            JsonArray jarr = jv.get_array();
             const auto id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const std::string id = jin.get_string();
+        void erase_next( std::string &&id, C &container ) const {
             reader_detail::handler<C>().erase_if( container, [&id]( const profession::itypedec & e ) {
                 return e.type_id.str() == id;
             } );
@@ -228,22 +225,47 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
-    optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "traits", _starting_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+
+    // Flag which denotes if a profession is a hobby
+    optional( jo, was_loaded, "subtype", _subtype, "" );
 }
 
 const profession *profession::generic()
 {
+    const string_id<profession> generic_profession_id(
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return &generic_profession_id.obj();
 }
 
 const std::vector<profession> &profession::get_all()
 {
     return all_profs.get_all();
+}
+
+std::vector<string_id<profession>> profession::get_all_hobbies()
+{
+    std::vector<profession> all = profession::get_all();
+    std::vector<profession_id> ret;
+
+    // remove all non-hobbies from list of professions
+    const auto new_end = std::remove_if( all.begin(),
+    all.end(), [&]( const profession & arg ) {
+        return !arg.is_hobby();
+    } );
+    all.erase( new_end, all.end() );
+
+    // convert to string_id's then return
+    for( const profession &p : all ) {
+        ret.emplace( ret.end(), p.ident() );
+    }
+    return ret;
 }
 
 void profession::reset()
@@ -333,6 +355,11 @@ void profession::check_definition() const
 
 bool profession::has_initialized()
 {
+    if( !g || g->new_game ) {
+        return false;
+    }
+    const string_id<profession> generic_profession_id(
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return generic_profession_id.is_valid();
 }
 
@@ -502,9 +529,9 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const player &u, const int points ) const
+bool profession::can_pick( const Character &you, const int points ) const
 {
-    return point_cost() - u.prof->point_cost() <= points;
+    return point_cost() - you.prof->point_cost() <= points;
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const
@@ -601,7 +628,7 @@ void json_item_substitution::load( const JsonObject &jo )
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
-            s.trait_reqs.present.push_back( trait_id( jo.get_string( "trait" ) ) );
+            s.trait_reqs.present.emplace_back( jo.get_string( "trait" ) );
             for( const JsonValue info : sub.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
@@ -672,7 +699,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
     if( iter == substitutions.end() ) {
-        for( const item *con : it.contents.all_items_top() ) {
+        for( const item *con : it.all_items_top() ) {
             const auto sub = get_substitution( *con, traits );
             ret.insert( ret.end(), sub.begin(), sub.end() );
         }
@@ -720,4 +747,9 @@ const
         }
     }
     return ret;
+}
+
+bool profession::is_hobby() const
+{
+    return _subtype == "hobby";
 }
