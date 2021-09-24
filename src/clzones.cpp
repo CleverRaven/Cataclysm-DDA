@@ -1230,10 +1230,11 @@ void zone_manager::load_zones()
 {
     std::string cache = PATH_INFO::player_base_save_path() + ".zones_cache.json";
     std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
-    if( !read_from_file_optional( loaded ? cache : savefile, [&]( std::istream & fin ) {
+    const auto reader = [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin.get_value() );
-    } ) ) {
+    };
+    if( !read_from_file_optional( loaded ? cache : savefile, reader ) ) {
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
