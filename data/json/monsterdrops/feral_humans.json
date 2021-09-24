@@ -63,6 +63,25 @@
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] }
     ]
+  },
+  {
+    "id": "feral_security_death_drops_flashlight",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 20,
+    "entries": [
+      { "item": "heavy_flashlight", "prob": 100, "damage": [ 2, 4 ] },
+      { "item": "tazer", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "security_pants", "damage": [ 1, 4 ] },
+      { "group": "security_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "wallets", "damage": [ 1, 4 ] }
+    ]
  },
   {
     "id": "mon_feral_prepper_death_drops",
@@ -71,7 +90,7 @@
     "magazine": 100,
     "ammo": 20,
     "entries": [
-      { "item": "sw_619", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "feral_ninemm", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
           { "group": "book_survival", "prob": 40 },
@@ -90,7 +109,7 @@
     "magazine": 100,
     "ammo": 20,
     "entries": [
-      { "item": "m1911", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "feral_ninemm", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
           { "group": "book_survival", "prob": 40 },
@@ -106,5 +125,19 @@
       { "group": "survivorzed_head", "damage": [ 1, 4 ] },
       { "group": "survivorzed_extra", "damage": [ 1, 4 ] },
 { "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] } ]
-    }
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_ninemm",
+    "items": [ [ "glock_19", 250 ], [ "ksub2000", 250 ], [ "sw_619", 250 ], [ "glock_17", 250 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "(There was a weird error, 45_acp was detected as invalid, so this will just be for incase the problem is fixed)",
+    "id": "feral_45cal",
+    "items": [ [ "m1911", 30 ], [ "m1911-460", 30 ], [ "m1911-460", 30 ] ]
+  }
  ]
+
