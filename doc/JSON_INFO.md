@@ -198,6 +198,7 @@ Use the `Home` key to return to the top.
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
+  - [`eocs`](#eocs)
   - [`missions`](#missions)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
@@ -4077,6 +4078,11 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+## `eocs`
+(optional, array of strings)
+
+A list of eocs that are triggered once for each new character on scenario start.
 
 ## `missions`
 (optional, array of strings)

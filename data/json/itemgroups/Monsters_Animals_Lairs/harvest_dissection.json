@@ -1,8 +1,20 @@
 [
   {
+    "id": "snail_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "snail_sample", "prob": 30 } ]
+  },
+  {
     "id": "rabbit_foot",
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "rabbit_foot", "prob": 30 } ]
+  },
+  {
+    "id": "frog_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "frog_sample", "prob": 30 } ]
   }
 ]

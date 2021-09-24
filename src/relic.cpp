@@ -52,17 +52,32 @@ namespace io
     }
     // *INDENT-ON*
 template<>
-std::string enum_to_string<relic_recharge>( relic_recharge type )
+std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
 {
     // *INDENT-OFF*
     switch( type ) {
-        case relic_recharge::none: return "none";
-        case relic_recharge::periodic: return "periodic";
-        case relic_recharge::solar_sunny: return "solar_sunny";
-        case relic_recharge::num: break;
+        case relic_recharge_type::NONE: return "none";
+        case relic_recharge_type::PERIODIC: return "periodic";
+        case relic_recharge_type::SOLAR_SUNNY: return "solar_sunny";
+        case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
     cata_fatal( "Invalid relic recharge type" );
+}
+
+template<>
+std::string enum_to_string<relic_recharge_has>( relic_recharge_has has )
+{
+    // *INDENT-OFF*
+    switch (has) {
+    case relic_recharge_has::WIELD: return "wield";
+    case relic_recharge_has::WORN: return "worn";
+    case relic_recharge_has::HELD: return "held";
+    case relic_recharge_has::NUM: break;
+    }
+    // *INDENT-ON*
+    debugmsg( "Invalid relic recharge has condition" );
+    abort();
 }
 } // namespace io
 
@@ -260,6 +275,7 @@ void relic_charge_info::load( const JsonObject &jo )
     jo.read( "charges_per_use", charges_per_use );
     jo.read( "max_charges", max_charges );
     jo.read( "recharge_type", type );
+    jo.read( "recharge_condition", has );
     jo.read( "regenerate_ammo", regenerate_ammo );
     jo.read( "activation_accumulator", activation_accumulator );
     jo.read( "time", activation_time );
@@ -273,6 +289,7 @@ void relic_charge_info::serialize( JsonOut &jsout ) const
     jsout.member( "max_charges", max_charges );
     jsout.member( "regenerate_ammo", regenerate_ammo );
     jsout.member( "recharge_type", type );
+    jsout.member( "recharge_condition", has );
     jsout.member( "activation_accumulator", activation_accumulator );
     jsout.member( "time", activation_time );
     jsout.end_object();
@@ -403,7 +420,7 @@ int relic::max_charges() const
 
 bool relic::has_recharge() const
 {
-    return charge.type != relic_recharge::none;
+    return charge.type != relic_recharge_type::NONE;
 }
 
 // checks if the relic is in the appropriate location to be able to recharge from the weather.
@@ -423,27 +440,62 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
     if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
         return;
     }
+    if( !can_recharge( parent, carrier ) ) {
+        return;
+    }
 
     switch( charge.type ) {
-        case relic_recharge::none: {
+        case relic_recharge_type::NONE: {
             return;
         }
-        case relic_recharge::periodic: {
+        case relic_recharge_type::PERIODIC: {
             charge.accumulate_charge( parent );
             return;
         }
-        case relic_recharge::solar_sunny: {
+        case relic_recharge_type::SOLAR_SUNNY: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier >= 0 ) {
                 charge.accumulate_charge( parent );
             }
             return;
         }
-        case relic_recharge::num: {
+        case relic_recharge_type::NUM: {
             debugmsg( "Attempted to recharge relic with invalid recharge type" );
             return;
         }
     }
+}
+
+bool relic::can_recharge( item &parent, Character *carrier )
+{
+
+    if( carrier == nullptr && charge.has != relic_recharge_has::NUM ) {
+        return false;
+    }
+
+    switch( charge.has ) {
+
+        case relic_recharge_has::HELD: {
+            return carrier->has_item( parent );
+        }
+
+        case relic_recharge_has::WORN: {
+            return carrier->is_worn( parent ) || carrier->is_wielding( parent );
+        }
+
+        case relic_recharge_has::WIELD: {
+            return carrier->is_wielding( parent );
+        }
+
+        case relic_recharge_has::NUM: {
+            return true;
+        }
+
+    }
+
+    return true;
+
+
 }
 
 void relic::overwrite_charge( const relic_charge_info &info )

@@ -3175,7 +3175,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     }
     // Finally, describe the action if u can see it
     if( num_items_dropped >= 3 ) {
-        add_msg_if_player_sees( *this, ngettext( "%s drops %d item.", "%s drops %d items.",
+        add_msg_if_player_sees( *this, n_gettext( "%s drops %d item.", "%s drops %d items.",
                                 num_items_dropped ), get_name(),
                                 num_items_dropped );
     } else {

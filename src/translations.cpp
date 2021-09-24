@@ -75,43 +75,21 @@ static std::string getAppleSystemLanguage();
 static std::string getAndroidSystemLanguage();
 #endif
 
+const char *n_gettext( const char *msgid, const char *msgid_plural, std::size_t n )
+{
+    return TranslationManager::GetInstance().TranslatePlural( msgid, msgid_plural, n );
+}
+
 const char *pgettext( const char *context, const char *msgid )
 {
-    // need to construct the string manually,
-    // to correctly handle strings loaded from json.
-    // could probably do this more efficiently without using std::string.
-    std::string context_id( context );
-    context_id += '\004';
-    context_id += msgid;
-    // null domain, uses global translation domain
-    const char *msg_ctxt_id = context_id.c_str();
-#if defined(__ANDROID__)
-    const char *translation = gettext( msg_ctxt_id );
-#else
-    const char *translation = dcgettext( nullptr, msg_ctxt_id, LC_MESSAGES );
-#endif
-    if( translation == msg_ctxt_id ) {
-        return msgid;
-    } else {
-        return translation;
-    }
+    return TranslationManager::GetInstance().TranslateWithContext( context, msgid );
 }
 
 const char *npgettext( const char *const context, const char *const msgid,
                        const char *const msgid_plural, const unsigned long long n )
 {
-    const std::string context_id = std::string( context ) + '\004' + msgid;
-    const char *const msg_ctxt_id = context_id.c_str();
-#if defined(__ANDROID__)
-    const char *const translation = ngettext( msg_ctxt_id, msgid_plural, n );
-#else
-    const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
-#endif
-    if( translation == msg_ctxt_id ) {
-        return n == 1 ? msgid : msgid_plural;
-    } else {
-        return translation;
-    }
+    return TranslationManager::GetInstance().TranslatePluralWithContext( context, msgid, msgid_plural,
+            n );
 }
 
 void select_language()
@@ -205,6 +183,7 @@ void set_language()
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
     DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
+    TranslationManager::GetInstance().SetLanguage( lang_opt );
     if( !lang_opt.empty() ) {
         // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
@@ -238,27 +217,11 @@ void set_language()
     }
 
 #if defined(_WIN32)
-    // Use the ANSI code page 1252 to work around some language output bugs.
+    // Use the ANSI code page 1252 to work around some language output bugs. (#8665)
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
-    DebugLog( D_INFO, DC_ALL ) << "[translations] C locale set to " << setlocale( LC_ALL, nullptr );
-    DebugLog( D_INFO, DC_ALL ) << "[translations] C++ locale set to " << std::locale().name();
 #endif
-
-    // Step 2. Bind to gettext domain.
-    std::string loc_dir = locale_dir();
-#if defined(__ANDROID__)
-    // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
-    // This is because of our hacky libintl-lite bindtextdomain() implementation.
-    const char *env = getenv( "LANGUAGE" );
-    loc_dir += std::string( ( env ? env : "none" ) ) + "/LC_MESSAGES/cataclysm-dda.mo";
-#endif
-
-    const char *locale_dir_char = loc_dir.c_str();
-    bindtextdomain( "cataclysm-dda", locale_dir_char );
-    bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
-    textdomain( "cataclysm-dda" );
 
     reload_names();
 
@@ -761,7 +724,7 @@ std::string translation::translated( const int num ) const
                 cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
             } else {
                 cached_translation = cata::make_value<std::string>(
-                                         ngettext( raw.c_str(), raw_pl->c_str(), num ) );
+                                         n_gettext( raw.c_str(), raw_pl->c_str(), num ) );
             }
         } else {
             if( !raw_pl ) {

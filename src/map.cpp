@@ -4204,8 +4204,9 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     for( size_t i = 1; i < quantity; i++ ) {
         spawn_item( p, type_id, 1, charges, birthday, damlevel, flags );
     }
-    // spawn the item
-    item new_item( type_id, birthday );
+    // migrate and spawn the item
+    itype_id mig_type_id = item_controller->migrate_id( type_id );
+    item new_item( mig_type_id, birthday );
     new_item.set_itype_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
@@ -7637,8 +7638,7 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                    const int fake_map_z )
+fake_map::fake_map( const ter_id &ter_type )
 {
     const tripoint tripoint_below_zero( 0, 0, fake_map_z );
 
@@ -7648,8 +7648,8 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );
-            sm->set_all_furn( fur_type );
-            sm->set_all_traps( trap_type );
+            sm->set_all_furn( f_null );
+            sm->set_all_traps( tr_null );
 
             setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );
 

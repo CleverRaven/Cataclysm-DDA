@@ -924,5 +924,57 @@
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife",
+    "copy-from": "throwing_knife",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "material": [ "superalloy" ],
+    "extend": { "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ] },
+    "thrown_damage": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_fire",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing, wrapped in ethereal flames.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "heat", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_cold",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing, emanates cold.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "cold", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_cut",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife with wide edge made for throwing, seems unnaturally sharp.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.2 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_biological",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing, made of porous substance and covered in dark ooze.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "biological", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_pure_special",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A transparent blade seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
   }
 ]

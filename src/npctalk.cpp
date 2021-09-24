@@ -1744,6 +1744,24 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
+void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string new_bionic = jo.get_string( member );
+    function = [is_npc, new_bionic]( const dialogue & d ) {
+        d.actor( is_npc )->add_bionic( bionic_id( new_bionic ) );
+    };
+}
+
+void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string old_bionic = jo.get_string( member );
+    function = [is_npc, old_bionic]( const dialogue & d ) {
+        d.actor( is_npc )->remove_bionic( bionic_id( old_bionic ) );
+    };
+}
+
 void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -2012,10 +2030,10 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
-    std::vector<std::string> update_ids;
+    std::vector<update_mapgen_id> update_ids;
 
     if( jo.has_string( member ) ) {
-        update_ids.emplace_back( jo.get_string( member ) );
+        update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
         for( const std::string line : jo.get_array( member ) ) {
             update_ids.emplace_back( line );
@@ -2028,7 +2046,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             update_params.guy = d.actor( true )->get_npc();
         }
         const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
-        for( const std::string &mapgen_update_id : update_ids ) {
+        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
         }
     };
@@ -2211,6 +2229,19 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     };
 }
 
+void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    duration_or_var dov = get_duration_or_var( jo, "duration", true );
+    activity_id act = activity_id( jo.get_string( member ) );
+    function = [is_npc, dov, act]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->assign_activity( act, to_moves<int>( dov.evaluate( d.actor( is_npc ) ) ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -2220,6 +2251,41 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
         if( target ) {
             wet_character( *target, iov.evaluate( d.actor( is_npc ) ) );
         }
+    };
+}
+
+void talk_effect_fun_t::set_open_dialogue()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_character() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_character() ) );
+        } else if( d.actor( true )->get_creature() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_creature() ) );
+        } else if( d.actor( true )->get_monster() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
+        } else if( d.actor( true )->get_item() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control()
+{
+    function = []( const dialogue & d ) {
+        if( !d.actor( false )->get_character()->is_avatar() ) { //only take control if the avatar is alpha
+            return;
+        } else if( d.actor( true )->get_npc() != nullptr ) {
+            get_avatar().control_npc( *d.actor( true )->get_npc() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_take_control_menu()
+{
+    function = []( const dialogue & ) {
+        get_avatar().control_npc_menu();
     };
 }
 
@@ -2652,9 +2718,13 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_friendly( input );
             };
+        } else if( checked_value == "exp" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_kill_xp( input );
+            };
         }
     }
-    jo.throw_error( "error setting interger destination in " + jo.str() );
+    jo.throw_error( "error setting integer destination in " + jo.str() );
     return []( const dialogue &, int ) {};
 }
 
@@ -2665,9 +2735,30 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
-        std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
+    };
+}
+
+void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    bool success = jo.get_bool( "success" );
+    function = [mission_name, success]( const dialogue & ) {
+        avatar &player_character = get_avatar();
+
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
+        for( mission *mission : missions ) {
+            if( mission->mission_id() == mission_type ) {
+                if( success ) {
+                    mission->wrap_up();
+                } else {
+                    mission->fail();
+                }
+                break;
+            }
+        }
     };
 }
 
@@ -3179,8 +3270,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_member( "u_assign_activity" ) ) {
+        subeffect_fun.set_assign_activity( jo, "u_assign_activity", false );
+    } else if( jo.has_member( "npc_assign_activity" ) ) {
+        subeffect_fun.set_assign_activity( jo, "npc_assign_activity", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
+    } else if( jo.has_string( "finish_mission" ) ) {
+        subeffect_fun.set_finish_mission( jo, "finish_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
@@ -3201,6 +3298,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
     } else if( jo.has_string( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
+    } else if( jo.has_string( "u_add_bionic" ) ) {
+        subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
+    } else if( jo.has_string( "npc_add_bionic" ) ) {
+        subeffect_fun.set_add_bionic( jo, "npc_add_bionic", true );
+    } else if( jo.has_string( "u_lose_bionic" ) ) {
+        subeffect_fun.set_lose_bionic( jo, "u_lose_bionic", false );
+    } else if( jo.has_string( "npc_lose_bionic" ) ) {
+        subeffect_fun.set_lose_bionic( jo, "npc_lose_bionic", true );
     } else if( jo.has_member( "u_cast_spell" ) ) {
         subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
     } else if( jo.has_member( "npc_cast_spell" ) ) {
@@ -3333,6 +3438,21 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         return;
     }
 
+    if( effect_id == "open_dialogue" ) {
+        subeffect_fun.set_open_dialogue();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control" ) {
+        subeffect_fun.set_take_control();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "take_control_menu" ) {
+        subeffect_fun.set_take_control_menu();
+        set_effect( subeffect_fun );
+        return;
+    }
     jo.throw_error( "unknown effect string", effect_id );
 }
 

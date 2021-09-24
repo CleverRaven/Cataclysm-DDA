@@ -79,6 +79,7 @@ Monsters may also have any of these optional properties:
 | `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
 | `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
 | `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
+| `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
@@ -327,8 +328,10 @@ Weakpoints in the monster's protection.
 | ---                 | ---
 | `name`              | Name of the weakpoint.
 | `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
-| `armor_multiplier`  | multipler on the monster's base protection when hitting the weakpoint.
+| `armor_mult`        | multipler on the monster's base protection when hitting the weakpoint.
 | `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
+| `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
+| `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
 
 ## "vision_day", "vision_night"
 (integer, optional)

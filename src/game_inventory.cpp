@@ -191,6 +191,7 @@ void game_menus::inv::common( avatar &you )
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
+    inv_s.allow_hide = true;
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -986,8 +987,10 @@ static std::string get_consume_needs_hint( Character &you )
 
 item_location game_menus::inv::consume( avatar &you, const item_location loc )
 {
+    static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
+        container_location = loc;
     }
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
@@ -995,7 +998,7 @@ item_location game_menus::inv::consume( avatar &you, const item_location loc )
                          _( "Consume item" ), 1,
                          none_message,
                          get_consume_needs_hint( you ),
-                         loc );
+                         container_location );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
@@ -1142,8 +1145,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 &&
                 !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
-                           ngettext( "Needs at least %d charge",
-                                     "Needs at least %d charges", loc->ammo_required() ),
+                           n_gettext( "Needs at least %d charge",
+                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
@@ -1752,6 +1755,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     } );
 
     inventory_drop_selector inv_s( you, preset );
+    inv_s.allow_hide = true;
 
     inv_s.add_character_items( you, false );
     inv_s.set_title( _( "Multidrop" ) );

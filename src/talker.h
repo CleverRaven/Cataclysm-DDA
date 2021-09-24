@@ -215,6 +215,8 @@ class talker
         virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
+        virtual void add_bionic( const bionic_id & ) {}
+        virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string & ) const {
             return "";
         }
@@ -446,5 +448,9 @@ class talker
         virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
+        virtual void set_kill_xp( int ) {}
+        virtual int get_kill_xp() const {
+            return 0;
+        }
 };
 #endif // CATA_SRC_TALKER_H
