@@ -1592,6 +1592,7 @@ bool Character::can_consume_as_is( const item &it ) const
         return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
                it.has_flag( flag_MELTS );
     }
+    return false;
 }
 
 item &Character::get_consumable_from( item &it ) const
