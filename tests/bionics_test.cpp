@@ -24,21 +24,20 @@ static void clear_bionics( Character &you )
     you.set_max_power_level( 0_kJ );
 }
 
-static void test_consumable_charges( Character &you, std::string &itemname, bool when_none,
-                                     bool when_max )
+static void test_consumable_charges( Character &you, std::string &itemname, bool should_work )
 {
     item it = item( itemname, calendar::turn_zero, 0 );
 
     INFO( "\'" + it.tname() + "\' is count-by-charges" );
-    CHECK( it.count_by_charges() );
+    CHECK( !it.count_by_charges() );
 
     it.charges = 0;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( you.can_consume( it ) == when_none );
+    REQUIRE( you.can_fuel_bionic_with( it ) == false );
 
     it.charges = INT_MAX;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( you.can_consume( it ) == when_max );
+    REQUIRE( you.can_fuel_bionic_with( it ) == should_work );
 }
 
 static void test_consumable_ammo( Character &you, std::string &itemname, bool when_empty,
@@ -48,7 +47,7 @@ static void test_consumable_ammo( Character &you, std::string &itemname, bool wh
 
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( you.can_consume( it ) == when_empty );
+    REQUIRE( you.can_fuel_bionic_with( it ) == when_empty );
 
     if( !it.magazine_default().is_null() ) {
         item mag( it.magazine_default() );
@@ -59,7 +58,7 @@ static void test_consumable_ammo( Character &you, std::string &itemname, bool wh
     }
 
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( you.can_consume( it ) == when_full );
+    REQUIRE( you.can_fuel_bionic_with( it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
@@ -83,20 +82,13 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     SECTION( "bio_fuel_cell_gasoline" ) {
         dummy.add_bionic( bionic_id( "bio_fuel_cell_gasoline" ) );
 
-        static const std::list<std::string> always = {
-            "gasoline"
-        };
-        for( std::string it : always ) {
-            test_consumable_charges( dummy, it, true, true );
-        }
+        item gasoline = item( "gasoline" );
+        REQUIRE( gasoline.charges != 0 );
+        CHECK( dummy.can_fuel_bionic_with( gasoline ) );
 
-        static const std::list<std::string> never = {
-            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
-            "rm13_armor"      // TOOL_ARMOR
-        };
-        for( std::string it : never ) {
-            test_consumable_ammo( dummy, it, false, false );
-        }
+
+        item armor = item( "rm13_armor" );
+        CHECK( !dummy.can_fuel_bionic_with( armor ) );
     }
 
     clear_bionics( dummy );
@@ -104,28 +96,21 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     SECTION( "bio_batteries" ) {
         dummy.add_bionic( bionic_id( "bio_batteries" ) );
 
-        static const std::list<std::string> always = {
-            "battery" // old-school
-        };
-        for( auto it : always ) {
-            test_consumable_charges( dummy, it, true, true );
-        }
+        item battery = item( "light_battery_cell" );
 
-        static const std::list<std::string> ammo_when_full = {
-            "light_battery_cell", // MAGAZINE, NO_UNLOAD
-        };
-        for( auto it : ammo_when_full ) {
-            test_consumable_ammo( dummy, it, false, true );
-        }
+        // Empty battery won't work
+        battery.ammo_set( battery.ammo_default(), 0 );
+        CHECK( !dummy.can_fuel_bionic_with( battery ) );
 
-        static const std::list<std::string> never = {
-            "flashlight",  // !is_magazine()
-            "laser_rifle", // NO_UNLOAD, uses ups_charges
-            "UPS_off"     // NO_UNLOAD, !is_magazine()
-        };
-        for( auto it : never ) {
-            test_consumable_ammo( dummy, it, false, false );
-        }
+        // Full battery works
+        battery.ammo_set( battery.ammo_default(), 50 );
+        CHECK( dummy.can_fuel_bionic_with( battery ) );
+
+        // Tool with battery won't work
+        item light = item( "flashlight" );
+        light.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        CHECK( !dummy.can_fuel_bionic_with( light ) );
+
     }
 
     clear_bionics( dummy );

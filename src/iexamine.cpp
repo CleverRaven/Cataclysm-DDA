@@ -3430,7 +3430,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !you.can_consume( drink ) ) {
+                if( !you.can_consume_as_is( drink ) ) {
                     return; // They didn't actually drink
                 }
                 you.assign_activity( player_activity( consume_activity_actor( drink ) ) );
