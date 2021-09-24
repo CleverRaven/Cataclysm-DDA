@@ -207,7 +207,7 @@
       { "monster": "mon_zombie_tough", "freq": 180, "cost_multiplier": 0 },
       { "monster": "mon_zombie_survivor", "freq": 400, "cost_multiplier": 0 },
       { "monster": "mon_zombie_survivor_elite", "freq": 20, "cost_multiplier": 25, "starts": 540 },
-      { "monster": "mon_feral_prepper", "freq": 400, "cost_multiplier": 0 },
+      { "monster": "mon_feral_prepper", "freq": 350, "cost_multiplier": 0 },
       { "monster": "mon_feral_survivalist", "freq": 20, "cost_multiplier": 25, "starts": 540 }
 
     ]
