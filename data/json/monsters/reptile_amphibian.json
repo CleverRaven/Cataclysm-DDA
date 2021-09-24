@@ -19,7 +19,7 @@
     "dodge": 6,
     "reproduction": { "baby_egg": "egg_frog", "baby_count": 8, "baby_timer": 26 },
     "harvest": "mammal_tiny",
-    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 5, "allow_no_target": true } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
   },
