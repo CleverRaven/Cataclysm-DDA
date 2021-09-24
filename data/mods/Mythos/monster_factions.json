@@ -2,9 +2,29 @@
   {
     "type": "MONSTER_FACTION",
     "name": "deep_ones",
-    "base_faction": "nether",
+    "neutral": [ "small_animal", "nyarlathotep" ],
+    "by_mood": [ "fish", "nether", "witches", "nodens" ],
+    "hate": [ "triffid", "fungus", "exodii" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "witches",
+    "neutral": [ "small_animal", "rat" ],
+    "by_mood": [ "nether", "deep_ones", "nyarlathotep", "nodens" ],
+    "hate": [ "triffid", "fungus", "exodii" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nyarlathotep",
     "neutral": [ "small_animal" ],
-    "by_mood": [ "nether" ],
-    "hate": [ "fish", "triffid", "fungus", "exodii" ]
+    "by_mood": [ "nether", "deep_ones", "witches" ],
+    "hate": [ "nodens" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nodens",
+    "neutral": [ "small_animal" ],
+    "by_mood": [ "nether", "deep_ones" ],
+    "hate": [ "nyarlathotep", "triffid", "fungus", "exodii" ]
   }
 ]
