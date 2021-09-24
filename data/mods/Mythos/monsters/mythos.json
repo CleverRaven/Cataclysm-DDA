@@ -3,7 +3,7 @@
     "id": "mon_deep_one",
     "type": "MONSTER",
     "name": { "str": "deep one" },
-    "description": "A large, pale grey, amphibious humanoid with webbed hands and feet.  It's wide, flabby head is distictly fish like and its gangling limbs end in wickedly sharp claws.  It moves with an odd hopping gait, occasionally dropping down to walk on four limbs.",
+    "description": "A large, greenish-grey amphibious humanoid with webbed hands and feet.  It's wide, flabby head is distictly fish like with wide staring eyes and its gangling limbs end in wickedly sharp claws.  It moves with an odd hopping gait, occasionally dropping down to walk on four limbs.",
     "default_faction": "deep_ones",
     "bodytype": "human",
     "species": [ "MYTHOS" ],
@@ -30,7 +30,7 @@
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [ { "id": "scratch" } ],
+    "special_attacks": [ [ "BITE", 20 ], { "id": "scratch" }, [ "GRAB", 20] ],
     "flags": [
       "SEES",
       "SMELLS",
