@@ -305,7 +305,7 @@ bool talker_character::unarmed_attack() const
 
 bool talker_character::can_stash_weapon() const
 {
-    return me_chr->can_pickVolume( me_chr->weapon );
+    return me_chr->can_pickVolume( me_chr->get_wielded_item() );
 }
 
 bool talker_character::has_stolen_item( const talker &guy ) const
@@ -397,7 +397,7 @@ bool talker_character::worn_with_flag( const flag_id &flag ) const
 
 bool talker_character::wielded_with_flag( const flag_id &flag ) const
 {
-    return me_chr->weapon.has_flag( flag );
+    return me_chr->get_wielded_item().has_flag( flag );
 }
 
 units::energy talker_character::power_cur() const
@@ -514,4 +514,24 @@ int talker_character::get_sleep_deprivation() const
 void talker_character::set_sleep_deprivation( int amount )
 {
     me_chr->set_sleep_deprivation( amount );
+}
+
+void talker_character::set_kill_xp( int amount )
+{
+    me_chr->kill_xp = amount;
+}
+
+int talker_character::get_kill_xp() const
+{
+    return me_chr->kill_xp;
+}
+
+void talker_character::add_bionic( const bionic_id &new_bionic )
+{
+    me_chr->add_bionic( new_bionic );
+}
+
+void talker_character::remove_bionic( const bionic_id &old_bionic )
+{
+    me_chr->remove_bionic( old_bionic );
 }

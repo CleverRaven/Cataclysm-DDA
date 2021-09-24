@@ -31,9 +31,6 @@ struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( Character &, const tripoint & );
-using iexamine_function_ref = void( & )( Character &, const tripoint & );
-
 template <typename E> struct enum_traits;
 
 struct map_bash_info {
@@ -321,6 +318,16 @@ enum ter_connects : int {
     TERCONN_RAIL,
     TERCONN_COUNTER,
     TERCONN_CANVAS_WALL,
+    TERCONN_SAND,
+    TERCONN_PIT_DEEP,
+    TERCONN_LINOLEUM,
+    TERCONN_CARPET,
+    TERCONN_CONCRETE,
+    TERCONN_CLAY,
+    TERCONN_DIRT,
+    TERCONN_ROCKFLOOR,
+    TERCONN_METALFLOOR,
+    TERCONN_WOODFLOOR,
 };
 
 struct activity_byproduct {
@@ -333,6 +340,24 @@ struct activity_byproduct {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+struct pry_data {
+    bool prying_nails = false;
+
+    int difficulty = 0;
+    int prying_level = 0;
+
+    bool noisy = false;
+    bool alarm = false;
+    bool breakable = false;
+
+    translation failure;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 class activity_data_common
@@ -356,6 +381,10 @@ class activity_data_common
             return sound_;
         }
 
+        const pry_data &prying_data() const {
+            return prying_data_;
+        }
+
         const std::vector<activity_byproduct> &byproducts() const {
             return byproducts_;
         }
@@ -368,6 +397,7 @@ class activity_data_common
         time_duration duration_;
         translation message_;
         translation sound_;
+        struct pry_data prying_data_;
         std::vector<activity_byproduct> byproducts_;
 };
 
@@ -547,7 +577,9 @@ struct ter_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
+    cata::value_ptr<activity_data_ter> prying;  // Prying action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -598,7 +630,9 @@ struct furn_t : map_data_common_t {
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
 
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
+    cata::value_ptr<activity_data_furn> prying;  // Prying action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 

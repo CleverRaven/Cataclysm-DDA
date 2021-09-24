@@ -1225,19 +1225,33 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
+### Categories
+
+- ```CC_BUILDING```
+
+### Flags
+
+These flags apply only to camp building recipes (hubs and expansions). The purpose is to allow reuse of blueprints to create the "same"
+facility oriented differently. Mirroring takes place before rotation, and it is an error to try to apply mirroring multiple times with the
+same orientation, as well as to try to apply multiple rotations. It is permitted to apply different versions of the flags if they apply to
+different directions (and it is indeed the primary intended usage).
+
+- ```MAP_MIRROR_HORIZONTAL``` Causes the building recipe to mirror both the location and contents of the blueprint(s) used by the recipe.
+- ```MAP_MIRROR_VERTICAL``` Causes the building recipe to mirror both the location and contents of the blueprint(s) used by the recipe.
+- ```MAP_ROTATE_[X]``` X has to be one of 90, 180, or 270 and requests the blueprint to be rotated by the given number of degrees before being applied.
+- ```MAP_MIRROR_HORIZONTAL_IF_[Y]``` Similar to MAP_MIRROR_HORIZONTAL, but is applied only if the tile the expansion is on is Y. The legal values for Y are "NW", "N", "NE", "E", "SE", "S", SW", and "W".
+- ```MAP_MIRROR_VERTICAL_IF_[Y]``` The vertical version of the previous flag.
+- ```MAP_ROTATE_[X]_IF_[Y]``` The expansion location dependent version of "MAP_ROTATE_X", with Y having the same legal values as the two sets of flags above.
 
 ## Scenarios
 
 ### Flags
 
-- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
 - ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
-- ```INFECTED``` Player starts the game infected.
-- ```FUNGAL_INFECTION``` Player starts the game with a fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
 
 #### Profession Flags

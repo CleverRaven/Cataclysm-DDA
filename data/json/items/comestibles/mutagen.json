@@ -226,6 +226,24 @@
     "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" }
   },
   {
+    "id": "iv_mutagen_snail",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "snail serum" },
+    "description": "A super-concentrated mutagen with the consistency of snot.  You need a syringe to inject it… if you really want to?",
+    "color": "light_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
+  },
+  {
+    "id": "iv_mutagen_batrachian",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "batrachian serum" },
+    "description": "A super-concentrated mutagen with that looks like pond water… are the shadows in it moving?  You need a syringe to inject it… if you really want to?",
+    "color": "light_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
+  },
+  {
     "id": "iv_mutagen_troglobite",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
@@ -410,6 +428,22 @@
     "use_action": { "type": "mutagen", "mutation_category": "SPIDER" }
   },
   {
+    "id": "mutagen_batrachian",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "batrachian mutagen" },
+    "description": "A shadowy mutagen that looks like might be full of tiny swimming tadpoles.",
+    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" }
+  },
+  {
+    "id": "mutagen_snail",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "snail mutagen" },
+    "description": "A mutagen that looks awfully like the slime from an old children's network.",
+    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" }
+  },
+  {
     "id": "mutagen_troglobite",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
@@ -429,6 +463,22 @@
     "type": "COMESTIBLE",
     "name": { "str": "mouse mutagen" },
     "use_action": { "type": "mutagen", "mutation_category": "MOUSE" }
+  },
+  {
+    "id": "iv_mutagen_rabbit",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "rabbit serum" },
+    "description": "An orange colored serum.  You need a syringe to inject it… if you really want to?",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "RABBIT" }
+  },
+  {
+    "id": "mutagen_rabbit",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "rabbit mutagen" },
+    "description": "A white, clear colored mutagen.  You can drink it… if you really want to?",
+    "use_action": { "type": "mutagen", "mutation_category": "RABBIT" }
   },
   {
     "id": "purifier",

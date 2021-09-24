@@ -300,7 +300,8 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "block_counter": true,
-    "crit_ok": true
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -527,7 +528,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -539,7 +540,7 @@
     "block_counter": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",

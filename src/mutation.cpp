@@ -64,6 +64,7 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -93,8 +94,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
         case mutagen_technique::num_mutagen_techniques:
             break;
     }
-    debugmsg( "Invalid mutagen_technique" );
-    abort();
+    cata_fatal( "Invalid mutagen_technique" );
 }
 
 } // namespace io
@@ -685,6 +685,9 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_SNAIL_TRAIL ) {
+        get_map().add_field( pos(), fd_sludge, 1 );
+        add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );

@@ -463,6 +463,37 @@
   },
   {
     "type": "furniture",
+    "id": "f_electrical_conduit",
+    "name": "electrical conduit",
+    "looks_like": "t_sewer_pipe",
+    "description": "A thick bundle of electrical wiring protected by a metal conduit.",
+    "symbol": "|",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "thunk!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 10, 20 ] },
+        { "item": "cable", "charges": [ 20, 100 ] },
+        { "item": "pipe", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 200, 800 ] },
+        { "item": "pipe_fittings", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_capacitor",
     "name": "capacitor bank",
     "looks_like": "f_machinery_electronic",

@@ -305,8 +305,7 @@ namespace io
         case trigger_type::TIME: return "TIME";
         case trigger_type::num_trigger: return "undefined trigger";
         }
-        debugmsg("Invalid trigger_type %d", trigger_num);
-        abort();
+        cata_fatal("Invalid trigger_type %d", trigger_num);
     }
     // *INDENT-ON*
 } // namespace io
@@ -336,9 +335,8 @@ void reflex_activation_data::load( const JsonObject &jsobj )
     }
 }
 
-void reflex_activation_data::deserialize( JsonIn &jsin )
+void reflex_activation_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 

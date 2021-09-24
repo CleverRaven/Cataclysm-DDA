@@ -48,8 +48,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     case item_pocket::pocket_type::MIGRATION: return "MIGRATION";
     case item_pocket::pocket_type::LAST: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 } // namespace io
@@ -513,6 +512,17 @@ units::mass item_pocket::item_weight_modifier() const
     return total_mass;
 }
 
+units::length item_pocket::item_length_modifier() const
+{
+    units::length total_length = 0_mm;
+    for( const item &it : contents ) {
+        total_length = std::max( static_cast<units::length>( it.length() * std::cbrt(
+                                     data->volume_multiplier ) ),
+                                 total_length );
+    }
+    return total_length;
+}
+
 float item_pocket::spoil_multiplier() const
 {
     if( sealed() ) {
@@ -850,7 +860,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.back().bNewLine = true;
     } else {
         for( const ammotype &at : ammo_types() ) {
-            const std::string fmt = string_format( ngettext( "<num> round of %s",
+            const std::string fmt = string_format( n_gettext( "<num> round of %s",
                                                    "<num> rounds of %s", ammo_capacity( at ) ),
                                                    at->name() );
             info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,

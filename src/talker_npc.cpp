@@ -65,7 +65,7 @@ std::string talker_npc::distance_to_goal() const
         }
         response = string_format( _( "%d.%d miles." ), fullmiles, miles );
     } else {
-        response = string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
+        response = string_format( n_gettext( "%d foot.", "%d feet.", dist ), dist );
     }
     return response;
 }
@@ -508,7 +508,7 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.weapon &&
+    if( ( &given == &player_character.get_wielded_item() &&
           given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
           given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
@@ -522,12 +522,13 @@ std::string talker_npc::give_item_to( const bool to_use )
 
     bool taken = false;
     std::string reason = _( "Nope." );
-    int our_ammo = me_npc->ammo_count_for( me_npc->weapon );
+    const item &weapon = me_npc->get_wielded_item();
+    int our_ammo = me_npc->ammo_count_for( weapon );
     int new_ammo = me_npc->ammo_count_for( given );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
-    const double cur_weapon_value = me_npc->weapon_value( me_npc->weapon, our_ammo );
+    const double cur_weapon_value = me_npc->weapon_value( weapon, our_ammo );
     add_msg_debug( debugmode::DF_TALKER, "NPC evaluates own %s (%d ammo): %0.1f",
-                   me_npc->weapon.typeId().str(), our_ammo, cur_weapon_value );
+                   weapon.typeId().str(), our_ammo, cur_weapon_value );
     add_msg_debug( debugmode::DF_TALKER, "NPC evaluates your %s (%d ammo): %0.1f",
                    given.typeId().str(), new_ammo, new_weapon_value );
     if( to_use ) {

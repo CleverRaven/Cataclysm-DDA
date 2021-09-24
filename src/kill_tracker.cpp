@@ -10,6 +10,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "event.h"
+#include "game.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_formatter.h"
@@ -56,7 +57,7 @@ int kill_tracker::npc_kill_count() const
     return npc_kills.size();
 }
 
-int kill_tracker::kill_xp() const
+int kill_tracker::legacy_kill_xp() const
 {
     int ret = 0;
     for( const std::pair<const mtype_id, int> &pair : kills ) {
@@ -99,7 +100,7 @@ std::string kill_tracker::get_kills_text() const
     } else {
         buffer = string_format( _( "KILL COUNT: %d" ), totalkills );
         if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-            buffer += string_format( _( "\nExperience: %d (%d points available)" ), kill_xp(),
+            buffer += string_format( _( "\nExperience: %d (%d points available)" ), get_avatar().kill_xp,
                                      get_avatar().free_upgrade_points() );
         }
         buffer += "\n";
@@ -116,26 +117,44 @@ void kill_tracker::clear()
     npc_kills.clear();
 }
 
+static Character *get_avatar_or_follower( const character_id &id )
+{
+    Character &player = get_player_character();
+    if( player.getID() == id ) {
+        return &player;
+    }
+    if( g->get_follower_list().count( id ) ) {
+        return g->find_npc( id );
+    }
+    return nullptr;
+}
+
+static int compute_kill_xp( const mtype_id &mon_type )
+{
+    return mon_type->difficulty + mon_type->difficulty_base;
+}
+
+static constexpr int npc_kill_xp = 10;
+
 void kill_tracker::notify( const cata::event &e )
 {
     switch( e.type() ) {
         case event_type::character_kills_monster: {
-            character_id killer = e.get<character_id>( "killer" );
-            if( killer != get_player_character().getID() ) {
-                // TODO: add a kill counter for npcs?
-                break;
+            const character_id killer_id = e.get<character_id>( "killer" );
+            if( Character *killer = get_avatar_or_follower( killer_id ) ) {
+                const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
+                kills[victim_type]++;
+                killer->kill_xp += compute_kill_xp( victim_type );
             }
-            mtype_id victim_type = e.get<mtype_id>( "victim_type" );
-            kills[victim_type]++;
             break;
         }
         case event_type::character_kills_character: {
-            character_id killer = e.get<character_id>( "killer" );
-            if( killer != get_player_character().getID() ) {
-                break;
+            const character_id killer_id = e.get<character_id>( "killer" );
+            if( Character *killer = get_avatar_or_follower( killer_id ) ) {
+                const std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
+                npc_kills.push_back( victim_name );
+                killer->kill_xp += npc_kill_xp;
             }
-            std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
-            npc_kills.push_back( victim_name );
             break;
         }
         default:

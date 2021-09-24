@@ -21,7 +21,7 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class monster;
@@ -133,7 +133,7 @@ class player_activity
         bool is_suspendable() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         // used to migrate the item indices to item_location
         // obsolete after 0.F stable
         void migrate_item_position( Character &guy );
@@ -166,6 +166,7 @@ class player_activity
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
         bool is_interruptible() const;
+        bool is_interruptible_with_kb() const;
         bool is_distraction_ignored( distraction_type ) const;
         void ignore_distraction( distraction_type );
         void allow_distractions();

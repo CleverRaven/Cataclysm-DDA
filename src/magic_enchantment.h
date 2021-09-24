@@ -124,6 +124,8 @@ class enchantment
         enum condition {
             ALWAYS,
             UNDERGROUND,
+            NIGHT,
+            DAY,
             UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
             INACTIVE, // the item, mutation, etc. is inactive
@@ -204,7 +206,7 @@ class enchantment
             bool was_loaded = false;
 
             void serialize( JsonOut &jsout ) const;
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &jo );
             void load( const JsonObject &jo );
         };
     private:

@@ -55,6 +55,7 @@ Use the `Home` key to return to the top.
       - [`cbms`](#cbms)
       - [`traits`](#traits)
     - [Recipes](#recipes)
+      - [Practice recipes](#practice-recipes)
       - [Recipe requirements](#recipe-requirements)
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
@@ -67,6 +68,7 @@ Use the `Home` key to return to the top.
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
     - [Skills](#skills)
+    - [Speed Description](#speed-description)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
@@ -129,6 +131,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
+      - [`hacksaw`](#hacksaw)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -144,6 +147,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
+      - [`hacksaw`](#hacksaw-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -194,6 +198,7 @@ Use the `Home` key to return to the top.
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
+  - [`eocs`](#eocs)
   - [`missions`](#missions)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
@@ -471,6 +476,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `skills.json`                 | skill descriptions and ID's
 | `snippets.json`               | flier/poster descriptions
 | `species.json`                | monster species
+| `speed_descripton.json`       | monster speed description
 | `speech.json`                 | monster vocalizations
 | `statistics.json`             | statistics and transformations used to define scores and achievements
 | `start_locations.json`        | starting locations for scenarios
@@ -852,7 +858,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `freezing_point`   | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
-| `soft`   | Optional boolean. Default is false.
+| `soft`   | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
 | `reinforces`   | Optional boolean. Default is false.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
@@ -1304,6 +1310,13 @@ Crafting recipes are defined as a JSON object with the following fields:
   ]
 ]
 ```
+
+#### Practice recipes
+
+Recipes may instead be defined with type "practice", to make them appear in the "PRACTICE" tab of
+the crafting menu.  These recipes do not have a "result", but they may define "byproducts". See
+[PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
+
 
 #### Recipe requirements
 
@@ -1838,6 +1851,49 @@ it is present to help catch errors.
 "tags" : ["gun_type"]  // Special flags (default: none)
 ```
 
+### Speed Description
+
+```C++
+{
+    "type": "speed_description",
+    "id": "mon_speed_centipede",
+    "values": [ // (optional)
+        {
+            // value is mandatory
+            "value": 1.40,
+            // description is optional
+            "descriptions": "Absurdly faster than you", // single description
+        },
+        {
+            "value": 1.00,
+            "descriptions": [ // array of descriptions, chosen randomly when called
+                "Roughly around the same speed",
+                "At a similar pace as you"
+            ]
+        },
+        {
+            "value": 0.01,
+            "descriptions": [ // array of descriptions, chosen randomly when called
+                "Barely moving",
+                "Is it even alive?"
+            ]
+        },
+        {
+            "value": 0.00, // immobile monsters have it set to zero
+            "descriptions": [ "It's immobile" ] // array of descriptions with a single description
+        }
+    ]
+}
+```
+
+There won't be any errors on two `values` with the same `value` but avoid it as one of them won't get called.
+
+Currently the ratio for values is `player_tiles_per_turn / monster_speed_rating`. The monster speed rating is their `effective_speed / 100`, their effective speed is equal to the monster speed, but the leap ability increases it by `50`.
+
+Values are checked from highest first, the order they're defined in doesn't matter since they get sorted, but keep them organized anyway.
+
+**Having a value of `0.00`** is important but not necessary, as it's used in case the ratio turns zero for whatever reason ( like monster has the flag `MF_IMMOBILE` ). If the ratio is zero and this value doesn't exist, the returned string will be empty.
+
 ### Traits/Mutations
 
 ```C++
@@ -2286,7 +2342,7 @@ See also VEHICLE_JSON.md
 "name": {
     "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
-    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_sp" can be used if the singular and plural forms are the same
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_pl" may also be needed if the unit test cannot determine if the correct plural form can be formed by simply appending "s". "str_sp" should be used instead of "str" or "str_pl" if the singular and plural forms are the same.
 },
 "conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
     "type": "COMPONENT_ID",       // The condition type.
@@ -2320,7 +2376,17 @@ See also VEHICLE_JSON.md
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
   "balance": "neutral"                       // the item's balance value
-}
+},
+"variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
+"variants": [              // Cosmetic variants this item can have
+  {
+    "id": "varianta",                           // id used in spawning to spawn this variant specifically
+    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
+    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
+    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+  }
+],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2677,6 +2743,7 @@ CBMs can be defined like this:
 "rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
 "rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
 "smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
+"petfood": [ "FUNGALFRUIT", "MIGOFOOD" ] // (Optional) Pet food categories this item is in.
 ```
 
 
@@ -2752,15 +2819,6 @@ Guns can be defined like this:
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
-"variants": [              // Cosmetic variants this gun can have
-  {
-    "id": "varianta",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A pistol" },      // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A pistol",  // The description used instead of the default when this variant is selected
-    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
-    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
-  }
-],
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used
@@ -3424,7 +3482,37 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "deconstruct": "TODO",
     "max_volume": "1000 L",
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
+    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" },
+    "boltcut": {
+      "result": "f_safe_open",
+      "duration": "1 seconds",
+      "message": "The safe opens.",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 3 } ]
+    },
+    "hacksaw": {
+      "result": "f_safe_open",
+      "duration": "12 seconds",
+      "message": "The safe is hacksawed open!",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 13 } ]
+    },
+    "oxytorch": {
+      "result": "f_safe_open",
+      "duration": "30 seconds",
+      "message": "The safe opens!",
+      "byproducts": [ { "item": "scrap", "count": 13 } ]
+    },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 1,
+        "noisy": true,
+        "failure": "You pry, but can't pop open the crate."
+      }
+    }
 }
 ```
 
@@ -3447,27 +3535,6 @@ Movement cost modifier (`-10` = impassable, `0` = no change). This is added to t
 #### `lockpick_message`
 
 (Optional) When the furniture is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
-
-#### `oxytorch`
-
-(Optional) Data for using with an oxytorch.
-```cpp
-oxytorch: {
-    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
-    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
-    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
-    "byproducts": [ // ( optional ) list of items that will be spawned when finished
-        {
-            "item": "item_id",
-            "count": 100 // exact amount
-        },
-        {
-            "item": "item_id",
-            "count": [ 10, 100 ] // random number in range ( inclusive )
-        }
-    ]
-}
-```
 
 #### `light_emitted`
 
@@ -3492,6 +3559,75 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
             "count": [ 10, 100 ] // random number in range ( inclusive )
         }
     ]
+}
+```
+
+#### `hacksaw`
+(Optional) Data for using with an hacksaw.
+```cpp
+"hacksaw": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `oxytorch`
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+### `prying`
+(Optional) Data for using with pyring tools
+```cpp
+"prying": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
+    "byproducts": [ // (optional) list of items that will be spawned when finished successfully
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range inclusive
+        }
+    ],
+    "prying_data": {
+        "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
+        "difficulty": 0, // (optional, default 0) base difficulty of prying action
+        "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
+        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "alarm": false, // (optional) has an alarm, on success will trigger the police
+        "breakable": false, // (optional) has a chance to trigger the break action on failure
+        "failure": "You try to pry the window but fail." // (optional) failure message
+    }
 }
 ```
 
@@ -3542,7 +3678,34 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "transforms_into": "t_tree_harvested",
     "harvest_season": "WINTER",
     "roof": "t_roof",
-    "examine_action": "pit"
+    "examine_action": "pit",
+    "boltcut": {
+      "result": "t_door_unlocked",
+      "duration": "1 seconds",
+      "message": "The door opens.",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "2x4": 3 } ]
+    },
+    "hacksaw": {
+      "result": "t_door_unlocked",
+      "duration": "12 seconds",
+      "message": "The door is hacksawed open!",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "2x4": 13 } ]
+    },
+    "oxytorch": {
+      "result": "t_door_unlocked",
+      "duration": "60 seconds",
+      "message": "The door opens!",
+      "byproducts": [ { "item": "scrap", "count": 10 } ]
+    },
+    "prying": {
+      "result": "t_fence_post",
+      "duration": "30 seconds",
+      "message": "You pry out the fence post.",
+      "byproducts": [ { "item": "nail", "count": 6 }, { "item": "2x4", "count": 3 } ],
+      "prying_data": { "prying_nails": true }
+    }
 }
 ```
 
@@ -3575,27 +3738,6 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 (Optional) When the terrain is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
-#### `oxytorch`
-
-(Optional) Data for using with an oxytorch.
-```cpp
-oxytorch: {
-    "result": "terrain_id", // terrain it will become when done
-    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
-    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
-    "byproducts": [ // ( optional ) list of items that will be spawned when finished
-        {
-            "item": "item_id",
-            "count": 100 // exact amount
-        },
-        {
-            "item": "item_id",
-            "count": [ 10, 100 ] // random number in range ( inclusive )
-        }
-    ]
-}
-```
-
 #### `trap`
 
 (Optional) Id of the build-in trap of that terrain.
@@ -3622,6 +3764,75 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
             "count": [ 10, 100 ] // random number in range ( inclusive )
         }
     ]
+}
+```
+
+#### `hacksaw`
+(Optional) Data for using with an hacksaw.
+```cpp
+"hacksaw": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `oxytorch`
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+### `prying`
+(Optional) Data for using with pyring tools
+```cpp
+"prying": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
+    "byproducts": [ // (optional) list of items that will be spawned when finished successfully
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range inclusive
+        }
+    ],
+    "prying_data": {
+        "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
+        "difficulty": 0, // (optional, default 0) base difficulty of prying action
+        "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
+        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "alarm": false, // (optional) has an alarm, on success will trigger the police
+        "breakable": false, // (optional) has a chance to trigger the break action on failure
+        "failure": "You try to pry the window but fail." // (optional) failure message
+    }
 }
 ```
 
@@ -3952,6 +4163,11 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+## `eocs`
+(optional, array of strings)
+
+A list of eocs that are triggered once for each new character on scenario start.
 
 ## `missions`
 (optional, array of strings)

@@ -55,12 +55,20 @@ The various ways this artifact can charge and use charges.
 - **charges_per_use** how many charges you spend with each use of this artifact - a random value between the two ones in 'range' are picked, and power is the power value.
 - **max_charges** The maximum number of charges this artifact can have. - a random value between the two ones in 'range' are picked, and power is the power value.
 - **recharge_type** How this artifact recharges
+- **recharge_condition** Condition of recharging; whether item must be held, worn or wield
 - **time** The amount of time this artifact takes to recharge - a random value between the two ones provided is picked.
 
 #### recharge_types
 
 - **none** This artifact does not recharge
 - **periodic** This artifact takes 'time' amount of time to recharge
+- **solar_sunny** This artifact takes 'time' amount of time to recharge, only recharges if weather is sunny and character is outside
+
+#### recharge_conditions
+
+- **wield** This artifact only recharges if is wielded
+- **worn** This artifact only recharges if is wielded or worn
+- **held** This artifact only recharges if is wielded, worn or in inventory
 
 ### passive_add_procgen_values and passive_mult_procgen_values
 

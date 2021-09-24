@@ -6,6 +6,15 @@ set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
 set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
+if (WIN32)
+    set(RSRC_RC_DEP "${CMAKE_SOURCE_DIR}/data/cataicon.ico")
+    set(RSRC_RC_DEP "${RSRC_RC_DEP};${CMAKE_SOURCE_DIR}/data/application_manifest.xml")
+    set_source_files_properties(
+            ${RESOURCE_RC}
+            PROPERTIES
+            OBJECT_DEPENDS "${RSRC_RC_DEP}")
+endif ()
+
 file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
@@ -204,13 +213,6 @@ if (MINGW AND NOT RELEASE)
             ${RuntimeLib_GCC_S_DW2_1}
             ${RuntimeLib_STDC_PP_6}
             ${RuntimeLib_WINPTHREAD_1})
-    if (LOCALIZE)
-        find_library(RuntimeLib_iconv  "libiconv-2")
-        find_library(RuntimeLib_intl  "libintl-8")
-        set(RuntimeLib_LOCALIZE
-                ${RuntimeLib_iconv}
-                ${RuntimeLib_intl})
-    endif ()
     if (TILES)
         # SDL2 can have a varius deps. Here you are the MSYS2 ones...
         find_library(RuntimeLib_SDL2  "SDL2")

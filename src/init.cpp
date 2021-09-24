@@ -85,6 +85,7 @@
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
+#include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -258,6 +259,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "speed_description", &speed_description::load_speed_descriptions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );

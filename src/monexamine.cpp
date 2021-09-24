@@ -60,7 +60,6 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
 static const skill_id skill_survival( "survival" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const flag_id json_flag_TACK( "TACK" );
@@ -339,7 +338,9 @@ void play_with( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
+    const std::string &petstr = z.type->petfood.pet;
+    player_character.assign_activity(
+        player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
 }
 
 void add_leash( monster &z )
@@ -380,6 +381,7 @@ void remove_leash( monster &z )
     if( !z.has_effect( effect_leashed ) ) {
         return;
     }
+    z.remove_effect( effect_led_by_leash );
     z.remove_effect( effect_leashed );
     if( z.tied_item ) {
         get_player_character().i_add( *z.tied_item );
@@ -574,10 +576,6 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool is_zombie = z.type->in_species( species_ZOMBIE );
-    if( is_zombie ) {
-        pet_name = _( "zombie slave" );
-    }
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
@@ -585,9 +583,9 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
         if( z.has_effect( effect_led_by_leash ) ) {
-            amenu.addentry( stop_lead, true, 'p', _( "Stop leading %s" ), pet_name );
+            amenu.addentry( stop_lead, true, 'l', _( "Stop leading %s" ), pet_name );
         } else {
-            amenu.addentry( lead, true, 'p', _( "Lead %s by the leash" ), pet_name );
+            amenu.addentry( lead, true, 'l', _( "Lead %s by the leash" ), pet_name );
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
@@ -615,7 +613,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
         amenu.addentry( tie, true, 't', _( "Tie" ) );
-        amenu.addentry( unleash, true, 't', _( "Remove leash from %s" ), pet_name );
+        amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
@@ -629,8 +627,7 @@ bool monexamine::pet_menu( monster &z )
         }
     }
 
-    if( z.has_flag( MF_BIRDFOOD ) || z.has_flag( MF_CATFOOD ) || z.has_flag( MF_DOGFOOD ) ||
-        z.has_flag( MF_CANPLAY ) ) {
+    if( z.has_flag( MF_CANPLAY ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_flag( MF_MILKABLE ) ) {
@@ -694,9 +691,9 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( player_character.weapon.is_null() && z.battery_item ) {
+        if( player_character.get_wielded_item().is_null() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !player_character.weapon.is_null() ) {
+        } else if( !player_character.get_wielded_item().is_null() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
@@ -856,8 +853,8 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
-                                   "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
+                         n_gettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
                 player_character.use_charges( itype_cash_card, amount * 10 );

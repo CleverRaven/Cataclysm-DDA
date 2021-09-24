@@ -65,8 +65,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::_LAST:
             break;
     }
-    debugmsg( "Invalid mon_trigger" );
-    abort();
+    cata_fatal( "Invalid mon_trigger" );
 }
 
 template<>
@@ -84,8 +83,7 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
         case mdeath_type::LAST:
             break;
     }
-    debugmsg( "Invalid mdeath_type" );
-    abort();
+    cata_fatal( "Invalid mdeath_type" );
 }
 
 template<>
@@ -189,10 +187,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
-        case MF_CATFOOD: return "CATFOOD";
         case MF_CANPLAY: return "CANPLAY";
-        case MF_CATTLEFODDER: return "CATTLEFODDER";
-        case MF_BIRDFOOD: return "BIRDFOOD";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
@@ -215,8 +210,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case m_flag::MF_MAX:
             break;
     }
-    debugmsg( "Invalid m_flag" );
-    abort();
+    cata_fatal( "Invalid m_flag" );
 }
 
 } // namespace io
@@ -719,12 +713,29 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
-    if( jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
         weakpoints.clear();
         weakpoints.load( jo.get_array( "weakpoints" ) );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.load( tmp.get_array( "weakpoints" ) );
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.remove( tmp.get_array( "weakpoints" ) );
+            }
+        }
     }
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
+
+    optional( jo, was_loaded, "petfood", petfood );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
@@ -733,21 +744,21 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
-    if( !was_loaded || jo.has_member( "regeneration_modifers" ) ) {
+    if( !was_loaded || jo.has_member( "regeneration_modifiers" ) ) {
         regeneration_modifiers.clear();
-        add_regeneration_modifiers( jo, "regeneration_modifers", src );
+        add_regeneration_modifiers( jo, "regeneration_modifiers", src );
     } else {
         // Note: regeneration_modifers left as is, new modifiers are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
-            add_regeneration_modifiers( tmp, "regeneration_modifers", src );
+            add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
-            remove_regeneration_modifiers( tmp, "regeneration_modifers", src );
+            remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
     }
 
@@ -807,7 +818,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         shearing = shearing_data( entries );
     }
 
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
     optional( jo, was_loaded, "death_function", mdeath_effect );
+    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -855,7 +868,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
-
+    optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
     if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {
@@ -1366,7 +1379,19 @@ void monster_death_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
 }
 
-void monster_death_effect::deserialize( JsonIn &jsin )
+void monster_death_effect::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void pet_food_data::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "feed", feed );
+    optional( jo, was_loaded, "pet", pet );
+}
+
+void pet_food_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     load( data );

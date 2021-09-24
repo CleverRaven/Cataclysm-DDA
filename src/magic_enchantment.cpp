@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
@@ -29,8 +30,7 @@ namespace io
         case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
 
     template<>
@@ -39,13 +39,14 @@ namespace io
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
+        case enchantment::condition::NIGHT: return "NIGHT";
+        case enchantment::condition::DAY: return "DAY";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
-        debugmsg( "Invalid enchantment::condition" );
-        abort();
+        cata_fatal( "Invalid enchantment::condition" );
     }
 
     template<>
@@ -130,8 +131,7 @@ namespace io
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchant_vals::mod" );
-        abort();
+        cata_fatal( "Invalid enchant_vals::mod" );
     }
     // *INDENT-ON*
 } // namespace io
@@ -224,6 +224,14 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return guy.pos().z < 0;
     }
 
+    if( active_conditions.second == condition::NIGHT ) {
+        return is_night( calendar::turn );
+    }
+
+    if( active_conditions.second == condition::DAY ) {
+        return is_day( calendar::turn );
+    }
+
     if( active_conditions.second == condition::UNDERWATER ) {
         return get_map().is_divable( guy.pos() );
     }
@@ -246,9 +254,8 @@ void enchantment::bodypart_changes::load( const JsonObject &jo )
     optional( jo, was_loaded, "lose", lose );
 }
 
-void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 

@@ -34,6 +34,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -223,6 +224,18 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         return cata::nullopt;
     }
 
+    if( p.is_worn( it ) ) {
+        item tmp = item( target );
+        for( const trait_id &mut : p.get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+            if( branch.conflicts_with_item( tmp ) ) {
+                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                     branch.name() );
+                return cata::nullopt;
+            }
+        }
+    }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
 
         if( possess ) {
@@ -320,7 +333,8 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+    return ret_val<bool>::make_failure( n_gettext( "You need a tool with %s.",
+                                        "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
 
@@ -941,8 +955,8 @@ cata::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const
             ammo_item.charges = std::min( available, amdef.second );
             p.use_charges( amdef.first, ammo_item.charges );
             //~ First %s is the ammo item (with plural form and count included), second is the monster name
-            p.add_msg_if_player( ngettext( "You load %1$d x %2$s round into the %3$s.",
-                                           "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
+            p.add_msg_if_player( n_gettext( "You load %1$d x %2$s round into the %3$s.",
+                                            "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
                                  newmon.name() );
             amdef.second = ammo_item.charges;
@@ -1471,7 +1485,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( &it == &p.get_wielded_item() ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -1664,7 +1678,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
                 result.charges = amount;
                 amount = 1;
             }
-            add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+            add_msg( m_good, n_gettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
                 result.set_flag( flag_FILTHY );
@@ -2376,6 +2390,11 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
             return cata::nullopt;
         }
         study_spell.moves_total = study_time;
+        spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
+        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+            p.handle_skill_warning( studying.skill(),
+                                    true ); // show the skill warning on start reading, since we don't show it during
+        }
     }
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
@@ -3051,7 +3070,7 @@ static bool damage_item( Character &pl, item_location &fix )
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &tool,
-        item_location &fix ) const
+        item_location &fix, bool refit_only ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
@@ -3061,7 +3080,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     }
 
     const int current_skill_level = pl.get_skill_level( used_skill );
-    const repair_item_actor::repair_type action = default_action( *fix, current_skill_level );
+    repair_item_actor::repair_type action;
+    if( refit_only ) {
+        if( fix->has_flag( flag_FIT ) ) {
+            pl.add_msg_if_player( m_warning, _( "The %s already fits!" ), fix->tname() );
+            return AS_CANT;
+        } else if( !fix->has_flag( flag_VARSIZE ) ) {
+            pl.add_msg_if_player( m_bad, _( "This %s cannot be refitted!" ), fix->tname() );
+            return AS_CANT;
+        } else {
+            action = RT_REFIT;
+        }
+    } else {
+        action = default_action( *fix, current_skill_level );
+    }
     const auto chance = repair_chance( pl, *fix, action );
     int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
@@ -3996,7 +4028,8 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+        } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+                   p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }

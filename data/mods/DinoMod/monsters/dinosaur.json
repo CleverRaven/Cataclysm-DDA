@@ -63,6 +63,10 @@
     "melee_cut": 2,
     "dodge": 4,
     "armor_bash": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 100,
     "zombify_into": "mon_zilophosaurus",
     "description": "A medium dinosaur with sharp teeth and two prominent bony crests on its head.",
@@ -99,6 +103,10 @@
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 70,
     "zombify_into": "mon_zeratosaurus",
     "description": "A large, fast predatory bipedal dinosaur, decorated with three colorful horns on its head and dotted with bright skin bones with long sharp teeth and a long flexible tail.",
@@ -134,6 +142,10 @@
     "armor_bash": 4,
     "armor_cut": 3,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 425,
     "zombify_into": "mon_zpinosaurus",
     "description": "Meet the king of the river, a huge dinosaur about the size of a small house, with a ferocious crocodile-like head and a sail on its back.  Usually feeds on fish.",
@@ -168,6 +180,10 @@
     "melee_cut": 6,
     "dodge": 4,
     "armor_bash": 3,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 190,
     "zombify_into": "mon_zallosaurus",
     "description": "A large predatory bipedal dinosaur, with tiger-like stripes on its broad back.",
@@ -235,6 +251,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 270,
     "zombify_into": "mon_zalbertosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with long strong arms and a feathered mullet and tail.",
@@ -272,6 +292,10 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 12,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 150,
     "vision_day": 36,
     "zombify_into": "mon_zianzhousaurus",
@@ -309,6 +333,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 400,
     "zombify_into": "mon_zyrannosaurus",
     "description": "Enormous teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms with large claws, with a feathered mullet and tail.",
@@ -348,6 +376,7 @@
     "reproduction": { "baby_egg": "egg_compsognathus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [
       "SEES",
       "SMELLS",
@@ -358,7 +387,7 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "SWIMS",
-      "CATFOOD",
+      "CANPLAY",
       "SWARMS",
       "GROUP_MORALE"
     ],
@@ -395,6 +424,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
       "SMELLS",
@@ -402,7 +432,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
-      "CATTLEFODDER",
       "PET_WONT_FOLLOW",
       "HIT_AND_RUN",
       "WARM"
@@ -471,6 +500,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "dodge": 4,
     "hp": 160,
     "zombify_into": "mon_zothronychus",
@@ -479,17 +512,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 30 ], [ "LONGSWIPE", 25 ] ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "WARM"
-    ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW", "WARM" ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "SOUND", "FIRE" ],
     "anger_triggers": [ "HURT" ],
@@ -566,6 +590,10 @@
     "melee_cut": 5,
     "dodge": 6,
     "armor_bash": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 125,
     "zombify_into": "mon_zutahraptor",
     "vision_night": 5,
@@ -650,6 +678,10 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "hp": 500,
     "zombify_into": "mon_zapatosaurus",
@@ -752,7 +784,8 @@
     "special_attacks": [ [ "EAT_CROP", 20 ] ],
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER" ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -776,6 +809,10 @@
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 275,
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
@@ -787,7 +824,8 @@
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "CATTLEFODDER" ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
@@ -806,7 +844,8 @@
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE" ]
   },
   {
     "type": "MONSTER",
@@ -831,6 +870,10 @@
     "armor_bash": 15,
     "armor_cut": 18,
     "armor_bullet": 6,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.8 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 375,
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
@@ -842,7 +885,8 @@
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
@@ -860,7 +904,8 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE" ]
   },
   {
     "type": "MONSTER",
@@ -876,7 +921,8 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo with long bony spikes.",
     "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE" ]
   },
   {
     "type": "MONSTER",
@@ -902,6 +948,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 170,
     "zombify_into": "mon_zamptosaurus",
     "description": "A large feathered dinosaur with four strong legs, broad shoulders and a pointed beak.  It moves slowly but with enormous strength.",
@@ -909,6 +959,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 30 ] ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
       "SMELLS",
@@ -916,7 +967,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
-      "CATTLEFODDER",
       "PET_WONT_FOLLOW",
       "BASHES",
       "DESTROYS",
@@ -1003,6 +1053,7 @@
     "melee_dice_sides": 4,
     "dodge": 6,
     "armor_bash": 2,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 115,
     "zombify_into": "mon_zachycephalosaurus",
     "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks like a reptilian ostrich with a round hard-looking domed head.",
@@ -1010,6 +1061,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "LUNGE", 10 ] ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
       "SMELLS",
@@ -1017,7 +1069,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
-      "CATTLEFODDER",
       "PET_WONT_FOLLOW",
       "WARM",
       "HIT_AND_RUN"
@@ -1109,6 +1160,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 400,
     "zombify_into": "mon_zriceratops",
     "description": "A massive rhino-like dinosaur with a bony crest from which three large horns emerge.",
@@ -1116,7 +1168,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "CATTLEFODDER", "BASHES", "WARM" ],
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
@@ -1147,7 +1200,8 @@
     "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD" ],
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
@@ -1188,7 +1242,8 @@
     "description": "A huge feathered flying reptile, with a long pointed toothless beak and a long stiff neck.",
     "reproduction": { "baby_egg": "egg_quetzalcoatlus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [ [ "scratch", 10 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD", "PET_MOUNTABLE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "PET_MOUNTABLE" ],
+    "petfood": { "food": [ "DINOFOOD_B" ] },
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
     "harvest": "dino_feather_leather"
   },
@@ -1214,6 +1269,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 6,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 335,
     "zombify_into": "mon_zosasaurus",
     "description": "A huge aquatic reptile about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",

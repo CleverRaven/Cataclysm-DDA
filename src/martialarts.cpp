@@ -261,9 +261,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "initiate", initiate );
     for( JsonArray skillArray : jo.get_array( "autolearn" ) ) {
         std::string skill_name = skillArray.get_string( 0 );
-        int skill_level = 0;
-        std::string skill_level_string = skillArray.get_string( 1 );
-        skill_level = stoi( skill_level_string );
+        int skill_level = skillArray.get_int( 1 );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
     optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
@@ -392,6 +390,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
+            int_decay_remove = false;
             name.push_back( buff.name );
             desc.push_back( buff.description );
             rating = e_good;
@@ -449,12 +448,13 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
+    const item weapon = u.get_wielded_item();
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
     bool unarmed_weapon = is_armed && u.used_weapon().has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
-    bool weapon_ok = is_valid_weapon( u.weapon );
-    bool style_weapon = u.martial_arts_data->selected_has_weapon( u.weapon.typeId() );
+    bool weapon_ok = is_valid_weapon( weapon );
+    bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_melee();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
@@ -504,7 +504,7 @@ std::string ma_requirements::get_description( bool buff ) const
     return pr.second > 0;
 } ) ) {
         dump += string_format( _( "<bold>%s required: </bold>" ),
-                               ngettext( "Skill", "Skills", min_skill.size() ) );
+                               n_gettext( "Skill", "Skills", min_skill.size() ) );
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
@@ -522,8 +522,8 @@ std::string ma_requirements::get_description( bool buff ) const
     min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
     return pr.second > 0;
 } ) ) {
-        dump += ngettext( "<bold>Damage type required: </bold>",
-                          "<bold>Damage types required: </bold>", min_damage.size() );
+        dump += n_gettext( "<bold>Damage type required: </bold>",
+                           "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump += enumerate_as_string( min_damage.begin(),
         min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
@@ -713,7 +713,7 @@ std::string ma_buff::get_description( bool passive ) const
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump += string_format( _( "<bold>%s:</bold> " ),
-                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
+                               n_gettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
     }
 
     dump += reqs.get_description( true );
@@ -726,23 +726,23 @@ std::string ma_buff::get_description( bool passive ) const
     const int turns = to_turns<int>( buff_duration );
     if( !passive && turns ) {
         dump += string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
-                               turns, ngettext( "turn", "turns", turns ) ) + "\n";
+                               turns, n_gettext( "turn", "turns", turns ) ) + "\n";
     }
 
     if( dodges_bonus > 0 ) {
         dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     } else if( dodges_bonus < 0 ) {
         dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
         dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     } else if( blocks_bonus < 0 ) {
         dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
     if( quiet ) {
@@ -906,7 +906,7 @@ static ma_technique get_valid_technique( const Character &owner, bool ma_techniq
 {
     const auto &ma_data = owner.martial_arts_data;
 
-    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.weapon ) ) {
+    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.get_wielded_item() ) ) {
         ma_technique candidate = candidate_id.obj();
 
         if( candidate.*purpose && candidate.is_valid_character( owner ) ) {
@@ -1241,15 +1241,16 @@ bool Character::can_autolearn( const matype_id &ma_id ) const
 void character_martial_arts::martialart_use_message( const Character &owner ) const
 {
     martialart ma = style_selected.obj();
-    if( ma.force_unarmed || ma.weapon_valid( owner.weapon ) ) {
+    if( ma.force_unarmed || ma.weapon_valid( owner.get_wielded_item() ) ) {
         owner.add_msg_if_player( m_info, "%s", ma.get_initiate_avatar_message() );
     } else if( ma.strictly_melee && !owner.is_armed() ) {
         owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
     } else if( ma.strictly_unarmed && owner.is_armed() ) {
         owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
     } else {
-        owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ), owner.weapon.tname( 1,
-                                 false ), ma.name );
+        owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ),
+                                 owner.get_wielded_item().tname( 1,
+                                         false ), ma.name );
     }
 }
 
@@ -1376,7 +1377,7 @@ std::string ma_technique::get_description() const
 
     if( knockback_dist ) {
         dump += string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
-                               knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) + "\n";
+                               knockback_dist, n_gettext( "tile", "tiles", knockback_dist ) ) + "\n";
     }
 
     if( knockback_follow ) {
@@ -1385,12 +1386,12 @@ std::string ma_technique::get_description() const
 
     if( down_dur ) {
         dump += string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
-                               down_dur, ngettext( "turn", "turns", down_dur ) ) + "\n";
+                               down_dur, n_gettext( "turn", "turns", down_dur ) ) + "\n";
     }
 
     if( stun_dur ) {
         dump += string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
-                               stun_dur, ngettext( "turn", "turns", stun_dur ) ) + "\n";
+                               stun_dur, n_gettext( "turn", "turns", stun_dur ) ) + "\n";
     }
 
     if( disarms ) {
@@ -1498,7 +1499,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
                 // Colorize wielded weapon and move it to the front of the list
                 Character &player_character = get_player_character();
-                if( item::nname( wid ) == player_character.weapon.display_name() )
+                if( item::nname( wid ) == player_character.get_wielded_item().display_name() )
                 {
                     return colorize( item::nname( wid ) + _( " (wielded)" ), c_light_cyan );
                 } else
@@ -1511,8 +1512,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );
 
-            buffer += ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                weapons.size() ) + std::string( " " );
+            buffer += n_gettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
+                                 weapons.size() ) + std::string( " " );
             buffer += enumerate_as_string( weapons );
         }
 

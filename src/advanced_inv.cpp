@@ -81,8 +81,7 @@ std::string enum_to_string<aim_exit>( const aim_exit v )
         case aim_exit::last:
             break;
     }
-    debugmsg( "Invalid aim_exit" );
-    abort();
+    cata_fatal( "Invalid aim_exit" );
 }
 
 template<>
@@ -98,8 +97,7 @@ std::string enum_to_string<aim_entry>( const aim_entry v )
         case aim_entry::last:
             break;
     }
-    debugmsg( "Invalid aim_entry" );
-    abort();
+    cata_fatal( "Invalid aim_entry" );
 }
 
 } // namespace io
