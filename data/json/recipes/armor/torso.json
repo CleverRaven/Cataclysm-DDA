@@ -131,7 +131,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 2 ], [ "fastener_small", 3 ] ],
-    "components": [ [ [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
