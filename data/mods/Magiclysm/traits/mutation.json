@@ -258,6 +258,15 @@
   },
   {
     "type": "mutation",
+    "id": "SLIME_BREATH",
+    "name": { "str": "Slime Breath" },
+    "points": 0,
+    "description": "Your breath is sticky and slimy somehow.  This won't damage your interactions with people but it's definitely noticeable.",
+    "//": "This is a stub mutation that others can expand upon and also solves Magiclysm's thresh test problem for Slime.",
+    "category": [ "SLIME" ]
+  },
+  {
+    "type": "mutation",
     "id": "CHIMERIC_BREATH",
     "name": { "str": "Chimeric Breath" },
     "points": -3,
