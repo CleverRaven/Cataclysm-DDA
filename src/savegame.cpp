@@ -123,6 +123,7 @@ void game::serialize( std::ostream &fout )
         temp_queued.pop();
     }
     json.end_array();
+    global_variables_instance.serialize( json );
     Messages::serialize( json );
 
     json.end_object();
@@ -246,6 +247,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
             temp.recurring = elem.get_bool( "recurring" );
             queued_global_effect_on_conditions.push( temp );
         }
+        global_variables_instance.unserialize( data );
         inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
@@ -1255,8 +1257,6 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 weather_manager::unserialize_all( jsin );
-            } else if( name == "global_vals" ) {
-                global_variables_instance.unserialize( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1287,10 +1287,9 @@ void weather_manager::unserialize_all( JsonIn &jsin )
     w.read( "windspeed", get_weather().windspeed );
 }
 
-void global_variables::unserialize( JsonIn &jsin )
+void global_variables::unserialize( JsonObject &jo )
 {
-    JsonObject gv = jsin.get_object();
-    gv.read( "global_vals", global_values );
+    jo.read( "global_vals", global_values );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1317,10 +1316,6 @@ void game::serialize_master( std::ostream &fout )
         json.member( "temperature", weather.temperature );
         json.member( "winddirection", weather.winddirection );
         json.member( "windspeed", weather.windspeed );
-        json.end_object();
-        json.member( "global_vals" );
-        json.start_object();
-        global_variables_instance.serialize( json );
         json.end_object();
         json.end_object();
     } catch( const JsonError &e ) {

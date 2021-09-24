@@ -31,7 +31,7 @@ class global_variables
         void set_global_values( std::unordered_map<std::string, std::string> input ) {
             global_values = input;
         }
-        void unserialize( JsonIn &jsin );
+        void unserialize( JsonObject &jo );
         void serialize( JsonOut &jsout ) const;
     private:
         std::unordered_map<std::string, std::string> global_values;
