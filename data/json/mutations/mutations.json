@@ -6929,6 +6929,7 @@
     "name": { "str": "Debug Stamina" },
     "points": 99,
     "valid": false,
+    "max_stamina_modifier": 999999,
     "description": "You can't run from the bugs, but you have enough stamina to at least try to.",
     "debug": true
   },
