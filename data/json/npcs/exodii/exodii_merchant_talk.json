@@ -181,6 +181,18 @@
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
     "type": "talk_topic",
     "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
+    "speaker_effect": {
+      "conditional": {
+        "and": [
+          { "compare_int": [ { "u_val": "sold" }, { "const": 20 } ], "op": ">=" },
+          { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<=", "value": 20 }
+        ]
+      },
+      "effect": [
+        { "arithmetic": [ { "u_val": "sold" }, { "const": 20 } ], "op": "-" },
+        { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+      ]
+    },
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
