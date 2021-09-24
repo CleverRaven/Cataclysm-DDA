@@ -47,8 +47,8 @@
       [ "null", 60 ],
       [ "jacket_army", 40 ],
       [ "cloak", 20 ],
-      [ "modularveststeel", 10 ],
-      [ "modularvestceramic", 40 ],
+      [ "ballistic_vest_esapi", 10 ],
+      [ "tacvest", 40 ],
       [ "kevlar", 20 ],
       [ "chestrig", 30 ]
     ]
