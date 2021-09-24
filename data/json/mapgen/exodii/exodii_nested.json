@@ -17,11 +17,11 @@
       "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
       "monster": { "T": { "monster": "mon_exodii_turret" } },
       "mapping": {
-        "1": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_SHOP_Tier0", "chance": 95 } ] },
-        "2": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_SHOP_Tier0", "chance": 95 } ] },
-        "3": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_SHOP_Tier0", "chance": 95 } ] },
-        "4": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_SHOP_Tier0", "chance": 95 } ] },
-        "5": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_SHOP_Tier0", "chance": 95 } ] },
+        "1": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "2": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "3": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "4": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "5": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
         "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
         "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
       }
@@ -34,8 +34,8 @@
     "//": "Fill lockers with CBMs from Tier1.",
     "object": {
       "place_items": [
-        { "item": "EXODII_CBM_store_tier1", "x": 19, "y": 21, "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "EXODII_CBM_store_tier1", "x": [ 19, 22 ], "y": 23, "chance": 90, "repeat": [ 2, 6 ] }
+        { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "EXODII_CBM_Store_Tier1", "x": [ 19, 22 ], "y": 23, "chance": 90, "repeat": [ 2, 6 ] }
       ]
     }
   }

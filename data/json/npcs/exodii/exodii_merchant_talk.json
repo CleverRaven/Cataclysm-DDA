@@ -1,96 +1,5 @@
 [
   {
-    "id": "ACT_CBM_SURGERY",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "being operated on",
-    "based_on": "time",
-    "interruptable": false,
-    "suspendable": false,
-    "interruptable_with_kb": false
-  },
-  {
-    "type": "mutation",
-    "id": "CBM_Interface",
-    "name": { "str": "Standard Neurobionic Interface" },
-    "points": 0,
-    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
-    "valid": false,
-    "purifiable": false,
-    "types": [ "Cyberframe" ]
-  },
-  {
-    "type": "npc",
-    "id": "exodii_merchant",
-    "name_suffix": "Cyborg",
-    "class": "NC_EXODII_TYPE_1_Merchant",
-    "name_unique": "Rubik",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_EXODII_MERCHANT",
-    "faction": "exodii"
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_EXODII_TYPE_1_Merchant",
-    "name": { "str": "Cyborg, type 1" },
-    "job_description": "I'm a cyborg.",
-    "traits": [
-      { "trait": "EXODII_BODY_1" },
-      { "//": "This needs to give the exodii a unique sprite and hide any worn or wielded overlays" }
-    ],
-    "common": false,
-    "bonus_str": { "rng": [ 0, 6 ] },
-    "bonus_dex": { "rng": [ 0, 6 ] },
-    "bonus_int": { "rng": [ 0, 2 ] },
-    "bonus_per": { "rng": [ 0, 4 ] },
-    "shopkeeper_item_group": "EXODII_SHOP_Tier0",
-    "carry_override": "NC_EXODII_TYPE_1_carried",
-    "worn_override": "EMPTY_GROUP",
-    "skills": [
-      {
-        "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
-      },
-      { "skill": "mechanics", "bonus": { "one_in": 2 } },
-      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "EXODII_BODY_1",
-    "flags": [ "Exodii_Body" ],
-    "name": { "str": "Exodii cyborg framework - style 1a" },
-    "points": 0,
-    "visibility": 4,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
-    "valid": false,
-    "purifiable": false,
-    "types": [ "Cyberframe" ],
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
-    "hp_adjustment": 20,
-    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 30,
-        "bash": 30,
-        "stab": 30,
-        "bullet": 25,
-        "acid": 25,
-        "electric": 5
-      }
-    ],
-    "weight_capacity_modifier": 3
-  },
-  {
-    "type": "mutation_type",
-    "id": "Cyberframe"
-  },
-  {
     "//": "table of contents: common response strings appearing in this list of topics",
     "id": [
       "TALK_EXODII_MERCHANT_New",
@@ -768,7 +677,7 @@
     "responses": [
       { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "Well, I'd better be going.  Thanks for the brain implants.  Bye.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -784,28 +693,5 @@
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "id": "RUBIK_ANUS_FETICK",
-    "type": "mission_definition",
-    "name": { "str": "Bring two anesthesia kits to Rubik" },
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 10000,
-    "item": "anesthetic_kit",
-    "count": 2,
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "If'n us'll to add the metal an' plastic for ye, us'll need two o' them anus-fetick kits, one for your thinkin'-meat an' one for our stock.",
-      "offer": "If'n us'll to add the metal an' plastic for ye, us'll need two o' them anus-fetick kits, one for your thinkin'-meat an' one for our stock.",
-      "accepted": "King's own luck!",
-      "rejected": "That be a choice an' you can tass.  Come back to this'n if you like.",
-      "advice": "Check round the chirurgery an' such, I'd razz.",
-      "inquire": "Us'n waits patient-like for those kits.",
-      "success": "Fine an' fine.  We can pass it in when you like.",
-      "success_lie": "Fine an' fine.  We can pass it in when you like.",
-      "failure": "Fine an' fine.  Come back to this'n if you like to try again."
-    },
-    "end": { "effect": [ { "u_add_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } ] }
   }
 ]

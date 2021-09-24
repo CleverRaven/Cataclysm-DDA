@@ -1,13 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "NC_EXODII_TYPE_1_carried",
-    "//": "Weapon for rubik.",
-    "items": [ { "item": "pamd68", "ammo-item": "123ln", "charges": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "EXODII_SHOP_Tier0",
+    "id": "EXODII_Shop_Tier0",
     "//": "This stuff should be available in the exodii store from the start.",
     "subtype": "collection",
     "items": [
@@ -35,7 +29,7 @@
   },
   {
     "type": "item_group",
-    "id": "EXODII_CBM_store_tier1",
+    "id": "EXODII_CBM_Store_Tier1",
     "//": "These CBMs should be available in the exodii store from the start.",
     "subtype": "collection",
     "items": [
@@ -60,7 +54,7 @@
   },
   {
     "type": "item_group",
-    "id": "EXODII_CBM_store_tier2",
+    "id": "EXODII_CBM_Store_Tier2",
     "//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
     "items": [
       [ "bio_tools", 10 ],
@@ -88,7 +82,7 @@
   },
   {
     "type": "item_group",
-    "id": "EXODII_CBM_store_tier3",
+    "id": "EXODII_CBM_Store_Tier3",
     "//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
     "items": [
       [ "bio_blood_filter", 10 ],
@@ -111,7 +105,7 @@
   },
   {
     "type": "item_group",
-    "id": "EXODII_CBM_store_tier4",
+    "id": "EXODII_CBM_Store_Tier4",
     "//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
     "items": [
       [ "bio_faraday", 10 ],
