@@ -229,6 +229,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_gorgosaurus",
+    "name": { "str_sp": "gorgosaurus" },
+    "copy-from": "mon_albertosaurus",
+    "default_faction": "gorgosaurus",
+    "morale": 80,
+    "speed": 60,
+    "melee_cut": 13,
+    "dodge": 6,
+    "hp": 250,
+    "zombify_into": "mon_zorgosaurus",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.",
+    "reproduction": { "baby_egg": "egg_gorgosaurus", "baby_count": 3, "baby_timer": 24 },
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "LUNGE", 15 ] ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_albertosaurus",
     "name": { "str_sp": "albertosaurus" },
     "species": "DINOSAUR",
