@@ -53,7 +53,7 @@
             { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } }
           ]
         },
-        "topic": "TALK_EXODII_MERCHANT_Talk_Intro1b"
+        "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
       },
       {
         "text": "Can you turn me into a cyborg RIGHT NOW?  I'm a developer for this game, you know.",
@@ -283,7 +283,18 @@
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "midpoint", "value": "yes" } },
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
-      { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
+      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro2a",
+    "type": "talk_topic",
+    "dynamic_line": "So 'twere an I recalt, us're yarkin' of Benzete an' their great first jump.",
+    "responses": [
+      { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
+      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -299,7 +310,7 @@
         "condition": { "u_has_intelligence": 9 },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
       },
-      { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
+      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -313,6 +324,7 @@
         "text": "Oh, you mean you got here early in the cataclysm.  Why is that so good?",
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro3"
       },
+      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -380,7 +392,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
     "type": "talk_topic",
-    "dynamic_line": "Hmm. They… planned out the last jump? Like as an apprentice to the ol' sexten.",
+    "dynamic_line": "Hmm. They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
     "responses": [
       { "text": "Oh, like a navigator?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
