@@ -220,7 +220,7 @@
     "id": "mon_feral_prepper",
     "type": "MONSTER",
     "name": { "str": "feral prepper" },
-    "description": "A quick glance of this person would show that they have prepared well for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  Their hands clasp unto the grip of a handgun, seemingly having enough memory on using them.",
+    "description": "A quick glance of this person would show that they have prepared well for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of their prepped improvised weapon, while the other clasps unto the grip of a handgun, treating both as clubs.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -246,7 +246,7 @@
     "vision_night": 3,
     "harvest": "human",
     "upgrades": { "into": "mon_feral_survivalist", "half_life": 60 },
-    "starting_ammo": { "9mm": 6 },
+    "starting_ammo": { "9mm": 3 },
     "special_attacks": [
       [ "GRAB", 7 ],
       {
@@ -260,7 +260,7 @@
         "fake_per": 9,
         "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral prepper haphazrdly fires their firearm!"
+        "description": "The feral prepper haphazardly fires their firearm!"
       }
     ],
     "death_drops": "mon_feral_prepper_death_drops",
@@ -310,7 +310,7 @@
     "vision_day": 50,
     "vision_night": 6,
     "harvest": "human",
-    "starting_ammo": { "9mm": 7 },
+    "starting_ammo": { "9mm": 5 },
     "special_attacks": [
       [ "GRAB", 7 ],
       {
