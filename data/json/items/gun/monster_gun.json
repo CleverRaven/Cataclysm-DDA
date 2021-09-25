@@ -106,7 +106,7 @@
     "volume": "386 ml",
     "longest_side": "25 cm",
     "bashing": 2,
-    "dispersion": 2500,
+    "dispersion": 2750,
     "range": 100,
     "durability": 8,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 1 } } ]
