@@ -76,8 +76,7 @@ std::string enum_to_string<relic_recharge_has>( relic_recharge_has has )
     case relic_recharge_has::NUM: break;
     }
     // *INDENT-ON*
-    debugmsg( "Invalid relic recharge has condition" );
-    abort();
+    cata_fatal( "Invalid relic recharge has condition" );
 }
 } // namespace io
 
