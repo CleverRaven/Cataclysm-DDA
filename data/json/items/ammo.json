@@ -958,7 +958,7 @@
     "color": "light_gray",
     "description": "A replacement filter cartridge for a rebreather.",
     "material": [ "aluminum" ],
-    "volume": "250 ml",
+    "volume": "262 ml",
     "weight": "12 g",
     "ammo_type": "rebreather_filter",
     "count": 30
