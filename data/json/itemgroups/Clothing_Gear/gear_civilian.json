@@ -7,8 +7,8 @@
     "//": "Small common items carried in a person's pockets, purse, etc. Wallets at roughly 50%.",
     "items": [
       { "group": "wallets", "prob": 1600 },
-      { "item": "cell_phone", "prob": 50, "charges": [ 0, 300 ] },
-      { "item": "smart_phone", "prob": 180, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 26, "charges": [ 0, 300 ] },
+      { "item": "smart_phone", "prob": 204, "charges-min": 0 },
       { "item": "cig", "prob": 250, "charges-min": 1, "charges-max": 20 },
       { "item": "lighter", "prob": 50, "charges-min": 0 },
       [ "joint", 10 ],
