@@ -496,11 +496,13 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     bool avail = false;
     for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
-        entry += " " +  comp->get_name() + " [" + to_string( elapsed ) + "/" +
-                 to_string( duration ) + "]\n";
+        entry += "\n  " +  comp->get_name() + " [" + to_string( elapsed ) + " / " +
+                 to_string( duration ) + "]";
         avail |= elapsed >= duration;
     }
-    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
+    if( avail ) {
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
+    }
     return avail;
 }
 
