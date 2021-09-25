@@ -424,9 +424,9 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
-        int kill_xp;
+        int kill_xp = 0;
         // Level-up points spent on Stats through Kills
-        int spent_upgrade_points;
+        int spent_upgrade_points = 0;
 
         const profession *prof;
         std::set<const profession *> hobbies;

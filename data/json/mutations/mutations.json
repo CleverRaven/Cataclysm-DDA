@@ -275,10 +275,8 @@
     "id": "NIGHT_RAIDER",
     "name": { "str": "Night Raider" },
     "points": 3,
-    "description": "You know how to fight in cramped tunnels at risk of collapse.  You gain bonuses when fighting underground.",
-    "leads_to": [ "NIGHT_RAIDER" ],
+    "description": "Your body is one with the night.  You make less noise when the moon is up in the sky, even when you cannot see it.",
     "category": [ "TROGLOBITE" ],
-    "//": "Need to change condition to NIGHT once I get NIGHT and DAY conditions working for enchantments.",
     "enchantments": [
       {
         "condition": "NIGHT",
@@ -670,7 +668,7 @@
     "id": "TERRIFYING",
     "name": { "str": "Terrifying" },
     "points": 1,
-    "description": "There's something about you that humans and post-humans find frightening, and they are more likely to try to flee.",
+    "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
     "starting_trait": true,
     "category": [ "BEAST", "INSECT", "CHIMERA" ],
     "social_modifiers": { "intimidate": 15 }
