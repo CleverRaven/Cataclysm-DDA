@@ -7659,6 +7659,23 @@ const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const
     return traplocs[type.to_i()];
 }
 
+bool map::overlaps( const cuboid<tripoint_abs_ms> &bounds ) const
+{
+    return overlaps( cuboid<tripoint>( getlocal( bounds.p_min ),
+                                       getlocal( bounds.p_max ) ) );
+}
+
+bool map::overlaps( const cuboid<tripoint> &p ) const
+{
+    static constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    static constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT + 1 );
+
+    static constexpr half_open_cuboid<tripoint> map_boundaries(
+        map_boundary_min, map_boundary_max );
+
+    return map_boundaries.overlaps( p );
+}
+
 bool map::inbounds( const tripoint_abs_ms &p ) const
 {
     return inbounds( getlocal( p ) );

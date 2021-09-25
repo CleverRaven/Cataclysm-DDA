@@ -1653,6 +1653,8 @@ class map
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
+        bool overlaps( const cuboid<tripoint_abs_ms> &bounds ) const;
+        bool overlaps( const cuboid<tripoint> &p ) const;
 
         bool inbounds_z( const int z ) const {
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
