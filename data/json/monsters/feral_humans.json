@@ -284,7 +284,7 @@
     "id": "mon_feral_survivalist",
     "type": "MONSTER",
     "name": { "str": "feral survivalist" },
-    "description": "Using formidable equipment, this feral prepper is seen having an athletic body, a sign of sturdy training before they turned feral.  They seem to have an awareness of self preservation when in critical harm, a byproduct of leftover survival instincts kicking in.",
+    "description": "Using formidable equipment, this feral prepper is seen having an athletic body, a sign of sturdy training before they turned feral.  In addition of handling their firearm more properly, they seem to have an awareness of self preservation when in critical harm, a byproduct of leftover survival instincts kicking in.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -344,6 +344,6 @@
       "DROPS_AMMO"
     ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE", "STALK" ],
-	  "fear_triggers":[ "FRIEND_DIED", "HURT", "HOSTILE_SEEN" ]
+    "fear_triggers": [ "FRIEND_DIED", "HURT", "HOSTILE_SEEN" ]
   }
 ]
