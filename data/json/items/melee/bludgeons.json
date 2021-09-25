@@ -207,6 +207,7 @@
     "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "100 cm",
