@@ -132,11 +132,5 @@
     "id": "feral_ninemm",
     "items": [ [ "glock_19", 250 ], [ "ksub2000", 250 ], [ "sw_619", 250 ], [ "glock_17", 250 ] ]
   },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "//": "(There was a weird error, 45_acp was detected as invalid, so this will just be for incase the problem is fixed)",
-    "id": "feral_45cal",
-    "items": [ [ "m1911", 350 ], [ "m1911-460", 350 ], [ "m1911-460", 350 ] ]
-  }
+  
 ]
