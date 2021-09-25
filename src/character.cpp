@@ -5763,17 +5763,31 @@ void Character::mod_rad( int mod )
 
 int Character::get_stamina() const
 {
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+        return get_stamina_max();
+    }
     return stamina;
 }
 
 int Character::get_stamina_max() const
 {
-    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+        return 10000;
+    }
+    // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
+    // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
+    // Default base maximum stamina and cardio scaling are defined in data/core/game_balance.json
+    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
+    static const std::string player_cardiofit_stamina_scale( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    int maxStamina = get_option< int >( player_max_stamina );
-    maxStamina *= Character::mutation_value( max_stamina_modifier );
-    maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
-    return maxStamina;
+    // Cardiofit stamina mod defaults to 3, and get_cardiofit() should return a value in the vicinity
+    // of 1000-4000, so this should add somewhere between 3000 to 12000 stamina.
+    int max_stamina = get_option<int>( player_max_stamina ) +
+                      get_option<int>( player_cardiofit_stamina_scale ) * get_cardiofit();
+    max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
+    return max_stamina;
 }
 
 void Character::set_stamina( int new_stamina )
@@ -5831,6 +5845,9 @@ void Character::update_stamina( int turns )
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
+    // Your stamina regen rate works as a function of how fit you are compared to your body size.  This allows it to scale more quickly
+    // than your stamina, so that at higher fitness levels you recover stamina faster.
+    const float effective_regen_rate = base_regen_rate * get_cardiofit() / base_bmr();
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
@@ -5840,7 +5857,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate * stamina_recovery_breathing_modifier() );
+                        effective_regen_rate * stamina_recovery_breathing_modifier() );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -5864,7 +5881,7 @@ void Character::update_stamina( int turns )
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
                                    max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>( base_regen_rate ) );
+        bonus = std::min( bonus, 4 * static_cast<int>( effective_regen_rate ) );
         if( bonus > 0 ) {
             stamina_recovery += bonus;
             bonus /= 10;
