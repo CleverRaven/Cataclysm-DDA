@@ -68,6 +68,15 @@
   },
   {
     "type": "mutation_category",
+    "id": "GASTROPOD",
+    "name": "Gastropod",
+    "threshold_mut": "THRESH_GASTROPOD",
+    "mutagen_message": "Are you dancing a descending spiral?",
+    "iv_message": "Your split lower body starts to come back together.",
+    "memorial_message": "Left a trail."
+  },
+  {
+    "type": "mutation_category",
     "id": "RAT",
     "name": "Rat",
     "threshold_mut": "THRESH_RAT",
@@ -154,6 +163,15 @@
     "mutagen_message": "For a heartbeat, your blood cools down.",
     "iv_message": "Your blood cools down.  The feeling is… different.",
     "memorial_message": "Shed the ugly human skin."
+  },
+  {
+    "type": "mutation_category",
+    "id": "BATRACHIAN",
+    "name": "Batrachian",
+    "threshold_mut": "THRESH_BATRACHIAN",
+    "mutagen_message": "An involuntary hop and a croak.",
+    "iv_message": "Like a tadpole you must transform.",
+    "memorial_message": "Found a bigger pond."
   },
   {
     "type": "mutation_category",

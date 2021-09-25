@@ -781,13 +781,13 @@ Condition | Type | Description
   "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana.",
   "topic": "TALK_DONE",
   "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": ">=" }
-  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "u_val": "focus" }, { "u_val": "mana_max" } ], "op": "*" }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ] }
 },
 ```
 
 `"compare_int"` supports the following opperators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
 
-`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"`, `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
 To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. A list of values that can be read and/or witen to follows.
 

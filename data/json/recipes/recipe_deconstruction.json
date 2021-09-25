@@ -1933,6 +1933,14 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
   },
   {
+    "result": "mp3",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
+  },
+  {
     "result": "splatter_guard",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

@@ -700,10 +700,10 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_PRY_NAILS",
     "type": "activity_type",
+    "id": "ACT_PRYING",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "prying nails",
+    "verb": "prying open",
     "based_on": "speed"
   },
   {

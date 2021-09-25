@@ -15,6 +15,7 @@
 #include <type_traits>
 #include <unordered_map>
 
+#include "all_enum_values.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "catacharset.h"
@@ -2689,53 +2690,38 @@ class jmapgen_nested : public jmapgen_piece
         class neighborhood_check
         {
             private:
-                // To speed up the most common case: no checks
-                bool has_any = false;
-                std::array<std::set<oter_str_id>, om_direction::size> neighbors;
-                std::set<oter_str_id> above;
+                std::unordered_map<direction, cata::flat_set<oter_str_id>> neighbors;
             public:
                 explicit neighborhood_check( const JsonObject &jsi ) {
-                    for( om_direction::type dir : om_direction::all ) {
-                        int index = static_cast<int>( dir );
-                        neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
-                        has_any |= !neighbors[index].empty();
-
-                        above = jsi.get_tags<oter_str_id>( "above" );
-                        has_any |= !above.empty();
+                    for( direction dir : all_enum_values<direction>() ) {
+                        cata::flat_set<oter_str_id> dir_neighbours =
+                            jsi.get_tags<oter_str_id, cata::flat_set<oter_str_id>>(
+                                io::enum_to_string( dir ) );
+                        if( !dir_neighbours.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbours );
+                        }
                     }
                 }
 
                 bool test( const mapgendata &dat ) const {
-                    if( !has_any ) {
-                        return true;
-                    }
+                    for( const std::pair<const direction, cata::flat_set<oter_str_id>> &p :
+                         neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<oter_str_id> &allowed_neighbors = p.second;
 
-                    bool all_directions_match  = true;
-                    for( om_direction::type dir : om_direction::all ) {
-                        int index = static_cast<int>( dir );
-                        const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
-
-                        if( allowed_neighbors.empty() ) {
-                            continue;  // no constraints on this direction, skip.
-                        }
+                        cata_assert( !allowed_neighbors.empty() );
 
                         bool this_direction_matches = false;
                         for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
-                            this_direction_matches |= is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
-                                                                   ot_match_type::contains );
+                            this_direction_matches |=
+                                is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
+                                             ot_match_type::contains );
                         }
-                        all_directions_match &= this_direction_matches;
-                    }
-
-                    if( !above.empty() ) {
-                        bool above_matches = false;
-                        for( const oter_str_id &allowed_neighbor : above ) {
-                            above_matches |= is_ot_match( allowed_neighbor.str(), dat.above().id(), ot_match_type::contains );
+                        if( !this_direction_matches ) {
+                            return false;
                         }
-                        all_directions_match &= above_matches;
                     }
-
-                    return all_directions_match;
+                    return true;
                 }
         };
 

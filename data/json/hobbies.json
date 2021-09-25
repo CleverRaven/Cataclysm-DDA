@@ -99,6 +99,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "bushcraft",
+    "name": "Bushcraft",
+    "description": "You take camping to a whole new level.  You have spent nights and weekends surviving in the wild with just a knife to aid you.  Maybe this can keep you safe away from people.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers", "prof_leatherworking_basic", "prof_fibers_rope", "prof_traps", "prof_knapping", "prof_carving" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "hobby_heli_pilot",
     "name": "Helicopter Pilot",
     "description": "You got your pilot's license, and earned a living ferrying businessmen and tourists around.",
@@ -353,6 +363,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "marathon_runner",
+    "name": "Marathon Runner",
+    "description": "You went and ran the Boston Marathon every year.  Now, that training came in handy in avoiding the dead.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "hates_books",
     "name": "Book hater",
     "description": "Reading is for nerds!  You've managed to make hatred of the written word a central part of your identity.  Or, perhaps, you have a barrier that makes books additionally challenging and frustrating for you.  Whatever the reason, boring books are more boring, and you can't have fun by reading books.",
@@ -440,6 +459,24 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "arts_and_crafts",
+    "name": "Arts and Crafts",
+    "description": "You loved doing crafts at home.  Hopefully this can aid you in surviving now that the world has gone to hell.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "car_rebuilding",
+    "name": "Car Rebuilding",
+    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pasttime.  You never finished the car, but at least you learned a little over the years.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "mechanics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "trickster",
     "name": "Trickster",
     "description": "Mischief is something of a second nature for you.",
@@ -490,6 +527,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "ham_radio_operator",
+    "name": "Ham Radio Operator",
+    "description": "You whiled your nights away using, building and repairing old Ham Radios.  Now you have no one to talk to.  But you won't give up hope and maybe your electronics knowledge can help you somehow.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "electronics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "golfing",
     "name": "Golfing",
     "points": 1,
@@ -508,11 +554,39 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "shooter",
+    "name": "Gun Range Shooter",
+    "description": "You liked going to the local gun store and doing some target shooting.  Sometimes even cans off of fence posts.  Maybe if you just imagine targets on those dead things, this could help.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "gun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "name": "Red Cross Certified",
     "id": "redcross",
     "description": "The medical professionals aren't coming, but you'll live regardless.",
     "points": 1,
     "skills": [ { "level": 2, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "trap_shooting",
+    "name": "Trap Shooting",
+    "description": "Nothing like the smell of gunsmoke and blowing ceramic orange discs out of the sky.  Time to shoot at things a little fleshier than clay pigeons.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "shotgun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "back_yard_grilling",
+    "name": "Back Yard Grilling",
+    "description": "You enjoyed inviting the neighborhood to a backyard get together most weekends.  You, of course, were the grill master.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills" ]
   },
   {
     "type": "profession",
@@ -680,7 +754,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "meditation",
-    "name": "Mediation",
+    "name": "Meditation",
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
     "points": 2,
     "traits": [ "SELFAWARE", "SPIRITUAL" ]

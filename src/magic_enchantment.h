@@ -124,6 +124,8 @@ class enchantment
         enum condition {
             ALWAYS,
             UNDERGROUND,
+            NIGHT,
+            DAY,
             UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
             INACTIVE, // the item, mutation, etc. is inactive

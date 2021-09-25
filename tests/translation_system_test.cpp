@@ -14,6 +14,7 @@ static void LoadMODocument( const char *path )
 TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo";
+    CAPTURE( path );
     REQUIRE( file_exist( path ) );
     REQUIRE_NOTHROW( LoadMODocument( path ) );
 }
@@ -21,6 +22,7 @@ TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
 TEST_CASE( "TranslationDocument rejects invalid MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/INVALID_RAND.mo";
+    CAPTURE( path );
     REQUIRE( file_exist( path ) );
     REQUIRE_THROWS_AS( LoadMODocument( path ), InvalidTranslationDocumentException );
 }
@@ -31,6 +33,7 @@ TEST_CASE( "TranslationDocument loads all core MO", "[translations]" )
         TranslationManager::GetInstance().GetAvailableLanguages();
     for( const std::string &lang : languages ) {
         const std::string path = string_format( "./lang/mo/%s/LC_MESSAGES/cataclysm-dda.mo", lang );
+        CAPTURE( path );
         REQUIRE( file_exist( path ) );
         REQUIRE_NOTHROW( LoadMODocument( path.c_str() ) );
     }
