@@ -5879,6 +5879,46 @@ void Character::update_stamina( int turns )
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
 
+int Character::get_cardiofit() const
+{
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
+        return 2 * base_bmr();
+    }
+    const int bmr = base_bmr();
+    const int athletics_mod = get_skill_level( skill_swimming ) * 10;
+    const int health_effect = get_healthy();
+    // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
+    const int trait_mod = mutation_value( "max_stamina_modifier" );
+    // At some point we might have proficiencies that affect this.
+    const int prof_mod = 0;
+    const int cardio_acc_mod = get_cardio_acc();
+    int final_cardio_fitness = ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod +
+                                 cardio_acc_mod );
+    if( final_cardio_fitness > 3 * ( bmr + trait_mod ) ) {
+        // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of as a sharp cutoff, but the gradual
+        // growth rate of cardio_acc_mod should accomplish that naturally. The BMR will mostly determine this as it is based on the
+        // size of the character, but mutations might push it up.
+        final_cardio_fitness = 3 * ( bmr + trait_mod );
+    }
+    return final_cardio_fitness;
+}
+
+int Character::get_cardio_acc() const
+{
+    return cardio_acc;
+}
+
+void Character::set_cardio_acc( int ncardio_acc )
+{
+    cardio_acc = ncardio_acc;
+}
+
+void Character::reset_cardio_acc()
+{
+    set_cardio_acc( base_bmr() / 2 );
+}
+
 bool Character::invoke_item( item *used )
 {
     return invoke_item( used, pos() );
