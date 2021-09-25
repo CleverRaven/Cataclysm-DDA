@@ -1150,6 +1150,9 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
+                if( collapsed ) {
+                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
+                }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
@@ -1173,9 +1176,6 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     entry.highlight_as_child = false;
                 } else {
                     trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
-                }
-                if( collapsed ) {
-                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
                 }
             }
 
