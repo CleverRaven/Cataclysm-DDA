@@ -2348,8 +2348,6 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
     JsonArray objects = jo.get_array( member );
     std::string op = "none";
     std::string result = "none";
-    std::function<int( const dialogue & )> get_first_int;
-    std::function<int( const dialogue & )> get_second_int;
     std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
     // Normal full version
     if( objects.size() == 5 ) {
@@ -2361,8 +2359,10 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
                 return false;
             };
         }
-        get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 2 ) );
-        get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 4 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 2 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 4 ) );
         if( op == "*" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) * get_second_int( d ) );
@@ -2419,7 +2419,8 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
                 return false;
             };
         }
-        get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 2 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 2 ) );
         if( op == "~" ) {
             function = [get_first_int, set_int]( const dialogue & d ) {
                 set_int( d, ~get_first_int( d ) );
@@ -2434,7 +2435,10 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         // =, -=, +=, *=, and /=
     } else if( objects.size() == 3 ) {
         result = objects.get_string( 1 );
-        get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 2 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 2 ) );
         if( result == "+=" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) + get_second_int( d ) );
@@ -2468,7 +2472,8 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         // ++ and --
     } else if( objects.size() == 2 ) {
         op = objects.get_string( 1 );
-        get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
         if( op == "++" ) {
             function = [get_first_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) + 1 );
