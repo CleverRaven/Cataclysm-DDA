@@ -72,6 +72,7 @@
     "name": "Caffeine Junkie",
     "description": "Coffee was your day-to-day companion in surviving your job, but getting caffeine into your body will be much harder now.",
     "points": -1,
+    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
   },
   {
