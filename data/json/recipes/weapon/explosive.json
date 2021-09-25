@@ -124,7 +124,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "small_grenade_case", 1 ] ],
+    "using": [ [ "small_gas_canister_case", 1 ] ],
     "components": [ [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
@@ -144,7 +144,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "triffid_fungicide", 1 ], [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
+      [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -165,7 +165,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "insecticide", 50 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
+      [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -180,7 +180,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "accelerant_liquid", 500 ] ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
   },
   {
     "result": "dynamite_bomb",
@@ -210,7 +210,7 @@
     "book_learn": [ [ "basic_chemistry", 2 ] ],
     "time": "7 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "small_grenade_case", 1 ] ],
+    "using": [ [ "small_gas_canister_case", 1 ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "sugar", 16 ] ],

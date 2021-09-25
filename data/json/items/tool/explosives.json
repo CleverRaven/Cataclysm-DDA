@@ -349,65 +349,50 @@
   },
   {
     "id": "fungicidalbomb",
-    "copy-from": "grenade_canister",
-    "looks_like": "smokebomb",
+    "copy-from": "gasbomb",
     "type": "GENERIC",
     "name": { "str": "fungicidal gas grenade" },
     "price": 3600,
     "price_postapoc": 750,
     "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "fungicidalbomb_act" }
   },
   {
     "id": "fungicidalbomb_act",
-    "copy-from": "gasbomb",
-    "looks_like": "smokebomb_act",
+    "copy-from": "gasbomb_act",
     "type": "GENERIC",
     "name": { "str": "armed fungicidal gas canister" },
     "description": "This fungicidal bomb has had its pin removed and is expelling highly toxic gas.",
-    "emits": [ "emit_fungicidal_stream" ],
-    "countdown_interval": 50,
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
-    "flags": [ "TRADER_AVOID" ]
+    "emits": [ "emit_fungicidal_stream" ]
   },
   {
     "id": "fungicidalbomb_makeshift",
-    "copy-from": "grenade_canister",
-    "looks_like": "smokebomb",
+    "copy-from": "gasbomb",
     "type": "GENERIC",
     "name": { "str": "makeshift fungicidal gas grenade" },
     "price": 3600,
     "price_postapoc": 500,
     "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
   },
   {
     "id": "fungicidalbomb_makeshift_act",
-    "copy-from": "gasbomb",
-    "looks_like": "smokebomb_act",
+    "copy-from": "gasbomb_act",
     "type": "GENERIC",
     "name": { "str": "armed makeshift fungicidal gas canister" },
     "description": "This makeshift fungicidal bomb has had its pin removed and is expelling highly toxic haze.",
-    "emits": [ "emit_small_fungicidal_stream" ],
-    "countdown_interval": 50,
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
-    "flags": [ "TRADER_AVOID" ]
+    "emits": [ "emit_small_fungicidal_stream" ]
   },
   {
     "id": "gasbomb_makeshift",
-    "type": "TOOL",
-    "category": "weapons",
+    "copy-from": "gasbomb",
+    "type": "GENERIC",
     "name": { "str": "makeshift gas canister" },
     "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three seconds it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "weight": "1264 g",
-    ""
+    "volume": "262 ml",
     "price": 500,
     "price_postapoc": 250,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel" ],
-    "symbol": "*",
-    "color": "dark_gray",
     "use_action": {
       "need_wielding": true,
       "target": "gasbomb_makeshift_act",
@@ -426,7 +411,7 @@
     "name": { "str": "active makeshift gas canister" },
     "description": "This homemade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
     "weight": "1264 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -448,7 +433,7 @@
       "sound_msg": "Hiss.",
       "no_deactivate_msg": "You've already armed the %s; try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "grenade",
@@ -501,7 +486,7 @@
       "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
       "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "grenade_emp",
@@ -608,7 +593,7 @@
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "use_action": [ "GRENADE_INC_ACT" ],
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID" ]
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "abstract": "grenade_canister",
@@ -625,25 +610,20 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
-    "abstract": "grenade_canister_makeshift",
-    "copy-from": "grenade_canister",
-    "type": "GENERIC",
-    "name": { "str": "makeshift canister grenade" },
-    "volume": "300 ml"
-  },
-  {
     "id": "gasbomb",
     "copy-from": "grenade_canister",
+    "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "tear gas grenade" },
     "price": 3600,
     "price_postapoc": 250,
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "gasbomb_act" }
   },
   {
     "id": "gasbomb_act",
     "copy-from": "gasbomb",
+    "looks_like": "smokebomb_act",
     "type": "GENERIC",
     "name": { "str": "armed tear gas canister" },
     "price_postapoc": 0,
@@ -651,23 +631,21 @@
     "emits": [ "emit_tear_gas_stream" ],
     "countdown_interval": 50,
     "countdown_action": { "type": "transform", "target": "canister_empty" },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" , "DANGEROUS" ]
   },
   {
     "id": "insecticidalbomb",
     "copy-from": "gasbomb",
-    "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "insecticidal gas grenade" },
     "price": 3600,
     "price_postapoc": 750,
     "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "insecticidalbomb_act" }
   },
   {
     "id": "insecticidalbomb_act",
     "copy-from": "gasbomb_act",
-    "looks_like": "smokebomb_act",
     "type": "GENERIC",
     "name": { "str": "armed insecticidal gas canister" },
     "description": "This insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
@@ -676,18 +654,16 @@
   {
     "id": "insecticidalbomb_makeshift",
     "copy-from": "gasbomb",
-    "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "makeshift insecticidal gas grenade" },
     "price": 3600,
     "price_postapoc": 500,
     "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
   },
   {
     "id": "insecticidalbomb_makeshift_act",
     "copy-from": "gasbomb",
-    "looks_like": "gasbomb_act",
     "type": "GENERIC",
     "name": { "str": "armed makeshift insecticidal gas canister" },
     "description": "This makeshift insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
@@ -772,8 +748,9 @@
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
     "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
-    "weight": "742 g",
-    "volume": "750 ml",
+    "weight": "1000 g",
+    "volume": "960 ml",
+    "longest_side": "276 mm",
     "price": 500,
     "price_postapoc": 500,
     "to_hit": 1,
@@ -950,7 +927,7 @@
       "no_deactivate_msg": "You've already lit the fuse - get rid of it immediately!",
       "explosion": { "power": 1 }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "military_explosive_small_grenade",
@@ -995,7 +972,7 @@
       "sound_msg": "sssssh.",
       "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead."
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "military_explosive_grenade",
@@ -1040,7 +1017,7 @@
       "sound_msg": "sssssh.",
       "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead."
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "military_explosive_pipebomb",
@@ -1075,12 +1052,9 @@
     "copy-from": "military_explosive_pipebomb",
     "type": "TOOL",
     "name": { "str": "active military explosive pipebomb" },
-    "looks_like": "pipebomb",
+    "looks_like": "pipebomb_act",
     "description": "This pipebomb's pin is pulled, and it will explode any second now.  Throw it immediately!",
-    "volume": "500 ml",
     "price": 0,
-    "material": [ "steel" ],
-    "symbol": "*",
     "color": "light_gray",
     "initial_charges": 6,
     "max_charges": 6,
@@ -1100,7 +1074,7 @@
     "looks_like": "homemade_bomb",
     "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds.",
     "weight": "8760 g",
-    "volume": "3750 ml",
+    "volume": "3900 ml",
     "price": 20000,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
@@ -1119,17 +1093,12 @@
   },
   {
     "id": "military_explosive_bomb_act",
+    "copy-from": "military_explosive_bomb",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "active military explosive bomb" },
     "looks_like": "homemade_bomb_act",
     "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, whose fuse has been lit, its final countdown starting.",
-    "weight": "8760 g",
-    "volume": "3750 ml",
     "price": 0,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
     "color": "light_red",
     "initial_charges": 20,
     "max_charges": 20,
@@ -1139,7 +1108,7 @@
       "no_deactivate_msg": "You've already pulled the pin - run!",
       "explosion": { "power": 6970, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "military_explosive_half_barrel_bomb",
@@ -1149,7 +1118,7 @@
     "looks_like": "half_barrel_bomb",
     "description": "This is a metal keg, filled with a lot of military explosives.  Once it has been activated it will explode in 100 seconds, raining fire and steel on everything in sight.",
     "weight": "92600 g",
-    "volume": "50 L",
+    "volume": "52500 ml",
     "price": 45000,
     "to_hit": -5,
     "bashing": 20,
@@ -1193,7 +1162,7 @@
       "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
       "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "military_explosive_full_barrel_bomb",
@@ -1245,7 +1214,7 @@
       "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
       "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "small_homemade_grenade",
@@ -1255,6 +1224,7 @@
     "looks_like": "homemade_grenade",
     "description": "An improvised explosive device cobbled together from spare parts.  Use this item light the fuse.  You will then have 5 seconds before it explodes; throwing it would be a good idea.",
     "weight": "460 g",
+    "volume": "300 ml",
     "price": 750,
     "material": [ "aluminum", "iron" ],
     "symbol": "*",
@@ -1290,7 +1260,7 @@
       "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
       "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "homemade_grenade",
@@ -1334,7 +1304,7 @@
       "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "pipebomb",
@@ -1446,7 +1416,7 @@
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": { "power": 2320, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "homemade_demolition_charge",
@@ -1554,7 +1524,7 @@
       "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
       "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "full_barrel_bomb",
@@ -1606,6 +1576,6 @@
       "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
       "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   }
 ]

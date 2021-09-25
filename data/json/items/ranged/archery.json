@@ -326,7 +326,7 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.1 },
     "dispersion": 285,
     "loudness": 0,
-    "effects": [ "EXPLOSIVE_SMALL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ]
   },
   {
     "type": "GENERIC",
