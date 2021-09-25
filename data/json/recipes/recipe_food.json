@@ -1003,7 +1003,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 6 ] ]
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
     ]
   },
   {
@@ -1032,7 +1032,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 8 ] ]
+      [ [ "sausage_casings", 8 ], [ "sausage_casings_artificial", 8 ] ]
     ]
   },
   {
@@ -1061,7 +1061,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 6 ] ]
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
     ]
   },
   {
@@ -1102,7 +1102,7 @@
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 1 ], [ "seasoning_italian", 2 ], [ "wild_herbs", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "sausage_casings", 8 ] ]
+      [ [ "sausage_casings", 8 ], [ "sausage_casings_artificial", 8 ] ]
     ]
   },
   {
@@ -3034,7 +3034,7 @@
         [ "seasoning_salt", 10 ],
         [ "pepper", 10 ]
       ],
-      [ [ "sausage_casings", 6 ] ]
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
     ]
   },
   {
@@ -6983,7 +6983,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
-      [ [ "sausage_casings", 2 ] ],
+      [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],
@@ -7031,7 +7031,7 @@
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
-      [ [ "sausage_casings", 2 ] ],
+      [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],

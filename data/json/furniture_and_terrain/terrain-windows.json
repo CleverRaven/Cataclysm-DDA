@@ -99,6 +99,17 @@
         { "item": "string_36", "count": 1 }
       ]
     },
+    "prying": {
+      "result": "t_window_open",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
     "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
   {
@@ -133,6 +144,17 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    },
+    "prying": {
+      "result": "t_window_no_curtains_open",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
     },
     "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
@@ -331,6 +353,17 @@
         { "item": "string_36", "count": 1 }
       ]
     },
+    "prying": {
+      "result": "t_window_open",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
     "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
   {
@@ -470,6 +503,13 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
     },
+    "prying": {
+      "result": "t_window_frame",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the window.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 10, 40 ] }
   },
   {
@@ -497,6 +537,13 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] } ]
+    },
+    "prying": {
+      "result": "t_window_empty",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the window frame.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 9, 21 ], "reduce_damage_laser": [ 5, 16 ], "destroy_damage": [ 10, 40 ] }
   },

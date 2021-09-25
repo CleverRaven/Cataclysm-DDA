@@ -536,6 +536,7 @@
           "mx_casings": 100,
           "mx_corpses": 30,
           "mx_prison_bus": 15,
+          "mx_prison_van": 1,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
         }

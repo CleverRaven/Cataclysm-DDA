@@ -196,7 +196,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "traps",
-    "time": "10 m",
+    "time": "15 m",
     "autolearn": true,
     "proficiencies": [
       {
@@ -207,7 +207,7 @@
         "learning_time_multiplier": 0
       }
     ],
-    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ], { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ], { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -239,7 +239,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "traps",
-    "time": "45 m",
+    "time": "5 m",
     "autolearn": true,
     "proficiencies": [
       {

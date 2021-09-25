@@ -88,6 +88,11 @@
       ]
     },
     "max_volume": "875 L",
+    "prying": {
+      "result": "f_coffin_o",
+      "message": "You wedge open the coffin.",
+      "prying_data": { "difficulty": 5, "prying_level": 2, "noisy": true, "failure": "You pry, but the coffin remains closed." }
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -158,6 +163,11 @@
     "examine_action": "locked_object",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": { "difficulty": 6, "prying_level": 1, "noisy": true, "failure": "You pry, but can't pop open the crate." }
     },
     "bash": {
       "str_min": 12,
