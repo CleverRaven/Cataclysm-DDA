@@ -3629,15 +3629,16 @@ std::string Character::debug_weary_info() const
 
     int bmr = base_bmr();
     std::string weary_internals = activity_history.debug_weary_info();
+    int cardio_mult = get_cardiofit();
     int thresh = weary_threshold();
     int current = weariness_level();
     int morale = get_morale_level();
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d %s Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
-                          get_healthy_kcal(), fatigue, morale, weight, bmi );
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+                          amt, max_act, move_mult, bmr, cardio_mult, weary_internals, thresh, current,
+                          get_stored_kcal(), get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
