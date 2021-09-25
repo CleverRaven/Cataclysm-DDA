@@ -3091,7 +3091,7 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // not good eatings.
                 continue;
             }
-            if( !you.can_consume( comest ) ) {
+            if( !you.can_consume_as_is( comest ) ) {
                 continue;
             }
             if( food && you.compute_effective_nutrients( comest ).kcal() < 50 ) {
