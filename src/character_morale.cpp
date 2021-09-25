@@ -2,7 +2,6 @@
 #include "messages.h"
 #include "morale.h"
 #include "map_iterator.h"
-#include "debug.h"
 
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
