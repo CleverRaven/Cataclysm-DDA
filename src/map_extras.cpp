@@ -127,8 +127,6 @@ static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
-static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
-static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
