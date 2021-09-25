@@ -7248,6 +7248,19 @@ units::volume Character::holster_volume() const
     return holster_volume;
 }
 
+int Character::empty_holsters() const
+{
+    int e_holsters = 0;
+    for (const item& w : worn)
+    {
+        if (w.is_holster() && w.is_container_empty())
+        {
+            e_holsters += 1;
+        }
+    }
+    return e_holsters;
+}
+
 units::volume Character::small_pocket_volume( const units::volume& threshold ) const
 {
     units::volume small_spaces = 0_ml;

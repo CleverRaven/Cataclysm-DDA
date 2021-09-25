@@ -21,7 +21,9 @@ void Character::update_morale()
 
 void Character::hoarder_morale_penalty()
 {
+    // For hoarders holsters count as a flat -1 penalty for being empty, we also give them a 25% allowence on their pockets below 1000_ml
     int pen = ( ( free_space() - holster_volume() ) - ( small_pocket_volume() / 4 ) ) / 125_ml;
+    pen += empty_holsters();
     if( pen > 70 ) {
         pen = 70;
     }

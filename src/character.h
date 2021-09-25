@@ -1883,6 +1883,7 @@ class Character : public Creature, public visitable
                 &locations ) const;
         units::volume free_space() const;
         units::volume holster_volume() const;
+        int empty_holsters() const;
         units::volume small_pocket_volume( const units::volume &threshold = 1000_ml ) const;
 
         /** Note that we've read a book at least once. **/
