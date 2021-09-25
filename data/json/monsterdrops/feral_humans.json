@@ -124,9 +124,9 @@
       { "group": "survivorzed_head", "damage": [ 1, 4 ] },
       { "group": "survivorzed_extra", "damage": [ 1, 4 ] },
       { "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] }
-     ]
-   },
-   {
+    ]
+  },
+  {
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_ninemm",
@@ -137,8 +137,6 @@
     "subtype": "distribution",
     "//": "(There was a weird error, 45_acp was detected as invalid, so this will just be for incase the problem is fixed)",
     "id": "feral_45cal",
-     "items": [ [ "m1911", 350 ], [ "m1911-460", 350 ], [ "m1911-460", 350 ] ]
-   }
- 
- ]
-
+    "items": [ [ "m1911", 350 ], [ "m1911-460", 350 ], [ "m1911-460", 350 ] ]
+  }
+]
