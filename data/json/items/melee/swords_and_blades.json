@@ -702,7 +702,8 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
+    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
+    "weapon_category": [ "SHORT_SWORDS" ]
   },
   {
     "id": "khopesh",
@@ -846,6 +847,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1461,6 +1463,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
