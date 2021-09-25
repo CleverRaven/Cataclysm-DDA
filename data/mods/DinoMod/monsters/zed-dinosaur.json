@@ -166,6 +166,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zorgosaurus",
+    "name": { "str_sp": "gorgosaurus zombie" },
+    "copy-from": "mon_zalbertosaurus",
+    "speed": 50,
+    "melee_cut": 13,
+    "hp": 250,
+    "description": "Massive jaws drooling black liquid lifted over a huge shuffling dinosaur corpse.",
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 15 ] ],
+    "burn_into": "mon_zorgosaurus_scorched",
+    "fungalize_into": "mon_zorgosaurus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zorgosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zalbertosaurus",
     "name": { "str": "albertosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
