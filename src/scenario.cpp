@@ -93,6 +93,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
     optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 
+    optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
+
     if( !was_loaded ) {
         if( jo.has_member( "custom_initial_date" ) ) {
             _custom_start_date = true;
@@ -216,6 +218,12 @@ void scenario::check_definition() const
         debugmsg( "there is no map extra with id %s", _map_extra );
     }
 
+    for( const auto &e : eoc() ) {
+        if( !e.is_valid() ) {
+            debugmsg( "effect on condition %s for scenario %s does not exist", e.c_str(), id.c_str() );
+        }
+    }
+
     for( const auto &m : _missions ) {
         if( !m.is_valid() ) {
             debugmsg( "starting mission %s for scenario %s does not exist", m.c_str(), id.c_str() );
@@ -332,6 +340,7 @@ void scen_blacklist::finalize()
 void reset_scenarios_blacklist()
 {
     sc_blacklist.scenarios.clear();
+    sc_blacklist.whitelist = false;
 }
 
 std::vector<string_id<profession>> scenario::permitted_professions() const
@@ -546,6 +555,10 @@ const std::string &scenario::get_map_extra() const
 const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
+}
+const std::vector<effect_on_condition_id> &scenario::eoc() const
+{
+    return _eoc;
 }
 const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
 {

@@ -188,9 +188,11 @@ formatted_text::formatted_text( const std::string &text, const int color,
     }
 }
 
-cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
+cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
+                        tileset_cache &cache ) :
     renderer( renderer ),
     geometry( geometry ),
+    cache( cache ),
     minimap( renderer, geometry )
 {
     cata_assert( renderer );
@@ -308,12 +310,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    // Load the tileset into a separate instance and only set this->tileset_ptr
-    // when the loading has succeeded.
-    std::unique_ptr<tileset> new_tileset_ptr = std::make_unique<tileset>();
-    tileset_loader loader( *new_tileset_ptr, renderer );
-    loader.load( tileset_id, precheck, /*pump_events=*/pump_events );
-    tileset_ptr = std::move( new_tileset_ptr );
+    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
 
     set_draw_scale( 16 );
 
@@ -399,8 +396,8 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
            smaller.y + smaller.h <= larger.y + larger.h;
 }
 
-void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
-        std::vector<texture> &target )
+void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
+        const point &offset, std::vector<texture> &target )
 {
     cata_assert( surf );
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height,
@@ -424,7 +421,7 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
     }
 }
 
-void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
+void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
         const point &offset )
 {
     cata_assert( tile_atlas );
@@ -459,7 +456,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
     vec.resize( vec.size() + additional_size );
 }
 
-void tileset_loader::load_tileset( const std::string &img_path, const bool pump_events )
+void tileset_cache::loader::load_tileset( const std::string &img_path, const bool pump_events )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     cata_assert( tile_atlas );
@@ -575,8 +572,8 @@ void cata_tiles::set_draw_scale( int scale )
     tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
-void tileset_loader::load( const std::string &tileset_id, const bool precheck,
-                           const bool pump_events )
+void tileset_cache::loader::load( const std::string &tileset_id, const bool precheck,
+                                  const bool pump_events )
 {
     std::string json_conf;
     std::string tileset_path;
@@ -706,8 +703,9 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     ts.tileset_id = tileset_id;
 }
 
-void tileset_loader::load_internal( const JsonObject &config, const std::string &tileset_root,
-                                    const std::string &img_path, const bool pump_events )
+void tileset_cache::loader::load_internal( const JsonObject &config,
+        const std::string &tileset_root,
+        const std::string &img_path, const bool pump_events )
 {
     if( config.has_array( "tiles-new" ) ) {
         // new system, several entries
@@ -768,7 +766,8 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
     // also eliminate negative sprite references
 }
 
-void tileset_loader::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs )
+void tileset_cache::loader::process_variations_after_loading( weighted_int_list<std::vector<int>>
+        &vs )
 {
     // loop through all of the variations
     for( auto &v : vs ) {
@@ -798,8 +797,8 @@ void tileset_loader::process_variations_after_loading( weighted_int_list<std::ve
     vs.precalc();
 }
 
-void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id,
-                                        int sprite_id, const std::string &s_id )
+void tileset_cache::loader::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id,
+        int sprite_id, const std::string &s_id )
 {
     const std::string m_id = t_id + "_" + s_id;
     tile_type curr_subtile;
@@ -809,7 +808,7 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_ascii( const JsonObject &config )
+void tileset_cache::loader::load_ascii( const JsonObject &config )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -819,7 +818,7 @@ void tileset_loader::load_ascii( const JsonObject &config )
     }
 }
 
-void tileset_loader::load_ascii_set( const JsonObject &entry )
+void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
 {
     // tile for ASCII char 0 is at `in_image_offset`,
     // the other ASCII chars follow from there.
@@ -928,7 +927,7 @@ void tileset_loader::load_ascii_set( const JsonObject &entry )
     }
 }
 
-void tileset_loader::load_tilejson_from_file( const JsonObject &config )
+void tileset_cache::loader::load_tilejson_from_file( const JsonObject &config )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -987,7 +986,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
  * Any existing definition of the same id is overridden.
  * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
-tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
+tile_type &tileset_cache::loader::load_tile( const JsonObject &entry, const std::string &id )
 {
     if( ts.find_tile_type( id ) ) {
         ts.duplicate_ids.insert( id );
@@ -1000,7 +999,7 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_tile_spritelists( const JsonObject &entry,
+void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
         const std::string &objname )
 {
@@ -3288,7 +3287,31 @@ bool cata_tiles::draw_item_highlight( const tripoint &pos )
                                 lit_level::LIT, false );
 }
 
-void tileset_loader::ensure_default_item_highlight()
+std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
+        const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events )
+{
+    const auto get_or_create_tileset = [&]() {
+        const auto it = tilesets_.find( tileset_id );
+        if( it == tilesets_.end() || it->second.expired() ) {
+            std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
+            loader loader( *new_ts, renderer );
+            loader.load( tileset_id, precheck, pump_events );
+            tilesets_.emplace( tileset_id, new_ts );
+            return new_ts;
+        }
+        return it->second.lock();
+    };
+
+    std::shared_ptr<tileset> ts = get_or_create_tileset();
+
+    if( force || ( ts->get_tileset_id().empty() && !precheck ) ) {
+        loader loader( *ts, renderer );
+        loader.load( tileset_id, precheck, pump_events );
+    }
+    return ts;
+}
+
+void tileset_cache::loader::ensure_default_item_highlight()
 {
     if( ts.find_tile_type( ITEM_HIGHLIGHT ) ) {
         return;

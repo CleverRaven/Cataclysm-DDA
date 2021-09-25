@@ -1052,7 +1052,7 @@ static void teleport_short()
 
 static void teleport_long()
 {
-    const tripoint_abs_omt where( ui::omap::choose_point() );
+    const tripoint_abs_omt where( ui::omap::choose_point( true ) );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
@@ -1148,25 +1148,7 @@ static void spawn_nested_mapgen()
 
 static void control_npc_menu()
 {
-    std::vector<shared_ptr_fast<npc>> followers;
-    uilist charmenu;
-    int charnum = 0;
-    for( const auto &elem : g->get_follower_list() ) {
-        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
-        if( follower ) {
-            followers.emplace_back( follower );
-            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
-        }
-    }
-    if( followers.empty() ) {
-        return;
-    }
-    charmenu.w_y_setup = 0;
-    charmenu.query();
-    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
-        return;
-    }
-    get_avatar().control_npc( *followers.at( charmenu.ret ) );
+    get_avatar().control_npc_menu();
 }
 
 static void character_edit_stats_menu( Character &you )
@@ -2780,7 +2762,7 @@ void debug()
             mx_menu.query();
             int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint_abs_omt where_omt( ui::omap::choose_point() );
+                const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
                 if( where_omt != overmap::invalid_tripoint ) {
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;

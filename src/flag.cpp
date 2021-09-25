@@ -60,6 +60,7 @@ const flag_id flag_CITY_START( "CITY_START" );
 const flag_id flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 const flag_id flag_COLD( "COLD" );
 const flag_id flag_COLD_IMMUNE( "COLD_IMMUNE" );
+const flag_id flag_COLLAPSE_CONTENTS( "COLLAPSE_CONTENTS" );
 const flag_id flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 const flag_id flag_COLLAR( "COLLAR" );
 const flag_id flag_CONDUCTIVE( "CONDUCTIVE" );

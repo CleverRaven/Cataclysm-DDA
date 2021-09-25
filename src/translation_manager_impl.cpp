@@ -9,6 +9,33 @@
 #include "translations.h"
 #include "translation_manager_impl.h"
 
+std::uint32_t TranslationManagerImpl::Hash( const char *str )
+{
+    std::uint32_t hash = 5381U;
+    while( *str != '\0' ) {
+        hash = hash * 33 + ( *str++ );
+    }
+    return hash;
+}
+
+cata::optional<std::pair<std::size_t, std::size_t>> TranslationManagerImpl::LookupString(
+            const char *query ) const
+{
+    std::uint32_t hash = Hash( query );
+    auto it = strings.find( hash );
+    if( it == strings.end() ) {
+        return cata::nullopt;
+    }
+    for( const std::pair<size_t, size_t> &entry : it->second ) {
+        const std::size_t document = entry.first;
+        const std::size_t index = entry.second;
+        if( strcmp( documents[document].GetOriginalString( index ), query ) == 0 ) {
+            return cata::optional<std::pair<std::size_t, std::size_t>> { entry };
+        }
+    }
+    return cata::nullopt;
+}
+
 std::string TranslationManagerImpl::LanguageCodeOfPath( const std::string &path )
 {
     const std::size_t end = path.rfind( "/LC_MESSAGES" );
@@ -49,7 +76,8 @@ void TranslationManagerImpl::ScanTranslationDocuments()
 void TranslationManagerImpl::Reset()
 {
     documents.clear();
-    string_to_document_no.clear();
+    strings.clear();
+    strings.max_load_factor( 1.0f );
 }
 
 TranslationManagerImpl::TranslationManagerImpl()
@@ -112,7 +140,11 @@ void TranslationManagerImpl::LoadDocuments( const std::vector<std::string> &file
         for( std::size_t i = 0; i < documents[document].Count(); i++ ) {
             const char *message = documents[document].GetOriginalString( i );
             if( message[0] != '\0' ) {
-                string_to_document_no[message] = std::make_pair( document, i );
+                const std::uint32_t hash = Hash( message );
+                if( strings.count( hash ) == 0 ) {
+                    strings[hash] = std::vector<std::pair<std::size_t, std::size_t>>( 1 );
+                }
+                strings[hash].emplace_back( document, i );
             }
         }
     }
@@ -120,40 +152,34 @@ void TranslationManagerImpl::LoadDocuments( const std::vector<std::string> &file
 
 const char *TranslationManagerImpl::Translate( const std::string &message ) const
 {
-    auto it = string_to_document_no.find( message );
-    if( it == string_to_document_no.end() ) {
-        return message.c_str();
-    }
-    const std::size_t document = it->second.first;
-    const std::size_t string_index = it->second.second;
-    return documents[document].GetTranslatedString( string_index );
+    return Translate( message.c_str() );
 }
 
 const char *TranslationManagerImpl::Translate( const char *message ) const
 {
-    auto it = string_to_document_no.find( message );
-    if( it == string_to_document_no.end() ) {
-        return message;
+    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( message );
+    if( entry ) {
+        const std::size_t document = entry->first;
+        const std::size_t string_index = entry->second;
+        return documents[document].GetTranslatedString( string_index );
     }
-    const std::size_t document = it->second.first;
-    const std::size_t string_index = it->second.second;
-    return documents[document].GetTranslatedString( string_index );
+    return message;
 }
 
 const char *TranslationManagerImpl::TranslatePlural( const char *singular, const char *plural,
         std::size_t n ) const
 {
-    auto it = string_to_document_no.find( singular );
-    if( it == string_to_document_no.end() ) {
-        if( n == 1 ) {
-            return singular;
-        } else {
-            return plural;
-        }
+    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( singular );
+    if( entry ) {
+        const std::size_t document = entry->first;
+        const std::size_t string_index = entry->second;
+        return documents[document].GetTranslatedStringPlural( string_index, n );
     }
-    const std::size_t document = it->second.first;
-    const std::size_t string_index = it->second.second;
-    return documents[document].GetTranslatedStringPlural( string_index, n );
+    if( n == 1 ) {
+        return singular;
+    } else {
+        return plural;
+    }
 }
 
 std::string TranslationManagerImpl::ConstructContextualQuery( const char *context,
@@ -171,13 +197,13 @@ const char *TranslationManagerImpl::TranslateWithContext( const char *context,
         const char *message ) const
 {
     std::string query = ConstructContextualQuery( context, message );
-    auto it = string_to_document_no.find( query );
-    if( it == string_to_document_no.end() ) {
-        return message;
+    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( query.c_str() );
+    if( entry ) {
+        const std::size_t document = entry->first;
+        const std::size_t string_index = entry->second;
+        return documents[document].GetTranslatedString( string_index );
     }
-    const std::size_t document = it->second.first;
-    const std::size_t string_index = it->second.second;
-    return documents[document].GetTranslatedString( string_index );
+    return message;
 }
 
 const char *TranslationManagerImpl::TranslatePluralWithContext( const char *context,
@@ -186,17 +212,17 @@ const char *TranslationManagerImpl::TranslatePluralWithContext( const char *cont
         std::size_t n ) const
 {
     std::string query = ConstructContextualQuery( context, singular );
-    auto it = string_to_document_no.find( query );
-    if( it == string_to_document_no.end() ) {
-        if( n == 1 ) {
-            return singular;
-        } else {
-            return plural;
-        }
+    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( query.c_str() );
+    if( entry ) {
+        const std::size_t document = entry->first;
+        const std::size_t string_index = entry->second;
+        return documents[document].GetTranslatedStringPlural( string_index, n );
     }
-    const std::size_t document = it->second.first;
-    const std::size_t string_index = it->second.second;
-    return documents[document].GetTranslatedStringPlural( string_index, n );
+    if( n == 1 ) {
+        return singular;
+    } else {
+        return plural;
+    }
 }
 
 #endif // defined(LOCALIZE)

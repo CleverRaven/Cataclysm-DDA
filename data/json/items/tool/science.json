@@ -948,6 +948,32 @@
     ]
   },
   {
+    "id": "multimeter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "multimeter" },
+    "description": "This gadget is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuty.",
+    "//": "Dimensions from a sampling of consumer digital multimeter models online.",
+    "weight": "500 g",
+    "volume": "650 ml",
+    "price": 9000,
+    "price_postapoc": 250,
+    "ammo": [ "battery" ],
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "melting_point",
     "type": "TOOL",
     "category": "tools",

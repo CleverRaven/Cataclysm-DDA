@@ -118,7 +118,7 @@
     "name": { "str": "Brawling" },
     "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
-    "autolearn": [ [ "melee", "1" ] ],
+    "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
     "static_buffs": [
       {

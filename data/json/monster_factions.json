@@ -20,7 +20,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "player",
-    "base_faction": "human"
+    "base_faction": "human",
+    "neutral": "robofac_spy"
   },
   {
     "type": "MONSTER_FACTION",
@@ -126,7 +127,7 @@
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
-    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish" ],
+    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
     "by_mood": [ "bear", "big_cat" ],
     "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect", "mutant", "fungus" ]
   },
@@ -148,7 +149,7 @@
     "name": "slime",
     "base_faction": "nether",
     "friendly": "zombie",
-    "neutral": "nether"
+    "neutral": [ "nether", "mi-go" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -400,8 +401,8 @@
     "type": "MONSTER_FACTION",
     "name": "antlion_grub",
     "base_faction": "insect",
-    "neutral": [ "antlion_grub", "antlion_adult" ],
-    "by_mood": [ "zombie", "fungus", "bee" ],
+    "neutral": [ "antlion_grub", "antlion_adult", "zombie" ],
+    "by_mood": [ "fungus", "bee" ],
     "hate": [ "insect", "small_animal", "ant", "acid_ant" ]
   },
   {
@@ -414,7 +415,7 @@
     "type": "MONSTER_FACTION",
     "name": "ladybug",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "bee", "insect" ],
+    "by_mood": [ "bee", "insect" ],
     "hate": [ "small_animal", "ant", "acid_ant" ]
   },
   {
@@ -453,7 +454,7 @@
     "type": "MONSTER_FACTION",
     "name": "robofac_spy",
     "base_faction": "robofac",
-    "friendly": [ "human", "player" ]
+    "friendly": [ "player" ]
   },
   {
     "type": "MONSTER_FACTION",
