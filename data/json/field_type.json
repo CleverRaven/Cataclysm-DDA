@@ -241,6 +241,7 @@
     "half_life": "30 minutes",
     "phase": "liquid",
     "display_field": true,
+    "immunity_data": { "traits": [ "GASTROPOD_FOOT" ] },
     "looks_like": "fd_sap"
   },
   {
@@ -368,6 +369,22 @@
     "display_field": true,
     "looks_like": "f_rubble",
     "legacy_make_rubble": true
+  },
+  {
+    "id": "fd_biolum",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "6", "color": "cyan", "light_emitted": 4 },
+      { "name": "glow", "color": "cyan", "light_emitted": 9 },
+      { "name": "shine", "color": "blue", "light_emitted": 20 }
+    ],
+    "description_affix": "illuminated_by",
+    "has_elec": true,
+    "priority": 4,
+    "half_life": "6 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
   },
   {
     "id": "fd_smoke",

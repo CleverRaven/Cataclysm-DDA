@@ -1399,6 +1399,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
+    prying = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "prying" ) ) {
+        prying->load( jo.get_object( "prying" ) );
+    }
+
     optional( jo, was_loaded, "emissions", emissions );
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
@@ -1559,6 +1564,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
+    prying = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "prying" ) ) {
+        prying->load( jo.get_object( "prying" ) );
+    }
+
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
     deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
 
@@ -1617,20 +1627,39 @@ void activity_byproduct::load( const JsonObject &jo )
     }
 }
 
+void activity_byproduct::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void pry_data::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "prying_nails", prying_nails );
+
+    optional( jo, was_loaded, "difficulty", difficulty );
+    optional( jo, was_loaded, "prying_level", prying_level );
+
+    optional( jo, was_loaded, "noisy", noisy );
+    optional( jo, was_loaded, "alarm", alarm );
+    optional( jo, was_loaded, "breakable", breakable );
+
+    optional( jo, was_loaded, "failure", failure );
+}
+
+void pry_data::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
 void activity_data_common::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "duration", duration_, 1_seconds );
     optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "sound", sound_ );
 
-    if( jo.has_array( "byproducts" ) ) {
-        std::vector<activity_byproduct> entries;
-        for( JsonObject activity_entry : jo.get_array( "byproducts" ) ) {
-            struct activity_byproduct entry {};
-            entry.load( activity_entry );
-            byproducts_.push_back( entry );
-        }
-    }
+    optional( jo, was_loaded, "byproducts", byproducts_ );
+
+    optional( jo, was_loaded, "prying_data", prying_data_ );
 }
 
 void activity_data_ter::load( const JsonObject &jo )

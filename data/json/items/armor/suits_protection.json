@@ -1215,5 +1215,39 @@
     "warmth": 25,
     "material_thickness": 0.8,
     "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "officer_uniform",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "dress uniform" },
+    "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons.  Just looking at it gives you an air of authority.  Perhaps not the most practical military wear, but a very stylish option.",
+    "weight": "1653 g",
+    "volume": "4750 ml",
+    "price": 22400,
+    "price_postapoc": 550,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "suit",
+    "color": "black",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 7, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 25,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
   }
 ]

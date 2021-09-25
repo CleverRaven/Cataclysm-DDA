@@ -1044,8 +1044,10 @@ std::string enum_to_string<cube_direction>( cube_direction data )
 
 struct mutable_overmap_join {
     std::string id;
-    unsigned priority; // NOLINT(cata-serialize)
+    std::string opposite_id;
     cata::flat_set<string_id<overmap_location>> into_locations;
+    unsigned priority; // NOLINT(cata-serialize)
+    const mutable_overmap_join *opposite = nullptr; // NOLINT(cata-serialize)
 
     void deserialize( JsonIn &jin ) {
         if( jin.test_string() ) {
@@ -1054,6 +1056,7 @@ struct mutable_overmap_join {
             JsonObject jo = jin.get_object();
             jo.read( "id", id, true );
             jo.read( "into_locations", into_locations, true );
+            jo.read( "opposite", opposite_id, true );
         }
     }
 };
@@ -1090,6 +1093,7 @@ std::string enum_to_string<join_type>( join_type data )
 
 struct mutable_overmap_terrain_join {
     std::string join_id;
+    const mutable_overmap_join *join = nullptr; // NOLINT(cata-serialize)
     join_type type = join_type::mandatory;
 
     void deserialize( JsonIn &jin ) {
@@ -1445,6 +1449,7 @@ class joins_tracker
                  ter.joins ) {
                 cube_direction dir = p.first + rot;
                 const mutable_overmap_terrain_join &join = p.second;
+                const mutable_overmap_join &opposite_join = *join.join->opposite;
 
                 pos_dir this_side{ pos, dir };
                 pos_dir other_side = this_side.opposite();
@@ -1461,7 +1466,7 @@ class joins_tracker
                             debugmsg( "out of bounds join" );
                             continue;
                         }
-                        add_unresolved( other_side, join.join_id );
+                        add_unresolved( other_side, opposite_join.id );
                     }
                 }
                 resolved.add( *this, this_side, join.join_id );
@@ -1650,12 +1655,6 @@ struct mutable_overmap_special_data {
         if( check_for_locations.empty() ) {
             check_for_locations.push_back( root_as_overmap_special_terrain() );
         }
-        for( std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
-            mutable_overmap_terrain &ter = p.second;
-            if( ter.locations.empty() ) {
-                ter.locations = default_locations;
-            }
-        }
         for( size_t i = 0; i != joins_vec.size(); ++i ) {
             mutable_overmap_join &join = joins_vec[i];
             if( join.into_locations.empty() ) {
@@ -1664,11 +1663,51 @@ struct mutable_overmap_special_data {
             join.priority = i;
             joins.emplace( join.id, &join );
         }
+        for( mutable_overmap_join &join : joins_vec ) {
+            if( join.opposite_id.empty() ) {
+                join.opposite_id = join.id;
+                join.opposite = &join;
+                continue;
+            }
+            auto opposite_it = joins.find( join.opposite_id );
+            if( opposite_it == joins.end() ) {
+                // Error reported later in check()
+                continue;
+            }
+            join.opposite = opposite_it->second;
+        }
+        for( std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
+            mutable_overmap_terrain &ter = p.second;
+            if( ter.locations.empty() ) {
+                ter.locations = default_locations;
+            }
+            for( join_map::value_type &p : ter.joins ) {
+                mutable_overmap_terrain_join &ter_join = p.second;
+                auto join_it = joins.find( ter_join.join_id );
+                if( join_it == joins.end() ) {
+                    continue;
+                }
+                ter_join.join = join_it->second;
+            }
+        }
     }
 
     void check( const std::string &context ) const {
         if( joins_vec.size() != joins.size() ) {
             debugmsg( "duplicate join id in %s", context );
+        }
+        for( const mutable_overmap_join &join : joins_vec ) {
+            if( join.opposite ) {
+                if( join.opposite->opposite_id != join.id ) {
+                    debugmsg( "in %1$s: join id %2$s specifies its opposite to be %3$s, but "
+                              "the opposite of %3$s is %4$s, when it should match the "
+                              "original id %2$s",
+                              context, join.id, join.opposite_id, join.opposite->opposite_id );
+                }
+            } else {
+                debugmsg( "in %s: join id '%s' specified as opposite of '%s' not valid",
+                          context, join.opposite_id, join.id );
+            }
         }
         for( const std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
             const mutable_overmap_terrain &ter = p.second;

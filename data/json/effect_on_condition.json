@@ -272,6 +272,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "mut_eyestalk",
+    "run_for_npcs": true,
+    "recurrence_min": "2 hours 15 minutes",
+    "recurrence_max": "10 hours 15 minutes",
+    "condition": {
+      "and": [
+        { "u_has_trait": "EYESTALKS1" },
+        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "EYESTALKS1" } },
+    "effect": [
+      { "u_message": "Your vision inverts!", "type": "bad" },
+      { "sound_effect": "pixelated", "id": "bionics", "volume": 50 },
+      { "u_add_effect": "visuals", "duration": "10 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "bio_spasm",
     "run_for_npcs": true,
     "recurrence_min": "2 hours 30 minutes",

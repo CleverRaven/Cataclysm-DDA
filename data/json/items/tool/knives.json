@@ -16,7 +16,8 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "diveknife",
@@ -36,7 +37,8 @@
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "honey_scraper",
@@ -55,7 +57,8 @@
     "symbol": ",",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "pockknife",
@@ -72,7 +75,8 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "primitive_knife",

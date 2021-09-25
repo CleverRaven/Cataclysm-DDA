@@ -194,6 +194,27 @@
   },
   {
     "type": "snippet",
+    "category": "dogwhistle_message_npc_not_hostile",
+    "text": [ "What is this unbearable sound!?", "STOP.  MY EARS", "I'm not a dog…", "Would you kindly not do that?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_npc_hostile",
+    "text": [
+      "I WILL MURDER YOU",
+      "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT",
+      "You're seriously pissing me off…",
+      "I'm not a dog…",
+      "What is this unbearable sound!?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_you",
+    "text": [ "You hate this loud sound." ]
+  },
+  {
+    "type": "snippet",
     "category": "slime_cheers",
     "text": [
       {

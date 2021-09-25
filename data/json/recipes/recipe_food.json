@@ -989,7 +989,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 6 ] ]
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
     ]
   },
   {
@@ -1018,7 +1018,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 8 ] ]
+      [ [ "sausage_casings", 8 ], [ "sausage_casings_artificial", 8 ] ]
     ]
   },
   {
@@ -1047,7 +1047,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 6 ] ]
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
     ]
   },
   {
@@ -1088,7 +1088,7 @@
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 1 ], [ "seasoning_italian", 2 ], [ "wild_herbs", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "sausage_casings", 8 ] ]
+      [ [ "sausage_casings", 8 ], [ "sausage_casings_artificial", 8 ] ]
     ]
   },
   {
@@ -3020,7 +3020,7 @@
         [ "seasoning_salt", 10 ],
         [ "pepper", 10 ]
       ],
-      [ [ "sausage_casings", 6 ] ]
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
     ]
   },
   {
@@ -4698,24 +4698,72 @@
       [
         [ "sweet_fruit_like", 2, "LIST" ],
         [ "coconut", 2 ],
-        [ "coffee_syrup", 5 ],
-        [ "cola", 6 ],
-        [ "con_milk", 1 ],
         [ "corn_kernels", 3 ],
         [ "rehydrated_corn_kernels", 3 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ],
         [ "honeydew", 3 ],
-        [ "honeycomb", 1 ],
-        [ "can_corn", 3 ],
-        [ "molasses", 1 ],
-        [ "purple_drink", 6 ],
-        [ "rootbeer", 6 ],
-        [ "syrup", 2 ],
-        [ "beet_syrup", 4 ]
+        [ "can_corn", 3 ]
       ],
       [ [ "lye_powder", 20 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sugar",
+    "id_suffix": "from_processed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "24 m",
+    "charges": 22,
+    "autolearn": true,
+    "batch_time_factors": [ 20, 1 ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [
+        [ "coffee_syrup", 4 ],
+        [ "cola", 5 ],
+        [ "con_milk", 4 ],
+        [ "honey_bottled", 7 ],
+        [ "honeycomb", 1 ],
+        [ "molasses", 2 ],
+        [ "purple_drink", 7 ],
+        [ "rootbeer", 4 ],
+        [ "syrup", 8 ],
+        [ "beet_syrup", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "sugar",
+    "id_suffix": "from_candy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "charges": 19,
+    "autolearn": true,
+    "batch_time_factors": [ 50, 1 ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+      [
+        [ "candy3", 5 ],
+        [ "candy3gator", 5 ],
+        [ "maltballs", 1 ],
+        [ "mintpatties", 2 ],
+        [ "honey_glassed", 2 ],
+        [ "homeopathic_pills", 120 ],
+        [ "cow_candy", 2 ],
+        [ "candycigarette", 3 ],
+        [ "maple_candy", 7 ],
+        [ "powder_candy", 2 ]
+      ]
     ]
   },
   {
@@ -7040,7 +7088,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
-      [ [ "sausage_casings", 2 ] ],
+      [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],
@@ -7088,7 +7136,7 @@
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
-      [ [ "sausage_casings", 2 ] ],
+      [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],

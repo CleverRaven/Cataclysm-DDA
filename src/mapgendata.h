@@ -169,6 +169,7 @@ class mapgendata
             return t_below;
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
+        const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
         void square_groundcover( const point &p1, const point &p2 ) const;
         ter_id groundcover() const;

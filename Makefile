@@ -791,6 +791,7 @@ endif
 
 ifeq ($(LOCALIZE),1)
   DEFINES += -DLOCALIZE
+  LOCALIZE_TEST_DEPS = localization $(TEST_MO)
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
@@ -938,8 +939,21 @@ src/version.h: version
 
 src/version.cpp: src/version.h
 
-localization:
+TEST_MO := data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo
+
+$(TEST_MO): data/mods/TEST_DATA/lang/po/ru.po
+	mkdir -p $(dir $@)
+	msgfmt -f -o $@ $<
+
+MO_DEPS := \
+  $(wildcard lang/*.sh lang/*.py src/*.cpp src/*.h) \
+  $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
+
+lang/mo_built.stamp: $(MO_DEPS)
 	lang/compile_mo.sh $(LANGUAGES)
+	touch $@
+
+localization: lang/mo_built.stamp
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
@@ -954,11 +968,12 @@ clean: clean-tests clean-object_creator clean-pch
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
+	rm -f $(TEST_MO)
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
 	rm -rf save
-	rm -rf lang/mo
+	rm -rf lang/mo lang/mo_built.stamp
 	rm -f data/options.txt
 	rm -f data/keymap.txt
 	rm -f data/auto_pickup.txt
@@ -1149,8 +1164,10 @@ etags: $(ASTYLE_SOURCES)
 	etags $^
 	./tools/json_tools/cddatags.py
 
-astyle: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+ASTYLE_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%.astyle-check-stamp,$(ASTYLE_SOURCES)))
+astyle: $(ASTYLE_CHECK_STAMPS)
+$(ASTYLE_CHECK_STAMPS): $(ODIR)/%.astyle-check-stamp : %
+	$(ASTYLE_BINARY) --options=.astylerc -n $< && mkdir -p $(@D) && touch $@
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
@@ -1166,10 +1183,12 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-style-json: json_blacklist $(JSON_FORMATTER_BIN)
+JSON_SOURCES := $(shell find data -name '* *' -prune -o -name "*.json" -print)
+JSON_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%,$(JSON_SOURCES:.json=.jstyle-check-stamp)))
+style-json : $(JSON_CHECK_STAMPS) $(JSON_FORMATTER_BIN)
+$(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	find data gfx -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
-	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+	$(JSON_FORMATTER_BIN) $< && mkdir -p $(@D) && touch $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
@@ -1184,10 +1203,10 @@ $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 python-check:
 	flake8
 
-tests: version $(BUILD_PREFIX)cataclysm.a
+tests: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 	$(MAKE) -C tests
 
-check: version $(BUILD_PREFIX)cataclysm.a
+check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 	$(MAKE) -C tests check
 
 clean-tests:

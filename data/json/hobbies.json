@@ -680,7 +680,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "meditation",
-    "name": "Mediation",
+    "name": "Meditation",
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
     "points": 2,
     "traits": [ "SELFAWARE", "SPIRITUAL" ]

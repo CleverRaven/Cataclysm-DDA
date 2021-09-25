@@ -199,6 +199,12 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
         for( int i = 0; i < num_trials_per_overmap; ++i ) {
             tripoint_om_omt try_pos( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
 
+            // This test can get very spammy, so abort once an error is
+            // observed
+            if( debug_has_error_been_observed() ) {
+                return;
+            }
+
             if( om->can_place_special( special, try_pos, dir, false ) ) {
                 std::vector<tripoint_om_omt> placed_points =
                     om->place_special( special, try_pos, dir, cit, false, false );

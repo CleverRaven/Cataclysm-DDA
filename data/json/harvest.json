@@ -839,6 +839,25 @@
     ]
   },
   {
+    "id": "mutant_animal_large_noskin_frog",
+    "//": "for those vertebrates that don't have something you can skin off of them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "frog_sample", "type": "bionic_group" },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "meatslug",
     "//": "no bones or organs",
     "type": "harvest",
@@ -1234,6 +1253,20 @@
     "//": "a near human sapient being possibly from another dimension, some people will consider it human and some won't",
     "type": "harvest",
     "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "demihuman_snail",
+    "type": "harvest",
+    "entries": [
+      { "drop": "snail_sample", "type": "bionic_group" },
       { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },

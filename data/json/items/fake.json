@@ -44,6 +44,7 @@
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],
       [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
       [ "DRILL", 3 ],
       [ "BUTCHER", -38 ]
     ]
@@ -60,12 +61,12 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "fake_razor",
