@@ -61,7 +61,7 @@
     "subtype": "hobby",
     "id": "sleepingpillhead",
     "name": "Sleeping Pill Reliance",
-    "description": "You had difficulties falling asleep, so you started taking those sleeping pills. Problem is, now you can not fall asleep without them anymore and the Cataclysm does.",
+    "description": "You had difficulties falling asleep, so you started taking those sleeping pills. Problem is, now you can not fall asleep without them anymore and the Cataclysm does complicate the matter.",
     "points": -1,
     "addictions": [ { "intensity": 10, "type": "sleeping pill" } ]
   },
