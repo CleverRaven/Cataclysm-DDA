@@ -2,29 +2,137 @@
   {
     "type": "MONSTER_FACTION",
     "name": "deep_ones",
-    "neutral": [ "small_animal", "nyarlathotep" ],
-    "by_mood": [ "fish", "nether", "witches", "nodens" ],
-    "hate": [ "triffid", "fungus", "exodii" ]
+    "by_mood": [
+      "fish",
+      "nether",
+      "witches",
+      "nodens",
+      "nyarlathotep",
+      "ghouls",
+      "yig",
+      "polyps",
+      "elder_things",
+      "shub-niggurath",
+      "cthulhu",
+      "hastur"
+    ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "witches",
-    "neutral": [ "small_animal", "rat" ],
-    "by_mood": [ "nether", "deep_ones", "nyarlathotep", "nodens" ],
-    "hate": [ "triffid", "fungus", "exodii" ]
+    "neutral": [ "rat" ],
+    "by_mood": [
+      "nether",
+      "deep_ones",
+      "nyarlathotep",
+      "nodens",
+      "ghouls",
+      "yig",
+      "polyps",
+      "elder_things",
+      "shub-niggurath",
+      "cthulhu",
+      "hastur"
+    ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nyarlathotep",
-    "neutral": [ "small_animal" ],
-    "by_mood": [ "nether", "deep_ones", "witches" ],
+    "by_mood": [ "nether", "deep_ones", "witches", "ghouls", "yig", "polyps", "elder_things", "shub-niggurath", "cthulhu", "hastur" ],
     "hate": [ "nodens" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nodens",
-    "neutral": [ "small_animal" ],
-    "by_mood": [ "nether", "deep_ones" ],
-    "hate": [ "nyarlathotep", "triffid", "fungus", "exodii" ]
+    "neutral": [ "ghouls" ],
+    "by_mood": [ "nether", "deep_ones", "witches", "yig", "polyps", "elder_things", "shub-niggurath", "cthulhu", "hastur" ],
+    "hate": [ "nyarlathotep" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ghouls",
+    "neutral": [ "nodens" ],
+    "by_mood": [ "nether", "deep_ones", "nyarlathotep", "witches", "polyps", "elder_things", "shub-niggurath", "cthulhu", "hastur" ],
+    "hate": [ "yig" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "yig",
+    "by_mood": [
+      "nether",
+      "deep_ones",
+      "nyarlathotep",
+      "witches",
+      "nodens",
+      "polyps",
+      "elder_things",
+      "shub-niggurath",
+      "cthulhu",
+      "hastur"
+    ],
+    "hate": [ "ghouls" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "elder_things",
+    "by_mood": [ "nether", "deep_ones", "nyarlathotep", "witches", "ghouls", "nodens", "yig", "shub-niggurath", "cthulhu", "hastur" ],
+    "hate": [ "polyps" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "polyps",
+    "by_mood": [ "nether", "deep_ones", "nyarlathotep", "witches", "ghouls", "nodens", "yig", "shub-niggurath", "cthulhu", "hastur" ],
+    "hate": [ "elder_things" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "shub-niggurath",
+    "by_mood": [
+      "nether",
+      "deep_ones",
+      "nyarlathotep",
+      "witches",
+      "ghouls",
+      "nodens",
+      "yig",
+      "polyps",
+      "elder_things",
+      "cthulhu",
+      "hastur"
+    ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cthulhu",
+    "by_mood": [
+      "nether",
+      "deep_ones",
+      "nyarlathotep",
+      "witches",
+      "ghouls",
+      "nodens",
+      "yig",
+      "polyps",
+      "elder_things",
+      "shub-niggurath",
+      "hastur"
+    ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hastur",
+    "by_mood": [
+      "nether",
+      "deep_ones",
+      "nyarlathotep",
+      "witches",
+      "ghouls",
+      "nodens",
+      "yig",
+      "polyps",
+      "elder_things",
+      "shub-niggurath",
+      "cthulhu"
+    ]
   }
 ]
