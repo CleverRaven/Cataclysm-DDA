@@ -2460,8 +2460,8 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
                 set_int( d, get_first_int( d ) % get_second_int( d ) );
             };
         } else if( result == "=" ) {
-            function = [get_first_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) );
+            function = [get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_second_int( d ) );
             };
         } else {
             jo.throw_error( "unexpected result " + result + " in " + jo.str() );
