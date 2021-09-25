@@ -1989,14 +1989,14 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                     //~ %1$s: skill name, %2$d: companion skill level
                     npc_desc += string_format( pgettext( "companion skill", "%1$s %2$d" ),
                                                skill_tested_id.obj().name(),
-                                               e->get_skill_level( skill_tested_id ) );
+                                               e->get_knowledge_level( skill_tested_id ) );
                 } else {
                     //~ %1$s: skill name, %2$d: companion skill level, %3$d: skill requirement
                     npc_desc += string_format( pgettext( "companion skill", "%1$s %2$d/%3$d" ),
                                                skill_tested_id.obj().name(),
-                                               e->get_skill_level( skill_tested_id ),
+                                               e->get_knowledge_level( skill_tested_id ),
                                                skill_level );
-                    can_do &= e->get_skill_level( skill_tested_id ) >= skill_level;
+                    can_do &= e->get_knowledge_level( skill_tested_id ) >= skill_level;
                 }
             }
         }
