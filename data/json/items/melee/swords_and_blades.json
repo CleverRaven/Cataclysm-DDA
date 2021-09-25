@@ -326,7 +326,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SHEATH_SWORD" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "machete",
@@ -347,7 +348,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "machete_gimmick",
@@ -366,7 +368,8 @@
     "cutting": 15,
     "material": [ "steel" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ]
+    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "cavalry_sabre",
@@ -711,7 +714,8 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "dao",
@@ -752,7 +756,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "sword_bayonet",
