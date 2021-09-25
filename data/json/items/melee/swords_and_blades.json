@@ -59,7 +59,7 @@
     "symbol": "!",
     "color": "light_gray",
     "name": { "str": "metal sword" },
-    "description": "An imitation of a true sword forged by someone who knows what swords look like, at least. It has the general shape of a sword, and it is sharp, yet the quality is lacking and the balance isn't quite right.",
+    "description": "An imitation of a true sword forged by someone who knows what swords look like, at least.  It has the general shape of a sword, and it is sharp, yet the quality is lacking and the balance isn't quite right.",
     "material": [ "steel" ],
     "volume": "2 L",
     "weight": "1100 g",
