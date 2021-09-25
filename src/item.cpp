@@ -4984,6 +4984,7 @@ void item::on_wear( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
+    p.on_item_acquire( *this );
     p.on_item_wear( *this );
 }
 
@@ -5047,6 +5048,7 @@ void item::on_wield( Character &you )
 
     // Update encumbrance in case we were wearing it
     you.flag_encumbrance();
+    you.on_item_acquire( *this );
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -5102,6 +5104,7 @@ void item::on_pickup( Character &p )
 
     p.flag_encumbrance();
     p.invalidate_weight_carried_cache();
+    p.on_item_acquire( *this );
 }
 
 void item::on_contents_changed()

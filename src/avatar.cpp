@@ -180,8 +180,8 @@ void avatar::control_npc( npc &np )
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
     // center the map on the new avatar character
-    g->vertical_shift( posz() );
-    g->update_map( *this );
+    const bool z_level_changed = g->vertical_shift( posz() );
+    g->update_map( *this, z_level_changed );
 }
 
 void avatar::control_npc_menu()
