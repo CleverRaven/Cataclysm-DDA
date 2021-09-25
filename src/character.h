@@ -2223,7 +2223,7 @@ class Character : public Creature, public visitable
         bool male = false;
 
         bool is_dead = false;
-
+        std::vector<effect_on_condition_id> death_eocs;
         std::list<item> worn;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now

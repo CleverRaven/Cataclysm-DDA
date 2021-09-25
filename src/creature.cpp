@@ -2738,7 +2738,11 @@ std::unique_ptr<talker> get_talker_for( Creature &me )
 
 std::unique_ptr<talker> get_talker_for( Creature *me )
 {
-    if( me->is_monster() ) {
+    if( !me ) {
+        debugmsg( "Null creature type." );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    } else if( me->is_monster() ) {
         return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
     } else if( me->is_npc() ) {
         return std::make_unique<talker_npc>( static_cast<npc *>( me ) );

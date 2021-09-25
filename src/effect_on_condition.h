@@ -33,6 +33,7 @@ struct effect_on_condition {
         bool has_false_effect = false;
         bool activate_only = true;
         bool scenario_specific = false;
+        bool avatar_death = false;
 
         time_duration recurrence_min = 1_seconds;
         time_duration recurrence_max = 1_seconds;
@@ -72,6 +73,7 @@ void clear( Character &you );
 /** write out all queued eocs and inactive eocs to a file for testing */
 void write_eocs_to_file( Character &you );
 void write_global_eocs_to_file();
+void avatar_death();
 } // namespace effect_on_conditions
 
 #endif // CATA_SRC_EFFECT_ON_CONDITION_H

@@ -282,6 +282,10 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_int( "height" ) ) {
         guy.set_base_height( jsobj.get_int( "height" ) );
     }
+    for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
+        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -376,6 +380,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
+    death_eocs = tguy.death_eocs;
 }
 
 npc::~npc() = default;

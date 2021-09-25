@@ -60,14 +60,16 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
         false_effect.load_effect( jo, "false_effect" );
         has_false_effect = true;
     }
-
+    optional( jo, was_loaded, "avatar_death", avatar_death );
     optional( jo, was_loaded, "scenario_specific", scenario_specific );
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
     optional( jo, was_loaded, "global", global, false );
-    if( activate_only && global ) {
-        jo.throw_error( "global should only be true for recurring effect_on_conditions." );
-    } else if( !global && run_for_npcs ) {
-        jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
+    if( activate_only && ( global || run_for_npcs ) ) {
+        jo.throw_error( "run_for_npcs and global should only be true for recurring effect_on_conditions." );
+    } else if( global && run_for_npcs ) {
+        jo.throw_error( "An effect_on_condition can be either run_for_npcs or global but not both." );
+    } else if( ( global || !activate_only || scenario_specific ) && avatar_death ) {
+        jo.throw_error( "An effect_on_condition with avatar_death cannot be global or scenario_specific or non-recurring." );
     }
 }
 
@@ -105,7 +107,8 @@ void effect_on_conditions::load_new_character( Character &you )
     effect_on_conditions::clear( you );
 
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( !eoc.activate_only && !eoc.scenario_specific && ( is_avatar || !eoc.global ) ) {
+        if( !eoc.activate_only && !eoc.avatar_death && !eoc.scenario_specific && ( is_avatar ||
+                eoc.run_for_npcs ) ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
             if( eoc.global ) {
                 g->queued_global_effect_on_conditions.push( new_eoc );
@@ -334,6 +337,15 @@ void effect_on_conditions::write_global_eocs_to_file( )
         }
 
     }, "eocs test file" );
+}
+void effect_on_conditions::avatar_death()
+{
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( eoc.avatar_death ) {
+            eoc.activate( d );
+        }
+    }
 }
 
 void effect_on_condition::finalize()
