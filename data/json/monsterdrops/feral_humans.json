@@ -98,6 +98,7 @@
       { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "survivor_melee", "prob": 35, "damage": [ 1, 4 ] },
       { "group": "stash_food", "prob": 100 },
+      { "group": "mil_food_nodrugs", "prob": 20 },
       { "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] }
     ]
   },
@@ -109,6 +110,7 @@
     "ammo": 20,
     "entries": [
       { "group": "feral_ninemm", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "survivor_grenades", "prob": 20, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
       { "group": "book_survival", "prob": 40 },
