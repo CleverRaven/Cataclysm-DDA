@@ -539,7 +539,7 @@
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": [ "steel" ],
     "weight": "40 g",
-    "volume": "263 ml",
+    "volume": "262 ml",
     "bashing": 2,
     "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],

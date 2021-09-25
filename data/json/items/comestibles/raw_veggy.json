@@ -123,6 +123,7 @@
     "charges": 9,
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ]
   },
   {

@@ -433,7 +433,7 @@
     "type": "COMESTIBLE",
     "id": "rehydrated_eggs",
     "copy-from": "egg_bird",
-    "name": { "str": "rehydrated egg" },
+    "name": { "str": "rehydrated eggs" },
     "weight": "50 g",
     "color": "yellow",
     "symbol": "%",
@@ -446,7 +446,7 @@
     "material": [ "egg" ],
     "volume": "50 ml",
     "flags": [  ],
-    "fun": 0,
+    "fun": -2,
     "vitamins": [ [ "vitB", 2 ] ]
   },
   {
