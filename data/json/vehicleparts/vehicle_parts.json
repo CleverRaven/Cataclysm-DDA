@@ -323,7 +323,7 @@
   {
     "type": "vehicle_part",
     "id": "foldable_aisle",
-    "copy-from": "wooden_aisle"
+    "copy-from": "wooden_aisle",
     "name": { "str": "collapsible wooden aisle" },
     "looks_like": "t_floor",
     "description": "A collapsible aisle.",
