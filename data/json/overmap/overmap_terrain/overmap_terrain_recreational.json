@@ -95,7 +95,7 @@
     "color": "light_gray"
   },
   {
-    "id": "small_wooded_trail",
+    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "small wooded trail",
