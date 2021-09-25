@@ -886,6 +886,7 @@
     "proportional": { "bashing": 8, "cutting": 0.24 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "weapon_category": [ "KNIVES" ],
     "material": [ "budget_steel" ],
     "to_hit": 1,
     "price": 900,
