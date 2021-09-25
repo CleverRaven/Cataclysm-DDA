@@ -321,7 +321,7 @@
   },
   {
     "id": "dentures",
-    "name": { "str": "a set of dentures" },
+    "name": { "str": "set of dentures" },
     "type": "GENERIC",
     "description": "A standard set of prosthetic teeth.  Pretty useless to anyone aside it's owner.",
     "symbol": "c",
