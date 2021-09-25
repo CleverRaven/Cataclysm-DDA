@@ -30,6 +30,7 @@
     "longest_side": "30 cm",
     "cutting": 28,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "weapon_category": [ "WRIST_BLADE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
   }
 ]

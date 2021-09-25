@@ -837,10 +837,7 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS" ],
-    "weapons": [
-      "bio_blade_weapon"
-    ]
+    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS", "WRIST_BLADE" ]
   },
   {
     "type": "martial_art",
