@@ -1287,7 +1287,6 @@
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
     "prying": {
       "result": "f_metal_crate_o",
-      "duration": "1 minutes",
       "message": "You wrench open the metal crate.",
       "byproducts": [ { "item": "sheet_metal", "count": 1 } ],
       "prying_data": { "difficulty": 4, "prying_level": 1, "noisy": true, "failure": "The lid is sealed more tightly than you thought." }
