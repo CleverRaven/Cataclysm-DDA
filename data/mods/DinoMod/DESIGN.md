@@ -23,11 +23,11 @@ As of this writing, each dinosaur touches at least ten different JSON files, lis
 Main DinoMod folder: 
 
 * cooking_components.json is where you add the dinosaur egg to allow it to be cooked, 
+* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
 
 items folder:
 
 * egg.json is where you create the dino egg
-* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
 
 monstergroups folder:
 
