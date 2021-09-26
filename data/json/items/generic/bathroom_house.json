@@ -323,7 +323,7 @@
     "id": "dentures",
     "name": { "str": "set of dentures", "str_pl": "sets of dentures" },
     "type": "GENERIC",
-    "description": "A standard set of prosthetic teeth.  Pretty useless to anyone aside it's owner.",
+    "description": "A standard set of prosthetic teeth.  Pretty useless to anyone aside from its owner.",
     "symbol": "c",
     "material": [ "plastic" ],
     "color": "pink",
