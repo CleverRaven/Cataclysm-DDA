@@ -203,6 +203,7 @@ struct conditional_t {
         void set_is_day();
         void set_has_stolen_item( bool is_npc = false );
         void set_is_outside( bool is_npc = false );
+        void set_is_underwater( bool is_npc = false );
         void set_is_by_radio();
         void set_u_has_camp();
         void set_has_pickup_list();

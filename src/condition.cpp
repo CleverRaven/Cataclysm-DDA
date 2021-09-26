@@ -305,7 +305,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
 
     condition = [category_id, count, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        const auto items_with = actor->items_with( [category_id]( const item & it ) {
+        const auto items_with = actor->const_items_with( [category_id]( const item & it ) {
             return it.get_category_shallow().get_id() == category_id;
         } );
         return items_with.size() >= count;
@@ -807,7 +807,15 @@ template<class T>
 void conditional_t<T>::set_is_outside( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
-        return is_creature_outside( *d.actor( is_npc )->get_character() );
+        return is_creature_outside( *d.actor( is_npc )->get_creature() );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_underwater( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return get_map().is_divable( d.actor( is_npc )->pos() );
     };
 }
 
@@ -1176,6 +1184,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "friendly" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_friendly();
+            };
+        } else if( checked_value == "moon" ) {
+            return []( const T & ) {
+                return static_cast<int>( get_moon_phase( calendar::turn ) );
+            };
+        } else if( checked_value == "hour" ) {
+            return []( const T & ) {
+                return to_hours<int>( time_past_midnight( calendar::turn ) );
             };
         }
     }
@@ -1610,6 +1626,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_outside();
     } else if( type == "is_outside" || type == "npc_is_outside" ) {
         set_is_outside( is_npc );
+    } else if( type == "u_is_underwater" ) {
+        set_is_underwater();
+    } else if( type == "npc_is_underwater" ) {
+        set_is_underwater( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {

@@ -1846,7 +1846,7 @@ class Character : public Creature, public visitable
 
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
-
+        std::vector<const item *> inv_dump() const;
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
