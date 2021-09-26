@@ -172,7 +172,7 @@ void effect_on_conditions::load_existing_character( Character &you )
     bool is_avatar = you.is_avatar();
     std::map<effect_on_condition_id, bool> new_eocs;
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( !eoc.activate_only && !eoc.scenario_specific && ( is_avatar || !eoc.global ) ) {
+        if( eoc.type == eoc_type::RECURRING && ( is_avatar || !eoc.global ) ) {
             new_eocs[eoc.id] = true;
         }
     }
