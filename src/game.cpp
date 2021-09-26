@@ -645,6 +645,8 @@ void game::setup()
     effect_on_conditions::clear( u );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
     // back to menu for save loading, new game etc
 }
 
@@ -11464,4 +11466,9 @@ timed_event_manager &get_timed_events()
 weather_manager &get_weather()
 {
     return g->weather;
+}
+
+global_variables &get_globals()
+{
+    return g->global_variables_instance;
 }

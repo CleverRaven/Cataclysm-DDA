@@ -789,7 +789,7 @@ Condition | Type | Description
 
 `"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. A list of values that can be read and/or witen to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or witen to follows.
 
 Example | Description
 --- | ---
@@ -803,7 +803,7 @@ Example | Description
 `"weather": "pressure"` | Current pressure.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. `global` is an optional bool(defaults to false), if it is true the player characters var will be used no matter who the dialog targets.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used.
 `"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
 `"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "cash"` | Ammount of money the character has. Only supported for the player character. Can be read but not written to.

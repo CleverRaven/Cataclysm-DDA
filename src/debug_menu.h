@@ -90,6 +90,8 @@ enum class debug_menu_index : int {
     VEHICLE_BATTERY_CHARGE,
     GENERATE_EFFECT_LIST,
     EDIT_CAMP_LARDER,
+    WRITE_GLOBAL_EOCS,
+    WRITE_GLOBAL_VARS,
     last
 };
 

@@ -1047,14 +1047,6 @@ void Character::load( const JsonObject &data )
         temp.recurring = elem.get_bool( "recurring" );
         queued_effect_on_conditions.push( temp );
     }
-    //load inactive queued_eocs
-    for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
-        queued_eoc temp;
-        temp.time = time_point( elem.get_int( "time" ) );
-        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        temp.recurring = elem.get_bool( "recurring" );
-        queued_effect_on_conditions.push( temp );
-    }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
 }
 
