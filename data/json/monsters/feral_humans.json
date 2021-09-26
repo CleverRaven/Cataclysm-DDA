@@ -252,7 +252,7 @@
       {
         "type": "gun",
         "cooldown": 10,
-        "move_cost": 150,
+        "move_cost": 50,
         "gun_type": "feral_mishandled_gun",
         "ammo_type": "9mm",
         "fake_skills": [ [ "gun", 1 ], [ "handgun", 1 ] ],
