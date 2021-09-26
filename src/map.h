@@ -580,6 +580,7 @@ class map
         int move_cost( const point &p, const vehicle *ignored_vehicle = nullptr ) const {
             return move_cost( tripoint( p, abs_sub.z ), ignored_vehicle );
         }
+        bool impassable( const tripoint_abs_ms &p ) const;
         bool impassable( const tripoint &p ) const;
         bool impassable( const point &p ) const {
             return !passable( p );
@@ -819,6 +820,7 @@ class map
         bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
+        ter_id ter( const tripoint_abs_ms &p ) const;
         ter_id ter( const tripoint &p ) const;
         ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z ) );
@@ -944,6 +946,7 @@ class map
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // Checks terrain, furniture and vehicles
+        bool has_flag( ter_furn_flag flag, const tripoint_abs_ms &p ) const;
         bool has_flag( ter_furn_flag flag, const tripoint &p ) const;
         bool has_flag( ter_furn_flag flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z ) );

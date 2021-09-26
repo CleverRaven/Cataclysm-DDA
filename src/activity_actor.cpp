@@ -3759,7 +3759,7 @@ void move_furniture_activity_actor::start( player_activity &act, Character & )
 void move_furniture_activity_actor::finish( player_activity &act, Character &who )
 {
     if( !g->grabbed_furn_move( dp ) ) {
-        g->walk_move( who.pos() + dp, via_ramp, true );
+        g->walk_move( who.get_location() + dp, via_ramp, true );
     }
     act.set_to_null();
 }

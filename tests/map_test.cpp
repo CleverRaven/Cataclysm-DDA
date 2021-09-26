@@ -51,9 +51,9 @@ TEST_CASE( "map_bounds_checking" )
                 if( x < 0 || x >= MAPSIZE_X ||
                     y < 0 || y >= MAPSIZE_Y ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( { x, y, z } ) );
+                    CHECK( !m.ter( tripoint{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( { x, y, z } ) );
+                    CHECK( m.ter( tripoint{ x, y, z } ) );
                 }
             }
         }
@@ -76,9 +76,9 @@ TEST_CASE( "tinymap_bounds_checking" )
                 if( x < 0 || x >= SEEX * 2 ||
                     y < 0 || y >= SEEY * 2 ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( { x, y, z } ) );
+                    CHECK( !m.ter( tripoint{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( { x, y, z } ) );
+                    CHECK( m.ter( tripoint{ x, y, z } ) );
                 }
             }
         }

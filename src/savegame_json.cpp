@@ -3083,6 +3083,10 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
+    // TEMPORARY until 0.G
+    if( autodrive_local_target && autodrive_local_target->raw() == tripoint_zero ) {
+        autodrive_local_target = cata::nullopt;
+    }
     data.read( "airworthy", flyable );
     data.read( "requested_z_change", requested_z_change );
     data.read( "summon_time_limit", summon_time_limit );

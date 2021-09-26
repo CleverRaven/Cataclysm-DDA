@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "character_id.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "hash_utils.h"
@@ -76,7 +77,7 @@ enum class cata_variant_type : int {
     trait_id,
     trap_id,
     trap_str_id,
-    tripoint,
+    tripoint_abs_omt,
     vgroup_id,
     widget_id,
     zone_type_id,
@@ -182,6 +183,23 @@ struct convert_enum {
     }
     static bool is_valid( const std::string &v ) {
         return io::enum_is_valid<T>( v );
+    }
+};
+
+// Inherit from this struct to easily implement convert specializations for any
+// coord_point type
+template<typename T>
+struct convert_coord_point {
+    using type = T;
+    static std::string to_string( const T &v ) {
+        return v.to_string();
+    }
+    static T from_string( const std::string &v ) {
+        return T( decltype( T::raw_ )::from_string( v ) );
+    }
+    static bool is_valid( const std::string & ) {
+        // TODO: check validity
+        return true;
     }
 };
 
@@ -382,19 +400,7 @@ template<>
 struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> {};
 
 template<>
-struct convert<cata_variant_type::tripoint> {
-    using type = tripoint;
-    static std::string to_string( const tripoint &v ) {
-        return v.to_string();
-    }
-    static tripoint from_string( const std::string &v ) {
-        return tripoint::from_string( v );
-    }
-    static bool is_valid( const std::string & ) {
-        // TODO: check for tripoint-ness
-        return true;
-    }
-};
+struct convert<cata_variant_type::tripoint_abs_omt>: convert_coord_point<tripoint_abs_omt> {};
 
 template<>
 struct convert<cata_variant_type::vgroup_id> : convert_string_id<vgroup_id> {};

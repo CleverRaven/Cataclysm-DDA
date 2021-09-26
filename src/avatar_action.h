@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "coordinates.h"
 #include "optional.h"
 #include "point.h"
 #include "units_fwd.h"
@@ -32,17 +33,13 @@ bool eat_here( avatar &you );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool move( avatar &you, map &m, const tripoint &d );
-inline bool move( avatar &you, map &m, const point &d )
-{
-    return move( you, m, tripoint( d, 0 ) );
-}
+bool move( avatar &you, map &m, const tripoint &dir );
 
 // Handle moving from a ramp
 bool ramp_move( avatar &you, map &m, const tripoint &dest );
 
 /** Handles swimming by the player. Called by avatar_action::move(). */
-void swim( map &m, avatar &you, const tripoint &p );
+void swim( map &m, avatar &you, const tripoint_abs_ms &new_abs_pos );
 
 void autoattack( avatar &you, map &m );
 

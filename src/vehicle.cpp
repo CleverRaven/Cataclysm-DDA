@@ -664,29 +664,29 @@ void vehicle::autopilot_patrol()
      */
     map &here = get_map();
     // if we are close to a waypoint, then return to come back to this function next turn.
-    if( autodrive_local_target != tripoint_zero ) {
-        if( rl_dist( global_square_location().raw(), autodrive_local_target ) <= 3 ) {
-            autodrive_local_target = tripoint_zero;
+    if( autodrive_local_target ) {
+        if( rl_dist( global_square_location(), *autodrive_local_target ) <= 3 ) {
+            autodrive_local_target = cata::nullopt;
             return;
         }
-        if( !here.inbounds( here.getlocal( autodrive_local_target ) ) ) {
-            autodrive_local_target = tripoint_zero;
+        if( !here.inbounds( *autodrive_local_target ) ) {
+            autodrive_local_target = cata::nullopt;
             is_patrolling = false;
             return;
         }
-        drive_to_local_target( autodrive_local_target, false );
+        drive_to_local_target( *autodrive_local_target, false );
         return;
     }
     zone_manager &mgr = zone_manager::get_manager();
-    const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
+    const auto &zone_src_set = mgr.get_near( STATIC( zone_type_id( "VEHICLE_PATROL" ) ),
                                global_square_location().raw(), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
     }
     // get corners.
-    tripoint min;
-    tripoint max;
+    tripoint min{};
+    tripoint max{};
     for( const tripoint &box : zone_src_set ) {
         if( min == tripoint_zero ) {
             min = box;
@@ -702,48 +702,46 @@ void vehicle::autopilot_patrol()
     }
     const bool x_side = ( max.x - min.x ) < ( max.y - min.y );
     const int point_along = x_side ? rng( min.x, max.x ) : rng( min.y, max.y );
-    const tripoint max_tri = x_side ? tripoint( point_along, max.y, min.z ) : tripoint( max.x,
-                             point_along,
-                             min.z );
-    const tripoint min_tri = x_side ? tripoint( point_along, min.y, min.z ) : tripoint( min.x,
-                             point_along,
-                             min.z );
-    tripoint chosen_tri = min_tri;
-    if( rl_dist( max_tri, global_square_location().raw() ) >= rl_dist( min_tri,
-            global_square_location().raw() ) ) {
+    const tripoint_abs_ms max_tri = x_side ? tripoint_abs_ms( point_along, max.y, min.z )
+                                    : tripoint_abs_ms( max.x, point_along, min.z );
+    const tripoint_abs_ms min_tri = x_side ? tripoint_abs_ms( point_along, min.y, min.z )
+                                    : tripoint_abs_ms( min.x, point_along, min.z );
+    tripoint_abs_ms chosen_tri = min_tri;
+    if( rl_dist( max_tri, global_square_location() ) >= rl_dist( min_tri,
+            global_square_location() ) ) {
         chosen_tri = max_tri;
     }
     autodrive_local_target = chosen_tri;
-    drive_to_local_target( autodrive_local_target, false );
+    drive_to_local_target( *autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( const units::angle &rotate )
+static std::set<tripoint_abs_ms> immediate_path( const vehicle &veh, const units::angle &rotate )
 {
-    std::set<point> points_to_check;
-    const int distance_to_check = 10 + ( velocity / 800 );
-    units::angle adjusted_angle = normalize( face.dir() + rotate );
+    std::set<tripoint_abs_ms> points_to_check;
+    const int distance_to_check = 10 + ( veh.velocity / 800 );
+    units::angle adjusted_angle = normalize( veh.face.dir() + rotate );
     // clamp to multiples of 15.
     adjusted_angle = round_to_multiple_of( adjusted_angle, 15_degrees );
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
-    map &here = get_map();
-    point top_left_actual = global_pos3().xy() + coord_translate( front_left );
-    point top_right_actual = global_pos3().xy() + coord_translate( front_right );
-    std::vector<point> front_row = line_to( here.getabs( top_left_actual ),
-                                            here.getabs( top_right_actual ) );
-    for( const point &elem : front_row ) {
+    tripoint_abs_ms top_left_actual = veh.global_square_location() + veh.coord_translate(
+                                          veh.front_left );
+    tripoint_abs_ms top_right_actual = veh.global_square_location() + veh.coord_translate(
+                                           veh.front_right );
+    const std::vector<tripoint_abs_ms> front_row = line_to( top_left_actual, top_right_actual );
+    for( const tripoint_abs_ms &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
-            point point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
+            tripoint_abs_ms point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
             points_to_check.emplace( point_to_add );
         }
     }
-    collision_check_points = points_to_check;
+    veh.collision_check_points = points_to_check;
     return points_to_check;
 }
 
-static int get_turn_from_angle( const units::angle &angle, const tripoint &vehpos,
-                                const tripoint &target, bool reverse = false )
+static int get_turn_from_angle( const units::angle &angle, const tripoint_abs_ms &vehpos,
+                                const tripoint_abs_ms &target, bool reverse = false )
 {
     if( angle > 10.0_degrees && angle <= 45.0_degrees ) {
         return reverse ? 4 : 1;
@@ -765,7 +763,21 @@ static int get_turn_from_angle( const units::angle &angle, const tripoint &vehpo
     return 0;
 }
 
-void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
+static units::angle get_angle_from_targ( const vehicle &veh, const tripoint_abs_ms &targ )
+{
+    const tripoint_abs_ms vehpos = veh.global_square_location();
+    const rl_vec2d facevec = veh.face_vec();
+    const point rel_pos_target = ( targ - vehpos ).xy().raw();
+    const rl_vec2d targetvec( rel_pos_target );
+    // cross product
+    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
+    // dot product.
+    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
+
+    return units::atan2( crossy, dotx );
+}
+
+void vehicle::drive_to_local_target( const tripoint_abs_ms &target, bool follow_protocol )
 {
     Character &player_character = get_player_character();
     if( follow_protocol && player_character.in_vehicle ) {
@@ -774,25 +786,23 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     }
     refresh();
     map &here = get_map();
-    tripoint vehpos = global_square_location().raw();
-    units::angle angle = get_angle_from_targ( target );
+    const tripoint_abs_ms vehpos = global_square_location();
+    const units::angle angle = get_angle_from_targ( *this, target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
-    std::set<point> points_to_check = immediate_path( angle );
+    std::set<tripoint_abs_ms> points_to_check = immediate_path( *this, angle );
     bool stop = false;
     creature_tracker &creatures = get_creature_tracker();
-    for( const point &pt_elem : points_to_check ) {
-        point elem = here.getlocal( pt_elem );
+    for( const tripoint_abs_ms &pt_elem : points_to_check ) {
         if( stop ) {
             break;
         }
-        const optional_vpart_position ovp = here.veh_at( tripoint( elem, sm_pos.z ) );
-        if( here.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
-                &ovp->vehicle() != this ) ) {
+        const optional_vpart_position ovp = here.veh_at( pt_elem );
+        if( ( ovp && &ovp->vehicle() != this ) || here.impassable_ter_furn( here.getlocal( pt_elem ) ) ) {
             stop = true;
             break;
         }
-        if( elem == player_character.pos().xy() ) {
+        if( pt_elem == player_character.get_location() ) {
             if( follow_protocol || player_character.in_vehicle ) {
                 continue;
             } else {
@@ -800,23 +810,11 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                 break;
             }
         }
-        bool its_a_pet = false;
-        if( creatures.creature_at( tripoint( elem, sm_pos.z ) ) ) {
-            npc *guy = creatures.creature_at<npc>( tripoint( elem, sm_pos.z ) );
-            if( guy && !guy->in_vehicle ) {
+        if( const Creature *critter = creatures.creature_at( pt_elem ) ) {
+            if( critter->is_npc() ) {
+                stop = !critter->as_npc()->in_vehicle;
+            } else {
                 stop = true;
-                break;
-            }
-            for( const vehicle_part &p : parts ) {
-                monster *mon = get_monster( index_of_part( &p ) );
-                if( mon && mon->pos().xy() == elem ) {
-                    its_a_pet = true;
-                    break;
-                }
-            }
-            if( !its_a_pet ) {
-                stop = true;
-                break;
             }
         }
     }
@@ -841,11 +839,11 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                                          player_character.current_movement_mode()->move_speed_mult();
     if( follow_protocol ) {
         if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
-            rl_dist( vehpos, here.getabs( player_character.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
+            rl_dist( vehpos, player_character.get_location() ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
             accel_y = 1;
         }
         if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, here.getabs( player_character.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+              rl_dist( vehpos, player_character.get_location() ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
             velocity < 100 ) {
             accel_y = -1;
         }
@@ -862,20 +860,6 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     selfdrive( point( turn_x, accel_y ) );
-}
-
-units::angle vehicle::get_angle_from_targ( const tripoint &targ )
-{
-    tripoint vehpos = global_square_location().raw();
-    rl_vec2d facevec = face_vec();
-    point rel_pos_target = targ.xy() - vehpos.xy();
-    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
-    // cross product
-    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
-    // dot product.
-    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
-
-    return units::atan2( crossy, dotx );
 }
 
 /**
@@ -3141,7 +3125,7 @@ monster *vehicle::get_monster( int p ) const
 
 tripoint_abs_ms vehicle::global_square_location() const
 {
-    return tripoint_abs_ms( get_map().getabs( global_pos3() ) );
+    return get_map().getglobal( global_pos3() );
 }
 
 tripoint_abs_omt vehicle::global_omt_location() const
@@ -5932,13 +5916,14 @@ void vehicle::do_towing_move()
         return;
     }
     map &here = get_map();
-    const tripoint tower_tow_point = here.getabs( global_part_pos3( tow_index ) );
-    const tripoint towed_tow_point = here.getabs( towed_veh->global_part_pos3( other_tow_index ) );
+    const tripoint_abs_ms tower_tow_point = here.getglobal( global_part_pos3( tow_index ) );
+    const tripoint_abs_ms towed_tow_point = here.getglobal( towed_veh->global_part_pos3(
+            other_tow_index ) );
     // same as above, but where the pulling vehicle is pulling from
-    units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    units::angle towing_veh_angle = get_angle_from_targ( *towed_veh, tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
-    tripoint vehpos = global_square_location().raw();
+    tripoint_abs_ms vehpos = global_square_location();
     int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
     if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
         accel_y = reverse ? -1 : 1;
@@ -5961,19 +5946,16 @@ void vehicle::do_towing_move()
         towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
-        std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
-                                                here.getlocal( tower_tow_point ) );
-        tripoint nearby_destination;
+        std::vector<tripoint_abs_ms> lineto = line_to( towed_tow_point, tower_tow_point );
+        tripoint_abs_ms nearby_destination;
         if( lineto.size() >= 2 ) {
             nearby_destination = lineto[1];
         } else {
             nearby_destination = tower_tow_point;
         }
-        const tripoint destination_delta( here.getlocal( tower_tow_point ).xy() - nearby_destination.xy() +
-                                          tripoint( 0, 0, towed_veh->global_pos3().z ) );
-        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                         clamp( destination_delta.y, -1, 1 ),
-                                         clamp( destination_delta.z, -1, 1 ) );
+        const tripoint destination_delta = ( tower_tow_point - nearby_destination ).raw();
+        static const inclusive_cuboid<tripoint> unit_cube( tripoint( -1, -1, -1 ), tripoint( 1, 1, 1 ) );
+        const tripoint move_destination = clamp( destination_delta, unit_cube );
         here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
         towed_veh->move = tileray( destination_delta.xy() );
     }

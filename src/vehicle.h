@@ -874,15 +874,9 @@ class vehicle
             return !old_owner.is_null();
         }
         bool handle_potential_theft( Character &you, bool check_only = false, bool prompt = true );
-        // project a tileray forward to predict obstacles
-        std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
-        std::set<point> collision_check_points; // NOLINT(cata-serialize)
+        mutable std::set<tripoint_abs_ms> collision_check_points; // NOLINT(cata-serialize)
         void autopilot_patrol();
-        units::angle get_angle_from_targ( const tripoint &targ );
-        void drive_to_local_target( const tripoint &target, bool follow_protocol );
-        tripoint get_autodrive_target() {
-            return autodrive_local_target;
-        }
+        void drive_to_local_target( const tripoint_abs_ms &target, bool follow_protocol );
         // Drive automatically towards some destination for one turn.
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
@@ -1927,7 +1921,8 @@ class vehicle
         mutable point mount_min; // NOLINT(cata-serialize)
         mutable point mass_center_precalc; // NOLINT(cata-serialize)
         mutable point mass_center_no_precalc; // NOLINT(cata-serialize)
-        tripoint autodrive_local_target = tripoint_zero; // current node the autopilot is aiming for
+        cata::optional<tripoint_abs_ms> autodrive_local_target =
+            cata::nullopt; // current node the autopilot is aiming for
         class autodrive_controller;
         std::shared_ptr<autodrive_controller> active_autodrive_controller; // NOLINT(cata-serialize)
 

@@ -10274,7 +10274,7 @@ void Character::knock_back_to( const tripoint &to )
     if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( here, get_avatar(), to );
+            avatar_action::swim( here, get_avatar(), here.getglobal( to ) );
         }
         // TODO: NPCs can't swim!
     } else if( here.impassable( to ) ) { // Wait, it's a wall

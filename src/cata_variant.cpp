@@ -76,7 +76,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::trait_id: return "trait_id";
         case cata_variant_type::trap_id: return "trap_id";
         case cata_variant_type::trap_str_id: return "trap_str_id";
-        case cata_variant_type::tripoint: return "tripoint";
+        case cata_variant_type::tripoint_abs_omt: return "tripoint_abs_omt";
         case cata_variant_type::vgroup_id: return "vgroup_id";
         case cata_variant_type::widget_id: return "widget_id";
         case cata_variant_type::zone_type_id: return "zone_type_id";

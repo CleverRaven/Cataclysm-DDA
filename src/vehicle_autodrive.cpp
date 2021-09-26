@@ -1125,11 +1125,11 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     std::vector<std::tuple<point, int, std::string>> ret;
 
     const tripoint_abs_ms veh_pos = global_square_location();
-    if( autodrive_local_target != tripoint_zero ) {
-        ret.emplace_back( ( autodrive_local_target - veh_pos.raw() ).xy(), catacurses::red, "T" );
+    if( autodrive_local_target ) {
+        ret.emplace_back( ( *autodrive_local_target - veh_pos ).xy().raw(), catacurses::red, "T" );
     }
-    for( const point &pt_elem : collision_check_points ) {
-        ret.emplace_back( pt_elem - veh_pos.raw().xy(), catacurses::yellow, "C" );
+    for( const tripoint_abs_ms &pt : collision_check_points ) {
+        ret.emplace_back( ( pt - veh_pos ).xy().raw(), catacurses::yellow, "C" );
     }
 
     if( !active_autodrive_controller ) {
@@ -1301,7 +1301,7 @@ void vehicle::stop_autodriving( bool apply_brakes )
     is_patrolling = false;
     is_following = false;
     autopilot_on = false;
-    autodrive_local_target = tripoint_zero;
+    autodrive_local_target = cata::nullopt;
     collision_check_points.clear();
     active_autodrive_controller.reset();
 }

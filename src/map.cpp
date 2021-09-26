@@ -363,12 +363,12 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    const tripoint player_pos = get_player_character().pos();
+    const tripoint_abs_ms player_pos = get_player_character().get_location();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
             if( veh->is_following ) {
-                veh->drive_to_local_target( getabs( player_pos ), true );
+                veh->drive_to_local_target( player_pos, true );
             } else if( veh->is_patrolling ) {
                 veh->autopilot_patrol();
             }
@@ -1489,6 +1489,11 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
+ter_id map::ter( const tripoint_abs_ms &p ) const
+{
+    return ter( getlocal( p ) );
+}
+
 uint8_t map::get_known_connections( const tripoint &p, int connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
@@ -1832,6 +1837,11 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
     const int part = veh ? vp->part_index() : -1;
 
     return move_cost_internal( furniture, terrain, field, veh, part );
+}
+
+bool map::impassable( const tripoint_abs_ms &p ) const
+{
+    return impassable( getlocal( p ) );
 }
 
 bool map::impassable( const tripoint &p ) const
@@ -2385,6 +2395,11 @@ bool map::has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) con
 
     return current_submap->get_ter( l ).obj().has_flag( flag ) ||
            current_submap->get_furn( l ).obj().has_flag( flag );
+}
+
+bool map::has_flag( const ter_furn_flag flag, const tripoint_abs_ms &p ) const
+{
+    return has_flag( flag, getlocal( p ) );
 }
 
 bool map::has_flag( const ter_furn_flag flag, const tripoint &p ) const

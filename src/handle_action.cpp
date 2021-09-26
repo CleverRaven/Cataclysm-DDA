@@ -1822,11 +1822,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
-                    for( int i = 0; i < SEEX; i++ ) {
-                        tripoint auto_travel_destination( player_character.posx() + dest_delta.x * ( SEEX - i ),
-                                                          player_character.posy() + dest_delta.y * ( SEEX - i ),
-                                                          player_character.posz() );
-                        destination_preview = m.route( player_character.pos(),
+                    const tripoint player_pos = player_character.pos();
+                    for( int distance = SEEX; distance > 0; distance-- ) {
+                        tripoint auto_travel_destination = player_pos + dest_delta * distance;
+                        destination_preview = m.route( player_pos,
                                                        auto_travel_destination,
                                                        player_character.get_pathfinding_settings(),
                                                        player_character.get_path_avoid() );
@@ -1843,7 +1842,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, dest_delta ) ) {
+                if( !avatar_action::move( player_character, m, tripoint( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.clear_destination();
                 }

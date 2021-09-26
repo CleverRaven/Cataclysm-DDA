@@ -322,25 +322,27 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         const itype_id pipe( "pipe" );
         const string_id<event_statistic> first_omt( "first_omt" );
         const string_id<event_statistic> last_wielded( "avatar_last_item_wielded" );
+        const tripoint_abs_omt omt_zero( tripoint_zero );
+        const tripoint_abs_omt omt_below( tripoint_below );
 
         send_game_start( b, u_id );
         CHECK( first_omt->value( s ) == cata_variant() );
         CHECK( last_wielded->value( s ) == cata_variant() );
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::avatar_enters_omt>( omt_zero, field );
         b.send<event_type::character_wields_item>( u_id, crowbar );
-        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( first_omt->value( s ) == cata_variant( omt_zero ) );
         CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
 
         calendar::turn += 1_minutes;
-        b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+        b.send<event_type::avatar_enters_omt>( omt_below, field );
         b.send<event_type::character_wields_item>( u_id, pipe );
-        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( first_omt->value( s ) == cata_variant( omt_zero ) );
         CHECK( last_wielded->value( s ) == cata_variant( pipe ) );
 
         calendar::turn += 1_minutes;
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::avatar_enters_omt>( omt_zero, field );
         b.send<event_type::character_wields_item>( u_id, crowbar );
-        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( first_omt->value( s ) == cata_variant( omt_zero ) );
         CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
     }
 
@@ -350,17 +352,19 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         const cata_variant invalid_oter_id =
             cata_variant::from_string( cata_variant_type::oter_id, "XXXXXX" );
         const string_id<event_statistic> last_entered( "last_oter_type_avatar_entered" );
+        const tripoint_abs_omt omt_zero( tripoint_zero );
+        const tripoint_abs_omt omt_below( tripoint_below );
 
         send_game_start( b, u_id );
         CHECK( last_entered->value( s ) == cata_variant() );
 
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::avatar_enters_omt>( omt_zero, field );
         CHECK( last_entered->value( s ) == cata_variant( field_type ) );
 
         const cata::event invalid_event(
             event_type::avatar_enters_omt, calendar::turn,
         cata::event::data_type{
-            { "pos", cata_variant( tripoint_below ) },
+            { "pos", cata_variant( omt_below ) },
             { "oter_id", invalid_oter_id }
         } );
         b.send( invalid_event );
@@ -584,13 +588,15 @@ TEST_CASE( "achievements_tracker", "[stats]" )
     SECTION( "first_and_last" ) {
         calendar::turn = calendar::start_of_game;
         oter_id field( "field" );
+        const tripoint_abs_omt omt_zero( tripoint_zero );
+        const tripoint_abs_omt omt_below( tripoint_below );
 
         auto send_enter_omt_zero = [&]() {
-            b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+            b.send<event_type::avatar_enters_omt>( omt_zero, field );
         };
 
         auto send_enter_omt_other = [&]() {
-            b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+            b.send<event_type::avatar_enters_omt>( omt_below, field );
         };
 
         achievement_id a_return_to_first_omt( "achievement_return_to_first_omt" );

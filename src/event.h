@@ -201,7 +201,7 @@ struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
 template<>
 struct event_spec<event_type::avatar_enters_omt> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
-            { "pos", cata_variant_type::tripoint },
+            { "pos", cata_variant_type::tripoint_abs_omt },
             { "oter_id", cata_variant_type::oter_id },
         }
     };
