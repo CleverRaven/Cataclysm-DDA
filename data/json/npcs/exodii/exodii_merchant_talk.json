@@ -372,7 +372,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro6",
     "type": "talk_topic",
     "dynamic_line": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation.",
-    "speaker_effect": [ { "effect": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } } ],
+    "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
     "responses": [
       { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
