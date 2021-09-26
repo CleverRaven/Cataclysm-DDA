@@ -9230,7 +9230,7 @@ point game::place_player( const tripoint &dest_loc )
                 }
                 bool moved = false;
                 while( !maybe_valid.empty() ) {
-                    if( critter.move_to( random_entry_removed( maybe_valid ) ) ) {
+                    if( critter.move_toward( random_entry_removed( maybe_valid ) ) ) {
                         add_msg( _( "You push the %s out of the way." ), critter.name() );
                         moved = true;
                     }
@@ -9241,7 +9241,7 @@ point game::place_player( const tripoint &dest_loc )
                 }
             } else {
                 // Force the movement even though the player is there right now.
-                const bool moved = critter.move_to( u.pos(), /*force=*/false, /*step_on_critter=*/true );
+                const bool moved = critter.move_toward( u.pos(), /*force=*/false, /*step_on_critter=*/true );
                 if( moved ) {
                     add_msg( _( "You displace the %s." ), critter.name() );
                 } else {

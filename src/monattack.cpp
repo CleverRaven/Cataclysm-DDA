@@ -2769,7 +2769,7 @@ bool mattack::grab_drag( monster *z )
         Character *foe = dynamic_cast<Character *>( target );
         monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
-        z->move_to( target_square );
+        z->move_toward( target_square );
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
             return false;
         }

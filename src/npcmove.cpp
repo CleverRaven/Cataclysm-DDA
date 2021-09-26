@@ -828,7 +828,7 @@ void npc::move()
         }
         const tripoint escape_dir = good_escape_direction( sees_dangerous_field( pos() ) );
         if( escape_dir != pos() ) {
-            move_to( escape_dir );
+            move_toward( escape_dir );
             return;
         }
     }
@@ -1140,7 +1140,7 @@ void npc::execute_action( npc_action action )
 
         case npc_flee:
             if( path.empty() ) {
-                move_to( tar );
+                move_toward( tar );
             } else {
                 move_to_next();
             }
@@ -2201,7 +2201,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
           );
 }
 
-void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
+void npc::move_toward( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
     tripoint p = pt;
     map &here = get_map();
@@ -2442,7 +2442,7 @@ void npc::move_to_next()
         return;
     }
 
-    move_to( path[0] );
+    move_toward( path[0] );
     if( !path.empty() && pos() == path[0] ) { // Move was successful
         path.erase( path.begin() );
     }
@@ -2475,7 +2475,7 @@ void npc::avoid_friendly_fire()
 
     for( const auto &pt : candidates ) {
         if( can_move_to( pt ) ) {
-            move_to( pt );
+            move_toward( pt );
             return;
         }
     }
@@ -2540,7 +2540,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
         }
     }
 
-    move_to( best_pos, no_bash_atk, nomove );
+    move_toward( best_pos, no_bash_atk, nomove );
 }
 
 bool npc::find_job_to_perform()

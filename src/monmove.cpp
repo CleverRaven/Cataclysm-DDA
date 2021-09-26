@@ -1079,7 +1079,8 @@ void monster::move()
             ( !pacified && can_open_doors && here.open_door( local_next_step, !here.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
+            move_toward( local_next_step, false, false, get_stagger_adjust( pos(), destination,
+                         local_next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -1580,8 +1581,8 @@ static tripoint find_closest_stair( const tripoint &near_this, const ter_furn_fl
     return near_this;
 }
 
-bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
-                       const float stagger_adjustment )
+bool monster::move_toward( const tripoint &p, bool force, bool step_on_critter,
+                           const float stagger_adjustment )
 {
     const bool on_ground = !digging() && !flies();
 
@@ -1878,7 +1879,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             if( critter->push_to( dest, roll, depth + 1 ) ) {
                 // The tile isn't necessarily free, need to check
                 if( !creatures.creature_at( p ) ) {
-                    move_to( p );
+                    move_toward( p );
                 }
 
                 moves -= movecost_attacker;
@@ -1899,7 +1900,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             }
         } else if( !critter->has_flag( MF_IMMOBILE ) ) {
             critter->setpos( dest );
-            move_to( p );
+            move_toward( p );
             moves -= movecost_attacker;
             critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
@@ -1972,7 +1973,7 @@ void monster::stumble()
                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
-            if( move_to( dest, true, false ) ) {
+            if( move_toward( dest, true, false ) ) {
                 break;
             }
         }

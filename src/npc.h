@@ -1124,7 +1124,8 @@ class npc : public Character
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
 
         // nomove is used to resolve recursive invocation
-        void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
+        void move_toward( const tripoint &p, bool no_bashing = false,
+                          std::set<tripoint> *nomove = nullptr );
         // Next in <path>
         void move_to_next();
         // Maneuver so we won't shoot u

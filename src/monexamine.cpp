@@ -147,7 +147,7 @@ void push( monster &z )
     }
 
     point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
+    z.move_toward( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
 }
 
 void rename_pet( monster &z )
