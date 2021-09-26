@@ -477,7 +477,7 @@ bool cmp_istack_cat( const std::list<item_stack::iterator> &i1,
 int categories_on_screen( const std::vector<int> cat_idx, const int start, const int end,
                           const int rowcount )
 {
-    if( cat_idx.size() == 0 ) {
+    if( cat_idx.empty() ) {
         return 0;
     }
     int ret = 1;
