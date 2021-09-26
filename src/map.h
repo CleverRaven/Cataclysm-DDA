@@ -323,14 +323,6 @@ class map
         map &operator=( map && );
 
         /**
-         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
-         * Here's a little trigger for them to opt out. We won't be doing that here, though
-         */
-        virtual bool skip_npc_rotation() const {
-            return false;
-        }
-
-        /**
          * Sets a dirty flag on the a given cache.
          *
          * If this isn't set, it's just assumed that
@@ -2099,12 +2091,6 @@ class tinymap : public map
     public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
-
-        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
-        bool skip_npc_rotation() const override {
-            return no_rotate_npcs;
-        }
-        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap
@@ -2112,8 +2098,8 @@ class fake_map : public tinymap
     private:
         std::vector<std::unique_ptr<submap>> temp_submaps_;
     public:
-        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                  int fake_map_z );
+        explicit fake_map( const ter_id &ter_type = t_dirt );
         ~fake_map() override;
+        static constexpr int fake_map_z = -OVERMAP_DEPTH;
 };
 #endif // CATA_SRC_MAP_H

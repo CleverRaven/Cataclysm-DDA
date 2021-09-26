@@ -209,10 +209,7 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -223,7 +220,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
-static const efftype_id effect_fungus( "fungus" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -649,6 +645,8 @@ void game::setup()
     effect_on_conditions::clear( u );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
     // back to menu for save loading, new game etc
 }
 
@@ -784,17 +782,6 @@ bool game::start_game()
     u.drench_mut_calc();
     if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
-    }
-    if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, get_player_character().random_body_part(), true );
-    }
-    if( scen->has_flag( "FUNGAL_INFECTION" ) ) {
-        u.add_effect( effect_fungus, 1_turns, get_player_character().random_body_part(), true );
-    }
-    if( scen->has_flag( "BAD_DAY" ) ) {
-        u.add_effect( effect_flu, 1000_minutes );
-        u.add_effect( effect_drunk, 270_minutes );
-        u.add_morale( MORALE_FEELING_BAD, -100, -100, 50_minutes, 50_minutes );
     }
     if( scen->has_flag( "HELI_CRASH" ) ) {
         start_loc.handle_heli_crash( u );
@@ -1489,7 +1476,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
     if( it.is_container() ) {
         hint_rating best_rate = hint_rating::cant;
         it.visit_items( [&you, &best_rate]( item * node, item * ) {
-            if( you.can_consume( *node ) )  {
+            if( you.can_consume_as_is( *node ) )  {
                 ret_val<edible_rating> rate = you.will_eat( *node );
                 if( rate.success() ) {
                     best_rate = hint_rating::good;
@@ -1503,7 +1490,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
         return best_rate;
     }
 
-    if( !you.can_consume( it ) ) {
+    if( !you.can_consume_as_is( it ) ) {
         return hint_rating::cant;
     }
 
@@ -3778,6 +3765,8 @@ void game::mon_info_update( )
                 case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
+                case direction::last:
+                    cata_fatal( "invalid direction" );
             }
         }
 
@@ -4095,9 +4084,9 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     } else if( u.pos() == tp ) {
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
-            add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                      "You were stunned for %d turns!",
-                                      stun ),
+            add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                       "You were stunned for %d turns!",
+                                       stun ),
                      stun );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
@@ -4106,14 +4095,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
-                                                  "You were stunned AGAIN for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned AGAIN for %d turn!",
+                                                   "You were stunned AGAIN for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                                  "You were stunned for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                                   "You were stunned for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4139,14 +4128,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
-                                                  "You were stunned AGAIN for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned AGAIN for %d turn!",
+                                                   "You were stunned AGAIN for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                                  "You were stunned for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                                   "You were stunned for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
@@ -6712,6 +6701,18 @@ void game::zoom_out()
 #endif
 }
 
+void game::zoom_out_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        overmap_tileset_zoom /= 2;
+    } else {
+        overmap_tileset_zoom = 64;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+#endif
+}
+
 void game::zoom_in()
 {
 #if defined(TILES)
@@ -6721,6 +6722,18 @@ void game::zoom_in()
         tileset_zoom = tileset_zoom * 2;
     }
     rescale_tileset( tileset_zoom );
+#endif
+}
+
+void game::zoom_in_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom == 64 ) {
+        overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    } else {
+        overmap_tileset_zoom *= 2;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
 
@@ -9425,7 +9438,7 @@ point game::place_player( const tripoint &dest_loc )
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
                     //~ number of items: "<number> <item>"
-                    std::string fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    std::string fmt = n_gettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i] );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -9439,9 +9452,9 @@ point game::place_player( const tripoint &dest_loc )
                 } else if( names.size() == 3 ) {
                     add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
                 } else if( and_the_rest < 7 ) {
-                    add_msg( ngettext( "You see here %s, %s and %d more item.",
-                                       "You see here %s, %s and %d more items.",
-                                       and_the_rest ),
+                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                        "You see here %s, %s and %d more items.",
+                                        and_the_rest ),
                              names[0], names[1], and_the_rest );
                 } else {
                     add_msg( _( "You see here %s and many more items." ), names[0] );
@@ -11453,4 +11466,9 @@ timed_event_manager &get_timed_events()
 weather_manager &get_weather()
 {
     return g->weather;
+}
+
+global_variables &get_globals()
+{
+    return g->global_variables_instance;
 }

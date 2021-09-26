@@ -541,6 +541,9 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
+        // Whether to allow hiding/unhiding of container contents in this selector.
+        bool allow_hide = false;
+
     protected:
         Character &u;
         const inventory_selector_preset &preset;
@@ -761,7 +764,7 @@ class inventory_multiselector : public inventory_selector
         size_t max_chosen_count;
         void set_chosen_count( inventory_entry &entry, size_t count );
         void deselect_contained_items();
-        void toggle_entries( const toggle_mode mode = toggle_mode::SELECTED, int count = 0 );
+        void toggle_entries( int &count, const toggle_mode mode = toggle_mode::SELECTED );
         std::vector<std::pair<item_location, int>> to_use;
         std::vector<item_location> usable_locs;
         bool allow_select_contained;

@@ -277,6 +277,7 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -5761,7 +5762,7 @@ void Character::set_stamina( int new_stamina )
 void Character::mod_stamina( int mod )
 {
     // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() ) {
+    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
     stamina += mod;
@@ -5884,22 +5885,22 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         std::string it_name = used->tname();
         if( used->has_flag( flag_USE_UPS ) ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         ammo_req ),
+                               n_gettext( "Your %s needs %d charge from some UPS.",
+                                          "Your %s needs %d charges from some UPS.",
+                                          ammo_req ),
                                it_name, ammo_req );
         } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d bionic power.",
-                                         "Your %s needs %d bionic power.",
-                                         ammo_req ),
+                               n_gettext( "Your %s needs %d bionic power.",
+                                          "Your %s needs %d bionic power.",
+                                          ammo_req ),
                                it_name, ammo_req );
         } else {
             int ammo_rem = used->ammo_remaining();
             add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge, but needs %d.",
-                                         "Your %s has %d charges, but needs %d.",
-                                         ammo_rem ),
+                               n_gettext( "Your %s has %d charge, but needs %d.",
+                                          "Your %s has %d charges, but needs %d.",
+                                          ammo_rem ),
                                it_name, ammo_rem, ammo_req );
         }
         moves = pre_obtain_moves;
@@ -8904,7 +8905,9 @@ void Character::process_effects()
     int_bonus_hardcoded = 0;
     per_bonus_hardcoded = 0;
     //Human only effects
-    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
+    effects_map effects_copy = *effects;
+    // Iterate over a copy, process_one_effect modifies the effects map, potentially invalidating iterators.
+    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : effects_copy ) {
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }

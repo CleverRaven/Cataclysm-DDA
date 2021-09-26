@@ -128,10 +128,11 @@ Use the `Home` key to return to the top.
       - [`move_cost_mod`](#move_cost_mod)
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
-      - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
       - [`hacksaw`](#hacksaw)
+      - [`oxytorch`](#oxytorch)
+    - [`prying`](#prying)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -144,10 +145,11 @@ Use the `Home` key to return to the top.
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
       - [`lockpick_message`](#lockpick_message-1)
-      - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
       - [`hacksaw`](#hacksaw-1)
+      - [`oxytorch`](#oxytorch-1)
+    - [`prying`](#prying-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -198,6 +200,7 @@ Use the `Home` key to return to the top.
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
+  - [`eocs`](#eocs)
   - [`missions`](#missions)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
@@ -3495,6 +3498,22 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
       "message": "The safe is hacksawed open!",
       "sound": "Gachunk!",
       "byproducts": [ { "item": "scrap", "count": 13 } ]
+    },
+    "oxytorch": {
+      "result": "f_safe_open",
+      "duration": "30 seconds",
+      "message": "The safe opens!",
+      "byproducts": [ { "item": "scrap", "count": 13 } ]
+    },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 1,
+        "noisy": true,
+        "failure": "You pry, but can't pop open the crate."
+      }
     }
 }
 ```
@@ -3518,27 +3537,6 @@ Movement cost modifier (`-10` = impassable, `0` = no change). This is added to t
 #### `lockpick_message`
 
 (Optional) When the furniture is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
-
-#### `oxytorch`
-
-(Optional) Data for using with an oxytorch.
-```cpp
-oxytorch: {
-    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
-    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
-    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
-    "byproducts": [ // ( optional ) list of items that will be spawned when finished
-        {
-            "item": "item_id",
-            "count": 100 // exact amount
-        },
-        {
-            "item": "item_id",
-            "count": [ 10, 100 ] // random number in range ( inclusive )
-        }
-    ]
-}
-```
 
 #### `light_emitted`
 
@@ -3583,6 +3581,55 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
             "count": [ 10, 100 ] // random number in range ( inclusive )
         }
     ]
+}
+```
+
+#### `oxytorch`
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+### `prying`
+(Optional) Data for using with pyring tools
+```cpp
+"prying": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
+    "byproducts": [ // (optional) list of items that will be spawned when finished successfully
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range inclusive
+        }
+    ],
+    "prying_data": {
+        "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
+        "difficulty": 0, // (optional, default 0) base difficulty of prying action
+        "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
+        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "alarm": false, // (optional) has an alarm, on success will trigger the police
+        "breakable": false, // (optional) has a chance to trigger the break action on failure
+        "failure": "You try to pry the window but fail." // (optional) failure message
+    }
 }
 ```
 
@@ -3647,6 +3694,19 @@ Strength required to move the furniture around. Negative values indicate an unmo
       "message": "The door is hacksawed open!",
       "sound": "Gachunk!",
       "byproducts": [ { "item": "scrap", "2x4": 13 } ]
+    },
+    "oxytorch": {
+      "result": "t_door_unlocked",
+      "duration": "60 seconds",
+      "message": "The door opens!",
+      "byproducts": [ { "item": "scrap", "count": 10 } ]
+    },
+    "prying": {
+      "result": "t_fence_post",
+      "duration": "30 seconds",
+      "message": "You pry out the fence post.",
+      "byproducts": [ { "item": "nail", "count": 6 }, { "item": "2x4", "count": 3 } ],
+      "prying_data": { "prying_nails": true }
     }
 }
 ```
@@ -3679,27 +3739,6 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 #### `lockpick_message`
 
 (Optional) When the terrain is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
-
-#### `oxytorch`
-
-(Optional) Data for using with an oxytorch.
-```cpp
-oxytorch: {
-    "result": "terrain_id", // terrain it will become when done
-    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
-    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
-    "byproducts": [ // ( optional ) list of items that will be spawned when finished
-        {
-            "item": "item_id",
-            "count": 100 // exact amount
-        },
-        {
-            "item": "item_id",
-            "count": [ 10, 100 ] // random number in range ( inclusive )
-        }
-    ]
-}
-```
 
 #### `trap`
 
@@ -3747,6 +3786,55 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
             "count": [ 10, 100 ] // random number in range ( inclusive )
         }
     ]
+}
+```
+
+#### `oxytorch`
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+### `prying`
+(Optional) Data for using with pyring tools
+```cpp
+"prying": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
+    "byproducts": [ // (optional) list of items that will be spawned when finished successfully
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range inclusive
+        }
+    ],
+    "prying_data": {
+        "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
+        "difficulty": 0, // (optional, default 0) base difficulty of prying action
+        "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
+        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "alarm": false, // (optional) has an alarm, on success will trigger the police
+        "breakable": false, // (optional) has a chance to trigger the break action on failure
+        "failure": "You try to pry the window but fail." // (optional) failure message
+    }
 }
 ```
 
@@ -4077,6 +4165,11 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+## `eocs`
+(optional, array of strings)
+
+A list of eocs that are triggered once for each new character on scenario start.
 
 ## `missions`
 (optional, array of strings)

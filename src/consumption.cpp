@@ -1547,11 +1547,11 @@ bool Character::fuel_bionic_with( item &it )
     update_fuel_storage( mat );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
-                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                           n_gettext( "You load %1$i charge of %2$s in your %3$s.",
+                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
+                           n_gettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
 
     // Return false for magazines because only their ammo is consumed
@@ -1592,18 +1592,7 @@ bool Character::can_consume_as_is( const item &it ) const
         return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
                it.has_flag( flag_MELTS );
     }
-    return can_fuel_bionic_with( it );
-}
-
-bool Character::can_consume( const item &it ) const
-{
-    if( can_consume_as_is( it ) ) {
-        return true;
-    }
-    return it.has_item_with( [&]( const item & consumable ) {
-        // Checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
-        return !consumable.has_flag( flag_NO_RELOAD ) && can_consume_as_is( consumable );
-    } );
+    return false;
 }
 
 item &Character::get_consumable_from( item &it ) const

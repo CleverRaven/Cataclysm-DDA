@@ -672,6 +672,24 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
+    // stats through kills
+    data.read( "kill_xp", kill_xp );
+    if( !data.read( "spent_upgrade_points", spent_upgrade_points ) ) {
+        // TEMPORARY until 0.G, remove migration logic after
+        int str_upgrade = 0;
+        int dex_upgrade = 0;
+        int int_upgrade = 0;
+        int per_upgrade = 0;
+        if( data.read( "str_upgrade", str_upgrade ) && data.read( "dex_upgrade", dex_upgrade ) &&
+            data.read( "int_upgrade", int_upgrade ) && data.read( "per_upgrade", per_upgrade ) ) {
+            str_max += str_upgrade;
+            dex_max += dex_upgrade;
+            int_max += int_upgrade;
+            per_max += per_upgrade;
+            spent_upgrade_points = str_upgrade + dex_upgrade + int_upgrade + per_upgrade;
+        }
+    }
+
     data.read( "magic", magic );
 
     data.read( "underwater", underwater );
@@ -1029,14 +1047,6 @@ void Character::load( const JsonObject &data )
         temp.recurring = elem.get_bool( "recurring" );
         queued_effect_on_conditions.push( temp );
     }
-    //load inactive queued_eocs
-    for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
-        queued_eoc temp;
-        temp.time = time_point( elem.get_int( "time" ) );
-        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        temp.recurring = elem.get_bool( "recurring" );
-        queued_effect_on_conditions.push( temp );
-    }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
 }
 
@@ -1112,6 +1122,10 @@ void Character::store( JsonOut &json ) const
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+
+    // stats through kills
+    json.member( "kill_xp", kill_xp );
+    json.member( "spent_upgrade_points", spent_upgrade_points );
 
     // breathing
     json.member( "underwater", underwater );
@@ -1305,12 +1319,6 @@ void avatar::store( JsonOut &json ) const
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
 
-    // stats through kills
-    json.member( "str_upgrade", std::abs( str_upgrade ) );
-    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
-    json.member( "int_upgrade", std::abs( int_upgrade ) );
-    json.member( "per_upgrade", std::abs( per_upgrade ) );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1361,6 +1369,11 @@ void avatar::load( const JsonObject &data )
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
     }
 
+    // TEMPORARY until 0.G
+    if( !data.has_member( "kill_xp" ) ) {
+        kill_xp = g->get_kill_tracker().legacy_kill_xp();
+    }
+
     // Remove after 0.F
     // Exists to prevent failed to visit member errors
     if( data.has_member( "reactor_plut" ) ) {
@@ -1408,20 +1421,6 @@ void avatar::load( const JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
-
-    // stats through kills
-    data.read( "str_upgrade", str_upgrade );
-    data.read( "dex_upgrade", dex_upgrade );
-    data.read( "int_upgrade", int_upgrade );
-    data.read( "per_upgrade", per_upgrade );
-
-    // this is so we don't need to call get_option in a draw function
-    if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
-        str_upgrade = -str_upgrade;
-        dex_upgrade = -dex_upgrade;
-        int_upgrade = -int_upgrade;
-        per_upgrade = -per_upgrade;
-    }
 
     data.read( "magic", magic );
 

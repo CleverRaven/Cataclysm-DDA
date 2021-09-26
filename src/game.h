@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -163,6 +164,7 @@ class game
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
+        friend global_variables &get_globals();
     public:
         game();
         ~game();
@@ -620,6 +622,8 @@ class game
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -979,7 +983,13 @@ class game
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
         achievements_tracker &achievements();
         memorial_logger &memorial();
+
+        global_variables global_variables_instance;
     public:
+        std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+        queued_global_effect_on_conditions;
+
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
             public:
@@ -1085,6 +1095,7 @@ class game
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom = 0; // NOLINT(cata-serialize)
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)

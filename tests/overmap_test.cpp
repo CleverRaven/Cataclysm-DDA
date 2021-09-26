@@ -181,27 +181,38 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 
 TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
 {
-    for( int j = 0; j < 100; ++j ) {
-        overmap om{ point_abs_om( point_zero ) };
+    const overmap_special &special =
+        *overmap_special_id( GENERATE( "test_anthill", "test_crater" ) );
+    const city cit;
 
+    constexpr int num_overmaps = 100;
+    constexpr int num_trials_per_overmap = 100;
+
+    for( int j = 0; j < num_overmaps; ++j ) {
+        // overmap objects are really large, so we don't want them on the
+        // stack.  Use unique_ptr and put it on the heap
+        std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om( point_zero ) );
         om_direction::type dir = om_direction::type::north;
-        const overmap_special &anthill = *overmap_special_id( "test_anthill" );
-        const city cit;
 
-        constexpr int num_trials = 100;
         int successes = 0;
 
-        for( int i = 0; i < num_trials; ++i ) {
+        for( int i = 0; i < num_trials_per_overmap; ++i ) {
             tripoint_om_omt try_pos( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
 
-            if( om.can_place_special( anthill, try_pos, dir, false ) ) {
+            // This test can get very spammy, so abort once an error is
+            // observed
+            if( debug_has_error_been_observed() ) {
+                return;
+            }
+
+            if( om->can_place_special( special, try_pos, dir, false ) ) {
                 std::vector<tripoint_om_omt> placed_points =
-                    om.place_special( anthill, try_pos, dir, cit, false, false );
+                    om->place_special( special, try_pos, dir, cit, false, false );
                 CHECK( !placed_points.empty() );
                 ++successes;
             }
         }
 
-        CHECK( successes > 50 );
+        CHECK( successes > num_trials_per_overmap / 2 );
     }
 }
