@@ -1776,6 +1776,11 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     int selection = kmenu.ret;
 
     if( selection >= STYLE_OFFSET ) {
+        // If the currect style is selected, do not change styles
+        if( style_selected == selectable_styles[selection - STYLE_OFFSET] ) {
+            return false;
+        }
+
         avatar &u = const_cast<avatar &>( you );
         style_selected->remove_all_buffs( u );
         style_selected = selectable_styles[selection - STYLE_OFFSET];
