@@ -2902,7 +2902,11 @@ void Character::die( Creature *nkiller )
 
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
-        eoc->activate( d );
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
     }
 
     if( has_effect( effect_lightsnare ) ) {
