@@ -7,6 +7,7 @@
       { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_feral_prepper", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_cop", "freq": 100, "cost_multiplier": 0 }
     ]
