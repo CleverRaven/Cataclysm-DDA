@@ -296,7 +296,7 @@
     "symbol": "@",
     "color": "magenta",
     "aggression": 75,
-    "morale": 50,
+    "morale": 75,
     "melee_skill": 9,
     "melee_dice": 2,
     "melee_dice_sides": 8,
