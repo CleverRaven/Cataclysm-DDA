@@ -117,7 +117,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
-    "name": { "str": "feral survivalists' firearm" },
+    "name": { "str": "feral handgunmans' firearm" },
     "description": "A little-bit broken firearm, used by an experienced feral with the help of muscle memory.",
     "material": [ "steel", "plastic" ],
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
