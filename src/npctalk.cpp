@@ -58,6 +58,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "ret_val.h"
@@ -2194,7 +2195,6 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
-    const bool scrollable = jo.get_bool( "scrollable", false );
     game_message_type type = m_neutral;
     std::string type_string = jo.get_string( "type", "neutral" );
     if( type_string == "good" ) {
@@ -2221,7 +2221,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         jo.throw_error( "Invalid message type." );
     }
 
-    function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg, scrollable,
+    function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
              is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target || target->is_npc() ) {
@@ -2259,15 +2259,13 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return;
             }
         }
-        if( popup_msg && !scrollable ) {
-            popup( translated_message, PF_NONE );
-        } else if( popup_msg ) {
-            const auto new_win = []() {
-                return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
-                                                  std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+        if( popup_msg ) {
+            const auto new_win = [translated_message]() {
+                query_popup pop;
+                pop.message( "%s", translated_message );
+                return pop.get_window();
             };
-            scrollable_text( new_win, "", translated_message );
+            scrollable_text( new_win, "", replace_colors( translated_message ) );
         } else {
             target->add_msg_if_player( type, translated_message );
         }
