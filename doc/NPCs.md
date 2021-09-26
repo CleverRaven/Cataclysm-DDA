@@ -50,7 +50,7 @@ Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=
 Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
 Chat is covered in the dialogue examples below.
 Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
-death_eocs are string effect_on_condition ids and or inline effect_on_conditions.  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
+death_eocs are string effect_on_condition ids and or inline effect_on_conditions (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
 
 # Age and Height
 You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`. 
