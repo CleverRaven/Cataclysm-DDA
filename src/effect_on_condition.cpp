@@ -91,8 +91,8 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "global", global, false );
     if( type != eoc_type::RECURRING && ( global || run_for_npcs ) ) {
         jo.throw_error( "run_for_npcs and global should only be true for RECURRING effect_on_conditions." );
-    } else if( global && run_for_npcs ) {
-        jo.throw_error( "An effect_on_condition can be either run_for_npcs or global but not both." );
+    } else if( !global && run_for_npcs ) {
+        jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
     }
 }
 
