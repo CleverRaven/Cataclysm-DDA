@@ -914,23 +914,6 @@ overmap_special_terrain::overmap_special_terrain(
     , flags( fs )
 {}
 
-cube_direction operator-( const cube_direction d, int i )
-{
-    switch( d ) {
-        case cube_direction::north:
-        case cube_direction::east:
-        case cube_direction::south:
-        case cube_direction::west:
-            return static_cast<cube_direction>( ( static_cast<int>( d ) - i + 4 ) % 4 );
-        case cube_direction::above:
-        case cube_direction::below:
-            return d;
-        case cube_direction::last:
-            break;
-    }
-    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
-}
-
 cube_direction operator+( const cube_direction l, const om_direction::type r )
 {
     switch( l ) {
@@ -943,6 +926,40 @@ cube_direction operator+( const cube_direction l, const om_direction::type r )
         case cube_direction::above:
         case cube_direction::below:
             return l;
+        case cube_direction::last:
+            break;
+    }
+    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
+}
+
+cube_direction operator+( const cube_direction d, int i )
+{
+    switch( d ) {
+        case cube_direction::north:
+        case cube_direction::east:
+        case cube_direction::south:
+        case cube_direction::west:
+            return static_cast<cube_direction>( ( static_cast<int>( d ) + i ) % 4 );
+        case cube_direction::above:
+        case cube_direction::below:
+            return d;
+        case cube_direction::last:
+            break;
+    }
+    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
+}
+
+cube_direction operator-( const cube_direction d, int i )
+{
+    switch( d ) {
+        case cube_direction::north:
+        case cube_direction::east:
+        case cube_direction::south:
+        case cube_direction::west:
+            return static_cast<cube_direction>( ( static_cast<int>( d ) - i + 4 ) % 4 );
+        case cube_direction::above:
+        case cube_direction::below:
+            return d;
         case cube_direction::last:
             break;
     }
