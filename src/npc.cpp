@@ -3688,11 +3688,19 @@ std::string npc::describe_mission() const
 std::string npc::name_and_activity() const
 {
     if( current_activity_id ) {
-        const std::string activity_name = current_activity_id.obj().verb().translated();
         //~ %1$s - npc name, %2$s - npc current activity name.
-        return string_format( _( "%1$s (%2$s)" ), get_name(), activity_name );
+        return string_format( _( "%1$s (%2$s)" ), get_name(), get_current_activity() );
     } else {
         return get_name();
+    }
+}
+
+std::string npc::get_current_activity() const
+{
+    if( current_activity_id ) {
+        return current_activity_id.obj().verb().translated();
+    } else {
+        return _( "nothing" );
     }
 }
 

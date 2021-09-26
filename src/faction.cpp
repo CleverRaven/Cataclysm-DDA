@@ -507,6 +507,25 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
                     "%s", desc );
 }
 
+std::string npc::get_current_status() const
+{
+    if( current_target() != nullptr ) {
+        return _( "In Combat!" );
+    } else if( in_sleep_state() ) {
+        return _( "Sleeping" );
+    } else if( is_following() ) {
+        return _( "Following" );
+    } else if( is_leader() ) {
+        return _( "Leading" );
+    } else if( is_patrolling() ) {
+        return _( "Patrolling" );
+    } else if( is_guarding() ) {
+        return _( "Guarding" );
+    } else {
+        return get_current_activity();
+    }
+}
+
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
 {
     int retval = 0;
@@ -630,22 +649,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     mvwprintz( fac_w, point( width, ++y ), see_color, "%s", can_see );
     nc_color status_col = col;
-    std::string current_status = _( "Status: " );
     if( current_target() != nullptr ) {
-        current_status += _( "In Combat!" );
         status_col = c_light_red;
-    } else if( in_sleep_state() ) {
-        current_status += _( "Sleeping" );
-    } else if( is_following() ) {
-        current_status += _( "Following" );
-    } else if( is_leader() ) {
-        current_status += _( "Leading" );
-    } else if( is_patrolling() ) {
-        current_status += _( "Patrolling" );
-    } else if( is_guarding() ) {
-        current_status += _( "Guarding" );
     }
-    mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
+    mvwprintz( fac_w, point( width, ++y ), status_col, _( "Status: " ) + get_current_status() );
     if( is_stationed && has_job() ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Working at camp" ) );
     } else if( is_stationed ) {
