@@ -147,14 +147,6 @@ static void process_new_eocs( std::priority_queue<queued_eoc, std::vector<queued
                               &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector,
                               std::map<effect_on_condition_id, bool> &new_eocs )
 {
-    bool is_avatar = you.is_avatar();
-    std::map<effect_on_condition_id, bool> new_eocs;
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( eoc.type == eoc_type::RECURRING && ( is_avatar || eoc.run_for_npcs ) ) {
-            new_eocs[eoc.id] = true;
-        }
-    }
-
     std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
     temp_queued_eocs;
     while( !eoc_queue.empty() ) {
