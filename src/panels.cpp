@@ -1054,6 +1054,10 @@ std::pair<std::string, nc_color> display::thirst_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
 {
+    // NPCs who do not need food have no hunger
+    if( !u.needs_food() ) {
+        return std::make_pair( _( "Without Hunger" ), c_white );
+    }
     // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
     // like all of the effect_* string_id variables which are const string_id, then it fails to
     // initialize the array with tuples successfully complaining that
