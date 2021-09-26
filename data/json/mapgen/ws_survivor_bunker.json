@@ -5,6 +5,7 @@
     "default": "mon_zombie_survivor",
     "monsters": [
       { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_feral_prepper", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_dog", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 }
@@ -250,6 +251,7 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_BUNKER", "x": 14, "y": 19 },
+        { "monster": "GROUP_ZOMBIE_BUNKER", "x": 14, "y": 16 },
         { "monster": "GROUP_ZOMBIE_BUNKER", "x": 15, "y": 20 },
         { "monster": "GROUP_ZOMBIE_BUNKER", "x": 16, "y": 19 }
       ]
