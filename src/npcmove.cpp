@@ -287,14 +287,14 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-        const tripoint pt = pos() + direction_XY( pt_dir );
+        const tripoint pt = pos() + displace_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
-            candidates.emplace_back( pos() + direction_XY( pt_dir ) );
+            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
         } else if( cur_rating < best_rating ) {
             candidates.clear();
-            candidates.emplace_back( pos() + direction_XY( pt_dir ) );
+            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
             best_rating = cur_rating;
         }
     }
