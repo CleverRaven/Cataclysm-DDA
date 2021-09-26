@@ -245,7 +245,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "human",
-    "upgrades": { "into": "mon_feral_survivalist", "half_life": 60 },
+    "upgrades": { "into": "mon_feral_survivalist", "half_life": 120 },
     "starting_ammo": { "9mm": 3 },
     "special_attacks": [
       [ "GRAB", 7 ],
