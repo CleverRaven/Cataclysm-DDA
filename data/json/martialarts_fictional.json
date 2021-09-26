@@ -202,6 +202,7 @@
         "unarmed_allowed": true,
         "buff_duration": 6,
         "max_stacks": 6,
+        "persists": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scale": -1.0 },
           { "stat": "armor", "type": "cut", "scale": -1.0 },

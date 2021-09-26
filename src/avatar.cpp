@@ -1776,7 +1776,10 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     int selection = kmenu.ret;
 
     if( selection >= STYLE_OFFSET ) {
+        avatar &u = const_cast<avatar &>( you );
+        style_selected->remove_all_buffs( u );
         style_selected = selectable_styles[selection - STYLE_OFFSET];
+        ma_static_effects( u );
         martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
