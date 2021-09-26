@@ -306,6 +306,7 @@
     "desc": [ "You're knocked to the ground.  You have to get up before you can move." ],
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
+    "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true
   },
   {
@@ -420,6 +421,7 @@
     "name": [ "Unstable footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
     "rating": "bad"
   },
   {
@@ -645,7 +647,7 @@
     "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'",
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
-    "resist_traits": [ "POISRESIST" ],
+    "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
@@ -1826,6 +1828,7 @@
     "type": "effect_type",
     "id": "tapeworm",
     "rating": "bad",
+    "resist_traits": [ "VOMITSTOMACH" ],
     "base_mods": { "hunger_chance": [ 50 ], "hunger_min": [ 1 ] },
     "blood_analysis_description": "Intestinal Parasite"
   },

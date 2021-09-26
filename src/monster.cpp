@@ -109,6 +109,7 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
@@ -126,6 +127,7 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -1216,6 +1218,11 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( effective_anger >= 10 &&
             type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
+            effective_anger -= 20;
+        }
+
+        if( effective_anger >= 10 &&
+            type->in_species( species_AMPHIBIAN ) && u->has_trait( trait_PHEROMONE_AMPHIBIAN ) ) {
             effective_anger -= 20;
         }
 

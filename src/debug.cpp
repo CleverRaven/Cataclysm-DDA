@@ -165,6 +165,7 @@ std::string filter_name( debug_filter value )
         case DF_ACT_SAFECRACKING: return "DF_ACT_SAFECRACKING";
         case DF_ACT_SHEARING: return "DF_ACT_SHEARING";
         case DF_ACT_WORKOUT: return "DF_ACT_WORKOUT";
+        case DF_ACTIVITY: return "DF_ACTIVITY";
         case DF_ANATOMY_BP: return "DF_ANATOMY_BP";
         case DF_AVATAR: return "DF_AVATAR";
         case DF_BALLISTIC: return "DF_BALLISTIC";

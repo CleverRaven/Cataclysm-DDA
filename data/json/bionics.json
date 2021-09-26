@@ -384,7 +384,7 @@
     "id": "bio_batteries",
     "type": "bionic",
     "name": { "str": "Battery System" },
-    "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
+    "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use bionic menu to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "battery" ],
     "fuel_efficiency": 1,

@@ -131,7 +131,6 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
@@ -257,7 +256,6 @@ static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
@@ -278,7 +276,6 @@ static const itype_id itype_paper( "paper" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
-static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -286,8 +283,6 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
-static const itype_id itype_stick( "stick" );
-static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
@@ -342,6 +337,7 @@ static const trait_id trait_NUMB( "NUMB" );
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
@@ -2356,65 +2352,10 @@ cata::optional<int> iuse::ma_manual( Character *p, item *it, bool, const tripoin
     return 1;
 }
 
-cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint & )
+// Remove after 0.G
+cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    const std::set<ter_id> allowed_ter_id {
-        t_fence,
-        t_window_boarded,
-        t_window_boarded_noglass,
-        t_door_boarded,
-        t_door_boarded_damaged,
-        t_door_boarded_peep,
-        t_door_boarded_damaged_peep,
-        t_rdoor_boarded,
-        t_rdoor_boarded_damaged
-    };
-
-    map &here = get_map();
-    const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
-            return false;
-        }
-        const ter_id ter = here.ter( pnt );
-
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
-        return is_allowed;
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint &pnt = *pnt_;
-    const ter_id type = here.ter( pnt );
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
-            p->add_msg_if_player( _( "You try to hit yourself with the hammer." ) );
-            p->add_msg_if_player( _( "But you can't touch this." ) );
-        } else {
-            p->add_msg_if_player( m_info, _( "You can't pry that." ) );
-        }
-        return cata::nullopt;
-    }
-
-    if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
-        type == t_door_boarded || type == t_door_boarded_damaged ||
-        type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-        type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        // pry action
-        player_activity act( ACT_PRY_NAILS, to_moves<int>( 30_seconds ), -1 );
-        act.placement = pnt;
-        p->assign_activity( act );
-        return it->type->charges_to_use();
-    } else {
-        return cata::nullopt;
-    }
+    return iuse::crowbar( p, it, false, pos );
 }
 
 cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &pos )
@@ -2423,35 +2364,18 @@ cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_door_locked,
-        t_door_locked_alarm,
-        t_door_locked_interior,
-        t_door_locked_peep,
-        t_door_c,
-        t_door_c_peep,
-        t_manhole_cover,
-        t_window_domestic,
-        t_curtains,
-        t_window_no_curtains
-    };
-    const std::set<furn_id> allowed_furn_id {
-        f_crate_c,
-        f_coffin_c
-    };
 
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &allowed_furn_id, &here, p]( const tripoint & pnt ) {
+    [&here, p]( const tripoint & pnt ) {
         if( pnt == p->pos() ) {
             return false;
+        } else if( here.has_furn( pnt ) ) {
+            return here.furn( pnt )->prying->valid();
+        } else if( !here.ter( pnt )->is_null() ) {
+            return here.ter( pnt )->prying->valid();
         }
-        const ter_id ter = here.ter( pnt );
-        const auto furn = here.furn( pnt );
-
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
-                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
-        return is_allowed;
+        return false;
     };
 
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
@@ -2459,76 +2383,35 @@ cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint 
     if( !pnt_ ) {
         return cata::nullopt;
     }
+
     const tripoint &pnt = *pnt_;
-    const ter_id type = here.ter( pnt );
-    const furn_id furn = here.furn( pnt );
+
+    const pry_data *prying;
+    if( here.has_furn( pnt ) ) {
+        prying = &here.furn( pnt )->prying->prying_data();
+    } else {
+        prying = &here.ter( pnt )->prying->prying_data();
+    }
+
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet, "
-                                             "but alas.  You are just too miserly." ) );
+            if( it->typeId() == STATIC( itype_id( "hammer" ) ) ) {
+                p->add_msg_if_player( m_info, _( "You try to hit yourself with the hammer." ) );
+                p->add_msg_if_player( m_info, _( "But you can't touch this." ) );
+            } else {
+                p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet, "
+                                                 "but alas.  You are just too miserly." ) );
+            }
         } else {
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
         return cata::nullopt;
     }
-    const char *succ_action;
-    const char *fail_action;
-    ter_id new_type = t_null;
-    bool noisy;
-    int pry_quality;
-    int difficulty;
 
-    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but can't pry open the door." );
-        new_type = t_door_o;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 6;
-    } else if( type == t_door_locked_peep ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but can't pry open the door." );
-        new_type = t_door_o_peep;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 6;
-    } else if( type == t_door_c ) {
-        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-        here.ter_set( pnt, t_door_o );
-        p->mod_moves( -100 );
-        return 0;
-    } else if( type == t_door_c_peep ) {
-        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-        here.ter_set( pnt, t_door_o_peep );
-        p->mod_moves( -100 );
-        return 0;
-    } else if( type == t_manhole_cover ) {
-        succ_action = _( "You lift the manhole cover." );
-        fail_action = _( "You pry, but can't lift the manhole cover." );
-        pry_quality = 1;
-        new_type = t_manhole;
-        noisy = false;
-        difficulty = 4;
-    } else if( furn == f_crate_c ) {
-        succ_action = _( "You pop open the crate." );
-        fail_action = _( "You pry, but can't pop open the crate." );
-        pry_quality = 1;
-        noisy = true;
-        difficulty = 6;
-    } else if( furn == f_coffin_c ) {
-        succ_action = _( "You wedge open the coffin." );
-        fail_action = _( "You pry, but the coffin remains closed." );
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 5;
-    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
-        succ_action = _( "You pry open the window." );
-        fail_action = _( "You pry, but can't pry open the window." );
-        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 6;
-    } else {
+    // previously iuse::hammer
+    if( prying->prying_nails ) {
+        p->assign_activity(
+            player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
         return cata::nullopt;
     }
 
@@ -2537,70 +2420,21 @@ cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint 
     // The iexamine function for crate supplies a hammer object.
     // So this stops the player (A)ctivating a Hammer with a Crowbar in their backpack
     // then managing to open a door.
-    const int pry_level = it->get_quality( quality_id( "PRY" ) );
+    const int pry_level = it->get_quality( qual_PRY );
 
-    if( pry_level < pry_quality ) {
+    if( pry_level < prying->prying_level ) {
         // This doesn't really make it clear to the player
         // why their attempt is failing.
-        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %1$s." ),
                               it->tname() );
-        p->mod_moves( 10 ); // spend a few moves trying it.
-        return 0;
+        p->mod_moves( -50 ); // spend a few moves trying it.
+        return cata::nullopt;
     }
 
-    // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
-    difficulty -= ( pry_level - pry_quality );
+    p->assign_activity(
+        player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
 
-    /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
-    /** @EFFECT_STR increases chance of crowbar prying success */
-
-    if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
-        p->add_msg_if_player( m_good, succ_action );
-
-        if( here.furn( pnt ) == f_crate_c ) {
-            here.furn_set( pnt, f_crate_o );
-        } else if( here.furn( pnt ) == f_coffin_c ) {
-            here.furn_set( pnt, f_coffin_o );
-        } else {
-            here.ter_set( pnt, new_type );
-        }
-
-        if( noisy ) {
-            sounds::sound( pnt, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
-        }
-        if( type == t_manhole_cover ) {
-            here.spawn_item( pnt, itype_manhole_cover );
-        }
-        if( type == t_door_locked_alarm ) {
-            get_event_bus().send<event_type::triggers_alarm>( p->getID() );
-            sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        p->global_sm_location() );
-            }
-        }
-    } else {
-        if( type == t_window_domestic || type == t_curtains ) {
-            //chance of breaking the glass if pry attempt fails
-            /** @EFFECT_STR reduces chance of breaking window with crowbar */
-
-            /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-                    p->str_cur ) ) {
-                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
-                sounds::sound( pnt, 24, sounds::sound_t::combat, _( "glass breaking!" ), true, "smash", "glass" );
-                here.ter_set( pnt, t_window_frame );
-                here.spawn_item( pnt, itype_sheet, 2 );
-                here.spawn_item( pnt, itype_stick );
-                here.spawn_item( pnt, itype_string_36 );
-                return it->type->charges_to_use();
-            }
-        }
-        p->add_msg_if_player( fail_action );
-    }
-    return it->type->charges_to_use();
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripoint & )
