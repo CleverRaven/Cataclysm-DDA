@@ -370,7 +370,10 @@ void effect_on_conditions::write_global_eocs_to_file( )
 }
 void effect_on_conditions::avatar_death()
 {
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    avatar &player_character = get_avatar();
+    dialogue d( get_talker_for( get_avatar() ),
+                player_character.get_killer() == nullptr ? nullptr : get_talker_for(
+                    player_character.get_killer() ) );
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::AVATAR_DEATH ) {
             eoc.activate( d );
