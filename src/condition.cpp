@@ -22,6 +22,7 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
@@ -951,9 +952,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return get_weather().weather_precise->pressure;
             };
         }
-    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ) {
+    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
+               jo.has_member( "global_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
-        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
+        const bool is_global = jo.has_member( "global_val" );
+        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) :
+                                          ( is_global ? jo.get_string( "global_val" ) : jo.get_string( "u_val" ) );
         if( checked_value == "strength" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->str_cur();
@@ -987,14 +991,13 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_per_max();
             };
         } else if( checked_value == "var" ) {
-            bool global;
-            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, global]( const T & d ) {
+            return [is_npc, var_name, is_global]( const T & d ) {
                 int stored_value = 0;
                 std::string var;
-                if( global ) {
-                    var = get_talker_for( get_player_character() )->get_value( var_name );
+                if( is_global ) {
+                    global_variables &globvars = get_globals();
+                    var = globvars.get_global_value( var_name );
                 } else {
                     var = d.actor( is_npc )->get_value( var_name );
                 }

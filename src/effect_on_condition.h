@@ -71,6 +71,7 @@ void process_reactivate( Character &you );
 void clear( Character &you );
 /** write out all queued eocs and inactive eocs to a file for testing */
 void write_eocs_to_file( Character &you );
+void write_global_eocs_to_file();
 } // namespace effect_on_conditions
 
 #endif // CATA_SRC_EFFECT_ON_CONDITION_H
