@@ -93,11 +93,10 @@ class mapgendata
 
         weighted_int_list<ter_id> default_groundcover;
 
-        mapgendata( oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
-                    oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                    oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
-                    const oter_id &terrain_type, const mapgen_arguments &args, float density,
-                    const time_point &when, ::mission *miss );
+        struct dummy_settings_t {};
+        static constexpr dummy_settings_t dummy_settings = {};
+
+        mapgendata( map &, dummy_settings_t );
 
         mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
                     ::mission *miss );
