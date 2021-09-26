@@ -4016,7 +4016,7 @@
     "items": {
       "both": {
         "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ],
-        "entries": [ { "item": "crack", "charges": 25, "container-item": "bag_zipper" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "crack", "charges": 25, "container-item": "bag_zipper" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -4050,6 +4050,7 @@
           "knuckle_brass"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
         ]

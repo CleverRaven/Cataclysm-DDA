@@ -441,7 +441,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
     if( to_eat.is_food() ) {
-        if( !p.can_consume( to_eat ) ) {
+        if( !p.can_consume_as_is( to_eat ) ) {
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {

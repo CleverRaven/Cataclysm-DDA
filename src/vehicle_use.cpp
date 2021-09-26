@@ -2245,7 +2245,7 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case DRINK: {
             item water( itype_water_clean, calendar::turn_zero );
-            if( player_character.can_consume( water ) ) {
+            if( player_character.can_consume_as_is( water ) ) {
                 player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }

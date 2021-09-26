@@ -262,8 +262,8 @@
       [ "fc_hairpin", 5 ],
       [ "barrette", 5 ],
       [ "pearl_collar", 1 ],
-      { "item": "cell_phone", "prob": 15, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 31, "charges-min": 0 },
       [ "tophat", 10 ],
       [ "bullwhip", 3 ],
       [ "bowhat", 10 ],
@@ -1624,8 +1624,8 @@
     "magazine": 100,
     "items": [
       { "item": "portable_game", "prob": 65, "charges": 100 },
-      { "item": "cell_phone", "prob": 30, "charges": 150 },
-      { "item": "smart_phone", "prob": 65, "charges": 120 },
+      { "item": "cell_phone", "prob": 11, "charges": 150 },
+      { "item": "smart_phone", "prob": 85, "charges": 120 },
       { "item": "mp3", "prob": 65, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
       { "item": "vibrator", "prob": 1, "charges": 100 }
