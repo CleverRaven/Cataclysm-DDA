@@ -87,7 +87,8 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     }
     for( cube_direction dir : all_enum_values<cube_direction>() ) {
         if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
-            joins.emplace( dir, *join );
+            cube_direction rotated_dir = dir - rotation;
+            joins.emplace( rotated_dir, *join );
         }
     }
 }
