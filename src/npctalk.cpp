@@ -2259,7 +2259,14 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             }
         }
         if( popup_msg ) {
-            popup( translated_message, PF_NONE );
+         
+            const auto new_win = []() {
+                return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                                  std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+            };
+            scrollable_text( new_win, "", translated_message);
+            //popup( translated_message, PF_NONE );
         } else {
             target->add_msg_if_player( type, translated_message );
         }
