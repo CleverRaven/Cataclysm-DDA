@@ -273,6 +273,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SORT",
+    "category": "PICKUP",
+    "name": "Change sort criteria",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ENABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Enable auto note for map extra",

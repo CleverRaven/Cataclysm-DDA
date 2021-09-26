@@ -741,7 +741,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
         ctxt.register_action( "SELECT" );
-        ctxt.register_action( "SORT", to_translation( "Change sort criteria" ) );
+        ctxt.register_action( "SORT" );
 #if defined(__ANDROID__)
         ctxt.allow_text_entry = true; // allow user to specify pickup amount
 #endif
@@ -982,6 +982,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( selected >= itmcnt ) {
                 selected = 0;
                 start = selected;
+            }
+            if( start < 0 || selected < 0 ) {
+                start = 0;
+                selected = 0;
+            } else if( start >= itmcnt || selected >= itmcnt ) {
+                start = itmcnt - 1;
+                selected = start;
             }
         };
 
