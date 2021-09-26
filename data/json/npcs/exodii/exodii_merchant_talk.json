@@ -392,7 +392,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
     "type": "talk_topic",
-    "dynamic_line": "Hmm. They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
+    "dynamic_line": "Hmm.  They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
     "responses": [
       { "text": "Oh, like a navigator?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -437,7 +437,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Home",
     "type": "talk_topic",
-    "dynamic_line": "*becomes distant for a moment. \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
+    "dynamic_line": "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
     "responses": [
       { "text": "That's rough, maybe we should talk about something else.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
@@ -585,7 +585,7 @@
     "type": "talk_topic",
     "dynamic_line": "Makin' do, makin' do, same as you, an I'm ken.  Last home got a bit too dead 'n putrid roun' the edges, like.  Happens to the best of 'em.  Caught a jibber that made us ken 'bout your place here, fired up the ol' wibble-wammles and boom!  Now it's all tick-tock on a zimmer, here we be.  Got a good timing this time, I razz you only been dead a few days when we wobbled in.  Freshest corpse this'n's seen in a kitchen sink.",
     "responses": [
-      { "text": "… what?", "topic": "TALK_EXODII_MERCHANT_Purpose_Dialect" },
+      { "text": "…what?", "topic": "TALK_EXODII_MERCHANT_Purpose_Dialect" },
       {
         "text": "[int or per 9] Where did you come from then?  Are you aliens or something?",
         "condition": { "or": [ { "u_has_intelligence": 9 }, { "u_has_perception": 9 } ] },
@@ -688,7 +688,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Survival2",
     "type": "talk_topic",
-    "dynamic_line": "Haha, not mostly, mate. Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid.",
+    "dynamic_line": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid.",
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
