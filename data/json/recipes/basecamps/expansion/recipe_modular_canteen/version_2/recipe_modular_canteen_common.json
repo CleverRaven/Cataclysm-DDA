@@ -102,7 +102,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmk_2_well",
-    "description": "We should build a well.  This will make cooking more convenient and provides water to support a chef't garden.",
+    "description": "We should build a well.  This will make cooking more convenient and provides water to support a chef's garden.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
