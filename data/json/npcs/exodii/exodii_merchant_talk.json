@@ -257,7 +257,7 @@
     "//~": "Yes: You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.  No: Hey, can I ask you something first?",
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "started", "value": "yes" } },
     "responses": [
-      { "text": "Like, ask me a question? Sure, I guess.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro1a" },
+      { "text": "Like, ask me a question?  Sure, I guess.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro1a" },
       {
         "text": "No.  I'm too busy to answer your questions, you're supposed to answer mine.  I guess I'll head out.",
         "topic": "TALK_DONE"
@@ -372,7 +372,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro6",
     "type": "talk_topic",
     "dynamic_line": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation.",
-    "speaker_effect": { "effect": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+    "speaker_effect": [ { "effect": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } } ],
     "responses": [
       { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
