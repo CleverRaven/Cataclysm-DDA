@@ -444,20 +444,26 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     return !problem;
 }
 
-static bool cmp_istack_alpha( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 );
-static bool cmp_istack_cat( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 );
+static bool cmp_istack_alpha( const std::list<item_stack::iterator> &i1,
+                              const std::list<item_stack::iterator> &i2 );
+static bool cmp_istack_cat( const std::list<item_stack::iterator> &i1,
+                            const std::list<item_stack::iterator> &i2 );
+static int categories_on_screen( const std::vector<int> cat_idx, const int start, const int end,
+                                 const int rowcount );
 
-bool cmp_istack_alpha( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 )
+bool cmp_istack_alpha( const std::list<item_stack::iterator> &i1,
+                       const std::list<item_stack::iterator> &i2 )
 {
     if( i1.empty() || i2.empty() ) {
         return i1 < i2;
     }
-    const std::string &it1 = i1.front()->tname(1U, false, 0U, false);
-    const std::string &it2 = i2.front()->tname(1U, false, 0U, false);
+    const std::string &it1 = i1.front()->tname( 1U, false, 0U, false );
+    const std::string &it2 = i2.front()->tname( 1U, false, 0U, false );
     return it1.compare( it2 ) < 0;
 }
 
-bool cmp_istack_cat( const std::list<item_stack::iterator> &i1, const std::list<item_stack::iterator> &i2 )
+bool cmp_istack_cat( const std::list<item_stack::iterator> &i1,
+                     const std::list<item_stack::iterator> &i2 )
 {
     if( i1.empty() || i2.empty() ) {
         return i1 < i2;
@@ -465,6 +471,41 @@ bool cmp_istack_cat( const std::list<item_stack::iterator> &i1, const std::list<
     const item &it1 = *i1.front();
     const item &it2 = *i2.front();
     return it1.get_category_of_contents() < it2.get_category_of_contents();
+}
+
+// Use either start or end, set the other to -1
+int categories_on_screen( const std::vector<int> cat_idx, const int start, const int end,
+                          const int rowcount )
+{
+    if( cat_idx.size() == 0 ) {
+        return 0;
+    }
+    int ret = 1;
+    if( end < 0 ) {
+        for( int cat : cat_idx ) {
+            if( cat == start ) {
+                ret--;
+            }
+            int idx = cat + ret;
+            if( idx >= start && idx < start + rowcount ) {
+                ret++;
+            }
+        }
+    } else if( start < 0 ) {
+        ret--;
+        bool skip_first = false;
+        for( int i = cat_idx.size() - 1; i >= 0; i-- ) {
+            int idx = cat_idx[i] - ret;
+            if( idx <= end && idx > end - rowcount ) {
+                if( idx == ( end - rowcount ) - 1 ) {
+                    skip_first = true;
+                }
+                ret++;
+            }
+        }
+        ret += skip_first ? 0 : 1;
+    }
+    return ret;
 }
 
 // Pick up items at (pos).
@@ -615,13 +656,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         int start = 0;
         int selected = 0;
-        int maxitems = 0;
         int menurows = 0;
         int pickupH = 0;
         int pickupW = 44;
         int pickupX = 0;
-        int categories = 0;
-        int cur_cats = 0;
+        std::vector<int> categories;
         catacurses::window w_pickup;
         catacurses::window w_item_info;
 
@@ -635,11 +674,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const int minleftover = itemsH + pickupBorderRows;
             const int maxmaxitems = TERMY - minleftover;
             const int minmaxitems = 9;
-            maxitems = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
-            menurows = maxitems;
-            categories = 0;
+            menurows = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
+            categories.clear();
 
             //find max length of item name and resize pickup window width
+            int rowcnt = 0;
             item_category_id it_cat;
             for( const std::list<item_stack::iterator> &cur_list : stacked_here ) {
                 const item &this_item = *cur_list.front();
@@ -651,13 +690,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 const item_category_id cur_cat = cur_list.front()->get_category_of_contents().id;
                 if( sort_by_cat && it_cat != cur_cat ) {
                     it_cat = cur_cat;
-                    categories++;
+                    categories.push_back( rowcnt );
                 }
+                rowcnt++;
             }
 
-            maxitems -= categories;
-
-            start = selected - selected % maxitems;
+            std::sort( categories.begin(), categories.end() );
 
             pickupH = menurows + pickupBorderRows;
 
@@ -754,9 +792,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             werase( w_pickup );
             pickup_rect::list.clear();
             item_category_id this_cat;
-            cur_cats = 0;
             int cur_row = 0;
-            for( int cur_it = start; cur_it < start + maxitems && cur_row < menurows; cur_row++ ) {
+            for( int cur_it = start; cur_row < menurows; cur_row++ ) {
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
                     const item &this_item = *stacked_here[true_it].front();
@@ -764,7 +801,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         this_cat = this_item.get_category_of_contents().id;
                         trim_and_print( w_pickup, point( 2, 2 + cur_row ),
                                         pickupW - 4, c_magenta, to_upper_case( this_cat.str() ) );
-                        cur_cats++;
                         continue;
                     }
 
@@ -903,6 +939,52 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             wnoutrefresh( w_pickup );
         } );
 
+        std::function<void( const int )> scroll_by = [&]( const int s ) {
+            int cur_cats = categories_on_screen( categories, start, -1, menurows );
+            int itmcnt = matches.size();
+            selected += s;
+            if( selected >= start && selected < itmcnt - 1 &&
+                selected < start + ( menurows - cur_cats - 1 ) ) {
+                return;
+            } else if( selected < start ) {
+                if( selected == s ) {
+                    selected = itmcnt - 1;
+                    int new_cats = categories_on_screen( categories, -1, selected, menurows );
+                    start = selected - ( ( menurows - new_cats ) - 1 );
+                } else if( selected < 0 ) {
+                    selected = 0;
+                    start = selected;
+                } else {
+                    start = selected;
+                }
+            } else if( selected > start + ( ( menurows - cur_cats ) - 1 ) ) {
+                if( selected == s + ( itmcnt - 1 ) ) {
+                    selected = 0;
+                    start = selected;
+                } else if( selected >= itmcnt ) {
+                    start += s - ( selected - ( itmcnt - 1 ) );
+                    selected = itmcnt - 1;
+                    for( int i : categories ) {
+                        if( start == i ) {
+                            start += start == selected ? 0 : 1;
+                            break;
+                        }
+                    }
+                } else {
+                    start += s;
+                    for( int i : categories ) {
+                        if( selected == i ) {
+                            start += start == selected ? 0 : 1;
+                            break;
+                        }
+                    }
+                }
+            } else if( selected >= itmcnt ) {
+                selected = 0;
+                start = selected;
+            }
+        };
+
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {
@@ -911,6 +993,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const int scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
             int idx = -1;
             const int recmax = static_cast<int>( matches.size() );
+            const int cur_cats = categories_on_screen( categories, start, -1, menurows );
             const int scroll_rate = recmax > 20 ? 10 : 3;
 
             if( action == "ANY_INPUT" &&
@@ -938,25 +1021,25 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 sort_by_cat = uistate.pickup_item_sort != 1;
                 if( !sort_by_cat ) {
                     std::sort( stacked_here.begin(), stacked_here.end(), cmp_istack_alpha );
-                    categories = 0;
-                    maxitems = menurows;
+                    categories.clear();
                 } else {
                     std::sort( stacked_here.begin(), stacked_here.end(), cmp_istack_cat );
+                    int rowcnt = 0;
                     item_category_id it_cat;
                     for( const std::list<item_stack::iterator> &li : stacked_here ) {
                         const item_category_id cur_cat = li.front()->get_category_of_contents().id;
                         if( sort_by_cat && it_cat != cur_cat ) {
                             it_cat = cur_cat;
-                            categories++;
+                            categories.push_back( rowcnt );
                         }
+                        rowcnt++;
                     }
-                    maxitems = menurows - categories;
+                    std::sort( categories.begin(), categories.end() );
                 }
-                // TODO: #1 - Get rid of maxitems
-                // TODO: #2 - What happens when sorting a filtered list?
-                // TODO: #3 - Fix picked items (+) getting changed after sorting
                 filter_changed = true;
                 update = true;
+                // TODO: Fix picked items letters (+) getting changed after sorting
+                // Reset picked items
                 for( pickup_count &pc : getitem ) {
                     pc.pick = false;
                     pc.count = 0;
@@ -966,77 +1049,23 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
                 iScrollPos += scroll_lines;
             } else if( action == "PREV_TAB" ) {
-                if( start > 0 ) {
-                    start -= maxitems;
-                } else {
-                    start = static_cast<int>( ( matches.size() - 1 ) / maxitems ) * maxitems;
-                }
-                selected = start;
+                scroll_by( -( menurows - cur_cats ) );
+                iScrollPos = 0;
             } else if( action == "NEXT_TAB" ) {
-                if( start + maxitems < recmax ) {
-                    start += maxitems;
-                } else {
-                    start = 0;
-                }
+                scroll_by( menurows - cur_cats );
                 iScrollPos = 0;
-                selected = start;
             } else if( action == "UP" ) {
-                selected--;
+                scroll_by( -1 );
                 iScrollPos = 0;
-                if( selected < 0 ) {
-                    selected = matches.size() - 1;
-                    start = static_cast<int>( matches.size() / maxitems ) * maxitems;
-                    if( start >= recmax ) {
-                        start -= maxitems;
-                    }
-                } else if( selected < start ) {
-                    start -= maxitems;
-                }
             } else if( action == "DOWN" ) {
-                selected++;
+                scroll_by( 1 );
                 iScrollPos = 0;
-                if( selected >= recmax ) {
-                    selected = 0;
-                    start = 0;
-                } else if( selected >= start + maxitems ) {
-                    start += maxitems;
-                }
             } else if( action == "PAGE_DOWN" ) {
-                if( selected == recmax - 1 ) {
-                    selected = 0;
-                    start = 0;
-                } else if( selected + scroll_rate >= recmax ) {
-                    selected = recmax - 1;
-                    if( selected >= start + maxitems ) {
-                        start += maxitems;
-                    }
-                } else {
-                    selected += +scroll_rate;
-                    iScrollPos = 0;
-                    if( selected >= recmax ) {
-                        selected = 0;
-                        start = 0;
-                    } else if( selected >= start + maxitems ) {
-                        start += maxitems;
-                    }
-                }
+                scroll_by( scroll_rate );
+                iScrollPos = 0;
             } else if( action == "PAGE_UP" ) {
-                if( selected == 0 ) {
-                    selected = recmax - 1;
-                    start = static_cast<int>( matches.size() / maxitems ) * maxitems;
-                    if( start >= recmax ) {
-                        start -= maxitems;
-                    }
-                } else if( selected <= scroll_rate ) {
-                    selected = 0;
-                    start = 0;
-                } else {
-                    selected += -scroll_rate;
-                    iScrollPos = 0;
-                    if( selected < start ) {
-                        start -= maxitems;
-                    }
-                }
+                scroll_by( -scroll_rate );
+                iScrollPos = 0;
             } else if( selected >= 0 && selected < recmax &&
                        ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
                          ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
@@ -1100,8 +1129,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                            ( action == "LEFT" ? false :
                                              !getitem[true_idx].pick ) );
                 if( action != "RIGHT" && action != "LEFT" ) {
+                    int cats = categories_on_screen( categories, start, -1, menurows );
                     selected = idx;
-                    start = static_cast<int>( idx / maxitems ) * maxitems;
+                    start = static_cast<int>( idx / ( menurows - cats ) ) * ( menurows - cats );
                 }
 
                 if( !getitem[true_idx].pick ) {
