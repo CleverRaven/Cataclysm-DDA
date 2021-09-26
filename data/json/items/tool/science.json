@@ -1409,10 +1409,7 @@
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "focus" },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 30 } ] }
-          ]
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 30 } ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
@@ -1427,7 +1424,7 @@
           "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "fatigue" },
           "effect": [
             { "u_message": "You instantly feel more awake!" },
-            { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 30 } ] },
+            { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 30 } ] }
           ]
         }
       ]
