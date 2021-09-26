@@ -263,7 +263,7 @@
   },
   {
     "id": "toothbrush_electric",
-    "name": { "str": "electric toothbrush" },
+    "name": { "str": "electric toothbrush", "str_pl": "electric toothbrushes" },
     "type": "GENERIC",
     "description": "A plastic electric toothbrush.",
     "symbol": "/",
