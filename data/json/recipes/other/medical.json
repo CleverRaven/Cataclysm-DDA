@@ -226,7 +226,7 @@
     "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 7 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 666 ] ] ]
   },
   {
     "type": "recipe",

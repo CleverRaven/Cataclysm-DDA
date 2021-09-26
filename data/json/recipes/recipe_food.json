@@ -4661,7 +4661,7 @@
     "book_learn": [ [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [ [ [ "lye_powder", 7 ], [ "bleach", 10 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+    "components": [ [ [ "lye_powder", 666 ], [ "bleach", 10 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4703,7 +4703,7 @@
         [ "honeydew", 3 ],
         [ "can_corn", 3 ]
       ],
-      [ [ "lye_powder", 1 ] ],
+      [ [ "lye_powder", 133 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
   },
@@ -4802,7 +4802,7 @@
     },
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
-    "components": [ [ [ "sugar_beet", 2 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "lye_powder", 1 ] ] ]
+    "components": [ [ [ "sugar_beet", 2 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "lye_powder", 133 ] ] ]
   },
   {
     "type": "recipe",
@@ -5246,7 +5246,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "cookbook_foodfashions", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "fish", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "lye_powder", 1 ] ] ]
+    "components": [ [ [ "fish", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "lye_powder", 33 ] ] ]
   },
   {
     "type": "recipe",
@@ -7683,7 +7683,7 @@
     "components": [
       [ [ "kernels", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
-      [ [ "lye_powder", 1 ], [ "material_quicklime", 1 ] ]
+      [ [ "lye_powder", 100 ], [ "material_quicklime", 1 ] ]
     ]
   },
   {

@@ -125,7 +125,7 @@
     "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_grenade_case", 1 ] ],
-    "components": [ [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 13 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 1330 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
     "result": "fungicidalbomb_makeshift",

@@ -717,7 +717,7 @@
       [ [ "plastic_chunk", 4 ] ],
       [ [ "bleach", 2 ] ],
       [ [ "oxy_powder", 15 ] ],
-      [ [ "lye_powder", 1 ] ]
+      [ [ "lye_powder", 100 ] ]
     ]
   },
   {
@@ -863,7 +863,7 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 7 ] ] ]
+    "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 666 ] ] ]
   },
   {
     "type": "recipe",

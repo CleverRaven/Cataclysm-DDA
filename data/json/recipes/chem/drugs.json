@@ -20,7 +20,7 @@
       [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_methanol", 97 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
-      [ [ "lye_powder", 1 ] ],
+      [ [ "lye_powder", 13 ] ],
       [ [ "chem_muriatic_acid", 1 ] ],
       [ [ "paper", 2 ] ]
     ]
@@ -62,7 +62,7 @@
       [ [ "red_phosphorous", 15 ] ],
       [ [ "chem_acetone", 150 ] ],
       [ [ "chem_methanol", 3 ] ],
-      [ [ "lye_powder", 1 ] ]
+      [ [ "lye_powder", 33 ] ]
     ]
   }
 ]

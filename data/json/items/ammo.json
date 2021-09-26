@@ -678,10 +678,10 @@
     "description": "Powdered caustic soda.",
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
-    "volume": "188 ml",
-    "weight": "40 g",
+    "volume": "19 ml",
+    "weight": "400 mg",
     "ammo_type": "components",
-    "count": 10
+    "count": 100
   },
   {
     "type": "AMMO",

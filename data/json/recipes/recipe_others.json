@@ -1805,7 +1805,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 1 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 67 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1827,7 +1827,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 1 ], [ "aspirin", 10 ] ], [ [ "cured_pelt", 6 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 67 ], [ "aspirin", 10 ] ], [ [ "cured_pelt", 6 ] ] ]
   },
   {
     "type": "recipe",
