@@ -730,7 +730,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
-
+    data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
     }
@@ -1210,7 +1210,7 @@ void Character::store( JsonOut &json ) const
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-
+    json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv->json_save_items( json );

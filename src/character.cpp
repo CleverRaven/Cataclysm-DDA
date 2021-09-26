@@ -2899,6 +2899,16 @@ void Character::die( Creature *nkiller )
     is_dead = true;
     set_killer( nkiller );
     set_time_died( calendar::turn );
+
+    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
+    for( effect_on_condition_id &eoc : death_eocs ) {
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
+    }
+
     if( has_effect( effect_lightsnare ) ) {
         inv->add_item( item( "string_36", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
