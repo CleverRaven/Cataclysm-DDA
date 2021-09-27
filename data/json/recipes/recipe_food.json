@@ -6151,7 +6151,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honey_bottled", 1 ] ] ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ] ] ]
   },
   {
     "type": "recipe",
