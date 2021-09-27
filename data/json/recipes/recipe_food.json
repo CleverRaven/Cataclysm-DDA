@@ -16,7 +16,7 @@
     "components": [
       [ [ "flour", 18 ] ],
       [ [ "salt", 2 ] ],
-      [ [ "sugar_powdered", 2, "LIST" ] ],
+      [ [ "sugar_standard", 2, "LIST" ] ],
       [ [ "chocolate", 3 ] ],
       [ [ "any_butter_or_oil", 10, "LIST" ] ],
       [ [ "eggs_any_shape", 4, "LIST" ] ],
@@ -662,7 +662,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "charges": 1,
+    "charges": 5,
     "autolearn": true,
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -3886,7 +3886,6 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "12 m",
-    "charges": 5,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [

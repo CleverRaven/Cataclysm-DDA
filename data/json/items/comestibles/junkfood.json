@@ -595,7 +595,7 @@
     "spoils_in": "52 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 110,
+    "calories": 280,
     "description": "Delicious sponge cake with buttercream icing, it says happy birthday on it.",
     "price": 120,
     "price_postapoc": 200,
@@ -611,6 +611,7 @@
     "name": { "str": "cake" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
+    "calories": 280,
     "description": "Delicious chocolate cake.  It has all the icing.  All of it."
   },
   {
@@ -619,6 +620,7 @@
     "name": { "str": "cake" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
+    "calories": 295,
     "quench": -5,
     "description": "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it…",
     "fun": 20
@@ -776,7 +778,7 @@
     "quench": 1,
     "healthy": -1,
     "calories": 362,
-    "description": "Caramel covered apples. One of the children's favorite snacks during the festival. But now they want you.",
+    "description": "Caramel covered apples.  One of the children's favorite snacks during the festival.  But now they want you.",
     "price": 150,
     "price_postapoc": 500,
     "material": [ "junk", "fruit" ],
@@ -1128,7 +1130,7 @@
     "name": { "str": "chocolate pancake" },
     "weight": "78 g",
     "healthy": 0,
-    "calories": 217,
+    "calories": 201,
     "description": "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
     "price": 700,
     "price_postapoc": 100,

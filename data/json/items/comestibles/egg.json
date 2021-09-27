@@ -440,7 +440,7 @@
     "looks_like": "powder_eggs",
     "quench": 2,
     "calories": 80,
-    "description": "Rehydrated eggs. You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
     "price": 22,
     "price_postapoc": 25,
     "material": [ "egg" ],
