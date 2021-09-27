@@ -87,6 +87,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
+static const efftype_id effect_asked_to_train( "asked_to_train" );
 
 static const itype_id fuel_type_animal( "animal" );
 
@@ -619,7 +620,10 @@ void game::chat()
                       );
     }
     if( !followers.empty() ) {
-        nmenu.addentry( NPC_CHAT_START_SEMINAR, true, 'T', _( "Start a training seminar" ) );
+        bool enable_seminar = !player_character.has_effect( effect_asked_to_train );
+        nmenu.addentry( NPC_CHAT_START_SEMINAR, enable_seminar, 'T',
+                        enable_seminar ? _( "Start a training seminar" ) :
+                        _( "Start a training seminar (You've already taught enough for now)" ) );
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
                         string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
