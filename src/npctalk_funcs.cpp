@@ -74,6 +74,7 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
@@ -1075,11 +1076,13 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
     }
     player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
                                            teacher.getID().get_value(), 0, name );
+    player_activity tact = player_activity( ACT_TRAIN_TEACHER, to_moves<int>( time ),
+                                            teacher.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
-    if( !teacher.is_avatar() && !player_is_student ) {
-        teacher.assign_activity( act );
-    } else {
-        get_player_character().assign_activity( act );
+    tact.values.push_back( expert_multiplier );
+    teacher.assign_activity( tact );
+    for( Character *student : students ) {
+        student->assign_activity( act );
     }
 
     teacher.add_effect( effect_asked_to_train, 6_hours );

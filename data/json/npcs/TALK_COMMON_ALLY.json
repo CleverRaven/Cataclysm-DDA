@@ -131,6 +131,18 @@
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
       {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
         "text": "Let's trade items.",
         "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
         "topic": "TALK_FRIEND",

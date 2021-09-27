@@ -164,6 +164,7 @@ static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
@@ -301,6 +302,7 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
+    { ACT_TRAIN_TEACHER, teach_finish },
     { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
@@ -2043,6 +2045,24 @@ static bool magic_train( player_activity *act, Character *you )
     return false;
 }
 
+void activity_handlers::teach_finish( player_activity *act, Character *you )
+{
+    const skill_id sk( act->name );
+    if( sk.is_valid() ) {
+        const std::string sk_name = sk.obj().name();
+        if( you->is_avatar() ) {
+            add_msg( m_good, _( "You finish teaching %s." ), sk_name );
+        } else {
+            add_msg( m_good, _( "%s finishes teaching %s." ), you->name );
+        }
+        act->set_to_null();
+        return;
+    }
+    
+    debugmsg( "teach_finish without a valid skill or style or spell name" );
+    act->set_to_null();
+}
+
 void activity_handlers::train_finish( player_activity *act, Character *you )
 {
     const skill_id sk( act->name );
@@ -2053,10 +2073,12 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
         you->practice( sk, 100, old_skill_level + 2 );
         int new_skill_level = you->get_knowledge_level( sk );
         if( old_skill_level != new_skill_level ) {
-            add_msg( m_good, _( "You finish training %s to level %d." ),
-                     skill_name, new_skill_level );
+            if( you->is_avatar() ) {
+                add_msg( m_good, _( "You finish training %s to level %d." ),
+                         skill_name, new_skill_level );
+            }
             get_event_bus().send<event_type::gains_skill_level>( you->getID(), sk, new_skill_level );
-        } else {
+        } else if( you->is_avatar() ) {
             add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
         act->set_to_null();
@@ -2066,7 +2088,9 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
     const proficiency_id &proficiency = proficiency_id( act->name );
     if( proficiency.is_valid() ) {
         you->practice_proficiency( proficiency, 15_minutes );
-        add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
+        if( you->is_avatar() ) {
+            add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
+        }
         act->set_to_null();
         return;
     }

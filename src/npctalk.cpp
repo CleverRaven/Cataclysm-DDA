@@ -954,6 +954,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Here's what I can teach you…" );
         }
+    } else if( topic == "TALK_TRAIN_NPC" ) {
+        if( actor( false )->skills_offered_to( *actor( true ) ).empty() ) {
+            return _( "Sorry, there's nothing I can learn from you." );
+        } else {
+            return _( "Sure, I'm all ears." );
+        }
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         return actor( true )->distance_to_goal();
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
@@ -1129,9 +1135,18 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( the_topic.id == "TALK_TRAIN_NPC" ) {
-        // TODO: Verify edge cases
         const std::vector<skill_id> &trainable = actor( false )->skills_offered_to( *actor( true ) );
-        // TODO: Complete conversation logic
+        if( trainable.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &s : trainable ) {
+            const std::string &text = actor( true )->skill_training_text( *actor( true ), s );
+            if( !text.empty() && !s->obsolete() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", s );
+            }
+        }
+        add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN &&
             player_character.backlog.front().index == actor( true )->getID().get_value() ) {
