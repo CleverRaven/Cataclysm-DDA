@@ -310,7 +310,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS", "IMPROVISED_WEAPONS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "BLADED_FARMING", "CLAWS", "IMPROVISED_WEAPONS" ]
     "weapons": [
       "2x4",
       "bee_sting",
