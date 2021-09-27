@@ -1,5 +1,7 @@
 #include "iexamine_actors.h"
 
+#include "avatar.h"
+#include "effect_on_condition.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "itype.h"
@@ -191,4 +193,33 @@ void cardreader_examine_actor::finalize() const
 std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 {
     return std::make_unique<cardreader_examine_actor>( *this );
+}
+
+void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
+{
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+}
+
+void eoc_examine_actor::load( const JsonObject &jo )
+{
+    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+}
+
+void eoc_examine_actor::finalize() const
+{
+    for( const effect_on_condition_id &eoc : eocs ) {
+        if( !eoc.is_valid() ) {
+            debugmsg( "Invalid effect_on_condition_id: %s", eoc.str() );
+        }
+    }
+}
+
+std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
+{
+    return std::make_unique<eoc_examine_actor>( *this );
 }
