@@ -1332,10 +1332,25 @@
     "type": "TOOL",
     "name": { "str_sp": "Mi-go Biotech" },
     "conditional_names": [
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_MORALE", "name": { "str_sp": "%s (happy)" } },
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FOCUS", "name": { "str_sp": "%s (focus)" } },
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_PAIN", "name": { "str_sp": "%s (pain relief)" } },
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FATIGUE", "name": { "str_sp": "%s (wake up)" } }
+      { "type": "VAR", "condition": "npctalk_var_mbt_f_function", "value": "morale", "name": { "str_sp": "%s (happy)" } },
+      {
+        "type": "VAR",
+        "condition": "npctalk_var_mbt_f_function",
+        "value": "focus",
+        "name": { "str_sp": "%s (focus)" }
+      },
+      {
+        "type": "VAR",
+        "condition": "npctalk_var_mbt_f_function",
+        "value": "pain",
+        "name": { "str_sp": "%s (pain relief)" }
+      },
+      {
+        "type": "VAR",
+        "condition": "npctalk_var_mbt_f_function",
+        "value": "fatigue",
+        "name": { "str_sp": "%s (wake up)" }
+      }
     ],
     "description": "A piece of mi-go biotechnology.",
     "weight": "1 g",
@@ -1366,20 +1381,20 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SETUP",
-          "condition": { "not": { "npc_has_var": "function_set", "type": "migo_bio_tech", "context": "bio_tech", "value": "yes" } },
+          "condition": { "not": { "npc_has_var": "function_set", "type": "mbt", "context": "f", "value": "yes" } },
           "effect": [
-            { "npc_add_var": "function_set", "type": "migo_bio_tech", "context": "bio_tech", "value": "yes" },
+            { "npc_add_var": "function_set", "type": "mbt", "context": "f", "value": "yes" },
             {
               "npc_add_var": "function",
-              "type": "migo_bio_tech",
-              "context": "bio_tech",
+              "type": "mbt",
+              "context": "f",
               "possible_values": [ "morale", "focus", "pain", "fatigue" ]
             }
           ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_MORALE",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "morale" },
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "morale" },
           "effect": [
             { "u_message": "You feel amazing!" },
             {
@@ -1388,35 +1403,28 @@
               "max_bonus": 50,
               "duration": "12 hours",
               "decay_start": "10 hours"
-            },
-            { "npc_add_var": "MORALE", "type": "DISPLAY", "context": "NAME", "value": "" }
+            }
           ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "arithmetic": [ { "u_val": "focus" }, { "u_val": "focus" }, { "const": 30 } ], "op": "+" },
-            { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
-          ]
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "focus" },
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 30 } ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "pain" },
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "pain" },
           "effect": [
             { "u_message": "You feel your aches and pains fade away!" },
-            { "arithmetic": [ { "u_val": "pain" }, { "u_val": "pain" }, { "const": 30 } ], "op": "-" },
-            { "npc_add_var": "PAIN", "type": "DISPLAY", "context": "NAME", "value": "" }
+            { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 30 } ] }
           ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "fatigue" },
           "effect": [
             { "u_message": "You instantly feel more awake!" },
-            { "arithmetic": [ { "u_val": "fatigue" }, { "u_val": "fatigue" }, { "const": 30 } ], "op": "-" },
-            { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
+            { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 30 } ] }
           ]
         }
       ]

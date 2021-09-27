@@ -5070,22 +5070,23 @@
         { "id": "airliner_2j", "fg": 2502, "bg": 3106, "rotates": true },
         { "id": "airliner_3c", "fg": 2497, "bg": 3106, "rotates": true },
         { "id": "airliner_3g", "fg": 2500, "bg": 3106, "rotates": true },
-        { "id": "ants_end", "fg": [ 2444, 2445, 2446, 2447 ], "bg": 2443, "rotates": true },
-        { "id": "ants_es", "fg": 2450, "bg": 2443, "rotates": false },
-        { "id": "ants_esw", "fg": 2454, "bg": 2443, "rotates": false },
-        { "id": "ants_ew", "fg": 2449, "bg": 2443, "rotates": false },
+        {
+          "id": "ants",
+          "fg": 2459,
+          "bg": 2443,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 2458, "bg": 2443 },
+            { "id": "corner", "fg": [ 2450, 2453, 2452, 2451 ], "bg": 2443 },
+            { "id": "t_connection", "fg": [ 2454 ], "bg": 2443 },
+            { "id": "edge", "fg": [ 2448, 2449 ], "bg": 2443 },
+            { "id": "end_piece", "fg": [ 2444, 2445, 2446, 2447 ], "bg": 2443 },
+            { "id": "unconnected", "fg": [ 2766, 2766 ], "bg": 2614 }
+          ]
+        },
         { "id": "ants_food", "fg": 2460, "rotates": false },
-        { "id": "ants_isolated", "fg": 2459, "bg": 2443, "rotates": false },
         { "id": "ants_larvae", "fg": 2461, "rotates": false },
-        { "id": "ants_ne", "fg": 2453, "bg": 2443, "rotates": false },
-        { "id": "ants_nes", "fg": 2457, "bg": 2443, "rotates": false },
-        { "id": "ants_nesw", "fg": 2458, "bg": 2443, "rotates": false },
-        { "id": "ants_new", "fg": 2456, "bg": 2443, "rotates": false },
-        { "id": "ants_ns", "fg": 2448, "bg": 2443, "rotates": false },
-        { "id": "ants_nsw", "fg": 2455, "bg": 2443, "rotates": false },
         { "id": "ants_queen", "fg": 2462, "rotates": false },
-        { "id": "ants_sw", "fg": 2451, "bg": 2443, "rotates": false },
-        { "id": "ants_wn", "fg": 2452, "bg": 2443, "rotates": false },
         {
           "id": [
             "basement",
@@ -5389,20 +5390,20 @@
         { "id": "river_nw", "fg": 2350, "rotates": false },
         { "id": "river_se", "fg": 2348, "rotates": false },
         { "id": "river_sw", "fg": 2349, "rotates": false },
-        { "id": "road_end", "fg": [ 2323, 2324, 2325, 2326 ], "rotates": true },
-        { "id": "road_es", "fg": 2330, "rotates": false },
-        { "id": "road_esw", "fg": 2337, "rotates": false },
-        { "id": "road_ew", "fg": 2333, "rotates": false },
-        { "id": "road_isolated", "fg": 2327, "rotates": false },
-        { "id": "road_ne", "fg": 2328, "rotates": false },
-        { "id": "road_nes", "fg": 2331, "rotates": false },
-        { "id": "road_nesw", "fg": 2338, "rotates": false },
+        {
+          "id": "road",
+          "fg": 2766,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 2327 },
+            { "id": "corner", "fg": [ 2330 ] },
+            { "id": "t_connection", "fg": [ 2337 ] },
+            { "id": "edge", "fg": [ 2329, 2333 ] },
+            { "id": "end_piece", "fg": [ 2323, 2326, 2325, 2324 ] },
+            { "id": "unconnected", "fg": 2327, "bg": 2614 }
+          ]
+        },
         { "id": "road_nesw_manhole", "fg": 2339, "rotates": false },
-        { "id": "road_new", "fg": 2334, "rotates": false },
-        { "id": "road_ns", "fg": 2329, "rotates": false },
-        { "id": "road_nsw", "fg": 2336, "rotates": false },
-        { "id": "road_sw", "fg": 2335, "rotates": false },
-        { "id": "road_wn", "fg": 2332, "rotates": false },
         {
           "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
           "fg": [ 2402, 2402, 2402, 2402 ],
@@ -5439,19 +5440,20 @@
           "bg": [ 2391, 2392, 2393, 2394 ],
           "rotates": true
         },
-        { "id": "sewer_end", "fg": [ 2427, 2428, 2429, 2430 ], "bg": 2426, "rotates": true },
-        { "id": "sewer_es", "fg": 2433, "bg": 2426, "rotates": false },
-        { "id": "sewer_esw", "fg": 2437, "bg": 2426, "rotates": false },
-        { "id": "sewer_ew", "fg": 2432, "bg": 2426, "rotates": false },
-        { "id": "sewer_isolated", "fg": 2442, "bg": 2426, "rotates": false },
-        { "id": "sewer_ne", "fg": 2436, "bg": 2426, "rotates": false },
-        { "id": "sewer_nes", "fg": 2440, "bg": 2426, "rotates": false },
-        { "id": "sewer_nesw", "fg": 2441, "bg": 2426, "rotates": false },
-        { "id": "sewer_new", "fg": 2439, "bg": 2426, "rotates": false },
-        { "id": "sewer_ns", "fg": 2431, "bg": 2426, "rotates": false },
-        { "id": "sewer_nsw", "fg": 2438, "bg": 2426, "rotates": false },
-        { "id": "sewer_sw", "fg": 2434, "bg": 2426, "rotates": false },
-        { "id": "sewer_wn", "fg": 2435, "bg": 2426, "rotates": false },
+        {
+          "id": "sewer",
+          "fg": 2442,
+          "bg": 2426,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 2441, "bg": 2426 },
+            { "id": "corner", "fg": [ 2433, 2436, 2435, 2434 ], "bg": 2426 },
+            { "id": "t_connection", "fg": [ 2437 ], "bg": 2426 },
+            { "id": "edge", "fg": [ 2431, 2432 ], "bg": 2426 },
+            { "id": "end_piece", "fg": [ 2427, 2428, 2429 ], "bg": 2426 },
+            { "id": "unconnected", "fg": [ 2766, 2766 ], "bg": 2614 }
+          ]
+        },
         {
           "id": [ "shelter", "shelter_1", "shelter_2", "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ],
           "fg": [ 2536, 2536, 2536, 2536 ],
@@ -5464,19 +5466,34 @@
           "bg": [ 2391, 2392, 2393, 2394 ],
           "rotates": true
         },
-        { "id": "subway_end", "fg": [ 2427, 2428, 2429, 2430 ], "bg": [ 2509, 2510, 2511, 2512 ], "rotates": true },
-        { "id": "subway_es", "fg": 2433, "bg": 2515, "rotates": false },
-        { "id": "subway_esw", "fg": 2437, "bg": 2519, "rotates": false },
-        { "id": "subway_ew", "fg": 2432, "bg": 2514, "rotates": false },
-        { "id": "subway_isolated", "fg": 2442, "bg": 2508, "rotates": false },
-        { "id": "subway_ne", "fg": 2436, "bg": 2518, "rotates": false },
-        { "id": "subway_nes", "fg": 2440, "bg": 2522, "rotates": false },
-        { "id": "subway_nesw", "fg": 2441, "bg": 2523, "rotates": false },
-        { "id": "subway_new", "fg": 2439, "bg": 2521, "rotates": false },
-        { "id": "subway_ns", "fg": 2431, "bg": 2513, "rotates": false },
-        { "id": "subway_nsw", "fg": 2438, "bg": 2520, "rotates": false },
-        { "id": "subway_sw", "fg": 2434, "bg": 2516, "rotates": false },
-        { "id": "subway_wn", "fg": 2435, "bg": 2517, "rotates": false },
+        {
+          "id": "subway",
+          "fg": 2442,
+          "bg": 2508,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 2441, "bg": 2523 },
+            { "id": "corner", "fg": [ 2433, 2436, 2435, 2434 ], "bg": [ 2515, 2518, 2517, 2516 ] },
+            { "id": "t_connection", "fg": [ 2437, 2440, 2439, 2438 ], "bg": [ 2519, 2522, 2521, 2520 ] },
+            { "id": "edge", "fg": [ 2431, 2432 ], "bg": [ 2513, 2514 ] },
+            { "id": "end_piece", "fg": [ 2759, 2761, 2760, 2758 ] },
+            { "id": "unconnected", "fg": [ 2427, 2428, 2429, 2430 ], "bg": [ 2509, 2510, 2511, 2512 ] }
+          ]
+        },
+        {
+          "id": "lab_subway",
+          "fg": 2442,
+          "bg": 2508,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 2441, "bg": 2523 },
+            { "id": "corner", "fg": [ 2433, 2436, 2435, 2434 ], "bg": [ 2515, 2518, 2517, 2516 ] },
+            { "id": "t_connection", "fg": [ 2437, 2440, 2439, 2438 ], "bg": [ 2519, 2522, 2521, 2520 ] },
+            { "id": "edge", "fg": [ 2431, 2432 ], "bg": [ 2513, 2514 ] },
+            { "id": "end_piece", "fg": [ 2759, 2761, 2760, 2758 ] },
+            { "id": "unconnected", "fg": [ 2427, 2428, 2429, 2430 ], "bg": [ 2509, 2510, 2511, 2512 ] }
+          ]
+        },
         { "id": "temple_stairs", "fg": 2535, "rotates": false },
         { "id": [ "trailhead_shack_z0", "trailhead_outhouse_z0", "trailhead" ], "fg": 2357, "rotates": true },
         {

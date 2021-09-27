@@ -4984,6 +4984,7 @@ void item::on_wear( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
+    p.on_item_acquire( *this );
     p.on_item_wear( *this );
 }
 
@@ -5047,6 +5048,7 @@ void item::on_wield( Character &you )
 
     // Update encumbrance in case we were wearing it
     you.flag_encumbrance();
+    you.on_item_acquire( *this );
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -5102,6 +5104,7 @@ void item::on_pickup( Character &p )
 
     p.flag_encumbrance();
     p.invalidate_weight_carried_cache();
+    p.on_item_acquire( *this );
 }
 
 void item::on_contents_changed()
@@ -11118,9 +11121,16 @@ std::string item::type_name( unsigned int quantity ) const
                 }
                 break;
             case condition_type::VAR:
-                if( has_var( cname.condition ) ) {
+                if( has_var( cname.condition ) && get_var( cname.condition ) == cname.value ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
+                break;
+            case condition_type::SNIPPET_ID:
+                if( has_var( cname.condition + "_snippet_id" ) &&
+                    get_var( cname.condition + "_snippet_id" ) == cname.value ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
             case condition_type::num_condition_types:
                 break;
         }
