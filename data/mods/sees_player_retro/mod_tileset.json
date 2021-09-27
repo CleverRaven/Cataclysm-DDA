@@ -31,9 +31,7 @@
         "sprite_height": 10,
         "sprite_offset_x": 0,
         "sprite_offset_y": -1,
-        "tiles": [
-          { "id": "overlay_effect_haslight", "fg": 5 }
-        ]
+        "tiles": [ { "id": "overlay_effect_haslight", "fg": 5 } ]
       }
     ]
   }
