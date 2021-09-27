@@ -92,13 +92,7 @@
     "id": "eggs_any_shape",
     "type": "requirement",
     "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
-    "components": [
-      [
-        [ "eggs_bird", 1 , "LIST" ],
-        [ "rehydrated_eggs" , 1 ],
-        [ "egg_reptile", 1 ]
-      ]
-    ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "egg_reptile", 1 ] ] ]
   },
   {
     "id": "milk_standard",
@@ -134,12 +128,7 @@
     "id": "sugar_powdered",
     "type": "requirement",
     "//": "  Only powdered sugar",
-    "components": [
-      [
-        [ "sugar", 1 ],
-        [ "artificial_sweetener", 1 ]
-      ]
-    ]
+    "components": [ [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ] ]
   },
   {
     "id": "sugar_standard",
@@ -339,13 +328,7 @@
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [
-        [ "meat_red", 1, "LIST" ],
-        [ "meat_offal", 1, "LIST" ],
-        [ "can_spam", 2 ],
-        [ "lunchmeat", 2 ],
-        [ "can_chicken", 1 ]
-      ]
+      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
     ]
   },
   {
@@ -368,7 +351,7 @@
     "//": "meat you'd put on a sandwich",
     "components": [
       [
-        [ "any_cracklins", 2 , "LIST" ],
+        [ "any_cracklins", 2, "LIST" ],
         [ "meat_cooked", 1 ],
         [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],

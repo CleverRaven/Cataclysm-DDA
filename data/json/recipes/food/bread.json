@@ -112,7 +112,7 @@
     "batch_time_factors": [ 50, 2 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "bread_sandwich", 1 , "LIST" ] ] ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -141,7 +141,7 @@
     "result": "toad_in_a_hole",
     "copy-from": "toast",
     "time": "10m",
-    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ], [ [ "bread_sandwich", 1 , "LIST" ] ] ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ], [ [ "bread_sandwich", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

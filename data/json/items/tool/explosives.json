@@ -355,7 +355,13 @@
     "price": 3600,
     "price_postapoc": 750,
     "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "fungicidalbomb_act" }
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin.",
+      "type": "transform",
+      "target": "fungicidalbomb_act"
+    }
   },
   {
     "id": "fungicidalbomb_act",
@@ -373,7 +379,13 @@
     "price": 3600,
     "price_postapoc": 500,
     "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin.",
+      "type": "transform",
+      "target": "fungicidalbomb_makeshift_act"
+    }
   },
   {
     "id": "fungicidalbomb_makeshift_act",
@@ -618,7 +630,13 @@
     "price": 3600,
     "price_postapoc": 250,
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "gasbomb_act" }
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin.",
+      "type": "transform",
+      "target": "gasbomb_act"
+    }
   },
   {
     "id": "gasbomb_act",
@@ -631,7 +649,7 @@
     "emits": [ "emit_tear_gas_stream" ],
     "countdown_interval": 50,
     "countdown_action": { "type": "transform", "target": "canister_empty" },
-    "flags": [ "TRADER_AVOID" , "DANGEROUS" ]
+    "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "insecticidalbomb",
@@ -641,7 +659,13 @@
     "price": 3600,
     "price_postapoc": 750,
     "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "insecticidalbomb_act" }
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin.",
+      "type": "transform",
+      "target": "insecticidalbomb_act"
+    }
   },
   {
     "id": "insecticidalbomb_act",
@@ -659,7 +683,13 @@
     "price": 3600,
     "price_postapoc": 500,
     "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "msg": "You pull the pin.", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin.",
+      "type": "transform",
+      "target": "insecticidalbomb_makeshift_act"
+    }
   },
   {
     "id": "insecticidalbomb_makeshift_act",
