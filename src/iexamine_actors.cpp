@@ -195,7 +195,7 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
+void eoc_examine_actor::call( Character &, const tripoint & ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     for( const effect_on_condition_id &eoc : eocs ) {
