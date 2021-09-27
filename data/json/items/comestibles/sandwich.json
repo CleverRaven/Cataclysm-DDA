@@ -53,6 +53,36 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "sandwich_reuben",
+    "name": { "str": "reuben sandwich", "str_pl": "reuben sandwiches" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mutant",
+        "name": { "str": "\"fauxben\" sandwich", "str_pl": "\"fauxben\" sandwiches" }
+      }
+    ],
+    "weight": "292 g",
+    "color": "brown",
+    "spoils_in": "1 day 8 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "healthy": 1,
+    "calories": 449,
+    "description": "A pre-cataclysm classic probably made with significant substitions.  Key components are the special sauce and sauerkraut, with bread, meat, and cheese fried in a pan.",
+    "price": 1200,
+    "price_postapoc": 300,
+    "material": [ "flesh", "veggy", "wheat", "milk" ],
+    "primary_material": "processed_food",
+    "volume": "250 ml",
+    "charges": 2,
+    "fun": 14,
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "sandwich_cucumber",
     "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "120 g",
