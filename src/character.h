@@ -2514,6 +2514,8 @@ class Character : public Creature, public visitable
         void on_item_takeoff( const item &it );
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
+        /** Called when an item is acquired (picked up, worn, or wielded) */
+        void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
                                    const bodypart_id &bp = bodypart_id( "bp_null" ) ) override;
