@@ -4,7 +4,14 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }, [ "bathroom_scale", 20 ] ]
+    "items": [
+      { "item": "rag", "prob": 40 },
+      { "item": "bath_toy", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "bathroom_scale", "prob": 20 },
+      { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 },
+      { "item": "towel", "prob": 30 },
+      { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }
+    ]
   },
   {
     "id": "kitchen_counters",
