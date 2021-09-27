@@ -1285,7 +1285,12 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
-    "examine_action": "locked_object",
+    "prying": {
+      "result": "f_metal_crate_o",
+      "message": "You wrench open the metal crate.",
+      "byproducts": [ { "item": "sheet_metal", "count": 1 } ],
+      "prying_data": { "difficulty": 4, "prying_level": 1, "noisy": true, "failure": "The lid is sealed more tightly than you thought." }
+    },
     "bash": {
       "str_min": 30,
       "str_max": 150,
