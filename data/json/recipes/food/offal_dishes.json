@@ -419,7 +419,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 3, "LIST" ] ],
+      [ [ "eggs_any_shape", 3, "LIST" ] ],
       [ [ "garlic_clove", 2 ] ],
       [ [ "meat_brain", 4, "LIST" ] ],
       [ [ "batter", 4, "LIST" ] ],

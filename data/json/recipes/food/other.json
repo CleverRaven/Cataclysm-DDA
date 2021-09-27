@@ -13,7 +13,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
-    "components": [ [ [ "beet_syrup", 6 ] ] ]
+    "components": [ [ [ "beet_syrup", 5 ] ] ]
   },
   {
     "type": "recipe",

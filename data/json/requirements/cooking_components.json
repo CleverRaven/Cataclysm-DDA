@@ -5,7 +5,7 @@
     "//": "Bread type food usable as batter for frying.",
     "components": [
       [
-        [ "flour", 1 ],
+        [ "flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
@@ -131,18 +131,46 @@
     "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
   },
   {
-    "id": "sugar_standard",
+    "id": "sugar_powdered",
     "type": "requirement",
-    "//": "One unit provides ~260kcal; chosen to match one unit of molasses",
+    "//": "  Only powdered sugar",
     "components": [
       [
-        [ "sugar", 14 ],
-        [ "syrup", 5 ],
-        [ "beet_syrup", 6 ],
+        [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "sugar_standard",
+    "type": "requirement",
+    "//": "One unit provides ~200kcal; chosen to match one unit of molasses",
+    "components": [
+      [
+        [ "sugar", 10 ],
+        [ "syrup", 4 ],
+        [ "beet_syrup", 5 ],
         [ "molasses", 1 ],
-        [ "honey_bottled", 4 ],
+        [ "honey_bottled", 3 ],
         [ "honey_glassed", 1 ],
-        [ "honeydew", 4 ]
+        [ "sweet_water", 1 ],
+        [ "honeydew", 3 ],
+        [ "artificial_sweetener", 10 ]
+      ]
+    ]
+  },
+  {
+    "id": "sugar_standard_half",
+    "type": "requirement",
+    "//": "About a little more than half of standard",
+    "components": [
+      [
+        [ "sugar", 6 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 3 ],
+        [ "honey_bottled", 2 ],
+        [ "honeydew", 2 ],
+        [ "artificial_sweetener", 6 ]
       ]
     ]
   },

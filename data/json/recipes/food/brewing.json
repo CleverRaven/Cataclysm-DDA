@@ -196,7 +196,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "water_clean", 3 ] ],
-      [ [ "honey_bottled", 10 ], [ "honeycomb", 2 ], [ "honey_glassed", 10 ] ],
+      [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "yeast", 1 ] ]
     ]
   },
@@ -222,7 +222,7 @@
     "components": [
       [ [ "water_clean", 3 ] ],
       [ [ "soaked_dandelion", 10 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
+      [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
     ]
   },
@@ -249,7 +249,7 @@
     "components": [
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "raw_burdock", 10 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
+      [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
     ]
   },
@@ -270,7 +270,7 @@
     "components": [
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "pine_bough", 5 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
+      [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
     ]
   },

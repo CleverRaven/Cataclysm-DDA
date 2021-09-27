@@ -115,7 +115,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "honey_bottled", 3 ], [ "honeycomb", 3 ], [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
+      [ [ "honey_bottled", 6 ], [ "honey_bottled", 2 ], [ "honeycomb", 1 ], [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
