@@ -312,21 +312,7 @@
     ],
     "weapon_category": [ "KNIVES", "BATONS", "BLADED_FARMING", "CLAWS", "IMPROVISED_WEAPONS" ]
     "weapons": [
-      "2x4",
-      "bee_sting",
-      "bowling_pin",
-      "fighter_sting",
-      "glass_shiv",
-      "hammer",
-      "pool_cue",
-      "primitive_hammer",
-      "scissors",
-      "screwdriver",
-      "sharp_toothbrush",
-      "stick",
-      "umbrella",
-      "wasp_sting",
-      "wrench"
+      "pool_cue"
     ]
   },
   {

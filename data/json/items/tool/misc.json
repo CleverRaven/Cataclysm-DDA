@@ -780,7 +780,8 @@
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ],
+    "weapon_category": [ "IMPROVISED_WEAPONS" ]
   },
   {
     "id": "vortex_stone",

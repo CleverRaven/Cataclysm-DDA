@@ -44,6 +44,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "weapon_category": [ "IMPROVISED_WEAPONS" ],
     "weight": "1500 g",
     "volume": "2500 ml",
     "longest_side": "130 cm",
@@ -107,7 +108,8 @@
     "bashing": 10,
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "weapon_category": [ "IMPROVISED_WEAPONS" ]
   },
   {
     "type": "GENERIC",

@@ -287,6 +287,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "IMPROVISED_WEAPONS" ],
     "volume": "2250 ml",
     "longest_side": "40 cm",
     "bashing": 11,
@@ -401,6 +402,7 @@
     "longest_side": "20 cm",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "IMPROVISED_WEAPONS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
   {
@@ -965,7 +967,8 @@
     "bashing": 1,
     "cutting": 3,
     "to_hit": -3,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
+    "weapon_category": [ "IMPROVISED_WEAPONS" ]
   },
   {
     "id": "shillelagh",
