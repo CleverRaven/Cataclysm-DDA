@@ -323,6 +323,7 @@
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "longest_side": "80 cm",
     "bashing": 10,
