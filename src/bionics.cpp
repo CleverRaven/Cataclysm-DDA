@@ -187,6 +187,7 @@ static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
@@ -2875,6 +2876,10 @@ void Character::add_bionic( const bionic_id &b )
 
     calc_encumbrance();
     recalc_sight_limits();
+    if( is_avatar() && has_flag( json_flag_ENHANCED_VISION ) ) {
+        // enhanced vision counts as optics for overmap sight range.
+        g->update_overmap_seen();
+    }
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }

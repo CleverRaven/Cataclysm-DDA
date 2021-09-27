@@ -10,6 +10,26 @@
 #include "talker.h"
 #include "type_id.h"
 
+namespace io
+{
+    // *INDENT-OFF*
+    template<>
+    std::string enum_to_string<eoc_type>( eoc_type data )
+    {
+        switch ( data ) {
+        case eoc_type::ACTIVATION: return "ACTIVATION";
+        case eoc_type::RECURRING: return "RECURRING";
+        case eoc_type::SCENARIO_SPECIFIC: return "SCENARIO_SPECIFIC";
+        case eoc_type::AVATAR_DEATH: return "AVATAR_DEATH";
+        case eoc_type::NPC_DEATH: return "NPC_DEATH";
+        case eoc_type::NUM_EOC_TYPES: break;
+        }
+        cata_fatal( "Invalid eoc_type" );
+    }    
+    // *INDENT-ON*
+} // namespace io
+
+
 namespace
 {
 generic_factory<effect_on_condition>
@@ -36,14 +56,20 @@ void effect_on_conditions::check_consistency()
 void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    activate_only = true;
+    optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
     if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
-        activate_only = false;
+        if( type != eoc_type::NUM_EOC_TYPES && type != eoc_type::RECURRING ) {
+            jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
+        }
+        type = eoc_type::RECURRING;
         mandatory( jo, was_loaded, "recurrence_min", recurrence_min );
         mandatory( jo, was_loaded, "recurrence_max", recurrence_max );
         if( recurrence_max < recurrence_min ) {
             jo.throw_error( "recurrence_max cannot be smaller than recurrence_min." );
         }
+    }
+    if( type == eoc_type::NUM_EOC_TYPES ) {
+        type = eoc_type::ACTIVATION;
     }
 
     if( jo.has_member( "deactivate_condition" ) ) {
@@ -61,11 +87,10 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
         has_false_effect = true;
     }
 
-    optional( jo, was_loaded, "scenario_specific", scenario_specific );
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
     optional( jo, was_loaded, "global", global, false );
-    if( activate_only && global ) {
-        jo.throw_error( "global should only be true for recurring effect_on_conditions." );
+    if( type != eoc_type::RECURRING && ( global || run_for_npcs ) ) {
+        jo.throw_error( "run_for_npcs and global should only be true for RECURRING effect_on_conditions." );
     } else if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
     }
@@ -96,7 +121,7 @@ void effect_on_conditions::load_new_character( Character &you )
     bool is_avatar = you.is_avatar();
     for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
         effect_on_condition eoc = eoc_id.obj();
-        if( eoc.scenario_specific && ( is_avatar || eoc.run_for_npcs ) ) {
+        if( eoc.type == eoc_type::SCENARIO_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
             you.queued_effect_on_conditions.push( new_eoc );
         }
@@ -105,7 +130,7 @@ void effect_on_conditions::load_new_character( Character &you )
     effect_on_conditions::clear( you );
 
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( !eoc.activate_only && !eoc.scenario_specific && ( is_avatar || !eoc.global ) ) {
+        if( eoc.type == eoc_type::RECURRING && ( is_avatar || eoc.run_for_npcs ) ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
             if( eoc.global ) {
                 g->queued_global_effect_on_conditions.push( new_eoc );
@@ -147,7 +172,7 @@ void effect_on_conditions::load_existing_character( Character &you )
     bool is_avatar = you.is_avatar();
     std::map<effect_on_condition_id, bool> new_eocs;
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( !eoc.activate_only && !eoc.scenario_specific && ( is_avatar || !eoc.global ) ) {
+        if( eoc.type == eoc_type::RECURRING && ( is_avatar || !eoc.global ) ) {
             new_eocs[eoc.id] = true;
         }
     }
@@ -334,6 +359,18 @@ void effect_on_conditions::write_global_eocs_to_file( )
         }
 
     }, "eocs test file" );
+}
+void effect_on_conditions::avatar_death()
+{
+    avatar &player_character = get_avatar();
+    dialogue d( get_talker_for( get_avatar() ),
+                player_character.get_killer() == nullptr ? nullptr : get_talker_for(
+                    player_character.get_killer() ) );
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( eoc.type == eoc_type::AVATAR_DEATH ) {
+            eoc.activate( d );
+        }
+    }
 }
 
 void effect_on_condition::finalize()

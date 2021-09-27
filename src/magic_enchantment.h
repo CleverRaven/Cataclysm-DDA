@@ -20,6 +20,7 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class item;
+struct dialogue;
 
 namespace enchant_vals
 {
@@ -123,12 +124,9 @@ class enchantment
         // the condition at which the enchantment is giving passive effects
         enum condition {
             ALWAYS,
-            UNDERGROUND,
-            NIGHT,
-            DAY,
-            UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
             INACTIVE, // the item, mutation, etc. is inactive
+            DIALOG_CONDITION, // Check a provided dialog condition
             NUM_CONDITION
         };
 
@@ -227,6 +225,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
+        std::function<bool( const dialogue & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 

@@ -27,13 +27,11 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_low": 20,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
           "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
         },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
         }
       ]
@@ -50,10 +48,12 @@
     "valid": false,
     "triggers": [
       [
-        { "trigger_type": "MOOD", "threshold_low": 20, "msg_off": { "text": "Your glow fades.", "rating": "mixed" } },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
+        },
+        {
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         }
       ]
@@ -137,16 +137,18 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_high": -50,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
       [
         {
-          "trigger_type": "TIME",
-          "threshold_low": 21,
-          "threshold_high": 6,
+          "condition": {
+            "or": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": "<" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": ">" }
+            ]
+          },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -165,9 +167,12 @@
     "triggers": [
       [
         {
-          "trigger_type": "TIME",
-          "threshold_low": 6,
-          "threshold_high": 21,
+          "condition": {
+            "and": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": ">" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": "<" }
+            ]
+          },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
@@ -267,7 +272,10 @@
     "leads_to": [ "NIGHT_RAIDER" ],
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
-      { "condition": "UNDERGROUND", "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ] }
+      {
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
+      }
     ]
   },
   {
@@ -279,7 +287,7 @@
     "category": [ "TROGLOBITE" ],
     "enchantments": [
       {
-        "condition": "NIGHT",
+        "condition": { "not": "is_day" },
         "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
       }
     ]
@@ -354,7 +362,12 @@
     "description": "You always sleep better surrounded by earth.",
     "cancels": [ "INSOMNIA" ],
     "category": [ "BATRACHIAN" ],
-    "enchantments": [ { "condition": "UNDERGROUND", "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "values": [ { "value": "SLEEPY", "add": 20 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -365,7 +378,7 @@
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN", "FISH" ],
-    "enchantments": [ { "condition": "UNDERWATER", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
   },
   {
     "type": "mutation",
