@@ -311,9 +311,6 @@
       "tec_eskrima_combination"
     ],
     "weapon_category": [ "KNIVES", "BATONS", "BLADED_FARMING", "CLAWS", "IMPROVISED_WEAPONS" ]
-    "weapons": [
-      "pool_cue"
-    ]
   },
   {
     "type": "martial_art",
