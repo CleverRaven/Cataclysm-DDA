@@ -53,6 +53,7 @@ float Character::throw_weakpoint_skill()
 
 weakpoint_attack::weakpoint_attack()  :
     source( nullptr ),
+    target( nullptr ),
     weapon( &null_item_reference() ),
     is_melee( false ),
     is_crit( false ),
@@ -88,6 +89,9 @@ void weakpoint::load( const JsonObject &jo )
         // Default to damage multiplier, if crit multipler is not specified.
         crit_mult = damage_mult;
     }
+    if( jo.has_array( "required_effects" ) ) {
+        assign( jo, "required_effects", required_effects );
+    }
 
 
     // Set the ID to the name, if not provided.
@@ -112,9 +116,13 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
     }
 }
 
-float weakpoint::hit_chance( const weakpoint_attack & ) const
+float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
-    // TODO: scale the hit chance based on the source's skill / stats
+    for( const auto &effect : required_effects ) {
+        if( !attack.target->has_effect( effect ) ) {
+            return 0.0f;
+        }
+    }
     return coverage;
 }
 

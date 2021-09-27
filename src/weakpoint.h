@@ -18,6 +18,9 @@ struct weakpoint_attack {
     // The source of the attack.
     const Creature *source;
 
+    // THe target of the attack.
+    const Creature *target;
+
     // The weapon used to make the attack.
     const item *weapon;
 
@@ -50,6 +53,8 @@ struct weakpoint {
     std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
     // Difficulty to hit the weak point.
     float difficulty = -10.0f;
+    // A list of required effects.
+    std::vector<efftype_id> required_effects;
 
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.
