@@ -2058,7 +2058,7 @@ void activity_handlers::teach_finish( player_activity *act, Character *you )
         act->set_to_null();
         return;
     }
-    
+
     debugmsg( "teach_finish without a valid skill or style or spell name" );
     act->set_to_null();
 }

@@ -98,7 +98,7 @@ void drop_stolen_item( npc & );
 void lead_to_safety( npc & );
 void start_training( npc & );
 void start_training_npc( npc & );
-void start_training_gen( Character &teacher, std::vector<Character *> &student, teach_domain &d );
+void start_training_gen( Character &teacher, std::vector<Character *> &students, teach_domain &d );
 
 void wake_up( npc & );
 void copy_npc_rules( npc &p );

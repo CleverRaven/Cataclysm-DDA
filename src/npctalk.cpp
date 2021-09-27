@@ -265,6 +265,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
+    NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -311,6 +312,68 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return nmenu.ret;
     }
 
+}
+
+static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
+        const std::string &prompt,
+        std::function<bool( const npc * )> exclude_func = nullptr )
+{
+    std::vector<int> picked;
+    if( npc_list.empty() ) {
+        return picked;
+    }
+    const int npc_count = npc_list.size();
+    do {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( int i = 0; i < npc_count; i++ ) {
+            std::string entry = "";
+            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            entry += npc_list[i]->name_and_activity();
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return std::vector<int>();
+        } else if( nmenu.ret >= npc_count ) {
+            break;
+        }
+        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.push_back( nmenu.ret );
+        }
+    } while( true );
+    return picked;
+}
+
+static const skill_id skill_select_menu( const Character &c, const std::string &prompt )
+{
+    int i = 0;
+    uilist nmenu;
+    nmenu.text = prompt;
+    for( const std::pair<skill_id, SkillLevel> &s : *c._skills ) {
+        bool enabled = s.second.level() > 0;
+        std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
+        nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
+        i++;
+    }
+    nmenu.query();
+    if( nmenu.ret > -1 ) {
+        i = 0;
+        for( const std::pair<skill_id, SkillLevel> &s : *c._skills ) {
+            if( i == nmenu.ret ) {
+                return s.first;
+            }
+            i++;
+        }
+    }
+    return skill_id();
 }
 
 static void npc_batch_override_toggle(
@@ -556,6 +619,7 @@ void game::chat()
                       );
     }
     if( !followers.empty() ) {
+        nmenu.addentry( NPC_CHAT_START_SEMINAR, true, 'T', _( "Start a training seminar" ) );
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
                         string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
@@ -602,6 +666,34 @@ void game::chat()
             .query();
             yell_msg = popup.text();
             is_order = false;
+            break;
+        }
+        case NPC_CHAT_START_SEMINAR: {
+            // TODO: Also allow group training of martial arts/spells/proficiencies
+            const skill_id &sk = skill_select_menu( player_character,
+                                                    _( "Which skill would you like to teach?" ) );
+            if( !sk.is_valid() ) {
+                return;
+            }
+            std::vector<int> selected = npcs_select_menu( followers,
+            _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
+                return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
+            } );
+            if( selected.empty() ) {
+                return;
+            }
+            std::vector<Character *> to_train;
+            for( int i : selected ) {
+                if( followers[i] ) {
+                    to_train.push_back( followers[i] );
+                }
+            }
+            talk_function::teach_domain d;
+            d.skill = sk;
+            d.style = matype_id();
+            d.prof = proficiency_id();
+            d.spell = spell_id();
+            talk_function::start_training_gen( player_character, to_train, d );
             break;
         }
         case NPC_CHAT_GUARD: {
