@@ -29,10 +29,10 @@
         "file": "sees_player_retro.png",
         "sprite_width": 10,
         "sprite_height": 10,
-        "sprite_offset_x": 2,
-        "sprite_offset_y": 3,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": -1,
         "tiles": [
-          { "id": "overlay_effect_haslight", "bg": 5 }
+          { "id": "overlay_effect_haslight", "fg": 5 }
         ]
       }
     ]
