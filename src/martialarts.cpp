@@ -385,6 +385,7 @@ class ma_buff_effect_type : public effect_type
             // above buff_duration, this keeps the old ma_buff behavior
             max_duration = buff.buff_duration;
             dur_add_perc = 100;
+            show_intensity = true;
             // each add_effect call increases the intensity by 1
             int_add_val = 1;
             // effect intensity increases by -1 each turn.
