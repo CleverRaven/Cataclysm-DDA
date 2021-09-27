@@ -804,6 +804,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
+        "persists": true,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 0.67 },
           { "stat": "damage", "type": "cut", "scale": 0.67 },
@@ -868,6 +869,7 @@
         "description": "Blackened like darkness,\nnightmares approach from all sides.\nFlee at any cost!\n\n-5.0 Dodge skill.\nLasts 1 turn.",
         "melee_allowed": true,
         "buff_duration": 1,
+        "persists": true,
         "flat_bonuses": [ { "stat": "dodge", "scale": -5.0 } ]
       }
     ],
@@ -879,6 +881,7 @@
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 5,
+        "persists": true,
         "flat_bonuses": [
           { "stat": "dodge", "scale": -1.0 },
           { "stat": "damage", "type": "cut", "scale": -1.0 },

@@ -78,6 +78,7 @@
 "name" : "Elemental resistance",    // In-game name displayed
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
+"persists": false,                 // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
 "unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
