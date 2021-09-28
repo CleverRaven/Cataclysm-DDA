@@ -2077,5 +2077,10 @@
     "type": "json_flag",
     "context": [ "GENERIC" ],
     "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "WEBBED",
+    "type": "json_flag",
+    "context":  [  ]
   }
 ]
