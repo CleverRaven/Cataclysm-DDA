@@ -49,6 +49,11 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
     const bool use_escrow = !npc_gives;
     std::list<item> escrow = std::list<item>();
 
+    // Sort top level containers to be processed last.
+    // Used to prevent character handling of contained items that are also traded.
+    std::vector<std::reference_wrapper<item_pricing>> unsorted_stuff;
+    std::vector<std::reference_wrapper<item_pricing>> containers;
+    std::vector<std::reference_wrapper<item_pricing>> sorted_stuff;
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -59,10 +64,48 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
             continue;
         }
 
+        if( ip.loc.get_item()->is_container() ) {
+            containers.emplace_back( ip );
+        } else {
+            unsorted_stuff.emplace_back( ip );
+        }
+    }
+    // Sort the containers only. Non-containers do not need to be sorted.
+    for( item_pricing &cont : containers ) {
+        for( std::vector<std::reference_wrapper<item_pricing>>::iterator iter = sorted_stuff.begin();
+             iter != sorted_stuff.end(); ++iter ) {
+            if( cont.loc.has_parent() && cont.loc.parent_item() == iter->get().loc ) {
+                sorted_stuff.insert( iter, cont );
+                break;
+            }
+        }
+        sorted_stuff.emplace_back( cont );
+    }
+    sorted_stuff.insert( sorted_stuff.begin(), unsorted_stuff.begin(), unsorted_stuff.end() );
+
+    for( item_pricing ip : sorted_stuff ) {
+
+        if( ip.loc.get_item() == nullptr ) {
+            DebugLog( D_ERROR, D_NPC ) << "Null item being traded in npc_trading::transfer_items";
+            continue;
+        }
+
         item gift = *ip.loc.get_item();
         gift.set_owner( receiver );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
+
+        // Only affects worn containers. Other containers have contents hidden.
+        // Only untraded contents remain due to sorting.
+        if( gift.is_container() && !gift.is_tool() && !gift.is_firearm() &&
+            ip.loc.where() == item_location::type::character ) {
+            for( item *it : gift.get_contents().all_items_top() ) {
+                if( it->made_of_from_type( phase_id::SOLID ) ) {
+                    giver.i_add_or_drop( *it, 1, ip.loc.get_item() );
+                    gift.remove_item( *it );
+                }
+            }
+        }
 
         // Items are moving to escrow.
         if( use_escrow && ip.charges ) {
@@ -80,13 +123,13 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
             }
         }
 
-        if( ip.loc.where() == item_location::type::character ) {
+        if( ip.loc.held_by( giver ) ) {
             if( ip.charges > 0 ) {
                 giver.use_charges( gift.typeId(), charges );
             } else if( ip.count > 0 ) {
-                for( int i = 0; i < count; i++ ) {
-                    giver.use_amount( gift.typeId(), 1 );
-                }
+                giver.remove_items_with( [&ip]( const item & i ) {
+                    return &i == ip.loc.get_item();
+                }, count );
             }
         } else {
             if( ip.charges > 0 ) {
@@ -175,8 +218,8 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
         }
         item &it = *loc;
 
-        // Don't sell items that are loose liquid
-        if( it.made_of( phase_id::LIQUID ) ) {
+        // Only solids allowed. All others should be transfered in a container.
+        if( !it.made_of( phase_id::SOLID ) ) {
             return;
         }
 
@@ -190,7 +233,16 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
             return;
         }
 
-        const int market_price = it.price( true );
+        // Hide contents of any containers that are not worn.
+        if( loc.has_parent() && !( loc.parent_item().where() == item_location::type::character ) ) {
+            return;
+        }
+
+        // Worn containers have most contents visible so they show price for the container only,
+        // except hidden contents such as liquids.
+        const int market_price = loc.where() == item_location::type::character ?
+                                 it.price_no_contents( true ) :
+                                 it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
             ( !is_npc && np.wants_to_buy( it, val, market_price ) ) ) {
@@ -630,49 +682,85 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 
             ch += offset;
             if( ch < target_list.size() ) {
-                item_pricing &ip = target_list[ch];
-                int change_amount = 1;
-                int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
-                int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
+                item_pricing &ipr = target_list[ch];
 
-                if( ip.selected ) {
-                    if( owner_sells_charge > 0 ) {
-                        change_amount = owner_sells_charge;
-                        owner_sells_charge = 0;
-                    } else if( owner_sells > 0 ) {
-                        change_amount = owner_sells;
-                        owner_sells = 0;
-                    }
-                } else if( ip.charges > 0 ) {
-                    change_amount = get_var_trade( *ip.loc.get_item(), ip.charges );
-                    if( change_amount < 1 ) {
-                        continue;
-                    }
-                    owner_sells_charge = change_amount;
-                } else {
-                    if( ip.count > 1 ) {
-                        change_amount = get_var_trade( *ip.loc.get_item(), ip.count );
+                // Recursive lambda https://artificial-mind.net/blog/2020/09/12/recursive-lambdas
+                auto item_selection = [ this, &np, &target_list ]( item_pricing & ip,
+                auto &&item_selection, bool max = false ) -> void {
+                    int change_amount = 1;
+                    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
+                    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
+
+                    if( ip.selected )
+                    {
+                        if( owner_sells_charge > 0 ) {
+                            change_amount = owner_sells_charge;
+                            owner_sells_charge = 0;
+                        } else if( owner_sells > 0 ) {
+                            change_amount = owner_sells;
+                            owner_sells = 0;
+                            // Deselect all contents when deselecting a container.
+                            if( ip.is_container ) {
+                                for( item *it : ip.loc.get_item()->get_contents().all_items_top() ) {
+                                    for( item_pricing &ipp : target_list ) {
+                                        if( it == ipp.loc.get_item() && ipp.selected ) {
+                                            item_selection( ipp, item_selection );
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if( ip.charges > 0 )
+                    {
+                        change_amount = max ? ip.charges : get_var_trade( *ip.loc.get_item(), ip.charges );
+
                         if( change_amount < 1 ) {
-                            continue;
+                            return;
+                        }
+                        owner_sells_charge = change_amount;
+                    } else
+                    {
+                        if( ip.count > 1 ) {
+                            change_amount = max ? ip.count : get_var_trade( *ip.loc.get_item(), ip.count );
+
+                            if( change_amount < 1 ) {
+                                return;
+                            }
+                        }
+                        owner_sells = change_amount;
+                        // Select all contents when selecting a container.
+                        if( ip.is_container ) {
+                            for( item *it : ip.loc.get_item()->get_contents().all_items_top() ) {
+                                for( item_pricing &ipp : target_list ) {
+                                    if( it == ipp.loc.get_item() && !ipp.selected ) {
+                                        item_selection( ipp, item_selection, true );
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
-                    owner_sells = change_amount;
-                }
-                ip.selected = !ip.selected;
-                if( ip.selected != focus_them ) {
-                    change_amount *= -1;
-                }
-                int delta_price = ip.price * change_amount;
-                if( !np.will_exchange_items_freely() ) {
-                    your_balance -= delta_price;
-                    if( ip.selected != focus_them ) {
-                        your_sale_value -= delta_price;
+                    ip.selected = !ip.selected;
+                    if( ip.selected != focus_them )
+                    {
+                        change_amount *= -1;
                     }
-                }
-                if( ip.loc.where() == item_location::type::character ) {
-                    volume_left += ip.vol * change_amount;
-                    weight_left += ip.weight * change_amount;
-                }
+                    int delta_price = ip.price * change_amount;
+                    if( !np.will_exchange_items_freely() )
+                    {
+                        your_balance -= delta_price;
+                        if( ip.selected != focus_them ) {
+                            your_sale_value -= delta_price;
+                        }
+                    }
+                    if( ip.loc.where_recursive() == item_location::type::character )
+                    {
+                        volume_left += ip.vol * change_amount;
+                        weight_left += ip.weight * change_amount;
+                    }
+                };
+                item_selection( ipr, item_selection );
             }
         }
     }
