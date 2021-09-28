@@ -122,7 +122,7 @@ void effect_on_conditions::load_new_character( Character &you )
     for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
         effect_on_condition eoc = eoc_id.obj();
         if( eoc.type == eoc_type::SCENARIO_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
+            queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn_zero };
             you.queued_effect_on_conditions.push( new_eoc );
         }
     }
