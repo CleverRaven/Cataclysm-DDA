@@ -896,7 +896,7 @@
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "fabric_standard_nostretch", 26 ] ],
+    "using": [ [ "sewing_standard", 30 ], [ "fabric_standard_nostretch", 26 ] ]
   },
   {
     "result": "xl_gambeson",
