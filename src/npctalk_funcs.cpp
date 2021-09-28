@@ -1012,6 +1012,74 @@ void talk_function::start_training( npc &p )
     start_training_gen( p, students, d );
 }
 
+void talk_function::start_training_seminar( npc &p )
+{
+    teach_domain d;
+    d.skill = p.chatbin.skill;
+    d.style = p.chatbin.style;
+    d.spell = p.chatbin.dialogue_spell;
+    d.prof = p.chatbin.proficiency;
+    std::vector<npc *> followers = g->get_npcs_if( [&p]( const npc & n ) {
+        return n.is_player_ally() && n.is_following() && n.can_hear( p.pos(), p.get_shout_volume() );
+    } );
+    std::vector<Character *> students;
+    for( npc *n : followers ) {
+        if( n && p.getID() != n->getID() ) {
+            students.push_back( n );
+        }
+    }
+    students.push_back( &get_player_character() );
+
+    const int s_count = students.size();
+    std::vector<Character *> picked;
+    std::function<bool( const Character * )> include_func = [&]( const Character * c ) {
+        if( d.skill != skill_id() ) {
+            return c->get_knowledge_level( d.skill ) < p.get_knowledge_level( d.skill );
+        } else if( d.style != matype_id() ) {
+            return !c->martial_arts_data->has_martialart( d.style );
+        } else if( d.prof != proficiency_id() ) {
+            return !c->has_proficiency( d.prof );
+        } else if( d.spell != spell_id() ) {
+            const bool knows = c->magic->knows_spell( d.spell );
+            return !knows || c->magic->get_spell( d.spell ).get_level() <
+                   p.magic->get_spell( d.spell ).get_level();
+        }
+        return false;
+    };
+    do {
+        uilist nmenu;
+        nmenu.text = _( "Who should participate?" );
+        for( int i = 0; i < s_count; i++ ) {
+            std::string entry;
+            if( std::find( picked.begin(), picked.end(), students[i] ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = include_func( students[i] );
+            entry += students[i]->disp_name( false, true );
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( s_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return;
+        } else if( nmenu.ret >= s_count ) {
+            break;
+        }
+        std::vector<Character *>::iterator exists = std::find( picked.begin(), picked.end(),
+                students[nmenu.ret] );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.emplace_back( students[nmenu.ret] );
+        }
+    } while( true );
+
+    if( picked.empty() ) {
+        return;
+    }
+    start_training_gen( p, picked, d );
+}
+
 void talk_function::start_training_gen( Character &teacher, std::vector<Character *> &students,
                                         teach_domain &d )
 {

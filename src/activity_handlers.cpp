@@ -2053,7 +2053,7 @@ void activity_handlers::teach_finish( player_activity *act, Character *you )
         if( you->is_avatar() ) {
             add_msg( m_good, _( "You finish teaching %s." ), sk_name );
         } else {
-            add_msg( m_good, _( "%s finishes teaching %s." ), you->name );
+            add_msg( m_good, _( "%s finishes teaching %s." ), you->name, sk_name );
         }
         act->set_to_null();
         return;

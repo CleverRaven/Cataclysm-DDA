@@ -208,6 +208,21 @@
     ]
   },
   {
+    "id": "TALK_TRAIN_SEMINAR_START",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, who should participate?",
+    "responses": [
+      {
+        "text": "Let's see…",
+        "topic": "TALK_DONE",
+        "condition": "at_safe_space",
+        "effect": "start_training_seminar",
+        "switch": true
+      },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
     "id": "TALK_TRAIN_START",
     "type": "talk_topic",
     "dynamic_line": "Alright, let's begin.",
@@ -250,6 +265,37 @@
                 "npc_has_effect": "asked_to_train",
                 "no": "I have some reason for denying you training.",
                 "yes": "Give it some time, I'll show you something new later…"
+              },
+              "yes": "I'm too tired, let me rest first."
+            },
+            "yes": "I'm too hungry, give me something to eat."
+          },
+          "yes": "I'm too thirsty, give me something to drink."
+        }
+      }
+    },
+    "responses": [ { "text": "Ah, okay.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_DENY_TRAIN_SEMINAR",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_driving": "We'll talk about a training seminar after you're done operating that vehicle.",
+      "no": {
+        "npc_driving": "I can't host a seminar while I'm operating a vehicle!",
+        "no": {
+          "npc_need": "thirst",
+          "amount": 80,
+          "no": {
+            "npc_need": "hunger",
+            "amount": 160,
+            "no": {
+              "npc_need": "fatigue",
+              "level": "TIRED",
+              "no": {
+                "npc_has_effect": "asked_to_train",
+                "no": "I have some reason to refuse hosting a training seminar.",
+                "yes": "Give it some time, we'll talk about a training seminar later…"
               },
               "yes": "I'm too tired, let me rest first."
             },

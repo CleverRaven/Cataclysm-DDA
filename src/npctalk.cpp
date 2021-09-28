@@ -328,7 +328,7 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
         uilist nmenu;
         nmenu.text = prompt;
         for( int i = 0; i < npc_count; i++ ) {
-            std::string entry = "";
+            std::string entry;
             if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
                 entry = "* ";
             }
@@ -353,12 +353,12 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
     return picked;
 }
 
-static const skill_id skill_select_menu( const Character &c, const std::string &prompt )
+static skill_id skill_select_menu( const Character &c, const std::string &prompt )
 {
     int i = 0;
     uilist nmenu;
     nmenu.text = prompt;
-    for( const std::pair<skill_id, SkillLevel> &s : *c._skills ) {
+    for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
         bool enabled = s.second.level() > 0;
         std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
         nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
@@ -367,7 +367,7 @@ static const skill_id skill_select_menu( const Character &c, const std::string &
     nmenu.query();
     if( nmenu.ret > -1 ) {
         i = 0;
-        for( const std::pair<skill_id, SkillLevel> &s : *c._skills ) {
+        for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
             if( i == nmenu.ret ) {
                 return s.first;
             }
@@ -1056,6 +1056,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Sure, I'm all ears." );
         }
+    } else if( topic == "TALK_TRAIN_SEMINAR" ) {
+        return _( "What do you want me to teach?" );
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         return actor( true )->distance_to_goal();
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
@@ -1241,6 +1243,20 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             if( !text.empty() && !s->obsolete() ) {
                 add_response( text, "TALK_TRAIN_NPC_START", s );
             }
+        }
+        add_response_none( _( "Eh, never mind." ) );
+    } else if( the_topic.id == "TALK_TRAIN_SEMINAR" ) {
+        const std::vector<skill_id> &slist = actor( true )->skills_teacheable();
+        if( slist.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &sk : slist ) {
+            if( sk->obsolete() ) {
+                continue;
+            }
+            const std::string &text = actor( true )->skill_seminar_text( sk );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", sk );
         }
         add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
@@ -3690,6 +3706,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( lead_to_safety ),
             WRAP( start_training ),
             WRAP( start_training_npc ),
+            WRAP( start_training_seminar ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
             WRAP( npc_die ),
