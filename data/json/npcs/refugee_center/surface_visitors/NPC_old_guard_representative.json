@@ -32,6 +32,21 @@
       { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
       { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
+      {
+        "text": "I've got some questions for you about those weird robots.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_1",
+        "condition": {
+          "or": [
+            { "u_assigned_mission": "MISSION_OLD_GUARD_REP_3" },
+            {
+              "u_has_var": "oldguard-exodii",
+              "type": "factional_questline",
+              "context": "mission",
+              "value": "encountered_base"
+            }
+          ]
+        }
+      },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ],
@@ -89,6 +104,24 @@
     "type": "talk_topic",
     "dynamic_line": "You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among the most powerful men left in the world.",
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_EXODII_1",
+    "type": "talk_topic",
+    "dynamic_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+    "responses": [
+      { "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.", "topic": "TALK_OLD_GUARD_REP_EXODII_2", "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
+      { "text": "Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_EXODII_2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to the free merchant broker.  Maybe that's a way we could establish some friendlier relationships.",
+    "responses": [
+      { "text": "Good idea.  Maybe I'll look into it, some day.", "topic": "TALK_OLD_GUARD_REP", "//": "assign mission to do this." },
+      { "text": "No thanks, I don't do pro-bono messenger work.", "topic": "TALK_OLD_GUARD_REP" }
+    ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1",
@@ -177,6 +210,34 @@
   {
     "id": "MISSION_OLD_GUARD_REP_3",
     "type": "mission_definition",
+    "name": { "str": "Find Source of Robots" },
+    "description": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 10000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 30 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_4",
+    "dialogue": {
+      "describe": "Got a weird one for you this time…",
+      "offer": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+      "accepted": "Thanks, once you know who it is, report back to me and I'll pass that on.",
+      "rejected": "Come back when you get a chance, if there's any chance these things are on our side, we need all the help we can get.",
+      "advice": "If you see any weird machines around, do not engage.  Sneak away, I'd say.  They seem to be hostile to zombies, but that doesn't mean they can tell you aren't one.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "That's a shame, a damn shame.  Wish you could have learned more.  Thanks for trying.",
+      "failure": "Damn… let's hope we can try again sometime."
+    },
+    "end": {
+      "effect": [ { "u_add_var": "oldguard-exodii", "type": "factional_questline", "context": "mission", "value": "encountered_base" } ]
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_4",
+    "type": "mission_definition",
     "name": { "str": "Secure Trade Route" },
     "description": "One of the Free Merchants silently disappeared while escorting a trade caravan.  Whoever or whatever is responsible must be quick and quiet - investigate the trade route and eliminate the threat.",
     "goal": "MGOAL_KILL_MONSTER",
@@ -192,7 +253,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_4",
+    "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
       "offer": "There is another monster troubling the merchants but this time it isn't human… at least I don't think.  Guy just disappeared while walking behind a packed caravan.  They didn't hear any shots but I suppose some raider may have been real sneaky.  Check out the area and report anything you find.",
@@ -206,7 +267,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_REP_4",
+    "id": "MISSION_OLD_GUARD_REP_5",
     "type": "mission_definition",
     "name": { "str": "Assassinate Raider Leader" },
     "description": "The Old Guard have located a Hell's Raiders encampment that is coordinating attacks on the Free Merchants.  Pay them a visit and execute the area leadership.",
