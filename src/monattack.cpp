@@ -367,11 +367,9 @@ bool mattack::web_corpse(monster *z)
         }
         //Checks if item is a corpse before webbing
             if (!it.is_corpse()) {
-                !it.set_flag( "WEBBED" );
-                add_msg_if_player_sees(*z, _("The %s quickly wraps webbing around its prey!"), z->name());
+                (it.set_flag( "WEBBED" ) );
+                add_msg_if_player_sees( *z, _( "The %s lays an egg!" ), z->name() );
         }
-        //Safety check on reviving
-        if ( !it.can_revive = 0 );
         return true;
     }
 }
