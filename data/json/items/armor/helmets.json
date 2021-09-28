@@ -629,7 +629,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "xl_helmet_plate",
