@@ -18,13 +18,13 @@ struct weakpoint_attack {
     // The source of the attack.
     const Creature *source;
 
-    // THe target of the attack.
+    // The target of the attack.
     const Creature *target;
 
     // The weapon used to make the attack.
     const item *weapon;
 
-    // Weather the attack is a melee attack.
+    // Whether the attack is a melee attack.
     bool is_melee;
 
     // Whether the attack a critical hit.
