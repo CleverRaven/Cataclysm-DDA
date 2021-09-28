@@ -19,6 +19,8 @@ class event;
 
 class kill_tracker : public event_subscriber
 {
+    /** to keep track of new kills, need to access private member (kills, npc_kills), may include getter for thows and remove frend class diary. */
+    friend class diary;
     public:
         kill_tracker() = default;
         void reset( const std::map<mtype_id, int> &kills,

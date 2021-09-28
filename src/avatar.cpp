@@ -138,6 +138,7 @@ avatar::avatar()
     active_mission = nullptr;
     grab_type = object_type::NONE;
     calorie_diary.push_front( daily_calories{} );
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -333,6 +334,13 @@ void avatar::on_mission_finished( mission &cur_mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+diary* avatar::get_avatar_diary() {
+    if (a_diary == nullptr) {
+        a_diary = new diary();
+    }
+    return a_diary;
 }
 
 bool avatar::read( item_location &book, item_location ereader )
