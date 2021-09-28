@@ -322,7 +322,7 @@
     "responses": [
       {
         "text": "Oh, you mean you got here early in the cataclysm.  Why is that so good?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_Intro3"
+        "topic": "TALK_EXODII_MERCHANT_Talk_Intro4a"
       },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
