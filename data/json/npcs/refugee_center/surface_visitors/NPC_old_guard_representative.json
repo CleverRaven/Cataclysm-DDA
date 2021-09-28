@@ -119,8 +119,8 @@
     "type": "talk_topic",
     "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to the free merchant broker.  Maybe that's a way we could establish some friendlier relationships.",
     "responses": [
-      { "text": "Good idea.  Maybe I'll look into it, some day.", "topic": "TALK_OLD_GUARD_REP", "//": "assign mission to do this." },
-      { "text": "No thanks, I don't do pro-bono messenger work.", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "Good idea.  I'll go do that.", "TALK_DONE" },
+      { "text": "Huh, maybe.  Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
