@@ -812,6 +812,7 @@
       [ "frame", 20 ],
       [ "basket", 25 ],
       [ "wrench", 10 ],
+      [ "wrench_large", 5 ],
       [ "shovel", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],

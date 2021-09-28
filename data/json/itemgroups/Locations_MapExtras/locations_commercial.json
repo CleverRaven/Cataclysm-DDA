@@ -1069,8 +1069,11 @@
       { "item": "saddle", "prob": 80 },
       { "item": "chain", "prob": 30 },
       { "item": "wrench", "prob": 30 },
+      { "item": "wrench_small", "prob": 10 },
+      { "item": "socket_wrench_set", "prob": 20 },
       { "item": "screwdriver", "prob": 40 },
       { "item": "screwdriver_set", "prob": 20 },
+      { "item": "socket_screwdriver_set", "prob": 10 },
       { "item": "superglue", "prob": 30 },
       { "item": "hacksaw", "prob": 17 },
       { "item": "pliers", "prob": 40 },
@@ -1135,6 +1138,7 @@
           { "item": "wrench", "prob": 20 },
           { "item": "multitool", "prob": 30 },
           { "item": "screwdriver_set", "prob": 20 },
+          { "item": "socket_screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50, "charges": [ 50, 200 ] },
           { "item": "misc_repairkit", "prob": 25, "charges": 200 },
           { "group": "tools_toolbox", "prob": 2 }
@@ -1345,6 +1349,8 @@
       [ "battery_car", 10 ],
       [ "stereo", 10 ],
       [ "wrench", 10 ],
+      [ "socket_wrench_set", 5 ],
+      [ "socket_screwdriver_set", 5 ],
       [ "gloves_work", 10 ],
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
@@ -1413,6 +1419,8 @@
       [ "jack_small", 60 ],
       [ "jack_makeshift", 30 ],
       [ "wrench", 50 ],
+      [ "wrench_large", 20 ],
+      [ "socket_wrench_set", 40 ],
       [ "gloves_work", 30 ],
       [ "glasses_safety", 20 ]
     ]

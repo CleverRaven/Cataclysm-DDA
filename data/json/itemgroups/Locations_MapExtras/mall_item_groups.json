@@ -249,6 +249,7 @@
       [ "screwdriver", 40 ],
       [ "hammer", 35 ],
       [ "wrench", 30 ],
+      [ "wrench_small", 30 ],
       [ "hacksaw", 50 ],
       [ "xacto", 10 ],
       { "item": "flashlight", "prob": 40, "charges": 300 },
