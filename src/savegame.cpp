@@ -410,9 +410,8 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( "field" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
-        } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ) {
-            ter_set( pos, oter_id( "microlab_generic" ) );
-        } else if( old.compare( 0, 24, "microlab_generic_hallway" ) == 0 ) {
+        } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||
+                   old.compare( 0, 24, "microlab_generic_hallway" ) == 0 ) {
             ter_set( pos, oter_id( "microlab_generic" ) );
         } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
             ter_set( pos, oter_id( "office_tower_ne_north" ) );
