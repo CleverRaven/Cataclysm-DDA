@@ -1003,7 +1003,6 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
 | x and y            | (required, int) the cardinal position in which the chunk will be placed. 
 | neighbors          | (optional, string ) Any of the neighboring overmaps that should be evaluated before placing the chunk. Despite the plural field name, only a single neighbor direction can be evaluated per chunk.  The direction itself can check for any amount of overmap `"id"` substrings.
-|
 
 The following adjacent overmaps can be evaluated in this manner: the direct cardinal neighbors ( `"north", "east", "south", "west"` ) the inter cardinal neighbors ( `"north_east", "north_west", "south_east", "south_west"` ), and the direct vertical neighbors ( `"above", "below"` ).
 
