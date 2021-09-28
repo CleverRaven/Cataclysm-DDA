@@ -629,7 +629,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "xl_helmet_plate",
@@ -638,7 +638,7 @@
     "name": { "str": "XL great helm" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "HELMET_COMPAT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_kettle",
@@ -669,7 +669,7 @@
     "name": { "str": "XL kettle helmet" },
     "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.  This one is larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_scavenger",
