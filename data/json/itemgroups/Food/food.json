@@ -514,6 +514,7 @@
       { "item": "water_clean", "prob": 90 },
       { "item": "water_mineral", "prob": 10 },
       { "item": "sandwich_deluxe", "prob": 20 },
+      { "item": "sandwich_reuben", "prob": 10 },
       { "item": "sandwich_veggy", "prob": 30 },
       { "item": "sandwich_cucumber", "prob": 25 },
       { "item": "oj", "prob": 50 },

@@ -246,11 +246,10 @@ void map::apply_character_light( Character &p )
 // Once this is complete, additional operations add more dynamic lighting.
 void map::build_sunlight_cache( int pzlev )
 {
-    const int zlev_min = zlevels ? -OVERMAP_DEPTH : pzlev;
+    const int zlev_min = -OVERMAP_DEPTH;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int zlev_max = zlevels ? clamp( calc_max_populated_zlev() + 1, pzlev + 1,
-                                          OVERMAP_HEIGHT ) : pzlev;
+    const int zlev_max = clamp( calc_max_populated_zlev() + 1, pzlev + 1, OVERMAP_HEIGHT );
 
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
     bool fully_outside = true;
@@ -269,26 +268,13 @@ void map::build_sunlight_cache( int pzlev )
     for( int zlev = zlev_max; zlev >= zlev_min; zlev-- ) {
 
         level_cache &map_cache = get_cache( zlev );
+        map_cache.natural_light_level_cache = g->natural_light_level( zlev );
         auto &lm = map_cache.lm;
         // Grab illumination at ground level.
         const float outside_light_level = g->natural_light_level( 0 );
         // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
         const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
                                          LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
-        // Handling when z-levels are disabled is based on whether a tile is considered "outside".
-        if( !zlevels ) {
-            const auto &outside_cache = map_cache.outside_cache;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( outside_cache[x][y] ) {
-                        lm[x][y].fill( outside_light_level );
-                    } else {
-                        lm[x][y].fill( inside_light_level );
-                    }
-                }
-            }
-            continue;
-        }
 
         // all light was blocked before
         if( fully_inside ) {

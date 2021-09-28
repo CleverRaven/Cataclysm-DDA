@@ -131,8 +131,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::order: return "order";
     case sounds::sound_t::_LAST: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 } // namespace io
@@ -189,8 +188,7 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::_LAST:
             break;
     }
-    debugmsg( "Invalid sound_t category" );
-    abort();
+    cata_fatal( "Invalid sound_t category" );
 }
 
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
@@ -1032,6 +1030,11 @@ void sfx::do_ambient()
                 break;
             case weather_sound_category::silent:
                 break;
+            case weather_sound_category::portal_storm:
+                play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", heard_volume,
+                                            channel::outdoors_portal_storm_env,
+                                            1000 );
+                break;
             case weather_sound_category::last:
                 debugmsg( "Invalid weather sound category." );
                 break;
@@ -1161,9 +1164,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_src = std::max( heard_volume - 30, 0 );
         vol_targ = std::max( heard_volume - 20, 0 );
     }
+    const item weapon = you.get_wielded_item();
     ang_targ = get_heard_angle( target );
-    weapon_skill = you.weapon.melee_skill();
-    weapon_volume = you.weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = weapon.melee_skill();
+    weapon_volume = weapon.volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.

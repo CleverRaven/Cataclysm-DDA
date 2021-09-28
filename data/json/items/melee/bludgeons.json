@@ -122,6 +122,7 @@
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
     "volume": "750 ml",
     "bashing": 21,
@@ -206,6 +207,7 @@
     "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "100 cm",
@@ -359,6 +361,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "600 ml",
     "longest_side": "60 cm",
     "bashing": 10,
@@ -545,6 +548,7 @@
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
     "longest_side": "180 cm",
@@ -581,6 +585,7 @@
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -877,6 +882,7 @@
     "material": [ "aluminum", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
     "longest_side": "60 cm",
@@ -915,6 +921,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1500 g",
     "volume": "1500 ml",
     "longest_side": "180 cm",
@@ -970,6 +977,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "910 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -989,6 +997,7 @@
     "material": [ "lead", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "1135 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -1008,6 +1017,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "850 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -1038,6 +1048,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1068,6 +1079,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": [ "SHOCKTONFA_OFF" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1086,7 +1098,8 @@
     "power_draw": 15000,
     "revert_to": "shocktonfa_off",
     "use_action": [ "SHOCKTONFA_ON" ],
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ]
   },
   {
     "type": "GENERIC",
@@ -1102,6 +1115,7 @@
     "material": [ "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "bashing": 20,
     "price": 19500
@@ -1120,6 +1134,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "bashing": 20,
     "price": 19500

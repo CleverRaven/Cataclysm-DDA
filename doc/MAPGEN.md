@@ -218,6 +218,18 @@ Example:
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four
 apartments_mod_tower overmap terrain ids specified.
 
+### "om_terrain" for linear terrain
+
+Some overmap terrains are *linear*.  This is used for things like roads,
+tunnels, etc. where they form lines which can connect in various ways.  Such
+terrains are defined with the `LINEAR` flag in their `overmap_terrain`
+definition (see the [OVERMAP docs](OVERMAP.md)).
+
+When defining the JSON mapgen for such terrain, you must define several
+instances, for each type of connection that might exist.  Each gets a suffix
+added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
+`_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
+in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -902,7 +914,7 @@ matching magazine and ammo for guns.
 | chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 | ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
-| variant  | (optional, string), gun variant id for the spawned item
+| variant  | (optional, string), itype variant id for the spawned item
 
 
 ### Plant seeds in a planter with "sealed_item"
@@ -981,6 +993,28 @@ Run a `ter_furn_transform` at the specified location.  This is mostly useful for
 an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
+
+### Spawn nested chunks based on overmap neighbors with "place_nested"
+
+Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+
+| Field              | Description
+| ---                | ---
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
+| x and y            | (required, int) the cardinal position in which the chunk will be placed. 
+| neighbors          | (optional, string ) Any of the neighboring overmaps that should be evaluated before placing the chunk. Despite the plural field name, only a single neighbor direction can be evaluated per chunk.  The direction itself can check for any amount of overmap `"id"` substrings.
+
+The following adjacent overmaps can be evaluated in this manner: the direct cardinal neighbors ( `"north", "east", "south", "west"` ) the inter cardinal neighbors ( `"north_east", "north_west", "south_east", "south_west"` ), and the direct vertical neighbors ( `"above", "below"` ).
+
+Example:
+
+```json
+      "place_nested": [
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+      ],
+```
+The code excerpt above will place the nested chunk "concrete_wall_ew" if the north neighbor is either a field or solid rock, otherwise potentially placing  `"concrete_wall_ns"`; the latter will be placed only if the north_west neighbor is neither a field nor any of the microlab overmaps).
 
 
 ## Mapgen values

@@ -2034,7 +2034,8 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
                "--\n"
                "Has level <color_c_cyan>1 digging</color> quality.\n"
                "Has level <color_c_cyan>2 hammering</color> quality.\n"
-               "Has level <color_c_cyan>4 prying</color> quality.\n" );
+               "Has level <color_c_cyan>4 prying</color> quality.\n"
+               "Has level <color_c_cyan>1 nail prying</color> quality.\n" );
     }
 
     SECTION( "bottle jack" ) {

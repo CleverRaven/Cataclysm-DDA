@@ -79,6 +79,7 @@ Monsters may also have any of these optional properties:
 | `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
 | `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
 | `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
+| `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
@@ -92,6 +93,8 @@ Monsters may also have any of these optional properties:
 | `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 | `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 | `shearing`               | (array of objects) Items produced when the monster is sheared
+| `speed_description`      | (string) ID of a `speed_description` type describing the monster speed string
+| `petfood`                | (object) Data regarding feeding this monster to turn it into a pet
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -115,7 +118,7 @@ or, if the singular and plural forms are the same:
 
 Name displayed in-game, and optionally the plural name and a translation context (ctxt).
 
-If the plural name is not specified, it defaults to singular name + "s".
+If the plural name is not specified, it defaults to singular name + "s". "str_pl" may also be needed if the unit test cannot determine if the correct plural form can be formed by simply appending "s".
 
 Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 
@@ -325,8 +328,10 @@ Weakpoints in the monster's protection.
 | ---                 | ---
 | `name`              | Name of the weakpoint.
 | `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
-| `armor_multiplier`  | multipler on the monster's base protection when hitting the weakpoint.
+| `armor_mult`        | multipler on the monster's base protection when hitting the weakpoint.
 | `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
+| `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
+| `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
 
 ## "vision_day", "vision_night"
 (integer, optional)
@@ -449,11 +454,11 @@ The monster's reproduction cycle, if any. Supports:
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
 
-## "shearing
+## "shearing"
 (array of objects, optional)
 
 A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
-```json
+```cpp
 "shearing": [
     {
         "result": "wool",
@@ -475,6 +480,26 @@ A set of items that are given to the player when they shear this monster. These 
 ```
 
 This means that when this monster is sheared, it will give: 100 units of wool, 10 to 100 pieces of rag, 25% of its body mass as leather and 60% of its volume as wool.
+
+## "speed_description"
+(string, optional)
+
+By default monsters will use the `"DEFAULT"` speed description.
+```JSON
+"speed_description": "SPEED_DESCRIPTION_ID"
+```
+
+## "petfood"
+(object, optional)
+
+Decides whether this monster can be tamed. `%s` is the monster name.
+```cpp
+"petfood": {
+    "food": [ "CATFOOD", "YULECATFOOD" ], // food categories this monster accepts
+    "feed": "The gigantic %s decides not to maul you today.", // (optional) message when feeding the monster the food
+    "pet": "The %s is enjoying hunting the red laser dot." // (optional) message when playing with pet
+}
+```
 
 ## "special_when_hit"
 (array, optional)

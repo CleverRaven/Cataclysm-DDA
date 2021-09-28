@@ -65,8 +65,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 
         WHEN( "NPC only has a chef knife" ) {
             item weapon( "knife_chef" );
-            main_npc.weapon = weapon;
-            REQUIRE( main_npc.weapon.typeId() == itype_id( "knife_chef" ) );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "knife_chef" ) );
 
             THEN( "NPC attempts to melee the enemy target" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -124,8 +124,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         }
         WHEN( "NPC only has a bunch of rocks" ) {
             item weapon( "rock" );
-            main_npc.weapon = weapon;
-            REQUIRE( main_npc.weapon.typeId() == itype_id( "rock" ) );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "rock" ) );
 
             THEN( "NPC doesn't bother throwing the rocks so close" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -140,8 +140,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 
         WHEN( "NPC only has a chef knife" ) {
             item weapon( "knife_chef" );
-            main_npc.weapon = weapon;
-            REQUIRE( main_npc.weapon.typeId() == itype_id( "knife_chef" ) );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "knife_chef" ) );
 
             THEN( "NPC attempts to melee the enemy target" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -157,8 +157,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 
         WHEN( "NPC only has a bunch of rocks" ) {
             item weapon( "rock" );
-            main_npc.weapon = weapon;
-            REQUIRE( main_npc.weapon.typeId() == itype_id( "rock" ) );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "rock" ) );
 
             THEN( "NPC throws rocks at the zombie" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -174,8 +174,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 
         WHEN( "NPC only has a chef knife" ) {
             item weapon( "knife_chef" );
-            main_npc.weapon = weapon;
-            REQUIRE( main_npc.weapon.typeId() == itype_id( "knife_chef" ) );
+            main_npc.set_wielded_item( weapon );
+            REQUIRE( main_npc.get_wielded_item().typeId() == itype_id( "knife_chef" ) );
 
             WHEN( "NPC is targetting closest zombie" ) {
                 main_npc.evaluate_best_weapon( zombie );

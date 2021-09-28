@@ -5,10 +5,10 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coordinates.h"
-#include "json.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class JsonValue;
 class map;
 class mission;
 struct point;
@@ -24,7 +24,7 @@ struct mapgen_arguments {
 
     void merge( const mapgen_arguments & );
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonValue &ji );
 };
 
 namespace mapgendata_detail
@@ -169,6 +169,7 @@ class mapgendata
             return t_below;
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
+        const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
         void square_groundcover( const point &p1, const point &p2 ) const;
         ter_id groundcover() const;

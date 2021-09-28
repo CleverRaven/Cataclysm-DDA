@@ -80,6 +80,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -107,6 +113,12 @@
       "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
     "open": "t_chaingate_o",
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -154,6 +166,12 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_strconc_floor",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+    },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
     "examine_action": "locked_object_pickable",
@@ -189,6 +207,12 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
+    "hacksaw": {
+      "result": "t_strconc_floor",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+    },
     "open": "t_retractable_gate_o",
     "oxytorch": {
       "result": "t_strconc_floor",
@@ -467,6 +491,13 @@
       "sound_fail": "wham.",
       "ter_set": "t_null",
       "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+    },
+    "prying": {
+      "result": "t_fence_post",
+      "duration": "30 seconds",
+      "message": "You pry out the fence post.",
+      "byproducts": [ { "item": "nail", "count": 6 }, { "item": "2x4", "count": 3 } ],
+      "prying_data": { "prying_nails": true }
     }
   },
   {
@@ -546,6 +577,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -563,6 +600,12 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 2,
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 } ]
+    },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_dirt", "duration": "1 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] } ] },
     "bash": {

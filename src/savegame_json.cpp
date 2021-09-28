@@ -210,9 +210,8 @@ void item_contents::serialize( JsonOut &json ) const
     }
 }
 
-void item_contents::deserialize( JsonIn &jsin )
+void item_contents::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "contents", contents );
 }
@@ -229,9 +228,8 @@ void item_pocket::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void item_pocket::deserialize( JsonIn &jsin )
+void item_pocket::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "contents", contents );
     int saved_type_int;
@@ -258,9 +256,8 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void item_pocket::favorite_settings::deserialize( JsonIn &jsin )
+void item_pocket::favorite_settings::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "priority", priority_rating );
     data.read( "item_whitelist", item_whitelist );
@@ -272,16 +269,14 @@ void item_pocket::favorite_settings::deserialize( JsonIn &jsin )
     }
 }
 
-void pocket_data::deserialize( JsonIn &jsin )
+void pocket_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
 }
 
-void sealable_data::deserialize( JsonIn &jsin )
+void sealable_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
 }
@@ -315,9 +310,8 @@ void player_activity::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void player_activity::deserialize( JsonIn &jsin )
+void player_activity::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     std::string tmptype;
     int tmppos = 0;
@@ -390,9 +384,8 @@ void requirement_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void requirement_data::deserialize( JsonIn &jsin )
+void requirement_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
 
     data.read( "blacklisted", blacklisted );
@@ -400,7 +393,6 @@ void requirement_data::deserialize( JsonIn &jsin )
     data.read( "req_comps_total", components );
     data.read( "tool_comps_total", tools );
     data.read( "quality_comps_total", qualities );
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -418,9 +410,8 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void SkillLevel::deserialize( JsonIn &jsin )
+void SkillLevel::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "level", _level );
     data.read( "exercise", _exercise );
@@ -455,9 +446,9 @@ void character_id::serialize( JsonOut &jsout ) const
     jsout.write( value );
 }
 
-void character_id::deserialize( JsonIn &jsin )
+void character_id::deserialize( int i )
 {
-    value = jsin.get_int();
+    value = i;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -474,9 +465,8 @@ void effect_source::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void effect_source::deserialize( JsonIn &jsin )
+void effect_source::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "character_id", this->character );
     data.read( "faction_id", this->fac );
@@ -498,9 +488,8 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void Character::trait_data::deserialize( JsonIn &jsin )
+void Character::trait_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "key", key );
     data.read( "charge", charge );
@@ -516,9 +505,8 @@ void consumption_event::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void consumption_event::deserialize( JsonIn &jsin )
+void consumption_event::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "time", time );
     jo.read( "type_id", type_id );
@@ -543,10 +531,8 @@ void activity_tracker::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void activity_tracker::deserialize( JsonIn &jsin )
+void activity_tracker::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
-
     jo.allow_omitted_members();
     jo.read( "current_activity", current_activity );
     jo.read( "accumulated_activity", accumulated_activity );
@@ -596,6 +582,7 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    data.read( "name", name );
     data.read( "play_name", play_name );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
@@ -685,6 +672,24 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
+    // stats through kills
+    data.read( "kill_xp", kill_xp );
+    if( !data.read( "spent_upgrade_points", spent_upgrade_points ) ) {
+        // TEMPORARY until 0.G, remove migration logic after
+        int str_upgrade = 0;
+        int dex_upgrade = 0;
+        int int_upgrade = 0;
+        int per_upgrade = 0;
+        if( data.read( "str_upgrade", str_upgrade ) && data.read( "dex_upgrade", dex_upgrade ) &&
+            data.read( "int_upgrade", int_upgrade ) && data.read( "per_upgrade", per_upgrade ) ) {
+            str_max += str_upgrade;
+            dex_max += dex_upgrade;
+            int_max += int_upgrade;
+            per_max += per_upgrade;
+            spent_upgrade_points = str_upgrade + dex_upgrade + int_upgrade + per_upgrade;
+        }
+    }
+
     data.read( "magic", magic );
 
     data.read( "underwater", underwater );
@@ -725,7 +730,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
-
+    data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
     }
@@ -883,7 +888,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item();
+    set_wielded_item( item() );
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -977,7 +982,6 @@ void Character::load( const JsonObject &data )
     }
 
     data.read( "addictions", addictions );
-    data.read( "followers", follower_ids );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -1035,6 +1039,15 @@ void Character::load( const JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+    //load queued_eocs
+    for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
+        queued_eoc temp;
+        temp.time = time_point( elem.get_int( "time" ) );
+        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        temp.recurring = elem.get_bool( "recurring" );
+        queued_effect_on_conditions.push( temp );
+    }
+    data.read( "inactive_eocs", inactive_effect_on_condition_vector );
 }
 
 /**
@@ -1043,6 +1056,10 @@ void Character::load( const JsonObject &data )
 void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
+
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
 
     // stat
     json.member( "str_cur", str_cur );
@@ -1059,6 +1076,7 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
+    json.member( "name", name );
     json.member( "play_name", play_name );
 
     json.member( "base_age", init_age );
@@ -1104,6 +1122,10 @@ void Character::store( JsonOut &json ) const
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+
+    // stats through kills
+    json.member( "kill_xp", kill_xp );
+    json.member( "spent_upgrade_points", spent_upgrade_points );
 
     // breathing
     json.member( "underwater", underwater );
@@ -1188,15 +1210,10 @@ void Character::store( JsonOut &json ) const
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-    json.member( "followers", follower_ids );
-
+    json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv->json_save_items( json );
-
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
-    }
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
@@ -1237,6 +1254,23 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    //save queued effect_on_conditions
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
+        queued_effect_on_conditions );
+    json.member( "queued_effect_on_conditions" );
+    json.start_array();
+    while( !temp_queued.empty() ) {
+        json.start_object();
+        json.member( "time", temp_queued.top().time );
+        json.member( "eoc", temp_queued.top().eoc );
+        json.member( "recurring", temp_queued.top().recurring );
+        json.end_object();
+        temp_queued.pop();
+    }
+
+    json.end_array();
+    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1271,6 +1305,10 @@ void avatar::store( JsonOut &json ) const
         json.end_array();
     }
 
+    json.member( "followers", follower_ids );
+    if( shadow_npc ) {
+        json.member( "shadow_npc", *shadow_npc );
+    }
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
 
@@ -1280,12 +1318,6 @@ void avatar::store( JsonOut &json ) const
 
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
-
-    // stats through kills
-    json.member( "str_upgrade", std::abs( str_upgrade ) );
-    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
-    json.member( "int_upgrade", std::abs( int_upgrade ) );
-    json.member( "per_upgrade", std::abs( per_upgrade ) );
 
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
@@ -1322,9 +1354,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
-void avatar::deserialize( JsonIn &jsin )
+void avatar::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
 }
@@ -1336,6 +1367,11 @@ void avatar::load( const JsonObject &data )
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+    }
+
+    // TEMPORARY until 0.G
+    if( !data.has_member( "kill_xp" ) ) {
+        kill_xp = g->get_kill_tracker().legacy_kill_xp();
     }
 
     // Remove after 0.F
@@ -1361,6 +1397,11 @@ void avatar::load( const JsonObject &data )
         hobbies.insert( hobbies.end(), &hobby.obj() );
     }
 
+    data.read( "followers", follower_ids );
+    if( data.has_member( "shadow_npc" ) ) {
+        shadow_npc = std::make_unique<npc>();
+        data.read( "shadow_npc", *shadow_npc );
+    }
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
@@ -1380,20 +1421,6 @@ void avatar::load( const JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
-
-    // stats through kills
-    data.read( "str_upgrade", str_upgrade );
-    data.read( "dex_upgrade", dex_upgrade );
-    data.read( "int_upgrade", int_upgrade );
-    data.read( "per_upgrade", per_upgrade );
-
-    // this is so we don't need to call get_option in a draw function
-    if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
-        str_upgrade = -str_upgrade;
-        dex_upgrade = -dex_upgrade;
-        int_upgrade = -int_upgrade;
-        per_upgrade = -per_upgrade;
-    }
 
     data.read( "magic", magic );
 
@@ -1502,9 +1529,8 @@ void npc_follower_rules::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void npc_follower_rules::deserialize( JsonIn &jsin )
+void npc_follower_rules::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     int tmpeng = 0;
     data.read( "engagement", tmpeng );
@@ -1607,9 +1633,8 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void dialogue_chatbin::deserialize( JsonIn &jsin )
+void dialogue_chatbin::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
 
     if( data.has_int( "first_topic" ) ) {
@@ -1650,9 +1675,8 @@ void dialogue_chatbin::deserialize( JsonIn &jsin )
     }
 }
 
-void npc_personality::deserialize( JsonIn &jsin )
+void npc_personality::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     int tmpagg = 0;
     int tmpbrav = 0;
@@ -1681,9 +1705,8 @@ void npc_personality::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void npc_opinion::deserialize( JsonIn &jsin )
+void npc_opinion::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "trust", trust );
     data.read( "fear", fear );
@@ -1705,9 +1728,8 @@ void npc_opinion::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void npc_favor::deserialize( JsonIn &jsin )
+void npc_favor::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     type = static_cast<npc_favor_type>( jo.get_int( "type" ) );
     jo.read( "value", value );
@@ -1737,10 +1759,11 @@ void job_data::serialize( JsonOut &json ) const
     json.member( "task_priorities", task_priorities );
     json.end_object();
 }
-void job_data::deserialize( JsonIn &jsin )
+
+void job_data::deserialize( const JsonValue &jv )
 {
-    if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
+    if( jv.test_object() ) {
+        JsonObject jo = jv;
         jo.allow_omitted_members();
         jo.read( "task_priorities", task_priorities );
     }
@@ -1749,9 +1772,8 @@ void job_data::deserialize( JsonIn &jsin )
 /*
  * load npc
  */
-void npc::deserialize( JsonIn &jsin )
+void npc::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     load( data );
 }
 
@@ -1814,7 +1836,6 @@ void npc::load( const JsonObject &data )
         data.get_int( "tank_plut" );
     }
 
-    data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
@@ -1978,7 +1999,6 @@ void npc::store( JsonOut &json ) const
 {
     Character::store( json );
 
-    json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
@@ -2094,7 +2114,7 @@ void inventory::json_load_items( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         item tmp;
-        tmp.deserialize( jsin );
+        tmp.deserialize( jsin.get_object() );
         add_item( tmp, true, false );
     }
 }
@@ -2103,16 +2123,14 @@ void inventory::json_load_items( JsonIn &jsin )
 ///// monster.h
 
 // TEMPORARY until 0.G
-void monster::deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc )
+void monster::deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     load( data, submap_loc );
 }
 
-void monster::deserialize( JsonIn &jsin )
+void monster::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
 }
@@ -2163,6 +2181,7 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
+    data.read( "nickname", nickname );
     data.read( "goal", goal );
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
@@ -2172,33 +2191,33 @@ void monster::load( const JsonObject &data )
         data.read( "patrol_route", patrol_route );
     }
     if( data.has_object( "tied_item" ) ) {
-        JsonIn *tied_item_json = data.get_raw( "tied_item" );
+        JsonValue tied_item_json = data.get_member( "tied_item" );
         item newitem;
-        newitem.deserialize( *tied_item_json );
+        newitem.deserialize( tied_item_json );
         tied_item = cata::make_value<item>( newitem );
     }
     if( data.has_object( "tack_item" ) ) {
-        JsonIn *tack_item_json = data.get_raw( "tack_item" );
+        JsonValue tack_item_json = data.get_member( "tack_item" );
         item newitem;
-        newitem.deserialize( *tack_item_json );
+        newitem.deserialize( tack_item_json );
         tack_item = cata::make_value<item>( newitem );
     }
     if( data.has_object( "armor_item" ) ) {
-        JsonIn *armor_item_json = data.get_raw( "armor_item" );
+        JsonValue armor_item_json = data.get_member( "armor_item" );
         item newitem;
-        newitem.deserialize( *armor_item_json );
+        newitem.deserialize( armor_item_json );
         armor_item = cata::make_value<item>( newitem );
     }
     if( data.has_object( "storage_item" ) ) {
-        JsonIn *storage_item_json = data.get_raw( "storage_item" );
+        JsonValue storage_item_json = data.get_member( "storage_item" );
         item newitem;
-        newitem.deserialize( *storage_item_json );
+        newitem.deserialize( storage_item_json );
         storage_item = cata::make_value<item>( newitem );
     }
     if( data.has_object( "battery_item" ) ) {
-        JsonIn *battery_item_json = data.get_raw( "battery_item" );
+        JsonValue battery_item_json = data.get_member( "battery_item" );
         item newitem;
-        newitem.deserialize( *battery_item_json );
+        newitem.deserialize( battery_item_json );
         battery_item = cata::make_value<item>( newitem );
     }
     data.read( "hp", hp );
@@ -2260,7 +2279,6 @@ void monster::load( const JsonObject &data )
     data.read( "anger", anger );
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
-    data.read( "stairscount", staircount ); // really?
     data.read( "fish_population", fish_population );
     data.read( "summon_time_limit", summon_time_limit );
 
@@ -2310,6 +2328,7 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
+    json.member( "nickname", nickname );
     json.member( "goal", goal );
     json.member( "wander_pos", wander_pos );
     json.member( "wandf", wandf );
@@ -2330,7 +2349,6 @@ void monster::store( JsonOut &json ) const
     json.member( "anger", anger );
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
-    json.member( "stairscount", staircount );
     if( tied_item ) {
         json.member( "tied_item", *tied_item );
     }
@@ -2381,9 +2399,9 @@ void time_point::serialize( JsonOut &jsout ) const
     jsout.write( turn_ );
 }
 
-void time_point::deserialize( JsonIn &jsin )
+void time_point::deserialize( int turn )
 {
-    turn_ = jsin.get_int();
+    turn_ = turn;
 }
 
 void time_duration::serialize( JsonOut &jsout ) const
@@ -2391,7 +2409,7 @@ void time_duration::serialize( JsonOut &jsout ) const
     jsout.write( turns_ );
 }
 
-void time_duration::deserialize( JsonIn &jsin )
+void time_duration::deserialize( const JsonValue &jsin )
 {
     if( jsin.test_string() ) {
         *this = read_from_json_string<time_duration>( jsin, time_duration::units );
@@ -2413,11 +2431,6 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "tools_to_continue", tools_to_continue );
     jsout.member( "cached_tool_selections", cached_tool_selections );
     jsout.end_object();
-}
-
-void item::craft_data::deserialize( JsonIn &jsin )
-{
-    deserialize( jsin.get_object() );
 }
 
 void item::craft_data::deserialize( const JsonObject &obj )
@@ -2537,13 +2550,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
-    const auto gvload = [this]( const std::string & variant ) {
-        set_gun_variant( variant );
+    const auto ivload = [this]( const std::string & variant ) {
+        set_itype_variant( variant );
     };
-    const auto gvsave = []( const gun_variant_data * gv ) {
-        return gv->id;
+    const auto ivsave = []( const itype_variant_data * iv ) {
+        return iv->id;
     };
-    archive.io( "variant", _gun_variant, gvload, gvsave, false );
+    archive.io( "variant", _itype_variant, ivload, ivsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2677,9 +2690,8 @@ void item::migrate_content_item( const item &contained )
     }
 }
 
-void item::deserialize( JsonIn &jsin )
+void item::deserialize( const JsonObject &data )
 {
-    const JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     // Since deserialization is handled by the archive, don't check it here.
     // CATA_DO_NOT_CHECK_SERIALIZE
@@ -2737,11 +2749,11 @@ void item::deserialize( JsonIn &jsin )
         }
     }
 
-    if( !has_gun_variant( false ) && can_have_gun_variant() ) {
-        if( possible_gun_variant( typeId().str() ) ) {
-            set_gun_variant( typeId().str() );
+    if( !has_itype_variant( false ) && can_have_itype_variant() ) {
+        if( possible_itype_variant( typeId().str() ) ) {
+            set_itype_variant( typeId().str() );
         } else {
-            select_gun_variant();
+            select_itype_variant();
         }
     }
 }
@@ -2777,9 +2789,8 @@ void item::serialize( JsonOut &json ) const
 /*
  * vehicle_part
  */
-void vehicle_part::deserialize( JsonIn &jsin )
+void vehicle_part::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     vpart_id pid;
     data.read( "id", pid );
@@ -2953,9 +2964,8 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-void label::deserialize( JsonIn &jsin )
+void label::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "x", x );
     data.read( "y", y );
@@ -2971,9 +2981,8 @@ void label::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void smart_controller_config::deserialize( JsonIn &jsin )
+void smart_controller_config::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "bat_lo", battery_lo );
     data.read( "bat_hi", battery_hi );
@@ -2990,9 +2999,8 @@ void smart_controller_config::serialize( JsonOut &json ) const
 /*
  * Load vehicle from a json blob that might just exceed player in size.
  */
-void vehicle::deserialize( JsonIn &jsin )
+void vehicle::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
 
     int fdir = 0;
@@ -3238,9 +3246,8 @@ void vehicle::serialize( JsonOut &json ) const
 
 ////////////////// mission.h
 ////
-void mission::deserialize( JsonIn &jsin )
+void mission::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
 
     if( jo.has_int( "type_id" ) ) {
@@ -3352,9 +3359,8 @@ void mission::serialize( JsonOut &json ) const
 
 ////////////////// faction.h
 ////
-void faction::deserialize( JsonIn &jsin )
+void faction::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
 
     jo.read( "id", id );
@@ -3546,9 +3552,8 @@ void Creature::load( const JsonObject &jsin )
     on_stat_change( "pain", pain );
 }
 
-void player_morale::morale_point::deserialize( JsonIn &jsin )
+void player_morale::morale_point::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     if( !jo.read( "type", type ) ) {
         type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
@@ -3803,9 +3808,8 @@ void addiction::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void addiction::deserialize( JsonIn &jsin )
+void addiction::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     type = static_cast<add_type>( jo.get_int( "type_enum" ) );
     intensity = jo.get_int( "intensity" );
@@ -3941,9 +3945,8 @@ void basecamp::serialize( JsonOut &json ) const
     }
 }
 
-void basecamp::deserialize( JsonIn &jsin )
+void basecamp::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "name", name );
     data.read( "pos", omt_pos );
@@ -4017,9 +4020,8 @@ void kill_tracker::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void kill_tracker::deserialize( JsonIn &jsin )
+void kill_tracker::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
@@ -4061,9 +4063,8 @@ void event_multiset::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void event_multiset::deserialize( JsonIn &jsin )
+void event_multiset::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     JsonArray events = jo.get_array( "event_counts" );
     if( !events.empty() && events.get_array( 0 ).has_int( 1 ) ) {
@@ -4092,9 +4093,8 @@ void stats_tracker::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void stats_tracker::deserialize( JsonIn &jsin )
+void stats_tracker::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "data", data );
     for( std::pair<const event_type, event_multiset> &d : data ) {

@@ -25,9 +25,9 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "value_ptr.h"
+#include "weakpoint.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class effect;
@@ -104,6 +104,9 @@ class monster : public Creature
             return this;
         }
 
+        mfaction_id get_monster_faction() const override {
+            return faction.id();
+        }
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
@@ -127,6 +130,10 @@ class monster : public Creature
         int get_eff_per() const override;
 
         float get_mountable_weight_ratio() const;
+
+        static std::string speed_description( float mon_speed_rating,
+                                              bool immobile = false,
+                                              speed_description_id speed_desc = speed_description_id::NULL_ID() );
 
         // Access
         std::string get_name() const override;
@@ -173,8 +180,8 @@ class monster : public Creature
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
-        void deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc );
+        void deserialize( const JsonObject &data );
+        void deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point &sm_shift );
@@ -322,13 +329,18 @@ class monster : public Creature
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
-        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
+        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                damage_instance &dam ) override;
+        // The monster's skill in hitting a weakpoint
+        float weakpoint_skill();
+
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                     bool print_messages = true ) override;
+                                     bool print_messages = true,
+                                     const weakpoint_attack &wp_attack = weakpoint_attack() ) override;
         void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
                                       int &damage, int &pain ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
@@ -505,6 +517,8 @@ class monster : public Creature
         bool is_nemesis() const;
         // If we're unique
         std::string unique_name;
+        // Player given nickname
+        std::string nickname;
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;

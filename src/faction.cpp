@@ -653,7 +653,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + weapon.tname() );
+                                _( "Wielding: " ) + get_wielded_item().tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {

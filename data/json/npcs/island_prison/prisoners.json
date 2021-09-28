@@ -628,7 +628,7 @@
       "effect": [
         { "u_add_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" },
         { "u_lose_var": "prisoner_leader_mission", "type": "mission", "context": "accepted" },
-        { "u_buy_item": "can_beans", "container": "can_medium" }
+        { "u_spawn_item": "can_beans", "container": "can_medium" }
       ]
     }
   }

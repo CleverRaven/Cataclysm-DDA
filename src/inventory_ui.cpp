@@ -125,7 +125,7 @@ class selection_column_preset : public inventory_selector_preset
         nc_color get_color( const inventory_entry &entry ) const override {
             Character &player_character = get_player_character();
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &player_character.weapon ) {
+                if( &*entry.any_item() == &player_character.get_wielded_item() ) {
                     return c_light_blue;
                 } else if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -723,7 +723,7 @@ void inventory_column::set_collapsed( std::vector<item_location> &locations,
     }
 }
 
-void inventory_column::on_input( const inventory_input &input )
+void inventory_column::on_input( const inventory_input &input, const bool allow_hide )
 {
 
     if( !empty() && active ) {
@@ -742,10 +742,10 @@ void inventory_column::on_input( const inventory_input &input )
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             inventory_entry &selected = get_selected();
             set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
-        } else if( input.action == "HIDE_CONTENTS" ) {
+        } else if( allow_hide && input.action == "HIDE_CONTENTS" ) {
             inventory_entry &selected = get_selected();
             set_collapsed( selected.locations, true );
-        } else if( input.action == "SHOW_CONTENTS" ) {
+        } else if( allow_hide && input.action == "SHOW_CONTENTS" ) {
             inventory_entry &selected = get_selected();
             set_collapsed( selected.locations, false );
         }
@@ -1047,7 +1047,8 @@ static int num_parents( const item_location &loc )
 }
 
 void inventory_column::draw( const catacurses::window &win, const point &p,
-                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
+                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map,
+                             const bool allow_hide )
 {
     if( !visible() ) {
         return;
@@ -1121,10 +1122,12 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             std::string text = entry_cell_cache.text[cell_index];
             bool collapsed = false;
             if( entry.is_item() && entry.any_item().get_item()->is_container() ) {
+                std::string hidden_text = allow_hide ? std::string( " " ) + string_format _( "hidden" ) :
+                                          std::string();
                 for( const item_pocket *pckt : entry.any_item().get_item()->get_all_contained_pockets().value() ) {
                     // If one is collapsed then assume all are collapsed.
                     if( pckt->settings.is_collapsed() && !pckt->empty() ) {
-                        text += std::string( " " ) + string_format _( "hidden" );
+                        text += hidden_text;
                         collapsed = true;
                         break;
                     }
@@ -1150,6 +1153,9 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
+                if( collapsed && allow_hide ) {
+                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
+                }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
@@ -1173,9 +1179,6 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     entry.highlight_as_child = false;
                 } else {
                     trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
-                }
-                if( collapsed ) {
-                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
                 }
             }
 
@@ -1478,7 +1481,7 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 void inventory_selector::add_character_items( Character &character, bool include_hidden )
 {
     character.visit_items( [ this, &character, &include_hidden ]( item * it, item * ) {
-        if( it == &character.weapon ) {
+        if( it == &character.get_wielded_item() ) {
             add_item( own_gear_column, item_location( character, it ),
                       &item_category_id( "WEAPON_HELD" ).obj(), include_hidden );
         } else if( character.is_worn( *it ) ) {
@@ -1932,9 +1935,9 @@ void inventory_selector::query_set_filter()
     }
 }
 
-int inventory_selector::query_count( std::string init )
+int inventory_selector::query_count()
 {
-    std::pair< bool, std::string > query = query_string( init );
+    std::pair< bool, std::string > query = query_string( "" );
     int ret = -1;
     if( query.first ) {
         try {
@@ -1993,14 +1996,14 @@ void inventory_selector::draw_columns( const catacurses::window &w )
             x += gap_rounding_error;
         }
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, point( x, y ), rect_entry_map );
+            elem->draw( w, point( x, y ), rect_entry_map, allow_hide );
         } else {
             active_x = x;
         }
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, point( active_x, y ), rect_entry_map );
+    get_active_column().draw( w, point( active_x, y ), rect_entry_map, allow_hide );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }
@@ -2150,7 +2153,7 @@ void inventory_selector::on_input( const inventory_input &input )
     } else {
         if( has_available_choices() ) {
             for( inventory_column *elem : columns ) {
-                elem->on_input( input );
+                elem->on_input( input, allow_hide );
             }
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
@@ -2161,7 +2164,7 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
+        if( allow_hide && ( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             if( current_ui ) {
                 std::vector<item_location> inv = get_selected().locations;
@@ -2284,7 +2287,7 @@ void inventory_selector::toggle_categorize_contained()
             if( ancestor.where() != item_location::type::character ) {
                 // might have been merged from the map column
                 custom_category = entry->get_category_ptr();
-            } else if( &*ancestor == &u.weapon ) {
+            } else if( &*ancestor == &u.get_wielded_item() ) {
                 custom_category = &item_category_id( "WEAPON_HELD" ).obj();
             } else if( u.is_worn( *ancestor ) ) {
                 custom_category = &item_category_id( "ITEMS_WORN" ).obj();
@@ -2454,14 +2457,15 @@ void inventory_selector::highlight()
 
 inventory_multiselector::inventory_multiselector( Character &p,
         const inventory_selector_preset &preset,
-        const std::string &selection_column_title ) :
+        const std::string &selection_column_title, const bool allow_select_contained ) :
     inventory_selector( p, preset ),
+    allow_select_contained( allow_select_contained ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
     ctxt.register_action( "TOGGLE_ENTRY", to_translation( "Mark/unmark selected item" ) );
-    ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
     ctxt.register_action( "MARK_WITH_COUNT",
                           to_translation( "Mark a specific amount of selected item" ) );
+    ctxt.register_action( "TOGGLE_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
 
     max_chosen_count = std::numeric_limits<decltype( max_chosen_count )>::max();
 
@@ -2523,6 +2527,81 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     }
 
     on_change( entry );
+}
+
+void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode )
+{
+    std::vector<inventory_entry *> selected;
+    switch( mode ) {
+        case toggle_mode::SELECTED:
+            selected = get_active_column().get_all_selected();
+            break;
+        case toggle_mode::NON_FAVORITE_NON_WORN: {
+            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+                return entry.is_item() &&
+                       !entry.any_item()->is_favorite &&
+                       !get_player_character().is_worn( *entry.any_item() );
+            };
+
+            selected = get_active_column().get_entries( filter_to_nonfavorite_and_nonworn );
+        }
+    }
+
+    // No amount entered, select all
+    if( count == 0 ) {
+        bool select_nonfav = true;
+        bool select_fav = true;
+        switch( mode ) {
+            case toggle_mode::SELECTED: {
+                count = INT_MAX;
+
+                // Any non favorite item to select?
+                select_nonfav = std::any_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return ( !elem->any_item()->is_favorite ) && elem->chosen_count == 0;
+                } );
+
+                // Otherwise, any favorite item to select?
+                select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->any_item()->is_favorite && elem->chosen_count == 0;
+                } );
+                break;
+            }
+            case toggle_mode::NON_FAVORITE_NON_WORN: {
+                const bool clear = std::none_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->chosen_count > 0;
+                } );
+
+                if( clear ) {
+                    count = max_chosen_count;
+                }
+                break;
+            }
+        }
+
+        for( inventory_entry *elem : selected ) {
+            const bool is_favorite = elem->any_item()->is_favorite;
+            if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
+                set_chosen_count( *elem, count );
+            } else if( !select_nonfav && !select_fav ) {
+                // Every element is selected, unselect all
+                set_chosen_count( *elem, 0 );
+            }
+        }
+        // Select the entered amount
+    } else {
+        for( inventory_entry *elem : selected ) {
+            set_chosen_count( *elem, count );
+        }
+    }
+
+    if( !allow_select_contained ) {
+        deselect_contained_items();
+    }
+
+    count = 0;
 }
 
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
@@ -2607,9 +2686,10 @@ inventory_iuse_selector::inventory_iuse_selector(
     const inventory_selector_preset &preset,
     const GetStats &get_st
 ) :
-    inventory_multiselector( p, preset, selector_title ),
+    inventory_multiselector( p, preset, selector_title, /*allow_select_contained=*/true ),
     get_stats( get_st )
 {}
+
 drop_locations inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
@@ -2626,6 +2706,7 @@ drop_locations inventory_iuse_selector::execute()
             }
         }
     }
+    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
@@ -2634,35 +2715,21 @@ drop_locations inventory_iuse_selector::execute()
 
         if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            set_chosen_count( *input.entry, max_chosen_count );
-        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
-                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
-                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
-            int count = 0;
-            if( input.action == "MARK_WITH_COUNT" || ( noMarkCountBound && input.ch >= '0' &&
-                    input.ch <= '9' ) ) {
-                count = query_count( noMarkCountBound ? std::string( 1, input.ch ) : "" );
-                if( count < 0 ) {
-                    continue; // Skip selecting any if invalid result or user canceled prompt
-                }
+            toggle_entries( count );
+        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
+            int query_result = query_count();
+            if( query_result < 0 ) {
+                continue; // Skip selecting any if invalid result or user canceled prompt
             }
-
-            const auto selected( get_active_column().get_all_selected() );
-
-            if( count == 0 ) {
-                const bool clear = std::none_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return elem->chosen_count > 0;
-                } );
-
-                if( clear ) {
-                    count = max_chosen_count;
-                }
-            }
-
-            for( const auto &elem : selected ) {
-                set_chosen_count( *elem, count );
-            }
+            toggle_entries( query_result, toggle_mode::SELECTED );
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count, toggle_mode::SELECTED );
+        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -2714,27 +2781,7 @@ inventory_drop_selector::inventory_drop_selector( Character &p,
 #endif
 }
 
-void inventory_drop_selector::process_selected( int &count,
-        const std::vector<inventory_entry *> &selected )
-{
-    if( count == 0 ) {
-        const bool clear = std::none_of( selected.begin(), selected.end(),
-        []( const inventory_entry * elem ) {
-            return elem->chosen_count > 0;
-        } );
-
-        if( clear ) {
-            count = max_chosen_count;
-        }
-    }
-
-    for( const auto &elem : selected ) {
-        set_chosen_count( *elem, count );
-    }
-    count = 0;
-}
-
-void inventory_drop_selector::deselect_contained_items()
+void inventory_multiselector::deselect_contained_items()
 {
     std::vector<item_location> inventory_items;
     for( std::pair<item_location, int> &drop : to_use ) {
@@ -2744,14 +2791,13 @@ void inventory_drop_selector::deselect_contained_items()
     for( item_location loc_container : inventory_items ) {
         if( !loc_container->empty() ) {
             for( inventory_column *col : get_all_columns() ) {
-                for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
-                entry ) {
+                for( inventory_entry *selected : col->get_entries( []( const inventory_entry & entry ) {
                 return entry.chosen_count > 0;
             } ) ) {
                     if( !selected->is_item() ) {
                         continue;
                     }
-                    for( item *item_contained : loc_container->all_items_top() ) {
+                    for( const item *item_contained : loc_container->all_items_ptr() ) {
                         for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );
@@ -2776,6 +2822,7 @@ drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
+    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
@@ -2784,68 +2831,21 @@ drop_locations inventory_drop_selector::execute()
 
         if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
-            set_chosen_count( *input.entry, INT_MAX );
-        } else if( input.action == "DROP_NON_FAVORITE" ) {
-            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
-                return entry.is_item() &&
-                       !entry.any_item()->is_favorite &&
-                       !get_player_character().is_worn( *entry.any_item() );
-            };
-
-            const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
-            int count = 0; // TODO can't handled count of favorites if seperate key to set count
-            process_selected( count, selected );
-            deselect_contained_items();
-
-        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
-                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
-                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
-            int count = 0;
-            if( input.action == "MARK_WITH_COUNT" || ( noMarkCountBound && input.ch >= '0' &&
-                    input.ch <= '9' ) ) {
-                count = query_count( noMarkCountBound ? std::string( 1, input.ch ) : "" );
-                if( count < 0 ) {
-                    continue; // Skip selecting any if invalid result or user canceled prompt
-                }
+            toggle_entries( count );
+        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
+            int query_result = query_count();
+            if( query_result < 0 ) {
+                continue; // Skip selecting any if invalid result or user canceled prompt
             }
-
-            const auto selected( get_active_column().get_all_selected() );
-
-            // No amount entered, select all
-            if( count == 0 ) {
-                count = INT_MAX;
-
-                // Any non favorite item to select?
-                const bool select_nonfav = std::any_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return ( !elem->any_item()->is_favorite ) && elem->chosen_count == 0;
-                } );
-
-                // Otherwise, any favorite item to select?
-                const bool select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return elem->any_item()->is_favorite && elem->chosen_count == 0;
-                } );
-
-                for( const auto &elem : selected ) {
-                    const bool is_favorite = elem->any_item()->is_favorite;
-                    if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
-                        set_chosen_count( *elem, count );
-                    } else if( !select_nonfav && !select_fav ) {
-                        // Every element is selected, unselect all
-                        set_chosen_count( *elem, 0 );
-                    }
-                }
-                deselect_contained_items();
-                // Select the entered amount
-            } else {
-                for( const auto &elem : selected ) {
-                    set_chosen_count( *elem, count );
-                }
-                deselect_contained_items();
-            }
-
-            count = 0;
+            toggle_entries( query_result, toggle_mode::SELECTED );
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count, toggle_mode::SELECTED );
+        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),

@@ -646,18 +646,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     for( const item *i : player_character.inv_dump() ) {
         os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
-    os << "Wielded:\n" << player_character.weapon.tname() << "\n";
+    os << "Wielded:\n" << player_character.get_wielded_item().tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
         const bool has_item =
-            player_has_item_of_type( i ) || player_character.weapon.type->get_id() == itype_id( i );
+            player_has_item_of_type( i ) ||
+            player_character.get_wielded_item().type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
         const bool hasnt_item =
-            !player_has_item_of_type( i ) && !( player_character.weapon.type->get_id() == itype_id( i ) );
+            !player_has_item_of_type( i ) &&
+            !( player_character.get_wielded_item().type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
