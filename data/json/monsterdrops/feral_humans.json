@@ -133,6 +133,5 @@
     "subtype": "distribution",
     "id": "feral_ninemm",
     "items": [ [ "glock_19", 250 ], [ "ksub2000", 250 ], [ "sw_619", 250 ], [ "glock_17", 250 ] ]
-  },
-  
+  }
 ]
