@@ -254,6 +254,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": { "result": "t_door_o", "message": "You notice the door is unlocked, so you simply open it.", "prying_data": {  } },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1082,6 +1083,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": { "result": "t_door_o_peep", "message": "You notice the door is unlocked, so you simply open it.", "prying_data": {  } },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1459,6 +1461,11 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
+    },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1501,6 +1508,11 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
@@ -1545,6 +1557,11 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_o_peep",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
+    },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1586,6 +1603,11 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "alarm": true, "failure": "You pry, but can't pry open the door." }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
@@ -1850,6 +1872,13 @@
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_c",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
@@ -1878,6 +1907,13 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_b",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 70 ] }
   },
@@ -1908,6 +1944,13 @@
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_c_peep",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
@@ -1937,6 +1980,13 @@
         { "item": "splinter", "count": 1 }
       ]
     },
+    "prying": {
+      "result": "t_rdoor_c",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 25, 40 ], "reduce_damage_laser": [ 15, 40 ], "destroy_damage": [ 40, 100 ] }
   },
   {
@@ -1965,6 +2015,13 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 0, 1 ] }
       ]
+    },
+    "prying": {
+      "result": "t_rdoor_b",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
@@ -1996,6 +2053,13 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_b_peep",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 70 ] }
   },
@@ -2355,6 +2419,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
+    "prying": {
+      "result": "t_door_metal_o",
+      "message": "You pry open the metal door.",
+      "prying_data": { "difficulty": 8, "prying_level": 4, "noisy": true, "failure": "The metal door is too thick." }
+    },
     "examine_action": "locked_object_pickable",
     "oxytorch": {
       "result": "t_mdoor_frame",

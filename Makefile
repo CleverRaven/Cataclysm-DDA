@@ -1169,6 +1169,9 @@ astyle: $(ASTYLE_CHECK_STAMPS)
 $(ASTYLE_CHECK_STAMPS): $(ODIR)/%.astyle-check-stamp : %
 	$(ASTYLE_BINARY) --options=.astylerc -n $< && mkdir -p $(@D) && touch $@
 
+astyle-all: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
   ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
@@ -1183,7 +1186,7 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_SOURCES := $(shell find data -name "*.json")
+JSON_SOURCES := $(shell find data -name '* *' -prune -o -name "*.json" -print)
 JSON_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%,$(JSON_SOURCES:.json=.jstyle-check-stamp)))
 style-json : $(JSON_CHECK_STAMPS) $(JSON_FORMATTER_BIN)
 $(JSON_CHECK_STAMPS) : $(ODIR)/%.jstyle-check-stamp : %.json $(JSON_FORMATTER_BIN)

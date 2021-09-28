@@ -277,6 +277,7 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -918,6 +919,7 @@ int Character::overmap_sight_range( int light_level ) const
 
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
+    // When adding checks here, also call game::update_overmap_seen at the place they first become true
     const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_flag( json_flag_ENHANCED_VISION ) ||
                              ( is_mounted() &&
                                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
@@ -1215,6 +1217,10 @@ void Character::mount_creature( monster &z )
     }
     // some rideable mechs have night-vision
     recalc_sight_limits();
+    if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
+        // mech night-vision counts as optics for overmap sight range.
+        g->update_overmap_seen();
+    }
     mod_moves( -100 );
 }
 
@@ -2898,6 +2904,16 @@ void Character::die( Creature *nkiller )
     is_dead = true;
     set_killer( nkiller );
     set_time_died( calendar::turn );
+
+    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
+    for( effect_on_condition_id &eoc : death_eocs ) {
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
+    }
+
     if( has_effect( effect_lightsnare ) ) {
         inv->add_item( item( "string_36", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -5761,7 +5777,7 @@ void Character::set_stamina( int new_stamina )
 void Character::mod_stamina( int mod )
 {
     // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() ) {
+    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
     stamina += mod;
@@ -7178,6 +7194,19 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
+std::vector<const item *> Character::inv_dump() const
+{
+    std::vector<const item *> ret;
+    if( is_armed() && can_drop( weapon ).success() ) {
+        ret.push_back( &weapon );
+    }
+    for( const item &i : worn ) {
+        ret.push_back( &i );
+    }
+    inv->dump( ret );
+    return ret;
+}
+
 bool Character::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
 {
     if( parts.none() ) {
@@ -8140,6 +8169,15 @@ void Character::on_item_takeoff( const item &it )
         }
     }
     morale->on_item_takeoff( it );
+}
+
+void Character::on_item_acquire( const item &it )
+{
+    if( is_avatar() && it.has_item_with( []( const item & it ) {
+    return it.has_flag( flag_ZOOM );
+    } ) ) {
+        g->update_overmap_seen();
+    }
 }
 
 void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )

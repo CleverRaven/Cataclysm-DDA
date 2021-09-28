@@ -192,6 +192,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_canteen_2_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "canteen survey 2",
+    "color": "i_green",
+    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_farm_2_0",
     "copy-from": "faction_base_camp_0",
     "name": "farm survey_2",

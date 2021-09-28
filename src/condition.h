@@ -8,10 +8,10 @@
 #include <unordered_set>
 
 #include "dialogue.h"
+#include "global_vars.h"
 #include "mission.h"
 
 class JsonObject;
-
 namespace dialogue_data
 {
 // when updating this, please also update `dynamic_line_string_keys` in
@@ -63,7 +63,8 @@ struct int_or_var {
         } else if( var_val.has_value() ) {
             std::string val;
             if( global ) {
-                val = get_talker_for( get_player_character() )->get_value( var_val.value() );
+                global_variables &globvars = get_globals();
+                val = globvars.get_global_value( var_val.value() );
             } else {
                 val = talk->get_value( var_val.value() );
             }
@@ -89,7 +90,8 @@ struct duration_or_var {
         } else if( var_val.has_value() ) {
             std::string val;
             if( global ) {
-                val = get_talker_for( get_player_character() )->get_value( var_val.value() );
+                global_variables &globvars = get_globals();
+                val = globvars.get_global_value( var_val.value() );
             } else {
                 val = talk->get_value( var_val.value() );
             }
@@ -201,6 +203,7 @@ struct conditional_t {
         void set_is_day();
         void set_has_stolen_item( bool is_npc = false );
         void set_is_outside( bool is_npc = false );
+        void set_is_underwater( bool is_npc = false );
         void set_is_by_radio();
         void set_u_has_camp();
         void set_has_pickup_list();

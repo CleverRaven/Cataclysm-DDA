@@ -566,10 +566,10 @@
     "armor_bash": 6,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "harvest": "demihuman",
+    "harvest": "demihuman_snail",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
-    "flags": [ "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
   },
   {
     "id": "mon_hunting_horror",

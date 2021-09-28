@@ -41,7 +41,8 @@ Format:
   "attitude": 0,
   "mission": 7,
   "chat": "TALK_EXAMPLE",
-  "faction": "no_faction"
+  "faction": "no_faction",
+  "death_eocs": [ "EOC_DEATH_NPC_TEST" ]
 }
 ```
 This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
@@ -49,6 +50,7 @@ Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=
 Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
 Chat is covered in the dialogue examples below.
 Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
+death_eocs are string effect_on_condition ids and or inline effect_on_conditions (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
 
 # Age and Height
 You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`. 
@@ -528,7 +530,7 @@ Effect | Description
 `u_mod_healthy, npc_mod_healthy : amount_int or amount_variable_object, cap: cap_int or cap_variable_object` | Your character or the NPC will have `amount_int` ( or the value of the variable described by `amount_variable_object` see `variable_object` above) added or subtracted from its health value, but not beyond `cap_int` or `cap_variable_object`.
 `u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int or max_bonus_variable_object` ), (*optional* `duration: duration_string or duration_variable_object`), (*optional* `decay_start` : `decay_string or decay_variable_object`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int or bonus_variable_object` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus_int`( or the value of the variable described by `bonus_variable_object` see `variable_object` above) (default 1), with a maximum of up to `max_bonus_int`(or `max_bonus_variable_object`)  (default 1). It will last for `duration: duration_string` time (default 1 hour) or `duration_variable_object`. It will begin to decay after `decay_string` time (default 30 minutes) or `decay_variable_object`. `capped_bool` Whether this morale is capped or not, defaults to false.
 `u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
-`u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category.  If `sound` is true(defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.
+`u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `same_snippet: snippet_bool`,(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.
 `u_cast_spell, npc_cast_spell : fake_spell_data` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell )
 `u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`. 
 
@@ -769,6 +771,7 @@ Condition | Type | Description
 `"is_season"` | string | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
 `"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"u_is_underwater"`</br>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or variable_object | `true` if a one in `one_in_chance`( or the value of the variable described see `variable_object` above) random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints or `variable_object`s ( see `variable_object` above).
 `"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.
@@ -781,15 +784,15 @@ Condition | Type | Description
   "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana.",
   "topic": "TALK_DONE",
   "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": ">=" }
-  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "u_val": "focus" }, { "u_val": "mana_max" } ], "op": "*" }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ] }
 },
 ```
 
 `"compare_int"` supports the following opperators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
 
-`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"`, `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. A list of values that can be read and/or witen to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or witen to follows.
 
 Example | Description
 --- | ---
@@ -803,8 +806,10 @@ Example | Description
 `"weather": "pressure"` | Current pressure.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. `global` is an optional bool(defaults to false), if it is true the player characters var will be used no matter who the dialog targets.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used.
 `"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "hour"` | Hours since midnight.
+`"u_val": "moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
 `"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "cash"` | Ammount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.

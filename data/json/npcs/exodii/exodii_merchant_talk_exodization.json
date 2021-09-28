@@ -1,0 +1,306 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeTest",
+    "type": "talk_topic",
+    "dynamic_line": "Sure an' I can make you a cyborg, here an' now, since you're a developer an' all.",
+    "responses": [
+      {
+        "text": "Let's do it.",
+        "effect": [
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_add_effect": "blind", "duration": "2 hours" },
+          { "u_add_effect": "deaf", "duration": "2 hours" },
+          { "u_add_trait": "CBM_Interface" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Exodized"
+      },
+      { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "I changed my mind.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_int": [ { "u_val": "sold" }, { "const": 100 } ],
+      "op": ">=",
+      "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+      "no": {
+        "u_compare_var": "exodii_trust",
+        "type": "counter",
+        "context": "exodii",
+        "op": ">=",
+        "value": 5,
+        "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+        "no": "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no exodii turn away a willin' Benny, and so it is."
+      }
+    },
+    "//~": "English: Yes: Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up. No: Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The exodii won't turn away a willing convert.",
+    "responses": [
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "Maybe try that clarity-draught?",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate",
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": ">=" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "OK, well, I've got some stuff I could trade right now.",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      },
+      {
+        "text": "OK, maybe I'll come back when I've traded a bit more.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "sold" }, { "const": 100 } ], "op": "<" },
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": "<", "value": 5 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeTranslate",
+    "type": "talk_topic",
+    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*\n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
+    "responses": [
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "condition": {
+          "or": [
+            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": ">=",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": "<",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the exodii overall psych assessment of your character.",
+        "effect": [
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      {
+        "text": "Why can't you talk that clearly all the time?  You have no idea how hard it is to understand your accent, let alone your words.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeDialect"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
+    "type": "talk_topic",
+    "dynamic_line": "*This'n's* accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+    "//~": "English: MY accent?  You've obviously never had to listen to yourself talk.  Great Grey has more important work to do, get it?  I have to keep myself useful and keep Gret Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it.",
+    "responses": [
+      {
+        "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
+        "condition": {
+          "or": [
+            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": ">=",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            {
+              "u_compare_time_since_var": "u_declined_exodization",
+              "type": "timer",
+              "context": "blobpsychosis",
+              "op": "<",
+              "time": "2 d"
+            }
+          ]
+        },
+        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the exodii overall psych assessment of your character.",
+        "effect": [
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "The more I talk to you, the more I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      { "text": "OK, OK.  What was it you said?  I was distracted by the voice change.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
+    "type": "talk_topic",
+    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us two 'anus fetick' kits, us'll fix'n ye up with a wire an' a tiff.",
+    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us two anesthetic kits, we'll fix you up with a wire and everything.",
+    "responses": [
+      {
+        "text": "Two, uh, anesthetic kits, coming up.  Can we talk about something else?",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_mission": "RUBIK_ANUS_FETICK" },
+              { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
+            ]
+          }
+        },
+        "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "Two, uh, anesthetic kits, coming up.  I'd better start looking.",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_mission": "RUBIK_ANUS_FETICK" },
+              { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
+            ]
+          }
+        },
+        "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Something's weird, I shouldn't have ever reached this dialogue option.  I'd better go file a bug report.",
+        "condition": {
+          "or": [
+            { "u_has_mission": "RUBIK_ANUS_FETICK" },
+            { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe2",
+    "type": "talk_topic",
+    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik.",
+    "responses": [
+      {
+        "text": "All right.  Let's do this.",
+        "effect": [
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_add_effect": "blind", "duration": "2 hours" },
+          { "u_add_effect": "deaf", "duration": "2 hours" },
+          { "u_add_trait": "CBM_Interface" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Exodized"
+      },
+      { "text": "Hold on.  I need to rethink it again.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeNope",
+    "type": "talk_topic",
+    "dynamic_line": "An' that's a fine choice, I'd razz.  If'n ye change mind, ol' Rubik's here for the long an' short.  You get to know us'n better, us'n get to know you better, an' that's a good tassin'.",
+    "speaker_effect": [
+      {
+        "condition": { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+        "//": "Rubik considers it a good sign that you might be a bit unsure about diving into exodization.",
+        "effect": [
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 2 },
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "u_add_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+          { "u_add_var": "u_declined_exodization", "type": "timer", "context": "blobpsychosis", "time": true }
+        ]
+      }
+    ],
+    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized",
+    "type": "talk_topic",
+    "dynamic_line": "*makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.\n\nYou awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anaesthesia fades you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.\n\n\"Ah, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.\"",
+    "speaker_effect": { "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } },
+    "responses": [
+      { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Thanks for the brain implants.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized2",
+    "type": "talk_topic",
+    "dynamic_line": "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more.",
+    "responses": [
+      {
+        "text": "So you can sell me more bionics, and as I get to know you better you'll have more?  Mind showing me what you've got right now?",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  }
+]

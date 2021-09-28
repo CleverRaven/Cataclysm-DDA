@@ -232,7 +232,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR", "HAMMER" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -366,7 +366,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
@@ -562,7 +562,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ] ],
+    "qualities": [ [ "HAMMER", 2 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER" ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },

@@ -1827,6 +1827,11 @@ struct mutable_overmap_special_data {
                       "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
                       parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
                       join( descriptions, "\n" ) );
+
+            om.add_note(
+                p, string_format(
+                    "U:R;DEBUG: unresolved joins %s at %s placing %s",
+                    joins, p.to_string(), parent_id.str() ) );
         }
 
         return result;

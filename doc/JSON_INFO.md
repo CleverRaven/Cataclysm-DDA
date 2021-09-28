@@ -128,10 +128,11 @@ Use the `Home` key to return to the top.
       - [`move_cost_mod`](#move_cost_mod)
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
-      - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
       - [`hacksaw`](#hacksaw)
+      - [`oxytorch`](#oxytorch)
+    - [`prying`](#prying)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -144,10 +145,11 @@ Use the `Home` key to return to the top.
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
       - [`lockpick_message`](#lockpick_message-1)
-      - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
       - [`hacksaw`](#hacksaw-1)
+      - [`oxytorch`](#oxytorch-1)
+    - [`prying`](#prying-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -2002,17 +2004,19 @@ Values are checked from highest first, the order they're defined in doesn't matt
 },
 "triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
   [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
-    {
-      "trigger_type": "MOOD", // What variable is tracked by this trigger
-      "threshold_high": -50, // Is True if the value is below threshold_high
-      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
-    }
+      {
+        "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" }, //dialog condition(see NPCs.md)
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
+      }
   ],
   [
     {
-      "trigger_type": "TIME", // What variable is tracked by this trigger
-      "threshold_low": 20, // Is True if the value is above threshold_low
-      "threshold_high": 2, // Is True if the value is below threshold_high
+      "condition": { //dialog condition(see NPCs.md)
+        "or": [
+          { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
+          { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
+        ]
+      },
       "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
       "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
     }
@@ -2024,16 +2028,6 @@ Values are checked from highest first, the order they're defined in doesn't matt
 "mana_modifier": 100               // Positive or negative change to total mana pool
 
 ```
-	**Triggers:**
-		| trigger_type  | Description
-		|---            |---
-		| MOOD          | Trigger depends on the mood value.
-		| MOON          | Trigger depends on the phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
-		| HUNGER        | Trigger depends on the hunger value. Very Hungry ~= 110
-		| THIRST        | Trigger depends on the thirst value.
-		| PAIN          | Trigger depends on the pain value.
-		| STAMINA       | Trigger depends on the stamina value.
-		| TIME          | Trigger depends on the time of the day. [ 1am = 1, Midnight = 24 ]
 
 ### Traps
 
@@ -2657,8 +2651,14 @@ The `conditional_names` field allows defining alternate names for items that wil
     {
       "type": "VAR",
       "condition": "npctalk_var_DISPLAY_NAME_MORALE",
-      "name": { "str_sp": "%s (morale)" }
-    }
+      "name": { "str_sp": "%s (morale)" },
+      "value" : "true"
+    },
+    { 
+      "type": "SNIPPET_ID",
+      "condition": "test",
+      "value":"one",
+      "name": { "str_sp": "Report 1" } }
   ]
 }
 ```
@@ -2667,7 +2667,8 @@ You can list as many conditional names for a given item as you want. Each condit
 1. The condition type:
     - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
     - `FLAG` which checks if an item has the specified flag (exact match).
-    - `VAR` which checks if an item has a variable with the given name (exact match). Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
+    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
+    - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`. 
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
 
@@ -3496,6 +3497,22 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
       "message": "The safe is hacksawed open!",
       "sound": "Gachunk!",
       "byproducts": [ { "item": "scrap", "count": 13 } ]
+    },
+    "oxytorch": {
+      "result": "f_safe_open",
+      "duration": "30 seconds",
+      "message": "The safe opens!",
+      "byproducts": [ { "item": "scrap", "count": 13 } ]
+    },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 1,
+        "noisy": true,
+        "failure": "You pry, but can't pop open the crate."
+      }
     }
 }
 ```
@@ -3519,27 +3536,6 @@ Movement cost modifier (`-10` = impassable, `0` = no change). This is added to t
 #### `lockpick_message`
 
 (Optional) When the furniture is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
-
-#### `oxytorch`
-
-(Optional) Data for using with an oxytorch.
-```cpp
-oxytorch: {
-    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
-    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
-    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
-    "byproducts": [ // ( optional ) list of items that will be spawned when finished
-        {
-            "item": "item_id",
-            "count": 100 // exact amount
-        },
-        {
-            "item": "item_id",
-            "count": [ 10, 100 ] // random number in range ( inclusive )
-        }
-    ]
-}
-```
 
 #### `light_emitted`
 
@@ -3584,6 +3580,55 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
             "count": [ 10, 100 ] // random number in range ( inclusive )
         }
     ]
+}
+```
+
+#### `oxytorch`
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+### `prying`
+(Optional) Data for using with pyring tools
+```cpp
+"prying": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
+    "byproducts": [ // (optional) list of items that will be spawned when finished successfully
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range inclusive
+        }
+    ],
+    "prying_data": {
+        "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
+        "difficulty": 0, // (optional, default 0) base difficulty of prying action
+        "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
+        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "alarm": false, // (optional) has an alarm, on success will trigger the police
+        "breakable": false, // (optional) has a chance to trigger the break action on failure
+        "failure": "You try to pry the window but fail." // (optional) failure message
+    }
 }
 ```
 
@@ -3648,6 +3693,19 @@ Strength required to move the furniture around. Negative values indicate an unmo
       "message": "The door is hacksawed open!",
       "sound": "Gachunk!",
       "byproducts": [ { "item": "scrap", "2x4": 13 } ]
+    },
+    "oxytorch": {
+      "result": "t_door_unlocked",
+      "duration": "60 seconds",
+      "message": "The door opens!",
+      "byproducts": [ { "item": "scrap", "count": 10 } ]
+    },
+    "prying": {
+      "result": "t_fence_post",
+      "duration": "30 seconds",
+      "message": "You pry out the fence post.",
+      "byproducts": [ { "item": "nail", "count": 6 }, { "item": "2x4", "count": 3 } ],
+      "prying_data": { "prying_nails": true }
     }
 }
 ```
@@ -3680,27 +3738,6 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 #### `lockpick_message`
 
 (Optional) When the terrain is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
-
-#### `oxytorch`
-
-(Optional) Data for using with an oxytorch.
-```cpp
-oxytorch: {
-    "result": "terrain_id", // terrain it will become when done
-    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
-    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
-    "byproducts": [ // ( optional ) list of items that will be spawned when finished
-        {
-            "item": "item_id",
-            "count": 100 // exact amount
-        },
-        {
-            "item": "item_id",
-            "count": [ 10, 100 ] // random number in range ( inclusive )
-        }
-    ]
-}
-```
 
 #### `trap`
 
@@ -3748,6 +3785,55 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
             "count": [ 10, 100 ] // random number in range ( inclusive )
         }
     ]
+}
+```
+
+#### `oxytorch`
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+### `prying`
+(Optional) Data for using with pyring tools
+```cpp
+"prying": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
+    "byproducts": [ // (optional) list of items that will be spawned when finished successfully
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range inclusive
+        }
+    ],
+    "prying_data": {
+        "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
+        "difficulty": 0, // (optional, default 0) base difficulty of prying action
+        "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
+        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "alarm": false, // (optional) has an alarm, on success will trigger the police
+        "breakable": false, // (optional) has a chance to trigger the break action on failure
+        "failure": "You try to pry the window but fail." // (optional) failure message
+    }
 }
 ```
 
