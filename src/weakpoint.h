@@ -4,6 +4,7 @@
 
 #include <array>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "damage.h"
@@ -17,23 +18,35 @@ class JsonObject;
 struct weakpoint_attack {
     // The source of the attack.
     const Creature *source;
-
-    // THe target of the attack.
+    // The target of the attack.
     const Creature *target;
-
     // The weapon used to make the attack.
     const item *weapon;
-
     // Weather the attack is a melee attack.
     bool is_melee;
-
     // Whether the attack a critical hit.
     bool is_crit;
-
     // The Creature's skill in hitting weak points.
     float wp_skill;
 
     weakpoint_attack();
+};
+
+// An effect that a weakpoint can cause.
+struct weakpoint_effect {
+    // The type of the effect.
+    efftype_id effect;
+    // The percent chance of causing the effect.
+    float chance;
+    // The range of the intensities of the effect.
+    std::pair<int, int> intensity;
+    // The range of damage, as a percentage of max health, required to the effect.
+    std::pair<float, float> damage_required;
+    // The message to print, if the player causes the effect.
+    std::string message;
+
+    weakpoint_effect();
+    void load( const JsonObject &jo );
 };
 
 struct weakpoint {
@@ -55,6 +68,8 @@ struct weakpoint {
     float difficulty = -10.0f;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
+    // A list of effects that may trigger by hitting this weak point.
+    std::vector<weakpoint_effect> effects;
 
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.

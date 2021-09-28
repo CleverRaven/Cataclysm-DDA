@@ -51,6 +51,31 @@ float Character::throw_weakpoint_skill()
     return skill + stat;
 }
 
+weakpoint_effect::weakpoint_effect()  :
+    effect(),
+    chance( 0.0f ),
+    intensity( { 1, 1 } ),
+           damage_required( { 0, 100 } ),
+message() {}
+
+void weakpoint_effect::load( const JsonObject &jo )
+{
+    assign( jo, "effect", effect );
+    assign( jo, "chance", chance, false, 0.0f, 100.0f );
+    assign( jo, "damage_required", damage_required );
+
+    if( jo.has_int( "intensity" ) ) {
+        int i = jo.get_int( "intensity", 0 );
+        intensity = {i, i};
+    } else {
+        assign( jo, "intensity", intensity );
+    }
+
+    if( jo.has_string( "message" ) ) {
+        assign( jo, "message", message );
+    }
+}
+
 weakpoint_attack::weakpoint_attack()  :
     source( nullptr ),
     target( nullptr ),
@@ -92,7 +117,13 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_array( "required_effects" ) ) {
         assign( jo, "required_effects", required_effects );
     }
-
+    if( jo.has_array( "effects" ) ) {
+        for( const JsonObject jo : jo.get_array( "effects" ) ) {
+            weakpoint_effect effect;
+            effect.load( jo );
+            effects.push_back( std::move( effect ) );
+        }
+    }
 
     // Set the ID to the name, if not provided.
     if( id.empty() ) {
