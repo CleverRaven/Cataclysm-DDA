@@ -4941,11 +4941,15 @@ bool game::npc_menu( npc &who )
         if( !prompt_dangerous_tile( who.pos() ) ) {
             return true;
         }
-        // TODO: Make NPCs protest when displaced onto dangerous crap
-        add_msg( _( "You swap places with %s." ), who.get_name() );
-        swap_critters( u, who );
-        // TODO: Make that depend on stuff
-        u.mod_moves( -200 );
+        if( u.get_grab_type() == object_type::NONE ) {
+            // TODO: Make NPCs protest when displaced onto dangerous crap
+            add_msg( _( "You swap places with %s." ), who.get_name() );
+            swap_critters( u, who );
+            // TODO: Make that depend on stuff
+            u.mod_moves( -200 );
+        } else {
+            add_msg( _( "You cannot swap places while grabbing something." ) );
+        }
     } else if( choice == push ) {
         // TODO: Make NPCs protest when displaced onto dangerous crap
         tripoint oldpos = who.pos();
