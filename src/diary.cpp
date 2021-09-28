@@ -10,6 +10,7 @@
 #include "game.h"
 //#include "kill_tracker.h"
 //#include "stats_tracker.h"
+#include "bionics.h"
 #include "calendar.h"
 #include "path_info.h"
 #include "output.h"
@@ -71,6 +72,48 @@ diary_page* diary::get_page_ptr(int position) {
 //    else {}
 //} <color_red>text</color>
 // colorize
+void::diary::bionic_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+    if (prevpage == nullptr) {
+        if (!currpage->bionics.empty()) {
+            result->push_back(_("Bionics"));
+            for (const auto elem : currpage->bionics) {
+                const bionic_data&b = elem.obj();
+                result->push_back(b.name.translated());
+            }
+        }
+    }
+    else {
+        std::vector<std::string> tempres;
+        if (!currpage->bionics.empty()) {
+            for (const auto elem : currpage->bionics) {
+                if (std::find(prevpage->bionics.begin(), prevpage->bionics.end(), elem) == prevpage->bionics.end()) {
+                    const bionic_data& b = elem.obj();
+                    tempres.push_back(b.name.translated());
+                }
+            }
+        }
+        if (!tempres.empty()) {
+            result->push_back(_("New Bionics: "));
+            result->insert(result->end(), tempres.begin(), tempres.end());
+            result->push_back(" ");
+        }
+        tempres.clear();
+        if (!prevpage->bionics.empty()) {
+            for (const auto elem : prevpage->bionics) {
+                if (std::find(currpage->bionics.begin(), currpage->bionics.end(), elem) == currpage->bionics.end()) {
+                    const bionic_data& b = elem.obj();                    
+                    tempres.push_back(b.name.translated());
+                }
+            }
+        }
+        if (!tempres.empty()) {
+            result->push_back(_("Lost Bionics: "));
+            result->insert(result->end(), tempres.begin(), tempres.end());
+            result->push_back(" ");
+        }
+        tempres.clear();
+    }
+}
 
 void diary::kill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
     if (prevpage == nullptr) {
@@ -263,6 +306,7 @@ std::vector<std::string> diary::get_change_list(int position) {
 
         skill_changes(&result, currpage, prevpage);
         trait_changes(&result, currpage, prevpage);
+        bionic_changes(&result, currpage, prevpage);
         kill_changes(&result, currpage, prevpage);
         
     }
@@ -388,6 +432,7 @@ void diary::serialize(std::ostream& fout) {
         jout.member("addictions", n->addictions);
         jout.member("follower_ids", n->follower_ids);
         jout.member("traits", n->traits);
+        jout.member("bionics", n->bionics);
         //jout.member("mutations", n->mutations);
         jout.member("skillsL", n->skillsL);
             /*jout.start_array();
@@ -429,6 +474,7 @@ void diary::deserialize(std::istream& fin) {
             elem.read("addictions", page->addictions);
             elem.read("follower_ids", page->follower_ids);
             elem.read("traits", page->traits);
+            elem.read("bionics", page->bionics);
             //elem.read("mutations", page.mutations);
             elem.read("skillsL", page->skillsL);
             
