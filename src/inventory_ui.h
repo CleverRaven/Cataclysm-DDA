@@ -316,7 +316,8 @@ class inventory_column
         inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, const point &p,
-                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
+                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map,
+                   const bool allow_hide = false );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -362,7 +363,7 @@ class inventory_column
         /**
          * Event handlers
          */
-        virtual void on_input( const inventory_input &input );
+        virtual void on_input( const inventory_input &input, const bool allow_hide = false );
         /** The entry has been changed. */
         virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */

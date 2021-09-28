@@ -1004,7 +1004,7 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | x and y            | (required, int) the cardinal position in which the chunk will be placed. 
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
-|
+
 
 The adjacent overmaps which can be checked in this manner are:
 * the direct cardinal neighbors ( `"north"`, `"east"`, `"south"`, `"west"` ),

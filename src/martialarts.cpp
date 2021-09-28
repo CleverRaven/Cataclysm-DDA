@@ -207,6 +207,7 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "buff_duration", buff_duration, 2_turns );
     optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
+    optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
@@ -384,6 +385,7 @@ class ma_buff_effect_type : public effect_type
             // above buff_duration, this keeps the old ma_buff behavior
             max_duration = buff.buff_duration;
             dur_add_perc = 100;
+            show_intensity = true;
             // each add_effect call increases the intensity by 1
             int_add_val = 1;
             // effect intensity increases by -1 each turn.
@@ -778,6 +780,97 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
     }
 }
 
+void martialart::remove_all_buffs( Character &u ) const
+{
+    // Remove static buffs
+    for( auto &elem : static_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onmove buffs
+    for( auto &elem : onmove_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onpause buffs
+    for( auto &elem : onpause_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onhit buffs
+    for( auto &elem : onhit_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onattack buffs
+    for( auto &elem : onattack_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove ondodge buffs
+    for( auto &elem : ondodge_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onblock buffs
+    for( auto &elem : onblock_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove ongethit buffs
+    for( auto &elem : ongethit_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onmiss buffs
+    for( auto &elem : onmiss_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove oncrit buffs
+    for( auto &elem : oncrit_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onkill buffs
+    for( auto &elem : onkill_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+}
+
 void martialart::apply_static_buffs( Character &u ) const
 {
     simultaneous_add( u, static_buffs );
@@ -992,6 +1085,12 @@ bool character_martial_arts::is_force_unarmed() const
 {
     return style_selected->force_unarmed;
 }
+
+void character_martial_arts::clear_all_effects( Character &owner )
+{
+    style_selected->remove_all_buffs( owner );
+}
+
 
 // event handlers
 void character_martial_arts::ma_static_effects( Character &owner )

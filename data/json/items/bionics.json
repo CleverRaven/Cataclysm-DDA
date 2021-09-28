@@ -71,10 +71,10 @@
     "id": "bio_armor_arms",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Arms Alloy Plating CBM" },
-    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "name": { "str": "Arms Intradermal Alloy CBM" },
+    "description": "An advanced protective mesh that weaves into the user's flesh. Provides passive protection at the cost of some encumbrance and can be used in conjunction with bionic martial arts.",
     "price": 350000,
-    "difficulty": 3,
+    "difficulty": 6,
     "installation_data": "AID_bio_armor_arms"
   },
   {
@@ -92,34 +92,34 @@
     "id": "bio_armor_head",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Head Alloy Plating CBM" },
+    "name": { "str": "Head Intradermal Alloy CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.",
+    "description": "An advanced protective mesh that weaves into the user's flesh, protecting both their head and jaw regions at the cost of some encumbrance.",
     "price": 350000,
     "weight": "1000 g",
-    "difficulty": 5
+    "difficulty": 6
   },
   {
     "id": "bio_armor_legs",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Legs Alloy Plating CBM" },
+    "name": { "str": "Legs Intradermal Alloy CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of some encumbrance and can be used in conjunction with bionic martial arts.",
     "price": 350000,
-    "difficulty": 3,
+    "difficulty": 6,
     "installation_data": "AID_bio_armor_legs"
   },
   {
     "id": "bio_armor_torso",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Torso Alloy Plating CBM" },
+    "name": { "str": "Torso Intradermal Alloy CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.",
+    "description": "An advanced protective mesh that weaves into the user's flesh, protecting it from physical trauma at the cost of some encumbrance.",
     "price": 350000,
     "weight": "3000 g",
-    "difficulty": 4
+    "difficulty": 6
   },
   {
     "id": "bio_batteries",

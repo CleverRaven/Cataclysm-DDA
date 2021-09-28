@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_bad_day",
-    "scenario_specific": true,
+    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_add_effect": "flu", "intensity": 1, "duration": "1000 minutes" },
       { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
@@ -18,7 +18,7 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_infected",
-    "scenario_specific": true,
+    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_add_effect": "infected", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" },
       { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIBIOTICS" }
@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_fungal_infection",
-    "scenario_specific": true,
+    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_add_effect": "effect_fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
   },
   {
@@ -35,6 +35,7 @@
     "id": "thunder",
     "recurrence_min": 1,
     "recurrence_max": 1,
+    "global": true,
     "condition": {
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
@@ -53,6 +54,7 @@
     "id": "lightning",
     "recurrence_min": 1,
     "recurrence_max": 1,
+    "global": true,
     "condition": {
       "and": [
         { "is_weather": "lightning" },
@@ -71,9 +73,10 @@
   {
     "type": "effect_on_condition",
     "id": "acid_drizzle",
-    "global": true,
     "recurrence_min": 1,
     "recurrence_max": 1,
+    "global": true,
+    "run_for_npcs": true,
     "condition": {
       "and": [
         { "is_weather": "acid_drizzle" },
@@ -90,9 +93,10 @@
   {
     "type": "effect_on_condition",
     "id": "acid_rain",
-    "global": true,
     "recurrence_min": 1,
     "recurrence_max": 1,
+    "global": true,
+    "run_for_npcs": true,
     "condition": {
       "and": [
         { "is_weather": "acid_rain" },
@@ -109,9 +113,10 @@
   {
     "type": "effect_on_condition",
     "id": "snow",
-    "global": true,
     "recurrence_min": 6,
     "recurrence_max": 6,
+    "global": true,
+    "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
     "deactivate_condition": { "not": { "is_weather": "snowing" } },
     "effect": [ { "u_add_wet": 10 } ]
@@ -119,9 +124,10 @@
   {
     "type": "effect_on_condition",
     "id": "snowstorm",
-    "global": true,
     "recurrence_min": 6,
     "recurrence_max": 6,
+    "global": true,
+    "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
     "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
     "effect": [ { "u_add_wet": 40 } ]
@@ -129,7 +135,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_drain",
-    "run_for_npcs": true,
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
     "condition": {
@@ -157,6 +162,7 @@
     "id": "ambient_subway",
     "recurrence_min": "1 hours",
     "recurrence_max": "2 hours",
+    "global": true,
     "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
     "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
   },
@@ -165,6 +171,7 @@
     "id": "ambient_lab_subway",
     "recurrence_min": "1 hours",
     "recurrence_max": "2 hours",
+    "global": true,
     "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
     "effect": [ { "u_message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
   },
@@ -245,7 +252,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_trip",
-    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": {
@@ -264,7 +270,6 @@
   {
     "type": "effect_on_condition",
     "id": "mut_eyestalk",
-    "run_for_npcs": true,
     "recurrence_min": "2 hours 15 minutes",
     "recurrence_max": "10 hours 15 minutes",
     "condition": {
@@ -283,7 +288,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_spasm",
-    "run_for_npcs": true,
     "recurrence_min": "2 hours 30 minutes",
     "recurrence_max": "7 hours 30 minutes",
     "condition": {
@@ -304,7 +308,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_shakes",
-    "run_for_npcs": true,
     "recurrence_min": "1 hours",
     "recurrence_max": "3 hours",
     "condition": {
@@ -321,7 +324,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_glowy",
-    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": {
@@ -341,7 +343,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_sleepy",
-    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
@@ -351,7 +352,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_itchy",
-    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
@@ -364,7 +364,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise",
-    "run_for_npcs": true,
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
@@ -396,7 +395,6 @@
   {
     "type": "effect_on_condition",
     "id": "bio_leaky",
-    "run_for_npcs": true,
     "recurrence_min": "3 minutes",
     "recurrence_max": "9 minutes",
     "condition": { "u_has_bionics": "bio_leaky" },

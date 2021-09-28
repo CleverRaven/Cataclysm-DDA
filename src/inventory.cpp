@@ -653,6 +653,15 @@ void inventory::dump( std::vector<item *> &dest )
     }
 }
 
+void inventory::dump( std::vector<const item *> &dest ) const
+{
+    for( auto &elem : items ) {
+        for( auto &elem_stack_iter : elem ) {
+            dest.push_back( &elem_stack_iter );
+        }
+    }
+}
+
 const item &inventory::find_item( int position ) const
 {
     if( position < 0 || position >= static_cast<int>( items.size() ) ) {
