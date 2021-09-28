@@ -44,7 +44,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
-    "weapon_category": [ "BATON" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "1500 g",
     "volume": "2500 ml",
     "longest_side": "130 cm",
