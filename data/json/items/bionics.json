@@ -72,7 +72,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Intradermal Alloy CBM" },
-    "description": "An advanced protective mesh that weaves into the user's flesh. Provides passive protection at the cost of some encumbrance and can be used in conjunction with bionic martial arts.",
+    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of some encumbrance and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 6,
     "installation_data": "AID_bio_armor_arms"
