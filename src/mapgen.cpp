@@ -2709,15 +2709,20 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                void check( const std::string &oter_name, const mapgen_parameters & ) const {
-                    for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
-                         neighbors ) {
-                        for( const oter_type_str_id &id : p.second ) {
-                            if( !id.is_valid() ) {
-                                debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
-                            }
-                        }
-                    }
+                void check( const std::string &/*oter_name*/, const mapgen_parameters & ) const {
+                    // The check is ot_match_type::contains, so actually these
+                    // don't need to be valid ids, although they were until
+                    // recently.  TODO: permit the JSON to specify which match
+                    // type is intended and check where applicable.
+
+                    //for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
+                    //     neighbors ) {
+                    //    for( const oter_type_str_id &id : p.second ) {
+                    //        if( !id.is_valid() ) {
+                    //            debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
+                    //        }
+                    //    }
+                    //}
                 }
 
                 bool test( const mapgendata &dat ) const {
