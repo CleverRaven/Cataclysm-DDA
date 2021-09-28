@@ -358,17 +358,19 @@ bool mattack::eat_food( monster *z )
 
 bool mattack::web_corpse(monster *z)
 {
-    map& here = get_map();
-    for (const auto& p : here.points_in_radius(z->pos(), 1)) {
+    map& item = get_map();
+    for (const tripoint& p : item.points_in_radius(z->pos(), 1)) {
         //Checks for flags that a spider wouldn't want to eat
-        if (here.has_flag( "PLANT", p) ) {
+        if (item.has_flag( "PLANT", p) ) {
             continue;
         }
         //Checks if item is a corpse before webbing
-        if (here.has_flag( "CORPSE", p) ) {
-            here->set_flag( flag_WEBBED );
+        if ( item::is_corpse ) {
+            item::set_flag( "WEBBED" );
             add_msg_if_player_sees(*z, _("The %s quickly wraps webbing around its prey!"), z->name());
         }
+        //Safety check on reviving
+        if ( item::can_revive = 0 );
         return true;
     }
 }
