@@ -96,7 +96,7 @@ jobs:
 
     - name: Compile .mo files for localization
       run: |
-          & "C:\Program Files\Git\bin\bash" ./lang/compile_mo.sh all
+          & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
           mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
           msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
 
