@@ -64,7 +64,7 @@
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ]
+    "weapon_category": [ "SHIV" ]
   },
   {
     "id": "pen",

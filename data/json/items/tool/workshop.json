@@ -369,7 +369,7 @@
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ]
+    "weapon_category": [ "BATON" ]
   },
   {
     "id": "hand_drill",
@@ -811,7 +811,6 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -833,7 +832,7 @@
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
     "flags": [ "SPEAR", "BELT_CLIP" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ]
+    "weapon_category": [ "SHIV" ]
   },
   {
     "id": "screwdriver_set",
@@ -1193,7 +1192,7 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ]
+    "weapon_category": [ "BATON" ]
   },
   {
     "id": "makeshift_hose",

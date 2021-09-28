@@ -12,7 +12,7 @@
     "volume": "250 ml",
     "cutting": 10,
     "flags": [ "SPEAR" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ],
+    "weapon_category": [ "SHIV" ],
     "price": 3000,
     "price_postapoc": 0
   },
@@ -62,7 +62,7 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ],
+    "weapon_category": [ "SHIV" ],
     "price": 500,
     "price_postapoc": 0
   },
@@ -250,7 +250,7 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "weapon_category": [ "IMPROVISED_WEAPONS" ],
+    "weapon_category": [ "SHIV" ],
     "price": 1000,
     "price_postapoc": 0
   },
