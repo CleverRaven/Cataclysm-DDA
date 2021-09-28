@@ -7240,11 +7240,11 @@ units::volume Character::free_space() const
 units::volume Character::holster_volume() const
 {
     units::volume holster_volume = 0_ml;
-    if (weapon.is_holster()) {
+    if( weapon.is_holster() ) {
         holster_volume += weapon.get_total_capacity();
     }
-    for (const item& w : worn) {
-        if (w.is_holster()) {
+    for( const item &w : worn ) {
+        if( w.is_holster() ) {
             holster_volume += w.get_total_capacity();
         }
     }
@@ -7254,28 +7254,28 @@ units::volume Character::holster_volume() const
 int Character::empty_holsters() const
 {
     int e_holsters = 0;
-    if (weapon.is_holster()) {
+    if( weapon.is_holster() ) {
         e_holsters += 1;
     }
-    for (const item& w : worn) {
-        if (w.is_holster() && w.is_container_empty()) {
+    for( const item &w : worn ) {
+        if( w.is_holster() && w.is_container_empty() ) {
             e_holsters += 1;
         }
     }
     return e_holsters;
 }
 
-units::volume Character::small_pocket_volume( const units::volume& threshold ) const
+units::volume Character::small_pocket_volume( const units::volume &threshold ) const
 {
     units::volume small_spaces = 0_ml;
-    if ( weapon.get_total_capacity() <= threshold ) {
+    if( weapon.get_total_capacity() <= threshold ) {
         small_spaces += weapon.get_total_capacity();
     }
-    for (const item& w : worn) {
-        if (!w.is_holster()) {
-            for (const item_pocket* pocket : w.get_all_contained_pockets().value()) {
-                if (pocket->volume_capacity() <= threshold) {
-                    small_spaces += (pocket->volume_capacity());
+    for( const item &w : worn ) {
+        if( !w.is_holster() ) {
+            for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+                if( pocket->volume_capacity() <= threshold ) {
+                    small_spaces += ( pocket->volume_capacity() );
                 }
             }
         }
