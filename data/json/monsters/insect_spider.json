@@ -877,6 +877,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_cellar_mega" },
+    "special_attacks": [ [ "web_corpse", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "PATH_AVOID_FIRE" ],
     "//": "No, they are not in fact the most venomous spider in the world."
   },

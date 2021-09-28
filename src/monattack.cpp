@@ -13,10 +13,12 @@
 #include <ostream>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_type.h"
+#include "activity_handlers.h"
 #include "ballistics.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -65,6 +67,7 @@
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
+#include "omdata.h"
 #include "optional.h"
 #include "output.h"
 #include "pathfinding.h"
@@ -353,6 +356,23 @@ bool mattack::eat_food( monster *z )
         }
     }
     return true;
+}
+
+bool mattack::web_corpse(monster *z)
+{
+    map& here = get_map();
+    for (const auto& p : here.points_in_radius(z->pos(), 1)) {
+        //Checks for flags that a spider wouldn't want to eat
+        if (here.has_flag( "PLANT", p) ) {
+            continue;
+        }
+        //Checks if item is a corpse before webbing
+        if (here.has_flag( "CORPSE", p) ) {
+            here->set_flag( flag_WEBBED );
+            add_msg_if_player_sees(*z, _("The %s quickly wraps webbing around its prey!"), z->name());
+        }
+        return true;
+    }
 }
 
 bool mattack::antqueen( monster *z )
