@@ -1746,6 +1746,6 @@
   {
     "id": "WEBBED",
     "type": "json_flag",
-    "//":  "Corpses with this flag have been wrapped in webbing, doomed to be eaten by a spider."
+    "//": "Corpses with this flag have been wrapped in webbing, doomed to be eaten by a spider."
   }
 ]
