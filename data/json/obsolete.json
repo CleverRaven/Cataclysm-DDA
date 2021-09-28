@@ -1,9 +1,5 @@
 [
   {
-    "type": "obsolete_terrain",
-    "terrains": [ "triffid_grove", "triffid_roots", "triffid_finale", "mine_entrance", "mine_shaft", "spiral", "spiral_hub" ]
-  },
-  {
     "type": "terrain",
     "id": "t_centrifuge",
     "name": "centrifuge",
