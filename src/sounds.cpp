@@ -1030,6 +1030,11 @@ void sfx::do_ambient()
                 break;
             case weather_sound_category::silent:
                 break;
+            case weather_sound_category::portal_storm:
+                play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", heard_volume,
+                                            channel::outdoors_portal_storm_env,
+                                            1000 );
+                break;
             case weather_sound_category::last:
                 debugmsg( "Invalid weather sound category." );
                 break;
