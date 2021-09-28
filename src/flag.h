@@ -316,6 +316,7 @@ extern const flag_id flag_WATER_BREAK_ACTIVE;
 extern const flag_id flag_WATER_EXTINGUISH;
 extern const flag_id flag_WATER_FRIENDLY;
 extern const flag_id flag_WATER_DISSOLVE;
+extern const flag_id flag_WEBBED;
 extern const flag_id flag_WET;
 extern const flag_id flag_WHIP;
 extern const flag_id flag_WIND_EXTINGUISH;

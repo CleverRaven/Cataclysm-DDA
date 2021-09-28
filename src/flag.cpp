@@ -309,6 +309,7 @@ const flag_id flag_WATER_BREAK_ACTIVE( "WATER_BREAK_ACTIVE" );
 const flag_id flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 const flag_id flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
 const flag_id flag_WATER_DISSOLVE( "WATER_DISSOLVE" );
+const flag_id flag_WEBBED( "WEBBED" ); 
 const flag_id flag_WET( "WET" );
 const flag_id flag_WHIP( "WHIP" );
 const flag_id flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
