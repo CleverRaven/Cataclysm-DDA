@@ -652,7 +652,7 @@
         "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
-        "req_buffs": [ "buff_leopard_onmove1" ],
+        "required_buffs_all": [ "buff_leopard_onmove1" ],
         "buff_duration": 1,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.25 },
@@ -956,7 +956,7 @@
         "description": "You got your opponent right where you want them!\n\n+20% bash damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
-        "req_buffs": [ "buff_pankration_ondodge" ],
+        "required_buffs_all": [ "buff_pankration_ondodge" ],
         "buff_duration": 1,
         "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
       }
