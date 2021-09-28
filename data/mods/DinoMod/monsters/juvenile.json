@@ -39,7 +39,7 @@
   {
     "id": "mon_allosaurus_juvenile",
     "type": "MONSTER",
-    "name": "juvenile allosaurus",
+    "name": { "str": "juvenile allosaurus", "str_pl": "juvenile allosauruses" },
     "description": "A large bipedal meat-eating dinosaur juvenile.",
     "default_faction": "allosaurus_juvenile",
     "copy-from": "mon_allosaurus",
