@@ -79,7 +79,7 @@
     "type": "GENERIC",
     "id": "lab_postit_portal",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
+    "name": { "str": "portal post-it note" },
     "snippet_category": "lab_postit_portal"
   },
   {
@@ -92,87 +92,73 @@
   {
     "type": "GENERIC",
     "id": "lab_file_bio",
-    "name": { "str": "Lab file" },
+    "name": { "str": "biology protocol" },
     "copy-from": "file",
     "snippet_category": "lab_file_bio"
   },
   {
     "type": "GENERIC",
-    "id": "sci_file",
-    "name": { "str": "lab file" },
+    "id": "bio_file",
+    "name": { "str": "lab report (biology)", "str_pl": "lab reports (biology)" },
+    "//": "Low-level animal studies, long-form testing logs - naming scheme compound/subject-test no",
     "conditional_names": [
-      { "type": "VAR", "condition": "npctalk_var_file_lab_bio", "name": { "str_sp": "%s (biology)" } },
-      { "type": "VAR", "condition": "npctalk_var_file_lab_blob", "name": { "str_sp": "%s (XE037)" } },
-      { "type": "VAR", "condition": "npctalk_var_file_lab_migo", "name": { "str_sp": "%s (Mi-Go)" } },
-      { "type": "VAR", "condition": "npctalk_var_file_lab_portal", "name": { "str_sp": "%s (metatopography)" } },
-      { "type": "VAR", "condition": "npctalk_var_file_lab_psychology", "name": { "str_sp": "%s (psychology)" } },
-      { "type": "VAR", "condition": "npctalk_var_file_lab_security", "name": { "str_sp": "%s (security)" } }
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_mutagen_animal",
+        "value": "test_1",
+        "name": { "str_sp": "Report PE012/08-178" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_mutagen_animal",
+        "value": "test_2",
+        "name": { "str_sp": "Report PE027/01-081" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_mutagen_animal",
+        "value": "test_3",
+        "name": { "str_sp": "Report PE031/21-003" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_mutagen_animal",
+        "value": "test_4",
+        "name": { "str_sp": "Report PE065/04-001" }
+      }
     ],
+    "description": "A manila folder with some top secret test data.  Most of it is practically unintelligeble without knowing the jargon, and the contents have obviously suffered from the chaos in this place, but there are some intact pages you can make sense of.",
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Activate to read the file",
       "effect_on_conditions": [
         {
-          "id": "EOC_LAB_FILE_SETUP",
-          "condition": { "not": { "npc_has_var": "type_set", "type": "lab", "context": "file", "value": "yes" } },
-          "effect": [
-            { "npc_add_var": "type_set", "type": "lab", "context": "file", "value": "yes" },
-            {
-              "npc_add_var": "type",
-              "type": "lab",
-              "context": "file",
-              "possible_values": [ "bio", "blob", "migo", "portal", "psychology", "security" ]
-            }
-          ]
-        },
-        {
           "id": "EOC_LAB_FILE_BIO",
-          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "bio" },
-          "effect": [
-            { "u_message": "lab_postit_bio", "snippet": true, "popup": true },
-            { "npc_add_var": "bio", "type": "file", "context": "lab", "value": "" }
-          ]
-        },
+          "effect": [ { "u_message": "log_mutagen_animal", "snippet": true, "same_snippet": true, "popup": true } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "psych_file",
+    "//": "Session logs and similar, naming scheme department code-ID-session number",
+    "name": { "str": "lab report (psychology)" },
+    "conditional_names": [
+      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_1", "name": { "str_sp": "Session S-#337-5" } },
+      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_2", "name": { "str_sp": "Session T-#125-4" } },
+      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_3", "name": { "str_sp": "Scrawled note" } }
+    ],
+    "description": "A folder full of what appear to be transcripts of confidential psychotherapy sessions.  Most of it is rather trivial, but certain passages catch your eye…",
+    "copy-from": "file",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [
         {
-          "id": "EOC_LAB_FILE_BLOB",
-          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "blob" },
-          "effect": [
-            { "u_message": "lab_postit_blob", "snippet": true, "popup": true },
-            { "npc_add_var": "blob", "type": "file", "context": "lab", "value": "" }
-          ]
-        },
-        {
-          "id": "EOC_LAB_FILE_MIGO",
-          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "migo" },
-          "effect": [
-            { "u_message": "lab_postit_migo", "snippet": true, "popup": true },
-            { "npc_add_var": "migo", "type": "file", "context": "lab", "value": "" }
-          ]
-        },
-        {
-          "id": "EOC_LAB_FILE_PORTAL",
-          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "portal" },
-          "effect": [
-            { "u_message": "lab_postit_portal", "snippet": true, "popup": true },
-            { "npc_add_var": "portal", "type": "file", "context": "lab", "value": "" }
-          ]
-        },
-        {
-          "id": "EOC_LAB_FILE_PSYCHOLOGY",
-          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "psychology" },
-          "effect": [
-            { "u_message": "You instantly feel more psycho!" },
-            { "npc_add_var": "psychology", "type": "file", "context": "lab", "value": "" }
-          ]
-        },
-        {
-          "id": "EOC_LAB_FILE_SECURITY",
-          "condition": { "npc_has_var": "type", "type": "lab", "context": "file", "value": "security" },
-          "effect": [
-            { "u_message": "You instantly feel more secure!" },
-            { "npc_add_var": "security", "type": "file", "context": "lab", "value": "" }
-          ]
+          "id": "EOC_LAB_FILE_PSY",
+          "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
         }
       ]
     }

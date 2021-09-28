@@ -26,303 +26,200 @@
       }
     ]
   },
-  { 
+  {
     "type": "snippet",
     "category": "lab_postit_bio",
     "text": [
-      {
-        "id": "lab_postit_bio_1",
-        "text": "Subject amortitzation too high.  Lower dosage?"
-      },
-      {
-        "id": "lab_postit_bio_2",
-        "text": "Enrichment makes for better data.  Coloring book?"
-      },
-      {
-        "id": "lab_postit_bio_3",
-        "text": "Reduce caloric intake.  Stress potentiates the process."
-      },
-      {
-        "id": "lab_postit_bio_4",
-        "text": "WHEN IN DOUBT, INCINERATE"
-      },
-      {
-        "id": "lab_postit_bio_5",
-        "text": "Requisition more subjects when half is used up"
-      },
-      {
-        "id": "lab_postit_bio_6",
-        "text": "Droppings caustic, handle with care"
-      },
-      {
-        "id": "lab_postit_bio_7",
-        "text": "DON'T remove from cage between 10-12 PM (it knows)"
-      },
-      {
-        "id": "lab_postit_bio_8",
-        "text": "Can walk on ceiling"
-      },
-      {
-        "id": "lab_postit_bio_9",
-        "text": "More eggs, keeps eating them"
-      },
-      {
-        "id": "lab_postit_bio_10",
-        "text": "DON'T LICK"
-      }
+      { "id": "lab_postit_bio_1", "text": "Subject amortitzation too high.  Lower dosage?" },
+      { "id": "lab_postit_bio_2", "text": "Enrichment makes for better data.  Coloring book?" },
+      { "id": "lab_postit_bio_3", "text": "Reduce caloric intake.  Stress potentiates the process." },
+      { "id": "lab_postit_bio_4", "text": "WHEN IN DOUBT, INCINERATE" },
+      { "id": "lab_postit_bio_5", "text": "Requisition more subjects when half is used up" },
+      { "id": "lab_postit_bio_6", "text": "Droppings caustic, handle with care" },
+      { "id": "lab_postit_bio_7", "text": "DON'T remove from cage between 10-12 PM (it knows)" },
+      { "id": "lab_postit_bio_8", "text": "Can walk on ceiling" },
+      { "id": "lab_postit_bio_9", "text": "More eggs, keeps eating them" },
+      { "id": "lab_postit_bio_10", "text": "DON'T LICK" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_blob",
     "text": [
-      {
-        "id": "lab_postit_blob_1",
-        "text": "Dismember within 15 minutes"
-      },
-      {
-        "id": "lab_postit_blob_2",
-        "text": "No weight difference - superpositional?"
-      },
-      {
-        "id": "lab_postit_blob_3",
-        "text": "TODO: terminate subject within a week"
-      },
-      {
-        "id": "lab_postit_blob_4",
-        "text": "Need more bodies - MassGen?"
-      },
-      {
-        "id": "lab_postit_blob_5",
-        "text": "Reinforce doors"
-      },
-      {
-        "id": "lab_postit_blob_6",
-        "text": "Where does the energy come from?"
-      },
-      {
-        "id": "lab_postit_blob_7",
-        "text": "Anaerobic conditions without change in activity <-> temperature?!"
-      },
-      {
-        "id": "lab_postit_blob_8",
-        "text": "Ashes still contaminated"
-      },
-      {
-        "id": "lab_postit_blob_9",
-        "text": "Removed parts fuse preferentially to original host"
-      },
-      {
-        "id": "lab_postit_blob_10",
-        "text": "Never dead"
-      }
+      { "id": "lab_postit_blob_1", "text": "Dismember within 15 minutes" },
+      { "id": "lab_postit_blob_2", "text": "No weight difference - superpositional?" },
+      { "id": "lab_postit_blob_3", "text": "TODO: terminate subject within a week" },
+      { "id": "lab_postit_blob_4", "text": "Need more bodies - Mass General?" },
+      { "id": "lab_postit_blob_5", "text": "Reinforce doors" },
+      { "id": "lab_postit_blob_6", "text": "Where does the energy come from?" },
+      { "id": "lab_postit_blob_7", "text": "Anaerobic conditions without change in activity <-> temperature?!" },
+      { "id": "lab_postit_blob_8", "text": "Ashes still contaminated" },
+      { "id": "lab_postit_blob_9", "text": "Removed parts fuse preferentially to original host" },
+      { "id": "lab_postit_blob_10", "text": "Never dead" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_migo",
     "text": [
-      {
-        "id": "lab_postit_migo_1",
-        "text": "Don't listen"
-      },
-      {
-        "id": "lab_postit_migo_2",
-        "text": "Damage -> Resin \n\n Armor?  Blood?  Bribe? "
-      },
-      {
-        "id": "lab_postit_migo_3",
-        "text": "Stay quiet.  They can hear you."
-      },
+      { "id": "lab_postit_migo_1", "text": "Don't listen" },
+      { "id": "lab_postit_migo_2", "text": "Damage -> Resin \n\n Armor?  Blood?  Bribe?" },
+      { "id": "lab_postit_migo_3", "text": "Stay quiet.  They can hear you." },
       {
         "id": "lab_postit_migo_4",
         "text": "Resin return: 0.45 on vegetable matter, 0.51 on meat, 0.66 on nonsedated live meal (vertebrate preference)"
       },
-      {
-        "id": "lab_postit_migo_5",
-        "text": "How can they see me up here?"
-      },
-      {
-        "id": "lab_postit_migo_6",
-        "text": "Only post-mortems on the big ones from now on -- equipment's expensive"
-      },
-      {
-        "id": "lab_postit_migo_7",
-        "text": "Dim lights before feeding for lightshow"
-      },
+      { "id": "lab_postit_migo_5", "text": "How can they see me up here?" },
+      { "id": "lab_postit_migo_6", "text": "Only post-mortems on the big ones from now on -- equipment's expensive" },
+      { "id": "lab_postit_migo_7", "text": "Dim lights before feeding for lightshow" },
       {
         "id": "lab_postit_migo_8",
         "text": "Prefers prey capable of vocalization -- implanted speakers work but no repeats"
       },
-      {
-        "id": "lab_postit_migo_9",
-        "text": "Blast with white noise as a deterrent?"
-      },
-      {
-        "id": "lab_postit_migo_10",
-        "text": "Like it warm, not bothered by cold"
-      }
+      { "id": "lab_postit_migo_9", "text": "Blast with white noise as a deterrent?" },
+      { "id": "lab_postit_migo_10", "text": "Like it warm, not bothered by cold" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_portal",
     "text": [
-      {
-        "id": "lab_postit_portal_1",
-        "text": "Increase frequencies in odd steps - local discontiuity!"
-      },
-      {
-        "id": "lab_postit_portal_2",
-        "text": "Limit time spent in-phase to ~~30~~ 29,1 minutes"
-      },
-      {
-        "id": "lab_postit_portal_3",
-        "text": "Sub-plane 11-7A likes prime-numbered calibration pings"
-      },
-      {
-        "id": "lab_postit_portal_4",
-        "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND"
-      },
-      {
-        "id": "lab_postit_portal_5",
-        "text": "Remember Jake?  Me neither."
-      },
-      {
-        "id": "lab_postit_portal_6",
-        "text": "Keep line of sight minimal"
-      },
-      {
-        "id": "lab_postit_portal_7",
-        "text": "Calibrate on SP-12 for manned transfers"
-      },
-      {
-        "id": "lab_postit_portal_8",
-        "text": "No touching returning probes, even if beg you to"
-      },
-      {
-        "id": "lab_postit_portal_9",
-        "text": "Remember to forget.  Forget to remember."
-      },
-      {
-        "id": "lab_postit_portal_10",
-        "text": "Scream at Maintenance for a replacement again"
-      }
+      { "id": "lab_postit_portal_1", "text": "Increase frequencies in odd steps - local discontiuity!" },
+      { "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29,1 minutes" },
+      { "id": "lab_postit_portal_3", "text": "Sub-plane 11-7A likes prime-numbered calibration pings" },
+      { "id": "lab_postit_portal_4", "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND" },
+      { "id": "lab_postit_portal_5", "text": "Remember Jake?  Me neither." },
+      { "id": "lab_postit_portal_6", "text": "Keep line of sight minimal" },
+      { "id": "lab_postit_portal_7", "text": "Calibrate on SP-12 for manned transfers" },
+      { "id": "lab_postit_portal_8", "text": "No touching returning probes, even if beg you to" },
+      { "id": "lab_postit_portal_9", "text": "Remember to forget.  Forget to remember." },
+      { "id": "lab_postit_portal_10", "text": "Scream at Maintenance for a replacement again" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_tech",
     "text": [
-      {
-        "id": "lab_postit_tech_1",
-        "text": "Don't release switch before discharge"
-      },
-      {
-        "id": "lab_postit_tech_2",
-        "text": "Shielding corrodes too fast \n\n Mount on drone?"
-      },
-      {
-        "id": "lab_postit_tech_3",
-        "text": "Meltdown after 3 shots"
-      },
-      {
-        "id": "lab_postit_tech_4",
-        "text": "Need more power"
-      },
-      {
-        "id": "lab_postit_tech_5",
-        "text": "He lasers stabilise the compound long enough"
-      }
+      { "id": "lab_postit_tech_1", "text": "Don't release switch before discharge" },
+      { "id": "lab_postit_tech_2", "text": "Shielding corrodes too fast \n\n Mount on drone?" },
+      { "id": "lab_postit_tech_3", "text": "Meltdown after 3 shots" },
+      { "id": "lab_postit_tech_4", "text": "Need more power" },
+      { "id": "lab_postit_tech_5", "text": "Ho lasers stabilise the compound long enough" }
     ]
   },
   {
     "type": "snippet",
-    "//": "Long-form mutagen dissection/ testing logs",
-    "//2": "Glossary: PE012 mutagen, PE018 purifier, PE027 Fish, PE031 Insect, PE050 Alpha, PE065 Chimera, PE0XX mutagens, PE1XX serums, XEDRA-X facilities",
+    "//": "Mid-length test protocols, no information on mutagen production/origins",
+    "//2": "Glossary: PE0XX mutagens: PE012 mutagen, PE018 purifier, PE027 Fish, PE031 Insect, PE050 Alpha, PE065 Chimera, PE1XX serums, XEDRA-X facilities: 03 Melchior, 07 mutagen production, 10 human mutagen testing, 12 zombie study, 40 portal retrieval",
     "category": "lab_file_bio",
     "text": [
-      { "id": "lab_file_mutagen",
+      {
+        "id": "lab_file_mutagen",
         "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE01 transports."
       },
-      { "id": "lab_file_mutagen_rev1",
-        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally, followed by a one-hour quarantaine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Central for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
+      {
+        "id": "lab_file_mutagen_rev1",
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally, followed by a one-hour quarantaine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Administration for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
       },
-      { "id": "lab_file_mutagen_rev2",
+      {
+        "id": "lab_file_mutagen_rev2",
         "text": "Recent developments in mutagen production have rendered the previous priming protocol unnecessary.  As of today testing can begin with the test compound directly, in the previous post-priming dosage.  Should this dose produce no discernible effect, the subject's origin and any data pertaining their location in the last year is to be submitted for archival.  Tests can resume after a 24 hour incubation period, provided sufficient compound is still on hand."
       },
-      { "id": "lab_file_bio_mutant1",
-        "text": "Subject: <bold>Canis familiaris</bold>, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 ml oral dose, 3 hour observation before dissection\n\nLive observation: First dosage unproblematic, after ~10 minutes sudden distress with subject scratching their flank furiously\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratine.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cycsts, intestines and pancreas with greenish discoloration.  Salivary glands swollen, localized necrotic lesions on the mucosa around the salivary ducts - samples taken for toxicology"
+      {
+        "id": "lab_file_mutagen_psa1",
+        "text": "All mutagen testing (including priming, observation, main test, dissection, and analysis) is to be conducted in a strictly hands-off manner, using remote-controlled disposable equipment.  All samples, remains, equipment and excretions are to be disposed of observing Level 7 biohazard protocols.  In case of accidental personnel contact with test subjects after the priming sequence, all exposed personnel are to be isolated, processed by security, and relocated to XEDRA-10 in accordance with biohazard transfer guidelines."
       },
-      { "id": "lab_file_bio_mutant2",
-        "text": "Subject: <bold>Rattus norvegicus domestica</bold>, 450 g\n\nPE012 priming: Yes\n\nCompound: PE027\n\nObjective: Establish PE027's phenotypic range for subject species, evaluate cost/benefit of subjects trained for voluntary self-dosage\n\nProtocol: Enclosure with a water pool, voluntary dosage from food dispenser\n\nLive observation: Trained subject, first dosage after 5 minutes.  After an initial calm period subject rubs off their fur on the enclosure's wall, revealing metallic scales.  Three dosages in short succession, after which subject falls over.  Subject is placed in the water by robotic arm, where they begin swimming\n\nDissection findings: phenotypic changes consistent with PE027's usual profile - in this case the gills replaced the upper lobes of the subject's lungs, opening to the outside over the scapula.  Digestive track shortened considerably, liver atrophic, teeth replaced by needles reminiscent of an anglerfish.  Blue fluorescent organ between the hemispheres."
+      {
+        "id": "lab_file_mutagen_psa2",
+        "text": "In light of the facility-wide quarantaine and recent developments, mutagen tests may from now on be conducted with direct personnel-subject contact if disposable equipment is not available.  All personnel directly involved in such tests are to keep a detailed self-checkup diary including basic biometric data (height, weight, color of eyes, skin pigmentation), report any observed phenotypical changes, and to submit to biweekly medical evaluations.  Remains of test subjects and affected personnel are to be processed on-site and stored in tamper-proof biohazard containers until further notice."
       },
-      { "id": "lab_file_bio_mutant3",
-        "text": "Subject: Ergonomic-stage nest of <bold>Dolichovespula maculata</bold>, queenright\n\nPE012 priming: No, long-term study\n\nCompound: PE031\n\nObjective: Observe the effects of a phenotypically-similar mutagen on eusocial insects\n\nProtocol: Nest outfitted with multiple fiberoptic cameras for safe observation, transplanted to a large enclosure, and provided with PE031-laced nutrient paste\n\nLive observation: Considerable worker loss in the first week, remaining workforce refrains from recyling the corpses.  Dissection of recovered worker remains show no phenotypical changes.  Queen grows in size and sprouts an ancillary pair of wings on its abdomen, shows increased aggression towards workers and larvae hatched prior to PE031 exposure.\n Rapid increase in both nutrient paste and nesting material consumption coninciding with the emergence of the first post-exposure workers.  Nest is expanded in all directions, partly leaving cells exposed during the restructuring.\n First sighting of potentially emergent queens on day 51 as three examples make a concerted effort to remove the last uncovered fiberoptic camera from the nest.  After consulting Central test proceeds without direct in-nest observation up to day 100, worker phenotypes and behavior show a wide range of variation during this time (including body length, wing morphology and number, stinger size, leg number and placement, mandible configuration etc.).\n On day 100 attempted termination of the nest using HCN, this causes obvious disruption but shows no lethality even at 5,0% v/v.  To prevent an explosion hazard, the emergency alternative of flushing the enclosure with CO is chosen, leading to cessation of external activity after 20 minutes.  Uneventful retrieval of nest and specimens for dissection after an additional safety margin of 2 hours.\n\nDissection findings: The nest's superstructure resembles those of the wild-type nests, aside from notably larger cells (up to 33 cm depth) and the addition of four connected sub-nests budding off the main body.  Caste identification proves to be a challenge given the highly variable morphology, after thorough dissection 6 queens (including the foundress), 814 workers, and 27 drones are found - despite the experiment's duration the nest hasn't made the switch to drone/queen production.  The founding queen mutated considerably since the last observation, sporting a bifurcated abdomen with two ancillary pairs of wings and three asymmetrically-placed stingers each.  Body "
-      },
-      { "id": "lab_file_bio_mutant4",
-        "text": "__BBBBBBB__"
-      },
-      { "id": "lab_file_bio_mutant5",
-        "text": "*BBBBBBB*"
-      },
-      { "id": "lab_file_bio",
-        "text": "**BBB**<b>BBBB</b>"
-      },
-      { "id": "lab_file_bio2",
-        "text": "_BBB_<em>BBBB</em>"
+      {
+        "id": "lab_file_mutagen_psa3",
+        "text": "To speed up the rate of mutagen research, XEDRA facilities of Level II and above with experience in mutagen handling will receive the information and equipment necessary for on-site mutagen production within the week.  All facilities involved will be placed under quarantaine until further notice, barring automated supply shipments.  Automated security is to be activated and control handed over to the local Melchior uplink.  This restriction is to be lifted at the discretion of Administration, or the next-in-line following the established contingency protocols."
       }
     ]
   },
   {
     "type": "snippet",
-    "category": "lab_file_blob",
-    "//": "Logs concerning the blob contamination / zombies",
+    "category": "log_mutagen_animal",
+    "//": "Long-form, low-level mutagen test logs - no human studies",
     "text": [
-      { "id": "lab_file_blob_1",
-        "text": "AAAAAAA"
+      {
+        "id": "test_1",
+        "text": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 ml oral dose, 3 hour observation before dissection\n\nLive observation: First dosage unproblematic, after ~10 minutes sudden distress with subject scratching their flank furiously\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratine.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cycsts, intestines and pancreas with greenish discoloration.  Salivary glands swollen, localized necrotic lesions on the mucosa around the salivary ducts - samples taken for toxicology."
       },
-      { "id": "lab_file_blob_2",
-        "text": "BBBBBBB"
+      {
+        "id": "test_2",
+        "text": "Subject: Rattus norvegicus domestica, 450 g\n\nPE012 priming: Yes\n\nCompound: PE027\n\nObjective: Establish PE027's phenotypic range for subject species, evaluate cost/benefit of subjects trained for voluntary self-dosage\n\nProtocol: Enclosure with a water pool, voluntary dosage from food dispenser\n\nLive observation: Trained subject, first dosage after 5 minutes.  After an initial calm period subject rubs off their fur on the enclosure's wall, revealing metallic scales.  Three dosages in short succession, after which subject falls over.  Subject is placed in the water by robotic arm, where they begin swimming\n\nDissection findings: phenotypic changes consistent with PE027's usual profile - in this case the gills replaced the upper lobes of the subject's lungs, opening to the outside over the scapula.  Digestive track shortened considerably, liver atrophic, teeth replaced by needles reminiscent of an anglerfish.  Blue fluorescent organ between the hemispheres."
+      },
+      {
+        "id": "test_3",
+        "text": "Subject: Ergonomic-stage nest of Dolichovespula maculata, queenright\n\nPE012 priming: No, long-term study\n\nCompound: PE031\n\nObjective: Observe the effects of a phenotypically-similar mutagen on eusocial insects\n\nProtocol: Nest outfitted with multiple fiberoptic cameras for safe observation, transplanted to a large enclosure, and provided with PE031-laced nutrient paste\n\nLive observation: Considerable worker loss in the first week, remaining workforce refrains from recyling the corpses.  Dissection of recovered worker remains show no phenotypical changes.  Queen grows in size and sprouts an ancillary pair of wings on its abdomen, shows increased aggression towards workers and larvae hatched prior to PE031 exposure.\n Rapid increase in both nutrient paste and nesting material consumption coninciding with the emergence of the first post-exposure workers.  Nest is expanded in all directions, partly leaving cells exposed during the restructuring.\n First sighting of potentially emergent queens on day 51 as three examples make a concerted effort to remove the last uncovered fiberoptic camera from the nest.  After consulting Administration test proceeds without direct in-nest observation up to day 100, worker phenotypes and behavior show a wide range of variation during this time (including body length, wing morphology and number, stinger size, leg number and placement, mandible configuration etc.).\n On day 100 attempted termination of the nest using HCN, this causes obvious disruption but shows no lethality even at 5,0% v/v.  To prevent an explosion hazard, the emergency alternative of flushing the enclosure with CO is chosen, leading to cessation of external activity after 20 minutes.  Uneventful retrieval of nest and specimens for dissection after an additional safety margin of 2 hours.\n\nDissection findings: The nest's superstructure resembles those of the wild-type nests, aside from notably larger cells (up to 33 cm depth) and the addition of four connected sub-nests budding off the main body.  Caste identification proves to be a challenge given the highly variable morphology, after thorough dissection 6 queens (including the foundress), 814 workers, and 27 drones are found - despite the experiment's duration the nest hasn't made the switch to drone/queen production.  The founding queen mutated considerably since the last observation, sporting a bifurcated abdomen with two ancillary pairs of wings and three asymmetrically-placed stingers each…"
+      },
+      {
+        "id": "test_4",
+        "text": "Subject: Danio rerio\n\nCompound: PE065\n\nObjective: Establish PE065's phenotypic range using a well-understood and nonthreatening subject\n\nProtocol: Full-sized aquatic enclosure with reinforced glass observation ports and a small terrestrial area, 3 dosages of nutrient pellets containing test compound.  Given the experiences gathered in previous tests a large surplus of nutrient pellets is kept in a fast-release container above the water to providie distraction should premature termination become necessary.\n\nLive observation: WIPWIPWIP"
       }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_portal",
-    "//": "Logs on portal - roll into immersion logs?",
+    "//": "Mid-length logs/procedures on portal research - roll into immersion logs?",
+    "//2": "Glossary: NNNXX subplanes: 000XE Blob(XE037) contaminated, 020XE slime(XE142) home, 021XE shoggoth(XE157)",
     "text": [
-      { "id": "lab_file_portal_1",
-        "text": "AAAAAAA"
+      {
+        "id": "lab_file_portal_1",
+        "text": "Science and security personnel are required, other onsite staff are advised to keep a notebook on their person at all times and to take part in the weekly shorthand course.  In case of any occurrences subjectively considered out of the ordinary detailed notes are to be taken -as long as this appears safe- and submitted to Security provided the incident does not involve Security itself.  Should personnel find notes in their notebook they have no recollection of writing they are to submit it for review without further investigation."
       },
-      { "id": "lab_file_portal_2",
-        "text": "BBBBBBB"
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "lab_file_artifact",
-    "//": "Logs about weird bits and bobs, don't gett too SCPy - roll into altered item logs?",
-    "text": [
-      { "id": "lab_file_artifact_1",
-        "text": "AAAAAAA"
+      {
+        "id": "lab_file_portal_2",
+        "text": "Initial immersion testing upon establishing a stable destination candidate is to be carried out utilizing a standardized series of six unmanned drones (specifications detailed separately) without any form of wireless capability, connected by an immersion-stable umbilical line to an isolated control terminal primeside operated by a mechanical arm by authorized science staff.  Upon retrieaval the first three drones are to be incinerated without sampling, the fourth and fifth disassembled prior to incineration and the sixth (equipped with sampling capabilities) taken to analyisis."
       },
-      { "id": "lab_file_artifact_2",
-        "text": "BBBBBBB"
+      {
+        "id": "lab_file_portal_3",
+        "text": "Designating potential destinations for manned immersion attempts is at the sole discretion of Administration.  This designation may be revoked at any point, up to and including during an in-progress immersion.   Appeals are to be formally filed with the facility's Human Resources liaison, but are neither guaranteed a review nor an answer.  Noncompliance with this protocol is grounds for immidiate quarantine of the involved facility and a thorough in-person review of all onsite staff by Security."
       }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_psych",
-    "//": "Logs concerning staff / global craziness, therapy sessions, dreams",
+    "//": "Logs concerning staff / global craziness",
     "text": [
-      { "id": "lab_file_psych_1",
-        "text": "AAAAAAA"
+      {
+        "id": "lab_file_psych_1",
+        "text": "The Lampetia Method of compliance training has been a resounding success, with science staffs of the participating facilities consistently scoring lower on the Berms Risk-Aversion Scale as well as the Carlson Empathy test sequence.  Interestingly, the most significant difference was shown in the facilities working on cadaver studies (according to our Security liaison, this being a triple-blinded study).  Prior score had little correlation to the scores recorded after intervention, however in three examined facilities there were instances of a particularly well-responding individual exponentially enhancing the Method's effect on close aquaintances.  Recruitment of these individuals into furthering the training's development is pending Administration approval."
       },
-      { "id": "lab_file_psych_2",
-        "text": "BBBBBBB"
+      {
+        "id": "lab_file_psych_2",
+        "text": "The Leonardo Project has shown to be a success at dramatically reducing staff stress stemming from vivisection studies.  Outsourcing the act of dissection itself to off-site, unaffiliated professinals and post-facto review of the captured feeds showed a marked increase in the affected staff's wellbeing.  Additional counseling opportunities are to be offered to the technician staff monitoring the feed directly, but it must be noted that they are easier to replace than scientific personnel."
+      },
+      {
+        "id": "lab_file_psych_3",
+        "text": "Effective immidiately, the Counseling staff of all XEDRA locations is to begin rotating between sites on a bimonthly basis.  Affected personnel will be read into the exact rotational instructions by the facilities' Security Department at their discretion.  All session documentation, notes, audio logs, and personal effects are to be submitted for review on each transfer.  Personnel are reminded that all information gathered during their professional as well as private time in any one facility is to be considered confidential per the XEDRA information siloing protocols in effect."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "log_psych",
+    "//": "Long-form session logs and reports, uses EOC popup",
+    "text": [
+      {
+        "id": "dream_1",
+        "//": "Messing with things we shouldn't be, are we?",
+        "text": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what your're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building…it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\""
+      },
+      {
+        "id": "dream_2",
+        "//": "I saw him and he smiled with galaxies",
+        "text": "\"We are seen.  It's not long until we will be touched.\"\n\n\"Touched by what, exactly?\"\n\n\"Touched.  Chewed.  Tasted.  Digested.  Processed.  Excreted.\"\n\n\"Ramin, focus, please.  What is doing all that?  Or rather, what do you feel will be doing those things?\"\n\n\"It's big.  Bigger than the Sun.  Smaller than an atom.\"\n\n\"And what does this large small thing want, beyond touching us?\"\n\n\"It just is.  It needs no reason.  It needs only to exist.  It needs only to expand.\"\n\n\"Do you want to talk about Immersion 132R?\"\n\n\"There's nothing to talk about.  I wasn't there.  It didn't touch me.  I didn't look.  It didn't look back.  It didn't smile with a million rotten worlds in its mouth.\"\n\n\"Have you been taking your medication?\"\n\n\"Like they would help.  I tried, Doc, I really did.  But the truth is, I like having these thoughts.  They give me a certanity, and I am thankful for knowing how it will all end.  That we all belong to something, and nothing can take us from it now.\""
+      },
+      {
+        "id": "dream_3",
+        "//": "Something Fungi this way comes",
+        "text": "I keep dreaming the same dream ever since Dr. Yin's final session.  The same one she described with that vivid enthusiasm, like she could see it in the waking world as well.  I didn't understand the beauty of it back then, so I just took my notes as usual when one of them vents about the horrible things we encourage them to feel good about -- it is what I'm getting paid for, after all.  Looking at the transcript now, its dryness feels blasphemous: \"connected branches of grey vines\" he writes, unable to imagine the transcendce of the Whole stretching across infinity, connecting large and small, familiar and unknowable; \"moldy fuzz in a positive connotation - rural childhood?\" like an armchair psychotherapist grasping at straws, as if the eternal fractal was anything less than divine.  I am grateful for her allowing me to dream the same dream on for her, I only wish it came to me before I hastily reported the session to the bloodhounds at Security.  I remember being terrified of something, but the feeling melted in the radiance of my first night's sleep.  I will need to seek out others of a similar mind, to connect with them, to show them what we can become with time, but I need to be more careful than she was."
       }
     ]
   },
@@ -330,14 +227,7 @@
     "type": "snippet",
     "category": "lab_file_surveillance",
     "//": "Surveillance logs about everything Sec/MLCHR might consider dissent",
-    "text": [
-      { "id": "lab_file_surveillance_1",
-        "text": "AAAAAAA"
-      },
-      { "id": "lab_file_surveillance_2",
-        "text": "BBBBBBB"
-      }
-    ]
+    "text": [ { "id": "lab_file_surveillance_1", "text": "AAAAAAA" }, { "id": "lab_file_surveillance_2", "text": "BBBBBBB" } ]
   },
   {
     "type": "snippet",
