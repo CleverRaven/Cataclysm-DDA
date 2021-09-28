@@ -196,7 +196,7 @@
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "mon_feral_prepper", "freq": 1, "cost_multiplier": 25 },
-      { "monster": "mon_feral_survivalist", "freq": 1, "cost_multiplier": 25, "starts": 1440 }
+      { "monster": "mon_feral_survivalist", "freq": 1, "cost_multiplier": 25, "starts": 540 }
     ]
   },
   {
