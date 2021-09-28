@@ -420,7 +420,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ]
@@ -449,7 +449,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]
@@ -491,7 +491,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]

@@ -11,6 +11,7 @@
 #include "point.h"
 #include "units_fwd.h"
 
+template <typename T> struct enum_traits;
 struct rl_vec2d;
 
 extern bool trigdist;
@@ -68,7 +69,23 @@ enum class direction : unsigned {
     ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
     SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
     BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
+
+    last = 27
 };
+
+template<>
+struct enum_traits<direction> {
+    static constexpr direction last = direction::last;
+};
+
+namespace std
+{
+template <> struct hash<direction> {
+    std::size_t operator()( const direction &d ) const {
+        return static_cast<std::size_t>( d );
+    }
+};
+} // namespace std
 
 template< class T >
 constexpr inline direction operator%( const direction &lhs, const T &rhs )
@@ -230,6 +247,11 @@ inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
+
+// Travel distance between 2 points on a square grid, assuming diagonal moves
+// cost sqrt(2) and cardinal moves cost 1.
+int octile_dist( const point &loc1, const point &loc2, int multiplier = 1 );
+float octile_dist_exact( const point &loc1, const point &loc2 );
 
 // get angle of direction represented by point
 units::angle atan2( const point & );

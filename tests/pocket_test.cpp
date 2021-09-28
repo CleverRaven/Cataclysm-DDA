@@ -523,9 +523,9 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
 
             THEN( "pocket cannot contain it, because it does not have the flag" ) {
-                expect_cannot_contain( pocket_belt, rag, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rag, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
-                expect_cannot_contain( pocket_belt, rock, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rock, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
             }
         }

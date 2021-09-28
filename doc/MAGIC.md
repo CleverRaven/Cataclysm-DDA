@@ -127,7 +127,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `remove_effect` | Removes `effect_str` effects from all creatures in aoe
 | `emit` | Causes an emit at the target
 | `fungalize` | Fungalizes the target
-| `effect_on_condition` | Runs the effect_on_condition found in `effect_str` on all valid targets.  `effect_str` can be either a string id or an effect_on_condition object.  For the run eoc the target will be u and the caster will be npc.
+| `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 
@@ -425,7 +425,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
 | `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
+| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "DIALOG_CONDITION" - ACTIVE whenever the dialog condition in `condition` is true * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
 | `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.

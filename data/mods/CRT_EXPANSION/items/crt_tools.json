@@ -14,8 +14,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "sub": "hotplate",
-    "initial_charges": 75,
-    "max_charges": 75,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 75 } } ],
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "//": "Legacy artifact data is set charge solar",
@@ -144,7 +143,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "transform", "msg": "You extend your hatchet", "target": "crt_hatchet_extended" },
+    "use_action": { "type": "transform", "menu_text": "Extend", "msg": "You extend your hatchet", "target": "crt_hatchet_extended" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ]
   },
   {
@@ -165,7 +164,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "transform", "msg": "You collapse your axe", "target": "crt_hatchet" },
+    "use_action": { "type": "transform", "menu_text": "Collapse", "msg": "You collapse your axe", "target": "crt_hatchet" },
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
   },
   {

@@ -35,6 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -133,6 +134,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",

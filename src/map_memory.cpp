@@ -3,11 +3,13 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
+#include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "line.h"
 #include "map_memory.h"
 #include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
 const int mm_submap::default_symbol = 0;

@@ -115,7 +115,7 @@
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED", "CITY_START" ],
+    "flags": [ "CITY_START" ],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -135,7 +135,41 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+    "eoc": [ "scenario_infected" ]
+  },
+  {
+    "type": "scenario",
+    "id": "hunted_start",
+    "name": "Challenge - Hunted",
+    "points": -2,
+    "forced_traits": [ "HAS_NEMESIS" ],
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_gun_store",
+      "sloc_garage",
+      "sloc_pawn_shop",
+      "sloc_bank",
+      "sloc_military_surplus",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital"
+    ],
+    "start_name": "In Town",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "missions": [ "MISSION_KILL_NEMESIS" ]
   },
   {
     "type": "scenario",
@@ -160,7 +194,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
+    "eoc": [ "scenario_fungal_infection" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -215,7 +250,8 @@
       "sloc_cemetery"
     ],
     "professions": [ "svictim", "tweaker" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START", "LONE_START" ]
+    "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -293,6 +329,18 @@
     "professions": [ "labtech", "security", "medic" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "lab_cargo_staff_1",
+    "name": "Challenge - Trans-Coast Logistics Concourse",
+    "points": -6,
+    "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find your misplaced lanyard with your badge before the automated defenses notice that you don't have one.",
+    "start_name": "Locked Lab",
+    "professions": [ "security" ],
+    "allowed_locs": [ "sloc_lab_concourse_area" ],
+    "map_extra": "mx_lab_concourse_area",
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",

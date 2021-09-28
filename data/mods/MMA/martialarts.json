@@ -46,6 +46,8 @@
       "mace",
       "mace_inferior",
       "mace_fake",
+      "mace_simple",
+      "mace_trench",
       "scimitar",
       "scimitar_inferior",
       "scimitar_fake",
@@ -561,6 +563,7 @@
         "unarmed_allowed": true,
         "req_buffs": [ "mma_buff_stone_dragon_onmove1" ],
         "buff_duration": 4,
+        "persists": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scale": -2.0 },
           { "stat": "armor", "type": "cut", "scale": -2.0 },
@@ -581,6 +584,8 @@
       "mace",
       "mace_inferior",
       "mace_fake",
+      "mace_simple",
+      "mace_trench",
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"

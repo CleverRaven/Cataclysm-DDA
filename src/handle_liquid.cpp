@@ -99,7 +99,7 @@ namespace liquid_handler
 {
 void handle_all_liquid( item liquid, const int radius, const item *const avoid )
 {
-    while( liquid.charges > 0 ) {
+    while( liquid.charges > 0 && can_handle_liquid( liquid ) ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
@@ -205,12 +205,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     }
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume_as_is( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
-        if( player_character.can_fuel_bionic_with( liquid ) ) {
-            menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
-        } else {
-            menu.addentry( -1, true, 'e', _( "Consume it" ) );
-        }
-
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
         } );
@@ -445,10 +440,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     }
 }
 
-bool handle_liquid( item &liquid, const item *const source, const int radius,
-                    const tripoint *const source_pos,
-                    const vehicle *const source_veh, const int part_num,
-                    const monster *const source_mon )
+bool can_handle_liquid( const item &liquid )
 {
     if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -458,6 +450,17 @@ bool handle_liquid( item &liquid, const item *const source, const int radius,
     }
     if( !liquid.made_of( phase_id::LIQUID ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname() );
+        return false;
+    }
+    return true;
+}
+
+bool handle_liquid( item &liquid, const item *const source, const int radius,
+                    const tripoint *const source_pos,
+                    const vehicle *const source_veh, const int part_num,
+                    const monster *const source_mon )
+{
+    if( !can_handle_liquid( liquid ) ) {
         return false;
     }
     struct liquid_dest_opt liquid_target;

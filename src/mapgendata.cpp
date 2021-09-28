@@ -1,6 +1,7 @@
 #include "mapgendata.h"
 
 #include "debug.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "omdata.h"
@@ -20,7 +21,7 @@ void mapgen_arguments::serialize( JsonOut &jo ) const
     jo.write( map );
 }
 
-void mapgen_arguments::deserialize( JsonIn &ji )
+void mapgen_arguments::deserialize( const JsonValue &ji )
 {
     ji.read( map, true );
 }
@@ -204,5 +205,37 @@ const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
     }
 
     debugmsg( "Tried to get neighbor from invalid direction %d", dir );
+    return north();
+}
+
+const oter_id &mapgendata::neighbor_at( direction dir ) const
+{
+    // TODO: De-uglify, implement proper conversion somewhere
+    switch( dir ) {
+        case direction::NORTH:
+            return north();
+        case direction::EAST:
+            return east();
+        case direction::SOUTH:
+            return south();
+        case direction::WEST:
+            return west();
+        case direction::NORTHEAST:
+            return neast();
+        case direction::SOUTHEAST:
+            return seast();
+        case direction::SOUTHWEST:
+            return swest();
+        case direction::NORTHWEST:
+            return nwest();
+        case direction::ABOVECENTER:
+            return above();
+        case direction::BELOWCENTER:
+            return below();
+        default:
+            break;
+    }
+
+    debugmsg( "Neighbor not supported for direction %d", io::enum_to_string( dir ) );
     return north();
 }

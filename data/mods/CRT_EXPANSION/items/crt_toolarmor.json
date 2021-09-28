@@ -175,8 +175,7 @@
     "material": [ "kevlar", "hardsteel" ],
     "material_thickness": 3,
     "warmth": 20,
-    "max_charges": 100,
-    "initial_charges": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -212,12 +211,12 @@
     "material_thickness": 3,
     "warmth": 20,
     "revert_to": "crt_helmet",
-    "max_charges": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 120,
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the %s off.", "target": "crt_helmet" }
   },
   {
     "id": "crt_canteen",

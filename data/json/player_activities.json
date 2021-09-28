@@ -117,6 +117,17 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_DIS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "disassembling things",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_BUTCHER",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -689,10 +700,10 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_PRY_NAILS",
     "type": "activity_type",
+    "id": "ACT_PRYING",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "prying nails",
+    "verb": "prying open",
     "based_on": "speed"
   },
   {
@@ -1012,5 +1023,15 @@
     "no_resume": true,
     "refuel_fires": false,
     "auto_needs": false
+  },
+  {
+    "id": "ACT_CBM_SURGERY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "being operated on",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "interruptable_with_kb": false
   }
 ]

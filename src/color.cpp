@@ -26,9 +26,9 @@ void nc_color::serialize( JsonOut &jsout ) const
     jsout.write( attribute_value );
 }
 
-void nc_color::deserialize( JsonIn &jsin )
+void nc_color::deserialize( int value )
 {
-    attribute_value = jsin.get_int();
+    attribute_value = value;
 }
 
 color_manager &get_all_colors()

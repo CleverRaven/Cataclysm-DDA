@@ -20,6 +20,8 @@
     "type": "recipe",
     "result": "mutant_brain_cooked",
     "copy-from": "brain_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_brain", 1 ] ] ]
   },
   {
@@ -35,6 +37,8 @@
     "type": "recipe",
     "result": "mutant_lung_cooked",
     "copy-from": "brain_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_lung", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
   },
   {
@@ -51,6 +55,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "kidney_cooked",
     "result": "mutant_kidney_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_kidney", 1 ] ] ]
   },
   {
@@ -76,6 +82,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_liver_cooked",
     "copy-from": "liver_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_liver", 1 ] ] ]
   },
   {
@@ -216,6 +224,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "leverpostej",
     "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "60 m",
@@ -436,11 +445,22 @@
     "//": "Charcuterie: The Craft of Salting, Smoking, and Curing would be a good book for someone to use for further meat products recipes.",
     "book_learn": [ [ "offalcooking", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
-    "components": [
-      [ [ "meat_stomach", 1, "LIST" ], [ "bag_plastic", 1 ] ],
-      [ [ "salt", 20 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ]
+    "components": [ [ [ "meat_stomach", 1, "LIST" ] ], [ [ "salt", 20 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sausage_casings_artificial",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "50 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 60,
+    "book_learn": [ [ "offalcooking", 3 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "bag_plastic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -458,7 +478,7 @@
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "meat_nofish", 2, "LIST" ] ],
-      [ [ "sausage_casings", 6 ] ],
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],

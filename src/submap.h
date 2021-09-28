@@ -44,7 +44,7 @@ struct spawn_point {
     spawn_data data;
     explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                           int FAC = -1, int MIS = -1, bool F = false,
-                          const std::string &N = "NONE", spawn_data SD = spawn_data() ) :
+                          const std::string &N = "NONE", const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
@@ -225,6 +225,7 @@ class submap : maptile_soa<SEEX, SEEY>
         bool contains_vehicle( vehicle * );
 
         void rotate( int turns );
+        void mirror( bool horizontally );
 
         void store( JsonOut &jsout ) const;
         void load( JsonIn &jsin, const std::string &member_name, int version );

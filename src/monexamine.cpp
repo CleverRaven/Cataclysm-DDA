@@ -52,31 +52,513 @@ static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
+static const efftype_id effect_leashed( "leashed" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
 static const skill_id skill_survival( "survival" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const flag_id json_flag_TACK( "TACK" );
 static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
 
+namespace
+{
+
+item_location tack_loc()
+{
+    auto filter = []( const item & it ) {
+        return it.has_flag( json_flag_TACK );
+    };
+
+    return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Tack" ) );
+}
+
+void attach_saddle_to( monster &z )
+{
+    if( z.has_effect( effect_monster_saddled ) ) {
+        return;
+    }
+    item_location loc = tack_loc();
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    z.add_effect( effect_monster_saddled, 1_turns, true );
+    z.tack_item = cata::make_value<item>( *loc.get_item() );
+    loc.remove_item();
+}
+
+void remove_saddle_from( monster &z )
+{
+    if( !z.has_effect( effect_monster_saddled ) ) {
+        return;
+    }
+    z.remove_effect( effect_monster_saddled );
+    get_player_character().i_add( *z.tack_item );
+    z.tack_item.reset();
+}
+
+void mount_pet( monster &z )
+{
+    get_player_character().mount_creature( z );
+}
+
+void swap( monster &z )
+{
+    std::string pet_name = z.get_name();
+    Character &player_character = get_player_character();
+    player_character.moves -= 150;
+
+    ///\EFFECT_STR increases chance to successfully swap positions with your pet
+    ///\EFFECT_DEX increases chance to successfully swap positions with your pet
+    if( !one_in( ( player_character.str_cur + player_character.dex_cur ) / 6 ) ) {
+        bool t = z.has_effect( effect_tied );
+        if( t ) {
+            z.remove_effect( effect_tied );
+        }
+
+        g->swap_critters( player_character, z );
+
+        if( t ) {
+            z.add_effect( effect_tied, 1_turns, true );
+        }
+        add_msg( _( "You swap positions with your %s." ), pet_name );
+    } else {
+        add_msg( _( "You fail to budge your %s!" ), pet_name );
+    }
+}
+
+void push( monster &z )
+{
+    std::string pet_name = z.get_name();
+    Character &player_character = get_player_character();
+    player_character.moves -= 30;
+
+    ///\EFFECT_STR increases chance to successfully push your pet
+    if( !one_in( player_character.str_cur ) ) {
+        add_msg( _( "You pushed the %s." ), pet_name );
+    } else {
+        add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
+        return;
+    }
+
+    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
+    z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
+}
+
+void rename_pet( monster &z )
+{
+    std::string unique_name = string_input_popup()
+                              .title( _( "Enter new pet name:" ) )
+                              .width( 20 )
+                              .query_string();
+    if( !unique_name.empty() ) {
+        z.unique_name = unique_name;
+    }
+}
+
+void attach_bag_to( monster &z )
+{
+    std::string pet_name = z.get_name();
+
+    auto filter = []( const item & it ) {
+        return it.is_armor() && it.get_total_capacity() > 0_ml;
+    };
+
+    avatar &player_character = get_avatar();
+    item_location loc = game_menus::inv::titled_filter_menu( filter, player_character,
+                        _( "Bag item" ) );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    item &it = *loc;
+    z.storage_item = cata::make_value<item>( it );
+    add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
+    player_character.i_rem( &it );
+    z.add_effect( effect_has_bag, 1_turns, true );
+    // Update encumbrance in case we were wearing it
+    player_character.flag_encumbrance();
+    player_character.moves -= 200;
+}
+
+void dump_items( monster &z )
+{
+    std::string pet_name = z.get_name();
+    Character &player_character = get_player_character();
+    map &here = get_map();
+    for( auto &it : z.inv ) {
+        here.add_item_or_charges( player_character.pos(), it );
+    }
+    z.inv.clear();
+    add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
+    player_character.moves -= 200;
+}
+
+void remove_bag_from( monster &z )
+{
+    std::string pet_name = z.get_name();
+    if( z.storage_item ) {
+        if( !z.inv.empty() ) {
+            dump_items( z );
+        }
+        Character &player_character = get_player_character();
+        get_map().add_item_or_charges( player_character.pos(), *z.storage_item );
+        add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
+        z.storage_item.reset();
+        player_character.moves -= 200;
+    } else {
+        add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
+    }
+    z.remove_effect( effect_has_bag );
+}
+
+bool give_items_to( monster &z )
+{
+    std::string pet_name = z.get_name();
+    if( !z.storage_item ) {
+        add_msg( _( "There is no container on your %s to put things in!" ), pet_name );
+        return true;
+    }
+
+    item &storage = *z.storage_item;
+    units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
+    units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
+
+    avatar &player_character = get_avatar();
+    drop_locations items = game_menus::inv::multidrop( player_character );
+    drop_locations to_move;
+    for( const drop_location &itq : items ) {
+        const item &it = *itq.first;
+        units::volume item_volume = it.volume() * itq.second;
+        units::mass item_weight = it.weight() * itq.second;
+        if( max_weight < item_weight ) {
+            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
+            continue;
+        } else if( max_volume < item_volume ) {
+            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
+            continue;
+        } else {
+            max_weight -= item_weight;
+            max_volume -= item_volume;
+            to_move.insert( to_move.end(), itq );
+        }
+    }
+    // Quit if there is nothing to add
+    if( to_move.empty() ) {
+        add_msg( _( "Never mind." ) );
+        return true;
+    }
+    z.add_effect( effect_controlled, 5_turns );
+    player_character.drop( to_move, z.pos(), true );
+    // Print an appropriate message for the inserted item or items
+    if( to_move.size() > 1 ) {
+        add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
+                 pet_name );
+    } else {
+        item_location loc = to_move.front().first;
+        item &it = *loc;
+        //~ %1$s - item name, %2$s - storage item name, %3$s - pet name
+        add_msg( _( "You put the %1$s in the %2$s on your %3$s." ), it.tname(), storage.tname(), pet_name );
+    }
+    // Return success if all items were inserted
+    return to_move.size() == items.size();
+}
+
+item_location pet_armor_loc( monster &z )
+{
+    auto filter = [z]( const item & it ) {
+        return z.type->bodytype == it.get_pet_armor_bodytype() &&
+               z.get_volume() >= it.get_pet_armor_min_vol() &&
+               z.get_volume() <= it.get_pet_armor_max_vol();
+    };
+
+    return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Pet armor" ) );
+}
+
+bool add_armor( monster &z )
+{
+    std::string pet_name = z.get_name();
+    item_location loc = pet_armor_loc( z );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return true;
+    }
+
+    item &armor = *loc;
+    units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
+    if( max_weight <= armor.weight() ) {
+        add_msg( pgettext( "pet armor", "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
+                 pet_name );
+        return true;
+    }
+
+    armor.set_var( "pet_armor", "true" );
+    z.armor_item = cata::make_value<item>( armor );
+    add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
+             pet_name );
+    loc.remove_item();
+    z.add_effect( effect_monster_armor, 1_turns, true );
+    // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
+    get_player_character().moves -= 200;
+    return true;
+}
+
+void remove_harness( monster &z )
+{
+    z.remove_effect( effect_harnessed );
+    add_msg( m_info, _( "You unhitch %s from the vehicle." ), z.get_name() );
+}
+
+void remove_armor( monster &z )
+{
+    std::string pet_name = z.get_name();
+    if( z.armor_item ) {
+        z.armor_item->erase_var( "pet_armor" );
+        get_map().add_item_or_charges( z.pos(), *z.armor_item );
+        add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
+                 pet_name );
+        z.armor_item.reset();
+        // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
+        get_player_character().moves -= 200;
+    } else {
+        add_msg( m_bad, _( "Your %1$s isn't wearing armor!" ), pet_name );
+    }
+    z.remove_effect( effect_monster_armor );
+}
+
+void play_with( monster &z )
+{
+    std::string pet_name = z.get_name();
+    Character &player_character = get_player_character();
+    const std::string &petstr = z.type->petfood.pet;
+    player_character.assign_activity(
+        player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
+}
+
+void add_leash( monster &z )
+{
+    if( z.has_effect( effect_leashed ) ) {
+        return;
+    }
+    Character &player_character = get_player_character();
+    std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
+        return itm.has_flag( json_flag_TIE_UP );
+    } );
+    if( rope_inv.empty() ) {
+        return;
+    }
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an item to leash your %s with." ), z.get_name() );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    for( const item *iter : rope_inv ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+    }
+    selection_menu.selected = 1;
+    selection_menu.query();
+    int index = selection_menu.ret;
+    if( index == 0 || index == UILIST_CANCEL || index < 0 ||
+        index > static_cast<int>( rope_inv.size() ) ) {
+        return;
+    }
+    item *rope_item = rope_inv[index - 1];
+    z.tied_item = cata::make_value<item>( *rope_item );
+    player_character.i_rem( rope_item );
+    z.add_effect( effect_leashed, 1_turns, true );
+    add_msg( _( "You add a leash to your %s." ), z.get_name() );
+}
+
+void remove_leash( monster &z )
+{
+    if( !z.has_effect( effect_leashed ) ) {
+        return;
+    }
+    z.remove_effect( effect_led_by_leash );
+    z.remove_effect( effect_leashed );
+    if( z.tied_item ) {
+        get_player_character().i_add( *z.tied_item );
+        z.tied_item.reset();
+    }
+    add_msg( _( "You remove the leash from your %s." ), z.get_name() );
+}
+
+void tie_pet( monster &z )
+{
+    if( z.has_effect( effect_tied ) ) {
+        return;
+    }
+    z.add_effect( effect_tied, 1_turns, true );
+    add_msg( _( "You tie your %s." ), z.get_name() );
+}
+
+void untie_pet( monster &z )
+{
+    if( !z.has_effect( effect_tied ) ) {
+        return;
+    }
+    z.remove_effect( effect_tied );
+    if( !z.has_effect( effect_leashed ) ) {
+        // migration code dealing with animals tied before leashing was introduced
+        z.add_effect( effect_leashed, 1_turns, true );
+    }
+    add_msg( _( "You untie your %s." ), z.get_name() );
+}
+
+void start_leading( monster &z )
+{
+    if( z.has_effect( effect_led_by_leash ) ) {
+        return;
+    }
+    if( z.has_effect( effect_tied ) ) {
+        untie_pet( z );
+    }
+    z.add_effect( effect_led_by_leash, 1_turns, true );
+    add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
+}
+
+void stop_leading( monster &z )
+{
+    if( !z.has_effect( effect_led_by_leash ) ) {
+        return;
+    }
+    z.remove_effect( effect_led_by_leash );
+    // The pet may or may not stop following so don't print that here
+    add_msg( _( "You release the %s's leash." ), z.get_name() );
+}
+
+/*
+ * Manages the milking and milking cool down of monsters.
+ * Milked item uses starting_ammo, where ammo type is the milked item
+ * and amount the times per day you can milk the monster.
+ */
+void milk_source( monster &source_mon )
+{
+    itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
+    auto milkable_ammo = source_mon.ammo.find( milked_item );
+    if( milkable_ammo == source_mon.ammo.end() ) {
+        debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
+        return;
+    }
+    if( milkable_ammo->second > 0 ) {
+        const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
+        std::vector<tripoint> coords{};
+        std::vector<std::string> str_values{};
+        Character &player_character = get_player_character();
+        coords.push_back( get_map().getabs( source_mon.pos() ) );
+        // pin the cow in place if it isn't already
+        bool temp_tie = !source_mon.has_effect( effect_tied );
+        if( temp_tie ) {
+            source_mon.add_effect( effect_tied, 1_turns, true );
+            str_values.emplace_back( "temp_tie" );
+        }
+        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
+                                          str_values ) ) );
+
+        add_msg( _( "You milk the %s." ), source_mon.get_name() );
+    } else {
+        add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
+    }
+}
+
+void shear_animal( monster &z )
+{
+    Character &guy = get_player_character();
+    if( !guy.has_quality( qual_SHEAR ) ) {
+        add_msg( _( "You don't have a shearing tool." ) );
+    }
+
+    // was monster already tied before shearing
+    const bool monster_tied = z.has_effect( effect_tied );
+
+    // tie the critter so it doesn't move while being sheared
+    if( !monster_tied ) {
+        z.add_effect( effect_tied, 1_turns, true );
+    }
+
+    guy.assign_activity( player_activity( shearing_activity_actor( z.pos(), !monster_tied ) ) );
+}
+
+void remove_battery( monster &z )
+{
+    get_map().add_item_or_charges( get_player_character().pos(), *z.battery_item );
+    z.battery_item.reset();
+}
+
+void insert_battery( monster &z )
+{
+    if( z.battery_item ) {
+        // already has a battery, shouldn't be called with one, but just incase.
+        return;
+    }
+    Character &player_character = get_player_character();
+    std::vector<item *> bat_inv = player_character.items_with( []( const item & itm ) {
+        return itm.has_flag( json_flag_MECH_BAT );
+    } );
+    if( bat_inv.empty() ) {
+        return;
+    }
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
+                                         z.get_name() );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    for( const item *iter : bat_inv ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+    }
+    selection_menu.selected = 1;
+    selection_menu.query();
+    int index = selection_menu.ret;
+    if( index == 0 || index == UILIST_CANCEL || index < 0 ||
+        index > static_cast<int>( bat_inv.size() ) ) {
+        return;
+    }
+    item *bat_item = bat_inv[index - 1];
+    z.battery_item = cata::make_value<item>( *bat_item );
+    player_character.i_rem( bat_item );
+}
+
+} // namespace
+
+bool Character::can_mount( const monster &critter ) const
+{
+    const auto &avoid = get_path_avoid();
+    auto route = get_map().route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
+
+    if( route.empty() ) {
+        return false;
+    }
+    return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
+             !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
+           ( ( critter.has_effect( effect_monster_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
+             get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
+                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
+}
+
 bool monexamine::pet_menu( monster &z )
 {
     enum choices {
         swap_pos = 0,
+        push_monster,
+        lead,
+        stop_lead,
         rename,
         attach_bag,
         remove_bag,
         drop_all,
-        push_monster,
         give_items,
         mon_armor_add,
         mon_harness_remove,
         mon_armor_remove,
+        leash,
+        unleash,
         play_with_pet,
         milk,
         shear,
@@ -84,7 +566,8 @@ bool monexamine::pet_menu( monster &z )
         attach_saddle,
         remove_saddle,
         mount,
-        rope,
+        tie,
+        untie,
         remove_bat,
         insert_bat,
         check_bat,
@@ -93,15 +576,18 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool is_zombie = z.type->in_species( species_ZOMBIE );
-    if( is_zombie ) {
-        pet_name = _( "zombie slave" );
-    }
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
+    if( z.has_effect( effect_leashed ) ) {
+        if( z.has_effect( effect_led_by_leash ) ) {
+            amenu.addentry( stop_lead, true, 'l', _( "Stop leading %s" ), pet_name );
+        } else {
+            amenu.addentry( lead, true, 'l', _( "Lead %s by the leash" ), pet_name );
+        }
+    }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     amenu.addentry( attack, true, 'A', _( "Attack" ) );
     Character &player_character = get_player_character();
@@ -122,24 +608,28 @@ bool monexamine::pet_menu( monster &z )
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         amenu.addentry( mon_armor_add, true, 'a', _( "Equip %s with armor" ), pet_name );
     }
-    if( z.has_flag( MF_BIRDFOOD ) || z.has_flag( MF_CATFOOD ) || z.has_flag( MF_DOGFOOD ) ||
-        z.has_flag( MF_CANPLAY ) ) {
-        amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
-    }
     if( z.has_effect( effect_tied ) ) {
-        amenu.addentry( rope, true, 't', _( "Untie" ) );
-    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
+        amenu.addentry( untie, true, 't', _( "Untie" ) );
+    }
+    if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
+        amenu.addentry( tie, true, 't', _( "Tie" ) );
+        amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
+    }
+    if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
             return itm.has_flag( json_flag_TIE_UP );
         } );
         if( !rope_inv.empty() ) {
-            amenu.addentry( rope, true, 't', _( "Tie" ) );
+            amenu.addentry( leash, true, 't', _( "Attach leash to %s" ), pet_name );
         } else {
-            amenu.addentry( rope, false, 't', _( "You need any type of rope to tie %s in place" ),
+            amenu.addentry( leash, false, 't', _( "You need any type of rope to leash %s" ),
                             pet_name );
         }
     }
 
+    if( z.has_flag( MF_CANPLAY ) ) {
+        amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
+    }
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
@@ -162,15 +652,15 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
-        player_character.has_item_with_flag( json_flag_TACK ) &&
-        player_character.get_skill_level( skill_survival ) >= 1 ) {
-        amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
-    } else if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
+        player_character.has_item_with_flag( json_flag_TACK ) ) {
+        if( player_character.get_skill_level( skill_survival ) >= 1 ) {
+            amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
+        } else {
+            amenu.addentry( attach_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
+        }
+    }
+    if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
         amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
-    } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
-               player_character.has_item_with_flag( json_flag_TACK ) &&
-               player_character.get_skill_level( skill_survival ) < 1 ) {
-        amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
     }
     if( z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
@@ -201,9 +691,9 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( player_character.weapon.is_null() && z.battery_item ) {
+        if( player_character.get_wielded_item().is_null() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !player_character.weapon.is_null() ) {
+        } else if( !player_character.get_wielded_item().is_null() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
@@ -225,6 +715,12 @@ bool monexamine::pet_menu( monster &z )
             break;
         case push_monster:
             push( z );
+            break;
+        case lead:
+            start_leading( z );
+            break;
+        case stop_lead:
+            stop_leading( z );
             break;
         case rename:
             rename_pet( z );
@@ -253,12 +749,23 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
-        case rope:
-            tie_or_untie( z );
+        case leash:
+            add_leash( z );
+            break;
+        case unleash:
+            remove_leash( z );
+            break;
+        case tie:
+            tie_pet( z );
+            break;
+        case untie:
+            untie_pet( z );
             break;
         case attach_saddle:
+            attach_saddle_to( z );
+            break;
         case remove_saddle:
-            attach_or_remove_saddle( z );
+            remove_saddle_from( z );
             break;
         case mount:
             mount_pet( z );
@@ -291,82 +798,6 @@ bool monexamine::pet_menu( monster &z )
     return true;
 }
 
-void monexamine::shear_animal( monster &z )
-{
-    Character &guy = get_player_character();
-    if( !guy.has_quality( qual_SHEAR ) ) {
-        add_msg( _( "You don't have a shearing tool." ) );
-    }
-
-    // was monster already tied before shearing
-    const bool monster_tied = z.has_effect( effect_tied );
-
-    // tie the critter so it doesn't move while being sheared
-    if( !monster_tied ) {
-        z.add_effect( effect_tied, 1_turns, true );
-    }
-
-    guy.assign_activity( player_activity( shearing_activity_actor( z.pos(), !monster_tied ) ) );
-}
-
-static item_location pet_armor_loc( monster &z )
-{
-    auto filter = [z]( const item & it ) {
-        return z.type->bodytype == it.get_pet_armor_bodytype() &&
-               z.get_volume() >= it.get_pet_armor_min_vol() &&
-               z.get_volume() <= it.get_pet_armor_max_vol();
-    };
-
-    return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Pet armor" ) );
-}
-
-static item_location tack_loc()
-{
-    auto filter = []( const item & it ) {
-        return it.has_flag( json_flag_TACK );
-    };
-
-    return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Tack" ) );
-}
-
-void monexamine::remove_battery( monster &z )
-{
-    get_map().add_item_or_charges( get_player_character().pos(), *z.battery_item );
-    z.battery_item.reset();
-}
-
-void monexamine::insert_battery( monster &z )
-{
-    if( z.battery_item ) {
-        // already has a battery, shouldn't be called with one, but just incase.
-        return;
-    }
-    Character &player_character = get_player_character();
-    std::vector<item *> bat_inv = player_character.items_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_MECH_BAT );
-    } );
-    if( bat_inv.empty() ) {
-        return;
-    }
-    int i = 0;
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
-                                         z.get_name() );
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( const item *iter : bat_inv ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
-    }
-    selection_menu.selected = 1;
-    selection_menu.query();
-    int index = selection_menu.ret;
-    if( index == 0 || index == UILIST_CANCEL || index < 0 ||
-        index > static_cast<int>( bat_inv.size() ) ) {
-        return;
-    }
-    item *bat_item = bat_inv[index - 1];
-    z.battery_item = cata::make_value<item>( *bat_item );
-    player_character.i_rem( bat_item );
-}
 
 bool monexamine::mech_hack( monster &z )
 {
@@ -422,8 +853,8 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
-                                   "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
+                         n_gettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
                 player_character.use_charges( itype_cash_card, amount * 10 );
@@ -484,334 +915,4 @@ bool monexamine::mfriend_menu( monster &z )
     }
 
     return true;
-}
-
-void monexamine::attach_or_remove_saddle( monster &z )
-{
-    if( z.has_effect( effect_monster_saddled ) ) {
-        z.remove_effect( effect_monster_saddled );
-        get_player_character().i_add( *z.tack_item );
-        z.tack_item.reset();
-    } else {
-        item_location loc = tack_loc();
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-        z.add_effect( effect_monster_saddled, 1_turns, true );
-        z.tack_item = cata::make_value<item>( *loc.get_item() );
-        loc.remove_item();
-    }
-}
-
-bool Character::can_mount( const monster &critter ) const
-{
-    const auto &avoid = get_path_avoid();
-    auto route = get_map().route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
-
-    if( route.empty() ) {
-        return false;
-    }
-    return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
-             !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
-           ( ( critter.has_effect( effect_monster_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
-             get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
-}
-
-void monexamine::mount_pet( monster &z )
-{
-    get_player_character().mount_creature( z );
-}
-
-void monexamine::swap( monster &z )
-{
-    std::string pet_name = z.get_name();
-    Character &player_character = get_player_character();
-    player_character.moves -= 150;
-
-    ///\EFFECT_STR increases chance to successfully swap positions with your pet
-    ///\EFFECT_DEX increases chance to successfully swap positions with your pet
-    if( !one_in( ( player_character.str_cur + player_character.dex_cur ) / 6 ) ) {
-        bool t = z.has_effect( effect_tied );
-        if( t ) {
-            z.remove_effect( effect_tied );
-        }
-
-        g->swap_critters( player_character, z );
-
-        if( t ) {
-            z.add_effect( effect_tied, 1_turns, true );
-        }
-        add_msg( _( "You swap positions with your %s." ), pet_name );
-    } else {
-        add_msg( _( "You fail to budge your %s!" ), pet_name );
-    }
-}
-
-void monexamine::push( monster &z )
-{
-    std::string pet_name = z.get_name();
-    Character &player_character = get_player_character();
-    player_character.moves -= 30;
-
-    ///\EFFECT_STR increases chance to successfully push your pet
-    if( !one_in( player_character.str_cur ) ) {
-        add_msg( _( "You pushed the %s." ), pet_name );
-    } else {
-        add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
-        return;
-    }
-
-    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
-}
-
-void monexamine::rename_pet( monster &z )
-{
-    std::string unique_name = string_input_popup()
-                              .title( _( "Enter new pet name:" ) )
-                              .width( 20 )
-                              .query_string();
-    if( !unique_name.empty() ) {
-        z.unique_name = unique_name;
-    }
-}
-
-void monexamine::attach_bag_to( monster &z )
-{
-    std::string pet_name = z.get_name();
-
-    auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_total_capacity() > 0_ml;
-    };
-
-    avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::titled_filter_menu( filter, player_character,
-                        _( "Bag item" ) );
-
-    if( !loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    item &it = *loc;
-    z.storage_item = cata::make_value<item>( it );
-    add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
-    player_character.i_rem( &it );
-    z.add_effect( effect_has_bag, 1_turns, true );
-    // Update encumbrance in case we were wearing it
-    player_character.flag_encumbrance();
-    player_character.moves -= 200;
-}
-
-void monexamine::remove_bag_from( monster &z )
-{
-    std::string pet_name = z.get_name();
-    if( z.storage_item ) {
-        if( !z.inv.empty() ) {
-            dump_items( z );
-        }
-        Character &player_character = get_player_character();
-        get_map().add_item_or_charges( player_character.pos(), *z.storage_item );
-        add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
-        z.storage_item.reset();
-        player_character.moves -= 200;
-    } else {
-        add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
-    }
-    z.remove_effect( effect_has_bag );
-}
-
-void monexamine::dump_items( monster &z )
-{
-    std::string pet_name = z.get_name();
-    Character &player_character = get_player_character();
-    map &here = get_map();
-    for( auto &it : z.inv ) {
-        here.add_item_or_charges( player_character.pos(), it );
-    }
-    z.inv.clear();
-    add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
-    player_character.moves -= 200;
-}
-
-bool monexamine::give_items_to( monster &z )
-{
-    std::string pet_name = z.get_name();
-    if( !z.storage_item ) {
-        add_msg( _( "There is no container on your %s to put things in!" ), pet_name );
-        return true;
-    }
-
-    item &storage = *z.storage_item;
-    units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
-
-    avatar &player_character = get_avatar();
-    drop_locations items = game_menus::inv::multidrop( player_character );
-    drop_locations to_move;
-    for( const drop_location &itq : items ) {
-        const item &it = *itq.first;
-        units::volume item_volume = it.volume() * itq.second;
-        units::mass item_weight = it.weight() * itq.second;
-        if( max_weight < item_weight ) {
-            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
-            continue;
-        } else if( max_volume < item_volume ) {
-            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
-            continue;
-        } else {
-            max_weight -= item_weight;
-            max_volume -= item_volume;
-            to_move.insert( to_move.end(), itq );
-        }
-    }
-    // Quit if there is nothing to add
-    if( to_move.empty() ) {
-        add_msg( _( "Never mind." ) );
-        return true;
-    }
-    z.add_effect( effect_controlled, 5_turns );
-    player_character.drop( to_move, z.pos(), true );
-    // Print an appropriate message for the inserted item or items
-    if( to_move.size() > 1 ) {
-        add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
-                 pet_name );
-    } else {
-        item_location loc = to_move.front().first;
-        item &it = *loc;
-        //~ %1$s - item name, %2$s - storage item name, %3$s - pet name
-        add_msg( _( "You put the %1$s in the %2$s on your %3$s." ), it.tname(), storage.tname(), pet_name );
-    }
-    // Return success if all items were inserted
-    return to_move.size() == items.size();
-}
-
-bool monexamine::add_armor( monster &z )
-{
-    std::string pet_name = z.get_name();
-    item_location loc = pet_armor_loc( z );
-
-    if( !loc ) {
-        add_msg( _( "Never mind." ) );
-        return true;
-    }
-
-    item &armor = *loc;
-    units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    if( max_weight <= armor.weight() ) {
-        add_msg( pgettext( "pet armor", "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
-                 pet_name );
-        return true;
-    }
-
-    armor.set_var( "pet_armor", "true" );
-    z.armor_item = cata::make_value<item>( armor );
-    add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
-             pet_name );
-    loc.remove_item();
-    z.add_effect( effect_monster_armor, 1_turns, true );
-    // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
-    get_player_character().moves -= 200;
-    return true;
-}
-
-void monexamine::remove_harness( monster &z )
-{
-    z.remove_effect( effect_harnessed );
-    add_msg( m_info, _( "You unhitch %s from the vehicle." ), z.get_name() );
-}
-
-void monexamine::remove_armor( monster &z )
-{
-    std::string pet_name = z.get_name();
-    if( z.armor_item ) {
-        z.armor_item->erase_var( "pet_armor" );
-        get_map().add_item_or_charges( z.pos(), *z.armor_item );
-        add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
-                 pet_name );
-        z.armor_item.reset();
-        // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
-        get_player_character().moves -= 200;
-    } else {
-        add_msg( m_bad, _( "Your %1$s isn't wearing armor!" ), pet_name );
-    }
-    z.remove_effect( effect_monster_armor );
-}
-
-void monexamine::play_with( monster &z )
-{
-    std::string pet_name = z.get_name();
-    Character &player_character = get_player_character();
-    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
-}
-
-void monexamine::tie_or_untie( monster &z )
-{
-    Character &player_character = get_player_character();
-    if( z.has_effect( effect_tied ) ) {
-        z.remove_effect( effect_tied );
-        add_msg( _( "You untie your %s." ), z.get_name() );
-        if( z.tied_item ) {
-            player_character.i_add( *z.tied_item );
-            z.tied_item.reset();
-        }
-    } else {
-        std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-            return itm.has_flag( json_flag_TIE_UP );
-        } );
-        if( rope_inv.empty() ) {
-            return;
-        }
-        int i = 0;
-        uilist selection_menu;
-        selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-        for( const item *iter : rope_inv ) {
-            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
-        }
-        selection_menu.selected = 1;
-        selection_menu.query();
-        int index = selection_menu.ret;
-        if( index == 0 || index == UILIST_CANCEL || index < 0 ||
-            index > static_cast<int>( rope_inv.size() ) ) {
-            return;
-        }
-        item *rope_item = rope_inv[index - 1];
-        z.tied_item = cata::make_value<item>( *rope_item );
-        player_character.i_rem( rope_item );
-        z.add_effect( effect_tied, 1_turns, true );
-        add_msg( _( "You tie your %s." ), z.get_name() );
-    }
-}
-
-void monexamine::milk_source( monster &source_mon )
-{
-    itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
-    auto milkable_ammo = source_mon.ammo.find( milked_item );
-    if( milkable_ammo == source_mon.ammo.end() ) {
-        debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
-        return;
-    }
-    if( milkable_ammo->second > 0 ) {
-        const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint> coords{};
-        std::vector<std::string> str_values{};
-        Character &player_character = get_player_character();
-        coords.push_back( get_map().getabs( source_mon.pos() ) );
-        // pin the cow in place if it isn't already
-        bool temp_tie = !source_mon.has_effect( effect_tied );
-        if( temp_tie ) {
-            source_mon.add_effect( effect_tied, 1_turns, true );
-            str_values.emplace_back( "temp_tie" );
-        }
-        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
-                                          str_values ) ) );
-
-        add_msg( _( "You milk the %s." ), source_mon.get_name() );
-    } else {
-        add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
-    }
 }

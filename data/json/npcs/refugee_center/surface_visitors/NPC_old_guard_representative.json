@@ -223,10 +223,10 @@
       },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
-        { "u_buy_item": "ruger_redhawk" },
-        { "u_buy_item": "44magnum", "count": 17 },
-        { "u_buy_item": "holster" },
-        { "u_buy_item": "badge_marshal" },
+        { "u_spawn_item": "ruger_redhawk" },
+        { "u_spawn_item": "44magnum", "count": 17 },
+        { "u_spawn_item": "holster" },
+        { "u_spawn_item": "badge_marshal" },
         { "u_add_trait": "PROF_FED" }
       ]
     },

@@ -6,9 +6,7 @@
 
 #include "cata_utility.h"
 #include "character.h"
-#include "game.h"
 #include "json.h"
-#include "player.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"
@@ -140,15 +138,10 @@ static units::volume string_to_ml( const std::string &str )
     return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
 }
 
-void stomach_contents::deserialize( JsonIn &json )
+void stomach_contents::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = json.get_object();
     jo.read( "vitamins", nutr.vitamins );
     jo.read( "calories", nutr.calories );
-    // nutr.calories was changed from being in kcal to being in cal
-    if( savegame_loading_version <= 31 ) {
-        nutr.calories *= 1000;
-    }
     std::string str;
     jo.read( "water", str );
     water = string_to_ml( str );

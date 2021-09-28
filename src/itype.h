@@ -32,10 +32,8 @@
 #include "value_ptr.h"
 
 class Item_factory;
-class JsonIn;
 class JsonObject;
 class item;
-class player;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -92,8 +90,8 @@ class gunmod_location
             return _id < rhs._id;
         }
 
-        void deserialize( JsonIn &jsin ) {
-            _id = jsin.get_string();
+        void deserialize( std::string &&id ) {
+            _id = std::move( id );
         }
 };
 
@@ -168,6 +166,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /** pet food category */
+        std::set<std::string> petfood;
+
         /**effect on conditions to apply on consumption*/
         std::vector<effect_on_condition_id> consumption_eocs;
 
@@ -214,7 +215,7 @@ struct islot_brewable {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct armor_portion_data {
@@ -236,7 +237,7 @@ struct armor_portion_data {
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_armor {
@@ -285,7 +286,7 @@ struct islot_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_pet_armor {
@@ -321,7 +322,7 @@ struct islot_pet_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_book {
@@ -393,7 +394,7 @@ struct islot_book {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_mod {
@@ -454,7 +455,7 @@ struct islot_engine {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct islot_wheel {
@@ -468,24 +469,34 @@ struct islot_wheel {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
-struct gun_variant_data {
+enum class itype_variant_kind : int {
+    gun,
+    generic,
+    last
+};
+
+template<>
+struct enum_traits<itype_variant_kind> {
+    static constexpr itype_variant_kind last = itype_variant_kind::last;
+};
+
+struct itype_variant_data {
     std::string id;
-    translation brand_name;
+    translation alt_name;
     translation alt_description;
     ascii_art_id art;
 
     int weight = 0;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
-    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -669,7 +680,6 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
-    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -696,7 +706,7 @@ struct islot_battery {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -765,7 +775,7 @@ struct islot_ammo : common_ranged_data {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_bionic {
@@ -793,7 +803,7 @@ struct islot_seed {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
@@ -827,6 +837,7 @@ enum condition_type {
     FLAG,
     COMPONENT_ID,
     VAR,
+    SNIPPET_ID,
     num_condition_types
 };
 
@@ -841,6 +852,8 @@ struct conditional_name {
     condition_type type;
     // Context name  (i.e. "CANNIBALISM"   or "mutant")
     std::string condition;
+    // Used for variables and snippets to identify the specific value
+    std::string value;
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
@@ -855,7 +868,7 @@ class islot_milling
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct itype {
@@ -890,11 +903,16 @@ struct itype {
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
+        // Potential variant items that exist of this type (same stats, different name and desc)
+        std::vector<itype_variant_data> variants;
+
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
+
+        std::set<std::string> weapon_category;
 
         std::string snippet_category;
         translation description; // Flavor text
@@ -917,6 +935,9 @@ struct itype {
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
+        /** The factor of ammo consumption indexed by action type*/
+        std::map<std::string, float> ammo_scale;
+
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
 
@@ -931,6 +952,10 @@ struct itype {
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
+
+        // Needs to go so far away because padding!
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
@@ -1018,6 +1043,9 @@ struct itype {
 
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
+
+        // What it has to say.
+        std::vector<std::string> chat_topics;
 
         layer_level layer = layer_level::NUM_LAYER_LEVELS;
 
@@ -1153,11 +1181,11 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        cata::optional<int> invoke( player &p, item &it,
+        cata::optional<int> invoke( Character &p, item &it,
                                     const tripoint &pos ) const; // Picks first method or returns 0
-        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+        cata::optional<int> invoke( Character &p, item &it, const tripoint &pos,
                                     const std::string &iuse_name ) const;
-        int tick( player &p, item &it, const tripoint &pos ) const;
+        int tick( Character &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
 

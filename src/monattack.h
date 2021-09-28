@@ -49,6 +49,7 @@ bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
 bool plant( monster *z );
 bool disappear( monster *z );
+bool depart( monster *z );
 bool formblob( monster *z );
 bool callblobs( monster *z );
 bool jackson( monster *z );

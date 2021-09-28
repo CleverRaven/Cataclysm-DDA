@@ -63,6 +63,22 @@
     "price_postapoc": 100
   },
   {
+    "type": "GENERIC",
+    "id": "it_handheld_battery_mount",
+    "name": { "str": "tool battery mount" },
+    "description": "An empty mount that can connect conventional batteries used in most handheld tools to vehicular power grid.  Complete with power converter, charging controller chip, connecting wires and a harness for securing a battery.",
+    "weight": "400 g",
+    "to_hit": -2,
+    "color": "light_gray",
+    "symbol": ":",
+    "material": [ "plastic", "steel", "copper" ],
+    "volume": "300 ml",
+    "bashing": 1,
+    "category": "veh_parts",
+    "price": 1000,
+    "price_postapoc": 500
+  },
+  {
     "id": "large_storage_battery",
     "copy-from": "storage_battery",
     "type": "MAGAZINE",
