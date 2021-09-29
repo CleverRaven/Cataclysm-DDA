@@ -690,6 +690,20 @@
     "start_name": "Mansion",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
-    "professions": [ "maid", "frat", "lost_sub", "lawyer", "politician", "dancer", "spouse", "musician", "chef", "groundskeeper", "homemaker", "mafia_boss", "major-general" ]
+    "professions": [
+      "maid",
+      "frat",
+      "lost_sub",
+      "lawyer",
+      "politician",
+      "dancer",
+      "spouse",
+      "musician",
+      "chef",
+      "groundskeeper",
+      "homemaker",
+      "mafia_boss",
+      "major-general"
+    ]
   }
 ]
