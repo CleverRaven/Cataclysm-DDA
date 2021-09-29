@@ -107,6 +107,7 @@ class diary
         std::vector<std::string> get_change_list(int position);
         diary_page* get_page_ptr(int position);
         std::string get_page_text(int position);
+        std::string get_head_text(int position);
 
         void skill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
         void kill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);

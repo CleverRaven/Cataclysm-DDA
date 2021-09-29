@@ -328,6 +328,34 @@ std::string diary::get_page_text(int position) {
     return "";
 }
 
+std::string diary::get_head_text(int position) {
+    //eintry x /max, x , time sice last entry x
+    if (position < 0) position = 0;
+    if (!pages.empty()) {
+        position = position % pages.size();
+        /*const int year = to_turns<int>(pages[position]->turn - calendar::turn_zero) / to_turns<int>
+            (calendar::year_length()) + 1;*/
+        const time_point prev_turn = (position != 0) ? pages[position - 1]->turn : calendar::turn_zero;
+        const time_duration turn_diff = pages[position]->turn - prev_turn;
+            /*const std::string time = to_string_time_of_day();
+            const int day = to_days<int>(time_past_new_year(pages[position]->turn));
+            const int prevday = (position != 0)? to_days<int>(time_past_new_year(pages[position-1]->turn)): to_days<int>(time_past_new_year(calendar::turn_zero));*/
+        const int days = to_days<int>(turn_diff);
+        const int hours = to_hours<int>(turn_diff)%24;
+        const int minutes= to_minutes<int>(turn_diff)%60;
+        std::string headtext = string_format(_("Entry: %d/%d, %s, %s"),
+            position + 1, pages.size(),
+            to_string(pages[position]->turn),
+            (position != 0) ? string_format(_("%s%s%d minutes since last entry"),
+                (days > 0) ? string_format(_("%d days, "), days) : "",
+                (hours > 0) ? string_format(_("%d hours, "), hours) : "",
+                 minutes) : "");
+            
+        return headtext;
+    }
+    return "";
+}
+
 diary::diary() {
     owner = get_avatar().name;
 }
@@ -362,7 +390,7 @@ void diary::new_page() {
     page ->male = u->male;
     page->addictions = u->addictions;
     
-    page -> follower_ids = u->follower_ids;
+    page -> follower_ids = u->follower_ids; 
     //page -> traits = u-> my_traits;
     page->traits = u->get_mutations(false);
     
@@ -403,7 +431,7 @@ void diary::export_to_txt() {
     //std::vector<diary_page*>::iterator ptr;
     for (int i = 0; i < pages.size(); i++) {
         diary_page page = *pages[i];
-        myfile << page.m_date + "\n\n";
+        myfile << get_head_text(i) + "\n\n";
         for (auto str : this->get_change_list(i)) {
             myfile << remove_color_tags(str) + "\n";
         }
