@@ -125,8 +125,8 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 Creature::~Creature() = default;
 
 
-std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect>{};
-std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect>{};
+std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
+std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
 
 tripoint Creature::pos() const
 {
@@ -1345,25 +1345,25 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
                 deferred );
 }
 
-void Creature::schedule_effect(const effect &eff, bool force, bool deferred )
+void Creature::schedule_effect( const effect &eff, bool force, bool deferred )
 {
-    scheduled_effects.push(scheduled_effect{eff.get_id(), eff.get_duration(), eff.get_bp(),
-                              eff.is_permanent(), eff.get_intensity(), force,
-                              deferred});
+    scheduled_effects.push( scheduled_effect{eff.get_id(), eff.get_duration(), eff.get_bp(),
+                            eff.is_permanent(), eff.get_intensity(), force,
+                            deferred} );
 }
 void Creature::schedule_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
                                 bool permanent, int intensity, bool force, bool deferred )
 {
-    scheduled_effects.push(scheduled_effect{eff_id, dur, bp,
-                              permanent, intensity, force,
-                              deferred});
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bp,
+                            permanent, intensity, force,
+                            deferred} );
 }
 void Creature::schedule_effect( const efftype_id &eff_id,
                                 const time_duration &dur, bool permanent, int intensity, bool force,
                                 bool deferred )
 {
-    scheduled_effects.push(scheduled_effect{eff_id, dur, bodypart_str_id::NULL_ID(),
-                              permanent, intensity, force, deferred});
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bodypart_str_id::NULL_ID(),
+                            permanent, intensity, force, deferred} );
 }
 
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
@@ -1438,7 +1438,7 @@ bool Creature::remove_effect( const efftype_id &eff_id )
 
 void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart_id &bp )
 {
-    terminating_effects.push(terminating_effect{eff_id, bp});
+    terminating_effects.push( terminating_effect{eff_id, bp} );
 }
 void Creature::schedule_effect_removal( const efftype_id &eff_id )
 {

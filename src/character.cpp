@@ -9002,7 +9002,7 @@ void Character::process_effects()
 
     // Apply new effects from effect->effect chains
     while( !scheduled_effects.empty() ) {
-        const auto& effect = scheduled_effects.front();
+        const auto &effect = scheduled_effects.front();
 
         add_effect( effect_source::empty(),
                     effect.eff_id,
@@ -9017,11 +9017,11 @@ void Character::process_effects()
     }
 
     // Perform immediate effect removals
-    while ( !terminating_effects.empty() ) {
+    while( !terminating_effects.empty() ) {
 
-        const auto& effect = terminating_effects.front();
+        const auto &effect = terminating_effects.front();
 
-        remove_effect(effect.eff_id, effect.bp);
+        remove_effect( effect.eff_id, effect.bp );
 
         terminating_effects.pop();
     }

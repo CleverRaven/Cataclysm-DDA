@@ -221,8 +221,7 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-using scheduled_effect = struct scheduled_effect_t
-{
+using scheduled_effect = struct scheduled_effect_t {
     efftype_id eff_id;
     time_duration dur;
     bodypart_id bp;
@@ -232,8 +231,7 @@ using scheduled_effect = struct scheduled_effect_t
     bool deferred = false;
 };
 
-using terminating_effect = struct terminating_effect_t
-{
+using terminating_effect = struct terminating_effect_t {
     efftype_id eff_id;
     bodypart_id bp;
 };
@@ -567,12 +565,12 @@ class Creature : public viewer
         /** Schedules a new effect to be applied. Used during effect processing to avoid invalidating
             current effects map. */
         void schedule_effect( const effect &eff, bool force = false,
-                         bool deferred = false );
+                              bool deferred = false );
         void schedule_effect( const efftype_id &eff_id, const time_duration &dur,
-                         bodypart_id bp, bool permanent = false, int intensity = 0, bool force = false,
-                         bool deferred = false );
+                              bodypart_id bp, bool permanent = false, int intensity = 0, bool force = false,
+                              bool deferred = false );
         void schedule_effect( const efftype_id &eff_id, const time_duration &dur,
-                         bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
+                              bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
@@ -585,8 +583,8 @@ class Creature : public viewer
         bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp );
         bool remove_effect( const efftype_id &eff_id );
         /** Schedule effect removal */
-        void schedule_effect_removal(const efftype_id &eff_id, const bodypart_id &bp);
-        void schedule_effect_removal(const efftype_id &eff_id);
+        void schedule_effect_removal( const efftype_id &eff_id, const bodypart_id &bp );
+        void schedule_effect_removal( const efftype_id &eff_id );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
