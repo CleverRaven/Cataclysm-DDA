@@ -1529,7 +1529,9 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
                                  damage_instance &dam )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
+    weakpoint_attack attack_copy = attack;
+    attack_copy.target = this;
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack_copy );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",

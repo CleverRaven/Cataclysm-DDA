@@ -29,6 +29,45 @@
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
+    "id": "weakpoint_mon",
+    "type": "MONSTER",
+    "name": { "str": "weakpoint monster" },
+    "description": "This monster exists only for weakpoint testing purposes.",
+    "default_faction": "",
+    "species": [ "ZOMBIE" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 10000,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "X",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_cut": 0,
+    "vision_day": 1,
+    "armor_bullet": 100,
+    "weakpoints": [
+      {
+        "name": "the belly",
+        "armor_mult": { "bullet": 0.5 },
+        "armor_penalty": { "bullet": 25 },
+        "coverage": 25,
+        "required_effects": [ "stunned" ]
+      },
+      {
+        "name": "the bugs",
+        "armor_mult": { "bullet": 0.0 },
+        "armor_penalty": { "bullet": 0 },
+        "damage_mult": { "all": 2.0 },
+        "coverage": 25
+      }
+    ],
+    "harvest": "exempt",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+  },
+  {
     "id": "mon_dragon_dummy",
     "type": "MONSTER",
     "name": { "str": "ancient red dragon" },
