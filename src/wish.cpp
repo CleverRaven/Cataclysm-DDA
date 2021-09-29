@@ -562,7 +562,7 @@ class wish_monster_callback: public uilist_callback
             if( valid_entnum ) {
                 tmp.print_info( w_info, 2, 5, 1 );
 
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.str(),
                                                     group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
