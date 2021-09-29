@@ -132,6 +132,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_ninemm",
-    "items": [ [ "glock_19", 250 ], [ "ksub2000", 250 ], [ "sw_619", 250 ], [ "glock_17", 250 ] ]
+    "items": [ [ "glock_19", 200 ], [ "ksub2000", 200 ], [ "uzi", 100 ], [ "cx4", 100 ], [ "sw_619", 200 ], [ "glock_17", 200 ] ]
   }
 ]
