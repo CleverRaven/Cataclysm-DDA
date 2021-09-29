@@ -13,11 +13,13 @@ static const itype_id itype_large_repairkit( "large_repairkit" );
 template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
 {
+    std::vector<item_location> found_ammo;
+
     if( obj.is_watertight_container() ) {
         if( !obj.is_container_empty() ) {
 
             // Look for containers with the same type of liquid as that already in our container
-            src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
+            src.visit_items( [&src, &nested, &out, &obj, &found_ammo]( item * node, item * parent ) {
                 if( node == &obj ) {
                     // This stops containers and magazines counting *themselves* as ammo sources
                     return VisitResponse::SKIP;
@@ -43,14 +45,18 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
 
                 if( node->made_of_from_type( phase_id::LIQUID ) ) {
-                    out = item_location( item_location( src, parent ), node );
+                    item_location loadable = item_location( item_location( src, parent ), node );
+                    if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                        found_ammo.push_back( loadable );
+                        out = loadable;
+                    }
                 }
 
                 return VisitResponse::NEXT;
             } );
         } else {
             // Look for containers with any liquid and loose frozen liquids
-            src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
+            src.visit_items( [&src, &nested, &out, &found_ammo]( item * node, item * parent ) {
                 // Prevents reloading with items frozen in watertight containers.
                 if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
@@ -72,7 +78,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
 
                 if( node->made_of_from_type( phase_id::LIQUID ) ) {
-                    out = item_location( item_location( src, parent ), node );
+                    item_location loadable = item_location( item_location( src, parent ), node );
+                    if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                        found_ammo.push_back( loadable );
+                        out = loadable;
+                    }
                 }
 
                 return VisitResponse::NEXT;
@@ -83,7 +93,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         // find suitable ammo excluding that already loaded in magazines
         std::set<ammotype> ammo = obj.ammo_types();
 
-        src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, ammo, &found_ammo]( item * node, item * parent ) {
             if( !node->made_of_from_type( phase_id::SOLID ) && parent == nullptr ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
@@ -91,7 +101,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( !node->made_of( phase_id::SOLID ) && parent != nullptr ) {
                 for( const ammotype &at : ammo ) {
                     if( node->ammo_type() == at ) {
-                        out = item_location( src, node );
+                        item_location loadable = item_location( src, node );
+                        if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                            found_ammo.push_back( loadable );
+                            out = loadable;
+                        }
                     }
                 }
                 return VisitResponse::SKIP;
@@ -111,14 +125,22 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( parent != nullptr && parent->is_container() ) {
                 for( const ammotype &at : ammo ) {
                     if( node->ammo_type() == at ) {
-                        out = item_location( item_location( src, parent ), node );
+                        item_location loadable = item_location( item_location( src, parent ), node );
+                        if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                            found_ammo.push_back( loadable );
+                            out = loadable;
+                        }
                     }
                 }
                 if( node->is_magazine() &&
                     ( parent == nullptr || node != parent->magazine_current() ) &&
                     node->has_flag( flag_SPEEDLOADER ) ) {
                     if( node->ammo_remaining() ) {
-                        out = item_location( item_location( src, parent ), node );
+                        item_location loadable = item_location( item_location( src, parent ), node );
+                        if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                            found_ammo.push_back( loadable );
+                            out = loadable;
+                        }
                     }
                 }
                 return VisitResponse::NEXT;
@@ -127,32 +149,48 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             // everything else, probably?
             for( const ammotype &at : ammo ) {
                 if( node->ammo_type() == at ) {
-                    out = item_location( src, node );
+                    item_location loadable = item_location( src, node );
+                    if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                        found_ammo.push_back( loadable );
+                        out = loadable;
+                    }
                 }
             }
             if( node->is_magazine() &&
                 ( parent == nullptr || node != parent->magazine_current() ) &&
                 node->has_flag( flag_SPEEDLOADER ) ) {
                 if( node->ammo_remaining() ) {
-                    out = item_location( src, node );
+                    item_location loadable = item_location( src, node );
+                    if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                        found_ammo.push_back( loadable );
+                        out = loadable;
+                    }
                 }
             }
             return VisitResponse::NEXT;
         } );
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
-        src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, &obj, empty, &found_ammo]( item * node, item * parent ) {
             // magazine is inside some sort of a container
             if( parent != nullptr && node != parent->magazine_current() && parent->is_container() ) {
                 if( obj.can_contain( *node, true ).success() && ( node->ammo_remaining() || empty ) ) {
-                    out = item_location( item_location( src, parent ), node );
+                    item_location loadable = item_location( item_location( src, parent ), node );
+                    if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                        found_ammo.push_back( loadable );
+                        out = loadable;
+                    }
                 }
                 return node->is_magazine() ? VisitResponse::SKIP : VisitResponse::NEXT;
             }
             //everything else, probably?
             if( parent == nullptr || node != parent->magazine_current() ) {
                 if( obj.can_contain( *node, true ).success() && ( node->ammo_remaining() || empty ) ) {
-                    out = item_location( src, node );
+                    item_location loadable = item_location( src, node );
+                    if( std::find( found_ammo.begin(), found_ammo.end(), loadable ) == found_ammo.end() ) {
+                        found_ammo.push_back( loadable );
+                        out = loadable;
+                    }
                 }
                 return node->is_magazine() ? VisitResponse::SKIP : VisitResponse::NEXT;
             }
