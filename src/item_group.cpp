@@ -93,7 +93,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
     if( container.is_software_storage() && payload.is_software() ) {
         return item_pocket::pocket_type::SOFTWARE;
     }
-    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
+    if( ( container.is_gun() || container.is_tool() ) && payload.act_as_magazine() ) {
         return item_pocket::pocket_type::MAGAZINE_WELL;
     } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
         return item_pocket::pocket_type::MAGAZINE;
@@ -456,7 +456,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         } else if( new_item.is_tool() ) {
             if( !new_item.magazine_default().is_null() ) {
                 item mag( new_item.magazine_default() );
-                mag.ammo_set( mag.ammo_default(), ch );
+                if( !mag.ammo_default().is_null() ) {
+                    mag.ammo_set( mag.ammo_default(), ch );
+                }
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
@@ -502,7 +504,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
         if( spawn_mag ) {
             item mag( new_item.magazine_default(), new_item.birthday() );
-            if( spawn_ammo ) {
+            if( spawn_ammo && !mag.ammo_default().is_null() ) {
                 mag.ammo_set( mag.ammo_default() );
             }
             new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );

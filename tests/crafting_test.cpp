@@ -408,9 +408,14 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     avatar dummy;
     clear_character( dummy );
     dummy.worn.emplace_back( "backpack" );
-    item &ups = dummy.i_add( item( "UPS_off", calendar::turn_zero, 500 ) );
+    item &ups = dummy.i_add( item( "UPS_off" ) );
+    item ups_mag( ups.magazine_default() );
+    ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
+    ret_val<bool> result = ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    INFO( result.c_str() );
+    REQUIRE( result.success() );
     REQUIRE( dummy.has_item( ups ) );
-    REQUIRE( ups.charges == 500 );
+    REQUIRE( ups.ammo_remaining() == 500 );
     REQUIRE( dummy.available_ups() == 500 );
 }
 
