@@ -24,6 +24,9 @@
     "id": [
       "TALK_FREE_MERCHANT_TEAMSTER"
     ],
+    "dynamic_line": { 
+    "yes": "What can I help you with?",
+    "no": "Well now, a new face.  Nice t'meet ya
     "type": "talk_topic",
     "responses": [
 ]
