@@ -37,8 +37,9 @@ template <> struct hash<cube_direction> {
 };
 } // namespace std
 
-cube_direction operator+( const cube_direction, const om_direction::type );
-cube_direction operator+( const cube_direction, int i );
-cube_direction operator-( const cube_direction, int i );
+cube_direction operator+( cube_direction, om_direction::type );
+cube_direction operator+( cube_direction, int i );
+cube_direction operator-( cube_direction, om_direction::type );
+cube_direction operator-( cube_direction, int i );
 
 #endif // CATA_SRC_CUBE_DIRECTION_H

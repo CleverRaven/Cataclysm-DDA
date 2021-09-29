@@ -204,25 +204,31 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SOURCE_WEAPON", oter_flags::source_weapon }
 };
 
-struct om_pos_dir {
-    tripoint_om_omt p;
+template<typename Tripoint>
+struct pos_dir {
+    Tripoint p;
     cube_direction dir;
 
-    bool inbounds() const;
-    om_pos_dir opposite() const;
+    pos_dir opposite() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
-    friend bool operator==( const om_pos_dir &l, const om_pos_dir &r );
-    friend bool operator<( const om_pos_dir &l, const om_pos_dir &r );
+    bool operator==( const pos_dir &r ) const;
+    bool operator<( const pos_dir &r ) const;
 };
+
+extern template struct pos_dir<tripoint_om_omt>;
+extern template struct pos_dir<tripoint_rel_omt>;
+
+using om_pos_dir = pos_dir<tripoint_om_omt>;
+using rel_pos_dir = pos_dir<tripoint_rel_omt>;
 
 namespace std
 {
-template<>
-struct hash<om_pos_dir> {
-    size_t operator()( const om_pos_dir &p ) const {
+template<typename Tripoint>
+struct hash<pos_dir<Tripoint>> {
+    size_t operator()( const pos_dir<Tripoint> &p ) const {
         cata::tuple_hash h;
         return h( std::make_tuple( p.p, p.dir ) );
     }
