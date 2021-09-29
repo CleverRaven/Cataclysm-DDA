@@ -1,0 +1,29 @@
+[
+  {
+    "type": "npc",
+    "id": "evac_teamster",
+    "//": "Appears in the refugee center as a source of information and eventually missions.  Works with the free merchant caravans.",
+    "name_suffix": "Teamster",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_FREE_MERCHANT_TEAMSTER",
+    "faction": "free_merchants"
+  },
+  {
+    "//": "table of contents - these options will appear in the listed dialogue topics",
+    "id": [
+      "TALK_FREE_MERCHANT_TEAMSTER_1"
+    ],
+    "type": "talk_topic",
+    "responses": [
+    ]
+  },
+  {
+    "//": "initial greeting",
+    "id": [
+      "TALK_FREE_MERCHANT_TEAMSTER"
+    ],
+    "type": "talk_topic",
+    "responses": [
+]
