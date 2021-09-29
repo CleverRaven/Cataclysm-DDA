@@ -516,6 +516,7 @@
     "price_postapoc": 50,
     "material": [ "wood", "plastic" ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "HOOKING_POLEARMS" ],
     "weight": "420 g",
     "volume": "1750 ml",
     "longest_side": "150 cm",
