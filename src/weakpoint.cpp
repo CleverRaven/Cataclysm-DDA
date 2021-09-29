@@ -6,10 +6,13 @@
 #include <utility>
 
 #include "assign.h"
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
+#include "enums.h"
 #include "item.h"
 #include "messages.h"
 #include "monster.h"
@@ -53,26 +56,61 @@ float Character::throw_weakpoint_skill()
 
 weakpoint_effect::weakpoint_effect()  :
     effect(),
-    chance( 0.0f ),
-    intensity( { 1, 1 } ),
-           damage_required( { 0, 100 } ),
-message() {}
+    chance( 100.0f ),
+    permanent( false ),
+    duration( 1, 1 ),
+    intensity( 0, 0 ),
+    damage_required( 0.0f, 100.0f ),
+    message() {}
+
+void weakpoint_effect::apply_to( Creature &target, int total_damage,
+                                 const weakpoint_attack &attack ) const
+{
+    // Check if damage is within required bounds
+    float percent_hp = 100.0f * static_cast<float>( total_damage ) / target.get_hp_max();
+    percent_hp = std::min( 100.0f, percent_hp );
+    if( percent_hp < damage_required.first || damage_required.second < percent_hp ) {
+        return;
+    }
+    // Roll for chance.
+    if( !( rng_float( 0.0f, 100.f ) < chance ) ) {
+        return;
+    }
+    target.add_effect( effect_source( attack.source ), effect,
+                       time_duration::from_turns( rng( duration.first, duration.second ) ),
+                       permanent, rng( intensity.first, intensity.second ) );
+
+    if ( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
+        add_msg_if_player_sees( target, m_good, message, target.get_name() );
+    }
+}
 
 void weakpoint_effect::load( const JsonObject &jo )
 {
     assign( jo, "effect", effect );
-    assign( jo, "chance", chance, false, 0.0f, 100.0f );
-    assign( jo, "damage_required", damage_required );
 
+    if( jo.has_float( "chance" ) ) {
+        assign( jo, "chance", chance, false, 0.0f, 100.0f );
+    }
+    if( jo.has_bool( "permanent" ) ) {
+        assign( jo, "permanent", permanent );
+    }
+    if( jo.has_string( "message" ) ) {
+        assign( jo, "message", message );
+    }
+
+    // Support shorthand for a single value.
+    if( jo.has_int( "duration" ) ) {
+        int i = jo.get_int( "duration", 0 );
+        duration = {i, i};
+    } else if( jo.has_array( "duration" ) ) {
+        assign( jo, "duration", duration );
+    }
     if( jo.has_int( "intensity" ) ) {
         int i = jo.get_int( "intensity", 0 );
         intensity = {i, i};
-    } else {
+    } else if( jo.has_array( "intensity" ) ) {
         assign( jo, "intensity", intensity );
-    }
-
-    if( jo.has_string( "message" ) ) {
-        assign( jo, "message", message );
     }
 }
 
@@ -144,6 +182,14 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
     for( auto &elem : damage.damage_units ) {
         int idx = static_cast<int>( elem.type );
         elem.damage_multiplier *= is_crit ? crit_mult[idx] : damage_mult[idx];
+    }
+}
+
+void weakpoint::apply_effects( Creature &target, int total_damage,
+                               const weakpoint_attack &attack ) const
+{
+    for( const auto &effect : effects ) {
+        effect.apply_to( target, total_damage, attack );
     }
 }
 

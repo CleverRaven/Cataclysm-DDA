@@ -1110,6 +1110,11 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     mod_pain( total_pain );
 
     apply_damage( source, bp, total_damage );
+
+    if( wp != nullptr ) {
+        wp->apply_effects( *this, total_damage, attack );
+    }
+
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type( const effect_source &source, const damage_unit &du,

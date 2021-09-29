@@ -38,6 +38,10 @@ struct weakpoint_effect {
     efftype_id effect;
     // The percent chance of causing the effect.
     float chance;
+    // Whether the effect is permanent.
+    bool permanent;
+    // The range of the durations (in turns) of the effect.
+    std::pair<int, int> duration;
     // The range of the intensities of the effect.
     std::pair<int, int> intensity;
     // The range of damage, as a percentage of max health, required to the effect.
@@ -46,6 +50,8 @@ struct weakpoint_effect {
     std::string message;
 
     weakpoint_effect();
+    // Maybe apply an effect to the target.
+    void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
 };
 
@@ -76,6 +82,7 @@ struct weakpoint {
     void apply_to( resistances &resistances ) const;
     // Apply the damage multiplers to a set of damage values.
     void apply_to( damage_instance &damage, bool is_crit ) const;
+    void apply_effects( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     // Return the change of the creature hitting the weakpoint.
     float hit_chance( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );

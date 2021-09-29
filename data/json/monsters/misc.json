@@ -56,11 +56,19 @@
         "required_effects": [ "stunned" ]
       },
       {
-        "name": "the bugs",
+        "name": "the knee",
         "armor_mult": { "bullet": 0.0 },
         "armor_penalty": { "bullet": 0 },
         "damage_mult": { "all": 2.0 },
-        "coverage": 25
+        "coverage": 25,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [1, 3],
+            "chance": 50,
+            "message": "The %s is disorientated."
+          }
+        ]
       }
     ],
     "harvest": "exempt",
