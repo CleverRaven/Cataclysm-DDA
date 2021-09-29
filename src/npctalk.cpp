@@ -2840,10 +2840,10 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
                 }
             }
         } else {
-            Creature *creature_alpha = d.actor( false )->get_creature();
-            item_location *item_alpha = d.actor( false )->get_item();
-            Creature *creature_beta = d.actor( true )->get_creature();
-            item_location *item_beta = d.actor( true )->get_item();
+            Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+            item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+            Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+            item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
             dialogue newDialog(
                 ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
                     item_alpha ) : nullptr,

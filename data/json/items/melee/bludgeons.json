@@ -323,6 +323,7 @@
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "longest_side": "80 cm",
     "bashing": 10,
@@ -400,6 +401,7 @@
     "longest_side": "20 cm",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
   {
@@ -964,7 +966,8 @@
     "bashing": 1,
     "cutting": 3,
     "to_hit": -3,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "shillelagh",

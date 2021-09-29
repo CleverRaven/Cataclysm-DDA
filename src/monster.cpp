@@ -1525,11 +1525,13 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                 damage_instance &dam )
+const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                      damage_instance &dam )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
+    weakpoint_attack attack_copy = attack;
+    attack_copy.target = this;
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack_copy );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1543,7 +1545,7 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
     wp->apply_to( dam, attack.is_crit );
-    return wp->name;
+    return wp;
 }
 
 bool monster::melee_attack( Creature &target )
