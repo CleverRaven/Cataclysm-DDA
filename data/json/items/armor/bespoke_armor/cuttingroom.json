@@ -89,106 +89,6 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
   },
   {
-    "id": "trenchcoat_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor trenchcoat" },
-    "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "1920 g",
-    "volume": "7 L",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "trenchcoat",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
-  },
-  {
-    "id": "sleeveless_trenchcoat_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "sleeveless survivor trenchcoat" },
-    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "1632 g",
-    "volume": "6 L",
-    "price": 34000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "sleeveless_duster_survivor",
-    "color": "brown",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ],
-    "armor": [ { "encumbrance": [ 7, 15 ], "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "gloves_fsurvivor",
     "type": "ARMOR",
     "category": "armor",
@@ -390,5 +290,5 @@
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
-  },
+  }
 ]

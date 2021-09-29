@@ -184,5 +184,5 @@
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
-  },
+  }
 ]

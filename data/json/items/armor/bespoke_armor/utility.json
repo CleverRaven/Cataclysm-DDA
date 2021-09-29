@@ -159,5 +159,5 @@
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear and fitting the largest forms.  Activate to holster/draw your weapon.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "STURDY", "OVERSIZE" ]
-  },
+  }
 ]

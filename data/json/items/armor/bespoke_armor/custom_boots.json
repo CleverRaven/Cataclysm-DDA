@@ -148,5 +148,5 @@
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
     "armor": [ { "encumbrance": 32, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
-  },
+  }
 ]
