@@ -60,7 +60,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         src.visit_items( [&src, &nested, &out, ammo, &found_ammo]( item * node, item * parent ) {
 
             // Do not steal ammo from other items
-            if( parent != nullptr && node == parent->magazine_current() ) {
+            if( parent != nullptr && parent->is_magazine() ) {
                 return VisitResponse::SKIP;
             }
 
