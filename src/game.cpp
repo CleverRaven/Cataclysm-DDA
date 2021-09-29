@@ -9318,7 +9318,7 @@ point game::place_player( const tripoint &dest_loc )
             };
 
             for( const direction &elem : adjacentDir ) {
-                forage( u.pos() + direction_XY( elem ) );
+                forage( u.pos() + displace_XY( elem ) );
             }
         }
 
@@ -9361,7 +9361,7 @@ point game::place_player( const tripoint &dest_loc )
 
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos() + direction_XY( elem ) );
+                    pulp( u.pos() + displace_XY( elem ) );
                 }
             } else {
                 pulp( u.pos() );
