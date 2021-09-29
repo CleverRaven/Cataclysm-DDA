@@ -964,7 +964,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
                     add_msg( m_good, _( "You hit %1$s in %2$s for %3$d damage." ),
                              disp_name(), hit_selection.wp_hit, total_damage );
                 }
-            } else if( u_see_this ) {
+            } else if( u_see_this && source != this ) {
                 if( hit_selection.wp_hit.empty() ) {
                     //~ 1$ - shooter, 2$ - target
                     add_msg( _( "%1$s shoots %2$s." ),
