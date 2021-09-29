@@ -80,7 +80,7 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
                        time_duration::from_turns( rng( duration.first, duration.second ) ),
                        permanent, rng( intensity.first, intensity.second ) );
 
-    if ( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
+    if( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
         add_msg_if_player_sees( target, m_good, message, target.get_name() );
     }
 }

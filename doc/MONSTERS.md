@@ -335,7 +335,7 @@ Weakpoints in the monster's protection.
 | `required_effects`  | list of effect names applied to the monster required to hit the weakpoint.
 | `effects`           | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
-The `effects` field is a list of objects with the following subfields
+The `effects` field is a list of objects with the following subfields.
 
 | field               | description
 | ---                 | ---
