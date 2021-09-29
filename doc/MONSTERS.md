@@ -340,7 +340,7 @@ The `effects` field is a list of objects with the following subfields
 | field               | description
 | ---                 | ---
 | `effect`            | The effect type.
-| `change`            | The probability of causing the effect.
+| `chance`            | The probability of causing the effect.
 | `duration`          | The duration of the effect. Either a (min, max) pair or a single value.
 | `permanent`         | Whether the effect is permanent.
 | `intensity`         | The intensity of the effect. Either a (min, max) pair or a single value.
