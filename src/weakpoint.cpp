@@ -55,13 +55,11 @@ float Character::throw_weakpoint_skill()
 }
 
 weakpoint_effect::weakpoint_effect()  :
-    effect(),
     chance( 100.0f ),
     permanent( false ),
     duration( 1, 1 ),
     intensity( 0, 0 ),
-    damage_required( 0.0f, 100.0f ),
-    message() {}
+    damage_required( 0.0f, 100.0f ) {}
 
 void weakpoint_effect::apply_to( Creature &target, int total_damage,
                                  const weakpoint_attack &attack ) const
