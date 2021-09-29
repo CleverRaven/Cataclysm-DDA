@@ -574,38 +574,6 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "helmet_nomad",
-    "type": "ARMOR",
-    "name": { "str": "nomad cowl" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.",
-    "weight": "470 g",
-    "volume": "2500 ml",
-    "price": 25000,
-    "price_postapoc": 250,
-    "to_hit": -3,
-    "material": [ "cotton", "leather" ],
-    "symbol": "[",
-    "looks_like": "balclava",
-    "color": "white",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 95, "encumbrance": 5 }
-    ],
-    "warmth": 35,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
-  },
-  {
-    "id": "xl_helmet_nomad",
-    "type": "ARMOR",
-    "copy-from": "helmet_nomad",
-    "name": { "str": "nomad cowl XL" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  Designed for a gigantic wanderer.",
-    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
-  },
-  {
     "id": "helmet_plate",
     "type": "ARMOR",
     "category": "armor",
