@@ -163,7 +163,7 @@
     "text": [
       {
         "id": "cooked_mutant_lung_1",
-        "text": "A cooked piece of a mutant animal's lung.  With a lot of work you can cut around the hardened shell of translucent gunk, but your only reward is getting to the spongy, grey, mostly-flavorless mass of tissue beneath."
+        "text": "A cooked piece of a mutant animal's lung.  With a lot of work you can cut around the hardened shell of translucent gunk, but your only reward is getting to the spongy, gray, mostly-flavorless mass of tissue beneath."
       },
       {
         "id": "cooked_mutant_lung_2",
@@ -197,7 +197,7 @@
       },
       {
         "id": "mutant_liver_4",
-        "text": "A chunk of liver from a mutated animal.  The surface is blackened and hard but cracked, exposing a few strips of fresh pink tissue underneath.  After cracking the shell fully open, the inner tissue begins swelling at an alarming rate before turning grey and lifeless."
+        "text": "A chunk of liver from a mutated animal.  The surface is blackened and hard but cracked, exposing a few strips of fresh pink tissue underneath.  After cracking the shell fully open, the inner tissue begins swelling at an alarming rate before turning gray and lifeless."
       }
     ]
   },
@@ -211,7 +211,7 @@
       },
       {
         "id": "cooked_mutant_liver_2",
-        "text": "A cooked chunk of liver from a mutated animal.  Instead of the matte grey-brown of a normal liver, this one turned disconcertingly orange after heating it up, and finger-sized flakes detach themselves from it at the slightest touch.  The taste reminds you of slightly overripe avocado, but that's still better than you expected."
+        "text": "A cooked chunk of liver from a mutated animal.  Instead of the matte gray-brown of a normal liver, this one turned disconcertingly orange after heating it up, and finger-sized flakes detach themselves from it at the slightest touch.  The taste reminds you of slightly overripe avocado, but that's still better than you expected."
       },
       {
         "id": "cooked_mutant_liver_3",
@@ -219,7 +219,7 @@
       },
       {
         "id": "cooked_mutant_liver_4",
-        "text": "A cooked chunk of liver from a mutated animal.  The tissue split apart following the veins before hardening, reminding you of a warped grey flower with a sinuous vein for a stem.  Perhaps surprisingly, it tastes not entirely unlike liver."
+        "text": "A cooked chunk of liver from a mutated animal.  The tissue split apart following the veins before hardening, reminding you of a warped gray flower with a sinuous vein for a stem.  Perhaps surprisingly, it tastes not entirely unlike liver."
       }
     ]
   },
@@ -229,7 +229,7 @@
     "text": [
       {
         "id": "mutant_kidney_1",
-        "text": "A piece of kidney from a mutated animal.  Cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace beyond a stingin stench."
+        "text": "A piece of kidney from a mutated animal.  While cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace beyond a stinging stench."
       },
       {
         "id": "mutant_kidney_2",
@@ -285,7 +285,7 @@
       },
       {
         "id": "bug_organs_5",
-        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
+        "text": "This is a meaty gray organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
       },
       {
         "id": "bug_organs_6",
@@ -355,7 +355,7 @@
     "type": "snippet",
     "category": "<bug_harvest_general_deeper>",
     "text": [
-      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
+      "Spaced evenly across the entire body you find small sacs of eggs in various stages of growth",
       "Its intestines grew into a labyrinthine tangle, like so many worms devouring each other",
       "Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures",
       "Beneath, you find a collection of hooked spines that seem to have been clasping it on somehow",
@@ -486,9 +486,9 @@
       "<bug_harvest_flying_deeper>",
       "<bug_harvest_general_deeper>",
       "The chaotic bundle of organs in its torso look much like those of other mutated insects, but as you near the abdomen there's order to the madness: comparatively neat rows of venom-filled glands, each feeding into a reservoir at the base of the stinger",
-      "You open a stomach, releasing a gush of sweet-smelling grey fluid",
+      "You open a stomach, releasing a gush of sweet-smelling gray fluid",
       "For its apparent hunger for meat, its intestines seem almost atrophied",
-      "Your knife reaches the retracted stinger and slips on its smooth surface, opening half a dozen venom glands in the process.  You haven't cut yourself, have you?",
+      "Your knife reaches the retracted stinger and slips on its smooth surface, opening half a dozen venom glands in the process.  You dearly hope that you have not cut yourself",
       "You find a handful of dead grubs underneath its chitin, near a chewed-open venom gland"
     ]
   },
@@ -508,7 +508,6 @@
     "text": [
       "<bug_harvest_general_chitin>",
       "Steaming puddles of acid spill from its outer shell as you pull it back",
-      "With the creature dead, its carapace comes away surprisingly easily",
       "Steaming acid burbles from the creature's chitin as you peel it back",
       "Several acid glands rupture as you peel back the carapace, sending streams of steaming caustic fluids spraying around"
     ]
