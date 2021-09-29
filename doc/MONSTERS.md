@@ -332,8 +332,20 @@ Weakpoints in the monster's protection.
 | `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
 | `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
 | `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
-| `required_effects`  | list of effects applied to the monster required to hit the weakpoint.
+| `required_effects`  | list of effect names applied to the monster required to hit the weakpoint.
+| `effects`           | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
+The `effects` field is a list of objects with the following subfields
+
+| field               | description
+| ---                 | ---
+| `effect`            | The effect type.
+| `change`            | The probability of causing the effect.
+| `duration`          | The duration of the effect. Either a (min, max) pair or a single value.
+| `permanent`         | Whether the effect is permanent.
+| `intensity`         | The intensity of the effect. Either a (min, max) pair or a single value.
+| `damage_required`   | The range of damage, as a percentage of max health, required to trigger the effect.
+| `message`           | The message to print, if the player triggers the effect. Should take a single template parameter, referencing the monster's name.
 ## "vision_day", "vision_night"
 (integer, optional)
 
