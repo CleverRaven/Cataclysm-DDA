@@ -24,6 +24,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     // This stops containers and magazines counting *themselves* as ammo sources
                     return VisitResponse::SKIP;
                 }
+
                 // Prevents reloading with items frozen in watertight containers.
                 if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
@@ -169,7 +170,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
             return VisitResponse::NEXT;
         } );
-    } else {
+    } else if( obj.uses_magazine() ) {
         // find compatible magazines excluding those already loaded in tools/guns
         src.visit_items( [&src, &nested, &out, &obj, empty, &found_ammo]( item * node, item * parent ) {
             // magazine is inside some sort of a container
