@@ -657,5 +657,17 @@
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "Mansion",
+    "name": "Mansion Holdout",
+    "points": 1,
+    "description": "You were living the high life when the world ended, surrounded by riches and extravagant food every day, but the cataclysm struck, and now you have to fight your way out or become one with the remains of the staff.",
+    "allowed_locs": [ "sloc_mansion_entrance", "sloc_mansion" ],
+    "start_name": "Mansion",
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "LONE_START" ],
+    "professions": [ "maid", "frat", "lost_sub", "lawyer", "politician", "dancer", "spouse", "musician", "chef", "groundskeeper", "homemaker", "mafia_boss", "major-general" ]
   }
 ]
