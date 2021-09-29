@@ -69,20 +69,6 @@
         "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
       },
       {
-        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
-        "topic": "TALK_FREE_MERCHANT_STOCKS_FACTION_BREADCRUMBS",
-        "effect": [
-          // generate a random number to determine if he has a faction to tell you about, modified by days_since_cataclysm
-		  // then choose a faction at random from those he hasn't told you about and you haven't told him about
-		  // add a timer so you have to wait a day or two to get a different faction
-        ]
-      },
-      {
-        "text": "I wanted to tell you about a potential new trading partner I met recently.",
-        "topic": "TALK_FREE_MERCHANT_STOCKS_FACTION_INTRO",
-        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
         "text": "Tell me more about that ranch of yours.",
         "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
         "topic": "TALK_FREE_MERCHANT_STOCKS_RANCH"
@@ -217,28 +203,6 @@
     "id": "TALK_FREE_MERCHANT_STOCKS_RANCH",
     "type": "talk_topic",
     "dynamic_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise."
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_FREE_MERCHANT_STOCKS_FACTION_BREADCRUMBS",
-    "//": "In the future if we have a caravan driver they'd be a better one for this dialogue",
-    "dynamic_line": "..."
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_FREE_MERCHANT_STOCKS_FACTION_INTRO",
-    "dynamic_line": "You've got my attention.",
-    "responses": [
-      { "text": "[ Tell them about Rubik and the Exodii ]", "topic": "TALK_FREE_MERCHANT_STOCKS_EXODII1", "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
-      { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_FREE_MERCHANT_STOCKS_EXODII1",
-    "dynamic_line": "You've got my attention.",
-    "responses": [ { "text": "[ Tell him about Rubik and the Exodii ]", "topic": "TALK_FREE_MERCHANT_STOCKS_EXODII2" } ]
   },
   {
     "id": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1",
