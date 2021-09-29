@@ -2833,17 +2833,17 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
         if( max > 0_seconds ) {
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
-                if( eoc->activate_only ) {
+                if( eoc->type == eoc_type::ACTIVATION ) {
                     effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
                 } else {
-                    debugmsg( "Cannot queue a recurring effect_on_condition." );
+                    debugmsg( "Cannot queue a non activation effect_on_condition." );
                 }
             }
         } else {
-            Creature *creature_alpha = d.actor( false )->get_creature();
-            item_location *item_alpha = d.actor( false )->get_item();
-            Creature *creature_beta = d.actor( true )->get_creature();
-            item_location *item_beta = d.actor( true )->get_item();
+            Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+            item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+            Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+            item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
             dialogue newDialog(
                 ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
                     item_alpha ) : nullptr,

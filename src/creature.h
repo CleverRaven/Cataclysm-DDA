@@ -1263,5 +1263,6 @@ class Creature : public viewer
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

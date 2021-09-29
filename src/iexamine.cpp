@@ -6319,7 +6319,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         "harvest_furn",
         "harvest_ter_nectar",
         "harvest_ter",
-        "tree_hickory",
     };
 
     auto iter = function_map.find( function_name );

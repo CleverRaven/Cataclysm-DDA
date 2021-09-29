@@ -437,7 +437,7 @@
     "type": "TOOL",
     "copy-from": "bot_skitterbot_base",
     "name": "inactive rat snatcher",
-    "description": "A small hexapod drone designed to hold small pests, folded into a small cube for easy of storage. Its capable of  hunting all sorts of small mammals with remarkable efficiency,  but shouldn't be expected to handle anything much bigger than a rat.",
+    "description": "A small hexapod drone designed to hold small pests, folded into a small cube for easy of storage.  Its capable of hunting all sorts of small mammals with remarkable efficiency, but shouldn't be expected to handle anything much bigger than a rat.",
     "color": "dark_gray",
     "weight": "750 g",
     "volume": "1 L",

@@ -449,7 +449,71 @@ direction direction_from( const tripoint &p, const tripoint &q )
     return direction_from( q - p );
 }
 
-point direction_XY( const direction dir )
+tripoint displace( direction dir )
+{
+    switch( dir ) {
+        case direction::NORTHWEST:
+            return tripoint_north_west;
+        case direction::ABOVENORTHWEST:
+            return point_north_west + tripoint_above;
+        case direction::BELOWNORTHWEST:
+            return point_north_west + tripoint_below;
+        case direction::NORTH:
+            return tripoint_north;
+        case direction::ABOVENORTH:
+            return point_north + tripoint_above;
+        case direction::BELOWNORTH:
+            return point_north + tripoint_below;
+        case direction::NORTHEAST:
+            return tripoint_north_east;
+        case direction::ABOVENORTHEAST:
+            return point_north_east + tripoint_above;
+        case direction::BELOWNORTHEAST:
+            return point_north_east + tripoint_below;
+        case direction::WEST:
+            return tripoint_west;
+        case direction::ABOVEWEST:
+            return point_west + tripoint_above;
+        case direction::BELOWWEST:
+            return point_west + tripoint_below;
+        case direction::CENTER:
+            return tripoint_zero;
+        case direction::ABOVECENTER:
+            return tripoint_above;
+        case direction::BELOWCENTER:
+            return tripoint_below;
+        case direction::EAST:
+            return tripoint_east;
+        case direction::ABOVEEAST:
+            return point_east + tripoint_above;
+        case direction::BELOWEAST:
+            return point_east + tripoint_below;
+        case direction::SOUTHWEST:
+            return tripoint_south_west;
+        case direction::ABOVESOUTHWEST:
+            return point_south_west + tripoint_above;
+        case direction::BELOWSOUTHWEST:
+            return point_south_west + tripoint_below;
+        case direction::SOUTH:
+            return tripoint_south;
+        case direction::ABOVESOUTH:
+            return point_south + tripoint_above;
+        case direction::BELOWSOUTH:
+            return point_south + tripoint_below;
+        case direction::SOUTHEAST:
+            return tripoint_south_east;
+        case direction::ABOVESOUTHEAST:
+            return point_south_east + tripoint_above;
+        case direction::BELOWSOUTHEAST:
+            return point_south_east + tripoint_below;
+        case direction::last:
+            cata_fatal( "Invalid direction" );
+    }
+
+    return tripoint_zero;
+}
+
+point displace_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case direction::NORTHWEST:
