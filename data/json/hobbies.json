@@ -59,6 +59,25 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "sleepingpillhead",
+    "name": "Sleeping Pill Reliance",
+    "description": "You had difficulties falling asleep, so you started taking those sleeping pills.  Problem is, now you can not fall asleep without them anymore and the Cataclysm does complicate the matter.",
+    "points": -1,
+    "addictions": [ { "intensity": 10, "type": "sleeping pill" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "caffeine_junkie",
+    "name": "Caffeine Junkie",
+    "description": "Coffee was your day-to-day companion in surviving your job, but getting caffeine into your body will be much harder now.",
+    "points": -1,
+    "traits": [ "STIMBOOST" ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "cosplay",
     "name": "Cosplay",
     "description": "You liked to make your own costumes and wore them to various conventions.  Now that everyone is dead or dying, maybe this will be useful for something else.",
@@ -121,7 +140,7 @@
     "subtype": "hobby",
     "id": "loves_books",
     "name": "Loves Books",
-    "description": "You love reading, you just never seemed to have enough time.  Maybe the cataclysm is a blessing in disguise.",
+    "description": "You love reading, you just never seemed to have enough time.  Maybe the Cataclysm is a blessing in disguise.",
     "points": 1,
     "traits": [ "LOVES_BOOKS" ]
   },
