@@ -1750,7 +1750,7 @@
       { "x": -5, "y": -1, "part": "plating_steel" },
       { "x": -5, "y": 0, "parts": [ "frame_cross", "metal_bench", "roof" ] },
       { "x": -5, "y": 0, "parts": [ "wheel_mount_medium", "wheel_wide" ] },
-      { "x": -5, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "roof" ] },
+      { "x": -5, "y": 1, "parts": [ "frame_cross", "lit_aisle", "roof" ] },
       { "x": -5, "y": 2, "parts": [ "frame_cross", "metal_bench", "roof" ] },
       { "x": -5, "y": 2, "parts": [ "wheel_mount_medium", "wheel_wide" ] },
       { "x": -5, "y": 3, "part": "frame_vertical_right" },
