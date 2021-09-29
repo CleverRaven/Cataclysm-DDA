@@ -220,7 +220,7 @@
     "id": "mon_feral_prepper",
     "type": "MONSTER",
     "name": { "str": "feral prepper" },
-    "description": "A quick glance of this person would show that they have prepared well for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of their prepped improvised weapon, while the other clasps unto the grip of a handgun, treating both as clubs.",
+    "description": "A quick glance of this person would show that they have prepared well for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of their prepped improvised weapon, while the other clasps unto the grip of a firearm, treating both as clubs.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
