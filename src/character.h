@@ -424,9 +424,9 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
-        int kill_xp;
+        int kill_xp = 0;
         // Level-up points spent on Stats through Kills
-        int spent_upgrade_points;
+        int spent_upgrade_points = 0;
 
         const profession *prof;
         std::set<const profession *> hobbies;
@@ -1015,8 +1015,8 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                damage_instance &dam ) override;
+        const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                     damage_instance &dam ) override;
         /** The character's skill in hitting a weakpoint */
         float melee_weakpoint_skill( const item &weapon );
         float ranged_weakpoint_skill( const item &weapon );
@@ -1846,7 +1846,7 @@ class Character : public Creature, public visitable
 
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
-
+        std::vector<const item *> inv_dump() const;
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
@@ -1882,6 +1882,16 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::volume free_space() const;
+        /**
+         * Returns the total volume of all worn holsters.
+        */
+        units::volume holster_volume() const;
+        int empty_holsters() const;
+        /**
+         * Returns the total volume of all pockets less than or equal to the volume passed in
+         * @param volume threshold for pockets to be considered
+        */
+        units::volume small_pocket_volume( const units::volume &threshold = 1000_ml ) const;
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
@@ -2223,7 +2233,7 @@ class Character : public Creature, public visitable
         bool male = false;
 
         bool is_dead = false;
-
+        std::vector<effect_on_condition_id> death_eocs;
         std::list<item> worn;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
@@ -2514,6 +2524,8 @@ class Character : public Creature, public visitable
         void on_item_takeoff( const item &it );
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
+        /** Called when an item is acquired (picked up, worn, or wielded) */
+        void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
                                    const bodypart_id &bp = bodypart_id( "bp_null" ) ) override;
@@ -2722,8 +2734,6 @@ class Character : public Creature, public visitable
         bool consume_effects( item &food );
         /** Check whether the character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
-        /** Check whether the character can consume this item or any of its contents */
-        bool can_consume( const item &it ) const;
         /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
         /**

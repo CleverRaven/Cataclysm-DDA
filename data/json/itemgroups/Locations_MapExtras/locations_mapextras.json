@@ -182,7 +182,8 @@
       [ "crackpipe", 10 ],
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 17, "charges-min": 0 },
       { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
       [ "chem_hexamine", 5 ]
     ]
@@ -224,7 +225,8 @@
       { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "smart_phone", "prob": 50, "charges-min": 0 }
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 }
     ]
   },
   {
@@ -260,7 +262,8 @@
       { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "smart_phone", "prob": 50, "charges-min": 0 }
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 }
     ]
   }
 ]

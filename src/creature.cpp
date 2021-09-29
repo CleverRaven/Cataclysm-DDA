@@ -964,7 +964,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
                     add_msg( m_good, _( "You hit %1$s in %2$s for %3$d damage." ),
                              disp_name(), hit_selection.wp_hit, total_damage );
                 }
-            } else if( u_see_this ) {
+            } else if( u_see_this && source != this ) {
                 if( hit_selection.wp_hit.empty() ) {
                     //~ 1$ - shooter, 2$ - target
                     add_msg( _( "%1$s shoots %2$s." ),
@@ -1094,7 +1094,8 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    dealt_dams.wp_hit = absorb_hit( attack, bp, d );
+    const weakpoint *wp = absorb_hit( attack, bp, d );
+    dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -1109,6 +1110,11 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     mod_pain( total_pain );
 
     apply_damage( source, bp, total_damage );
+
+    if( wp != nullptr ) {
+        wp->apply_effects( *this, total_damage, attack );
+    }
+
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
@@ -2736,9 +2742,24 @@ std::unique_ptr<talker> get_talker_for( Creature &me )
     }
 }
 
+std::unique_ptr<talker> get_talker_for( const Creature &me )
+{
+    if( !me.is_monster() ) {
+        return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
+    } else {
+        debugmsg( "Invalid creature type %s.", me.get_name() );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    }
+}
+
 std::unique_ptr<talker> get_talker_for( Creature *me )
 {
-    if( me->is_monster() ) {
+    if( !me ) {
+        debugmsg( "Null creature type." );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    } else if( me->is_monster() ) {
         return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
     } else if( me->is_npc() ) {
         return std::make_unique<talker_npc>( static_cast<npc *>( me ) );

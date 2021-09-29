@@ -109,6 +109,7 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
@@ -126,6 +127,7 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -1219,6 +1221,11 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_anger -= 20;
         }
 
+        if( effective_anger >= 10 &&
+            type->in_species( species_AMPHIBIAN ) && u->has_trait( trait_PHEROMONE_AMPHIBIAN ) ) {
+            effective_anger -= 20;
+        }
+
         if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
               faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
             effective_anger -= 20;
@@ -1518,11 +1525,13 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                 damage_instance &dam )
+const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                      damage_instance &dam )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
+    weakpoint_attack attack_copy = attack;
+    attack_copy.target = this;
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack_copy );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1536,7 +1545,7 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
     wp->apply_to( dam, attack.is_crit );
-    return wp->name;
+    return wp;
 }
 
 bool monster::melee_attack( Creature &target )

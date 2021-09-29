@@ -4,7 +4,14 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }, [ "bathroom_scale", 20 ] ]
+    "items": [
+      { "item": "rag", "prob": 40 },
+      { "item": "bath_toy", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "bathroom_scale", "prob": 20 },
+      { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 },
+      { "item": "towel", "prob": 30 },
+      { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }
+    ]
   },
   {
     "id": "kitchen_counters",
@@ -257,8 +264,8 @@
       { "item": "water", "prob": 10, "container-item": "glass" },
       { "group": "glass_of_wine", "prob": 10 },
       { "item": "gummy_vitamins", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 10, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 2, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 12, "charges-min": 0 },
       [ "eyedrops", 10 ],
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
@@ -404,8 +411,8 @@
       { "item": "deck_of_cards", "prob": 2 },
       { "item": "usb_drive", "prob": 5 },
       { "group": "alcohol", "prob": 163 },
-      { "item": "cell_phone", "prob": 15, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 25, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 36, "charges-min": 0 },
       { "item": "wristwatch", "prob": 15 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "umbrella", "prob": 50 },
@@ -898,8 +905,8 @@
       { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "atomic_light", "prob": 2 },
       { "item": "atomic_lamp", "prob": 2 },
-      { "item": "cell_phone", "prob": 15, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 30, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 40, "charges-min": 0 },
       { "item": "eink_tablet_pc", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "mobile_memory_card", "prob": 8 },

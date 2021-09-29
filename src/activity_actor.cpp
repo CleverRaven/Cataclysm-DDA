@@ -99,6 +99,7 @@ static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
@@ -116,7 +117,9 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
 static const quality_id qual_SHEAR( "SHEAR" );
+static const quality_id qual_PRY( "PRY" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -1043,6 +1046,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
 
@@ -1069,7 +1073,6 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    std::string message;
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
@@ -1983,6 +1986,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
         return;
     }
 
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
 
@@ -2004,7 +2008,6 @@ void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &w
 void boltcutting_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    std::string message;
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
@@ -4462,6 +4465,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
 
@@ -4487,7 +4491,6 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
 void oxytorch_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    std::string message;
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
@@ -4745,6 +4748,319 @@ std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonV
     return actor.clone();
 }
 
+time_duration prying_activity_actor::prying_time( const activity_data_common &data,
+        const item_location &tool, const Character &who )
+{
+    const pry_data &pdata = data.prying_data();
+    if( pdata.prying_nails ) {
+        return data.duration();
+    }
+
+    int difficulty = pdata.difficulty;
+    difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+    return time_duration::from_moves(
+               /** @EFFECT_STR speeds up crowbar prying attempts */
+               std::max( 20, 5 * ( 4 * difficulty - who.get_str() ) ) );
+}
+
+void prying_activity_actor::start( player_activity &act, Character &who )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        prying_nails = furn_type->prying->prying_data().prying_nails;
+        act.moves_total = to_moves<int>(
+                              prying_time( *furn_type->prying, tool, who ) );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        prying_nails = ter_type->prying->prying_data().prying_nails;
+        act.moves_total = to_moves<int>(
+                              prying_time( *ter_type->prying, tool, who ) );
+    } else {
+        if( !testing ) {
+            debugmsg( "prying activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    if( prying_nails && !tool->has_quality( qual_PRYING_NAIL ) ) {
+        who.add_msg_if_player( _( "You can't use your %1$s to pry up the nails." ), tool->tname() );
+        act.set_to_null();
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+    act.moves_left = act.moves_total;
+}
+
+void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient( &who ) ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        if( prying_nails ) {
+            sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void prying_activity_actor::handle_prying( Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    // check if Character passed the difficulty check
+    auto difficulty_check = [&]( const activity_data_common & data ) -> bool {
+        const pry_data &pdata = data.prying_data();
+
+        int difficulty = pdata.difficulty;
+        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+
+        /** @EFFECT_STR increases chance of prying success */
+        const int dice_str = dice( 4, who.get_str() );
+
+        return dice( 4, difficulty ) < dice_str;
+    };
+
+    auto handle_failure = [&]( const pry_data & pdata ) -> void {
+        if( !pdata.breakable )
+        {
+            return;
+        }
+
+        int difficulty = pdata.difficulty;
+        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+
+        /** @EFFECT_MECHANICS reduces chance of breaking when prying */
+        const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
+        /** @EFFECT_STR reduces chance of breaking when prying */
+        const int dice_str = dice( 2, who.get_str() );
+
+        if( dice( 4, difficulty ) > dice_mech + dice_str )
+        {
+            // bash will always succeed
+            here.bash( target, 0, false, true );
+        }
+
+        if( !data->prying_data().failure.empty() )
+        {
+            who.add_msg_if_player( m_info, data->prying_data().failure.translated() );
+        }
+    };
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", furn_type.id().str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->prying );
+        if( !difficulty_check( *furn_type->prying ) ) {
+            handle_failure( furn_type->prying->prying_data() );
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->prying->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying furniture: %s invalid furniture", new_furn.str() );
+            }
+            return;
+        }
+
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", ter_type.id().str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->prying );
+        if( !difficulty_check( *ter_type->prying ) ) {
+            handle_failure( ter_type->prying->prying_data() );
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->prying->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying terrain: %s invalid terrain", new_ter.str() );
+            }
+            return;
+        }
+
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "prying activity finished on invalid terrain" );
+        }
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    const pry_data &pdata = data->prying_data();
+    if( pdata.noisy ) {
+        sounds::sound( target, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
+    }
+
+    if( pdata.alarm ) {
+        get_event_bus().send<event_type::triggers_alarm>( who.getID() );
+        sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
+            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                    who.global_sm_location() );
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+}
+
+void prying_activity_actor::handle_prying_nails( Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", furn_type.id().str() );
+            }
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->prying->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying furniture: %s invalid furniture", new_furn.str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->prying );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", ter_type.id().str() );
+            }
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->prying->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying terrain: %s invalid terrain", new_ter.str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->prying );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "prying nails activity finished on invalid terrain" );
+        }
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    who.practice( skill_fabrication, 1, 1 );
+}
+
+void prying_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    if( prying_nails ) {
+        handle_prying_nails( who );
+    } else {
+        handle_prying( who );
+    }
+}
+
+void prying_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.member( "prying_nails", prying_nails );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> prying_activity_actor::deserialize( JsonValue &jsin )
+{
+    prying_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
+    data.read( "prying_nails", actor.prying_nails );
+    return actor.clone();
+}
+
 void shave_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 5_minutes );
@@ -4840,6 +5156,7 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_OXYTORCH" ), &oxytorch_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_PRYING" ), &prying_activity_actor::deserialize },
     { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
     { activity_id( "ACT_READ" ), &read_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },

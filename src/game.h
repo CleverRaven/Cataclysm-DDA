@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -163,6 +164,7 @@ class game
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
+        friend global_variables &get_globals();
     public:
         game();
         ~game();
@@ -273,8 +275,10 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking );
-        /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
-        void vertical_shift( int z_after );
+        /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
+         *  Returns true if the z-level changed.
+         */
+        bool vertical_shift( int z_after );
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
@@ -555,8 +559,8 @@ class game
         Creature *is_hostile_very_close( bool dangerous = false );
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( Character &p );
-        point update_map( int &x, int &y );
+        point update_map( Character &p, bool z_level_changed = false );
+        point update_map( int &x, int &y, bool z_level_changed = false );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void peek();
@@ -981,7 +985,13 @@ class game
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
         achievements_tracker &achievements();
         memorial_logger &memorial();
+
+        global_variables global_variables_instance;
     public:
+        std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+        queued_global_effect_on_conditions;
+
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
             public:

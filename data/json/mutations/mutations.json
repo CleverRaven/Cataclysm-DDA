@@ -27,13 +27,11 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_low": 20,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
           "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
         },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
         }
       ]
@@ -50,10 +48,12 @@
     "valid": false,
     "triggers": [
       [
-        { "trigger_type": "MOOD", "threshold_low": 20, "msg_off": { "text": "Your glow fades.", "rating": "mixed" } },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
+        },
+        {
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         }
       ]
@@ -101,6 +101,7 @@
     "encumbrance_covered": [ [ "head", 5 ] ],
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
+    "changes_to": [ "BIOLUM3" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "transform": { "target": "BIOLUM2_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
   },
@@ -116,6 +117,18 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM3",
+    "name": { "str": "Bioluminescent Flare" },
+    "points": 6,
+    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "encumbrance_covered": [ [ "head", 5 ] ],
+    "types": [ "BIOLUM" ],
+    "prereqs": [ "BIOLUM2" ],
+    "category": [ "INSECT" ],
+    "spells_learned": [ [ "spell_spit_flare", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "JEKYLL",
     "name": { "str": "Normal Human" },
     "points": 0,
@@ -124,16 +137,18 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_high": -50,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
       [
         {
-          "trigger_type": "TIME",
-          "threshold_low": 21,
-          "threshold_high": 6,
+          "condition": {
+            "or": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": "<" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": ">" }
+            ]
+          },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -152,9 +167,12 @@
     "triggers": [
       [
         {
-          "trigger_type": "TIME",
-          "threshold_low": 6,
-          "threshold_high": 21,
+          "condition": {
+            "and": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": ">" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": "<" }
+            ]
+          },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
@@ -247,6 +265,35 @@
   },
   {
     "type": "mutation",
+    "id": "TUNNEL_FIGHTER",
+    "name": { "str": "Tunnel Fighter" },
+    "points": 3,
+    "description": "You know how to fight in cramped tunnels at risk of collapse.  You gain bonuses when fighting underground.",
+    "leads_to": [ "NIGHT_RAIDER" ],
+    "category": [ "INSECT", "TROGLOBITE", "RAT" ],
+    "enchantments": [
+      {
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHT_RAIDER",
+    "name": { "str": "Night Raider" },
+    "points": 3,
+    "description": "Your body is one with the night.  You make less noise when the moon is up in the sky, even when you cannot see it.",
+    "category": [ "TROGLOBITE" ],
+    "enchantments": [
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "OPTIMISTIC",
     "name": { "str": "Optimist" },
     "points": 2,
@@ -279,7 +326,7 @@
     "cancels": [ "MET_RAT" ],
     "types": [ "METABOLISM" ],
     "changes_to": [ "GIZZARD", "COLDBLOOD" ],
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "GASTROPOD" ],
     "metabolism_modifier": -0.333
   },
   {
@@ -292,7 +339,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT" ],
+    "category": [ "MOUSE", "INSECT", "GASTROPOD" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
   },
   {
@@ -306,6 +353,32 @@
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
     "category": [ "MOUSE", "RABBIT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DIRTSLEEPER",
+    "name": { "str": "Earth Sleeper" },
+    "points": 2,
+    "description": "You always sleep better surrounded by earth.",
+    "cancels": [ "INSOMNIA" ],
+    "category": [ "BATRACHIAN" ],
+    "enchantments": [
+      {
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "values": [ { "value": "SLEEPY", "add": 20 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "WATERSLEEPER",
+    "name": { "str": "Aquatic Sleeper" },
+    "points": 2,
+    "description": "You always sleep better underwater.",
+    "cancels": [ "INSOMNIA" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "category": [ "BATRACHIAN", "FISH" ],
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
   },
   {
     "type": "mutation",
@@ -327,7 +400,7 @@
     "starting_trait": true,
     "changes_to": [ "NIGHTVISION2" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "BIRD", "CATTLE", "INSECT" ],
+    "category": [ "BIRD", "CATTLE", "INSECT", "BATRACHIAN" ],
     "active": true,
     "starts_active": true
   },
@@ -360,6 +433,32 @@
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "BOVINE_BULK",
+    "name": { "str": "Bovine Bulk" },
+    "points": 2,
+    "description": "You've added a lot of weight, much of it muscle!  You get a 10% bonus to all hit points.  Swimming will be more difficult from now on",
+    "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
+    "changes_to": [ "BOVINE_BULK2" ],
+    "category": [ "CATTLE" ],
+    "movecost_modifier": 1.02,
+    "movecost_swim_modifier": 1.3,
+    "hp_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "BOVINE_BULK2",
+    "name": { "str": "Bull Roids" },
+    "points": 4,
+    "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a 20% bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
+    "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
+    "prereqs": [ "BOVINE_BULK" ],
+    "category": [ "CATTLE" ],
+    "movecost_modifier": 1.04,
+    "movecost_swim_modifier": 1.7,
+    "hp_modifier": 0.2
   },
   {
     "type": "mutation",
@@ -406,7 +505,7 @@
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
-    "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
+    "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
     "cancels": [ "THINSKIN" ],
     "armor": [
       {
@@ -468,6 +567,19 @@
     "vomit_multiplier": 0.5,
     "changes_to": [ "NAUSEA" ],
     "//": "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
+    "cancels": [ "WEAKSTOMACH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VOMITSTOMACH",
+    "name": { "str": "Stomach Cleanse" },
+    "points": 1,
+    "description": "You have gained the ability to invert your stomach outside your body to quickly eliminate toxins, and are more likely to throw up from food poisoning, alcohol, etc.  If you throw up because of this this, you won't suffer any residual nausea.",
+    "starting_trait": false,
+    "vomit_multiplier": 1.5,
+    "//": "Create an effect on condition that reduces nausea quickly whenever it occurs by one intensity per vomit?",
+    "category": [ "BATRACHIAN" ],
+    "threshreq": [ "THRESH_BATRACHIAN" ],
     "cancels": [ "WEAKSTOMACH" ]
   },
   {
@@ -540,6 +652,7 @@
     "description": "Whether due to a lifetime of exposure or through simple willpower, it's harder for you to become addicted to substances, and easier to rid yourself of these addictions.",
     "starting_trait": true,
     "valid": false,
+    "category": [ "BATRACHIAN" ],
     "cancels": [ "ADDICTIVE" ]
   },
   {
@@ -590,7 +703,24 @@
     "points": 1,
     "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
     "starting_trait": true,
+    "changes_to": [ "ADRENALINE2" ],
     "category": [ "BEAST", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ADRENALINE2",
+    "name": { "str": "Combat Adaptation" },
+    "points": 3,
+    "description": "When you are in great danger you may flip a chemical switch in your brain and for a cost in hunger, fatigue, and thirst your nervous system will process things around you slightly faster.  Giving you better reaction times that you can pay for later if you survive.",
+    "category": [ "BEAST" ],
+    "active": true,
+    "cost": 10,
+    "time": 10,
+    "fatigue": true,
+    "hunger": true,
+    "thirst": true,
+    "dodge_modifier": 2,
+    "movecost_modifier": 0.9
   },
   {
     "type": "mutation",
@@ -869,6 +999,16 @@
   },
   {
     "type": "mutation",
+    "id": "STRONGKNEES",
+    "name": { "str": "Strong Knees" },
+    "points": 1,
+    "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
+    "category": [ "BATRACHIAN" ],
+    "valid": false,
+    "movecost_obstacle_modifier": 0.9
+  },
+  {
+    "type": "mutation",
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
     "points": -2,
@@ -932,7 +1072,8 @@
     "points": -2,
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "category": [ "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -1015,7 +1156,7 @@
     "points": -2,
     "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
     "starting_trait": true,
-    "category": [ "PLANT" ],
+    "category": [ "PLANT", "GASTROPOD" ],
     "cancels": [ "GOODHEARING" ],
     "changes_to": [ "DEAF" ],
     "hearing_modifier": 0.5
@@ -1132,7 +1273,7 @@
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
     "vitamins_absorb_multi": [ [ "junk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA", "RABBIT" ]
+    "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -1210,16 +1351,6 @@
     "valid": false,
     "category": [ "MEDICAL", "MOUSE", "RABBIT" ],
     "cancels": [ "NONADDICTIVE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "TRIGGERHAPPY",
-    "name": { "str": "Trigger Happy" },
-    "points": -1,
-    "description": "Unimplemented.  To be removed after 0.F. to preserve save compatibility.",
-    "starting_trait": false,
-    "player_display": false,
-    "valid": false
   },
   {
     "type": "mutation",
@@ -1402,7 +1533,7 @@
     "starting_trait": true,
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "changes_to": [ "DEFORMED" ],
-    "category": [ "RAPTOR", "FELINE", "LUPINE" ]
+    "category": [ "RAPTOR", "FELINE", "LUPINE", "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -1610,7 +1741,7 @@
     "id": "URSINE_EYE",
     "name": { "str": "Ursine Vision" },
     "points": 1,
-    "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
+    "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.  Surprisingly, frogs' vision works exactly the same.",
     "cancels": [
       "ELFAEYES",
       "LIZ_EYE",
@@ -1622,7 +1753,7 @@
       "NIGHTVISION3",
       "MYOPIC"
     ],
-    "category": [ "URSINE" ],
+    "category": [ "URSINE", "BATRACHIAN" ],
     "active": true,
     "starts_active": true
   },
@@ -1683,7 +1814,7 @@
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER" ],
     "changes_to": [ "REGEN" ],
-    "category": [ "PLANT" ],
+    "category": [ "PLANT", "BATRACHIAN" ],
     "healing_awake": 0.66,
     "healing_resting": 0.5,
     "mending_modifier": 4.0
@@ -1725,8 +1856,8 @@
     "types": [ "SLEEP" ],
     "prereqs": [ "WAKEFUL" ],
     "changes_to": [ "WAKEFUL3" ],
-    "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA" ],
-    "category": [ "ALPHA", "ELFA" ],
+    "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA", "THRESH_BATRACHIAN" ],
+    "category": [ "ALPHA", "ELFA", "BATRACHIAN" ],
     "fatigue_modifier": -0.25
   },
   {
@@ -1819,7 +1950,7 @@
     "ugliness": 2,
     "description": "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
     "prereqs": [ "EYEBULGE" ],
-    "category": [ "LIZARD", "FISH" ],
+    "category": [ "LIZARD", "FISH", "BATRACHIAN" ],
     "flags": [ "EYE_MEMBRANE" ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
   },
@@ -1831,7 +1962,7 @@
     "visibility": 5,
     "ugliness": 3,
     "description": "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
-    "category": [ "FISH" ],
+    "category": [ "FISH", "BATRACHIAN" ],
     "cancels": [ "GILLS_CEPH" ],
     "flags": [ "GILLS" ],
     "wet_protection": [ { "part": "head", "good": 1 } ]
@@ -2901,6 +3032,53 @@
   },
   {
     "type": "mutation",
+    "id": "SLIME_SPRAY",
+    "name": { "str": "Slime Spray" },
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": "You exude slime from your pores.  You can spread that slime on an opponent in melee range.",
+    "spells_learned": [ [ "spell_slime_spray", 1 ] ],
+    "prereqs": [ "VISCOUS", "AMORPHOUS" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "INSECT_RESERVOIR",
+    "name": { "str": "Bulging Reservoir" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 3,
+    "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
+    "thirst_modifier": 0.75,
+    "category": [ "INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOMBADIER_BLAST",
+    "name": { "str": "Bombadier Beetle Blast" },
+    "points": 5,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": "You have an ability to spray boiling water on your enemies at melee distance.  This will drastically increase your thirst.  Without an extra reservoir you would quickly dehydrate yourself.",
+    "prereqs": [ "INSECT_RESERVOIR" ],
+    "category": [ "INSECT" ],
+    "active": true,
+    "cost": 15,
+    "thirst": true,
+    "attacks": [
+      {
+        "attack_text_u": "You spray %s with a boiling chemical mixture",
+        "attack_text_npc": "%1$s sprays %2$s with a boiling chemical mixture",
+        "body_part": "torso",
+        "chance": 15,
+        "base_damage": { "damage_type": "heat", "amount": 15 },
+        "strength_damage": { "damage_type": "heat", "amount": 2 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "TALONS",
     "name": { "str": "Large Talons" },
     "points": 2,
@@ -2990,6 +3168,16 @@
   },
   {
     "type": "mutation",
+    "id": "PHEROMONE_AMPHIBIAN",
+    "name": { "str": "Amphibian Pheromones" },
+    "points": 2,
+    "description": "Your body produces low-level pheromones, identifying you as a friend to many species of amphibian.  Amphibians will attack you much less.",
+    "prereqs": [ "SMELLY2" ],
+    "types": [ "SCENT" ],
+    "category": [ "BATRACHIAN" ]
+  },
+  {
+    "type": "mutation",
     "id": "PHEROMONE_MAMMAL",
     "name": { "str": "Mammal Pheromones" },
     "points": 2,
@@ -3016,7 +3204,7 @@
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
     "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3059,7 +3247,7 @@
     "prereqs": [ "POISRESIST" ],
     "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3133,6 +3321,56 @@
   },
   {
     "type": "mutation",
+    "id": "GASTROPOD_EXTREMITY1",
+    "name": { "str": "Muscle Consolidation" },
+    "points": 1,
+    "visibility": 1,
+    "description": "Your extremities have gained strength but lost fine motor skills.  -1 Dexterity +2 Strength.",
+    "changes_to": [ "GASTROPOD_EXTREMITY2" ],
+    "category": [ "GASTROPOD" ],
+    "passive_mods": { "dex_mod": -1, "str_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_EXTREMITY2",
+    "name": { "str": "Rasping Tongue" },
+    "visibility": 1,
+    "points": 6,
+    "description": "You've developed an extremely long and mobile tongue capped with teeth.  You may use it to attack your enemies.",
+    "changes_to": [ "GASTROPOD_EXTREMITY3" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ],
+    "cancels": [ "FANGS", "MANDIBLES" ],
+    "attacks": {
+      "attack_text_u": "You tear into %s with your rasping tongue.",
+      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue.",
+      "body_part": "mouth",
+      "chance": 15,
+      "base_damage": { "damage_type": "cut", "amount": 15 },
+      "strength_damage": { "damage_type": "cut", "amount": 2 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_EXTREMITY2",
+    "name": { "str": "Harpoon Tongue" },
+    "visibility": 5,
+    "ugliness": 5,
+    "points": 8,
+    "description": "Your tongue has increased its length and mobility.",
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ],
+    "attacks": {
+      "attack_text_u": "You stab into %s with your harpoon tongue.",
+      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue.",
+      "body_part": "mouth",
+      "chance": 25,
+      "base_damage": { "damage_type": "stab", "amount": 15 },
+      "strength_damage": { "damage_type": "stab", "amount": 3 }
+    }
+  },
+  {
+    "type": "mutation",
     "id": "COMPOUND_EYES",
     "name": { "str": "Compound Eyes" },
     "points": 2,
@@ -3152,6 +3390,45 @@
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "LEGS" ],
     "category": [ "BEAST", "URSINE", "FELINE", "LUPINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONG_LEGS",
+    "name": { "str": "Strong Legs" },
+    "points": 1,
+    "visibility": 1,
+    "description": "Your legs have gained muscle mass to propel you across any terrain.",
+    "types": [ "LEGS" ],
+    "leads_to": [ "LEAPING_LEGS" ],
+    "prereqs": [ "PADDED_FEET" ],
+    "movecost_modifier": 0.88,
+    "category": [ "BATRACHIAN", "RABBIT", "FELINE", "LUPINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAPING_LEGS",
+    "name": { "str": "Leaping Legs" },
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 1,
+    "types": [ "LEGS" ],
+    "description": "You've gained a strong ability to leap from a standing position.",
+    "spells_learned": [ [ "spell_short_leap", 1 ] ],
+    "changes_to": [ "LEAPING_LEGS2" ],
+    "category": [ "BATRACHIAN", "RABBIT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAPING_LEGS2",
+    "name": { "str": "Crushing Leap" },
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 1,
+    "types": [ "LEGS" ],
+    "description": "You've gained a strong ability to leap a significant distance from a standing position and crush whatever you land on.",
+    "spells_learned": [ [ "spell_crushing_leap", 1 ] ],
+    "threshreq": [ "THRESH_BATRACHIAN" ],
+    "category": [ "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -3237,7 +3514,7 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "category": [ "TROGLOBITE", "CHIMERA" ],
+    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -3319,8 +3596,8 @@
     "prereqs": [ "NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
     "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
-    "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE" ],
-    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA" ],
+    "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE", "THRESH_BATRACHIAN" ],
+    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN" ],
     "valid": false
   },
   {
@@ -3658,6 +3935,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
+    "category": [ "INSECT" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
@@ -3710,10 +3988,18 @@
     "description": "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 2 },
     "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST" ],
+    "threshreq": [
+      "THRESH_URSINE",
+      "THRESH_CATTLE",
+      "THRESH_CHIMERA",
+      "THRESH_MEDICAL",
+      "THRESH_LIZARD",
+      "THRESH_BEAST",
+      "THRESH_BATRACHIAN"
+    ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TOUGH2" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "MEDICAL" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "MEDICAL", "BATRACHIAN" ],
     "hp_modifier_secondary": 0.2
   },
   {
@@ -3866,7 +4152,8 @@
       "THRESH_FELINE",
       "THRESH_URSINE",
       "THRESH_LIZARD",
-      "THRESH_SPIDER"
+      "THRESH_SPIDER",
+      "THRESH_BATRACHIAN"
     ],
     "cancels": [ "PACIFIST", "MANSBESTFRIEND" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
@@ -4085,6 +4372,83 @@
       "chance": 22,
       "base_damage": { "damage_type": "stab", "amount": 15 }
     }
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_FOOT",
+    "name": { "str": "Gastropod Foot" },
+    "points": 1,
+    "mixed_effect": true,
+    "description": "Your legs have consolidated into a single muscular 'foot' that goes up into your belly.  You move about a fourth of your previous speed and can no longer wear pants or shoes, on the other hand you make significantly less noise.  In addition to being harder to knock down, you can move through sludge-covered surfaces easily.",
+    "category": [ "GASTROPOD" ],
+    "prereqs": [ "SLIMY" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "types": [ "RUNNING", "LEGS" ],
+    "visibility": 8,
+    "ugliness": 9,
+    "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "movecost_flatground_modifier": 1.25,
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "noise_modifier": 0.25,
+    "destroys_gear": true
+  },
+  {
+    "type": "mutation",
+    "id": "GASTROPOD_BALANCE",
+    "name": { "str": "Gastropod Balance" },
+    "points": 1,
+    "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.",
+    "prereqs": [ "GASTROPOD_FOOT" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUCUS_SECRETION",
+    "name": { "str": "Mucus Secretion" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers evrerything you come into contact with but now you can move through slime you didn't create with ease.",
+    "prereqs": [ "GASTROPOD_FOOT" ],
+    "cancels": [ "WEB_SPINNER" ],
+    "leads_to": [ "MUCUS_SECRETION2" ],
+    "changes_to": [ "SNAIL_TRAIL" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUCUS_SECRETION2",
+    "name": { "str": "Acidic Secretion" },
+    "points": 3,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "You're mucus has developed an acidic component that seems to soften your prey up.",
+    "attacks": {
+      "attack_text_u": "You smear slime on %s",
+      "attack_text_npc": "%1$s smears slime on %2$s",
+      "body_part": "torso",
+      "chance": 23,
+      "base_damage": { "damage_type": "acid", "amount": 6 }
+    },
+    "prereqs": [ "MUCUS_SECRETION" ],
+    "category": [ "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SNAIL_TRAIL",
+    "name": { "str": "Snail Trail" },
+    "points": 3,
+    "visibility": 4,
+    "ugliness": 4,
+    "description": "You've developed some ability to control your slime emissions.  As a result of this you can leave trails of slime anywhere you walk.",
+    "prereqs": [ "MUCUS_SECRETION" ],
+    "category": [ "GASTROPOD" ],
+    "active": true,
+    "cost": 20,
+    "time": 100,
+    "thirst": true,
+    "hunger": true
   },
   {
     "type": "mutation",
@@ -4562,7 +4926,7 @@
     "description": "Your senses are keener.  Perception + 2",
     "prereqs": [ "PER_UP" ],
     "changes_to": [ "PER_UP_3", "PER_ALPHA" ],
-    "category": [ "ALPHA", "CHIMERA" ],
+    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN" ],
     "passive_mods": { "per_mod": 2 }
   },
   {
@@ -4748,6 +5112,36 @@
   },
   {
     "type": "mutation",
+    "id": "LONG_TONGUE",
+    "name": { "str": "Lolling Tongue" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 3,
+    "changes_to": [ "LONG_TONGUE2" ],
+    "description": "Your tongue has lengthened and often extends far beyond your mouth.  This has no effect.",
+    "category": [ "BATRACHIAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LONG_TONGUE2",
+    "name": { "str": "Whipping Tongue" },
+    "visibility": 1,
+    "points": 3,
+    "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies.",
+    "threshreq": [ "THRESH_BATRACHIAN" ],
+    "category": [ "BATRACHIAN" ],
+    "cancels": [ "FANGS", "MANDIBLES" ],
+    "attacks": {
+      "attack_text_u": "You bash %s with your tongue.",
+      "attack_text_npc": "%1$s smacks into %2$s with their tongue.",
+      "body_part": "mouth",
+      "chance": 15,
+      "base_damage": { "damage_type": "bash", "amount": 15 },
+      "strength_damage": { "damage_type": "bash", "amount": 2 }
+    }
+  },
+  {
+    "type": "mutation",
     "id": "EYEBULGE",
     "name": { "str": "Bulging Eyes" },
     "points": 0,
@@ -4755,7 +5149,37 @@
     "ugliness": 4,
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
-    "changes_to": [ "COMPOUND_EYES" ]
+    "changes_to": [ "COMPOUND_EYES", "EYESTALKS1" ],
+    "category": [ "BATRACHIAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EYESTALKS1",
+    "name": { "str": "Intermediate Eyestalks" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 5,
+    "mixed_effect": true,
+    "description": "Your eyes barely protrude from your head on tentacles, preventing the use of any rigid eyewear.  On the plus side, you can have additional awareness, but sometimes your vision goes wonky as your brain tries to process the new angles.  Perception +1",
+    "changes_to": [ "EYESTALKS2" ],
+    "category": [ "GASTROPOD" ],
+    "restricts_gear": [ "eyes" ],
+    "allow_soft_gear": true,
+    "passive_mods": { "per_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "EYESTALKS2",
+    "name": { "str": "Eyestalks" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.  Perception +2",
+    "category": [ "GASTROPOD" ],
+    "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
+    "restricts_gear": [ "eyes" ],
+    "passive_mods": { "per_mod": 2 }
   },
   {
     "type": "mutation",
@@ -4831,7 +5255,8 @@
     "visibility": 6,
     "ugliness": 2,
     "description": "Your skin is covered in a pattern of red spots.",
-    "changes_to": [ "SORES" ]
+    "changes_to": [ "SORES" ],
+    "category": [ "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -4843,8 +5268,8 @@
     "description": "You smell awful.  Monsters that track scent will find you very easily, and humans will react poorly.",
     "scent_intensity": 1200,
     "prereqs": [ "SMELLY" ],
-    "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL" ],
-    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE" ]
+    "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL", "PHEROMONE_AMPHIBIAN" ],
+    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -4857,7 +5282,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "UGLY" ],
     "changes_to": [ "DEFORMED2" ],
-    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE" ]
+    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE", "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -4870,7 +5295,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "DEFORMED" ],
     "changes_to": [ "DEFORMED3" ],
-    "category": [ "BEAST", "URSINE", "PLANT" ]
+    "category": [ "BEAST", "URSINE", "PLANT", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -5041,6 +5466,19 @@
   },
   {
     "type": "mutation",
+    "id": "WIDE_MOUTH",
+    "name": { "str": "Wide Mouth" },
+    "points": -3,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your face and jaws have widened like a frogs.  It looks hideous but it allows you to eat food whole.",
+    "types": [ "MUZZLE" ],
+    "category": [ "BATRACHIAN" ],
+    "consume_time_modifier": 0.25
+  },
+  {
+    "type": "mutation",
     "id": "PROBOSCIS",
     "name": { "str": "Proboscis" },
     "points": -4,
@@ -5092,7 +5530,7 @@
     "vomit_multiplier": 3,
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
-    "category": [ "SLIME", "RAT", "MEDICAL", "ELFA" ],
+    "category": [ "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN" ],
     "active": true
   },
   {
@@ -5186,7 +5624,7 @@
     "starting_trait": true,
     "changes_to": [ "THIRST2" ],
     "cancels": [ "NO_THIRST" ],
-    "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA" ],
+    "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD" ],
     "thirst_modifier": 0.5
   },
   {
@@ -5209,6 +5647,7 @@
     "description": "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
     "cancels": [ "NO_THIRST" ],
     "prereqs": [ "THIRST2" ],
+    "category": [ "BATRACHIAN" ],
     "thirst_modifier": 2.0
   },
   {
@@ -5312,7 +5751,7 @@
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
     "changes_to": [ "TROGLO2" ],
-    "category": [ "LIZARD", "BEAST", "INSECT", "SLIME", "SPIDER" ]
+    "category": [ "LIZARD", "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -5344,7 +5783,7 @@
     "ugliness": 2,
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "description": "Your hands and feet are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
-    "category": [ "LIZARD", "FISH", "SLIME" ],
+    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
     "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
     "passive_mods": { "dex_mod": -1 }
@@ -5526,7 +5965,7 @@
     "description": "Your body is coated with a fine slime.  Protects from long-term effects of acid, though not short-term ones.  Greatly increases wet benefits.",
     "leads_to": [ "SLIME_HANDS" ],
     "changes_to": [ "VISCOUS" ],
-    "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD" ],
+    "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD", "GASTROPOD", "BATRACHIAN" ],
     "wet_protection": [
       { "part": "head", "neutral": 3, "good": 4 },
       { "part": "leg_l", "neutral": 7, "good": 14 },
@@ -5550,8 +5989,8 @@
     "description": "Your body's slime output has become sticky and gel-like.  Somewhat protects from acid.  Greatly increases wet benefits.",
     "leads_to": [ "AMORPHOUS" ],
     "prereqs": [ "SLIMY" ],
-    "threshreq": [ "THRESH_SLIME" ],
-    "category": [ "SLIME" ],
+    "threshreq": [ "THRESH_SLIME", "THRESH_GASTROPOD" ],
+    "category": [ "SLIME", "GASTROPOD" ],
     "wet_protection": [
       { "part": "head", "neutral": 4, "good": 5 },
       { "part": "leg_l", "neutral": 8, "good": 15 },
@@ -5632,7 +6071,7 @@
     "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.",
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "leads_to": [ "SAPROVORE" ],
-    "category": [ "LIZARD", "BEAST", "SPIDER", "CHIMERA", "RAPTOR", "FELINE" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -5841,7 +6280,7 @@
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
+    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -5869,7 +6308,7 @@
     "prereqs": [ "COLDBLOOD2" ],
     "changes_to": [ "COLDBLOOD4" ],
     "types": [ "METABOLISM" ],
-    "category": [ "INSECT", "LIZARD" ],
+    "category": [ "INSECT", "LIZARD", "BATRACHIAN" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
@@ -5881,10 +6320,10 @@
     "mixed_effect": true,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
     "prereqs": [ "COLDBLOOD3" ],
-    "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT", "THRESH_BATRACHIAN" ],
     "purifiable": false,
     "types": [ "METABOLISM" ],
-    "category": [ "LIZARD", "PLANT" ],
+    "category": [ "LIZARD", "PLANT", "BATRACHIAN" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
@@ -5898,6 +6337,17 @@
     "changes_to": [ "SNARL" ],
     "category": [ "RAT", "URSINE", "LUPINE" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "CROAK",
+    "name": { "str": "Croaking Voice" },
+    "points": 1,
+    "mixed_effect": true,
+    "description": "You have a low, croaking voice, like an aged grandparent.  Persuading NPCs will be easier, but threatening them will be more difficult.",
+    "cancels": [ "SNARL" ],
+    "category": [ "BATRACHIAN" ],
+    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": -10 }
   },
   {
     "type": "mutation",
@@ -6159,10 +6609,10 @@
     "visibility": 8,
     "ugliness": 3,
     "description": "You have grown a thick shell over your torso, providing excellent armor, but you cannot wear anything on your torso.  Somewhat reduces wet effects.",
-    "prereqs": [ "CHITIN" ],
+    "prereqs": [ "CHITIN", "THICKSKIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
-    "category": [ "CEPHALOPOD" ],
+    "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
@@ -6180,14 +6630,34 @@
     "mixed_effect": true,
     "description": "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth and shelter.",
     "encumbrance_always": [ [ "torso", 10 ] ],
+    "changes_to": [ "SHELL3" ],
     "prereqs": [ "SHELL" ],
-    "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "category": [ "CEPHALOPOD" ],
+    "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_GASTROPOD" ],
+    "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
     "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 6 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHELL3",
+    "name": { "str": "Nacreous Shell" },
+    "points": -1,
+    "visibility": 10,
+    "ugliness": -2,
+    "mixed_effect": true,
+    "description": "Your protective shell has developed increased strength and hardness and a mother of pearl sheen.",
+    "encumbrance_always": [ [ "torso", 15 ] ],
+    "prereqs": [ "SHELL2" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
+    "category": [ "GASTROPOD" ],
+    "wet_protection": [ { "part": "torso", "ignored": 45 } ],
+    "active": true,
+    "restricts_gear": [ "torso" ],
+    "destroys_gear": true,
+    "armor": [ { "parts": "torso", "bash": 18, "cut": 32, "bullet": 9 } ]
   },
   {
     "type": "mutation",
@@ -6231,6 +6701,16 @@
     "name": { "str": "Lizard" },
     "points": 1,
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_GASTROPOD",
+    "name": { "str": "Gastropod" },
+    "points": 1,
+    "description": "You feel bad for all the creatures that don't carry their home on their backs.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6428,6 +6908,16 @@
   },
   {
     "type": "mutation",
+    "id": "THRESH_BATRACHIAN",
+    "name": { "str": "Batrachian" },
+    "points": 1,
+    "description": "A perfect ambush predator, if only there were less competition.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
     "id": "THRESH_MOUSE",
     "name": { "str": "Diminutive" },
     "points": 1,
@@ -6492,8 +6982,8 @@
     "name": { "str": "Amphibious" },
     "points": 5,
     "description": "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
-    "category": [ "FISH" ],
-    "threshreq": [ "THRESH_FISH" ],
+    "category": [ "FISH", "BATRACHIAN" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "movecost_swim_modifier": 0.45,
     "purifiable": false
   },
@@ -6505,8 +6995,8 @@
     "visibility": 3,
     "ugliness": 4,
     "description": "Like a true fish, your eyes lack eyelids, and are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
-    "category": [ "FISH" ],
-    "threshreq": [ "THRESH_FISH" ],
+    "category": [ "FISH", "BATRACHIAN" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "flags": [ "EYE_MEMBRANE" ],
     "active": true
@@ -6518,7 +7008,7 @@
     "points": 1,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
     "prereqs": [ "SEESLEEP" ],
-    "category": [ "FISH" ],
+    "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH" ]
   },
   {
@@ -6527,7 +7017,7 @@
     "name": { "str": "Toxic Flesh" },
     "points": 1,
     "description": "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
-    "category": [ "FISH" ],
+    "category": [ "FISH", "GASTROPOD" ],
     "threshreq": [ "THRESH_FISH" ],
     "purifiable": false
   },
@@ -6538,8 +7028,8 @@
     "points": 4,
     "description": "Your gills and skin are highly permeable to moisture, and you can hydrate your body through osmosis.  While submerged in fresh water, any thirst you might have will be slaked.",
     "prereqs": [ "GILLS" ],
-    "category": [ "FISH" ],
-    "threshreq": [ "THRESH_FISH" ]
+    "category": [ "FISH", "BATRACHIAN" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
   },
   {
     "type": "mutation",
@@ -6921,6 +7411,16 @@
     "points": 99,
     "valid": false,
     "description": "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Stamina" },
+    "points": 99,
+    "valid": false,
+    "max_stamina_modifier": 999999,
+    "description": "You can't run from the bugs, but you have enough stamina to at least try to.",
     "debug": true
   },
   {

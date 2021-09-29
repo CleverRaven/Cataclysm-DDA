@@ -561,8 +561,9 @@
         "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 4 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
-        "req_buffs": [ "mma_buff_stone_dragon_onmove1" ],
+        "required_buffs_all": [ "mma_buff_stone_dragon_onmove1" ],
         "buff_duration": 4,
+        "persists": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scale": -2.0 },
           { "stat": "armor", "type": "cut", "scale": -2.0 },

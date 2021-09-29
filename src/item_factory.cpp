@@ -3090,6 +3090,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             cname.type = curr.get_enum_value<condition_type>( "type" );
             cname.condition = curr.get_string( "condition" );
             cname.name = translation( translation::plural_tag() );
+            cname.value = curr.get_string( "value", "" );
             if( !curr.read( "name", cname.name ) ) {
                 curr.throw_error( "name unspecified for conditional name" );
             }

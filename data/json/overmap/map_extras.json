@@ -350,7 +350,7 @@
     "type": "map_extra",
     "name": { "str": "Marloss Pilgrimage" },
     "description": "Marloss Pilgrimage is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_marloss_pilgrimage" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_marloss_pilgrimage" },
     "sym": "F",
     "color": "dark_gray",
     "autonote": true
@@ -583,5 +583,12 @@
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" }
+  },
+  {
+    "id": "mx_prison_van",
+    "type": "map_extra",
+    "name": { "str": "Prison Van" },
+    "description": "A violent escape.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_van" }
   }
 ]

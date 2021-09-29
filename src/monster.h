@@ -329,8 +329,8 @@ class monster : public Creature
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
-        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                damage_instance &dam ) override;
+        const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                     damage_instance &dam ) override;
         // The monster's skill in hitting a weakpoint
         float weakpoint_skill();
 

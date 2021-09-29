@@ -44,7 +44,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": [
+      "park",
+      "park_2",
+      "park_3",
+      "park_4",
+      "park_5",
+      "park_6",
+      "park_7",
+      "playground",
+      "playground_1",
+      "dog_park",
+      "volleyball_court",
+      "tennis_court",
+      "baskeball_court"
+    ],
     "name": "park",
     "sym": "O",
     "color": "green",

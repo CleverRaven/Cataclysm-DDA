@@ -200,21 +200,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "rabbit_foot",
-    "symbol": "q",
-    "color": "brown",
-    "name": { "str": "rabbit sample" },
-    "description": "A tiny paw that came off of a rabbit.  Please, no luck jokes.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "fur", "leather" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",

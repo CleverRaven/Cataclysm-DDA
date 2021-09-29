@@ -20,6 +20,7 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -246,6 +247,7 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -421,6 +423,7 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -476,6 +479,7 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -521,6 +525,7 @@
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   },
   {
@@ -660,6 +665,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -771,6 +777,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

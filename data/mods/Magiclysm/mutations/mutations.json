@@ -16,6 +16,7 @@
     "points": 9,
     "description": "You aren't where you seem to be.",
     "starting_trait": false,
+    "category": [ "CHIMERA" ],
     "flags": [ "UNCANNY_DODGE" ]
   },
   {
@@ -156,7 +157,7 @@
     "name": { "str": "Clawed Feet" },
     "copy-from": "RAP_TALONS",
     "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
-    "category": [ "DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK", "LIZARD" ],
     "changes_to": [ "DRAGON_FEET" ]
   },
   {
@@ -388,7 +389,7 @@
     "description": "Your digestive issues have developed to become overly acidic which greatly impacts your ability to normally digest food, resulting in getting far less nutrition from the food you eat and making your need to eat more often.",
     "points": -3,
     "prereqs": [ "NAUSEA" ],
-    "category": [ "DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK", "SLIME" ],
     "metabolism_modifier": 0.5,
     "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
   },

@@ -132,7 +132,11 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "required_buffs_all", req_buffs_all, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "required_buffs_any", req_buffs_any, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "forbidden_buffs_all", forbid_buffs_all, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "forbidden_buffs_any", forbid_buffs_any, string_id_reader<::ma_buff> {} );
+
     optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
@@ -207,6 +211,7 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "buff_duration", buff_duration, 2_turns );
     optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
+    optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
@@ -335,7 +340,25 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( const mabuff_id &r : req.req_buffs ) {
+    for( const mabuff_id &r : req.req_buffs_all ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+        }
+    }
+
+    for( const mabuff_id &r : req.req_buffs_any ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+        }
+    }
+
+    for( const mabuff_id &r : req.forbid_buffs_all ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+        }
+    }
+
+    for( const mabuff_id &r : req.forbid_buffs_any ) {
         if( !r.is_valid() ) {
             debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
         }
@@ -384,6 +407,7 @@ class ma_buff_effect_type : public effect_type
             // above buff_duration, this keeps the old ma_buff behavior
             max_duration = buff.buff_duration;
             dur_add_perc = 100;
+            show_intensity = true;
             // each add_effect call increases the intensity by 1
             int_add_val = 1;
             // effect intensity increases by -1 each turn.
@@ -435,8 +459,44 @@ void clear_techniques_and_martial_arts()
 
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
-    for( const mabuff_id &buff_id : req_buffs ) {
+    // Check: Required Buffs All
+    for( const mabuff_id &buff_id : req_buffs_all ) {
         if( !u.has_mabuff( buff_id ) ) {
+            return false;
+        }
+    }
+
+    // Check: Forbidden Buffs Any
+    for( const mabuff_id &buff_id : forbid_buffs_any ) {
+        if( u.has_mabuff( buff_id ) ) {
+            return false;
+        }
+    }
+
+    // Check: Required Buffs Any
+    if( !req_buffs_any.empty() ) {}
+    bool req_buff_valid = false;
+
+    for( const mabuff_id &buff_id : req_buffs_any ) {
+        if( u.has_mabuff( buff_id ) ) {
+            req_buff_valid = true;
+        }
+
+        if( !req_buff_valid ) {
+            return false;
+        }
+    }
+
+    // Check: Forbidden Buffs All
+    if( !forbid_buffs_all.empty() ) {}
+    bool forbid_buff_valid = false;
+
+    for( const mabuff_id &buff_id : forbid_buffs_all ) {
+        if( !u.has_mabuff( buff_id ) ) {
+            forbid_buff_valid = true;
+        }
+
+        if( !forbid_buff_valid ) {
             return false;
         }
     }
@@ -531,10 +591,38 @@ std::string ma_requirements::get_description( bool buff ) const
         }, enumeration_conjunction::none ) + "\n";
     }
 
-    if( !req_buffs.empty() ) {
-        dump += _( "<bold>Requires:</bold> " );
+    if( !req_buffs_all.empty() ) {
+        dump += _( "<bold>Requires (all):</bold> " );
 
-        dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
+        dump += enumerate_as_string( req_buffs_all.begin(),
+        req_buffs_all.end(), []( const mabuff_id & bid ) {
+            return bid->name.translated();
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !req_buffs_any.empty() ) {
+        dump += _( "<bold>Requires (any):</bold> " );
+
+        dump += enumerate_as_string( req_buffs_any.begin(),
+        req_buffs_any.end(), []( const mabuff_id & bid ) {
+            return bid->name.translated();
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !forbid_buffs_all.empty() ) {
+        dump += _( "<bold>Forbidden (all):</bold> " );
+
+        dump += enumerate_as_string( forbid_buffs_all.begin(),
+        forbid_buffs_all.end(), []( const mabuff_id & bid ) {
+            return bid->name.translated();
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !forbid_buffs_any.empty() ) {
+        dump += _( "<bold>Forbidden (any):</bold> " );
+
+        dump += enumerate_as_string( forbid_buffs_any.begin(),
+        forbid_buffs_any.end(), []( const mabuff_id & bid ) {
             return bid->name.translated();
         }, enumeration_conjunction::none ) + "\n";
     }
@@ -778,6 +866,97 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
     }
 }
 
+void martialart::remove_all_buffs( Character &u ) const
+{
+    // Remove static buffs
+    for( auto &elem : static_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onmove buffs
+    for( auto &elem : onmove_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onpause buffs
+    for( auto &elem : onpause_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onhit buffs
+    for( auto &elem : onhit_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onattack buffs
+    for( auto &elem : onattack_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove ondodge buffs
+    for( auto &elem : ondodge_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onblock buffs
+    for( auto &elem : onblock_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove ongethit buffs
+    for( auto &elem : ongethit_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onmiss buffs
+    for( auto &elem : onmiss_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove oncrit buffs
+    for( auto &elem : oncrit_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+
+    // Remove onkill buffs
+    for( auto &elem : onkill_buffs ) {
+        const efftype_id eff_id = elem->get_effect_id();
+        if( u.has_effect( eff_id ) && !elem->persists ) {
+            u.remove_effect( eff_id );
+        }
+    }
+}
+
 void martialart::apply_static_buffs( Character &u ) const
 {
     simultaneous_add( u, static_buffs );
@@ -992,6 +1171,12 @@ bool character_martial_arts::is_force_unarmed() const
 {
     return style_selected->force_unarmed;
 }
+
+void character_martial_arts::clear_all_effects( Character &owner )
+{
+    style_selected->remove_all_buffs( owner );
+}
+
 
 // event handlers
 void character_martial_arts::ma_static_effects( Character &owner )

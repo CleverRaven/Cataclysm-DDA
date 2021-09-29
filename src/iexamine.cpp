@@ -1577,13 +1577,10 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
  */
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
-    auto prying_items = you.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );
+    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
 
     map &here = get_map();
-    if( prying_items.empty() ) {
+    if( best_prying.is_null() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
@@ -1595,19 +1592,11 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         return;
     }
 
-    // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
-    } );
-
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
     you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), prying_items[0]->tname() );
+                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
 
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    item temporary_item( prying_items[0]->type );
-    iuse::crowbar( &you, &temporary_item, false, examp );
+    iuse::crowbar( &you, &best_prying, false, examp );
 }
 
 /**
@@ -3430,7 +3419,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !you.can_consume( drink ) ) {
+                if( !you.can_consume_as_is( drink ) ) {
                     return; // They didn't actually drink
                 }
                 you.assign_activity( player_activity( consume_activity_actor( drink ) ) );
@@ -6330,7 +6319,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         "harvest_furn",
         "harvest_ter_nectar",
         "harvest_ter",
-        "tree_hickory",
     };
 
     auto iter = function_map.find( function_name );

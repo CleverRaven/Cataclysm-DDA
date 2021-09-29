@@ -205,7 +205,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "trimmer_off",

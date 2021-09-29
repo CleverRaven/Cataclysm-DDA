@@ -3256,7 +3256,7 @@
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "military flight helmet" },
+    "name": { "str": "military flight helmet (on)", "str_pl": "military flight helmets (on)" },
     "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
     "weight": "1324 g",
     "volume": "2 L",
@@ -3290,5 +3290,33 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "id": "combo_cover",
+    "name": { "str": "Combo cover" },
+    "weight": "500 g",
+    "color": "white",
+    "use_action": {
+      "menu_text": "Salute",
+      "type": "transform",
+      "target": "combo_cover",
+      "msg": "You bring your hand to your cover and issue a salute."
+    },
+    "symbol": "[",
+    "description": "A military officer's combo cover, or peaked cap.  It conveys an air of authority, while keeping the sun out of your eyes.",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "cotton" ],
+    "volume": "1750 ml",
+    "warmth": 7,
+    "environmental_protection": 3,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 }
+    ],
+    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "material_thickness": 0.5
   }
 ]

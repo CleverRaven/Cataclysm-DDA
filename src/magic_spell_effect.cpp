@@ -1528,10 +1528,10 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         dialogue d( get_talker_for( creatures.creature_at<Creature>( potential_target ) ),
                     get_talker_for( caster ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
-        if( eoc->activate_only ) {
+        if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Cannot use a recurring effect_on_condition in a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
+            debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
         }
     }
 }

@@ -1,0 +1,148 @@
+[
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Tier0",
+    "//": "This stuff should be available in the exodii store from the start.",
+    "subtype": "collection",
+    "items": [
+      { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "pamd71z", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "exodiiminimag", "prob": 60, "charges": 0, "count": [ 1, 4 ] },
+      { "item": "exodiiBRmag", "prob": 50, "charges": 0, "count": [ 1, 4 ] },
+      { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 1, 4 ], "sealed": true },
+      [ "box_medium", 75 ],
+      [ "box_large", 25 ],
+      [ "pipe_fittings", 70 ],
+      [ "goggles_welding", 50 ],
+      [ "welding_book", 10 ],
+      [ "welding_mask", 30 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 10 ],
+      [ "metal_tank", 8 ],
+      [ "metal_tank_little", 8 ],
+      [ "cu_pipe", 5 ],
+      [ "eyedrops", 4 ],
+      [ "plastic_sheet", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier1",
+    "//": "These CBMs should be available in the exodii store from the start.",
+    "items": [
+      [ "bio_watch", 10 ],
+      [ "bio_syringe", 10 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_flashlight", 10 ],
+      [ "bio_lighter", 10 ],
+      [ "bio_magnet", 5 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_cable", 5 ],
+      [ "bio_tattoo_led", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_soporific", 3 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_geiger", 5 ],
+      [ "bio_nostril", 1 ],
+      [ "bio_voice", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier2",
+    "//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
+    "items": [
+      [ "bio_tools", 10 ],
+      [ "bio_ethanol", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_surgical_razor", 10 ],
+      [ "bio_remote", 10 ],
+      [ "bio_torsionratchet", 10 ],
+      [ "bio_ears", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_armor_arms", 10 ],
+      [ "bio_armor_eyes", 10 ],
+      [ "bio_armor_head", 10 ],
+      [ "bio_armor_legs", 10 ],
+      [ "bio_armor_torso", 10 ],
+      [ "bio_digestion", 10 ],
+      [ "bio_infrared", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_night_vision", 10 ],
+      [ "bio_power_storage_mkII", 10 ],
+      [ "bio_scent_mask", 10 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_taste_blocker", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier3",
+    "//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
+    "items": [
+      [ "bio_blood_filter", 10 ],
+      [ "bio_purifier", 10 ],
+      [ "bio_heatsink", 10 ],
+      [ "bio_climate", 10 ],
+      [ "bio_leukocyte", 10 ],
+      [ "bio_adrenaline", 10 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_carbon", 10 ],
+      [ "bio_evap", 10 ],
+      [ "bio_face_mask", 10 ],
+      [ "bio_gills", 10 ],
+      [ "bio_hydraulics", 10 ],
+      [ "bio_membrane", 10 ],
+      [ "bio_painkiller", 10 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_weight", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier4",
+    "//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
+    "items": [
+      [ "bio_faraday", 10 ],
+      [ "bio_metabolics", 10 ],
+      [ "bio_ground_sonar", 10 ],
+      [ "bio_recycler", 10 ],
+      [ "bio_uncanny_dodge", 10 ],
+      [ "bio_eye_enhancer", 10 ],
+      [ "bio_dex_enhancer", 10 ],
+      [ "bio_heat_absorb", 10 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_memory", 10 ],
+      [ "bio_speed", 10 ],
+      [ "bio_str_enhancer", 10 ],
+      [ "bio_water_extractor", 10 ],
+      [ "bio_synaptic_regen", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_unlocks_weapons_light",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [ [ "bio_blade", 10 ], [ "bio_claws", 10 ], [ "bio_cqb", 10 ], [ "bio_flashbang", 10 ], [ "bio_razors", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_unlocks_weapons_medium",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [ [ "bio_resonator", 10 ], [ "bio_targeting", 15 ], [ "bio_shotgun", 10 ], [ "bio_laser", 5 ], [ "bio_shock", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_unlocks_weapons_heavy",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [
+      [ "bio_chain_lightning", 15 ],
+      [ "bio_emp", 1 ],
+      [ "bio_emp_armgun", 1 ],
+      [ "bio_railgun", 15 ],
+      [ "bio_shockwave", 10 ]
+    ]
+  }
+]

@@ -1233,97 +1233,97 @@
       {
         "text": "Sets time since cataclysm to 2 * 5 turns.  (10)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 2 }, { "const": 5 } ], "op": "*" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "*", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to 15 / 5 turns.  (3)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 15 }, { "const": 5 } ], "op": "/" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "/", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to 2 + 5 turns.  (7)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 2 }, { "const": 5 } ], "op": "+" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "+", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to 5 - 2 turns.  (3)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 }, { "const": 2 } ], "op": "-" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "-", { "const": 2 } ] }
       },
       {
         "text": "Sets time since cataclysm to 15 % 10 turns.  (5)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 15 }, { "const": 10 } ], "op": "%" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "%", { "const": 10 } ] }
       },
       {
         "text": "Sets time since cataclysm to 3 & 6 turns.  (2)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 3 }, { "const": 6 } ], "op": "&" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 3 }, "&", { "const": 6 } ] }
       },
       {
         "text": "Sets time since cataclysm to 2 | 4 turns.  (6)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 2 }, { "const": 6 } ], "op": "|" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "|", { "const": 6 } ] }
       },
       {
         "text": "Sets time since cataclysm to 3 << 2 turns.  (12)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 3 }, { "const": 2 } ], "op": "<<" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 3 }, "<<", { "const": 2 } ] }
       },
       {
         "text": "Sets time since cataclysm to 12 >> 2 turns.  (3)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 12 }, { "const": 2 } ], "op": ">>" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 12 }, ">>", { "const": 2 } ] }
       },
       {
         "text": "Sets time since cataclysm to  ~5 turns.  (?)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "~" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "~" ] }
       },
       {
         "text": "Sets time since cataclysm to 2 ^ 5 turns.  (7)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 2 }, { "const": 5 } ], "op": "^" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "^", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to 5 turns.  (5)",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to *= 5 turns.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "*=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "*=", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to /= 5 turns.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "/=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "/=", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to += 5 turns.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "+=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "+=", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to -= 5 turns.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "-=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "-=", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm to %= 5 turns.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 5 } ], "op": "%=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "%=", { "const": 5 } ] }
       },
       {
         "text": "Sets time since cataclysm++.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" } ], "op": "++" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "++" ] }
       },
       {
         "text": "Sets time since cataclysm--.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" } ], "op": "--" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "--" ] }
       }
     ]
   },
@@ -1335,133 +1335,131 @@
       {
         "text": "Sets time since cataclysm to 1.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "const": 1 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 1 } ] }
       },
       {
         "text": "Sets temperature to 2.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "temperature" }, { "const": 2 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "weather": "temperature" }, "=", { "const": 2 } ] }
       },
       {
         "text": "Sets windpower to 3.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "windpower" }, { "const": 3 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "weather": "windpower" }, "=", { "const": 3 } ] }
       },
       {
         "text": "Sets humidity to 4.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "humidity" }, { "const": 4 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "weather": "humidity" }, "=", { "const": 4 } ] }
       },
       {
         "text": "Sets pressure to 5.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "pressure" }, { "const": 5 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "weather": "pressure" }, "=", { "const": 5 } ] }
       },
       {
         "text": "Sets base strength to 6.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "strength_base" }, { "const": 6 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "strength_base" }, "=", { "const": 6 } ] }
       },
       {
         "text": "Sets base dexterity to 7.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "dexterity_base" }, { "const": 7 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "dexterity_base" }, "=", { "const": 7 } ] }
       },
       {
         "text": "Sets base intelligence to 8.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "intelligence_base" }, { "const": 8 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "intelligence_base" }, "=", { "const": 8 } ] }
       },
       {
         "text": "Sets base perception to 9.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "perception_base" }, { "const": 9 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "perception_base" }, "=", { "const": 9 } ] }
       },
       {
         "text": "Sets custom var to 10.",
         "topic": "TALK_DONE",
         "effect": {
-          "arithmetic": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, { "const": 10 } ],
-          "op": "="
+          "arithmetic": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, "=", { "const": 10 } ]
         }
       },
       {
         "text": "Sets time since var to 11.",
         "topic": "TALK_DONE",
         "effect": {
-          "arithmetic": [ { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" }, { "const": 11 } ],
-          "op": "="
+          "arithmetic": [ { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" }, "=", { "const": 11 } ]
         }
       },
       {
         "text": "Sets owed to 12.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "owed" }, { "const": 12 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "owed" }, "=", { "const": 12 } ] }
       },
       {
         "text": "Sets skill level in driving to 13.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "skill_level", "skill": "driving" }, { "const": 13 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "skill_level", "skill": "driving" }, "=", { "const": 13 } ] }
       },
       {
         "text": "Sets pos_x to 14.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pos_x" }, { "const": 14 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "pos_x" }, "=", { "const": 14 } ] }
       },
       {
         "text": "Sets pos_y to 15.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pos_y" }, { "const": 15 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "pos_y" }, "=", { "const": 15 } ] }
       },
       {
         "text": "Sets pos_z to 16.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pos_z" }, { "const": 16 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "pos_z" }, "=", { "const": 16 } ] }
       },
       {
         "text": "Sets pain to 17.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pain" }, { "const": 17 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 17 } ] }
       },
       {
         "text": "Sets power to 18.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "power" }, { "const": 18 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "power" }, "=", { "const": 18 } ] }
       },
       {
         "text": "Sets power to 20%.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "power_percentage" }, { "const": 20 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "power_percentage" }, "=", { "const": 20 } ] }
       },
       {
         "text": "Sets focus to 19.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "focus" }, { "const": 19 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "focus" }, "=", { "const": 19 } ] }
       },
       {
         "text": "Sets mana to 21.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "mana" }, { "const": 21 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "mana" }, "=", { "const": 21 } ] }
       },
       {
         "text": "Sets mana to 25%.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "mana_percentage" }, { "const": 25 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "mana_percentage" }, "=", { "const": 25 } ] }
       },
       {
         "text": "Sets thirst to 22.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "thirst" }, { "const": 22 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 22 } ] }
       },
       {
         "text": "Sets stored_kcal to 23.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "stored_kcal" }, { "const": 23 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 23 } ] }
       },
       {
         "text": "Sets stored_kcal_percentage to 50.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "stored_kcal_percentage" }, { "const": 50 } ], "op": "=" }
+        "effect": { "arithmetic": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 50 } ] }
       }
     ]
   },
