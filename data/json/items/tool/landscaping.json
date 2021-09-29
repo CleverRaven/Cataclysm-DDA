@@ -124,7 +124,8 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "weapon_category": [ "BLADED_FARMING", "CUTTING_POLEARMS" ]
   },
   {
     "id": "shovel",

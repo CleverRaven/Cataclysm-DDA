@@ -1060,7 +1060,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING" ],
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "CUTTING_POLEARMS", "PIERCING_POLEARMS" ],
     "weapons": [
       "bowling_pin",
       "glaive",
@@ -1068,11 +1068,8 @@
       "hockey_stick",
       "javelin",
       "javelin_iron",
-      "machete",
-      "machete_gimmick",
       "makeshift_halberd",
       "makeshift_glaive",
-      "makeshift_machete",
       "naginata",
       "naginata_inferior",
       "naginata_fake",
@@ -1081,9 +1078,6 @@
       "scimitar",
       "scimitar_inferior",
       "scimitar_fake",
-      "scythe",
-      "scythe_war",
-      "sickle",
       "spear_knife",
       "spear_knife_superior",
       "spear_spike",
@@ -1095,7 +1089,6 @@
       "spear_wood",
       "spear_copper",
       "spear_homemade_halfpike",
-      "survivor_machete",
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
