@@ -127,7 +127,7 @@
         "name": { "str_sp": "Report PE065/04-001" }
       }
     ],
-    "description": "A manila folder with some top secret test data.  Most of it is practically unintelligeble without knowing the jargon, and the contents have obviously suffered from the chaos in this place, but there are some intact pages you can make sense of.",
+    "description": "A manila folder with some top secret test data.  Most of it is unintelligible without knowing the jargon, and the contents have obviously suffered from the chaos in this place, but there are some intact pages you can make sense of.",
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",

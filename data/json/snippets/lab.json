@@ -34,7 +34,7 @@
       { "id": "lab_postit_bio_2", "text": "Enrichment makes for better data.  Coloring book?" },
       { "id": "lab_postit_bio_3", "text": "Reduce caloric intake.  Stress potentiates the process." },
       { "id": "lab_postit_bio_4", "text": "WHEN IN DOUBT, INCINERATE" },
-      { "id": "lab_postit_bio_5", "text": "Requisition more subjects when half is used up" },
+      { "id": "lab_postit_bio_5", "text": "Requisition more subjects when half have been processed." },
       { "id": "lab_postit_bio_6", "text": "Droppings caustic, handle with care" },
       { "id": "lab_postit_bio_7", "text": "DON'T remove from cage between 10-12 PM (it knows)" },
       { "id": "lab_postit_bio_8", "text": "Can walk on ceiling" },
@@ -77,7 +77,7 @@
         "text": "Prefers prey capable of vocalization -- implanted speakers work but no repeats"
       },
       { "id": "lab_postit_migo_9", "text": "Blast with white noise as a deterrent?" },
-      { "id": "lab_postit_migo_10", "text": "Like it warm, not bothered by cold" }
+      { "id": "lab_postit_migo_10", "text": "Likes it warm, not bothered by cold" }
     ]
   },
   {
@@ -85,13 +85,13 @@
     "category": "lab_postit_portal",
     "text": [
       { "id": "lab_postit_portal_1", "text": "Increase frequencies in odd steps - local discontiuity!" },
-      { "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29,1 minutes" },
+      { "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29.1 minutes" },
       { "id": "lab_postit_portal_3", "text": "Sub-plane 11-7A likes prime-numbered calibration pings" },
       { "id": "lab_postit_portal_4", "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND" },
       { "id": "lab_postit_portal_5", "text": "Remember Jake?  Me neither." },
       { "id": "lab_postit_portal_6", "text": "Keep line of sight minimal" },
       { "id": "lab_postit_portal_7", "text": "Calibrate on SP-12 for manned transfers" },
-      { "id": "lab_postit_portal_8", "text": "No touching returning probes, even if beg you to" },
+      { "id": "lab_postit_portal_8", "text": "No touching returning probes, even if they beg you to" },
       { "id": "lab_postit_portal_9", "text": "Remember to forget.  Forget to remember." },
       { "id": "lab_postit_portal_10", "text": "Scream at Maintenance for a replacement again" }
     ]
@@ -219,7 +219,7 @@
       {
         "id": "dream_3",
         "//": "Something Fungi this way comes",
-        "text": "I keep dreaming the same dream ever since Dr. Yin's final session.  The same one she described with that vivid enthusiasm, like she could see it in the waking world as well.  I didn't understand the beauty of it back then, so I just took my notes as usual when one of them vents about the horrible things we encourage them to feel good about -- it is what I'm getting paid for, after all.  Looking at the transcript now, its dryness feels blasphemous: \"connected branches of grey vines\" he writes, unable to imagine the transcendce of the Whole stretching across infinity, connecting large and small, familiar and unknowable; \"moldy fuzz in a positive connotation - rural childhood?\" like an armchair psychotherapist grasping at straws, as if the eternal fractal was anything less than divine.  I am grateful for her allowing me to dream the same dream on for her, I only wish it came to me before I hastily reported the session to the bloodhounds at Security.  I remember being terrified of something, but the feeling melted in the radiance of my first night's sleep.  I will need to seek out others of a similar mind, to connect with them, to show them what we can become with time, but I need to be more careful than she was."
+        "text": "I keep dreaming the same dream ever since Dr. Yin's final session.  The same one she described with that vivid enthusiasm, like she could see it in the waking world as well.  I didn't understand the beauty of it back then, so I just took my notes as usual when one of them vents about the horrible things we encourage them to feel good about -- it is what I'm getting paid for, after all.  Looking at the transcript now, its dryness feels blasphemous: \"connected branches of grey vines\" he writes, unable to imagine the transcendence of the Whole stretching across infinity, connecting large and small, familiar and unknowable; \"moldy fuzz in a positive connotation - rural childhood?\" like an armchair psychotherapist grasping at straws, as if the eternal fractal was anything less than divine.  I am grateful for her allowing me to dream the same dream on for her, I only wish it came to me before I hastily reported the session to the bloodhounds at Security.  I remember being terrified of something, but the feeling melted in the radiance of my first night's sleep.  I will need to seek out others of a similar mind, to connect with them, to show them what we can become with time, but I need to be more careful than she was."
       }
     ]
   },
