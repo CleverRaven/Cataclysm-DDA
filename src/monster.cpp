@@ -1525,8 +1525,8 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                 damage_instance &dam )
+const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                      damage_instance &dam )
 {
     resistances r = resistances( *this );
     weakpoint_attack attack_copy = attack;
@@ -1545,7 +1545,7 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
     wp->apply_to( dam, attack.is_crit );
-    return wp->name;
+    return wp;
 }
 
 bool monster::melee_attack( Creature &target )
@@ -1597,7 +1597,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         weakpoint_attack attack;
         attack.source = this;
-        attack.is_melee = true;
         attack.wp_skill = weakpoint_skill();
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }

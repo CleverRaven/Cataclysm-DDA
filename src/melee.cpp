@@ -723,7 +723,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             weakpoint_attack attack;
             attack.source = this;
             attack.weapon = cur_weapon;
-            attack.is_melee = true;
+            attack.primary_skill = skill_melee;
             attack.is_crit = critical_hit;
             attack.wp_skill = melee_weakpoint_skill( *cur_weapon );
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack );
@@ -2062,7 +2062,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         if( hit_spread >= 0 ) {
             weakpoint_attack attack;
             attack.source = this;
-            attack.is_melee = true;
+            attack.primary_skill = skill_melee;
             attack.wp_skill = melee_weakpoint_skill( null_item_reference() );
             t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam, attack );
             if( !practiced ) {

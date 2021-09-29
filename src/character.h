@@ -1015,8 +1015,8 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                damage_instance &dam ) override;
+        const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                     damage_instance &dam ) override;
         /** The character's skill in hitting a weakpoint */
         float melee_weakpoint_skill( const item &weapon );
         float ranged_weakpoint_skill( const item &weapon );

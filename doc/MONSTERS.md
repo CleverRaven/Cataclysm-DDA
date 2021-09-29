@@ -328,11 +328,38 @@ Weakpoints in the monster's protection.
 | ---                 | ---
 | `name`              | Name of the weakpoint.
 | `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+| `coverage_mult`     | object mapping weapon types to constant coverage multipliers.
+| `difficulty`        | object mapping weakon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
 | `armor_mult`        | multipler on the monster's base protection when hitting the weakpoint.
 | `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
 | `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
 | `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
-| `required_effects`  | list of effects applied to the monster required to hit the weakpoint.
+| `required_effects`  | list of effect names applied to the monster required to hit the weakpoint.
+| `effects`           | list of effects objects that may be applied to the monster by hitting the weakpoint.
+
+The `effects` field is a list of objects with the following subfields:
+
+| field               | description
+| ---                 | ---
+| `effect`            | The effect type.
+| `chance`            | The probability of causing the effect.
+| `duration`          | The duration of the effect. Either a (min, max) pair or a single value.
+| `permanent`         | Whether the effect is permanent.
+| `intensity`         | The intensity of the effect. Either a (min, max) pair or a single value.
+| `damage_required`   | The range of damage, as a percentage of max health, required to trigger the effect.
+| `message`           | The message to print, if the player triggers the effect. Should take a single template parameter, referencing the monster's name.
+
+The `coverage_mult` and `difficulty` objects support the following subfields:
+| field               | description
+| ---                 | ---
+| `all`               | The default value, if nothing more specific is provided.
+| `bash`              | The value used for melee bashing weapons.
+| `cut`               | The value used for melee cutting weapons.
+| `stab`              | The value used for melee stabbing weapons.
+| `ranged`            | The value used for ranged weapons, including projectiles and throwning weapons.
+| `melee`             | The default value for melee weapons (`bash`, `cut`, and `stab`). Takes precedence over `point` and `broad`.
+| `point`             | The default value for pointed weapons (`stab` and `ranged`).
+| `broad`             | The default value for broad weapons (`bash` and `cut`).
 
 ## "vision_day", "vision_night"
 (integer, optional)
