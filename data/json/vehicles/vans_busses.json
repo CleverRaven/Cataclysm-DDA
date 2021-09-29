@@ -1790,7 +1790,8 @@
     ],
     "items": [
       { "x": -1, "y": 2, "chance": 35, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
-      { "x": -1, "y": 2, "chance": 20, "magazine": 100, "ammo": 50, "item_groups": [ "guns_shotgun_milspec" ] }
+      { "x": -1, "y": 2, "chance": 20, "magazine": 100, "ammo": 50, "item_groups": [ "guns_shotgun_milspec" ] },
+      { "x": -1, "y": 2, "chance": 20, "items": [ "id_science_transport_1" ] }
     ]
   },
   {
@@ -2324,6 +2325,9 @@
       { "x": -5, "y": 3, "parts": [ "hdframe_se", "hdboard_se", "hdroof", "plating_steel" ] },
       { "x": -5, "y": 3, "parts": [ "wheel_mount_medium", "wheel_wide" ] }
     ],
-    "items": [ { "x": 0, "y": 1, "chance": 70, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] } ]
+    "items": [
+      { "x": 0, "y": 1, "chance": 70, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
+      { "x": 0, "y": 1, "chance": 10, "items": [ "id_science_transport_1" ] }
+    ]
   }
 ]
