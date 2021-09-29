@@ -1060,7 +1060,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "HOOKING_POLEARMS", "PIERCING_POLEARMS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
   },
   {
     "type": "martial_art",

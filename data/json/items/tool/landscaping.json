@@ -125,7 +125,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
   },
   {
     "id": "shovel",

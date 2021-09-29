@@ -36,7 +36,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -58,7 +58,7 @@
     "cutting": 9,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -78,7 +78,7 @@
     "cutting": 15,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -102,7 +102,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
   },
   {
     "id": "makeshift_halberd",
@@ -124,7 +124,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ],
-    "weapon_category": [ "HOOKING_POLEARMS" ]
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ]
   },
   {
     "id": "makeshift_glaive",
@@ -156,7 +156,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ]
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "spear_knife",
@@ -189,7 +189,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ]
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "spear_homemade_halfpike",
@@ -210,7 +210,7 @@
     "color": "brown",
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ]
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "type": "GENERIC",
@@ -230,7 +230,7 @@
     "cutting": 18,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4900,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -251,7 +251,7 @@
     "cutting": 20,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 1400,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -272,7 +272,7 @@
     "cutting": 30,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 16000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -313,7 +313,7 @@
     "cutting": 25,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -334,7 +334,7 @@
     "cutting": 29,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -356,7 +356,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
   {
@@ -427,7 +427,7 @@
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_POLEARMS" ],
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -454,7 +454,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_POLEARMS" ],
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
     "price": 80000,
     "price_postapoc": 9500,
     "category": "weapons"
@@ -502,7 +502,7 @@
     "cutting": 40,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "flags": [ "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
-    "weapon_category": [ "HOOKING_POLEARMS" ],
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
@@ -524,7 +524,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
@@ -546,7 +546,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
-    "weapon_category": [ "PIERCING_POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 9000,
     "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
@@ -662,7 +662,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
   },
   {
     "id": "spear_dory",
