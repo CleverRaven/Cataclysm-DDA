@@ -12,21 +12,164 @@
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",
-    "id": [
-      "TALK_FREE_MERCHANT_TEAMSTER_1"
-    ],
+    "id": [ "TALK_FREE_MERCHANT_TEAMSTER_CHAT" ],
     "type": "talk_topic",
     "responses": [
+      {
+        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
+        "condition": {
+          "npc_compare_time_since_var": "directions_recycler",
+          "type": "timer",
+          "context": "teamster",
+          "op": ">=",
+          "time": "2 days"
+        },
+        "effect": [
+          { "arithmetic": [ { "npc_val": "randomize_directions" }, "=", { "rand": 3 } ] },
+          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+        ]
+      },
+      {
+        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
+        "condition": {
+          "npc_compare_time_since_var": "directions_recycler",
+          "type": "timer",
+          "context": "teamster",
+          "op": "<",
+          "time": "2 days"
+        }
+      },
+      {
+        "text": "I wanted to tell you about a potential new trading partner I met recently.",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_FACTION_INTRO",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      }
     ]
   },
   {
     "//": "initial greeting",
-    "id": [
-      "TALK_FREE_MERCHANT_TEAMSTER"
-    ],
-    "dynamic_line": { 
-    "yes": "What can I help you with?",
-    "no": "Well now, a new face.  Nice t'meet ya
+    "id": "TALK_FREE_MERCHANT_TEAMSTER",
     "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "u_met_teamster",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "What can I help you with?",
+      "no": "Well now, a new face.  Nice ta meet ya.  I'm the one sendin' out these here caravans far and wide.  What can I do ya for?"
+    },
     "responses": [
+      {
+        "text": "Can I ask you some questions?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT",
+        "effect": { "u_add_var": "u_met_teamster", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I've gotta run, nice talking to you.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "u_met_teamster", "type": "general", "context": "meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": "Sure, got nothin' to load up just now.",
+    "responses": [ { "text": "I've gotta run, nice talking to you.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
+    "dynamic_line": {
+      "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 0 } ],
+      "op": "=",
+      "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
+      "no": {
+        "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 1 } ],
+        "op": "=",
+        "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+        "no": {
+          "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ],
+          "op": "=",
+          "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+          "no": {
+            "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ],
+            "op": "=",
+            "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+            "no": "ERROR: out of bounds on randomize_directions."
+          }
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "How do I get to that farm?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 1 } ], "op": "=" },
+        "effect": { "u_assign_mission": "directions_isherwood" }
+      },
+      {
+        "text": "How do I get to that farm?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ], "op": "=" },
+        "effect": { "u_assign_mission": "directions_hub01" }
+      },
+      {
+        "text": "How do I get to that farm?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ], "op": "=" },
+        "effect": { "u_assign_mission": "directions_exodii" }
+      },
+      { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_FACTION_INTRO",
+    "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
+    "responses": [
+      {
+        "text": "[ Tell them about Rubik and the Exodii ]",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
+    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the exodii base.",
+    "dynamic_line": "Well now, that's a hell of a story.  Some day, I'll see if we can get out there an' look into it.  Sounds like there'd be some real interestin' trade.",
+    "responses": [ { "text": "Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
+  },
+  {
+    "id": "directions_exodii",
+    "type": "mission_definition",
+    "name": { "str": "Check out that scrap metal castle" },
+    "description": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 10000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 30 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_4",
+    "dialogue": {
+      "describe": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+      "offer": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+      "accepted": "Your funeral.",
+      "rejected": "Seems reasonable.",
+      "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "Seems reasonable."
+    }
+  }
 ]
