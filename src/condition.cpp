@@ -829,6 +829,22 @@ void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::strin
 }
 
 template<class T>
+void conditional_t<T>::set_query( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    std::string message = jo.get_string( member );
+    bool default_val = jo.get_bool( "default" );
+    condition = [message, default_val, is_npc]( const T & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( actor->get_character() && actor->get_character()->is_avatar() ) {
+            std::string translated_message = _( message );
+            return query_yn( translated_message );
+        } else {
+            return default_val;
+        }
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_x_in_y_chance( const JsonObject &jo, const std::string &member )
 {
     const JsonObject &var_obj = jo.get_object( member );
@@ -1467,6 +1483,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_need( jo, "u_need" );
     } else if( jo.has_string( "npc_need" ) ) {
         set_need( jo, "npc_need", is_npc );
+    } else if( jo.has_member( "u_query" ) ) {
+        set_query( jo, "u_query" );
+    } else if( jo.has_member( "npc_query" ) ) {
+        set_query( jo, "npc_query", is_npc );
     } else if( jo.has_string( "u_at_om_location" ) ) {
         set_at_om_location( jo, "u_at_om_location" );
     } else if( jo.has_string( "npc_at_om_location" ) ) {
