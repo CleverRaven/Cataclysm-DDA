@@ -1882,6 +1882,16 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::volume free_space() const;
+        /**
+         * Returns the total volume of all worn holsters.
+        */
+        units::volume holster_volume() const;
+        int empty_holsters() const;
+        /**
+         * Returns the total volume of all pockets less than or equal to the volume passed in
+         * @param volume threshold for pockets to be considered
+        */
+        units::volume small_pocket_volume( const units::volume &threshold = 1000_ml ) const;
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;

@@ -715,7 +715,11 @@ Condition | Type | Description
 the value of `u_has_focus` or `npc_has_focus` ( or the value of the variable described see `variable_object` above).
 `"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
 `"u_is_in_field"`<br/>`"npc_is_in_field"` | string | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
-
+`"u_query"`<br/>`"npc_query", default : bool` | string | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.
+example
+```
+"condition": { "u_query": "Should we test?", "default": true },
+```
 #### Player Only conditions
 
 `"u_has_mission"` | string | `true` if the mission is assigned to the player character.
