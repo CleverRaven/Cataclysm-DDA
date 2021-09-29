@@ -872,6 +872,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "volume": "2 L",
     "longest_side": "150 cm",
     "bashing": 10,
