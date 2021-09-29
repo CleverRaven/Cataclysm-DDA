@@ -1063,13 +1063,7 @@
     "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "CUTTING_POLEARMS", "PIERCING_POLEARMS" ],
     "weapons": [
       "golf_club",
-      "hockey_stick",
-      "scimitar",
-      "scimitar_inferior",
-      "scimitar_fake",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
+      "hockey_stick"
     ]
   },
   {
