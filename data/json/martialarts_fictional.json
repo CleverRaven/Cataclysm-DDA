@@ -460,7 +460,7 @@
     "messages": [ "You lash out at %s with a Viper Bite", "<npcname> lash out at %s with a Viper Bite" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_venom_snake_ondodge1" ],
+    "required_buffs_all": [ "buff_venom_snake_ondodge1" ],
     "crit_tec": true,
     "stun_dur": 2,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
@@ -516,7 +516,7 @@
     "messages": [ "You stun %s with your Pincer Fist", "<npcname> jabs %s with a Pincer Fist" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_scorpion_onmove" ],
+    "required_buffs_all": [ "buff_scorpion_onmove" ],
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },

@@ -43,7 +43,10 @@
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons
 "skill_requirements": [ { "name": "melee", "level": 3 } ],     // Skills and their minimum levels required to use this technique. Can be any skill.
 "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],     // Minimum weapon damage required to use this technique. Can be any damage type.
-"req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
+"required_buffs_any": [ "eskrima_hit_buff" ],    // This technique requires any of the named buffs to be active
+"required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
+"forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
+"forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
 "downed_target": true,      // Technique only works on a downed target
