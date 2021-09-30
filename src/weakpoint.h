@@ -60,7 +60,7 @@ struct weakpoint_difficulty {
     float default_value;
     std::map<skill_id, float> difficulty;
 
-    weakpoint_difficulty( float default_value );
+    explicit weakpoint_difficulty( float default_value );
     float of( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
 };
