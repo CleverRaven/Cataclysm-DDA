@@ -75,17 +75,20 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
             }
 
-            // Can't reload with empty speedloaders
-            if( node->has_flag( flag_SPEEDLOADER ) && !node->ammo_remaining() ) {
-                return VisitResponse::SKIP;
+            if( node->has_flag( flag_SPEEDLOADER ) ) {
+				// Can't reload with empty speedloaders
+                if( !node->ammo_remaining() ) {
+                    return VisitResponse::SKIP;
+                }
+                // All not-empty  speedloaders are valid options without need to check for ammo compatibility.
+                // No idea how that works. But it works.
+                out = item_location( item_location( src, parent ), node );
             }
 
-            // ammo is inside some sort of a container
-            if( parent != nullptr && parent->is_container() ) {
-                for( const ammotype &at : ammo ) {
-                    if( node->ammo_type() == at ) {
-                        out = item_location( item_location( src, parent ), node );
-                    }
+            // Finally check the loose ammo
+            for( const ammotype &at : ammo ) {
+                if( node->ammo_type() == at ) {
+                    out = item_location( item_location( src, parent ), node );
                 }
             }
 
