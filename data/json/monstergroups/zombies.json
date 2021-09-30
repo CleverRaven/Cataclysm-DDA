@@ -406,7 +406,13 @@
       { "monster": "mon_zombie_swat", "freq": 5, "cost_multiplier": 3 },
       { "monster": "mon_zombie_medical", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_static", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_runner", "freq": 10, "cost_multiplier": 5, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zombie_runner", "freq": 10, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_maid_broom", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_maid_candlestick", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_maid_knife", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_rapier", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_rapier_fake", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_crossbow", "freq": 5, "cost_multiplier": 1 },
     ]
   },
   {
@@ -420,7 +426,12 @@
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_skeleton", "freq": 30, "cost_multiplier": 1 },
       { "monster": "mon_zombie_static", "freq": 15, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_fat", "freq": 10, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_fat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_rapier", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_rapier_fake", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_crossbow", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_dog_rottweiler", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_dog_gpyrenees", "freq": 50, "cost_multiplier": 1 },
     ]
   },
   {
