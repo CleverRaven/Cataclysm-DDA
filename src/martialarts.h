@@ -44,7 +44,12 @@ struct ma_requirements {
      */
     std::vector<std::pair<damage_type, int>> min_damage;
 
-    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    std::set<mabuff_id> req_buffs_all; // all listed buffs required to trigger this bonus
+    std::set<mabuff_id> req_buffs_any; // any listed buffs required to trigger this bonus
+    std::set<mabuff_id> forbid_buffs_all; // all listed buffs prevent triggering this bonus
+    std::set<mabuff_id> forbid_buffs_any; // any listed buffs prevent triggering this bonus
+
+
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {

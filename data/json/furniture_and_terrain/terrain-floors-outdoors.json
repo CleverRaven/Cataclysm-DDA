@@ -146,7 +146,20 @@
     "move_cost": 0,
     "roof": "t_rock_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
-    "examine_action": "fault"
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_TERRAIN_FAULT",
+          "effect": [
+            {
+              "u_message": "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading as far back into the solid rock as you can see.  The holes are humanoid in shape, but with long, twisted, distended limbs.",
+              "popup": true
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     "type": "terrain",
