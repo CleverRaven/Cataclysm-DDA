@@ -59,7 +59,7 @@ jobs:
       id: runvcpkg
       with:
         additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}
+        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
         setupOnly: true
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         # We have to use at least this version of vcpkg to include fixes for yasm-tool's
