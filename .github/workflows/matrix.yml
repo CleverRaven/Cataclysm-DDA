@@ -95,7 +95,7 @@ jobs:
             title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: i686-w64-mingw32.static
-            wine: wine
+            wine: "wineconsole --backend=curses"
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
