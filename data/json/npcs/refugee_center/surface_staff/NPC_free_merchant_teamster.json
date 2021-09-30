@@ -211,7 +211,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "random": true, "search_range": 90 },
+      "assign_mission_target": { "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -236,7 +236,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "random": true, "search_range": 90 },
+      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -261,7 +261,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 90 },
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

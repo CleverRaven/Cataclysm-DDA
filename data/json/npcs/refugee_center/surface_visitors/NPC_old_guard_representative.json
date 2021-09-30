@@ -37,13 +37,23 @@
         "topic": "TALK_OLD_GUARD_REP_EXODII_1",
         "condition": {
           "or": [
-            { "has_assigned_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
             {
               "u_has_var": "oldguard-exodii",
               "type": "factional_questline",
               "context": "mission",
               "value": "encountered_base"
             }
+          ]
+        }
+      },
+      {
+        "text": "I think I can already tell you what you want to know about those 'robots'.",
+        "topic": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
           ]
         }
       },
@@ -125,6 +135,23 @@
     "responses": [
       { "text": "Good idea.  I'll go do that.", "topic": "TALK_DONE" },
       { "text": "Huh, maybe.  Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, well.  In that case, I would be interested in hearing what you know about them.  I can relay it to command.  Let's see what I have to trade… how about some antibiotics from our stores?  You can never have too many of them out there.",
+    "responses": [
+      {
+        "text": "Yeah, I've met them.  They seem open to trade and things.  Not hostile, at least not to me.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_2",
+        "effect": [ { "u_spawn_item": "antibiotics" }, "mission_success", "clear_mission" ]
+      },
+      {
+        "text": "I'll have to think about it.  Let's talk about something else, for now.",
+        "topic": "TALK_OLD_GUARD_REP"
+      },
+      { "text": "On second thought, I should go.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -219,9 +246,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 10000,
-    "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 30 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "search_range": 400 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
