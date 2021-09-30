@@ -7,11 +7,9 @@
       {
         "text": "Let's see how to get there and go check on the guy.",
         "topic": "BOSS_Lapin_01_Story2",
-        "condition": { "npc_has_trait": "BOSS_No_Others_02" },
+        "condition": { "npc_has_trait": "BOSS_No_Others_02" }
       },
-        "text": "<done_conversation>",
-        "topic": "TALK_FRIEND"
-      },
+      { "text": "<done_conversation>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }
