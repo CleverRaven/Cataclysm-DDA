@@ -1,0 +1,54 @@
+[
+  {
+    "type": "npc",
+    "id": "exodii_merchant",
+    "name_suffix": "Cyborg",
+    "class": "NC_EXODII_TYPE_1_Merchant",
+    "name_unique": "Rubik",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_EXODII_MERCHANT",
+    "faction": "exodii"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_TYPE_1_Merchant",
+    "name": { "str": "Cyborg, type 1" },
+    "job_description": "I'm a cyborg.",
+    "traits": [ { "trait": "EXODII_BODY_1" } ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 6 ] },
+    "bonus_dex": { "rng": [ 0, 6 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "shopkeeper_item_group": "EXODII_Shop_Tier0",
+    "carry_override": "NC_EXODII_TYPE_1_carried",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EXODII_TYPE_1_carried",
+    "//": "Weapon for rubik.",
+    "items": [ { "item": "pamd68rubik", "ammo-item": "123ln", "charges": 10 } ]
+  },
+  {
+    "id": "pamd68rubik",
+    "copy-from": "pamd68",
+    "type": "GUN",
+    "name": { "str": "Rubik's PA md. 68 Battle Rifle" },
+    "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.\n\nThis particular rifle has been painted a dusty pink colour and has a picture of a smiling eel twisting along the barrel.",
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

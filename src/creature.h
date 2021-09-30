@@ -394,8 +394,8 @@ class Creature : public viewer
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
-        virtual std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                        damage_instance &dam ) = 0;
+        virtual const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                             damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
@@ -1263,5 +1263,6 @@ class Creature : public viewer
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

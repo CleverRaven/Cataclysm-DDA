@@ -1683,16 +1683,6 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
 }
 
 /**
- * Display popup with reference to "The Enigma of Amigara Fault."
- */
-void iexamine::fault( Character &, const tripoint & )
-{
-    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
-              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
-              "shape, but with long, twisted, distended limbs." ) );
-}
-
-/**
  * Spawn 1d4 wyrms and sink pedestal into ground.
  */
 void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
@@ -6257,7 +6247,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
-            { "fault", &iexamine::fault },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },
             { "pedestal_temple", &iexamine::pedestal_temple },
             { "door_peephole", &iexamine::door_peephole },
@@ -6319,7 +6308,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         "harvest_furn",
         "harvest_ter_nectar",
         "harvest_ter",
-        "tree_hickory",
     };
 
     auto iter = function_map.find( function_name );

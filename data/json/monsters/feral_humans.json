@@ -180,7 +180,7 @@
         "move_cost": 150,
         "gun_type": "m9",
         "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 1 ], [ "handgun", 2 ] ],
+        "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 0, 14, "DEFAULT" ] ],
