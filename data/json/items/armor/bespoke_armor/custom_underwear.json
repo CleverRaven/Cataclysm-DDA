@@ -1,0 +1,61 @@
+[
+  {
+    "id": "nomad_bodyglove_1",
+    "type": "ARMOR",
+    "name": { "str": "nomad bodyglove" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from both impact and electricity.",
+    "weight": "125 g",
+    "volume": "1 L",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "cotton", "lycra", "rubber" ],
+    "symbol": "[",
+    "looks_like": "union_suit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 98, "encumbrance": 1 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 1 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 1 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 1 }
+    ],
+    "warmth": 1,
+    "material_thickness": 0.75,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY" ]
+  },
+  {
+    "id": "nomad_bodyglove_2",
+    "type": "ARMOR",
+    "name": { "str": "nomad bodymesh" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from both impact and electricity, and has been reinforced with a loose mesh of advanced polymer threads.",
+    "copy-from": "nomad_bodyglove_1",
+    "material_thickness": 1
+  },
+  {
+    "id": "nomad_bodyglove_3",
+    "type": "ARMOR",
+    "name": { "str": "nomad cybermesh" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet, precisely placed rubberized pads to protect critical points from both impact and electricity, and a reinforcing mesh of advanced polymer threads.  It can use an internal bionic power grid to warm up.",
+    "copy-from": "nomad_bodyglove_2",
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "nomad_bodyglove_3_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "Your internal batteries are depleted."
+    },
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "nomad_bodyglove_3_on",
+    "type": "ARMOR",
+    "name": { "str": "nomad cybermesh (active)" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet, precisely placed rubberized pads to protect critical points from both impact and electricity, and a reinforcing mesh of advanced polymer threads.  It is drawing power from your internal batteries to warm you up.",
+    "copy-from": "nomad_bodyglove_3",
+    "power_draw": 100000,
+    "warmth": 60,
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "nomad_bodyglove_3" }
+  }
+]
