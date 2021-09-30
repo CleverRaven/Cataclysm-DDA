@@ -176,6 +176,12 @@
     ]
   },
   {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+    "type": "talk_topic",
+    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.",
+    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_FACTION_INTRO",
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
