@@ -154,8 +154,7 @@
         ".": "t_sand",
         ";": [ [ "t_rock_floor_no_roof", 10 ], "t_sand" ],
         "^": "t_pit_spiked",
-        "[": "t_metal_floor_no_roof",
-        "s": "t_sign"
+        "[": "t_metal_floor_no_roof"
       },
       "furniture": {
         ".": [ [ "f_null", 75 ], "f_wreckage", "f_boulder_large", [ "f_boulder_medium", 2 ], [ "f_boulder_small", 4 ] ],
@@ -163,7 +162,8 @@
         "Ĝ": "f_exodii_generator_1",
         "Ğ": "f_exodii_generator_2",
         "Ġ": "f_exodii_generator_3",
-        "Ģ": "f_exodii_generator_4"
+        "Ģ": "f_exodii_generator_4",
+        "s": "f_sign"
       },
       "monster": { "T": { "monster": "mon_exodii_turret" }, "t": { "monster": "mon_exodii_turret" } }
     }

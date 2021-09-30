@@ -26,9 +26,12 @@
           "time": "2 days"
         },
         "effect": [
-          { "arithmetic": [ { "npc_val": "randomize_directions" }, "=", { "rand": 3 } ] },
+          {
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
+          },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
-        ]
+        ],
+        "switch": true
       },
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
@@ -39,7 +42,20 @@
           "context": "teamster",
           "op": "<",
           "time": "2 days"
-        }
+        },
+        "switch": true
+      },
+      {
+        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
+        "effect": [
+          {
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
+          },
+          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+        ],
+        "switch": true,
+        "default": true
       },
       {
         "text": "I wanted to tell you about a potential new trading partner I met recently.",
@@ -83,19 +99,19 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
     "dynamic_line": {
-      "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 0 } ],
+      "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 0 } ],
       "op": "=",
       "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
       "no": {
-        "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 1 } ],
+        "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 1 } ],
         "op": "=",
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
-          "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ],
+          "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 2 } ],
           "op": "=",
           "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
           "no": {
-            "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ],
+            "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 3 } ],
             "op": "=",
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
             "no": "ERROR: out of bounds on randomize_directions."
@@ -109,11 +125,14 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 1 } ], "op": "=" },
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 1 } ],
+              "op": "="
+            },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
           ]
         },
-        "effect": { "u_assign_mission": "directions_isherwood" },
+        "effect": { "assign_mission": "directions_isherwood" },
         "switch": true
       },
       {
@@ -121,11 +140,14 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ], "op": "=" },
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 2 } ],
+              "op": "="
+            },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } }
           ]
         },
-        "effect": { "u_assign_mission": "directions_hub01" },
+        "effect": { "assign_mission": "directions_hub01" },
         "switch": true
       },
       {
@@ -133,11 +155,14 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ], "op": "=" },
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 3 } ],
+              "op": "="
+            },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
           ]
         },
-        "effect": { "u_assign_mission": "directions_exodii" },
+        "effect": { "assign_mission": "directions_exodii" },
         "switch": true
       },
       {
@@ -180,7 +205,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "assign_mission_target": { "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "random": true, "search_range": 90 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -205,7 +230,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "random": true, "search_range": 90 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -230,7 +255,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 90 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
