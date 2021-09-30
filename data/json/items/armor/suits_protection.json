@@ -331,8 +331,8 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "warmth": 5,
-    "material_thickness": 3,
+    "warmth": 4,
+    "material_thickness": 2.5,
     "flags": [ "STURDY", "BELTED" ],
     "armor": [
       { "encumbrance": 7, "coverage": 70, "covers": [ "torso" ] },
@@ -361,7 +361,7 @@
     "material_thickness": 3,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
-      { "encumbrance": 4, "coverage": 90, "covers": [ "torso" ] },
+      { "encumbrance": 5, "coverage": 90, "covers": [ "torso" ] },
       { "encumbrance": 4, "coverage": 85, "covers": [ "leg_l", "leg_r" ] },
       { "encumbrance": 4, "coverage": 85, "covers": [ "arm_l", "arm_r" ] }
     ]
