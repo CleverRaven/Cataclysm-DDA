@@ -328,7 +328,7 @@
     "looks_like": "t_floor",
     "description": "A collapsible aisle.",
     "folded_volume": "12500 ml",
-    "item": "foldwoodframe
+    "item": "foldwoodframe",
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
