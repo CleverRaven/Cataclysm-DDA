@@ -1444,8 +1444,16 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
             std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
                     here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
             for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
+                tripoint here_local = here.getlocal( elem );
+
+                // Check that a coordinate is not already in the combined list, otherwise actions
+                // like construction may erroneously count materials twice if an object is both
+                // in the camp zone and in a loot zone.
+                if( std::find( combined_spots.begin(), combined_spots.end(),
+                               here_local ) == combined_spots.end() ) {
+                    loot_zone_spots.push_back( here_local );
+                    combined_spots.push_back( here_local );
+                }
             }
         }
     }
