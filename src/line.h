@@ -128,7 +128,8 @@ direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( const point &p1, const point &p2 ) noexcept;
 direction direction_from( const tripoint &p, const tripoint &q );
 
-point direction_XY( direction dir );
+tripoint displace( direction dir );
+point displace_XY( direction dir );
 std::string direction_name( direction dir );
 std::string direction_name_short( direction dir );
 

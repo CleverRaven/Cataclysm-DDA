@@ -132,7 +132,11 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "required_buffs_all", req_buffs_all, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "required_buffs_any", req_buffs_any, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "forbidden_buffs_all", forbid_buffs_all, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "forbidden_buffs_any", forbid_buffs_any, string_id_reader<::ma_buff> {} );
+
     optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
@@ -336,7 +340,25 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( const mabuff_id &r : req.req_buffs ) {
+    for( const mabuff_id &r : req.req_buffs_all ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+        }
+    }
+
+    for( const mabuff_id &r : req.req_buffs_any ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+        }
+    }
+
+    for( const mabuff_id &r : req.forbid_buffs_all ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+        }
+    }
+
+    for( const mabuff_id &r : req.forbid_buffs_any ) {
         if( !r.is_valid() ) {
             debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
         }
@@ -437,8 +459,44 @@ void clear_techniques_and_martial_arts()
 
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
-    for( const mabuff_id &buff_id : req_buffs ) {
+    // Check: Required Buffs All
+    for( const mabuff_id &buff_id : req_buffs_all ) {
         if( !u.has_mabuff( buff_id ) ) {
+            return false;
+        }
+    }
+
+    // Check: Forbidden Buffs Any
+    for( const mabuff_id &buff_id : forbid_buffs_any ) {
+        if( u.has_mabuff( buff_id ) ) {
+            return false;
+        }
+    }
+
+    // Check: Required Buffs Any
+    if( !req_buffs_any.empty() ) {}
+    bool req_buff_valid = false;
+
+    for( const mabuff_id &buff_id : req_buffs_any ) {
+        if( u.has_mabuff( buff_id ) ) {
+            req_buff_valid = true;
+        }
+
+        if( !req_buff_valid ) {
+            return false;
+        }
+    }
+
+    // Check: Forbidden Buffs All
+    if( !forbid_buffs_all.empty() ) {}
+    bool forbid_buff_valid = false;
+
+    for( const mabuff_id &buff_id : forbid_buffs_all ) {
+        if( !u.has_mabuff( buff_id ) ) {
+            forbid_buff_valid = true;
+        }
+
+        if( !forbid_buff_valid ) {
             return false;
         }
     }
@@ -533,10 +591,38 @@ std::string ma_requirements::get_description( bool buff ) const
         }, enumeration_conjunction::none ) + "\n";
     }
 
-    if( !req_buffs.empty() ) {
-        dump += _( "<bold>Requires:</bold> " );
+    if( !req_buffs_all.empty() ) {
+        dump += _( "<bold>Requires (all):</bold> " );
 
-        dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
+        dump += enumerate_as_string( req_buffs_all.begin(),
+        req_buffs_all.end(), []( const mabuff_id & bid ) {
+            return bid->name.translated();
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !req_buffs_any.empty() ) {
+        dump += _( "<bold>Requires (any):</bold> " );
+
+        dump += enumerate_as_string( req_buffs_any.begin(),
+        req_buffs_any.end(), []( const mabuff_id & bid ) {
+            return bid->name.translated();
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !forbid_buffs_all.empty() ) {
+        dump += _( "<bold>Forbidden (all):</bold> " );
+
+        dump += enumerate_as_string( forbid_buffs_all.begin(),
+        forbid_buffs_all.end(), []( const mabuff_id & bid ) {
+            return bid->name.translated();
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !forbid_buffs_any.empty() ) {
+        dump += _( "<bold>Forbidden (any):</bold> " );
+
+        dump += enumerate_as_string( forbid_buffs_any.begin(),
+        forbid_buffs_any.end(), []( const mabuff_id & bid ) {
             return bid->name.translated();
         }, enumeration_conjunction::none ) + "\n";
     }

@@ -57,6 +57,27 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
+    "type": "GENERIC",
+    "id": "sword_metal",
+    "symbol": "!",
+    "color": "light_gray",
+    "name": { "str": "metal sword" },
+    "description": "An imitation of a true sword forged by someone who knows what swords look like, at least.  It has the general shape of a sword, and it is sharp, yet the quality is lacking and the balance isn't quite right.",
+    "looks_like": "sword_crude",
+    "material": [ "steel" ],
+    "volume": "2 L",
+    "weight": "1100 g",
+    "longest_side": "100 cm",
+    "bashing": 6,
+    "cutting": 23,
+    "to_hit": 1,
+    "price_postapoc": 500,
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
+    "techniques": [ "WBLOCK_2" ]
+  },
+  {
     "id": "switchblade",
     "type": "TOOL",
     "category": "weapons",

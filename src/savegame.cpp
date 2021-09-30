@@ -410,6 +410,9 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( "field" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
+        } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||
+                   old.compare( 0, 24, "microlab_generic_hallway" ) == 0 ) {
+            ter_set( pos, oter_id( "microlab_generic" ) );
         } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
             ter_set( pos, oter_id( "office_tower_ne_north" ) );
             ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
@@ -726,6 +729,12 @@ void overmap::unserialize( std::istream &fin )
             for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
                 auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
                 mapgen_args_index.emplace( p.first, &*it );
+            }
+        } else if( name == "joins_used" ) {
+            std::vector<std::pair<om_pos_dir, std::string>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
+                joins_used.insert( p );
             }
         }
     }
@@ -1140,6 +1149,11 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_array();
     }
     json.end_array();
+    fout << std::endl;
+
+    std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
+                joins_used.begin(), joins_used.end() );
+    json.member( "joins_used", flattened_joins_used );
     fout << std::endl;
 
     json.end_object();
