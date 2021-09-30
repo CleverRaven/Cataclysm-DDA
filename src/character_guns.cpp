@@ -13,11 +13,10 @@ static const itype_id itype_large_repairkit( "large_repairkit" );
 template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
 {
-    std::vector<item_location> found_ammo;
 
     if( obj.is_watertight_container() ) {
         // Find possible liquids that can be put in this container
-        src.visit_items( [&src, &nested, &out, &obj, &found_ammo]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
             if( node == &obj ) {
                 // This stops containers and magazines counting *themselves* as ammo sources
                 return VisitResponse::SKIP;
@@ -43,9 +42,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
 
             if( node->made_of_from_type( phase_id::LIQUID ) ) {
-                item_location loadable = item_location( item_location( src, parent ), node );
-                found_ammo.push_back( loadable );
-                out = loadable;
+                out = item_location( item_location( src, parent ), node );
             }
 
             // Not-nested checks only top level containers and their immediate contents.
@@ -57,7 +54,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         // find suitable ammo excluding that already loaded in magazines
         std::set<ammotype> ammo = obj.ammo_types();
 
-        src.visit_items( [&src, &nested, &out, ammo, &found_ammo]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
 
             // Do not steal ammo from other items
             if( parent != nullptr && parent->is_magazine() ) {
@@ -87,9 +84,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( parent != nullptr && parent->is_container() ) {
                 for( const ammotype &at : ammo ) {
                     if( node->ammo_type() == at ) {
-                        item_location loadable = item_location( item_location( src, parent ), node );
-                        found_ammo.push_back( loadable );
-                        out = loadable;
+                        out = item_location( item_location( src, parent ), node );
                     }
                 }
             }
@@ -99,7 +94,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } );
     } else if( obj.uses_magazine() ) {
         // find compatible magazines excluding those already loaded in tools/guns
-        src.visit_items( [&src, &nested, &out, &obj, empty, &found_ammo]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
 
             // Do not steal magazines from other items
             if( parent != nullptr && node == parent->magazine_current() ) {
@@ -114,17 +109,13 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             // magazine is inside some sort of a container
             if( parent != nullptr && parent->is_container() ) {
                 if( obj.can_contain( *node, true ).success() ) {
-                    item_location loadable = item_location( item_location( src, parent ), node );
-                    found_ammo.push_back( loadable );
-                    out = loadable;
+                    out = item_location( item_location( src, parent ), node );
                 }
             }
             //everything else, probably?
             if( parent == nullptr ) {
                 if( obj.can_contain( *node, true ).success() ) {
-                    item_location loadable = item_location( src, node );
-                    found_ammo.push_back( loadable );
-                    out = loadable;
+                    out = item_location( src, node );
                 }
             }
 
