@@ -5,7 +5,6 @@
 
 #include "memory_fast.h"
 
-
 struct int_distribution_impl;
 class JsonValue;
 
