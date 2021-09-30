@@ -111,13 +111,13 @@
         "effect": { "u_assign_mission": "directions_isherwood" }, "switch": true
       },
       {
-        "text": "How do I get to that farm?",
+        "text": "How do I get to that lab?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": { "and": [ { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ], "op": "=" }, { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } } ],
         "effect": { "u_assign_mission": "directions_hub01" }, "switch": true
       },
       {
-        "text": "How do I get to that farm?",
+        "text": "How do I get to that castle?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": { "and": [ { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ], "op": "=" }, { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } } ],
         "effect": { "u_assign_mission": "directions_exodii" }, "switch": true
