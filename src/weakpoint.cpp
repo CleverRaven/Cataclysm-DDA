@@ -260,7 +260,8 @@ float weakpoint::hit_chance( const weakpoint_attack &attack ) const
     float constant_mult = coverage_mult.of( attack );
     // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
     // exceeding the difficulty.
-    float difficulty_mult = 0.5f * (1.0f + erf( ( attack.wp_skill - difficulty.of( attack ) ) / 2.828 ));
+    float diff = attack.wp_skill - difficulty.of( attack );
+    float difficulty_mult = 0.5f * ( 1.0f + erf( diff / 2.828 ) );
     // Compute the total value
     return constant_mult * difficulty_mult * coverage;
 }
