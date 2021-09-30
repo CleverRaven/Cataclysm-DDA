@@ -107,21 +107,22 @@
       {
         "text": "How do I get to that farm?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
-        "condition": { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 1 } ], "op": "=" },
-        "effect": { "u_assign_mission": "directions_isherwood" }
+        "condition": { "and": [ { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 1 } ], "op": "=" }, { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } } ],
+        "effect": { "u_assign_mission": "directions_isherwood" }, "switch": true
       },
       {
         "text": "How do I get to that farm?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
-        "condition": { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ], "op": "=" },
-        "effect": { "u_assign_mission": "directions_hub01" }
+        "condition": { "and": [ { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 2 } ], "op": "=" }, { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } } ],
+        "effect": { "u_assign_mission": "directions_hub01" }, "switch": true
       },
       {
         "text": "How do I get to that farm?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
-        "condition": { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ], "op": "=" },
-        "effect": { "u_assign_mission": "directions_exodii" }
+        "condition": { "and": [ { "compare_int": [ { "npc_val": "randomize_directions" }, { "const": 3 } ], "op": "=" }, { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } } ],
+        "effect": { "u_assign_mission": "directions_exodii" }, "switch": true
       },
+      { "text": "Ah, that's nothing new to me.  Thanks anyway though.", "topic": "TALK_NONE", "switch": true, "default": true },
       { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
     ]
@@ -148,15 +149,66 @@
     "responses": [ { "text": "Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
   },
   {
+    "id": "directions_isherwood",
+    "type": "mission_definition",
+    "name": { "str": "Check out that farm" },
+    "description": "Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood"  }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+      "offer": "Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+      "accepted": "Nice.",
+      "rejected": "Seems reasonable.",
+      "advice": "Be careful.  It's rough out there.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "It is what it is."
+    }
+  },
+  {
+    "id": "directions_hub01",
+    "type": "mission_definition",
+    "name": { "str": "Check out that farm" },
+    "description": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01"  }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
+      "offer": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
+      "accepted": "Nice.",
+      "rejected": "Seems reasonable.",
+      "advice": "Be careful.  It's rough out there.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "It is what it is."
+    }
+  },
+  {
     "id": "directions_exodii",
     "type": "mission_definition",
     "name": { "str": "Check out that scrap metal castle" },
     "description": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
-    "value": 10000,
+    "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 30 }
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii"  }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

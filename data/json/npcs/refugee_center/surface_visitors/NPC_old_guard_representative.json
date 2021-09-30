@@ -117,7 +117,7 @@
   {
     "id": "TALK_OLD_GUARD_REP_EXODII_2",
     "type": "talk_topic",
-    "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to the free merchant broker.  Maybe that's a way we could establish some friendlier relationships.",
+    "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to one of the teamsters for the Free Merchants.  Maybe that's a way we could establish some friendlier relationships.",
     "responses": [
       { "text": "Good idea.  I'll go do that.", "TALK_DONE" },
       { "text": "Huh, maybe.  Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
