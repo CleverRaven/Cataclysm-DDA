@@ -713,7 +713,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         }
                     } else if( ip.charges > 0 )
                     {
-                        change_amount = max ? ip.charges : get_var_trade( *ip.loc.get_item(), ip.charges );
+                        change_amount = max ? ip.charges : this->get_var_trade( *ip.loc.get_item(), ip.charges );
 
                         if( change_amount < 1 ) {
                             return;
@@ -722,7 +722,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     } else
                     {
                         if( ip.count > 1 ) {
-                            change_amount = max ? ip.count : get_var_trade( *ip.loc.get_item(), ip.count );
+                            change_amount = max ? ip.count : this->get_var_trade( *ip.loc.get_item(), ip.count );
 
                             if( change_amount < 1 ) {
                                 return;
