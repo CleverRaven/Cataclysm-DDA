@@ -704,6 +704,7 @@
       "homemaker",
       "mafia_boss",
       "major-general"
-    ]
+    ],
+    "missions": [ "MISSION_MANSION_START" ]
   }
 ]
