@@ -200,13 +200,14 @@ void diary::show_diary_ui(diary * c_diary)
             ctxt.get_desc("EXPORT_Diary", "Export diary", input_context::allow_all_keys)
             );
         center_print(w_desc, 1,  c_white, desc);
-        center_print(w_pages, 0, c_light_gray, string_format(_("pages: %d"),c_diary->get_pages_list().size()));
+        
 
         print_list_scrollable(&w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN], currwin == window_mode::PAGE_WIN,true);
         print_list_scrollable(&w_changes, c_diary->get_change_list(selected[window_mode::PAGE_WIN]), &selected[window_mode::CHANGE_WIN], currwin == window_mode::CHANGE_WIN,false);
         print_list_scrollable(&w_text, c_diary->get_page_text(selected[window_mode::PAGE_WIN]), &selected[window_mode::TEXT_WIN],  currwin == window_mode::TEXT_WIN,false);
         trim_and_print(w_head, point(1, 1),getmaxx(w_head)-2,c_white,c_diary->get_head_text(selected[window_mode::PAGE_WIN]));
         
+        center_print(w_pages, 0, c_light_gray, string_format(_("pages: %d"), c_diary->get_pages_list().size()));
 
         wnoutrefresh( w_diary );
         wnoutrefresh(w_border);

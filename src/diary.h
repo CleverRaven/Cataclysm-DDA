@@ -66,7 +66,11 @@
         //pimpl<achievements_tracker> achivement_tracker;
         ////player Stats
         bool male;
-        std::vector<addiction> addictions;
+        int strength;
+        int dexterity;
+        int intelligence;
+        int perception;
+        //std::vector<addiction> addictions;
         std::set<character_id> follower_ids;
         //std::unordered_set<trait_id> traits;
         std::vector<trait_id> traits;
@@ -113,6 +117,8 @@ class diary
         void kill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
         void trait_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
         void bionic_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
+        void stat_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
+        void prof_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
 
         void set_page_text(int position, std::string text);
         static void show_diary_ui(diary* c_diary);

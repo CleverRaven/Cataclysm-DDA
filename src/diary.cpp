@@ -295,6 +295,60 @@ void diary::trait_changes(std::vector<std::string>* result, diary_page* currpage
     }
 }
 
+void diary::stat_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+    if (prevpage == nullptr) {
+        result->push_back(_("Stats:"));
+        result->push_back(string_format(_("Strength: %d"), currpage->strength));
+        result->push_back(string_format(_("Dexterity: %d"), currpage->dexterity));
+        result->push_back(string_format(_("Intelligence: %d"), currpage->intelligence));
+        result->push_back(string_format(_("Perception: %d"), currpage->perception));
+        result->push_back(" ");
+    }
+    else {
+        std::vector<std::string> tempres;
+        if (currpage->strength != prevpage->strength) tempres.push_back(string_format(_("Strength: %d -> %d"), prevpage->strength, currpage->strength));
+        if (currpage->dexterity != prevpage->dexterity) tempres.push_back(string_format(_("Desxterity: %d -> %d"), prevpage->dexterity, currpage->dexterity));
+        if (currpage->intelligence != prevpage->intelligence) tempres.push_back(string_format(_("Intelligence: %d -> %d"), prevpage->intelligence, currpage->intelligence));
+        if (currpage->perception != prevpage->perception) tempres.push_back(string_format(_("Perception: %d -> %d"), prevpage->perception, currpage->perception));
+        if (!tempres.empty()) {
+            result->push_back(_("Stats:"));
+            result->insert(result->end(), tempres.begin(), tempres.end());
+            result->push_back(" ");
+        }
+    }
+}
+
+void diary::prof_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+        
+    if (prevpage == nullptr) {
+        if (!currpage->known_profs.empty()) {
+            result->push_back(_("Proficiencies:"));
+            for (const proficiency_id elem : currpage->known_profs) {
+                const auto p = elem.obj();                
+                result->push_back(p.name());
+            }
+            result->push_back("");
+        }
+        
+    }
+    else {
+        std::vector<std::string> tempres;
+        for (const proficiency_id elem : currpage->known_profs) {
+            if (std::find(prevpage->known_profs.begin(), prevpage->known_profs.end(), elem) == prevpage->known_profs.end()) {
+                const auto p = elem.obj();
+                tempres.push_back(p.name());
+            }
+            
+        }
+        if (!tempres.empty()) {
+            result->push_back(_("New Proficiencies:"));
+            result->insert(result->end(), tempres.begin(), tempres.end());
+            result->push_back(" ");
+        }
+        
+    }
+}
+
 std::vector<std::string> diary::get_change_list(int position) {
     std::vector<std::string> result;
     if (!pages.empty()) {
@@ -304,7 +358,9 @@ std::vector<std::string> diary::get_change_list(int position) {
         diary_page* currpage = get_page_ptr(position);
         diary_page* prevpage = get_page_ptr(position - 1);
 
+        stat_changes(&result, currpage, prevpage);
         skill_changes(&result, currpage, prevpage);
+        prof_changes(&result, currpage, prevpage);
         trait_changes(&result, currpage, prevpage);
         bionic_changes(&result, currpage, prevpage);
         kill_changes(&result, currpage, prevpage);
@@ -378,6 +434,7 @@ void diary::new_page() {
     page -> turn = calendar::turn;
     //
     ////game stats
+    
 
     page -> kills = g.get()->get_kill_tracker().kills;
     page -> npc_kills = g.get()->get_kill_tracker().npc_kills;
@@ -388,7 +445,11 @@ void diary::new_page() {
     avatar* u = &get_avatar();
     
     page ->male = u->male;
-    page->addictions = u->addictions;
+    page->strength = u->get_str_base();
+    page->dexterity = u->get_dex_base();
+    page->intelligence = u->get_int_base();
+    page->perception = u->get_per_base();
+    //page->addictions = u->addictions;
     
     page -> follower_ids = u->follower_ids; 
     //page -> traits = u-> my_traits;
@@ -457,7 +518,11 @@ void diary::serialize(std::ostream& fout) {
         jout.member("kills", n->kills);
         jout.member("npc_kills", n->npc_kills);
         jout.member("male", n->male);
-        jout.member("addictions", n->addictions);
+        //jout.member("addictions", n->addictions);
+        jout.member("str", n->strength);
+        jout.member("dex", n->dexterity);
+        jout.member("int", n->intelligence);
+        jout.member("per", n->perception);
         jout.member("follower_ids", n->follower_ids);
         jout.member("traits", n->traits);
         jout.member("bionics", n->bionics);
@@ -499,7 +564,11 @@ void diary::deserialize(std::istream& fin) {
             elem.read("kills", page->kills);
             elem.read("npc_kills", page->npc_kills);
             elem.read("male", page->male);
-            elem.read("addictions", page->addictions);
+            //elem.read("addictions", page->addictions);
+            elem.read("str", page->strength);
+            elem.read("dex", page->dexterity);
+            elem.read("int", page->intelligence);
+            elem.read("per", page->perception);
             elem.read("follower_ids", page->follower_ids);
             elem.read("traits", page->traits);
             elem.read("bionics", page->bionics);
