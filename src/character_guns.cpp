@@ -113,8 +113,8 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
 
             // Do not consider empty mags unless specified
-            if( !node->ammo_remaining() && !empty ) {
-                return VisitResponse::NEXT;
+            if( node->is_magazine() && !node->ammo_remaining() && !empty ) {
+                return VisitResponse::SKIP;
             }
 
             // magazine is inside some sort of a container
