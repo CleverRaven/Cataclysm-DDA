@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <string>
 
 #include "enums.h"
 

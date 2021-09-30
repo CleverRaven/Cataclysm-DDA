@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <vector>
+#include <string>
 
 class JsonObject;
 class recipe;

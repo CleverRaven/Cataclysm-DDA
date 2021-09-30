@@ -1,7 +1,10 @@
 #ifndef CATA_SRC_DISTRIBUTION_H
 #define CATA_SRC_DISTRIBUTION_H
 
+#include <string>
+
 #include "memory_fast.h"
+
 
 struct int_distribution_impl;
 class JsonValue;

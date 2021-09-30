@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <utility>
 #include <vector>
+#include <string>
 
 #include "units_fwd.h"
 
@@ -416,7 +417,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * 59 minutes will return "59 minutes".
  * @param align none, right, or compact.
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+std::string to_string_clipped( const time_duration &d, const clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.

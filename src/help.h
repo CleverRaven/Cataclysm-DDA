@@ -6,6 +6,7 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <string>
 
 class JsonIn;
 class translation;
