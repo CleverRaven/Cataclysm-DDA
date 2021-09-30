@@ -52,17 +52,32 @@ std::vector<std::string> diary::get_pages_list() {
     return result;
 }
 
+int diary::set_opend_page(int pagenum) {
+    if (pagenum != opend_page) {
+        change_list.clear();
+        desc_map.clear();
+    }
+    if (pages.empty()) {
+        opend_page = NULL;
+    }
+    else if (pagenum < 0) {
+        opend_page = pages.size() - 1;
+    }
+    else {
+        opend_page = pagenum % pages.size();
+    }
+    return opend_page;
+}
 
-diary_page* diary::get_page_ptr(int position) {
-    if (!pages.empty() && position >=0) {
+int diary::get_opend_page_num() {
+    return opend_page;
+}
+
+
+diary_page* diary::get_page_ptr(int offset) {
+    if (!pages.empty()&& opend_page+offset >= 0) {
         
-        if (position < pages.size()) {
-            return pages[position];
-        }
-        else if (position >= pages.size()) {
-            position = position % pages.size();
-            return pages[position];
-        }
+        return pages[opend_page+offset];
     }
     return nullptr;
 }
@@ -72,7 +87,10 @@ diary_page* diary::get_page_ptr(int position) {
 //    else {}
 //} <color_red>text</color>
 // colorize
-void::diary::bionic_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+void::diary::bionic_changes(std::vector<std::string>* result) {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->bionics.empty()) {
             result->push_back(_("Bionics"));
@@ -115,7 +133,10 @@ void::diary::bionic_changes(std::vector<std::string>* result, diary_page* currpa
     }
 }
 
-void diary::kill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+void diary::kill_changes(std::vector<std::string>* result) {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->kills.empty()) {
             result->push_back(_("Kills: "));
@@ -204,7 +225,10 @@ void diary::kill_changes(std::vector<std::string>* result, diary_page* currpage,
 }
 
 
-void diary::skill_changes(std::vector<std::string>* result, diary_page* currpage,diary_page* prevpage) {
+void diary::skill_changes(std::vector<std::string>* result) {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (currpage->skillsL.empty()) {
             return;
@@ -241,7 +265,10 @@ void diary::skill_changes(std::vector<std::string>* result, diary_page* currpage
     }
 }
 
-void diary::trait_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+void diary::trait_changes(std::vector<std::string>* result) {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->traits.empty()) {
             result->push_back(_("Mutations:"));
@@ -295,7 +322,10 @@ void diary::trait_changes(std::vector<std::string>* result, diary_page* currpage
     }
 }
 
-void diary::stat_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
+void diary::stat_changes(std::vector<std::string>* result) {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         result->push_back(_("Stats:"));
         result->push_back(string_format(_("Strength: %d"), currpage->strength));
@@ -318,8 +348,10 @@ void diary::stat_changes(std::vector<std::string>* result, diary_page* currpage,
     }
 }
 
-void diary::prof_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
-        
+void diary::prof_changes(std::vector<std::string>* result) {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->known_profs.empty()) {
             result->push_back(_("Proficiencies:"));
@@ -349,50 +381,50 @@ void diary::prof_changes(std::vector<std::string>* result, diary_page* currpage,
     }
 }
 
-std::vector<std::string> diary::get_change_list(int position) {
-    std::vector<std::string> result;
+std::vector<std::string> diary::get_change_list() {
+    if (!change_list.empty()) return change_list;
     if (!pages.empty()) {
-        if (position < 0) position = 0;
-        if (position >= pages.size()) { position = position % pages.size(); }
-        //vector1.insert( vector1.end(), vector2.begin(), vector2.end() );
-        diary_page* currpage = get_page_ptr(position);
-        diary_page* prevpage = get_page_ptr(position - 1);
+        
+        
 
-        stat_changes(&result, currpage, prevpage);
-        skill_changes(&result, currpage, prevpage);
-        prof_changes(&result, currpage, prevpage);
-        trait_changes(&result, currpage, prevpage);
-        bionic_changes(&result, currpage, prevpage);
-        kill_changes(&result, currpage, prevpage);
+        stat_changes(&change_list);
+        skill_changes(&change_list);
+        prof_changes(&change_list);
+        trait_changes(&change_list);
+        bionic_changes(&change_list);
+        kill_changes(&change_list);
         
     }
-    return result;
+    return change_list;
+}
+std::map<int, std::string> diary::get_desc_map() {
+    if (!desc_map.empty()) {
+        return desc_map;
+    }
+    else {
+        get_change_list();
+        return desc_map;
+    }
+    
 }
 
-std::string diary::get_page_text(int position) {
-    if (position < 0) position = 0;
+
+std::string diary::get_page_text() {
+    
     if (!pages.empty()) {
-        if (position < pages.size()) {
-            return pages[position]->m_text;
-        }
-        else if (position >= pages.size()) {
-            position = position % pages.size();
-            return pages[position]->m_text;
-        }
-        return "";
+        return get_page_ptr()->m_text;
     }
     return "";
 }
 
-std::string diary::get_head_text(int position) {
-    //eintry x /max, x , time sice last entry x
-    if (position < 0) position = 0;
+std::string diary::get_head_text() {
+       
     if (!pages.empty()) {
-        position = position % pages.size();
+        
         /*const int year = to_turns<int>(pages[position]->turn - calendar::turn_zero) / to_turns<int>
             (calendar::year_length()) + 1;*/
-        const time_point prev_turn = (position != 0) ? pages[position - 1]->turn : calendar::turn_zero;
-        const time_duration turn_diff = pages[position]->turn - prev_turn;
+        const time_point prev_turn = (opend_page != 0) ? get_page_ptr(-1)->turn : calendar::turn_zero;
+        const time_duration turn_diff = get_page_ptr()->turn - prev_turn;
             /*const std::string time = to_string_time_of_day();
             const int day = to_days<int>(time_past_new_year(pages[position]->turn));
             const int prevday = (position != 0)? to_days<int>(time_past_new_year(pages[position-1]->turn)): to_days<int>(time_past_new_year(calendar::turn_zero));*/
@@ -400,9 +432,9 @@ std::string diary::get_head_text(int position) {
         const int hours = to_hours<int>(turn_diff)%24;
         const int minutes= to_minutes<int>(turn_diff)%60;
         std::string headtext = string_format(_("Entry: %d/%d, %s, %s"),
-            position + 1, pages.size(),
-            to_string(pages[position]->turn),
-            (position != 0) ? string_format(_("%s%s%d minutes since last entry"),
+            opend_page + 1, pages.size(),
+            to_string(get_page_ptr()->turn),
+            (opend_page != 0) ? string_format(_("%s%s%d minutes since last entry"),
                 (days > 0) ? string_format(_("%d days, "), days) : "",
                 (hours > 0) ? string_format(_("%d hours, "), hours) : "",
                  minutes) : "");
@@ -415,15 +447,8 @@ std::string diary::get_head_text(int position) {
 diary::diary() {
     owner = get_avatar().name;
 }
-void diary::set_page_text(int position, std::string text) {
-    if (position < 0) position = 0;
-    if (position < pages.size()) {
-        pages[position]->m_text = text;
-    }
-    else if (position >= pages.size()) {
-        position = position % pages.size();
-        pages[position]->m_text =text;
-    }
+void diary::set_page_text( std::string text) {
+    get_page_ptr()->m_text= text;
 }
  
 void diary::new_page() {
@@ -478,9 +503,9 @@ void diary::new_page() {
     diary::pages.push_back(page);
 }
 
-void diary::delete_page(int i) {
-    if (i < pages.size()) {
-        pages.erase(pages.begin() + i );
+void diary::delete_page() {
+    if (opend_page < pages.size()) {
+        pages.erase(pages.begin() + opend_page );
     }
     
 }
@@ -491,9 +516,10 @@ void diary::export_to_txt() {
     //myfile << "Writing this to a file.\n";
     //std::vector<diary_page*>::iterator ptr;
     for (int i = 0; i < pages.size(); i++) {
-        diary_page page = *pages[i];
-        myfile << get_head_text(i) + "\n\n";
-        for (auto str : this->get_change_list(i)) {
+        set_opend_page(i);
+        const diary_page page = *get_page_ptr();
+        myfile << get_head_text() + "\n\n";
+        for (auto str : this->get_change_list()) {
             myfile << remove_color_tags(str) + "\n";
         }
         auto folded_text = foldstring(page.m_text, 50);

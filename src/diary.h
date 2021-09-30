@@ -96,31 +96,38 @@ class diary
     public:
         std::string owner;
         std::vector<diary_page *> pages;
-        
+    private:
+        int opend_page = 0;
+        std::vector<std::string> change_list;
+        std::map<int,std::string> desc_map;
         
 
     //methoden
     public:
         diary();
         void load_test();
-        void edit_page_ui(diary_page* page);
+        int set_opend_page(int i);
+        void edit_page_ui();
         void new_page();
-        void delete_page(int i);
+        void delete_page();
 
+        int get_opend_page_num();
         std::vector<std::string> get_pages_list();
-        std::vector<std::string> get_change_list(int position);
-        diary_page* get_page_ptr(int position);
-        std::string get_page_text(int position);
-        std::string get_head_text(int position);
+        std::vector<std::string> get_change_list();
+        std::map<int, std::string> get_desc_map();
 
-        void skill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
-        void kill_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
-        void trait_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
-        void bionic_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
-        void stat_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
-        void prof_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage);
+        diary_page* get_page_ptr(int offset = 0);
+        std::string get_page_text();
+        std::string get_head_text();
 
-        void set_page_text(int position, std::string text);
+        void skill_changes(std::vector<std::string>* result);
+        void kill_changes(std::vector<std::string>* result);
+        void trait_changes(std::vector<std::string>* result);
+        void bionic_changes(std::vector<std::string>* result);
+        void stat_changes(std::vector<std::string>* result);
+        void prof_changes(std::vector<std::string>* result);
+
+        void set_page_text( std::string text);
         static void show_diary_ui(diary* c_diary);
 
         
@@ -130,6 +137,8 @@ class diary
         void deserialize();
         void serialize(std::ostream& fout);
         void deserialize(std::istream& fin);
+    private:
+
 };
  
 

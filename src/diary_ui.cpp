@@ -201,11 +201,11 @@ void diary::show_diary_ui(diary * c_diary)
             );
         center_print(w_desc, 1,  c_white, desc);
         
-
+        selected[window_mode::PAGE_WIN] = c_diary->set_opend_page(selected[window_mode::PAGE_WIN]);
         print_list_scrollable(&w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN], currwin == window_mode::PAGE_WIN,true);
-        print_list_scrollable(&w_changes, c_diary->get_change_list(selected[window_mode::PAGE_WIN]), &selected[window_mode::CHANGE_WIN], currwin == window_mode::CHANGE_WIN,false);
-        print_list_scrollable(&w_text, c_diary->get_page_text(selected[window_mode::PAGE_WIN]), &selected[window_mode::TEXT_WIN],  currwin == window_mode::TEXT_WIN,false);
-        trim_and_print(w_head, point(1, 1),getmaxx(w_head)-2,c_white,c_diary->get_head_text(selected[window_mode::PAGE_WIN]));
+        print_list_scrollable(&w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN], currwin == window_mode::CHANGE_WIN,false);
+        print_list_scrollable(&w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],  currwin == window_mode::TEXT_WIN,false);
+        trim_and_print(w_head, point(1, 1),getmaxx(w_head)-2,c_white,c_diary->get_head_text());
         
         center_print(w_pages, 0, c_light_gray, string_format(_("pages: %d"), c_diary->get_pages_list().size()));
 
@@ -275,7 +275,7 @@ void diary::show_diary_ui(diary * c_diary)
         }
         else if (action == "CONFIRM") {
             
-            c_diary->edit_page_ui(c_diary->pages[selected[window_mode::PAGE_WIN]]);
+            c_diary->edit_page_ui();
         }else if(action == "NEW_PAGE"){
             c_diary->new_page();
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
@@ -283,7 +283,7 @@ void diary::show_diary_ui(diary * c_diary)
         }
         else if (action == "DELETE PAGE") {
             if (query_yn(_("Really delete Page?"))) {
-                c_diary->delete_page(selected[window_mode::PAGE_WIN]);
+                c_diary->delete_page();
                 if(selected[window_mode::PAGE_WIN] >= c_diary->pages.size()) {
                     selected[window_mode::PAGE_WIN] --;
                 }
@@ -303,7 +303,7 @@ void diary::show_diary_ui(diary * c_diary)
     }
 }
 //TODO: redo this, so it can be used like a Editor. 
-void diary::edit_page_ui(diary_page* page) {
+void diary::edit_page_ui() {
     std::string title = _("Text:");
     static constexpr int max_note_length = 2000;
     static constexpr int max_note_display_length = 45;
@@ -315,7 +315,7 @@ void diary::edit_page_ui(diary_page* page) {
 
     int entries_per_page = 0;
 
-    const std::string old_text = page->m_text;
+    const std::string old_text = get_page_ptr()->m_text;
     std::string new_text = old_text;
 
     
@@ -348,11 +348,11 @@ void diary::edit_page_ui(diary_page* page) {
 
     if (!esc_pressed && new_text.empty() && !old_text.empty()) {
         if (query_yn(_("Really delete note?"))) {
-            page->m_text = "";
+            get_page_ptr()->m_text = "";
         }
     }
     else if (!esc_pressed && old_text != new_text) {
-        page->m_text = new_text;
+        get_page_ptr()->m_text = new_text;
     }
 
 }
