@@ -327,7 +327,7 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "epoxy", "plastic" ],
+    "material": [ "thermo_resin", "plastic" ],
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
@@ -335,9 +335,9 @@
     "material_thickness": 2.5,
     "flags": [ "STURDY", "BELTED" ],
     "armor": [
-      { "encumbrance": 7, "coverage": 70, "covers": [ "torso" ] },
+      { "encumbrance": 7, "coverage": 60, "covers": [ "torso" ] },
       { "encumbrance": 7, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
-      { "encumbrance": 7, "coverage": 70, "covers": [ "arm_l", "arm_r" ] }
+      { "encumbrance": 7, "coverage": 60, "covers": [ "arm_l", "arm_r" ] }
     ]
   },
   {
