@@ -691,7 +691,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "zombify_into": "mon_zow",
-    "harvest": "mammal_large_leather",
+    "harvest": "mammal_large_bovine",
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
