@@ -93,7 +93,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
     if( container.is_software_storage() && payload.is_software() ) {
         return item_pocket::pocket_type::SOFTWARE;
     }
-    if( ( container.is_gun() || container.is_tool() ) && payload.act_as_magazine() ) {
+    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return item_pocket::pocket_type::MAGAZINE_WELL;
     } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
         return item_pocket::pocket_type::MAGAZINE;

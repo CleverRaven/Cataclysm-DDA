@@ -7491,11 +7491,6 @@ bool item::is_magazine() const
     return !!type->magazine || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE );
 }
 
-bool item::act_as_magazine() const
-{
-    return is_magazine();
-}
-
 bool item::is_battery() const
 {
     return !!type->battery;

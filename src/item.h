@@ -1257,8 +1257,6 @@ class item : public visitable
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
         bool is_magazine() const;
-        // Is used as magzine (goes into magazine well). Does not care if it can have ammo.
-        bool act_as_magazine() const;
         bool is_battery() const;
         bool is_ammo_belt() const;
         bool is_holster() const;
@@ -2003,7 +2001,7 @@ class item : public visitable
         /** Apply predicate to each contained spent casing removing it if predicate returns true */
         void casings_handle( const std::function<bool( item & )> &func );
 
-        /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
+        /** Can item load ammo like a magazine (has magazine pocket) */
         bool magazine_integral() const;
 
         /** Does item have magazine well */

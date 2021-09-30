@@ -426,11 +426,9 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         } );
 
         qty = clamp( qty, min_clamp, 1 );
-    } else if( ammo.act_as_magazine() ) {
-        qty = 1;
     } else {
-        debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname() );
-        return 0;
+        // Handle everything else as magazines
+        qty = 1;
     }
 
     // If necessary create duplicate with appropriate number of charges
