@@ -205,9 +205,9 @@ void weakpoint::load( const JsonObject &jo )
         assign( jo, "required_effects", required_effects );
     }
     if( jo.has_array( "effects" ) ) {
-        for( const JsonObject effect_object : jo.get_array( "effects" ) ) {
+        for( const JsonObject effect_jo : jo.get_array( "effects" ) ) {
             weakpoint_effect effect;
-            effect.load( effect_object );
+            effect.load( effect_jo );
             effects.push_back( std::move( effect ) );
         }
     }

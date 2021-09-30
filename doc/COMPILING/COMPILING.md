@@ -212,7 +212,7 @@ Installation
     cd ~/src
     git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
     git clone https://github.com/mxe/mxe.git ./mxe
-    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc9 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 
 Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
 
