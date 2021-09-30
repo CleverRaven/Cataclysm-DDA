@@ -3,8 +3,8 @@
 #define CATA_SRC_CRAFTING_GUI_H
 
 #include <iosfwd>
-#include <vector>
 #include <string>
+#include <vector>
 
 class JsonObject;
 class recipe;

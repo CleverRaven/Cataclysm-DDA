@@ -4,9 +4,9 @@
 
 #include <iosfwd>
 #include <map>
+#include <string>
 #include <utility>
 #include <vector>
-#include <string>
 
 class JsonIn;
 class translation;

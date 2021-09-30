@@ -3,9 +3,9 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
-#include <string>
 
 #include "units_fwd.h"
 
