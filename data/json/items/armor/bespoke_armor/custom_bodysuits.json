@@ -2,8 +2,8 @@
   {
     "id": "armor_nomad",
     "type": "ARMOR",
-    "name": { "str": "nomad gear" },
-    "description": "A makeshift outfit made from pre-Cataclysm clothing designed for long travels.  It has a lot of storage space.",
+    "name": { "str": "nomad jumpsuit" },
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.",
     "weight": "5830 g",
     "volume": "7500 ml",
     "price": 35000,
@@ -14,9 +14,9 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 16 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 10, 14 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 13 ] }
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 10, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "encumbrance": [ 6, 7 ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
@@ -31,11 +31,11 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
-    "warmth": 40,
-    "material_thickness": 5,
+    "warmth": 10,
+    "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
     "id": "armor_nomad_light",
