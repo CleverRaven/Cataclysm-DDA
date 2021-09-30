@@ -3351,6 +3351,40 @@
   },
   {
     "type": "keybinding",
+    "id": "FRIENDS",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "With friends",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "f" },
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "f" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ME",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "Just me",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "m" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CANCEL",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "Cancel",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_any", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YESNOQUIT",
     "name": "Yes",
