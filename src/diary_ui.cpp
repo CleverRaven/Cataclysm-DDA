@@ -137,6 +137,7 @@ void diary::show_diary_ui(diary * c_diary)
     catacurses::window w_border;
     catacurses::window w_desc;
     catacurses::window w_head;
+    catacurses::window w_info;
     enum class window_mode :int {PAGE_WIN=0, CHANGE_WIN,TEXT_WIN, NUM_WIN,FIRST_WIN = 0 , LAST_WIN = NUM_WIN -1};
     window_mode currwin = window_mode::PAGE_WIN;
 
@@ -159,11 +160,12 @@ void diary::show_diary_ui(diary * c_diary)
         
         w_diary = new_centered_win( TERMY/2, TERMX/2); //FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH
         w_pages = catacurses::newwin(getmaxy(w_diary) +5, getmaxx(w_diary) * 3 / 10, point(getbegx(w_diary)-5 - getmaxx(w_diary) * 3 / 10, getbegy(w_diary) -2));
-        w_changes = catacurses::newwin(getmaxy(w_diary)-3, getmaxx(w_diary) * 5 / 10, point(getbegx(w_diary)  , getbegy(w_diary)+3));
+        w_changes = catacurses::newwin(getmaxy(w_diary)-3, getmaxx(w_diary) * 5 / 10 -1, point(getbegx(w_diary)  , getbegy(w_diary)+3));
         w_text = catacurses::newwin(getmaxy(w_diary)-3, getmaxx(w_diary) * 5 / 10, point(getbegx(w_diary) + getmaxx(w_diary) * 5 / 10 , getbegy(w_diary)+3));
         w_border = catacurses::newwin(getmaxy(w_diary) + 5, getmaxx(w_diary) +8, point(getbegx(w_diary) -4, getbegy(w_diary) - 2));
         w_desc = catacurses::newwin(3, getmaxx(w_diary) * 3 / 10+ getmaxx(w_diary)+9, point(getbegx(w_diary) - 5 - getmaxx(w_diary) * 3 / 10, getbegy(w_diary) -6));
         w_head = catacurses::newwin(3, getmaxx(w_diary) , point(getbegx(w_diary), getbegy(w_diary)));
+        w_info = catacurses::newwin(7, getmaxx(w_diary) + 8, point(getbegx(w_diary) - 4,getbegy(w_diary)+getmaxy(w_diary)+4));
         // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
         entries_per_page = FULL_SCREEN_HEIGHT - 2;
 
@@ -183,15 +185,18 @@ void diary::show_diary_ui(diary * c_diary)
         werase(w_border); 
         werase(w_desc); 
         werase(w_head);
+        werase(w_info);
         
         
         draw_border(w_diary);        
         draw_border(w_desc);
+        draw_border(w_info);
         //draw_border(w_head);
         draw_diary_border(&w_border);
         
-        //hier muss ich noch schauen wie das geht, mache ich morgen 
+        
         center_print(w_desc, 0, c_light_gray, string_format(_("%s´s Diary"), c_diary->owner));
+        center_print(w_info, 0, c_light_gray, string_format(_("Info")));
 
         std::string desc = string_format(_("%s, %s, %s, %s"),
             ctxt.get_desc("NEW_PAGE", "new page", input_context::allow_all_keys),
@@ -206,6 +211,9 @@ void diary::show_diary_ui(diary * c_diary)
         print_list_scrollable(&w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN], currwin == window_mode::CHANGE_WIN,false);
         print_list_scrollable(&w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],  currwin == window_mode::TEXT_WIN,false);
         trim_and_print(w_head, point(1, 1),getmaxx(w_head)-2,c_white,c_diary->get_head_text());
+        if (currwin == window_mode::CHANGE_WIN|| currwin ==window_mode::TEXT_WIN) {
+            fold_and_print(w_info, point(1, 1), getmaxx(w_info) - 2, c_white, string_format("%s", c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]]));
+        }
         
         center_print(w_pages, 0, c_light_gray, string_format(_("pages: %d"), c_diary->get_pages_list().size()));
 
@@ -216,6 +224,7 @@ void diary::show_diary_ui(diary * c_diary)
         wnoutrefresh(w_changes);
         wnoutrefresh(w_text);
         wnoutrefresh(w_desc);
+        wnoutrefresh(w_info);
         
     } );
 

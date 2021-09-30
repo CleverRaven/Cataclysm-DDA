@@ -81,7 +81,7 @@
 
         //pimpl<SkillLevelMap> skills;
         //std::vector<Skill> skills;
-        std::map<std::string, SkillLevel> skillsL;
+        std::map<skill_id, SkillLevel> skillsL;
         //std::vector<std::string> skill;
         std::vector<proficiency_id> known_profs;
         std::vector<proficiency_id> learning_profs;
@@ -120,12 +120,12 @@ class diary
         std::string get_page_text();
         std::string get_head_text();
 
-        void skill_changes(std::vector<std::string>* result);
-        void kill_changes(std::vector<std::string>* result);
-        void trait_changes(std::vector<std::string>* result);
-        void bionic_changes(std::vector<std::string>* result);
-        void stat_changes(std::vector<std::string>* result);
-        void prof_changes(std::vector<std::string>* result);
+        void skill_changes();
+        void kill_changes();
+        void trait_changes();
+        void bionic_changes();
+        void stat_changes();
+        void prof_changes();
 
         void set_page_text( std::string text);
         static void show_diary_ui(diary* c_diary);
@@ -138,6 +138,7 @@ class diary
         void serialize(std::ostream& fout);
         void deserialize(std::istream& fin);
     private:
+        void add_to_change_list(std::string entry, std::string desc = "");
 
 };
  

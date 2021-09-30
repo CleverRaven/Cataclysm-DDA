@@ -23,6 +23,10 @@
 #include "string_formatter.h"
 
 
+
+namespace {
+
+}
 diary_page::diary_page(std::string date, std::string text)
 {
     m_date = date;
@@ -82,88 +86,96 @@ diary_page* diary::get_page_ptr(int offset) {
     return nullptr;
 }
 
+void diary::add_to_change_list(std::string entry, std::string desc) {
+    if(desc != "") desc_map[change_list.size()] = desc;
+    change_list.push_back(entry);
+}
 //void diary::example_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
 //    if (prevpage == nullptr) {}
 //    else {}
 //} <color_red>text</color>
 // colorize
-void::diary::bionic_changes(std::vector<std::string>* result) {
+void::diary::bionic_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
     if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->bionics.empty()) {
-            result->push_back(_("Bionics"));
+            add_to_change_list(_("Bionics"));
             for (const auto elem : currpage->bionics) {
                 const bionic_data&b = elem.obj();
-                result->push_back(b.name.translated());
+                add_to_change_list(b.name.translated(),b.description.translated());
             }
+            add_to_change_list(" ");
         }
     }
     else {
-        std::vector<std::string> tempres;
+        
+        bool flag = true;
         if (!currpage->bionics.empty()) {
             for (const auto elem : currpage->bionics) {
+                
                 if (std::find(prevpage->bionics.begin(), prevpage->bionics.end(), elem) == prevpage->bionics.end()) {
+                    if (flag) {
+                        add_to_change_list(_("New Bionics: "));
+                        flag = false;
+                    }
                     const bionic_data& b = elem.obj();
-                    tempres.push_back(b.name.translated());
+                    add_to_change_list(b.name.translated(),b.description.translated());
                 }
             }
+            if(!flag) add_to_change_list(" ");
         }
-        if (!tempres.empty()) {
-            result->push_back(_("New Bionics: "));
-            result->insert(result->end(), tempres.begin(), tempres.end());
-            result->push_back(" ");
-        }
-        tempres.clear();
+       
+        flag = true;
         if (!prevpage->bionics.empty()) {
             for (const auto elem : prevpage->bionics) {
                 if (std::find(currpage->bionics.begin(), currpage->bionics.end(), elem) == currpage->bionics.end()) {
+                    if (flag) {
+                        add_to_change_list(_("Lost Bionics: "));
+                        flag = false;
+                    }
                     const bionic_data& b = elem.obj();                    
-                    tempres.push_back(b.name.translated());
+                    add_to_change_list(b.name.translated(), b.description.translated());
                 }
             }
+            if (!flag) add_to_change_list(" ");
         }
-        if (!tempres.empty()) {
-            result->push_back(_("Lost Bionics: "));
-            result->insert(result->end(), tempres.begin(), tempres.end());
-            result->push_back(" ");
-        }
-        tempres.clear();
+        
     }
 }
 
-void diary::kill_changes(std::vector<std::string>* result) {
+void diary::kill_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
     if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->kills.empty()) {
-            result->push_back(_("Kills: "));
+            add_to_change_list( _("Kills: "));
             for (const auto elem : currpage->kills) {
                 const mtype& m = elem.first.obj();
                 nc_color color = m.color;
                 std::string symbol = m.sym;
                 std::string nname = m.nname(elem.second);
-                result->push_back(string_format("%4d ", elem.second) + colorize(symbol,
-                    color) + " " + colorize(nname, c_light_gray));                    
+                add_to_change_list(string_format("%4d ", elem.second) + colorize(symbol,
+                    color) + " " + colorize(nname, c_light_gray),m.get_description());                    
             }
-            result->push_back(" ");                
+            add_to_change_list(" ");
         }
         if (!currpage->npc_kills.empty()) {
-            result->push_back(_("NPC Killed"));
+            add_to_change_list(_("NPC Killed"));
             for (const auto& npc_name : currpage->npc_kills) {
-                result->push_back(string_format("%4d ", 1) + colorize("@ " + npc_name, c_magenta));
+                add_to_change_list(string_format("%4d ", 1) + colorize("@ " + npc_name, c_magenta));
             }
-            result->push_back(" ");
+            add_to_change_list(" ");
         }
         
     }
     else {
-        std::vector<std::string> tempres;
+        
         if (!currpage->kills.empty()) {
             
-            
+            bool flag = true;
             for (const auto elem : currpage->kills) {
                 const mtype& m = elem.first.obj();
                 nc_color color = m.color;
@@ -173,51 +185,47 @@ void diary::kill_changes(std::vector<std::string>* result) {
                 if (prevpage->kills.count(elem.first) > 0) {
                     const int prevkills = prevpage->kills[elem.first];
                     if (kills > prevkills) {
+                        if (flag) {
+                            add_to_change_list(_("Kills: "));
+                            flag = false;
+                        }
                         kills = kills - prevkills;
-                        tempres.push_back(string_format("%4d ", kills) + colorize(symbol,
-                            color) + " " + colorize(nname, c_light_gray));
+                        add_to_change_list(string_format("%4d ", kills) + colorize(symbol,
+                            color) + " " + colorize(nname, c_light_gray),m.get_description());
                     }
                 }
                 else {
-                    tempres.push_back(string_format("%4d ", kills) + colorize(symbol,
-                        color) + " " + colorize(nname, c_light_gray));
+                    if (flag) {
+                        add_to_change_list(_("Kills: "));
+                        flag = false;
+                    }
+                    add_to_change_list(string_format("%4d ", kills) + colorize(symbol,
+                        color) + " " + colorize(nname, c_light_gray), m.get_description());
                 }
                 
                 
             }
-            if (!tempres.empty()) {
-                result->push_back(_("Kills: "));
-                result->insert(result->end(), tempres.begin(), tempres.end());
-                result->push_back(" ");
-            }
-            tempres.clear();
+            if (!flag) add_to_change_list(" ");
+           
         }
         if (!currpage->npc_kills.empty()) {
             
             const auto prev_npc_kills = prevpage->npc_kills;
-            if (!prev_npc_kills.empty()) {
-                for (const auto& npc_name : currpage->npc_kills) {
-                    if (npc_name != prev_npc_kills.back()) {
-                        if ((std::find(prev_npc_kills.begin(), prev_npc_kills.end(), npc_name) == prev_npc_kills.end())) {
-                            tempres.push_back(string_format("%4d ", 1) + colorize("@ " + npc_name, c_magenta));
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (const auto& npc_name : currpage->npc_kills) {
-                                        
-                    tempres.push_back(string_format("%4d ", 1) + colorize("@ " + npc_name, c_magenta));
-                }
-            }
             
-            if (!tempres.empty()) {
-                result->push_back(_("NPC Killed: "));
-                result->insert(result->end(), tempres.begin(), tempres.end());
-                result->push_back(" ");
-            }
-            tempres.clear();
+            bool flag = true;
+                for (const auto& npc_name : currpage->npc_kills) {
+                    
+                        if ((std::find(prev_npc_kills.begin(), prev_npc_kills.end(), npc_name) == prev_npc_kills.end())) {
+                            if (flag) {
+                                add_to_change_list(_("NPC Killed: "));
+                                flag = false;
+                            }
+                            add_to_change_list(string_format("%4d ", 1) + colorize("@ " + npc_name, c_magenta));
+                        }
+                    
+                }
+                if (!flag) add_to_change_list(" ");
+           
         }        
         
         
@@ -225,7 +233,7 @@ void diary::kill_changes(std::vector<std::string>* result) {
 }
 
 
-void diary::skill_changes(std::vector<std::string>* result) {
+void diary::skill_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
     if (currpage == nullptr)return;
@@ -235,148 +243,180 @@ void diary::skill_changes(std::vector<std::string>* result) {
         }
         else {
             
-            result->push_back(_("Skills:"));
+            add_to_change_list(_("Skills:"));
             for (auto elem : currpage->skillsL) {
                 
                 if (elem.second.level() > 0) {
-                    result->push_back(string_format("<color_light_blue>%s: %d</color>", elem.first, elem.second.level()));
+                    Skill s = elem.first.obj();
+                    add_to_change_list(string_format("<color_light_blue>%s: %d</color>", s.name(), elem.second.level()), s.description());
                 }
             }
-            result->push_back("");
+            add_to_change_list("");
         }
     }
     else
     {
-        std::vector<std::string> tempres;
+        
+        bool flag = true;
         for (auto elem : currpage->skillsL) {
             if (prevpage->skillsL.count(elem.first) > 0) {
                 if (prevpage->skillsL[elem.first].level() != elem.second.level()) {
-                    tempres.push_back(string_format(_("<color_light_blue>%s: %d -> %d</color>"), elem.first, prevpage->skillsL[elem.first].level(), elem.second.level()));
+                    if (flag) {
+                        add_to_change_list(_("Skills: "));
+                        flag = false;
+                    }
+                    Skill s = elem.first.obj();
+                    add_to_change_list(string_format(_("<color_light_blue>%s: %d -> %d</color>"), s.name(), prevpage->skillsL[elem.first].level(), elem.second.level()),s.description());
                 }
 
             }
             
         }
-        if (!tempres.empty()) {
-            result->push_back(_("Skills:"));
-            result->insert(result->end(), tempres.begin(), tempres.end());
-            result->push_back(" ");
-        }
+        if (!flag) add_to_change_list(" ");
+        
     }
 }
 
-void diary::trait_changes(std::vector<std::string>* result) {
+void diary::trait_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
     if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->traits.empty()) {
-            result->push_back(_("Mutations:"));
+            add_to_change_list(_("Mutations:"));
             for (const trait_id elem : currpage->traits) {
                 const mutation_branch& trait = elem.obj();               
-                result->push_back(colorize(trait.name(), trait.get_display_color()));
+                add_to_change_list(colorize(trait.name(), trait.get_display_color()),trait.desc());
             }
-            result->push_back("");
+            add_to_change_list("");
         }
     }
     else {
         if (prevpage->traits.empty() && !currpage->traits.empty()) {
-            result->push_back(_("Mutations:"));
+            add_to_change_list(_("Mutations:"));
             for (const trait_id& elem : currpage->traits) {
                 const mutation_branch& trait = elem.obj();
-                result->push_back(colorize(trait.name(), trait.get_display_color()));
+                add_to_change_list(colorize(trait.name(), trait.get_display_color()), trait.desc());
+                
             }
-            result->push_back("");
+            add_to_change_list("");
         }
         else {
-            //neue traits
-            std::vector<std::string> tempres;
+            
+            bool flag = true;
             for (const trait_id& elem : currpage->traits) {
                 
                 if(std::find(prevpage->traits.begin(), prevpage->traits.end(),elem) == prevpage->traits.end()){
+                    if (flag) {
+                        add_to_change_list(_("Gained Mutation: "));
+                        flag = false;
+                    }
                     const mutation_branch& trait = elem.obj();
-                    tempres.push_back(colorize(trait.name(), trait.get_display_color()));
+                    add_to_change_list(colorize(trait.name(), trait.get_display_color()), trait.desc());
                 }
                 
             }
-            if (!tempres.empty()) {
-                result->push_back(_("Gained Mutation:"));
-                result->insert(result->end(), tempres.begin(), tempres.end());
-                result->push_back(" ");
-            }
-            tempres.clear();
-            //verlorene traids
+            if (!flag) add_to_change_list(" ");
+            
+            flag = true;
             for (const trait_id& elem : prevpage->traits) {
                 
                 if (std::find(currpage->traits.begin(), currpage->traits.end(), elem) == currpage->traits.end()) {
+                    if (flag) {
+                        add_to_change_list(_("Lost Mutation "));
+                        flag = false;
+                    }
                     const mutation_branch& trait = elem.obj();
-                    tempres.push_back(colorize(trait.name(), trait.get_display_color()));
+                    add_to_change_list(colorize(trait.name(), trait.get_display_color()), trait.desc());
                 }
             }
-            if (!tempres.empty()) {
-                result->push_back(_("Lost Mutation:"));
-                result->insert(result->end(), tempres.begin(), tempres.end());
-                result->push_back(" ");
-            }
+            if (!flag) add_to_change_list(" ");
+            
         }
     }
 }
 
-void diary::stat_changes(std::vector<std::string>* result) {
+void diary::stat_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
     if (currpage == nullptr)return;
     if (prevpage == nullptr) {
-        result->push_back(_("Stats:"));
-        result->push_back(string_format(_("Strength: %d"), currpage->strength));
-        result->push_back(string_format(_("Dexterity: %d"), currpage->dexterity));
-        result->push_back(string_format(_("Intelligence: %d"), currpage->intelligence));
-        result->push_back(string_format(_("Perception: %d"), currpage->perception));
-        result->push_back(" ");
+        add_to_change_list(_("Stats:"));
+        add_to_change_list(string_format(_("Strength: %d"), currpage->strength));
+        add_to_change_list(string_format(_("Dexterity: %d"), currpage->dexterity));
+        add_to_change_list(string_format(_("Intelligence: %d"), currpage->intelligence));
+        add_to_change_list(string_format(_("Perception: %d"), currpage->perception));
+        add_to_change_list(" ");
     }
     else {
-        std::vector<std::string> tempres;
-        if (currpage->strength != prevpage->strength) tempres.push_back(string_format(_("Strength: %d -> %d"), prevpage->strength, currpage->strength));
-        if (currpage->dexterity != prevpage->dexterity) tempres.push_back(string_format(_("Desxterity: %d -> %d"), prevpage->dexterity, currpage->dexterity));
-        if (currpage->intelligence != prevpage->intelligence) tempres.push_back(string_format(_("Intelligence: %d -> %d"), prevpage->intelligence, currpage->intelligence));
-        if (currpage->perception != prevpage->perception) tempres.push_back(string_format(_("Perception: %d -> %d"), prevpage->perception, currpage->perception));
-        if (!tempres.empty()) {
-            result->push_back(_("Stats:"));
-            result->insert(result->end(), tempres.begin(), tempres.end());
-            result->push_back(" ");
+        
+        bool flag = true;        
+        if (currpage->strength != prevpage->strength) {
+            if (flag) {
+                add_to_change_list(_("Stats: "));
+                flag = false;
+            }
+            add_to_change_list(string_format(_("Strength: %d -> %d"), prevpage->strength, currpage->strength));
         }
+        if (currpage->dexterity != prevpage->dexterity) { 
+            if (flag) {
+                add_to_change_list(_("Stats: "));
+                flag = false;
+            }
+            add_to_change_list(string_format(_("Desxterity: %d -> %d"), prevpage->dexterity, currpage->dexterity)); 
+        }
+        if (currpage->intelligence != prevpage->intelligence) {
+            if (flag) {
+                add_to_change_list(_("Stats: "));
+                flag = false;
+            }
+            add_to_change_list(string_format(_("Intelligence: %d -> %d"), prevpage->intelligence, currpage->intelligence));
+        }
+
+        if (currpage->perception != prevpage->perception) { 
+            if (flag) {
+                add_to_change_list(_("Stats: "));
+                flag = false;
+            }
+            add_to_change_list(string_format(_("Perception: %d -> %d"), prevpage->perception, currpage->perception)); 
+        }
+        if (!flag)add_to_change_list(" ");
+        
     }
 }
 
-void diary::prof_changes(std::vector<std::string>* result) {
+void diary::prof_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
     if (currpage == nullptr)return;
     if (prevpage == nullptr) {
         if (!currpage->known_profs.empty()) {
-            result->push_back(_("Proficiencies:"));
+            add_to_change_list(_("Proficiencies:"));
             for (const proficiency_id elem : currpage->known_profs) {
                 const auto p = elem.obj();                
-                result->push_back(p.name());
+                add_to_change_list(p.name(),p.description());
             }
-            result->push_back("");
+            add_to_change_list("");
         }
         
     }
     else {
-        std::vector<std::string> tempres;
+        
+        bool flag = true;
         for (const proficiency_id elem : currpage->known_profs) {
+            
             if (std::find(prevpage->known_profs.begin(), prevpage->known_profs.end(), elem) == prevpage->known_profs.end()) {
+                if (flag) {
+                    add_to_change_list(_("Proficiencies: "));
+                    flag = false;
+                }
                 const auto p = elem.obj();
-                tempres.push_back(p.name());
+                add_to_change_list(p.name(), p.description());
             }
             
         }
-        if (!tempres.empty()) {
-            result->push_back(_("New Proficiencies:"));
-            result->insert(result->end(), tempres.begin(), tempres.end());
-            result->push_back(" ");
-        }
+        if (!flag) add_to_change_list(" ");
+        
         
     }
 }
@@ -387,12 +427,12 @@ std::vector<std::string> diary::get_change_list() {
         
         
 
-        stat_changes(&change_list);
-        skill_changes(&change_list);
-        prof_changes(&change_list);
-        trait_changes(&change_list);
-        bionic_changes(&change_list);
-        kill_changes(&change_list);
+        stat_changes();
+        skill_changes();
+        prof_changes();
+        trait_changes();
+        bionic_changes();
+        kill_changes();
         
     }
     return change_list;
@@ -491,8 +531,9 @@ void diary::new_page() {
     
 
     for (auto elem : Skill::skills) {
+        
         SkillLevel level = u->get_skill_level_object(elem.ident());
-        page->skillsL.insert({ elem.name(), level });
+        page->skillsL.insert({ elem.ident(), level });
     }
     
     page -> known_profs = u->_proficiencies->known_profs();
