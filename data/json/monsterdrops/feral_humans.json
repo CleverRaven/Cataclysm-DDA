@@ -82,5 +82,186 @@
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_maids_death_drops_broom",
+    "entries": [ { "item": "broom", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_maids_death_drops_candlestick",
+    "entries": [ { "item": "candlestick", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_maids_death_drops_knife",
+    "entries": [ { "item": "knife_chef", "prob": 100, "damage": [ 0, 3 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_fancy_death_drops_rapier",
+    "entries": [ { "item": "rapier", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_fancy_death_drops_rapier_fake",
+    "entries": [ { "item": "rapier_fake", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_fancy_death_drops_crossbow",
+    "entries": [ { "item": "crossbow", "prob": 100, "damage": [ 1, 3 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for a feral butler or maid",
+    "id": "default_maid_clothes",
+    "entries": [
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      { "item": "glasses_monocle", "prob": 20, "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 80, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "tux", "prob": 100, "damage": [ 1, 4 ] },
+              { "item": "dress_shoes", "prob": 80, "damage": [ 1, 4 ] },
+              { "group": "common_gloves", "prob": 60, "damage": [ 1, 4 ] },
+              { "group": "neckties", "prob": 45, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [ { "item": "dress_shoes", "prob": 45, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 45, "damage": [ 1, 4 ] } ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "item": "maid_dress", "prob": 100, "damage": [ 1, 4 ] },
+                      { "item": "maid_hat", "prob": 80, "damage": [ 1, 4 ] },
+                      { "item": "long_glove_white", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for a fancy feral",
+    "id": "default_fancy_clothes",
+    "entries": [
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "gloves_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 45 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 80, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "dress_shirt", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "item": "suit", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 20, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "dress_shoes", "prob": 80, "damage": [ 1, 4 ] },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 45, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 65, "damage": [ 1, 4 ] },
+              { "group": "dress_shoes", "prob": 60, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 10
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [
+                          { "item": "gown", "prob": 30, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 60, "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 20, "damage": [ 1, 4 ] },
+                          {
+                            "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
+                            "prob": 10
+                          }
+                        ]
+                      },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "item": "long_glove_white", "prob": 50, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 85
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
