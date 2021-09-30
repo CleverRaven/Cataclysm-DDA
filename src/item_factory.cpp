@@ -1994,16 +1994,61 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     } else {
         optional( jo, false, "encumbrance", encumber, 0 );
     }
+    optional( jo, false, "material_thickness", thickness, 0.0f );
+    optional( jo, false, "environmental_protection", env_resist, 0 );
+    optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, 0 );
+
+    // TODO: Make mandatory - once we remove the old loading below
+    optional( jo, false, "material", materials );
+}
+
+template<typename T>
+static void apply_optional( T &value, const cata::optional<T> &applied )
+{
+    if( applied ) {
+        value = *applied;
+    }
 }
 
 void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", data );
+
+    cata::optional<float> thickness;
+    cata::optional<int> env_resist;
+    cata::optional<int> env_resist_w_filter;
+    cata::optional<std::vector<material_id>> materials;
+    cata::optional<body_part_set> covers;
+
+    bool all_data_have_material = true;
+    if( jo.has_member( "armor" ) ) {
+        for( JsonObject armor_jo : jo.get_array( "armor" ) ) {
+            armor_jo.allow_omitted_members();
+            if( !armor_jo.has_member( "material" ) ) {
+                all_data_have_material = false;
+            }
+        }
+    }
+    if( !all_data_have_material ) {
+        mandatory( jo, false, "material", materials );
+    }
+    assign_coverage_from_json( jo, "covers", covers );
+    optional( jo, false, "material_thickness", thickness, cata::nullopt );
+    optional( jo, false, "environmental_protection", env_resist, cata::nullopt );
+    optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, cata::nullopt );
+
+    for( armor_portion_data &armor : data ) {
+        apply_optional( armor.thickness, thickness );
+        apply_optional( armor.env_resist, env_resist );
+        apply_optional( armor.env_resist_w_filter, env_resist_w_filter );
+        apply_optional( armor.materials, materials );
+        if( covers ) {
+            armor.covers = covers;
+        }
+    }
+
     optional( jo, was_loaded, "sided", sided, false );
 
-    optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
-    optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
-    optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_bonus,
               mass_reader{}, 0_gram );
