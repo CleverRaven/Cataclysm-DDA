@@ -452,6 +452,22 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
+    "id": "case_cigar",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "cigar case", "str_pl": "cigar cases" },
+    "looks_like": "box_small",
+    "description": "A small handmade wood and leather case meant to hold one or two cigars.",
+    "weight": "95 g",
+    "volume": "323 ml",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "wood", "leather" ],
+    "symbol": "u",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
+  },
+  {
     "id": "box_small",
     "type": "GENERIC",
     "category": "container",
@@ -474,6 +490,30 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
+    "description": "A small wooden box a few inches on each side, just about right for holding a few small items.",
+    "weight": "400 g",
+    "volume": "2010 ml",
+    "longest_side": "181 mm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1350 ml",
+        "max_contains_weight": "4536 g",
+        "max_item_length": "167 mm"
+      }
+    ],
+    "price": 2000,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "symbol": "[",
     "color": "brown"
   },
   {
