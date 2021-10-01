@@ -2818,7 +2818,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 }
 
 void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
-        const std::string &member )
+        const std::string &member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs;
     for( JsonValue jv : jo.get_array( member ) ) {
@@ -2828,7 +2828,16 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
             0_seconds );
     duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
             0_seconds );
-    function = [dov_time_in_future_min, dov_time_in_future_max, eocs]( const dialogue & d ) {
+    bool affect_nearby_npcs = jo.get_bool( "affect_nearby_npcs", false );
+    std::vector<std::string> names = jo.get_string_array( "npcs_to_affect" );
+    cata::optional<int> npc_range;
+    if( jo.has_int( "npc_range" ) ) {
+        npc_range = jo.get_int( "npc_range" );
+    }
+
+    bool npc_must_see = jo.get_bool( "npc_must_see", false );
+    function = [dov_time_in_future_min, dov_time_in_future_max, eocs, names, npc_must_see, npc_range,
+                            affect_nearby_npcs, is_npc]( const dialogue & d ) {
         time_duration max = dov_time_in_future_max.evaluate( d.actor( false ) );
         if( max > 0_seconds ) {
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
@@ -2840,18 +2849,41 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
                 }
             }
         } else {
-            Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
-            item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
-            Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
-            item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
-            dialogue newDialog(
-                ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
-                    item_alpha ) : nullptr,
-                ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
-                    item_beta ) : nullptr
-            );
-            for( const effect_on_condition_id &eoc : eocs ) {
-                eoc->activate( newDialog );
+            if( affect_nearby_npcs ) {
+                tripoint actor_pos = d.actor( is_npc )->pos();
+                const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
+                              names]( const npc & guy ) {
+                    bool name_valid = names.empty();
+                    for( const std::string &name : names ) {
+                        if( name == guy.name ) {
+                            name_valid = true;
+                            break;
+                        }
+                    }
+                    return name_valid && ( !npc_range.has_value() || actor_pos.z == guy.posz() ) && ( !npc_must_see ||
+                            guy.sees( actor_pos ) ) &&
+                           ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos() ) <= npc_range.value() );
+                } );
+                for( npc *target : available ) {
+                    for( const effect_on_condition_id &eoc : eocs ) {
+                        dialogue newDialog( get_talker_for( target ), nullptr );
+                        eoc->activate( newDialog );
+                    }
+                }
+            } else {
+                Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+                item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+                Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+                item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+                dialogue newDialog(
+                    ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
+                        item_alpha ) : nullptr,
+                    ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
+                        item_beta ) : nullptr
+                );
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    eoc->activate( newDialog );
+                }
             }
         }
     };
@@ -3294,7 +3326,11 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_member( "npc_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
-        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition", false );
+    } else if( jo.has_array( "u_set_queue_eoc" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "u_set_queue_eoc", false );
+    } else if( jo.has_array( "npc_set_queue_eoc" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "npc_set_queue_eoc", true );
     } else if( jo.has_array( "set_weighted_list_eocs" ) ) {
         subeffect_fun.set_weighted_list_eocs( jo, "set_weighted_list_eocs" );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
