@@ -57,23 +57,20 @@ float Character::throw_weakpoint_skill()
     return skill + stat;
 }
 
-weakpoint_difficulty::weakpoint_difficulty( float default_value ) :
-    default_value( default_value ) {}
+weakpoint_difficulty::weakpoint_difficulty( float default_value )
+{
+    difficulty.fill( default_value );
+}
 
 float weakpoint_difficulty::of( const weakpoint_attack &attack ) const
 {
-    if( attack.primary_skill != skill_melee ) {
-        auto it = difficulty.find( attack.primary_skill );
-        return it != difficulty.end() ? it->second : default_value;
-    }
-    // Melee attacks have higher granularity.
-    skill_id melee_skill = attack.weapon->is_null() ? skill_unarmed : attack.weapon->melee_skill();
-    auto it = difficulty.find( melee_skill );
-    return it != difficulty.end() ? it->second : default_value;
+    return difficulty[static_cast<int>( attack.type )];
 }
 
 void weakpoint_difficulty::load( const JsonObject &jo )
 {
+    using attack_type = weakpoint_attack::attack_type;
+    float default_value = difficulty[static_cast<int>( attack_type::NONE )];
     float all = jo.get_float( "all", default_value );
     // Determine default values
     float bash = all;
@@ -95,15 +92,11 @@ void weakpoint_difficulty::load( const JsonObject &jo )
         ranged = point;
     }
     // Load the values
-    difficulty[skill_id::NULL_ID()] = all;
-    difficulty[skill_bashing] = jo.get_float( "bash", bash );
-    difficulty[skill_cutting] = jo.get_float( "cut", cut );
-    difficulty[skill_stabbing] = jo.get_float( "stab", stab );
-    difficulty[skill_gun] = jo.get_float( "ranged", ranged );
-    // Set unarmed equal to bashing
-    difficulty[skill_unarmed] = difficulty[skill_bashing];
-    // Set thrown equal to ranged.
-    difficulty[skill_throw] = difficulty[skill_gun];
+    difficulty[static_cast<int>( attack_type::NONE )] = all;
+    difficulty[static_cast<int>( attack_type::MELEE_BASH )] = jo.get_float( "bash", bash );
+    difficulty[static_cast<int>( attack_type::MELEE_CUT )] = jo.get_float( "cut", cut );
+    difficulty[static_cast<int>( attack_type::MELEE_STAB )] = jo.get_float( "stab", stab );
+    difficulty[static_cast<int>( attack_type::PROJECTILE )] = jo.get_float( "ranged", ranged );
 }
 
 weakpoint_effect::weakpoint_effect()  :
@@ -168,9 +161,32 @@ weakpoint_attack::weakpoint_attack()  :
     source( nullptr ),
     target( nullptr ),
     weapon( &null_item_reference() ),
+    type( attack_type::NONE ),
     is_crit( false ),
     wp_skill( 0.0f ) {}
 
+weakpoint_attack::attack_type
+weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
+{
+    damage_type primary;
+    int primary_amount = 0;
+    for( const auto &du : damage.damage_units ) {
+        if( du.amount > primary_amount ) {
+            primary = du.type;
+            primary_amount = du.amount;
+        }
+    }
+    switch( primary ) {
+        case damage_type::BASH:
+            return attack_type::MELEE_BASH;
+        case damage_type::CUT:
+            return attack_type::MELEE_CUT;
+        case damage_type::STAB:
+            return attack_type::MELEE_STAB;
+        default:
+            return attack_type::NONE;
+    }
+}
 
 weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
 {

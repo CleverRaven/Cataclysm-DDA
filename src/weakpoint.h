@@ -17,20 +17,32 @@ class JsonObject;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
+    enum class attack_type : int {
+        NONE, // Unusual damage instances, such as falls, spells, and effects.
+        MELEE_BASH, // Melee bludgeoning attacks
+        MELEE_CUT, // Melee slashing attacks
+        MELEE_STAB, // Melee piercing attacks
+        PROJECTILE, // Ranged projectile attacks, including throwing weapons and guns
+
+        NUM,
+    };
+
     // The source of the attack.
     const Creature *source;
     // The target of the attack.
     const Creature *target;
     // The weapon used to make the attack.
     const item *weapon;
-    // The primary skill used to make the attack. Either melee, marksmanship, throwing, or NULL_ID.
-    skill_id primary_skill;
+    // The type of the attack.
+    attack_type type;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
     float wp_skill;
 
     weakpoint_attack();
+    // Returns the attack type of a melee attack.
+    static attack_type type_of_melee_attack( const damage_instance &damage );
 };
 
 // An effect that a weakpoint can cause.
@@ -57,8 +69,7 @@ struct weakpoint_effect {
 };
 
 struct weakpoint_difficulty {
-    float default_value;
-    std::map<skill_id, float> difficulty;
+    std::array<float, static_cast<int>( weakpoint_attack::attack_type::NUM )> difficulty;
 
     explicit weakpoint_difficulty( float default_value );
     float of( const weakpoint_attack &attack ) const;

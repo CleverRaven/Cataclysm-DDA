@@ -706,8 +706,12 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         mod_moves( -stab_moves );
     }
 
+    weakpoint_attack attack_copy = attack;
+    attack_copy.is_crit = critical_hit;
+    attack_copy.type = weakpoint_attack::type_of_melee_attack( d );
+
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d, attack );
+    dealt_dam = deal_damage( source, bp_hit, d, attack_copy );
     dealt_dam.bp_hit = bp_hit;
 
     // Bashing critical
@@ -1044,6 +1048,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     // Create a copy that records whether the attack is a crit.
     weakpoint_attack wp_attack_copy = wp_attack;
     wp_attack_copy.is_crit = hit_selection.is_crit;
+    wp_attack_copy.type = weakpoint_attack::attack_type::PROJECTILE;
 
     if( print_messages && source != nullptr && !hit_selection.message.empty() && u_see_this ) {
         source->add_msg_if_player( m_good, hit_selection.message );
@@ -1093,8 +1098,11 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
+    weakpoint_attack attack_copy = attack;
+    attack_copy.source = source;
+
     dealt_damage_instance dealt_dams;
-    const weakpoint *wp = absorb_hit( attack, bp, d );
+    const weakpoint *wp = absorb_hit( attack_copy, bp, d );
     dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
 
     // Add up all the damage units dealt
