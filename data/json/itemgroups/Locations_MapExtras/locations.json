@@ -27,8 +27,17 @@
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "smokelounge_items",
-    "items": [ [ "cigar", 65 ], [ "ecig", 25 ], [ "cig", 35 ], [ "tobacco", 45 ], [ "rolling_paper", 15 ], [ "pipe_tobacco", 10 ] ]
+    "entries": [
+      { "item": "cigar", "prob": 65 },
+      { "group": "cigar_box_opened", "prob": 25 },
+      { "item": "ecig", "prob": 25 },
+      { "item": "cig", "prob": 35 },
+      { "item": "tobacco", "prob": 45 },
+      { "item": "rolling_paper", "prob": 15 },
+      { "item": "pipe_tobacco", "prob": 10 }
+    ]
   },
   {
     "id": "cop_armory",
@@ -1685,6 +1694,7 @@
       [ "eyedrops", 20 ],
       [ "clock", 10 ],
       { "group": "tobacco_products", "prob": 151 },
+      { "group": "cigar_box_opened", "prob": 15 },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
       [ "seed_weed", 15 ],
@@ -2037,6 +2047,8 @@
       { "item": "decoy_anarch", "prob": 10 },
       { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
       { "item": "maltballs", "prob": 30 },
+      { "group": "cigar_box_opened", "prob": 20 },
+      { "group": "cigar_box_unopened", "prob": 5 },
       { "group": "tobacco_products", "prob": 151 },
       { "item": "contacts", "prob": 15 },
       { "group": "clothing_glasses", "prob": 80 },
@@ -2094,6 +2106,8 @@
       [ "brownie", 60 ],
       [ "aspirin", 40 ],
       { "group": "tobacco_products", "prob": 150 },
+      { "group": "cigar_box_opened", "prob": 20 },
+      { "group": "cigar_box_unopened", "prob": 5 },
       { "item": "gum", "prob": 100, "charges": [ 1, 10 ] },
       { "item": "caff_gum", "prob": 20, "charges": [ 1, 10 ] },
       { "item": "nic_gum", "prob": 20, "charges": [ 1, 10 ] },

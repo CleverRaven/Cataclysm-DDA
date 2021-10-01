@@ -30,13 +30,14 @@
     "id": "cigar_box_unopened",
     "type": "item_group",
     "subtype": "collection",
-    "//": " container-item box_small_wood ",
+    "container-item": "box_small_wood",
     "items": [ { "item": "cigar", "charges": [ 25, 25 ] }, { "item": "paper", "charges": [ 2, 2 ] } ]
   },
   {
     "id": "cigar_box_opened",
     "type": "item_group",
     "subtype": "collection",
+    "container-item": "box_small_wood",
     "entries": [
       { "item": "cigar", "charges": [ 0, 25 ] },
       { "item": "paper", "charges": [ 2, 2 ], "prob": 90 },

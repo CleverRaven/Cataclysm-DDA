@@ -151,6 +151,7 @@
     "items": [
       { "item": "cup_plastic", "prob": 50 },
       { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "group": "cigar_box_open", "prob": 15, "count": [ 1, 2 ] },
       { "item": "matches", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "rolling_paper", "prob": 50, "charges": [ 1, 30 ] },
       { "item": "wrapper", "prob": 50 },

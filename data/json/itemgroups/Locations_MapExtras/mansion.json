@@ -1178,6 +1178,7 @@
       { "group": "glass_of_wine", "prob": 30 },
       { "group": "book_mag_gen", "prob": 120 },
       { "group": "tobacco_products", "prob": 50 },
+      { "group": "cigar_box_opened", "prob": 50 },
       [ "novel_pulp", 30 ],
       { "item": "gum", "prob": 30, "charges": [ 1, 10 ] },
       [ "glass", 20 ],
@@ -1204,6 +1205,7 @@
       { "group": "glass_of_wine", "prob": 40 },
       [ "glass", 20 ],
       { "group": "tobacco_products", "prob": 75 },
+      { "group": "cigar_box_opened", "prob": 50 },
       [ "money_bundle", 10 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
@@ -1221,6 +1223,7 @@
       [ "glass", 40 ],
       { "item": "cig", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "cigar", "prob": 20, "charges": [ 1, 10 ] },
+      { "group": "cigar_box_unopened", "prob": 25, "count": [ 1, 5 ] },
       [ "towel", 5 ]
     ]
   },
