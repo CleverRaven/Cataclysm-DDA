@@ -98,10 +98,7 @@
     "update_mapgen_id": "fbml_2_stall_2_wood",
     "method": "json",
     "object": {
-      "place_nested": [
-        { "chunks": [ "fbml_2_stall_2_4_wood" ], "x": 0, "y": 14 },
-        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15 }
-      ]
+      "place_nested": [ { "chunks": [ "fbml_2_stall_2_4_wood" ], "x": 0, "y": 14 }, { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15 } ]
     }
   },
   {
@@ -135,9 +132,7 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_stall_2_4_wood" ], "x": 0, "y": 6 },
-        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7 }
-      ]
+        { "chunks": [ "fbml_2_stall_2_4_wood" ], "x": 0, "y": 6 }, { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7 } ]
     }
   },
   {
