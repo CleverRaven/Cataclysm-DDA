@@ -123,16 +123,12 @@
     "subtype": "collection",
     "entries": [
       {
-        "collection": [
+        "distribution": [
           { "item": "adhesive_bandages", "prob": 30 },
           { "item": "bandages", "prob": 30 },
           { "group": "full_1st_aid", "prob": 20 }
         ],
         "prob": 25
-      },
-      {
-        "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
-        "prob": 75
       },
       {
         "collection": [
@@ -202,13 +198,28 @@
   {
     "id": "swat_torso",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "item": "tank_top", "prob": 30 },
-      { "item": "army_top", "prob": 40 },
-      { "item": "tshirt", "prob": 20 },
-      { "item": "longshirt", "prob": 10 },
-      { "item": "thermal_shirt", "prob": 10 }
+      {
+        "distribution": [
+          { "item": "swat_armor", "prob": 15 },
+          { "item": "kevlar", "prob": 25 },
+          { "item": "tacvest", "prob": 5 },
+          { "item": "armor_riot", "prob": 25 },
+          { "item": "ballistic_vest_esapi", "prob": 10 }
+        ],
+        "prob": 65
+      },
+      {
+        "distribution": [
+          { "item": "tank_top", "prob": 30 },
+          { "item": "army_top", "prob": 40 },
+          { "item": "tshirt", "prob": 20 },
+          { "item": "longshirt", "prob": 10 },
+          { "item": "thermal_shirt", "prob": 10 }
+        ],
+        "prob": 75
+      }
     ]
   },
   {
