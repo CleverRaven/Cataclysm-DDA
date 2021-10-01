@@ -2184,8 +2184,8 @@
     "result": "sheet",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "1 s",
-    "components": [ [ [ "sheet_cotton_patchwork", 6 ] ] ],
+    "time": "8 s",
+    "components": [ [ [ "sheet_cotton_patchwork", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
