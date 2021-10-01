@@ -56,7 +56,6 @@ jobs:
   varied_builds:
     needs: skip-duplicates
     strategy:
-      max-parallel: 1
       matrix:
         release: [0]
         cmake: [0]
@@ -66,6 +65,17 @@ jobs:
         native: [linux64]
 
         include:
+          - compiler: g++
+            os: ubuntu-latest
+            native:
+            tiles: 1
+            sound: 1
+            test-stage: 1
+            title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static.gcc11
+            wine: wine
+
           - compiler: clang++-12
             os: ubuntu-latest
             sanitize: address
@@ -85,17 +95,6 @@ jobs:
             tiles: 1
             sound: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
-
-          - compiler: g++
-            os: ubuntu-latest
-            native:
-            tiles: 1
-            sound: 1
-            test-stage: 1
-            title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
-            ldflags: -static-libgcc -static-libstdc++
-            mxe_target: i686-w64-mingw32.static.gcc11
-            wine: wine
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
