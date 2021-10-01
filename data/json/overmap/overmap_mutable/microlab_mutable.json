@@ -88,6 +88,13 @@
         "south": "hallway_to_hallway",
         "west": "microlab_to_microlab"
       },
+      "hallway_curve": {
+        "overmap": "microlab_generic_hallway_ne",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_hallway",
+        "south": "microlab_to_microlab",
+        "west": "microlab_to_microlab"
+      },
       "hallway_end": {
         "overmap": "microlab_generic_hallway_end_north",
         "north": "hallway_to_hallway",
@@ -121,6 +128,7 @@
       [
         { "overmap": "microlab_edge", "weight": 1000 },
         { "overmap": "hallway_end", "weight": 10 },
+        { "overmap": "hallway_curve", "weight": 1 },
         { "overmap": "hallway_blind_end", "weight": 1 }
       ]
     ]
