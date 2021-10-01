@@ -54,6 +54,7 @@
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -2052,6 +2053,30 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &member )
+{
+    mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
+                                            member ) );
+    function = [dest_params]( const dialogue & d ) {
+        npc *guy = d.actor( true )->get_npc();
+        if( guy ) {
+            tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
+            guy->goal = destination;
+            guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
+                            overmap_path_params::for_npc() );
+            if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+                guy->omt_path.empty() ) {
+                guy->goal = npc::no_goal_point;
+                guy->omt_path.clear();
+                return;
+            }
+            guy->set_mission( NPC_MISSION_TRAVELLING );
+            guy->guard_pos = cata::nullopt;
+            guy->set_attitude( NPCATT_NULL );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc )
 {
     function = [is_trade, is_npc, quantity]( const dialogue & d ) {
@@ -3255,6 +3280,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_cbm_recharge_rule" );
         subeffect_fun.set_npc_cbm_recharge_rule( setting );
+    } else if( jo.has_member( "npc_set_goal" ) ) {
+        subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_string( "u_buy_monster" ) ) {
