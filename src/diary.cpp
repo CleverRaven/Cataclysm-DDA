@@ -97,6 +97,54 @@ void diary::add_to_change_list(std::string entry, std::string desc) {
 //} <color_red>text</color>
 // colorize
 
+/*auto spell = u->magic->get_spell(id);
+        spell.name();
+        spell.description();*/
+void diary::spell_changes() {
+    avatar* u = &get_avatar();
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr) return;
+    if (prevpage == nullptr) {
+        if (!currpage->known_spells.empty()) {
+            add_to_change_list(_("Known spells:"));
+            for (const auto elem : currpage->known_spells) {
+                const spell s = u->magic->get_spell(elem.first);
+                add_to_change_list(string_format(_("%s: %d"), s.name(), elem.second), s.description());
+            }
+            add_to_change_list(" ");
+        }
+    }
+    else {
+        if (!currpage->known_spells.empty()) {
+            bool flag = true;
+            for (const auto elem : currpage->known_spells) {
+                if (prevpage->known_spells.find(elem.first) != prevpage->known_spells.end()) {
+                    const int prevlvl = prevpage->known_spells[elem.first];
+                    if (elem.second != prevlvl) {
+                        if (flag) {
+                            add_to_change_list(_("Improved/new spells: "));
+                            flag = false;
+                        }
+                        const spell s = u->magic->get_spell(elem.first);
+                        add_to_change_list(string_format(_("%s: %d -> %d"), s.name(),prevlvl, elem.second), s.description());
+                    }
+                }
+                else {
+                    if (flag) {
+                        add_to_change_list(_("Improved/new spells: "));
+                        flag = false;
+                    }
+                    const spell s = u->magic->get_spell(elem.first);
+                    add_to_change_list(string_format(_("%s: %d"), s.name(), elem.second), s.description());
+                }
+            }
+            if (!flag) add_to_change_list(" ");
+        }
+        
+    }
+}
+
 
 
 void diary::mission_changes() {
@@ -488,6 +536,7 @@ std::vector<std::string> diary::get_change_list() {
         prof_changes();
         trait_changes();
         bionic_changes();
+        spell_changes();
         mission_changes();
         kill_changes();
         
@@ -572,6 +621,7 @@ void diary::new_page() {
     
     
     
+    
     page -> male = u->male;
     page->strength = u->get_str_base();
     page->dexterity = u->get_dex_base();
@@ -580,11 +630,22 @@ void diary::new_page() {
     //page->addictions = u->addictions;
     
     page -> follower_ids = u->follower_ids; 
-    //page -> traits = u-> my_traits;
+    
     page->traits = u->get_mutations(false);
     
-    //page -> mutations= u-> my_mutations;
     //page->magic = u->magic ;
+    const auto spells = u->magic->get_spells();
+    for (const auto spell : spells) {
+        const auto id = spell->id();
+        const auto lvl = spell->get_level();
+        
+        page-> known_spells[id] = lvl;
+        
+        /*auto spell = u->magic->get_spell(id);
+        spell.name();
+        spell.description();*/
+    }
+    
    
     //page -> martial_arts_data = u->martial_arts_data;
     
@@ -602,7 +663,7 @@ void diary::new_page() {
     page -> known_profs = u->_proficiencies->known_profs();
     page -> learning_profs = u->_proficiencies->learning_profs();
     
-    //units::energy max_power_level;
+    
     page->max_power_level = u->get_max_power_level();
     diary::pages.push_back(page);
 }
@@ -617,8 +678,7 @@ void diary::delete_page() {
 void diary::export_to_txt() {
     std::ofstream myfile;
     myfile.open(PATH_INFO::world_base_save_path() + "\\"+owner +"s_diary.txt");
-    //myfile << "Writing this to a file.\n";
-    //std::vector<diary_page*>::iterator ptr;
+    
     for (int i = 0; i < pages.size(); i++) {
         set_opend_page(i);
         const diary_page page = *get_page_ptr();
@@ -659,13 +719,9 @@ void diary::serialize(std::ostream& fout) {
         jout.member("follower_ids", n->follower_ids);
         jout.member("traits", n->traits);
         jout.member("bionics", n->bionics);
-        //jout.member("mutations", n->mutations);
+        jout.member("spells", n->known_spells);
         jout.member("skillsL", n->skillsL);
-            /*jout.start_array();
-                for (auto elem : n->skillsL) {
-                    jout.member(elem.first, elem.second);
-                }
-            jout.end_array();*/        
+                   
         jout.member("known_profs", n->known_profs);
         jout.member("learning_profs", n->learning_profs);
         jout.member("max_power_level", n->max_power_level);
@@ -688,7 +744,7 @@ void diary::deserialize(std::istream& fin) {
         auto data = jin.get_object();
         data.read("owner", owner);
         pages.clear();
-        //auto arr = data.get_array("pages");
+        
         for (JsonObject elem : data.get_array("pages")) {
             diary_page* page = new diary_page();
             page->m_date = elem.get_string("date");
@@ -708,13 +764,10 @@ void diary::deserialize(std::istream& fin) {
             elem.read("follower_ids", page->follower_ids);
             elem.read("traits", page->traits);
             elem.read("bionics", page->bionics);
-            //elem.read("mutations", page.mutations);
+            elem.read("spells", page->known_spells);
             elem.read("skillsL", page->skillsL);
             
-            /*for (JsonObject s : elem.get_array("skillsL")) {
-                std::string name = s.get_member();
-                
-            }*/
+            
             elem.read("known_profs", page->known_profs);
             elem.read("learning_profs", page->learning_profs);
             elem.read("max_power_level", page->max_power_level);

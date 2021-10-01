@@ -78,7 +78,7 @@
        
         std::vector<trait_id> traits;
         
-        //pimpl<known_magic> magic;
+        std::map<spell_id,int> known_spells;
         //pimpl<character_martial_arts> martial_arts_data;
         std::vector<bionic_id> bionics;
 
@@ -129,6 +129,7 @@ class diary
         void stat_changes();
         void prof_changes();
         void mission_changes();
+        void spell_changes();
 
         void set_page_text( std::string text);
         static void show_diary_ui(diary* c_diary);
