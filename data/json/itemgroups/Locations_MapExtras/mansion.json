@@ -1223,7 +1223,7 @@
       [ "glass", 40 ],
       { "item": "cig", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "cigar", "prob": 20, "charges": [ 1, 10 ] },
-      { "item": "case_cigar", "prob": 10, "count": [ 1, 2] },
+      { "item": "case_cigar", "prob": 10, "count": [ 1, 2 ] },
       { "group": "cigar_box_unopened", "prob": 25, "count": [ 1, 5 ] },
       [ "towel", 5 ]
     ]

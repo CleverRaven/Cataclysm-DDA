@@ -299,7 +299,7 @@
       { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
       { "item": "sponge", "prob": 5 },
       { "group": "tobacco_products", "prob": 151 },
-      { "group": "cigar_box_open", "prob": 5 },
+      { "group": "cigar_box_opened", "prob": 5 },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       { "item": "hi_q_shatter", "prob": 5 },
       { "item": "hi_q_wax", "prob": 5 },
