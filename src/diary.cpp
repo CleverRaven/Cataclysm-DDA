@@ -15,6 +15,7 @@
 #include "path_info.h"
 #include "output.h"
 #include "cata_utility.h"
+#include "mission.h"
 #include "avatar.h"
 #include "skill.h"
 #include "mtype.h"
@@ -95,10 +96,65 @@ void diary::add_to_change_list(std::string entry, std::string desc) {
 //    else {}
 //} <color_red>text</color>
 // colorize
-void::diary::bionic_changes() {
+
+
+
+void diary::mission_changes() {
     diary_page* currpage = get_page_ptr();
     diary_page* prevpage = get_page_ptr(-1);
-    if (currpage == nullptr)return;
+    if (currpage == nullptr) return;
+    if (prevpage == nullptr) {
+        auto add_missions = [&](const std::string name, const std::vector<int>* missions) {
+            if (!missions->empty()) {
+                bool flag = true;
+
+                for (const int uid : *missions) {
+                    const auto miss = mission::find(uid);
+                    if (miss != nullptr) {
+                        if (flag) {
+                            add_to_change_list(name);
+                            flag = false;
+                        }
+                        add_to_change_list(miss->name(), miss->get_description());
+                    }
+                }
+                if (!flag) add_to_change_list(" ");
+            }
+        };
+        add_missions(_("Active missions:"), &currpage->mission_active);
+        add_missions(_("Completed missions:"), &currpage->mission_completed);
+        add_missions(_("Faild missions:"), &currpage->mission_faild);
+       
+    }
+    else {
+        auto add_missions = [&](const std::string name, const std::vector<int>* missions, const std::vector<int>* prevmissions) {
+            bool flag = true;
+            for (const int uid : *missions) {
+                if (std::find(prevmissions->begin(), prevmissions->end(),uid) == prevmissions->end()) {
+                    const auto miss = mission::find(uid);
+                    if (miss != nullptr) {
+                        if (flag) {
+                            add_to_change_list(name);
+                            flag = false;
+                        }
+                        add_to_change_list(miss->name(), miss->get_description());
+                    }
+                    
+                }
+                if (!flag) add_to_change_list(" ");
+            }
+        };
+        add_missions(_("New missions:"), &currpage->mission_active, &prevpage->mission_active);
+        add_missions(_("New completed missions:"), &currpage->mission_completed, &prevpage->mission_completed);
+        add_missions(_("New faild:"), &currpage->mission_faild, &prevpage->mission_faild);
+
+    }
+}
+
+void diary::bionic_changes() {
+    diary_page* currpage = get_page_ptr();
+    diary_page* prevpage = get_page_ptr(-1);
+    if (currpage == nullptr) return;
     if (prevpage == nullptr) {
         if (!currpage->bionics.empty()) {
             add_to_change_list(_("Bionics"));
@@ -432,11 +488,13 @@ std::vector<std::string> diary::get_change_list() {
         prof_changes();
         trait_changes();
         bionic_changes();
+        mission_changes();
         kill_changes();
         
     }
     return change_list;
 }
+
 std::map<int, std::string> diary::get_desc_map() {
     if (!desc_map.empty()) {
         return desc_map;
@@ -500,7 +558,7 @@ void diary::new_page() {
     //
     ////game stats
     
-
+    
     page -> kills = g.get()->get_kill_tracker().kills;
     page -> npc_kills = g.get()->get_kill_tracker().npc_kills;
     
@@ -508,8 +566,13 @@ void diary::new_page() {
     //pimpl<achievements_tracker> achivement_tracker;
     ////player Stats
     avatar* u = &get_avatar();
+    page -> mission_completed = mission::to_uid_vector(u->get_completed_missions());
+    page -> mission_active = mission::to_uid_vector(u->get_active_missions());
+    page -> mission_faild = mission::to_uid_vector(u->get_failed_missions());
     
-    page ->male = u->male;
+    
+    
+    page -> male = u->male;
     page->strength = u->get_str_base();
     page->dexterity = u->get_dex_base();
     page->intelligence = u->get_int_base();
@@ -582,6 +645,9 @@ void diary::serialize(std::ostream& fout) {
         jout.member("date", n->m_date);
         jout.member("text", n->m_text);
         jout.member("turn", n->turn);
+        jout.member("completed", n->mission_completed);
+        jout.member("active", n->mission_active);
+        jout.member("faild", n->mission_faild);
         jout.member("kills", n->kills);
         jout.member("npc_kills", n->npc_kills);
         jout.member("male", n->male);
@@ -628,6 +694,9 @@ void diary::deserialize(std::istream& fin) {
             page->m_date = elem.get_string("date");
             page->m_text = elem.get_string("text");
             elem.read("turn", page->turn);
+            elem.read("active", page->mission_active);
+            elem.read("completed", page->mission_completed);
+            elem.read("faild", page->mission_faild);
             elem.read("kills", page->kills);
             elem.read("npc_kills", page->npc_kills);
             elem.read("male", page->male);

@@ -58,6 +58,9 @@
         std::vector<std::string> diff_to_previus_page;
 
         time_point turn;
+        std::vector<int> mission_completed ;
+        std::vector<int> mission_active ;
+        std::vector<int> mission_faild ;
         ////game stats
 
         std::map<mtype_id, int> kills;
@@ -72,17 +75,16 @@
         int perception;
         //std::vector<addiction> addictions;
         std::set<character_id> follower_ids;
-        //std::unordered_set<trait_id> traits;
+       
         std::vector<trait_id> traits;
-        //std::unordered_map<trait_id, Character::trait_data> mutations;
+        
         //pimpl<known_magic> magic;
         //pimpl<character_martial_arts> martial_arts_data;
         std::vector<bionic_id> bionics;
 
-        //pimpl<SkillLevelMap> skills;
-        //std::vector<Skill> skills;
+        
         std::map<skill_id, SkillLevel> skillsL;
-        //std::vector<std::string> skill;
+        
         std::vector<proficiency_id> known_profs;
         std::vector<proficiency_id> learning_profs;
         units::energy max_power_level;
@@ -126,6 +128,7 @@ class diary
         void bionic_changes();
         void stat_changes();
         void prof_changes();
+        void mission_changes();
 
         void set_page_text( std::string text);
         static void show_diary_ui(diary* c_diary);
