@@ -87,6 +87,11 @@
             }
           ]
         }
+      },
+      {
+        "text": "Can you help me with CBM surgery?",
+        "topic": "TALK_EXODII_MERCHANT_Bionic_Install",
+        "condition": { "u_has_trait": "CBM_Interface" }
       }
     ]
   },
@@ -322,7 +327,7 @@
     "responses": [
       {
         "text": "Oh, you mean you got here early in the cataclysm.  Why is that so good?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_Intro3"
+        "topic": "TALK_EXODII_MERCHANT_Talk_Intro4a"
       },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -706,6 +711,15 @@
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Bionic_Install",
+    "type": "talk_topic",
+    "dynamic_line": "If'n you're full an' plenty, this'n's happy to make the call, for a shiny farthing.",
+    "responses": [
+      { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
+      { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
     ]
   }
 ]

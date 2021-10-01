@@ -52,7 +52,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier2",
-    "//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after building a decent amount of trust over time.",
     "items": [
       [ "bio_tools", 10 ],
       [ "bio_ethanol", 10 ],
