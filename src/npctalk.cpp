@@ -2165,6 +2165,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
+    const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
@@ -2194,17 +2195,29 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         jo.throw_error( "Invalid message type." );
     }
 
-    function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
-        std::string translated_message;
-        if( snippet ) {
-            translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
-                    translation() ).translated() );
-        } else {
-            translated_message = _( message );
-        }
+    function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
+             is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target ) {
             return;
+        }
+        std::string translated_message;
+        if( snippet ) {
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
+        } else {
+            translated_message = _( message );
         }
         if( sound ) {
             bool display = false;
@@ -2549,9 +2562,12 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 get_weather().clear_temp_cache();
             };
         }
-    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ) {
+    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
+               jo.has_member( "global_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
-        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
+        const bool is_global = jo.has_member( "global_val" );
+        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : is_global ?
+                                          jo.get_string( "global_val" ) : jo.get_string( "u_val" );
         if( checked_value == "strength_base" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_str_max( input );
@@ -2569,12 +2585,11 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_per_max( input );
             };
         } else if( checked_value == "var" ) {
-            bool global;
-            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, global]( const dialogue & d, int input ) {
-                if( global ) {
-                    get_talker_for( get_player_character() )->set_value( var_name, std::to_string( input ) );
+            return [is_npc, var_name, is_global]( const dialogue & d, int input ) {
+                if( is_global ) {
+                    global_variables &globvars = get_globals();
+                    globvars.set_global_value( var_name, std::to_string( input ) );
                 } else {
                     d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
                 }
@@ -2818,17 +2833,17 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
         if( max > 0_seconds ) {
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
-                if( eoc->activate_only ) {
+                if( eoc->type == eoc_type::ACTIVATION ) {
                     effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
                 } else {
-                    debugmsg( "Cannot queue a recurring effect_on_condition." );
+                    debugmsg( "Cannot queue a non activation effect_on_condition." );
                 }
             }
         } else {
-            Creature *creature_alpha = d.actor( false )->get_creature();
-            item_location *item_alpha = d.actor( false )->get_item();
-            Creature *creature_beta = d.actor( true )->get_creature();
-            item_location *item_beta = d.actor( true )->get_item();
+            Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+            item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+            Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+            item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
             dialogue newDialog(
                 ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
                     item_alpha ) : nullptr,

@@ -9,7 +9,7 @@
     "color": "magenta_green",
     "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
   },
   {
     "id": "mon_ceratosaurus_juvenile",
@@ -21,7 +21,7 @@
     "color": "magenta_green",
     "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
   },
   {
     "id": "mon_spinosaurus_juvenile",
@@ -30,87 +30,116 @@
     "description": "A huge predatory dinosaur juvenile with a large fan on its back.",
     "default_faction": "spinosaurus_juvenile",
     "copy-from": "mon_spinosaurus",
-    "color": "red_white",
+    "aggression": 50,
     "hp": 200,
     "upgrades": { "age_grow": 365, "into": "mon_spinosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
   },
   {
     "id": "mon_allosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": { "str": "juvenile allosaurus", "str_pl": "juvenile allosauruses" },
+    "description": "A large bipedal meat-eating dinosaur juvenile.",
     "default_faction": "allosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_white",
+    "copy-from": "mon_allosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
     "id": "mon_acrocanthosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "acrocanthosaurus juvenile",
+    "description": "Large predatory bipedal dinosaur juvenile with a tall ridge running the length of its back covered with heavy muscles.",
     "default_faction": "acrocanthosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_white",
+    "copy-from": "mon_acrocanthosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
     "id": "mon_siats_juvenile",
     "type": "MONSTER",
-    "name": "brown and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "siats juvenile",
+    "description": "Large predatory bipedal dinosaur juvenile with long claws and strong arms for grappling.",
     "default_faction": "siats_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_white",
+    "copy-from": "mon_siats",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_siats" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+  },
+  {
+    "id": "mon_gorgosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "gorgosaurus juvenile",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with two small arms and a feathered mullet and tail.",
+    "default_faction": "gorgosaurus_juvenile",
+    "copy-from": "mon_gorgosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
+    "upgrades": { "age_grow": 365, "into": "mon_gorgosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
     "id": "mon_albertosaurus_juvenile",
     "type": "MONSTER",
-    "name": "red and white two-legged juvenile",
-    "description": "A small, bipedal, meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "albertosaurus juvenile",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with long strong arms and a feathered mullet and tail.",
     "default_faction": "albertosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "light_red_white",
-    "dodge": 5,
+    "copy-from": "mon_albertosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
     "id": "mon_qianzhousaurus_juvenile",
     "type": "MONSTER",
-    "name": "red and white two-legged juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "description": "A small, bipedal, meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "qianzhousaurus juvenile",
+    "description": "This large, bipedal, feather-covered dinosaur juvenile has a long, gator-like mouth with sharp teeth.",
     "default_faction": "qianzhousaurus_juvenile",
-    "color": "light_red_white",
-    "dodge": 6,
+    "copy-from": "mon_qianzhousaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_qianzhousaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
     "id": "mon_tyrannosaurus_juvenile",
     "type": "MONSTER",
-    "name": "red and white two-legged juvenile",
+    "name": "tyrannosaurus juvenile",
     "description": "A huge predatory dinosaur juvenile with large sharp teeth.",
     "default_faction": "tyrannosaurus_juvenile",
     "copy-from": "mon_tyrannosaurus",
-    "hp": 200,
-    "color": "red_white",
-    "dodge": 5,
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
     "id": "mon_gallimimus_juvenile",
@@ -170,8 +199,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "dark_gray_white",
     "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "petfood": { "food": [ "DINOFOOD_B" ] }
   },
   {
     "id": "mon_amargasaurus_juvenile",
@@ -409,19 +437,7 @@
     "color": "light_gray_yellow",
     "upgrades": { "age_grow": 14, "into": "mon_pteranodon" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "FLIES",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CANPLAY",
-      "NO_BREED",
-      "CANPLAY",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_quetzalcoatlus_juvenile",
@@ -433,19 +449,7 @@
     "color": "light_gray_yellow",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "FLIES",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CANPLAY",
-      "NO_BREED",
-      "CANPLAY",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "SEES", "HEARS", "FLIES", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_mosasaurus_juvenile",
@@ -453,10 +457,13 @@
     "name": "mosasaurus juvenile",
     "description": "A juvenile predatory aquatic reptile with large pointy teeth, but not the largest.",
     "default_faction": "mosasaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "red_white",
+    "copy-from": "mon_mosasaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "CANPLAY", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
   }
 ]

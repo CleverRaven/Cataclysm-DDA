@@ -207,6 +207,7 @@
     "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "100 cm",
@@ -322,6 +323,7 @@
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "longest_side": "80 cm",
     "bashing": 10,
@@ -399,6 +401,7 @@
     "longest_side": "20 cm",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
   {
@@ -547,6 +550,7 @@
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
     "longest_side": "180 cm",
@@ -583,6 +587,7 @@
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -918,6 +923,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1500 g",
     "volume": "1500 ml",
     "longest_side": "180 cm",
@@ -960,7 +966,8 @@
     "bashing": 1,
     "cutting": 3,
     "to_hit": -3,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "shillelagh",
@@ -973,6 +980,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "910 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -992,6 +1000,7 @@
     "material": [ "lead", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "1135 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -1011,6 +1020,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "850 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -1041,6 +1051,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

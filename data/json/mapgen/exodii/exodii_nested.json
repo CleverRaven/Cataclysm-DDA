@@ -1,0 +1,43 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "rubik_store_base",
+    "//": "Rubik's store in the exodii main base",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "T__c_",
+        "1__cc",
+        "L____",
+        "2345T",
+        "|||||"
+      ],
+      "place_npcs": [ { "class": "exodii_merchant", "x": 2, "y": 1 } ],
+      "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
+      "monster": { "T": { "monster": "mon_exodii_turret" } },
+      "mapping": {
+        "1": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "2": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "3": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "4": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "5": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Tier0", "chance": 95 } ] },
+        "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
+        "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "tier1_CBM_shop_update",
+    "//": "Fill lockers with CBMs from Tier1.",
+    "object": {
+      "place_items": [
+        { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 100, "repeat": [ 2, 4 ] },
+        { "item": "EXODII_CBM_Store_Tier1", "x": [ 19, 22 ], "y": 23, "chance": 90, "repeat": [ 3, 8 ] }
+      ],
+      "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
+    }
+  }
+]

@@ -13,7 +13,14 @@
 
 template<typename T>
 class generic_factory;
-
+enum eoc_type {
+    ACTIVATION,
+    RECURRING,
+    SCENARIO_SPECIFIC,
+    AVATAR_DEATH,
+    NPC_DEATH,
+    NUM_EOC_TYPES
+};
 struct effect_on_condition {
     public:
         friend class generic_factory<effect_on_condition>;
@@ -23,7 +30,7 @@ struct effect_on_condition {
         /* If this is true it will be run on the player and every npc.  Deactivate conditions will work based on the player.  */
         bool global = false;
         effect_on_condition_id id;
-
+        eoc_type type;
         std::function<bool( const dialogue & )> condition;
         std::function<bool( const dialogue & )> deactivate_condition;
         talk_effect_t true_effect;
@@ -31,9 +38,7 @@ struct effect_on_condition {
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
-        bool activate_only = true;
-        bool scenario_specific = false;
-
+        //TODO duration or var these
         time_duration recurrence_min = 1_seconds;
         time_duration recurrence_max = 1_seconds;
         bool activate( dialogue &d ) const;
@@ -71,6 +76,13 @@ void process_reactivate( Character &you );
 void clear( Character &you );
 /** write out all queued eocs and inactive eocs to a file for testing */
 void write_eocs_to_file( Character &you );
+void write_global_eocs_to_file();
+/** Run all avatar death eocs */
+void avatar_death();
 } // namespace effect_on_conditions
 
+template<>
+struct enum_traits<eoc_type> {
+    static constexpr eoc_type last = eoc_type::NUM_EOC_TYPES;
+};
 #endif // CATA_SRC_EFFECT_ON_CONDITION_H

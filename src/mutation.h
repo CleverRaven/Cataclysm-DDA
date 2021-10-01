@@ -92,30 +92,10 @@ struct mut_transform {
     bool load( const JsonObject &jsobj, const std::string &member );
 };
 
-enum trigger_type {
-    PAIN,
-    HUNGER,
-    THRIST,
-    MOOD,
-    STAMINA,
-    MOON,
-    TIME,
-    num_trigger
-};
-template<>
-struct enum_traits<trigger_type> {
-    static constexpr trigger_type last = trigger_type::num_trigger;
-};
-
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    trigger_type trigger = trigger_type::TIME;
-
-    /**Activates above that threshold and deactivates below it*/
-    int threshold_low = INT_MIN;
-    /**Activates below that threshold and deactivates above it*/
-    int threshold_high = INT_MAX;
+    std::function<bool( const dialogue & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;

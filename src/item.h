@@ -544,6 +544,14 @@ class item : public visitable
         int price( bool practical ) const;
 
         /**
+         * Returns the monetary value of an item by itself.
+         * Price includes hidden contents such as ammo and liquids.
+         * If `practical` is false, returns pre-cataclysm market value,
+         * otherwise returns approximate post-cataclysm value.
+         */
+        int price_no_contents( bool practical );
+
+        /**
          * Whether two items should stack when displayed in a inventory menu.
          * This is different from stacks_with, when two previously non-stackable
          * items are now stackable and mergeable because, for example, they

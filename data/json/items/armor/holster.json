@@ -295,65 +295,6 @@
     "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "survivor_vest",
-    "type": "ARMOR",
-    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
-    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
-    "weight": "320 g",
-    "volume": "1250 ml",
-    "price": 20000,
-    "price_postapoc": 4000,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "tacvest",
-    "color": "green",
-    "material_thickness": 2,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "min_item_volume": "1000 ml",
-        "max_contains_volume": "8 L",
-        "max_contains_weight": "8200 g",
-        "max_item_length": "120 cm",
-        "moves": 50
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "20 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "20 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "20 cm",
-        "moves": 80
-      }
-    ],
-    "use_action": { "type": "holster" },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ],
-    "armor": [ { "encumbrance": [ 4, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "xl_survivor_vest",
-    "type": "ARMOR",
-    "copy-from": "survivor_vest",
-    "name": { "str": "XL survivor harness", "str_pl": "XL survivor harnesses" },
-    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear and fitting the largest forms.  Activate to holster/draw your weapon.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "STURDY", "OVERSIZE" ]
-  },
-  {
     "id": "XL_holster",
     "type": "ARMOR",
     "name": { "str": "XL holster" },

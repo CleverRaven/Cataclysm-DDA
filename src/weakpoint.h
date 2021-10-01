@@ -4,6 +4,7 @@
 
 #include <array>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "damage.h"
@@ -17,20 +18,41 @@ class JsonObject;
 struct weakpoint_attack {
     // The source of the attack.
     const Creature *source;
-
+    // The target of the attack.
+    const Creature *target;
     // The weapon used to make the attack.
     const item *weapon;
-
     // Weather the attack is a melee attack.
     bool is_melee;
-
     // Whether the attack a critical hit.
     bool is_crit;
-
     // The Creature's skill in hitting weak points.
     float wp_skill;
 
     weakpoint_attack();
+};
+
+// An effect that a weakpoint can cause.
+struct weakpoint_effect {
+    // The type of the effect.
+    efftype_id effect;
+    // The percent chance of causing the effect.
+    float chance;
+    // Whether the effect is permanent.
+    bool permanent;
+    // The range of the durations (in turns) of the effect.
+    std::pair<int, int> duration;
+    // The range of the intensities of the effect.
+    std::pair<int, int> intensity;
+    // The range of damage, as a percentage of max health, required to the effect.
+    std::pair<float, float> damage_required;
+    // The message to print, if the player causes the effect.
+    std::string message;
+
+    weakpoint_effect();
+    // Maybe apply an effect to the target.
+    void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
+    void load( const JsonObject &jo );
 };
 
 struct weakpoint {
@@ -50,12 +72,17 @@ struct weakpoint {
     std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
     // Difficulty to hit the weak point.
     float difficulty = -10.0f;
+    // A list of required effects.
+    std::vector<efftype_id> required_effects;
+    // A list of effects that may trigger by hitting this weak point.
+    std::vector<weakpoint_effect> effects;
 
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Apply the damage multiplers to a set of damage values.
     void apply_to( damage_instance &damage, bool is_crit ) const;
+    void apply_effects( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     // Return the change of the creature hitting the weakpoint.
     float hit_chance( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );

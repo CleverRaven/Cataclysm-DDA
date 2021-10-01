@@ -80,7 +80,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
     "crit_ok": true,
     "aoe": "spin"
   },
@@ -94,7 +94,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
     "crit_ok": true,
     "aoe": "wide"
   },
@@ -305,7 +305,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "down_dur": 2,
     "knockback_dist": 2,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
@@ -318,7 +318,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "crit_tec": true,
     "down_dur": 2,
     "knockback_dist": 4,
