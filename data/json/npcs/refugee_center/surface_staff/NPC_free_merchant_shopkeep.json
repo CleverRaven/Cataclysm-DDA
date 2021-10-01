@@ -76,6 +76,8 @@
       { "group": "book_survival", "prob": 15 },
       { "group": "novels", "prob": 50, "count": [ 1, 3 ] },
       { "group": "textbooks", "prob": 30 },
+      { "group": "cigar_box_unopened", "prob": 10},
+      { "item": "case_cigar", "prob": 5},
       [ "vest", 40 ],
       [ "kevlar", 15 ],
       [ "jacket_army", 30 ],

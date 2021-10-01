@@ -323,7 +323,10 @@
     "magazine": 50,
     "items": [
       [ "101_carpentry", 1 ],
-      { "group": "used_1st_aid", "prob": 20 },
+      {
+        "group": "used_1st_aid",
+        "prob": 20
+      },
       [ "223_casing", 1 ],
       [ "2lcanteen", 3 ],
       [ "3006_casing", 1 ],
@@ -368,7 +371,10 @@
       [ "barrel_ported", 1 ],
       [ "baseball", 1 ],
       [ "bat", 5 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 25 },
+      {
+        "group": "ammo_pocket_batteries_full",
+        "prob": 25
+      },
       [ "beartrap", 10 ],
       [ "beer", 15 ],
       [ "belgian_ale", 3 ],
@@ -419,9 +425,21 @@
       [ "canteen", 5 ],
       [ "carpentry_book", 1 ],
       [ "carrot", 3 ],
-      { "item": "catfood", "prob": 3, "container-item": "can_food" },
-      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 17, "charges-min": 0 },
+      {
+        "item": "catfood",
+        "prob": 3,
+        "container-item": "can_food"
+      },
+      {
+        "item": "cell_phone",
+        "prob": 3,
+        "charges": [ 0, 150 ]
+      },
+      {
+        "item": "smart_phone",
+        "prob": 17,
+        "charges-min": 0
+      },
       [ "ceramic_armor", 1 ],
       [ "cereal", 5 ],
       [ "cereal2", 5 ],
@@ -448,6 +466,8 @@
       [ "chocolate", 2 ],
       [ "cig", 30 ],
       [ "cigar", 10 ],
+      [ "case_cigar", 5],
+      { "group": "pocket_cigar", "prob": 10 },
       [ "circsaw_blade", 3 ],
       [ "circsaw_off", 3 ],
       [ "cleansuit", 5 ],
