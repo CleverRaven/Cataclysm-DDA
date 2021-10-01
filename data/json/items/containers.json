@@ -455,7 +455,7 @@
     "id": "case_cigar",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "cigar case", "str_pl": "cigar cases" },
+    "name": { "str": "cigar case" },
     "looks_like": "box_small",
     "description": "A small handmade wood and leather case meant to hold one or two cigars.",
     "weight": "95 g",
