@@ -4051,7 +4051,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "cigar", "container-item": "case_cigar", "count": 2 },
+          { "item": "cigar", "container-item": "case_cigar", "charges": 2 },
           { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
         ]

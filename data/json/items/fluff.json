@@ -254,7 +254,7 @@
     "id": "cigar_cutter",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "cigar cutter", "str_pl": "cigar cutters" },
+    "name": { "str": "cigar cutter" },
     "description": "A set of small blades that pinch together to cut the end off of a cigar.",
     "weight": "81 g",
     "volume": "19 ml",

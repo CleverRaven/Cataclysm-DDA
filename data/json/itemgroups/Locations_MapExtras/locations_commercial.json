@@ -11,6 +11,8 @@
       { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
       { "group": "tobacco_products", "prob": 161 },
       { "group": "cigar_box_unopened", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "cigar_cutter", "prob": 10 },
+      { "item": "cigar_punch", "prob": 8 },
       { "item": "sponge", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       { "item": "rm103a_pistol", "prob": 1 },
@@ -253,6 +255,8 @@
       [ "sf_watch", 7 ],
       [ "platinum_watch", 1 ],
       [ "tieclip", 3 ],
+      [ "cigar_cutter", 3 ],
+      [ "cigar_punch", 3 ],
       [ "collarpin", 3 ],
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "goggles_welding", 70 ],
@@ -1564,6 +1568,8 @@
       { "item": "hotplate", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "coffeemaker", "prob": 25, "charges": [ 0, 500 ] },
       [ "textbook_firstaid", 2 ],
+      [ "cigar_cutter", 5 ],
+      [ "cigar_punch", 5 ],
       [ "pocket_firearms", 1 ],
       [ "mag_archery", 4 ]
     ]
