@@ -412,7 +412,7 @@
       { "monster": "mon_feral_maid_knife", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_feral_fancy_rapier", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_feral_fancy_rapier_fake", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_feral_fancy_crossbow", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_crossbow", "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {
@@ -431,7 +431,7 @@
       { "monster": "mon_feral_fancy_rapier_fake", "freq": 80, "cost_multiplier": 1 },
       { "monster": "mon_feral_fancy_crossbow", "freq": 80, "cost_multiplier": 1 },
       { "monster": "mon_dog_rottweiler", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_dog_gpyrenees", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_dog_gpyrenees", "freq": 50, "cost_multiplier": 1 }
     ]
   },
   {
