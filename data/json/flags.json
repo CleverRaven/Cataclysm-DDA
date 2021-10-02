@@ -127,7 +127,7 @@
   {
     "id": "HIDDEN",
     "type": "json_flag",
-    "info": "This article will not display a sprite when worn."
+    "info": "You have marked this article to not display a sprite when worn."
   },
   {
     "id": "QUARTERED",
