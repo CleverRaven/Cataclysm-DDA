@@ -4043,12 +4043,13 @@
           "dress_shoes",
           "gold_watch",
           "diamond_ring",
-          "cigar",
+          "cigar_cutter",
           "gold_bracelet",
           "knuckle_brass"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "item": "cigar", "container-item": "case_cigar", "charges": 2 },
           { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
         ]
