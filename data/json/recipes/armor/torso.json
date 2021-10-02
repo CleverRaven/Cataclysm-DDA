@@ -1330,8 +1330,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
-    "using": [ [ "sewing_standard", 12 ] ],
-
+    "using": [ [ "sewing_standard", 12 ], [ "fabric_standard_nostretch", 6 ] ]
   },
   {
     "result": "maid_dress",
