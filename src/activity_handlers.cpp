@@ -2065,6 +2065,29 @@ void activity_handlers::teach_finish( player_activity *act, Character *you )
 
 void activity_handlers::train_finish( player_activity *act, Character *you )
 {
+    const std::vector<npc *> teachlist = g->get_npcs_if( [act]( const npc & n ) {
+        return n.getID().get_value() == act->index;
+    } );
+    Character *teacher = &get_player_character();
+    if( !teachlist.empty() ) {
+        teacher = teachlist.front();
+    }
+    if( teacher->activity.id() == ACT_TRAIN_TEACHER ) {
+        bool all_students_done = true;
+        g->get_npcs_if( [&]( const npc & n ) {
+            for( int st_id : teacher->activity.values ) {
+                if( n.getID().get_value() == st_id && n.activity.id() == ACT_TRAIN ) {
+                    all_students_done = false;
+                    break;
+                }
+            }
+            return false;
+        } );
+        if( all_students_done ) {
+            teacher->cancel_activity();
+        }
+    }
+
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();

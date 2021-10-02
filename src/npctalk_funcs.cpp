@@ -1126,8 +1126,8 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
             debugmsg( "start_training with no valid skill or style set" );
             return;
         }
-        // use the slowest and most expensive option
-        cost = std::max( cost, tmp_cost );
+        // use the slowest common denominator and combine cost
+        cost += tmp_cost;
         time = std::max( time, tmp_time );
     }
 
@@ -1142,16 +1142,16 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
             return;
         }
     }
-    player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
-                                           teacher.getID().get_value(), 0, name );
     player_activity tact = player_activity( ACT_TRAIN_TEACHER, to_moves<int>( time ),
                                             teacher.getID().get_value(), 0, name );
-    act.values.push_back( expert_multiplier );
-    tact.values.push_back( expert_multiplier );
-    teacher.assign_activity( tact );
     for( Character *student : students ) {
+        player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
+                                               teacher.getID().get_value(), 0, name );
+        act.values.push_back( expert_multiplier );
         student->assign_activity( act );
+        tact.values.push_back( student->getID().get_value() );
     }
+    teacher.assign_activity( tact );
 
     teacher.add_effect( effect_asked_to_train, 6_hours );
 }

@@ -329,7 +329,8 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "teaching",
-    "based_on": "speed"
+    "based_on": "speed",
+    "no_resume": true
   },
   {
     "id": "ACT_SOCIALIZE",

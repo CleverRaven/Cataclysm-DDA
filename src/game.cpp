@@ -1244,6 +1244,24 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
+        if( u.activity.id() == activity_id( "ACT_TRAIN_TEACHER" ) ) {
+            for( npc &n : all_npcs() ) {
+                // Also cancel activities for students
+                for( const int st_id : u.activity.values ) {
+                    if( n.getID().get_value() == st_id ) {
+                        n.cancel_activity();
+                    }
+                }
+            }
+            u.remove_effect( efftype_id( "asked_to_train" ) );
+        } else if( u.activity.id() == activity_id( "ACT_TRAIN" ) ) {
+            for( npc &n : all_npcs() ) {
+                // If the player is the only student, cancel the teacher's activity
+                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
+                    n.cancel_activity();
+                }
+            }
+        }
         u.cancel_activity();
         u.clear_destination();
         u.resume_backlog_activity();

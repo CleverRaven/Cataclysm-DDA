@@ -129,8 +129,8 @@ time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * student.get_skill_level( skill ) -
-           1_seconds * teacher.get_skill_level( skill );
+    return 1_hours + 30_minutes * student.get_skill_level( skill ) -
+           1_minutes * teacher.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -151,13 +151,14 @@ int calc_skill_training_cost_char( const Character &teacher, const Character &st
 
 time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
 {
-    return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
+    const Character &c = get_player_character();
+    return calc_proficiency_training_time( c, c, proficiency );
 }
 
 time_duration calc_proficiency_training_time( const Character &, const Character &student,
         const proficiency_id &proficiency )
 {
-    return std::min( 15_minutes, student.proficiency_training_needed( proficiency ) );
+    return std::min( 30_minutes, student.proficiency_training_needed( proficiency ) );
 }
 
 int calc_proficiency_training_cost( const Character &teacher, const Character &student,
