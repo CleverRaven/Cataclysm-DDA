@@ -1145,7 +1145,7 @@
     "time": "7 h 45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 38 ], [ "fabric_fur_pelt", 5 ] [ "fastener_large", 1 ] ],
+    "using": [ [ "sewing_standard", 38 ], [ "fabric_fur_pelt", 5 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
