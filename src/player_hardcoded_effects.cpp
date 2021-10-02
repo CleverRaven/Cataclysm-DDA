@@ -130,7 +130,7 @@ static void eff_fun_spores( Character &u, effect &it )
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
             x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
-        u.add_effect( effect_fungus, 1_turns, true );
+        u.add_effect( effect_fungus, 15_minutes );
     }
 }
 static void eff_fun_antifungal( Character &u, effect & )
@@ -157,9 +157,9 @@ static void eff_fun_fungus( Character &u, effect &it )
     // clock the progress
     // hard reverse the clock if you resist fungus
     if( resists ) {
-        it.mod_duration( -5_turns );
+        u.add_effect( effect_fungus, -1 * 4_seconds );
     } else {
-        it.mod_duration( 1_turns );
+        u.add_effect( effect_fungus, 2_seconds );
     }
 
     switch( intense ) {
@@ -178,7 +178,7 @@ static void eff_fun_fungus( Character &u, effect &it )
         case 2:
             // 6-12 hours of worse symptoms
             if( one_in( 3600 + bonus * 18 ) ) {
-                u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
+                u.add_msg_if_player( m_bad, _( "You spasm suddenly!" ) );
                 u.moves -= 100;
                 u.apply_damage( nullptr, bodypart_id( "torso" ), resists ? rng( 1, 5 ) : 5 );
             }
@@ -198,7 +198,7 @@ static void eff_fun_fungus( Character &u, effect &it )
         case 3:
             // Permanent symptoms, 12+ hours
             if( one_in( 6000 + bonus * 48 ) ) {
-                u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
+                u.add_msg_player_or_npc( m_bad, _( "You vomit thousands of live spores!" ),
                                          _( "<npcname> vomits thousands of live spores!" ) );
 
                 u.moves = -500;
@@ -261,7 +261,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
-    bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ), it.get_bp() );
     if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
@@ -309,7 +309,7 @@ static void eff_fun_hallu( Character &u, effect &it )
             }
         }
         if( u.is_npc() && one_in( 1200 ) ) {
-            static const std::array<std::string, 4> npc_hallu = {{
+            static const std::array<std::string, 4> npc_hallu = { {
                     translate_marker( "\"I think it's starting to kick in.\"" ),
                     translate_marker( "\"Oh God, what's happening?\"" ),
                     translate_marker( "\"Of course… it's all fractals!\"" ),
@@ -388,7 +388,7 @@ struct temperature_effect {
 static void eff_fun_cold( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = { {
             { { body_part_head, 3 }, { 0, 0, 3, 0, to_translation( "Your thoughts are unclear." ), 2400, translation() } },
             { { body_part_head, 2 }, { 0, 0, 1, 0, translation(), 0, translation() } },
             { { body_part_mouth, 3 }, { 0, 0, 0, 3, to_translation( "Your face is stiff from the cold." ), 2400, translation() } },
@@ -422,7 +422,7 @@ static void eff_fun_cold( Character &u, effect &it )
 static void eff_fun_hot( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = { {
             { { body_part_head, 3 }, { 0, 0, 0, 0, to_translation( "Your head is pounding from the heat." ), 2400, translation() } },
             { { body_part_head, 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
             { { body_part_torso, 3 }, { 2, 0, 0, 0, to_translation( "You are sweating profusely." ), 2400, translation() } },
@@ -464,7 +464,7 @@ static void eff_fun_hot( Character &u, effect &it )
 static void eff_fun_frostbite( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = { {
             { { body_part_hand_l, 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "You have trouble grasping with your numb fingers." ) } },
             { { body_part_hand_r, 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "You have trouble grasping with your numb fingers." ) } },
             { { body_part_foot_l, 2 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
@@ -599,7 +599,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
     }
     if( one_in( 10000 ) ) {
         if( !u.has_trait( trait_M_IMMUNE ) ) {
-            u.add_effect( effect_fungus, 1_turns, true );
+            u.add_effect( effect_fungus, 1_hours );
         } else {
             u.add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
         }
@@ -757,7 +757,7 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
                     break;
                 case 4:
                     warning = _( "You are sweating profusely, but you feel cold." );
-                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
+                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), -1000 * intense );
                     u.mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
                     u.mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
                     u.mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
@@ -1128,7 +1128,7 @@ void Character::hardcoded_effects( effect &it )
         return;
     }
     using hc_effect_fun = std::function<void( Character &, effect & )>;
-    static const std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
+    static const std::map<efftype_id, hc_effect_fun> hc_effect_map = { {
             { effect_onfire, eff_fun_onfire },
             { effect_spores, eff_fun_spores },
             { effect_fungus, eff_fun_fungus },
@@ -1177,7 +1177,7 @@ void Character::hardcoded_effects( effect &it )
             // Choose how many insects; more for large characters
             ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
             int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
-            apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
+            apply_damage( nullptr, bp, rng( 2, 4 ) * num_insects );
             // Figure out where they may be placed
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
@@ -1386,7 +1386,7 @@ void Character::hardcoded_effects( effect &it )
          *    0 health - 63.2%
          *  200 health - 65.6%
          */
-        if( dur % 10_turns == 0_turns )  {
+        if( dur % 10_turns == 0_turns ) {
             int recover_factor = 100;
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
@@ -1438,7 +1438,7 @@ void Character::hardcoded_effects( effect &it )
         bool recovered = false;
         // Recovery chance, use binomial distributions if balancing here.
         // See "bite" for balancing notes on this.
-        if( dur % 10_turns == 0_turns )  {
+        if( dur % 10_turns == 0_turns ) {
             int recover_factor = 100;
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
