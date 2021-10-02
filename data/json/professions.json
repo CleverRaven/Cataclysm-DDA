@@ -4068,16 +4068,7 @@
     "proficiencies": [ "prof_electromagnetics" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "technician_shirt_gray",
-          "cleansuit",
-          "socks",
-          "gloves_rubber",
-          "tool_belt",
-          "glasses_safety",
-          "thermometer"
-        ],
+        "items": [ "pants", "technician_shirt_gray", "cleansuit", "socks", "gloves_rubber", "tool_belt", "glasses_safety", "camera_bag" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -4086,7 +4077,9 @@
             "ammo-item": "battery",
             "charges": 50,
             "container-item": "rad_monitor"
-          }
+          },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" }
         ]
       },
       "male": [ "boxer_shorts" ],
