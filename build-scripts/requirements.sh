@@ -54,9 +54,7 @@ fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
 if [ -n "${MXE_TARGET}" ]; then
-  sudo dpkg --add-architecture i386
-  sudo apt update
-  $travis_retry sudo apt-get --yes install wine wine32
+  $travis_retry sudo apt-get --yes install wine64
 
   set +e
   retry=0
