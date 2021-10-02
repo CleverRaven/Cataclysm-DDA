@@ -1342,7 +1342,7 @@
     "time": "3 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ],
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ]
   },
   {
     "result": "sweater",
