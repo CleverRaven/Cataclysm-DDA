@@ -1552,6 +1552,7 @@
     "description": "Test hacksaw which uses batteries.",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "use_action": [ [ "HACKSAW", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
