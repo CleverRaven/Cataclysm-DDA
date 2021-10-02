@@ -129,6 +129,13 @@
         ]
       },
       {
+        "sentinel": "first_meeting_effects",
+        "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": [
+          { "u_add_var": "rubik_met", "type": "timer", "context": "first_meeting", "time": true }
+        ]
+      },
+      {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
         "condition": {
           "and": [
@@ -139,6 +146,15 @@
         "effect": [
           { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] },
           { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      },
+      {
+        "//": "Every week, add some stuff to the shop based on your current trust.",
+        "condition": {
+          { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+        },
+        "effect": [
+          { "mapgen_update": "tier2_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" }
         ]
       }
     ],
