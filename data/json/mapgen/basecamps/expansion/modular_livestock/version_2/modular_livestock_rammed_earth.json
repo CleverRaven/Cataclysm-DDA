@@ -45,7 +45,10 @@
     "update_mapgen_id": "fbml_2_shack_rammed_earth",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_shack_rammed_earth" ], "x": 15, "y": 18 }, { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_shack_rammed_earth" ], "x": 15, "y": 18 },
+        { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19 }
+      ]
     }
   },
   {
@@ -70,7 +73,10 @@
     "update_mapgen_id": "fbml_2_stall_1_rammed_earth",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_stall_1_rammed_earth" ], "x": 0, "y": 18 }, { "chunks": [ "fbml_2_stall_1" ], "x": 3, "y": 19 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_1_rammed_earth" ], "x": 0, "y": 18 },
+        { "chunks": [ "fbml_2_stall_1" ], "x": 3, "y": 19 }
+      ]
     }
   },
   {
@@ -120,7 +126,10 @@
     "update_mapgen_id": "fbml_2_stall_3_rammed_earth",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_stall_3_rammed_earth" ], "x": 0, "y": 10 }, { "chunks": [ "fbml_2_stall_3" ], "x": 3, "y": 11 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_3_rammed_earth" ], "x": 0, "y": 10 },
+        { "chunks": [ "fbml_2_stall_3" ], "x": 3, "y": 11 }
+      ]
     }
   },
   {
@@ -128,7 +137,10 @@
     "update_mapgen_id": "fbml_2_stall_4_rammed_earth",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_stall_2_4_rammed_earth" ], "x": 0, "y": 6 }, { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_rammed_earth" ], "x": 0, "y": 6 },
+        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7 }
+      ]
     }
   },
   {
