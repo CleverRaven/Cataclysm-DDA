@@ -21,10 +21,10 @@
     "fun": 4
   },
   {
-    "id": "sourdough_young",
+    "id": "sourdough_young_in_glass_jar",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "juvenile sourdough starter" },
+    "name": { "str": "juvenile sourdough starter in glass jar" },
     "description": "This jar contains a floury paste that is slowly going bad.  Someday it will be sourdough.",
     "weight": "52 g",
     "volume": "250 ml",
@@ -36,7 +36,7 @@
     "symbol": "%",
     "color": "white",
     "use_action": {
-      "target": "sourdough_starter",
+      "target": "sourdough_starter_in_glass_jar",
       "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
       "moves": 50,
       "type": "delayed_transform",
@@ -45,10 +45,34 @@
     }
   },
   {
-    "id": "sourdough_split",
+    "id": "sourdough_young_in_clay_canister",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "freshly fed sourdough starter" },
+    "name": { "str": "juvenile sourdough starter in clay canister" },
+    "description": "This canister contains a floury paste that is slowly going bad.  Someday it will be sourdough.",
+    "weight": "52 g",
+    "volume": "250 ml",
+    "price": 10,
+    "price_postapoc": 10,
+    "bashing": 8,
+    "material": [ "clay", "wheat" ],
+    "looks_like": "bowl_clay",
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "sourdough_starter_in_clay_canister",
+      "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 518400,
+      "not_ready_msg": "You've been caring for your starter for a while, but it's going to need longer before you can do anything tasty with it."
+    }
+  },
+  {
+    "id": "sourdough_split_in_glass_jar",
+    "type": "GENERIC",
+    "category": "food",
+    "name": { "str": "freshly fed sourdough starter in glass jar" },
     "description": "This jar contains a floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
     "weight": "52 g",
     "volume": "250 ml",
@@ -60,7 +84,7 @@
     "symbol": "%",
     "color": "white",
     "use_action": {
-      "target": "sourdough_starter",
+      "target": "sourdough_starter_in_glass_jar",
       "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
       "moves": 50,
       "type": "delayed_transform",
@@ -69,10 +93,34 @@
     }
   },
   {
-    "id": "sourdough_starter",
+    "id": "sourdough_split_in_clay_canister",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "sourdough starter" },
+    "name": { "str": "freshly fed sourdough starter in clay canister" },
+    "description": "This canister contains a floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
+    "weight": "52 g",
+    "volume": "250 ml",
+    "price": 10,
+    "price_postapoc": 10,
+    "bashing": 8,
+    "material": [ "clay", "wheat" ],
+    "looks_like": "bowl_clay",
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "sourdough_starter_in_clay_canister",
+      "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 86400,
+      "not_ready_msg": "The starter isn't quite ready to go."
+    }
+  },
+  {
+    "id": "sourdough_starter_in_glass_jar",
+    "type": "GENERIC",
+    "category": "food",
+    "name": { "str": "sourdough starter in glass jar" },
     "description": "This jar contains a precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
     "weight": "52 g",
     "looks_like": "jar_glass_sealed",
@@ -81,6 +129,22 @@
     "price_postapoc": 10,
     "bashing": 8,
     "material": [ "glass", "wheat" ],
+    "symbol": "%",
+    "color": "white"
+  },
+  {
+    "id": "sourdough_starter_in_clay_canister",
+    "type": "GENERIC",
+    "category": "food",
+    "name": { "str": "sourdough starter in clay canister" },
+    "description": "This canister contains a precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
+    "weight": "52 g",
+    "looks_like": "bowl_clay",
+    "volume": "250 ml",
+    "price": 50,
+    "price_postapoc": 10,
+    "bashing": 8,
+    "material": [ "clay", "wheat" ],
     "symbol": "%",
     "color": "white"
   },

@@ -2,22 +2,43 @@
   {
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_starter",
+    "result": "sourdough_starter_in_glass_jar",
     "time": "1 m",
     "components": [ [ [ "jar_glass_sealed", 1 ] ] ]
   },
   {
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_split",
+    "result": "sourdough_starter_in_clay_canister",
+    "time": "1 m",
+    "components": [ [ [ "clay_canister", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_split_in_glass_jar",
     "time": "1 m",
     "components": [ [ [ "jar_glass_sealed", 1 ] ] ]
   },
   {
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_young",
+    "result": "sourdough_split_in_clay_canister",
+    "time": "1 m",
+    "components": [ [ [ "clay_canister", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_young_in_glass_jar",
     "time": "1 m",
     "components": [ [ [ "jar_glass_sealed", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_young_in_clay_canister",
+    "time": "1 m",
+    "components": [ [ [ "clay_canister", 1 ] ] ]
   }
 ]
