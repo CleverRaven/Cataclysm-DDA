@@ -4062,7 +4062,7 @@
     "type": "profession",
     "id": "paranormal_investigator",
     "name": "Paranormal Investigator",
-    "description": "You were dismissed from your position as a parapsychology professor at the local university and started your own business as a paranormal invesigator.  Your former colleagues didn't approve of your research, but it looks like it's paying off now.",
+    "description": "You were dismissed from your position as a parapsychology professor at the local university and started your own business as a paranormal investigator.  Your former colleagues didn't approve of your research, but it looks like it's paying off now.",
     "points": 2,
     "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
     "proficiencies": [ "prof_electromagnetics" ],
