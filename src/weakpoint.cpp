@@ -19,11 +19,8 @@
 #include "mtype.h"
 #include "rng.h"
 
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
 
