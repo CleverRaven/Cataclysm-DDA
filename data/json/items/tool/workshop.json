@@ -88,6 +88,36 @@
     ]
   },
   {
+    "type": "GENERIC",
+    "id": "grinder_cutoff_disc",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "cutoff disc" },
+    "description": "This is a manufactured disc for an angle grinder, with a thin abrasive edge designed for cutting metal.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "to_hit": -4
+  },
+  {
+    "type": "GENERIC",
+    "id": "grinder_metal_grinding_disc",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "metal grinding disc" },
+    "description": "This is a manufactured disc for an angle grinder, with a thick abrasive surface designed for grinding and shaping metal.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "to_hit": -4
+  },
+  {
     "id": "brick_kiln",
     "type": "TOOL",
     "name": { "str": "brick kiln" },
