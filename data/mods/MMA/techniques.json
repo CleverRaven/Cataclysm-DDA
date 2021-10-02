@@ -259,21 +259,6 @@
   },
   {
     "type": "technique",
-    "id": "mma_tec_setting_sun_counter",
-    "name": "Fool's Strike",
-    "messages": [ "You completely fool %s and strike back", "<npcname> completely fools %s and strike back" ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
-  },
-  {
-    "type": "technique",
     "id": "mma_tec_setting_sun_stun",
     "name": "Hydra Slaying Strike",
     "messages": [ "You interrupt %s with a perfectly aimed strike", "<npcname> interrupt %s with a perfectly aimed strike" ],

@@ -426,7 +426,7 @@
         "name": "Tactical Retreat",
         "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 Blocking Effectiveness, -1 Block attempts, +1.0 Dodge skill, blocked damaged increased by 50% of Strength.\nPrevents \"High Round Strike and Hook\" technique.\nLasts 2 turns.",
         "melee_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 2,
         "bonus_blocks": -1,
         "flat_bonuses": [
           { "stat": "block_effectiveness", "scale": -2.0 },
@@ -665,16 +665,16 @@
     "onblock_buffs": [
       {
         "id": "buff_swordsmanship_onblock",
-        "name": "Conserve Momentum",
+        "name": "Mastercut",
         "description": "You parry and return the attack with greater vigor!\n\n+10% damage, -10 move cost\nLasts 1 turn.",
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "buff_duration": 1,
         "mult_bonuses": [
           { "stat": "movecost", "scale": 0.9 },
-          { "stat": "damage", "type": "bash", "scale": 1.15 },
-          { "stat": "damage", "type": "cut", "scale": 1.15 },
-          { "stat": "damage", "type": "stab", "scale": 1.15 }
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
         ]
       }
     ],
@@ -1003,7 +1003,7 @@
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "crit_chance", "scale": 5.0 } ]
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
@@ -1255,11 +1255,11 @@
       {
         "id": "buff_tai_chi_onpause",
         "name": "Cross Hands",
-        "description": "By taking a moment to prepare yourself, you are able to use your entire body fully for attacking and defending.\n\n+3 Block Effectiveness, blocked damage reduced by 50% of Perception.\nEnables \"Palm Strike\" and \"Double Palm Strike\" techniques.\nLasts 3 turns.",
+        "description": "By taking a moment to prepare yourself, you are able to use your entire body fully for attacking and defending.\n\n+2 Block Effectiveness, blocked damage reduced by 50% of Perception.\nEnables \"Palm Strike\" and \"Double Palm Strike\" techniques.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 3.0 }, { "stat": "block", "scaling-stat": "per", "scale": 0.5 } ]
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 }, { "stat": "block", "scaling-stat": "per", "scale": 0.5 } ]
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_palm", "tec_taichi_counter", "tec_taichi_precise" ]
