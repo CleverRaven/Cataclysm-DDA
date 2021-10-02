@@ -33,7 +33,7 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
-static const flag_id flag_HIDDEN( "HIDDEN" );
+static const flag_id json_flag_HIDDEN( "HIDDEN" );
 
 namespace
 {
@@ -621,7 +621,7 @@ void Character::sort_armor()
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
-            if( tmp_worn[itemindex]->has_flag( flag_HIDDEN ) ) {
+            if( tmp_worn[itemindex]->has_flag( json_flag_HIDDEN ) ) {
                 //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
                 wprintz( w_sort_left, c_cyan, _( " H" ) );
             }
@@ -819,10 +819,10 @@ void Character::sort_armor()
                 }
             }
         } else if( action == "TOGGLE_CLOTH" ) {
-            if( !tmp_worn[leftListIndex]->has_flag( flag_HIDDEN ) ) {
-                tmp_worn[leftListIndex]->set_flag( flag_HIDDEN );
+            if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
+                tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
             } else {
-                tmp_worn[leftListIndex]->unset_flag( flag_HIDDEN );
+                tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
             }
 
         } else if( action == "SORT_ARMOR" ) {
