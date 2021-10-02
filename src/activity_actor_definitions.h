@@ -308,7 +308,6 @@ class hacksaw_activity_actor : public activity_actor
     private:
         tripoint target;
         item_location tool;
-        std::string method = "HACKSAW";
 
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {

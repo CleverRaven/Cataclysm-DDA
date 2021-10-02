@@ -1052,6 +1052,8 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    std::string method = "HACKSAW";
+
     if( tool->ammo_sufficient( &who, method ) ) {
         int ammo_consumed = tool->ammo_required();
         std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
