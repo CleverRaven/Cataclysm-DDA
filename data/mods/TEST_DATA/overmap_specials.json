@@ -244,7 +244,7 @@
         {
           "name": "subway_chunk_at_-2",
           "chunk": [
-            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
+            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ], "rot": "north" },
             { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
             { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
           ],
