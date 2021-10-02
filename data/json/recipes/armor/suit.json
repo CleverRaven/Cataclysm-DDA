@@ -1456,7 +1456,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "book_learn": [ [ "tailor_japanese", 3 ] ],
-    "using": [ [ "sewing_standard", 18 ] [ "fabric_standard_nostretch", 16 ] ]
+    "using": [ [ "sewing_standard", 18 ], [ "fabric_standard_nostretch", 16 ] ]
   },
   {
     "result": "zentai",
@@ -1468,8 +1468,7 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 36 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ],
-    "components": [ [ "lycra_patch", 34 ], [ "sheet_lycra", 34 ] ]
+    "using": [ [ "sewing_standard", 36 ], [ "fabric_lycra", 34 ] ],
+    "proficiencies": [ { "proficiency": "prof_elastics" } ]
   }
 ]
