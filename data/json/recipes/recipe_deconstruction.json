@@ -689,6 +689,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "case_cigar",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 s",
+    "components": [ [ [ "leather", 1 ] ], [ [ "splinter", 1 ] ] ]
+  },
+  {
     "result": "broken_EMP_hack",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

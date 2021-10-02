@@ -3,6 +3,7 @@
 #define CATA_SRC_WEAKPOINT_H
 
 #include <array>
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -16,20 +17,32 @@ class JsonObject;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
+    enum class attack_type : int {
+        NONE, // Unusual damage instances, such as falls, spells, and effects.
+        MELEE_BASH, // Melee bludgeoning attacks
+        MELEE_CUT, // Melee slashing attacks
+        MELEE_STAB, // Melee piercing attacks
+        PROJECTILE, // Ranged projectile attacks, including throwing weapons and guns
+
+        NUM,
+    };
+
     // The source of the attack.
     const Creature *source;
     // The target of the attack.
     const Creature *target;
     // The weapon used to make the attack.
     const item *weapon;
-    // Weather the attack is a melee attack.
-    bool is_melee;
+    // The type of the attack.
+    attack_type type;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
     float wp_skill;
 
     weakpoint_attack();
+    // Returns the attack type of a melee attack.
+    static attack_type type_of_melee_attack( const damage_instance &damage );
 };
 
 // An effect that a weakpoint can cause.
@@ -55,6 +68,14 @@ struct weakpoint_effect {
     void load( const JsonObject &jo );
 };
 
+struct weakpoint_difficulty {
+    std::array<float, static_cast<int>( weakpoint_attack::attack_type::NUM )> difficulty;
+
+    explicit weakpoint_difficulty( float default_value );
+    float of( const weakpoint_attack &attack ) const;
+    void load( const JsonObject &jo );
+};
+
 struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
     std::string id;
@@ -70,12 +91,14 @@ struct weakpoint {
     std::array<float, static_cast<int>( damage_type::NUM )> damage_mult;
     // Critical damage multiplers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
-    // Difficulty to hit the weak point.
-    float difficulty = -10.0f;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
+    // Constant coverage multipliers, depending on the attack type.
+    weakpoint_difficulty coverage_mult;
+    // Difficulty gates, varying by the attack type.
+    weakpoint_difficulty difficulty;
 
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.

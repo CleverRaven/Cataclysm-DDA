@@ -1052,8 +1052,16 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
-    if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+    std::string method = "HACKSAW";
+
+    if( tool->ammo_sufficient( &who, method ) ) {
+        int ammo_consumed = tool->ammo_required();
+        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        if( iter != tool->type->ammo_scale.end() ) {
+            ammo_consumed *= iter->second;
+        }
+
+        tool->ammo_consume( ammo_consumed, tool.position(), &who );
         sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 1_minutes ) ) {
             //~ Sound of a metal sawing tool at work!
