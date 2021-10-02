@@ -886,7 +886,7 @@
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
+    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ], [ "HACKSAW", 0] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
