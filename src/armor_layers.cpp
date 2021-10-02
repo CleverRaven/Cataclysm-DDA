@@ -580,8 +580,12 @@ void Character::sort_armor()
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press [<color_yellow>%s</color>] for help.  "
+                         _( "[<color_yellow>%s</color>] Hide sprite.  "
+                            "[<color_yellow>%s</color>] Change side.  "
+                            "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
+                         ctxt.get_desc( "TOGGLE_CLOTH" ),
+                         ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
