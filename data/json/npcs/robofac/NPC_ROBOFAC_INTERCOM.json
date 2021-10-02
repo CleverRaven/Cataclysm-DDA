@@ -188,7 +188,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the alien robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else. You'll need some experience in electronics or mechanics to disable it.",
+    "description": "Disable and retrieve the alien robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "goal_condition": { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
