@@ -52,9 +52,11 @@
         "name": "the belly",
         "armor_mult": { "bullet": 0.5 },
         "armor_penalty": { "bullet": 25 },
-        "coverage": 25,
+        "coverage": 50,
+        "coverage_mult": { "all": 0.5 },
         "required_effects": [ "stunned" ]
       },
+      { "name": "impossible to hit", "coverage": 100, "difficulty": { "all": 100.0 } },
       {
         "name": "the knee",
         "armor_mult": { "bullet": 0.0 },
