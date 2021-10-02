@@ -92,7 +92,7 @@ int cash_to_favor( const npc &, int cash );
 
 std::list<item> transfer_items( std::vector<item_pricing> &stuff, Character &giver,
                                 Character &receiver,
-                                std::list<item_location *> &from_map, bool npc_gives );
+                                std::list<item_location> &from_map, bool npc_gives );
 double net_price_adjustment( const Character &buyer, const Character &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
