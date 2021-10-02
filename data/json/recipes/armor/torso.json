@@ -311,7 +311,7 @@
     "time": "10 h 10 m",
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "cuirass_scrap",
