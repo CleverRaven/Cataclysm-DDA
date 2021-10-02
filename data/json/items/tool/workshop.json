@@ -377,6 +377,26 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "tin_snips",
+    "type": "TOOL",
+    "name": { "str_sp": "tin snips" },
+    "description": "This is a pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
+    "//": "Loosely based on Stanley FATMAX straight cut 9-7/8-inch aviation snip",
+    "weight": "400 g",
+    "volume": "200 ml",
+    "longest_side": "20 cm",
+    "price": 2500,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
     "id": "hammer",
     "type": "TOOL",
     "name": { "str": "hammer" },
