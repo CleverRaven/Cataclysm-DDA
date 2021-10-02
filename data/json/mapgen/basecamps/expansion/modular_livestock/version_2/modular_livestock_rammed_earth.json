@@ -101,7 +101,10 @@
     "update_mapgen_id": "fbml_2_stall_2_rammed_earth",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_stall_2_4_rammed_earth" ], "x": 0, "y": 14 }, { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_rammed_earth" ], "x": 0, "y": 14 },
+        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15 }
+      ]
     }
   },
   {
