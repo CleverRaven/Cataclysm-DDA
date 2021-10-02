@@ -574,7 +574,7 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "tailor_japanese", 5 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 20 ] ],
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 20 ] ]
   },
   {
     "result": "hoodie",
