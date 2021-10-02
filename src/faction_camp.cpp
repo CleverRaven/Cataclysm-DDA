@@ -1380,6 +1380,15 @@ void basecamp::get_available_missions( mission_data &mission_key )
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
                                     base_camps::base_dir, entry, avail );
         }
+    } else {
+        // Unless maximum expansions have been reached, show "Expand Base",
+        // but in a disabled state, with a message about what is required.
+        if( directions.size() < 8 ) {
+            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_expansion" ];
+            entry = _( "You will need more beds before you can expand your base." );
+            mission_key.add_return( miss_info.miss_id, miss_info.desc.translated(),
+                                    base_camps::base_dir, entry, false );
+        }
     }
 
     if( !by_radio ) {
