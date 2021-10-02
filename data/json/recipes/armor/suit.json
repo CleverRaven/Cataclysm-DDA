@@ -649,7 +649,7 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ], [ "fabric_felt", 18 ] ],
+    "using": [ [ "sewing_standard", 18 ], [ "fabric_felt", 18 ] ]
   },
   {
     "result": "entry_suit",
