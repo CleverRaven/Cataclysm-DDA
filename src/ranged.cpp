@@ -1167,6 +1167,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     weakpoint_attack wp_attack;
     wp_attack.weapon = &to_throw;
+    wp_attack.is_thrown = true;
     wp_attack.wp_skill = throw_weakpoint_skill();
     dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
                                            this, nullptr, wp_attack );

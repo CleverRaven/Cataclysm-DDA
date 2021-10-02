@@ -159,6 +159,7 @@ weakpoint_attack::weakpoint_attack()  :
     target( nullptr ),
     weapon( &null_item_reference() ),
     type( attack_type::NONE ),
+    is_thrown( false ),
     is_crit( false ),
     wp_skill( 0.0f ) {}
 

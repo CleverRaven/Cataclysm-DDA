@@ -35,6 +35,8 @@ struct weakpoint_attack {
     const item *weapon;
     // The type of the attack.
     attack_type type;
+    // Whether the attack from a thrown object.
+    bool is_thrown;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
