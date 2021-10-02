@@ -1820,11 +1820,11 @@ struct mutable_overmap_special_data {
                 return string_format( "%s: %s", io::enum_to_string( dir_join.first ),
                                       dir_join.second );
             } );
-            DebugLog( D_WARNING, D_MAIN ) <<
-                                          string_format( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
-                                                  "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
-                                                  parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
-                                                  join( descriptions, "\n" ) );
+
+            debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
+                      "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
+                      parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
+                      join( descriptions, "\n" ) );
 
             om.add_note(
                 p, string_format(
