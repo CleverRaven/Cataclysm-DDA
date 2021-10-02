@@ -36,6 +36,8 @@ jobs:
           wget ${{ github.event.pull_request.patch_url }} -O ~/pr.patch
       - name: "Apply pull request patch"
         run: |
+          git config user.email "TEST@localhost"
+          git config user.name TEST
           git am ~/pr.patch
       - name: "Generate translation template of pull request branch"
         run: |
