@@ -90,7 +90,7 @@ bool weakpoint_families::practice( Character &learner, const time_duration &amou
 
 bool weakpoint_families::practice_hit( Character &learner ) const
 {
-    return practice( learner, time_duration::from_seconds( 10 ) );
+    return practice( learner, time_duration::from_seconds( 2 ) );
 }
 
 bool weakpoint_families::practice_kill( Character &learner ) const
