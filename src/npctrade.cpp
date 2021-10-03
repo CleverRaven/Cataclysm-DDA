@@ -43,7 +43,7 @@ static const skill_id skill_speech( "speech" );
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
 std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &giver,
-        Character &receiver, std::list<item_location> &from_map, bool npc_gives )
+        Character &receiver, std::list<item_location *> &from_map, bool npc_gives )
 {
     // escrow is used only when the npc is the destination. Item transfer to the npc is deferred.
     const bool use_escrow = !npc_gives;
@@ -83,7 +83,7 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
     }
     sorted_stuff.insert( sorted_stuff.begin(), unsorted_stuff.begin(), unsorted_stuff.end() );
 
-    for( item_pricing ip : sorted_stuff ) {
+    for( item_pricing &ip : sorted_stuff ) {
 
         if( ip.loc.get_item() == nullptr ) {
             DebugLog( D_ERROR, D_NPC ) << "Null item being traded in npc_trading::transfer_items";
@@ -137,7 +137,7 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
             } else {
                 ip.loc.get_item()->set_var( "trade_amount", 1 );
             }
-            from_map.emplace_back( ip.loc );
+            from_map.push_back( &ip.loc );
         }
     }
     return escrow;
@@ -809,7 +809,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     if( traded ) {
         int practice = 0;
 
-        std::list<item_location> from_map;
+        std::list<item_location *> from_map;
 
         std::list<item> escrow;
         avatar &player_character = get_avatar();
@@ -821,23 +821,23 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
             np.i_add( i, true, nullptr, nullptr, true, false );
         }
 
-        for( item_location &loc_ptr : from_map ) {
+        for( item_location *loc_ptr : from_map ) {
             if( !loc_ptr ) {
                 continue;
             }
-            item *it = loc_ptr.get_item();
+            item *it = loc_ptr->get_item();
             if( !it ) {
                 continue;
             }
             if( it->has_var( "trade_charges" ) && it->count_by_charges() ) {
                 it->charges -= static_cast<int>( it->get_var( "trade_charges", 0 ) );
                 if( it->charges <= 0 ) {
-                    loc_ptr.remove_item();
+                    loc_ptr->remove_item();
                 } else {
                     it->erase_var( "trade_charges" );
                 }
             } else if( it->has_var( "trade_amount" ) ) {
-                loc_ptr.remove_item();
+                loc_ptr->remove_item();
             }
         }
 
