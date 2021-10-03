@@ -1539,7 +1539,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ [ "sewing_standard", 4 ], [ "fabric_standard_nostretch", 5 ] ] ]
+    "using": [ [ "sewing_standard", 4 ], [ "fabric_standard_nostretch", 5 ] ]
   },
   {
     "result": "tshirt",
