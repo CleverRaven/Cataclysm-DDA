@@ -22,13 +22,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install python3-pip gettext
           sudo pip3 install polib
-      - name: "Checkout pull request branch"
-        uses: actions/checkout@v2
-      - name: "Generate translation template of pull request branch"
-        run: |
-          rm -f lang/po/cataclysm-dda.pot
-          ./lang/update_pot.sh
-          cp lang/po/cataclysm-dda.pot ~/pull-request.pot
       - name: "Checkout master branch"
         uses: actions/checkout@v2
         with:
@@ -38,8 +31,19 @@ jobs:
           rm -f lang/po/cataclysm-dda.pot
           ./lang/update_pot.sh
           cp lang/po/cataclysm-dda.pot ~/master.pot
-      - name: "Checkout pull request branch"
-        uses: actions/checkout@v2
+      - name: "Fetch pull request patches"
+        run: |
+          wget ${{ github.event.pull_request.patch_url }} -O ~/pr.patch
+      - name: "Apply pull request patch"
+        run: |
+          git config user.email "TEST@localhost"
+          git config user.name TEST
+          git am ~/pr.patch
+      - name: "Generate translation template of pull request branch"
+        run: |
+          rm -f lang/po/cataclysm-dda.pot
+          ./lang/update_pot.sh
+          cp lang/po/cataclysm-dda.pot ~/pull-request.pot
       - name: "List text changes"
         run: |
           python3 ./tools/pot_diff.py ~/master.pot ~/pull-request.pot
