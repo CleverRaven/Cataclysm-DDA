@@ -75,7 +75,7 @@ bool weakpoint_families::practice( Character &learner, const time_duration &amou
 {
     bool learned = false;
     for( const weakpoint_family &family : families ) {
-        learned |= learner.practice_proficiency( family.proficiency, amount );
+        learned = learned || learner.practice_proficiency( family.proficiency, amount );
     }
     return learned;
 }
@@ -92,11 +92,8 @@ bool weakpoint_families::practice_kill( Character &learner ) const
 
 bool weakpoint_families::practice_disect( Character &learner ) const
 {
-    bool learned = practice( learner, time_duration::from_seconds( 60 ) );
-    if( learned ) {
-        learner.add_msg_if_player( m_good, _( "You carefully record the creature's vulnerabilities." ) );
-    }
-    return learned;
+    learner.add_msg_if_player( m_good, _( "You carefully record the creature's vulnerabilities." ) );
+    return practice( learner, time_duration::from_seconds( 60 ) );
 }
 
 float weakpoint_families::modifier( const Character &attacker ) const
