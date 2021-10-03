@@ -64,9 +64,9 @@ float weakpoint_family::modifier( const Character &attacker ) const
 
 void weakpoint_family::load( const JsonValue &jsin )
 {
-    if ( jsin.test_string() ) {
+    if( jsin.test_string() ) {
         id = jsin.get_string();
-        proficiency = proficiency_id(id);
+        proficiency = proficiency_id( id );
     } else {
         JsonObject jo = jsin.get_object();
         assign( jo, "id", id );
