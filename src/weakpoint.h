@@ -78,6 +78,22 @@ struct weakpoint_difficulty {
     void load( const JsonObject &jo );
 };
 
+struct weakpoint_family {
+    // ID of the family. Equal to the proficiency, if not provided.
+    std::string id;
+    // Name of proficiency corresponding to the family.
+    proficiency_id proficiency;
+    // The skill bonus for having the proficiency.
+    float bonus;
+    // The skill penalty for not having the proficiency.
+    float penalty;
+
+    void load( const JsonObject &jo );
+};
+
+void load_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output );
+void remove_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output );
+
 struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
     std::string id;

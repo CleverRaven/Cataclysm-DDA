@@ -54,6 +54,51 @@ float Character::throw_weakpoint_skill()
     return skill + stat;
 }
 
+void weakpoint_family::load( const JsonObject &jo )
+{
+    assign( jo, "id", id );
+    assign( jo, "proficiency", proficiency );
+    assign( jo, "bonus", bonus );
+    assign( jo, "penalty", penalty );
+    if( !jo.has_string( "id" ) ) {
+        id = static_cast<std::string>( proficiency );
+    }
+}
+
+void load_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output )
+{
+    for( const JsonObject jo : ja ) {
+        weakpoint_family tmp;
+        tmp.load( jo );
+
+        auto it = std::find_if( output.begin(), output.end(),
+        [&]( const weakpoint_family & wf ) {
+            return wf.id == tmp.id;
+        } );
+        if( it != output.end() ) {
+            output.erase( it );
+        }
+
+        output.push_back( std::move( tmp ) );
+    }
+}
+
+void remove_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output )
+{
+    for( const JsonObject jo : ja ) {
+        weakpoint_family tmp;
+        tmp.load( jo );
+
+        auto it = std::find_if( output.begin(), output.end(),
+        [&]( const weakpoint_family & wf ) {
+            return wf.id == tmp.id;
+        } );
+        if( it != output.end() ) {
+            output.erase( it );
+        }
+    }
+}
+
 weakpoint_difficulty::weakpoint_difficulty( float default_value )
 {
     difficulty.fill( default_value );
@@ -233,7 +278,7 @@ void weakpoint::load( const JsonObject &jo )
     }
 
     // Set the ID to the name, if not provided.
-    if( id.empty() ) {
+    if( !jo.has_string( "id" ) ) {
         id = name;
     }
 }
