@@ -2952,30 +2952,31 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                     }
                 }
                 if( piece.second.active ) {
+                    const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
                     info.emplace_back( "ARMOR",
                                        string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
-                                       iteminfo::no_newline | iteminfo::lower_is_better,
+                                       ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
                                        piece.second.portion.encumber );
 
-                    if( piece.second.portion.encumber != piece.second.portion.max_encumber ) {
+                    if( has_max ) {
                         info.emplace_back( "ARMOR", when_full_message, "",
-                                           iteminfo::no_newline | iteminfo::lower_is_better,
+                                           iteminfo::no_flags | iteminfo::lower_is_better,
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", space + _( "Coverage:" ) + space, "",
+                    info.emplace_back( "ARMOR", _( "Coverage:" ) + space, "",
                                        iteminfo::no_newline,
                                        piece.second.portion.coverage );
                     //~ (M)elee coverage
-                    info.emplace_back( "ARMOR", space + _( "Coverage (M):" ) + space, "",
+                    info.emplace_back( "ARMOR", space + _( "(M):" ) + space, "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_melee );
                     //~ (R)anged coverage
-                    info.emplace_back( "ARMOR", space + _( "Coverage (R):" ) + space, "",
+                    info.emplace_back( "ARMOR", space + _( "(R):" ) + space, "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_ranged );
                     //~ (V)itals coverage
-                    info.emplace_back( "ARMOR", space + _( "Coverage (V):" ) + space, "",
+                    info.emplace_back( "ARMOR", space + _( "(V):" ) + space, "",
                                        iteminfo::no_flags,
                                        piece.second.portion.cover_vitals );
                 }
@@ -2984,18 +2985,18 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
     } else if( is_gun() && has_flag( flag_IS_ARMOR ) ) {
         //right now all eligible gunmods (shoulder_strap, belt_clip) have the is_armor flag and use the torso
         info.emplace_back( "ARMOR", _( "Torso:" ) + space, "",
-                           iteminfo::no_newline | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
+                           iteminfo::no_flags | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
 
-        info.emplace_back( "ARMOR", space + _( "Coverage:" ) + space, "",
+        info.emplace_back( "ARMOR", _( "Coverage:" ) + space, "",
                            iteminfo::no_newline, get_coverage( body_part_torso.id() ) );
         //~ (M)elee coverage
-        info.emplace_back( "ARMOR", space + _( "Coverage (M):" ) + space, "",
+        info.emplace_back( "ARMOR", space + _( "(M):" ) + space, "",
                            iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_MELEE ) );
         //~ (R)anged coverage
-        info.emplace_back( "ARMOR", space + _( "Coverage (R):" ) + space, "",
+        info.emplace_back( "ARMOR", space + _( "(R):" ) + space, "",
                            iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_RANGED ) );
         //~ (V)itals coverage
-        info.emplace_back( "ARMOR", space + _( "Coverage (V):" ) + space, "",
+        info.emplace_back( "ARMOR", space + _( "(V):" ) + space, "",
                            iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_VITALS ) );
     }
 }
