@@ -145,6 +145,7 @@ void kill_tracker::notify( const cata::event &e )
                 const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 kills[victim_type]++;
                 killer->kill_xp += compute_kill_xp( victim_type );
+                victim_type.obj().families.practice_kill( killer );
             }
             break;
         }
