@@ -594,20 +594,25 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
 	},
-    {
-    "result": "k_gambeson",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 8,
-    "time": "6 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 24 ] ] ]
-  },
+   {
+    "id": "k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "gambeson" },
+    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor. This one incorporates kevlar layers added for better protection.",
+    "volume": "3 L",
+    "price": 20000,
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+	},
   {
     "id": "xl_gambeson",
     "type": "ARMOR",
@@ -617,12 +622,12 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
-    "result": "xl_k_gambeson",
-    "type": "recipe",
+    "id": "xl_k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar gambeson" },
     "copy-from": "k_gambeson",
-    "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 57 ] ] ]
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "hazmat_suit",
