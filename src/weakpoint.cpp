@@ -65,36 +65,65 @@ void weakpoint_family::load( const JsonObject &jo )
     }
 }
 
-void load_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output )
+bool weakpoint_families::practice( Character &learner, const time_duration &amount ) const
+{
+    bool learned = false;
+    for (const weakpoint_family& family : families) {
+        learned |= learner.practice_proficiency(family.proficiency, amount);
+    }
+    return learned;
+}
+
+bool weakpoint_families::practice_hit( Character &learner ) const
+{
+    return practice( learner, time_duration::from_seconds(1));
+}
+
+bool weakpoint_families::practice_kill( Character &learner ) const
+{
+    return practice( learner, time_duration::from_seconds(5));
+}
+
+bool weakpoint_families::practice_disect( Character &learner ) const
+{
+    return practice( learner, time_duration::from_seconds(60));
+}
+
+void weakpoint_families::clear()
+{
+    families.clear();
+}
+
+void weakpoint_families::load( const JsonArray &ja )
 {
     for( const JsonObject jo : ja ) {
         weakpoint_family tmp;
         tmp.load( jo );
 
-        auto it = std::find_if( output.begin(), output.end(),
+        auto it = std::find_if( families.begin(), families.end(),
         [&]( const weakpoint_family & wf ) {
             return wf.id == tmp.id;
         } );
-        if( it != output.end() ) {
-            output.erase( it );
+        if( it != families.end() ) {
+            families.erase( it );
         }
 
-        output.push_back( std::move( tmp ) );
+        families.push_back( std::move( tmp ) );
     }
 }
 
-void remove_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output )
+void weakpoint_families::remove( const JsonArray &ja )
 {
     for( const JsonObject jo : ja ) {
         weakpoint_family tmp;
         tmp.load( jo );
 
-        auto it = std::find_if( output.begin(), output.end(),
+        auto it = std::find_if( families.begin(), families.end(),
         [&]( const weakpoint_family & wf ) {
             return wf.id == tmp.id;
         } );
-        if( it != output.end() ) {
-            output.erase( it );
+        if( it != families.end() ) {
+            families.erase( it );
         }
     }
 }
