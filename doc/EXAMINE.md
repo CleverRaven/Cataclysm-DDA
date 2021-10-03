@@ -16,7 +16,6 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```controls_gate``` Controls the attached gate.
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
-- ```fault``` Displays descriptive message, but otherwise unused.
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
@@ -132,3 +131,9 @@ What message to print when attempting to activate the cardreader after it has al
   "redundant_msg": "The door is already open."
 }
 ```
+### `effect_on_condition`
+
+#### `effect_on_conditions`
+Mandatory.
+Array of strings and or effect_on_condition objects.
+Run all of the eocs upon being examined with u as the examiner and npc as null. See [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)

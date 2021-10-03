@@ -146,6 +146,7 @@
         { "class": "refugee_GarryVilleneuve", "x": 45, "y": 13 },
         { "class": "guard", "x": 43, "y": 21 },
         { "class": "evac_broker", "x": 50, "y": 20 },
+        { "class": "evac_teamster", "x": 54, "y": 4 },
         { "class": "guard", "x": 54, "y": 20 },
         { "class": "guard", "x": 63, "y": 15 }
       ],

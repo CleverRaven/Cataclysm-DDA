@@ -568,6 +568,77 @@ int trading_window::get_var_trade( const item &it, int total_count )
     return std::min( total_count, how_many );
 }
 
+void trading_window::item_selection( npc &np, std::vector<item_pricing> &target_list,
+                                     item_pricing &ip, bool max )
+{
+    int change_amount = 1;
+    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
+    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
+
+    if( ip.selected ) {
+        if( owner_sells_charge > 0 ) {
+            change_amount = owner_sells_charge;
+            owner_sells_charge = 0;
+        } else if( owner_sells > 0 ) {
+            change_amount = owner_sells;
+            owner_sells = 0;
+            // Deselect all contents when deselecting a container.
+            if( ip.is_container ) {
+                for( item *it : ip.loc.get_item()->get_contents().all_items_top() ) {
+                    for( item_pricing &ipp : target_list ) {
+                        if( it == ipp.loc.get_item() && ipp.selected ) {
+                            item_selection( np, target_list, ipp );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    } else if( ip.charges > 0 ) {
+        change_amount = max ? ip.charges : get_var_trade( *ip.loc.get_item(), ip.charges );
+
+        if( change_amount < 1 ) {
+            return;
+        }
+        owner_sells_charge = change_amount;
+    } else {
+        if( ip.count > 1 ) {
+            change_amount = max ? ip.count : get_var_trade( *ip.loc.get_item(), ip.count );
+
+            if( change_amount < 1 ) {
+                return;
+            }
+        }
+        owner_sells = change_amount;
+        // Select all contents when selecting a container.
+        if( ip.is_container ) {
+            for( item *it : ip.loc.get_item()->get_contents().all_items_top() ) {
+                for( item_pricing &ipp : target_list ) {
+                    if( it == ipp.loc.get_item() && !ipp.selected ) {
+                        item_selection( np, target_list, ipp, true );
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    ip.selected = !ip.selected;
+    if( ip.selected != focus_them ) {
+        change_amount *= -1;
+    }
+    int delta_price = ip.price * change_amount;
+    if( !np.will_exchange_items_freely() ) {
+        your_balance -= delta_price;
+        if( ip.selected != focus_them ) {
+            your_sale_value -= delta_price;
+        }
+    }
+    if( ip.loc.where_recursive() == item_location::type::character ) {
+        volume_left += ip.vol * change_amount;
+        weight_left += ip.weight * change_amount;
+    }
+}
+
 bool trading_window::perform_trade( npc &np, const std::string &deal )
 {
     weight_left = np.weight_capacity() - np.weight_carried();
@@ -683,84 +754,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             ch += offset;
             if( ch < target_list.size() ) {
                 item_pricing &ipr = target_list[ch];
-
-                // Recursive lambda https://artificial-mind.net/blog/2020/09/12/recursive-lambdas
-                auto item_selection = [ this, &np, &target_list ]( item_pricing & ip,
-                auto &&item_selection, bool max = false ) -> void {
-                    int change_amount = 1;
-                    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
-                    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
-
-                    if( ip.selected )
-                    {
-                        if( owner_sells_charge > 0 ) {
-                            change_amount = owner_sells_charge;
-                            owner_sells_charge = 0;
-                        } else if( owner_sells > 0 ) {
-                            change_amount = owner_sells;
-                            owner_sells = 0;
-                            // Deselect all contents when deselecting a container.
-                            if( ip.is_container ) {
-                                for( item *it : ip.loc.get_item()->get_contents().all_items_top() ) {
-                                    for( item_pricing &ipp : target_list ) {
-                                        if( it == ipp.loc.get_item() && ipp.selected ) {
-                                            item_selection( ipp, item_selection );
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else if( ip.charges > 0 )
-                    {
-                        change_amount = max ? ip.charges : get_var_trade( *ip.loc.get_item(), ip.charges );
-
-                        if( change_amount < 1 ) {
-                            return;
-                        }
-                        owner_sells_charge = change_amount;
-                    } else
-                    {
-                        if( ip.count > 1 ) {
-                            change_amount = max ? ip.count : get_var_trade( *ip.loc.get_item(), ip.count );
-
-                            if( change_amount < 1 ) {
-                                return;
-                            }
-                        }
-                        owner_sells = change_amount;
-                        // Select all contents when selecting a container.
-                        if( ip.is_container ) {
-                            for( item *it : ip.loc.get_item()->get_contents().all_items_top() ) {
-                                for( item_pricing &ipp : target_list ) {
-                                    if( it == ipp.loc.get_item() && !ipp.selected ) {
-                                        item_selection( ipp, item_selection, true );
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    ip.selected = !ip.selected;
-                    if( ip.selected != focus_them )
-                    {
-                        change_amount *= -1;
-                    }
-                    int delta_price = ip.price * change_amount;
-                    if( !np.will_exchange_items_freely() )
-                    {
-                        your_balance -= delta_price;
-                        if( ip.selected != focus_them ) {
-                            your_sale_value -= delta_price;
-                        }
-                    }
-                    if( ip.loc.where_recursive() == item_location::type::character )
-                    {
-                        volume_left += ip.vol * change_amount;
-                        weight_left += ip.weight * change_amount;
-                    }
-                };
-                item_selection( ipr, item_selection );
+                item_selection( np, target_list, ipr );
             }
         }
     }

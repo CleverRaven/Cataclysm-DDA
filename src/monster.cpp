@@ -657,7 +657,12 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
         return string_format( "'%s'", source.second->name() );
     }, enumeration_conjunction::arrow );
-    oss << "</color>" << "\n\n";
+    oss << "</color>" << "\n";
+
+    if( debug_mode ) {
+        oss << colorize( type->id.str(), c_white );
+    }
+    oss << "\n";
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
@@ -757,6 +762,11 @@ std::string monster::extended_description() const
     }, enumeration_conjunction::arrow );
 
     ss += "\n--\n";
+
+    if( debug_mode ) {
+        ss += type->id.str();
+        ss += "\n";
+    }
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
@@ -1525,8 +1535,8 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                 damage_instance &dam )
+const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                      damage_instance &dam )
 {
     resistances r = resistances( *this );
     weakpoint_attack attack_copy = attack;
@@ -1545,7 +1555,7 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
     wp->apply_to( dam, attack.is_crit );
-    return wp->name;
+    return wp;
 }
 
 bool monster::melee_attack( Creature &target )
@@ -1596,8 +1606,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     if( hitspread >= 0 ) {
         weakpoint_attack attack;
-        attack.source = this;
-        attack.is_melee = true;
         attack.wp_skill = weakpoint_skill();
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }

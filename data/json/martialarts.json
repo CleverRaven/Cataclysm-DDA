@@ -84,7 +84,7 @@
         "name": "Boxing Stance",
         "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
     ],
     "onmove_buffs": [
@@ -127,7 +127,7 @@
         "description": "Combat experience has led to you being able to block multiple attacks at a time.\n\n+1 Block attempts.",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "melee", "level": 7 } ],
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "bonus_blocks": 1
       }
     ],
@@ -135,12 +135,10 @@
     "techniques": [
       "tec_brawl_disarm_unarmed",
       "tec_brawl_feint_unarmed",
-      "tec_brawl_counter_unarmed",
       "tec_brawl_break_unarmed",
       "tec_brawl_power",
       "tec_brawl_trip",
       "tec_brawl_disarm_melee",
-      "tec_brawl_counter_melee",
       "tec_brawl_feint_melee",
       "tec_brawl_break_melee"
     ]
@@ -162,16 +160,16 @@
         "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
-    "onmiss_buffs": [
+    "onattack_buffs": [
       {
         "id": "buff_capoeira_onmiss",
         "name": "Capoeira Tempo",
-        "description": "You didn't miss, it's just part of the dance and the best part is about to start!\n\n+15% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "description": "Hit or miss, its just part of the dance!  And the best part is about to start!\n\n+15% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
-        "buff_duration": 2,
+        "buff_duration": 1,
         "max_stacks": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.15 } ]
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.05 } ]
       }
     ],
     "onmove_buffs": [
@@ -306,7 +304,7 @@
       "tec_eskrima_round",
       "tec_eskrima_fan",
       "tec_eskrima_snap",
-      "tec_eskrima_puno",
+      "tec_eskrima_stun",
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
@@ -352,7 +350,18 @@
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
-    "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
+    "onpause_buffs": [
+      {
+        "id": "buff_fencing_onpause",
+        "name": "Counter Time",
+        "description": "You fake an attack and prepare yourself to unleash a Compound Attack.\n\n+2 Block Effectiveness.\nEnables \"Compound Attack\" technique.\nLasts 2 turns.",
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "buff_duration": 2,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 } ]
+      }
+    ],
+    "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound1", "tec_fencing_compound2" ],
     "weapons": [
       "baton-extended",
       "bio_blade_weapon",
@@ -401,21 +410,29 @@
       {
         "id": "buff_medievalpole_static",
         "name": "Stand Your Ground",
-        "description": "You are stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50% of Strength.",
+        "description": "You are stalwart and will not budge against any threat.\n\n+2 Blocking Effectiveness, +1 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50% of Strength.",
         "melee_allowed": true,
-        "bonus_blocks": 2,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": -1.0 } ]
+        "bonus_blocks": 1,
+        "flat_bonuses": [
+          { "stat": "block_effectiveness", "scale": 2.0 },
+          { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "dodge", "scale": -1.0 }
+        ]
       }
     ],
     "onmove_buffs": [
       {
         "id": "buff_medievalpole_onmove",
         "name": "Tactical Retreat",
-        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 Block attempts, +1.0 Dodge skill, blocked damaged increased by 50% of Strength.\nLasts 1 turn.",
+        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 Blocking Effectiveness, -1 Block attempts, +1.0 Dodge skill, blocked damaged increased by 50% of Strength.\nPrevents \"High Round Strike and Hook\" technique.\nLasts 2 turns.",
         "melee_allowed": true,
-        "buff_duration": 1,
-        "bonus_blocks": -2,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": -0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+        "buff_duration": 2,
+        "bonus_blocks": -1,
+        "flat_bonuses": [
+          { "stat": "block_effectiveness", "scale": -2.0 },
+          { "stat": "block", "scaling-stat": "str", "scale": -0.5 },
+          { "stat": "dodge", "scale": 1.0 }
+        ]
       }
     ],
     "onmiss_buffs": [
@@ -432,7 +449,7 @@
       {
         "id": "buff_medievalpole_onblock",
         "name": "Defense Break",
-        "description": "Each successful block reveals an opening in your opponent's guard.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 3 times.",
+        "description": "Each successful block reveals an opening in your opponent's guard.\n\n+1 Accuracy.\nEnables \"Displace and Hook\" technique.\nLasts 1 turn.  Stacks 3 times.",
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "buff_duration": 1,
@@ -491,7 +508,18 @@
         "throw_immune": true
       }
     ],
-    "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_judo_ondodge",
+        "name": "Perfect Position",
+        "description": "You've moved into a perfect position to counter attack!.\n\n+30% Bash damage.",
+        "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+      }
+    ],
+    "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
     "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
   },
   {
@@ -537,7 +565,7 @@
     "leg_block": 4,
     "static_buffs": [
       {
-        "id": "buff_krav_maga_static1",
+        "id": "buff_krav_maga_static",
         "name": "Krav Maga Stance",
         "description": "Your training makes it easier to land hits and fight multiple opponents.\n\n+1 Accuracy, +1 Block attempts.",
         "melee_allowed": true,
@@ -546,14 +574,19 @@
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
-    "techniques": [
-      "tec_krav_maga_rapid",
-      "tec_krav_maga_crit",
-      "tec_krav_maga_takedown",
-      "tec_krav_maga_disarm",
-      "tec_krav_maga_break",
-      "tec_krav_maga_counter"
+    "onblock_buffs": [
+      {
+        "id": "buff_krav_maga_onblock",
+        "name": "Strike Vitals",
+        "description": "Like a foe, your opponent has left themselves wide.\n\n+5% critical hit chance.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
+      }
     ],
+    "techniques": [ "tec_krav_maga_rapid", "tec_krav_maga_crit", "tec_krav_maga_takedown", "tec_krav_maga_disarm", "tec_krav_maga_break" ],
     "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS" ]
   },
   {
@@ -599,7 +632,7 @@
         "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
-        "req_buffs": [ "buff_leopard_onmove1" ],
+        "required_buffs_all": [ "buff_leopard_onmove1" ],
         "buff_duration": 1,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.25 },
@@ -629,6 +662,22 @@
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
     ],
+    "onblock_buffs": [
+      {
+        "id": "buff_swordsmanship_onblock",
+        "name": "Mastercut",
+        "description": "You parry and return the attack with greater vigor!\n\n+10% damage, -10 move cost\nLasts 1 turn.",
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "movecost", "scale": 0.9 },
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
     "onhit_buffs": [
       {
         "id": "buff_swordsmanship_onhit",
@@ -651,7 +700,7 @@
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "hit", "scale": -1.0 } ]
       }
     ],
-    "techniques": [ "tec_swordsmanship_mastercut", "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
+    "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
     "weapons": [
       "arming_sword",
       "arming_sword_inferior",
@@ -668,6 +717,7 @@
       "sword_crude",
       "sword_nail",
       "sword_wood",
+      "sword_metal",
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake",
@@ -829,11 +879,8 @@
         "buff_duration": 1,
         "max_stacks": 5,
         "persists": true,
-        "flat_bonuses": [
-          { "stat": "dodge", "scale": -1.0 },
-          { "stat": "damage", "type": "cut", "scale": -1.0 },
-          { "stat": "damage", "type": "bash", "scale": -1.0 }
-        ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": -1.0 } ],
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.95 }, { "stat": "damage", "type": "cut", "scale": 0.95 } ]
       }
     ],
     "ondodge_buffs": [
@@ -870,6 +917,7 @@
       "nodachi_fake",
       "sword_nail",
       "sword_crude",
+      "sword_metal",
       "sword_wood",
       "wakizashi",
       "wakizashi_inferior",
@@ -903,7 +951,7 @@
         "description": "You got your opponent right where you want them!\n\n+20% bash damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
-        "req_buffs": [ "buff_pankration_ondodge" ],
+        "required_buffs_all": [ "buff_pankration_ondodge" ],
         "buff_duration": 1,
         "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
       }
@@ -950,12 +998,12 @@
     "onmove_buffs": [
       {
         "id": "buff_silat_onmove",
-        "name": "Silat Evasion",
-        "description": "You stay low as you move, making it harder for enemies to pin you down.\n\n+1 Dodge attempts.\nLasts 2 turn.",
+        "name": "Silat Ambush",
+        "description": "You stay low as you move, making it harder for enemies to defend against you.\n\n+5% critical hit chance.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
-        "buff_duration": 2,
-        "bonus_dodges": 1
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
@@ -1084,9 +1132,10 @@
       {
         "id": "buff_sojutsu_static",
         "name": "Sōjutsu Stance",
-        "description": "Your training grants better defense while using a polearm.\n\n+1 Block attempt.",
+        "description": "Your training grants better defense while using a polearm.\n\n+1 Block attempt, +2 Block Effectiveness.",
         "melee_allowed": true,
-        "bonus_blocks": 1
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 } ]
       }
     ],
     "onmove_buffs": [
@@ -1104,7 +1153,7 @@
         ]
       }
     ],
-    "techniques": [ "tec_sojutsu_push", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
+    "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
     "weapons": [
       "glaive",
       "halberd",
@@ -1188,9 +1237,9 @@
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 1.0 } ]
       }
     ],
-    "ondodge_buffs": [
+    "onblock_buffs": [
       {
-        "id": "buff_tai_chi_ondodge",
+        "id": "buff_tai_chi_onblock",
         "name": "Repulse the Monkey",
         "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception, gain bash Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
         "unarmed_allowed": true,
@@ -1206,11 +1255,11 @@
       {
         "id": "buff_tai_chi_onpause",
         "name": "Cross Hands",
-        "description": "By taking a moment to prepare yourself, you are able to use your entire body fully for attacking and defending.\n\n+1.0 Dodge skill, blocked damage reduced by 50% of Perception.\nEnables \"Palm Strike\" and \"Double Palm Strike\" techniques.\nLasts 3 turns.",
+        "description": "By taking a moment to prepare yourself, you are able to use your entire body fully for attacking and defending.\n\n+2 Block Effectiveness, blocked damage reduced by 50% of Perception.\nEnables \"Palm Strike\" and \"Double Palm Strike\" techniques.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 }, { "stat": "block", "scaling-stat": "per", "scale": 0.5 } ]
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_palm", "tec_taichi_counter", "tec_taichi_precise" ]
@@ -1281,9 +1330,9 @@
       {
         "id": "buff_wingchun_static",
         "name": "Chi-Sao Sensitivity",
-        "description": "You have a greater understanding of balance and technique.  This gives you a better chance to avoid your opponent's attacks.\n\n Dodging Skill increased by 15% of Perception.  Blocked damage reduced by 50% of Perception.",
+        "description": "You have a greater understanding of balance and technique.  This gives you a better chance to avoid your opponent's attacks.\n\n Dodging Skill increased by 25% of Perception.  Blocked damage reduced by 50% of Perception.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 0.5 }, { "stat": "dodge", "scaling-stat": "per", "scale": 0.15 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 0.5 }, { "stat": "dodge", "scaling-stat": "per", "scale": 0.25 } ]
       }
     ],
     "onhit_buffs": [
@@ -1293,7 +1342,7 @@
         "description": "Your punches are properly timed to give your opponent no rest from your strikes.\n\n-10% move cost.\nLasts 1 turn.  Stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 2,
         "max_stacks": 3,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
       }
@@ -1305,7 +1354,7 @@
         "description": "Through the perfect application of the Thrusting Fingers form, you can strike your opponents' weak points, force them away, and follow!\n\nAccuracy increased by 20% of Perception, Enables \"Straight Punch (Knockback)\" and \"L-Hook (Knockback)\" techniques.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
-        "buff_duration": 2,
+        "buff_duration": 3,
         "flat_bonuses": [ { "stat": "hit", "scaling-stat": "per", "scale": 0.2 } ]
       }
     ],
@@ -1314,8 +1363,7 @@
       "tec_wingchun_hook",
       "tec_wingchun_punch_knockback",
       "tec_wingchun_hook_knockback",
-      "tec_wingchun_feint",
-      "tec_wingchun_counter"
+      "tec_wingchun_feint"
     ]
   },
   {

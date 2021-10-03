@@ -6,10 +6,13 @@
 #include <utility>
 
 #include "assign.h"
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
+#include "enums.h"
 #include "item.h"
 #include "messages.h"
 #include "monster.h"
@@ -51,16 +54,138 @@ float Character::throw_weakpoint_skill()
     return skill + stat;
 }
 
+weakpoint_difficulty::weakpoint_difficulty( float default_value )
+{
+    difficulty.fill( default_value );
+}
+
+float weakpoint_difficulty::of( const weakpoint_attack &attack ) const
+{
+    return difficulty[static_cast<int>( attack.type )];
+}
+
+void weakpoint_difficulty::load( const JsonObject &jo )
+{
+    using attack_type = weakpoint_attack::attack_type;
+    float default_value = difficulty[static_cast<int>( attack_type::NONE )];
+    float all = jo.get_float( "all", default_value );
+    // Determine default values
+    float bash = all;
+    float cut = all;
+    float stab = all;
+    float ranged = all;
+    // Support either "melee" shorthand or "broad"/"point" shorthand.
+    if( jo.has_float( "melee" ) ) {
+        float melee = jo.get_float( "melee", all );
+        bash = melee;
+        cut = melee;
+        stab = melee;
+    } else {
+        float broad = jo.get_float( "broad", all );
+        float point = jo.get_float( "point", all );
+        bash = broad;
+        cut = broad;
+        stab = point;
+        ranged = point;
+    }
+    // Load the values
+    difficulty[static_cast<int>( attack_type::NONE )] = all;
+    difficulty[static_cast<int>( attack_type::MELEE_BASH )] = jo.get_float( "bash", bash );
+    difficulty[static_cast<int>( attack_type::MELEE_CUT )] = jo.get_float( "cut", cut );
+    difficulty[static_cast<int>( attack_type::MELEE_STAB )] = jo.get_float( "stab", stab );
+    difficulty[static_cast<int>( attack_type::PROJECTILE )] = jo.get_float( "ranged", ranged );
+}
+
+weakpoint_effect::weakpoint_effect()  :
+    chance( 100.0f ),
+    permanent( false ),
+    duration( 1, 1 ),
+    intensity( 0, 0 ),
+    damage_required( 0.0f, 100.0f ) {}
+
+void weakpoint_effect::apply_to( Creature &target, int total_damage,
+                                 const weakpoint_attack &attack ) const
+{
+    // Check if damage is within required bounds
+    float percent_hp = 100.0f * static_cast<float>( total_damage ) / target.get_hp_max();
+    percent_hp = std::min( 100.0f, percent_hp );
+    if( percent_hp < damage_required.first || damage_required.second < percent_hp ) {
+        return;
+    }
+    // Roll for chance.
+    if( !( rng_float( 0.0f, 100.f ) < chance ) ) {
+        return;
+    }
+    target.add_effect( effect_source( attack.source ), effect,
+                       time_duration::from_turns( rng( duration.first, duration.second ) ),
+                       permanent, rng( intensity.first, intensity.second ) );
+
+    if( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
+        add_msg_if_player_sees( target, m_good, message, target.get_name() );
+    }
+}
+
+void weakpoint_effect::load( const JsonObject &jo )
+{
+    assign( jo, "effect", effect );
+
+    if( jo.has_float( "chance" ) ) {
+        assign( jo, "chance", chance, false, 0.0f, 100.0f );
+    }
+    if( jo.has_bool( "permanent" ) ) {
+        assign( jo, "permanent", permanent );
+    }
+    if( jo.has_string( "message" ) ) {
+        assign( jo, "message", message );
+    }
+
+    // Support shorthand for a single value.
+    if( jo.has_int( "duration" ) ) {
+        int i = jo.get_int( "duration", 0 );
+        duration = {i, i};
+    } else if( jo.has_array( "duration" ) ) {
+        assign( jo, "duration", duration );
+    }
+    if( jo.has_int( "intensity" ) ) {
+        int i = jo.get_int( "intensity", 0 );
+        intensity = {i, i};
+    } else if( jo.has_array( "intensity" ) ) {
+        assign( jo, "intensity", intensity );
+    }
+}
+
 weakpoint_attack::weakpoint_attack()  :
     source( nullptr ),
     target( nullptr ),
     weapon( &null_item_reference() ),
-    is_melee( false ),
+    type( attack_type::NONE ),
     is_crit( false ),
     wp_skill( 0.0f ) {}
 
+weakpoint_attack::attack_type
+weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
+{
+    damage_type primary = damage_type::NONE;
+    int primary_amount = 0;
+    for( const auto &du : damage.damage_units ) {
+        if( du.amount > primary_amount ) {
+            primary = du.type;
+            primary_amount = du.amount;
+        }
+    }
+    switch( primary ) {
+        case damage_type::BASH:
+            return attack_type::MELEE_BASH;
+        case damage_type::CUT:
+            return attack_type::MELEE_CUT;
+        case damage_type::STAB:
+            return attack_type::MELEE_STAB;
+        default:
+            return attack_type::NONE;
+    }
+}
 
-weakpoint::weakpoint()
+weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
 {
     // arrays must be filled manually to avoid UB.
     armor_mult.fill( 1.0f );
@@ -92,7 +217,19 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_array( "required_effects" ) ) {
         assign( jo, "required_effects", required_effects );
     }
-
+    if( jo.has_array( "effects" ) ) {
+        for( const JsonObject effect_jo : jo.get_array( "effects" ) ) {
+            weakpoint_effect effect;
+            effect.load( effect_jo );
+            effects.push_back( std::move( effect ) );
+        }
+    }
+    if( jo.has_object( "coverage_mult" ) ) {
+        coverage_mult.load( jo.get_object( "coverage_mult" ) );
+    }
+    if( jo.has_object( "difficulty" ) ) {
+        difficulty.load( jo.get_object( "difficulty" ) );
+    }
 
     // Set the ID to the name, if not provided.
     if( id.empty() ) {
@@ -116,14 +253,30 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
     }
 }
 
+void weakpoint::apply_effects( Creature &target, int total_damage,
+                               const weakpoint_attack &attack ) const
+{
+    for( const auto &effect : effects ) {
+        effect.apply_to( target, total_damage, attack );
+    }
+}
+
 float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
+    // Check for required effects
     for( const auto &effect : required_effects ) {
         if( !attack.target->has_effect( effect ) ) {
             return 0.0f;
         }
     }
-    return coverage;
+    // Retrieve multipliers.
+    float constant_mult = coverage_mult.of( attack );
+    // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
+    // exceeding the difficulty.
+    float diff = attack.wp_skill - difficulty.of( attack );
+    float difficulty_mult = 0.5f * ( 1.0f + erf( diff / ( 2.0f * sqrt( 2.0f ) ) ) );
+    // Compute the total value
+    return constant_mult * difficulty_mult * coverage;
 }
 
 // Reweighs the probability distribution of hitting a weakpoint.

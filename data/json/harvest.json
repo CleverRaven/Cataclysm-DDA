@@ -280,7 +280,7 @@
   {
     "id": "fish_large",
     "type": "harvest",
-    "message": "You gut and fillet the fish",
+    "message": "You gut and fillet the fish.",
     "entries": [
       { "drop": "fish", "type": "flesh", "mass_ratio": 0.38 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
@@ -302,7 +302,7 @@
   {
     "id": "shellfish",
     "type": "harvest",
-    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath.",
     "entries": [
       { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
@@ -312,7 +312,7 @@
   {
     "id": "mutant_shellfish",
     "type": "harvest",
-    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
+    "message": "You crack open its hard shell to get at the flesh beneath.",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
@@ -322,7 +322,7 @@
   {
     "id": "mon_broken_cyborg",
     "type": "harvest",
-    "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
+    "message": "You search for any salvageable hardware in what's left of this failed experiment.",
     "entries": [
       {
         "drop": "bio_power_storage",
