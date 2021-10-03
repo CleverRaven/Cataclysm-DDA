@@ -134,6 +134,6 @@
     "magazine": 100,
     "ammo": 10,
     "id": "feral_ninemm",
-    "items": [ [ "glock_19", 200 ], [ "ksub2000", 200 ], [ "uzi", 100 ], [ "cx4", 100 ], [ "sw_619", 200 ], [ "glock_17", 200 ] ]
+    "items": [ [ "glock_19", 200 ], [ "hptjhp", 200 ], [ "uzi", 100 ], [ "cx4", 100 ], [ "sw_619", 200 ], [ "glock_17", 200 ] ]
   }
 ]
