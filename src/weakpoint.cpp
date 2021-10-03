@@ -57,7 +57,7 @@ float Character::throw_weakpoint_skill() const
 
 float weakpoint_family::modifier( const Character &attacker ) const
 {
-    return attacker.has_proficiency(proficiency) ? bonus : penalty;
+    return attacker.has_proficiency( proficiency ) ? bonus : penalty;
 }
 
 void weakpoint_family::load( const JsonObject &jo )
@@ -102,7 +102,7 @@ bool weakpoint_families::practice_disect( Character &learner ) const
 float weakpoint_families::modifier( const Character &attacker ) const
 {
     float total = 0.0f;
-    for (const weakpoint_family& family : families) {
+    for( const weakpoint_family &family : families ) {
         total += family.modifier( attacker );
     }
     return total;
