@@ -6606,7 +6606,7 @@ layer_level item::get_layer() const
     }
 }
 
-int item::get_avg_coverage() const
+int item::get_avg_coverage( const cover_type &type ) const
 {
     const islot_armor *t = find_armor_data();
     if( !t ) {
@@ -6617,7 +6617,7 @@ int item::get_avg_coverage() const
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
             for( const bodypart_str_id &limb : entry.covers.value() ) {
-                int coverage = get_coverage( limb );
+                int coverage = get_coverage( limb, type );
                 if( coverage ) {
                     avg_coverage += coverage;
                     ++avg_ctr;
@@ -6633,10 +6633,19 @@ int item::get_avg_coverage() const
     }
 }
 
-int item::get_coverage( const bodypart_id &bodypart ) const
+int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) const
 {
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
-        return portion_data->coverage;
+        switch( type ) {
+            case cover_type::COVER_DEFAULT:
+                return portion_data->coverage;
+            case cover_type::COVER_MELEE:
+                return portion_data->cover_melee;
+            case cover_type::COVER_RANGED:
+                return portion_data->cover_ranged;
+            case cover_type::COVER_VITALS:
+                return portion_data->cover_vitals;
+        }
     }
     return 0;
 }
