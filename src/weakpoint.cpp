@@ -231,6 +231,51 @@ weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
     }
 }
 
+void weakpoint_attack::compute_wp_skill()
+{
+    // Check if there's no source.
+    if( source == nullptr ) {
+        wp_skill = 0.0f;
+        return;
+    }
+    // Compute the base attacker skill.
+    float attacker_skill = 0.0f;
+    monster *mon_att = source->as_monster();
+    Character *chr_att = source->as_character();
+    if( mon_att != nullptr ) {
+        attacker_skill = mon_att->weakpoint_skill();
+    } else if( chr_att != nullptr ) {
+        switch( type ) {
+            case attack_type::MELEE_BASH:
+            case attack_type::MELEE_CUT:
+            case attack_type::MELEE_STAB:
+                attacker_skill = chr_att->melee_weakpoint_skill( *weapon );
+                break;
+            case attack_type::PROJECTILE:
+                attacker_skill = is_thrown
+                                 ? chr_att->throw_weakpoint_skill()
+                                 : chr_att->ranged_weakpoint_skill( *weapon );
+                break;
+            default:
+                attacker_skill = 0.0f;
+                break;
+        }
+    }
+    // Compute the proficiency skill.
+    float proficiency_skill = 0.0f;
+    monster *mon_tar = target->as_monster();
+    if( chr_att != nullptr && mon_tar != nullptr ) {
+        for( const weakpoint_family &family : mon_tar->type->families ) {
+            if( chr_att->has_proficiency( family.proficiency ) ) {
+                proficiency_skill += family.bonus;
+            } else {
+                proficiency_skill -= family.penalty;
+            }
+        }
+    }
+    return attacker_skill + proficiency_skill;
+}
+
 weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
 {
     // arrays must be filled manually to avoid UB.

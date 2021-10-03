@@ -45,6 +45,8 @@ struct weakpoint_attack {
     weakpoint_attack();
     // Returns the attack type of a melee attack.
     static attack_type type_of_melee_attack( const damage_instance &damage );
+    // Compute and set the value of `wp_skill`.
+    void compute_wp_skill();
 };
 
 // An effect that a weakpoint can cause.
