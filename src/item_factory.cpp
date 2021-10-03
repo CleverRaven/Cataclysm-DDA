@@ -1987,16 +1987,8 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 {
     assign_coverage_from_json( jo, "covers", covers );
     optional( jo, false, "coverage", coverage, 0 );
-    if( jo.has_int( "cover_melee" ) ) {
-        optional( jo, false, "cover_melee", cover_melee, 0 );
-    } else {
-        cover_melee = coverage;
-    }
-    if( jo.has_int( "cover_ranged" ) ) {
-        optional( jo, false, "cover_ranged", cover_ranged, 0 );
-    } else {
-        cover_ranged = coverage;
-    }
+    optional( jo, false, "cover_melee", cover_melee, coverage );
+    optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
 
     if( jo.has_array( "encumbrance" ) ) {

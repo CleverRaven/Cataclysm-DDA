@@ -2894,11 +2894,17 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 int encumber = 0;
                 int max_encumber = 0;
                 int coverage = 0;
+                int cover_melee = 0;
+                int cover_ranged = 0;
+                int cover_vitals = 0;
 
                 bool operator==( const armor_portion_type &other ) {
                     return encumber == other.encumber
                            && max_encumber == other.max_encumber
-                           && coverage == other.coverage;
+                           && coverage == other.coverage
+                           && cover_melee == other.cover_melee
+                           && cover_ranged == other.cover_ranged
+                           && cover_vitals == other.cover_vitals;
                 }
             };
             struct body_part_display_info {
@@ -2916,7 +2922,7 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                             to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                     std::max( 0, get_encumber( player_character, covering_id ) - reduce_encumbrance_by ),
                                     std::max( 0, get_encumber( player_character, covering_id, encumber_flags::assume_full ) - reduce_encumbrance_by ),
-                                    piece.coverage
+                                    piece.coverage, piece.cover_melee, piece.cover_ranged, piece.cover_vitals
                                 }, true
                             };
                         }
@@ -2938,7 +2944,6 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 }
             }
             const std::string when_full_message = space + _( "When full:" ) + space;
-            const std::string coverage_message = space + _( "Coverage:" ) + space;
             for( auto &piece : to_display_data ) {
                 if( t->sided ) {
                     const bodypart_str_id &covering_id = piece.first;
@@ -2958,9 +2963,21 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", coverage_message, "",
-                                       iteminfo::no_flags,
+                    info.emplace_back( "ARMOR", space + _( "Coverage:" ) + space, "",
+                                       iteminfo::no_newline,
                                        piece.second.portion.coverage );
+                    //~ (M)elee coverage
+                    info.emplace_back( "ARMOR", space + _( "Coverage (M):" ) + space, "",
+                                       iteminfo::no_newline,
+                                       piece.second.portion.cover_melee );
+                    //~ (R)anged coverage
+                    info.emplace_back( "ARMOR", space + _( "Coverage (R):" ) + space, "",
+                                       iteminfo::no_newline,
+                                       piece.second.portion.cover_ranged );
+                    //~ (V)itals coverage
+                    info.emplace_back( "ARMOR", space + _( "Coverage (V):" ) + space, "",
+                                       iteminfo::no_flags,
+                                       piece.second.portion.cover_vitals );
                 }
             }
         }
@@ -2970,7 +2987,16 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                            iteminfo::no_newline | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
 
         info.emplace_back( "ARMOR", space + _( "Coverage:" ) + space, "",
-                           iteminfo::no_flags, get_coverage( body_part_torso.id() ) );
+                           iteminfo::no_newline, get_coverage( body_part_torso.id() ) );
+        //~ (M)elee coverage
+        info.emplace_back( "ARMOR", space + _( "Coverage (M):" ) + space, "",
+                           iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_MELEE ) );
+        //~ (R)anged coverage
+        info.emplace_back( "ARMOR", space + _( "Coverage (R):" ) + space, "",
+                           iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_RANGED ) );
+        //~ (V)itals coverage
+        info.emplace_back( "ARMOR", space + _( "Coverage (V):" ) + space, "",
+                           iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_VITALS ) );
     }
 }
 
