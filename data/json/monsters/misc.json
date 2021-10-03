@@ -47,6 +47,7 @@
     "melee_cut": 0,
     "vision_day": 1,
     "armor_bullet": 100,
+    "families": [ { "proficiency": "prof_debug_weakpoint", "bonus": 100 } ],
     "weakpoints": [
       {
         "name": "the belly",
