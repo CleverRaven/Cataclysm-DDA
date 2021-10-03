@@ -3,9 +3,19 @@
     "type": "proficiency",
     "id": "prof_debug_weakpoint",
     "name": { "str": "Debug Weakpoint" },
-    "description": "Improves the chance of hitting the Weakpoint Monster's weak points.",
+    "description": "Basic improvement on the chance of hitting the Weakpoint Monster's weak points.",
     "can_learn": true,
     "time_to_learn": "30 m",
-    "default_weakpoint_bonus": 5
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": 1
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_debug_weakpoint_expert",
+    "name": { "str": "Expert Debug Weakpoint" },
+    "description": "Expert improvement on the chance of hitting the Weakpoint Monster's weak points.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_debug_weakpoint" ]
   }
 ]

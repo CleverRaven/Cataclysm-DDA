@@ -16,6 +16,7 @@ class Character;
 class Creature;
 class JsonArray;
 class JsonObject;
+class JsonValue;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
@@ -93,7 +94,7 @@ struct weakpoint_family {
     cata::optional<float> penalty;
 
     float modifier( const Character &attacker ) const;
-    void load( const JsonObject &jo );
+    void load( const JsonValue &jsin );
 };
 
 struct weakpoint_families {
@@ -104,7 +105,7 @@ struct weakpoint_families {
     bool practice( Character &learner, const time_duration &amount ) const;
     bool practice_hit( Character &learner ) const;
     bool practice_kill( Character &learner ) const;
-    bool practice_disect( Character &learner ) const;
+    bool practice_dissect( Character &learner ) const;
     float modifier( const Character &attacker ) const;
 
     void clear();

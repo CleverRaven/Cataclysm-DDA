@@ -62,14 +62,20 @@ float weakpoint_family::modifier( const Character &attacker ) const
            : penalty.value_or( proficiency.obj().default_weakpoint_penalty() );
 }
 
-void weakpoint_family::load( const JsonObject &jo )
+void weakpoint_family::load( const JsonValue &jsin )
 {
-    assign( jo, "id", id );
-    assign( jo, "proficiency", proficiency );
-    assign( jo, "bonus", bonus );
-    assign( jo, "penalty", penalty );
-    if( !jo.has_string( "id" ) ) {
-        id = static_cast<std::string>( proficiency );
+    if ( jsin.test_string() ) {
+        id = jsin.get_string();
+        proficiency = proficiency_id(id);
+    } else {
+        JsonObject jo = jsin.get_object();
+        assign( jo, "id", id );
+        assign( jo, "proficiency", proficiency );
+        assign( jo, "bonus", bonus );
+        assign( jo, "penalty", penalty );
+        if( !jo.has_string( "id" ) ) {
+            id = static_cast<std::string>( proficiency );
+        }
     }
 }
 
@@ -84,18 +90,18 @@ bool weakpoint_families::practice( Character &learner, const time_duration &amou
 
 bool weakpoint_families::practice_hit( Character &learner ) const
 {
-    return practice( learner, time_duration::from_seconds( 1 ) );
+    return practice( learner, time_duration::from_seconds( 10 ) );
 }
 
 bool weakpoint_families::practice_kill( Character &learner ) const
 {
-    return practice( learner, time_duration::from_seconds( 5 ) );
+    return practice( learner, time_duration::from_minutes( 1 ) );
 }
 
-bool weakpoint_families::practice_disect( Character &learner ) const
+bool weakpoint_families::practice_dissect( Character &learner ) const
 {
     learner.add_msg_if_player( m_good, _( "You carefully record the creature's vulnerabilities." ) );
-    return practice( learner, time_duration::from_seconds( 60 ) );
+    return practice( learner, time_duration::from_minutes( 30 ) );
 }
 
 float weakpoint_families::modifier( const Character &attacker ) const
@@ -114,9 +120,9 @@ void weakpoint_families::clear()
 
 void weakpoint_families::load( const JsonArray &ja )
 {
-    for( const JsonObject jo : ja ) {
+    for( const JsonValue &jsin : ja ) {
         weakpoint_family tmp;
-        tmp.load( jo );
+        tmp.load( jsin );
 
         auto it = std::find_if( families.begin(), families.end(),
         [&]( const weakpoint_family & wf ) {
@@ -132,9 +138,9 @@ void weakpoint_families::load( const JsonArray &ja )
 
 void weakpoint_families::remove( const JsonArray &ja )
 {
-    for( const JsonObject jo : ja ) {
+    for( const JsonValue jsin : ja ) {
         weakpoint_family tmp;
-        tmp.load( jo );
+        tmp.load( jsin );
 
         auto it = std::find_if( families.begin(), families.end(),
         [&]( const weakpoint_family & wf ) {
