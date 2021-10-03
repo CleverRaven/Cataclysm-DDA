@@ -2964,19 +2964,19 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", _( "Coverage:" ) + space, "",
+                    info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.coverage );
                     //~ (M)elee coverage
-                    info.emplace_back( "ARMOR", space + _( "(M):" ) + space, "",
+                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(M):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_melee );
                     //~ (R)anged coverage
-                    info.emplace_back( "ARMOR", space + _( "(R):" ) + space, "",
+                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(R):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_ranged );
                     //~ (V)itals coverage
-                    info.emplace_back( "ARMOR", space + _( "(V):" ) + space, "",
+                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(V):" ), space ), "",
                                        iteminfo::no_flags,
                                        piece.second.portion.cover_vitals );
                 }
