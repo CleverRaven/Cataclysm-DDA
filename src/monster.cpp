@@ -3035,8 +3035,8 @@ void monster::on_hit( Creature *source, bodypart_id,
             }
         }
     }
-    if ( source != nullptr ) {
-        if (Character *attacker = source->as_character()) {
+    if( source != nullptr ) {
+        if( Character *attacker = source->as_character() ) {
             type->families.practice_hit( *attacker );
         }
     }
