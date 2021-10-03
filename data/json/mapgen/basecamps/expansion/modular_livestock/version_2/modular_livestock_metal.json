@@ -45,7 +45,10 @@
     "update_mapgen_id": "fbml_2_shack_metal",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_shack_metal" ], "x": 15, "y": 18 }, { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_shack_metal" ], "x": 15, "y": 18 },
+        { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19 }
+      ]
     }
   },
   {
