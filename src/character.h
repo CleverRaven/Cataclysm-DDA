@@ -1018,9 +1018,9 @@ class Character : public Creature, public visitable
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
         /** The character's skill in hitting a weakpoint */
-        float melee_weakpoint_skill( const item &weapon );
-        float ranged_weakpoint_skill( const item &weapon );
-        float throw_weakpoint_skill();
+        float melee_weakpoint_skill( const item &weapon ) const;
+        float ranged_weakpoint_skill( const item &weapon ) const;
+        float throw_weakpoint_skill() const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).

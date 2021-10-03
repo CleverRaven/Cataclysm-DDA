@@ -27,12 +27,12 @@ static const skill_id skill_unarmed( "unarmed" );
 class JsonArray;
 class JsonObject;
 
-float monster::weakpoint_skill()
+float monster::weakpoint_skill() const
 {
     return type->melee_skill;
 }
 
-float Character::melee_weakpoint_skill( const item &weapon )
+float Character::melee_weakpoint_skill( const item &weapon ) const
 {
     skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
     float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
@@ -40,14 +40,14 @@ float Character::melee_weakpoint_skill( const item &weapon )
     return skill + stat;
 }
 
-float Character::ranged_weakpoint_skill( const item &weapon )
+float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
     float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
-float Character::throw_weakpoint_skill()
+float Character::throw_weakpoint_skill() const
 {
     float skill = get_skill_level( skill_throw );
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
@@ -240,8 +240,8 @@ void weakpoint_attack::compute_wp_skill()
     }
     // Compute the base attacker skill.
     float attacker_skill = 0.0f;
-    monster *mon_att = source->as_monster();
-    Character *chr_att = source->as_character();
+    const monster *mon_att = source->as_monster();
+    const Character *chr_att = source->as_character();
     if( mon_att != nullptr ) {
         attacker_skill = mon_att->weakpoint_skill();
     } else if( chr_att != nullptr ) {
@@ -263,7 +263,7 @@ void weakpoint_attack::compute_wp_skill()
     }
     // Compute the proficiency skill.
     float proficiency_skill = 0.0f;
-    monster *mon_tar = target->as_monster();
+    const monster *mon_tar = target->as_monster();
     if( chr_att != nullptr && mon_tar != nullptr ) {
         for( const weakpoint_family &family : mon_tar->type->families ) {
             if( chr_att->has_proficiency( family.proficiency ) ) {
@@ -273,7 +273,7 @@ void weakpoint_attack::compute_wp_skill()
             }
         }
     }
-    return attacker_skill + proficiency_skill;
+    wp_skill = attacker_skill + proficiency_skill;
 }
 
 weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
