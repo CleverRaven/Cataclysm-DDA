@@ -735,20 +735,20 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( !was_loaded || jo.has_array( "families" ) ) {
         families.clear();
-        load_weakpoint_families( jo.get_array( "families" ), families );
+        families.load( jo.get_array( "families" ) );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                load_weakpoint_families( jo.get_array( "families" ), families );
+                families.load( jo.get_array( "families" ) );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                remove_weakpoint_families( jo.get_array( "families" ), families );
+                families.remove( jo.get_array( "families" ) );
             }
         }
     }
