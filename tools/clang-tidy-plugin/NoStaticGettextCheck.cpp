@@ -22,7 +22,7 @@ void NoStaticGettextCheck::registerMatchers( MatchFinder *Finder )
             callee(
                 functionDecl(
                     hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
-                                "ngettext", "npgettext" )
+                                "n_gettext", "npgettext" )
                 )
             )
         ).bind( "gettextCall" ),

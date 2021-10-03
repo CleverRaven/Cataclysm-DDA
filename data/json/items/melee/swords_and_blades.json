@@ -15,6 +15,7 @@
     "to_hit": 1,
     "price_postapoc": 50,
     "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -32,7 +33,8 @@
     "cutting": 4,
     "to_hit": 2,
     "price_postapoc": 100,
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ]
   },
   {
     "type": "GENERIC",
@@ -50,8 +52,30 @@
     "to_hit": 1,
     "price_postapoc": 250,
     "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sword_metal",
+    "symbol": "!",
+    "color": "light_gray",
+    "name": { "str": "metal sword" },
+    "description": "An imitation of a true sword forged by someone who knows what swords look like, at least.  It has the general shape of a sword, and it is sharp, yet the quality is lacking and the balance isn't quite right.",
+    "looks_like": "sword_crude",
+    "material": [ "steel" ],
+    "volume": "2 L",
+    "weight": "1100 g",
+    "longest_side": "100 cm",
+    "bashing": 6,
+    "cutting": 23,
+    "to_hit": 1,
+    "price_postapoc": 500,
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
+    "techniques": [ "WBLOCK_2" ]
   },
   {
     "id": "switchblade",
@@ -71,7 +95,8 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_folding",
@@ -89,7 +114,8 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_combat",
@@ -118,7 +144,8 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_combat_mod",
@@ -152,7 +179,8 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_rambo",
@@ -173,7 +201,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_rm42",
@@ -201,7 +230,8 @@
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_swissarmy",
@@ -240,7 +270,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "makeshift_knife",
@@ -259,7 +290,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "bone_knife",
@@ -278,7 +310,8 @@
     "cutting": 12,
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_baselard",
@@ -296,7 +329,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "makeshift_machete",
@@ -316,7 +350,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SHEATH_SWORD" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "machete",
@@ -337,7 +372,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "machete_gimmick",
@@ -356,7 +392,8 @@
     "cutting": 15,
     "material": [ "steel" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ]
+    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "cavalry_sabre",
@@ -377,6 +414,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -398,6 +436,7 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ],
     "category": "weapons"
   },
   {
@@ -418,7 +457,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "jian",
@@ -431,6 +471,7 @@
     "price_postapoc": 4000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "800 g",
     "volume": "2 L",
@@ -479,6 +520,7 @@
     "material": [ "iron" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "90 cm",
@@ -575,6 +617,7 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "LONG_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
@@ -630,7 +673,8 @@
     "cutting": 29,
     "to_hit": 2,
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "weapon_category": [ "MEDIUM_SWORDS" ]
   },
   {
     "id": "arming_sword_fake",
@@ -679,7 +723,8 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
+    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
+    "weapon_category": [ "SHORT_SWORDS" ]
   },
   {
     "id": "khopesh",
@@ -699,7 +744,8 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "dao",
@@ -719,7 +765,8 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ]
   },
   {
     "id": "survivor_machete",
@@ -740,7 +787,8 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "sword_bayonet",
@@ -768,7 +816,8 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "sword_bayonet_mod",
@@ -797,6 +846,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ],
     "category": "weapons"
   },
   {
@@ -818,6 +868,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -860,7 +911,8 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "kirpan_cheap",
@@ -871,6 +923,7 @@
     "proportional": { "bashing": 8, "cutting": 0.24 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "weapon_category": [ "KNIVES" ],
     "material": [ "budget_steel" ],
     "to_hit": 1,
     "price": 900,
@@ -922,6 +975,7 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "LONG_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1164,6 +1218,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1245,6 +1300,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1398,6 +1454,7 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "KNIVES" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1766 g",
     "volume": "1500 ml",
@@ -1427,6 +1484,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1548,6 +1606,7 @@
     "bashing": 2,
     "cutting": 14,
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ],
     "price": 10000,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
@@ -1581,6 +1640,7 @@
     "bashing": 2,
     "cutting": 15,
     "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "CLAWS" ],
     "price": 20000,
     "price_postapoc": 250,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]

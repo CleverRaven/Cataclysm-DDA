@@ -116,6 +116,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weakpoint.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
@@ -276,6 +277,7 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -917,6 +919,7 @@ int Character::overmap_sight_range( int light_level ) const
 
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
+    // When adding checks here, also call game::update_overmap_seen at the place they first become true
     const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_flag( json_flag_ENHANCED_VISION ) ||
                              ( is_mounted() &&
                                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
@@ -1214,6 +1217,10 @@ void Character::mount_creature( monster &z )
     }
     // some rideable mechs have night-vision
     recalc_sight_limits();
+    if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
+        // mech night-vision counts as optics for overmap sight range.
+        g->update_overmap_seen();
+    }
     mod_moves( -100 );
 }
 
@@ -2897,6 +2904,16 @@ void Character::die( Creature *nkiller )
     is_dead = true;
     set_killer( nkiller );
     set_time_died( calendar::turn );
+
+    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
+    for( effect_on_condition_id &eoc : death_eocs ) {
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
+    }
+
     if( has_effect( effect_lightsnare ) ) {
         inv->add_item( item( "string_36", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -5760,7 +5777,7 @@ void Character::set_stamina( int new_stamina )
 void Character::mod_stamina( int mod )
 {
     // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() ) {
+    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
     stamina += mod;
@@ -5883,22 +5900,22 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         std::string it_name = used->tname();
         if( used->has_flag( flag_USE_UPS ) ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         ammo_req ),
+                               n_gettext( "Your %s needs %d charge from some UPS.",
+                                          "Your %s needs %d charges from some UPS.",
+                                          ammo_req ),
                                it_name, ammo_req );
         } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d bionic power.",
-                                         "Your %s needs %d bionic power.",
-                                         ammo_req ),
+                               n_gettext( "Your %s needs %d bionic power.",
+                                          "Your %s needs %d bionic power.",
+                                          ammo_req ),
                                it_name, ammo_req );
         } else {
             int ammo_rem = used->ammo_remaining();
             add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge, but needs %d.",
-                                         "Your %s has %d charges, but needs %d.",
-                                         ammo_rem ),
+                               n_gettext( "Your %s has %d charge, but needs %d.",
+                                          "Your %s has %d charges, but needs %d.",
+                                          ammo_rem ),
                                it_name, ammo_rem, ammo_req );
         }
         moves = pre_obtain_moves;
@@ -6774,14 +6791,14 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d )
+        const damage_instance &d, const weakpoint_attack &attack )
 {
     if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         return dealt_damage_instance();
     }
 
     //damage applied here
-    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d );
+    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d, attack );
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
@@ -7177,6 +7194,19 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
+std::vector<const item *> Character::inv_dump() const
+{
+    std::vector<const item *> ret;
+    if( is_armed() && can_drop( weapon ).success() ) {
+        ret.push_back( &weapon );
+    }
+    for( const item &i : worn ) {
+        ret.push_back( &i );
+    }
+    inv->dump( ret );
+    return ret;
+}
+
 bool Character::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
 {
     if( parts.none() ) {
@@ -7233,6 +7263,52 @@ units::volume Character::free_space() const
         volume_capacity += w.check_for_free_space();
     }
     return volume_capacity;
+}
+
+units::volume Character::holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    if( weapon.is_holster() ) {
+        holster_volume += weapon.get_total_capacity();
+    }
+    for( const item &w : worn ) {
+        if( w.is_holster() ) {
+            holster_volume += w.get_total_capacity();
+        }
+    }
+    return holster_volume;
+}
+
+int Character::empty_holsters() const
+{
+    int e_holsters = 0;
+    if( weapon.is_holster() ) {
+        e_holsters += 1;
+    }
+    for( const item &w : worn ) {
+        if( w.is_holster() && w.is_container_empty() ) {
+            e_holsters += 1;
+        }
+    }
+    return e_holsters;
+}
+
+units::volume Character::small_pocket_volume( const units::volume &threshold ) const
+{
+    units::volume small_spaces = 0_ml;
+    if( weapon.get_total_capacity() <= threshold ) {
+        small_spaces += weapon.get_total_capacity();
+    }
+    for( const item &w : worn ) {
+        if( !w.is_holster() ) {
+            for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+                if( pocket->volume_capacity() <= threshold ) {
+                    small_spaces += ( pocket->volume_capacity() );
+                }
+            }
+        }
+    }
+    return small_spaces;
 }
 
 units::volume Character::volume_capacity() const
@@ -7797,22 +7873,22 @@ int Character::available_ups() const
     return available_charges;
 }
 
-int Character::consume_ups( int qty, const int radius )
+int Character::consume_ups( int64_t qty, const int radius )
 {
-    const int wanted_qty = qty;
+    const int64_t wanted_qty = qty;
 
     // UPS from mounted mech
     if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+        int64_t power_drain = std::min( static_cast<int64_t>( mons->battery_item->ammo_remaining() ), qty );
         mons->use_mech_power( -power_drain );
         qty -= std::min( qty, power_drain );
     }
 
     // UPS from bionic
     if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
-        int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+        int64_t bio = std::min( units::to_kilojoule( get_power_level() ), qty );
         mod_power_level( units::from_kilojoule( -bio ) );
         qty -= std::min( qty, bio );
     }
@@ -8139,6 +8215,15 @@ void Character::on_item_takeoff( const item &it )
         }
     }
     morale->on_item_takeoff( it );
+}
+
+void Character::on_item_acquire( const item &it )
+{
+    if( is_avatar() && it.has_item_with( []( const item & it ) {
+    return it.has_flag( flag_ZOOM );
+    } ) ) {
+        g->update_overmap_seen();
+    }
 }
 
 void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )
@@ -8903,7 +8988,9 @@ void Character::process_effects()
     int_bonus_hardcoded = 0;
     per_bonus_hardcoded = 0;
     //Human only effects
-    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
+    effects_map effects_copy = *effects;
+    // Iterate over a copy, process_one_effect modifies the effects map, potentially invalidating iterators.
+    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : effects_copy ) {
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }

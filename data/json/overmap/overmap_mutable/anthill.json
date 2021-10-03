@@ -28,12 +28,16 @@
       [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
     ],
-    "joins": [ "surface_to_tunnel", "tunnel_to_tunnel" ],
+    "joins": [
+      { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      "tunnel_to_tunnel"
+    ],
     "overmaps": {
       "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "ants_nesw",
-        "above": "surface_to_tunnel",
+        "above": "tunnel_to_surface",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
         "south": "tunnel_to_tunnel",
@@ -58,18 +62,20 @@
     "phases": [
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
-        { "overmap": "straight_tunnel", "max": 20 },
-        { "overmap": "corner", "max": 5 },
-        { "overmap": "tee", "max": 10 }
+        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "tee", "max": { "poisson": 10 } },
+        { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
       ],
       [ { "overmap": "queen", "max": 1 } ],
-      [ { "overmap": "food", "max": 5 }, { "overmap": "larvae", "max": 5 } ],
+      [ { "overmap": "food", "max": { "poisson": 5 } }, { "overmap": "larvae", "max": { "poisson": 5 } } ],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },
         { "overmap": "corner", "weight": 100 },
         { "overmap": "tee", "weight": 10 },
-        { "overmap": "crossroads", "weight": 1 }
+        { "overmap": "crossroads", "weight": 1 },
+        { "overmap": "surface", "weight": 1 }
       ]
     ]
   }

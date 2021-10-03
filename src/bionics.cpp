@@ -187,6 +187,7 @@ static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
@@ -1570,7 +1571,7 @@ material_id Character::find_remote_fuel( bool look_only )
 
             if( cable->get_var( "state" ) == "UPS_link" ) {
                 if( !look_only ) {
-                    int remote_battery = 0;
+                    int64_t remote_battery = 0;
                     for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
                         if( i->get_var( "cable" ) == "plugged_in" ) {
                             remote_battery = i->ammo_remaining();
@@ -2445,7 +2446,8 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         return ret_val<bool>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
-    } else if( units::energy_max - get_max_power_level() < bid->capacity ) {
+    } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+               get_max_power_level() < bid->capacity ) {
         return ret_val<bool>::make_failure( _( "Max power capacity already reached." ) );
     }
 
@@ -2874,6 +2876,10 @@ void Character::add_bionic( const bionic_id &b )
 
     calc_encumbrance();
     recalc_sight_limits();
+    if( is_avatar() && has_flag( json_flag_ENHANCED_VISION ) ) {
+        // enhanced vision counts as optics for overmap sight range.
+        g->update_overmap_seen();
+    }
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }

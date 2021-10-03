@@ -22,6 +22,7 @@
 
 class basecamp;
 class character_id;
+enum class cube_direction : int;
 class map_extra;
 class monster;
 class npc;
@@ -166,6 +167,7 @@ class overmapbuffer
         const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
+        std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
         /**
          * Uses global overmap terrain coordinates.
          */

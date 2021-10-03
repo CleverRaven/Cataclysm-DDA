@@ -1,10 +1,33 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_hallway_start" ] ],
     "method": "json",
+    "om_terrain": "microlab_generic_hallway_end",
     "object": {
       "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_end_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_end_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  | PP  YY  PP |     ",
         " cc  | PP  YY  PP |     ",
@@ -37,10 +60,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_hallway_start" ] ],
+    "nested_mapgen_id": "microlab_generic_end_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "  c h| PP  PP  PP |c    ",
         " cccc| PP  PP  PP |c6h  ",
@@ -73,10 +96,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_hallway_start" ] ],
+    "nested_mapgen_id": "microlab_generic_end_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "  c h| PP  PP  PP |c    ",
         " cccc| PP  PP  PP |c6h  ",
@@ -109,10 +132,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_hallway_start" ] ],
+    "nested_mapgen_id": "microlab_generic_end_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "  c h| PP  PP  PP |c    ",
         " cccc| PP  PP  PP |c6h  ",
@@ -122,9 +145,9 @@
         "|||XX= PPPPPPPPPP =XX||2",
         " F|||| PPPPPPPPPP ||||F ",
         " F|htth          htth|F ",
-        " F|htth  V||||V  htth|F ",
-        "  |      ^|##|^      |F ",
-        "|||||||(((||||(((||||||2",
+        " F|htth   ||||   htth|F ",
+        "  |       |##|       |F ",
+        "|||||||   ||||   ||||||2",
         "     2YPPPPPPPPPPY2     ",
         "     2YPPPPPPPPPPY2     ",
         "|||  |||||h  h||||||2((|",
@@ -138,6 +161,50 @@
         " c|  | 6h |  |FFFF|  c  ",
         " c|22| c  |  ||||||c c  ",
         "     |    |  |FFFF|     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_hallway_blind_end" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "|||||| PP  PP  PP ||||||",
+        "|####| PP  PP  PP |####|",
+        "|#|||| PP |||| PP ||||#|",
+        "|#|XX= PP |##| PP =XX|#|",
+        "|#|XX= PP |||| PP =XX|#|",
+        "|#|XX= PPPPPPPPPP =XX|#|",
+        "|#|||| PPPPPPPPPP ||||#|",
+        "|#|htth          htth|#|",
+        "|#|htth   ||||   htth|#|",
+        "|#|       |##|       |#|",
+        "|||||||   ||||   |||||||",
+        "     2YPPPPPPPPPPY2     ",
+        "     2YPPPPPPPPPPY2     ",
+        "|2||||||||h  h|||||||(2|",
+        "    c|B ^=h  h=BB^|c    ",
+        "   hc|hd = PP =  h|c c  ",
+        "   hc|dd = PP = dd|c c  ",
+        "    c|h  [ PP [  h|c    ",
+        "|2||||||||=[[=||||||||2|",
+        "   h6|^    PP    ^|FFF  ",
+        " cc c|B      h   B|     ",
+        " cc c|B   d6dd   B|  c  ",
+        "    F|B     h    B|c c  ",
+        "||||||||||||||||||||||||"
+      ],
+      "place_nested": [
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
       ],
       "palettes": [ "microlab" ],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }

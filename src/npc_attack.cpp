@@ -324,7 +324,7 @@ std::vector<npc_attack_rating> npc_attack_melee::all_evaluations( const npc &sou
 bool npc_attack_melee::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( weapon ).success();
+    return source.is_wielding( weapon ) || source.can_wield( weapon ).success();
 }
 
 int npc_attack_melee::base_time_penalty( const npc &source ) const
@@ -650,11 +650,7 @@ tripoint_range<tripoint> npc_attack_throw::targetable_points( const npc &source 
 npc_attack_rating npc_attack_throw::evaluate(
     const npc &source, const Creature *target ) const
 {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
     npc_attack_rating effectiveness( cata::nullopt, source.pos() );
-#pragma GCC diagnostic pop
     if( !can_use( source ) ) {
         // please don't throw your pants...
         return effectiveness;

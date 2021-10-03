@@ -837,6 +837,7 @@ enum condition_type {
     FLAG,
     COMPONENT_ID,
     VAR,
+    SNIPPET_ID,
     num_condition_types
 };
 
@@ -851,6 +852,8 @@ struct conditional_name {
     condition_type type;
     // Context name  (i.e. "CANNIBALISM"   or "mutant")
     std::string condition;
+    // Used for variables and snippets to identify the specific value
+    std::string value;
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
@@ -1040,6 +1043,9 @@ struct itype {
 
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
+
+        // What it has to say.
+        std::vector<std::string> chat_topics;
 
         layer_level layer = layer_level::NUM_LAYER_LEVELS;
 

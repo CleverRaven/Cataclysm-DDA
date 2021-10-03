@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "all_enum_values.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "cached_options.h"
@@ -1069,11 +1070,12 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
-    if( data.debug_editor && center_seen ) {
+    if( ( data.debug_editor && center_seen ) || data.debug_info ) {
         const oter_t &oter = overmap_buffer.ter( center ).obj();
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
+        mvwprintz( wbar, point( 1, ++lines ), c_white, "oter: %s (rot %d)", oter.id.str(),
+                   oter.get_rotation() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   _( "oter_type: %s" ), oter.get_type_id().str() );
+                   "oter_type: %s", oter.get_type_id().str() );
         cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {
@@ -1082,7 +1084,14 @@ static void draw_om_sidebar(
                                arg.first, arg.second.get_string() );
                 }
             } else {
-                mvwprintz( wbar, point( 1, ++lines ), c_white, _( "args not yet set" ) );
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "args not yet set" );
+            }
+        }
+
+        for( cube_direction dir : all_enum_values<cube_direction>() ) {
+            if( std::string *join = overmap_buffer.join_used_at( { center, dir } ) ) {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "join %s: %s",
+                           io::enum_to_string( dir ), *join );
             }
         }
     }
@@ -1769,10 +1778,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
         } else if( action == "ZOOM_OUT" ) {
-            g->zoom_out();
+            g->zoom_out_overmap();
             ui.mark_resize();
         } else  if( action == "ZOOM_IN" ) {
-            g->zoom_in();
+            g->zoom_in_overmap();
             ui.mark_resize();
         } else if( action == "CONFIRM" ) {
             ret = curs;
@@ -1936,19 +1945,25 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display( center, data );
 }
 
-tripoint_abs_omt ui::omap::choose_point()
+tripoint_abs_omt ui::omap::choose_point( bool show_debug_info )
 {
-    return overmap_ui::display( get_player_character().global_omt_location() );
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
+    return overmap_ui::display( get_player_character().global_omt_location(), data );
 }
 
-tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin )
+tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin, bool show_debug_info )
 {
-    return overmap_ui::display( origin );
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
+    return overmap_ui::display( origin, data );
 }
 
-tripoint_abs_omt ui::omap::choose_point( int z )
+tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
 {
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
     tripoint_abs_omt loc = get_player_character().global_omt_location();
     loc.z() = z;
-    return overmap_ui::display( loc );
+    return overmap_ui::display( loc, data );
 }

@@ -819,7 +819,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         target_stack.begin()->tname() );
         off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off ), n_gettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );

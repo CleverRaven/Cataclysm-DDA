@@ -517,8 +517,10 @@ static bool extract_and_check_orientation_flags( const recipe_id recipe,
     const auto check_rotation = [&]( const std::string & flag, int rotation_value ) {
         if( recipe->has_flag( flag ) ) {
             if( rotation != 0 ) {
-                debugmsg( "%s, the blueprint specifies multiple concurrent rotations, which is not supported",
-                          string_format( base_error_message, actor, recipe->get_blueprint() ) );
+                debugmsg(
+                    "%s, the blueprint specifies multiple concurrent rotations, which is not "
+                    "supported",
+                    string_format( base_error_message, actor, recipe->get_blueprint().str() ) );
                 return false;
             }
             rotation = rotation_value;
@@ -560,8 +562,10 @@ static bool extract_and_check_orientation_flags( const recipe_id recipe,
 
     if( recipe->has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + dir_string ) ) {
         if( mirror_horizontal ) {
-            debugmsg( "%s, the blueprint specifies multiple concurrent horizontal mirroring, which is not supported",
-                      string_format( base_error_message, actor, recipe->get_blueprint() ) );
+            debugmsg(
+                "%s, the blueprint specifies multiple concurrent horizontal mirroring, which is "
+                "not supported",
+                string_format( base_error_message, actor, recipe->get_blueprint().str() ) );
             return false;
         }
         mirror_horizontal = true;
@@ -569,8 +573,10 @@ static bool extract_and_check_orientation_flags( const recipe_id recipe,
 
     if( recipe->has_flag( "MAP_MIRROR_VERTICAL_IF_" + dir_string ) ) {
         if( mirror_vertical ) {
-            debugmsg( "%s, the blueprint specifies multiple concurrent vertical mirroring, which is not supported",
-                      string_format( base_error_message, actor, recipe->get_blueprint() ) );
+            debugmsg(
+                "%s, the blueprint specifies multiple concurrent vertical mirroring, which is not "
+                "supported",
+                string_format( base_error_message, actor, recipe->get_blueprint().str() ) );
             return false;
         }
         mirror_vertical = true;
@@ -669,7 +675,7 @@ void talk_function::start_camp( npc &p )
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
         popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ),
-               p.disp_name(), making.get_blueprint() );
+               p.disp_name(), making.get_blueprint().str() );
         return;
     }
     get_basecamp( p, camp_type.str() );
@@ -2402,16 +2408,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
         seed_inv = comp->companion_mission_inv.items_with( farm_valid_seed );
     }
 
-    //farm_json is what the area should look like according to jsons
-    tinymap farm_json;
-    // We're probably going to rotate this tinymap to match the actual map.
-    // Let's make sure we don't move NPCs around when doing this.
-    farm_json.no_rotate_npcs = true;
-    // TODO: fix point types
-    farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
-    //farm_map is what the area actually looks like
+    // farm_map is what the area actually looks like
     tinymap farm_map;
     farm_map.load( project_to<coords::sm>( omt_tgt ), false );
+    // farm_json is what the area should look like according to jsons (loaded on demand)
+    std::unique_ptr<fake_map> farm_json;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     bool done_planting = false;
@@ -2422,15 +2423,24 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
             break;
         }
         switch( op ) {
-            case farm_ops::plow:
-                //Needs to be plowed to match json
-                if( is_dirtmound( pos, farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
+            case farm_ops::plow: {
+                if( !farm_json ) {
+                    farm_json = std::make_unique<fake_map>();
+                    mapgendata dat( omt_tgt, *farm_json, 0, calendar::turn, nullptr );
+                    if( !run_mapgen_func( dat.terrain_type()->get_mapgen_id(), dat ) ) {
+                        debugmsg( "Failed to run mapgen for farm map" );
+                        break;
+                    }
+                }
+                // Needs to be plowed to match json
+                if( is_dirtmound( pos, *farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         farm_map.ter_set( pos, t_dirtmound );
                     }
                 }
                 break;
+            }
             case farm_ops::plant:
                 if( is_dirtmound( pos, farm_map, farm_map ) ) {
                     plots_cnt += 1;
@@ -2680,7 +2690,7 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
                                  mirror_vertical, rotation ) ) {
         popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
-               making.get_blueprint() );
+               making.get_blueprint().str() );
         return false;
     }
     update_provides( bldg, e->second );
@@ -2783,18 +2793,18 @@ void basecamp::fortifications_return()
 {
     npc_ptr comp = companion_choose_return( "_faction_camp_om_fortifications", 3_hours );
     if( comp != nullptr ) {
-        std::string build_n = "faction_wall_level_N_0";
-        std::string build_e = "faction_wall_level_E_0";
-        std::string build_s = "faction_wall_level_S_0";
-        std::string build_w = "faction_wall_level_W_0";
+        update_mapgen_id build_n{ "faction_wall_level_N_0" };
+        update_mapgen_id build_e{ "faction_wall_level_E_0" };
+        update_mapgen_id build_s{ "faction_wall_level_S_0" };
+        update_mapgen_id build_w{ "faction_wall_level_W_0" };
         if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
-            build_n = "faction_wall_level_N_1";
-            build_e = "faction_wall_level_E_1";
-            build_s = "faction_wall_level_S_1";
-            build_w = "faction_wall_level_W_1";
+            build_n = update_mapgen_id( "faction_wall_level_N_1" );
+            build_e = update_mapgen_id( "faction_wall_level_E_1" );
+            build_s = update_mapgen_id( "faction_wall_level_S_1" );
+            build_w = update_mapgen_id( "faction_wall_level_W_1" );
         }
-        std::string build_first = build_e;
-        std::string build_second = build_w;
+        update_mapgen_id build_first = build_e;
+        update_mapgen_id build_second = build_w;
         bool build_dir_NS = comp->companion_mission_points[0].y() !=
                             comp->companion_mission_points[1].y();
         if( build_dir_NS ) {
@@ -3031,8 +3041,8 @@ bool basecamp::survey_return()
         return false;
     }
 
-    if( !run_mapgen_update_func( expansion_type.str(), where, nullptr, true, mirror_horizontal,
-                                 mirror_vertical, rotation ) ) {
+    if( !run_mapgen_update_func( update_mapgen_id( expansion_type.str() ), where, nullptr, true,
+                                 mirror_horizontal, mirror_vertical, rotation ) ) {
         popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name() );

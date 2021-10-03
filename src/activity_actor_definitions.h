@@ -1459,6 +1459,50 @@ class play_with_pet_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class prying_activity_actor : public activity_actor
+{
+    public:
+        explicit prying_activity_actor( const tripoint &target,
+                                        const item_location &tool ) : target( target ), tool( tool ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_PRYING" );
+        }
+
+        static time_duration prying_time( const activity_data_common &data, const item_location &tool,
+                                          const Character &who );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<prying_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;  // NOLINT(cata-serialize)
+    private:
+        tripoint target;
+        item_location tool;
+        bool prying_nails = false;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const prying_activity_actor &actor = static_cast<const prying_activity_actor &>
+                                                 ( other );
+            return actor.target == target;
+        }
+
+        // regular prying has lots of conditionals...
+        void handle_prying( Character &who );
+        // prying nails is much simpler
+        void handle_prying_nails( Character &who );
+};
+
 class tent_deconstruct_activity_actor : public activity_actor
 {
     private:

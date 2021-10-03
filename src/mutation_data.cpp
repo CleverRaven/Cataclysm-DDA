@@ -10,6 +10,7 @@
 
 #include "assign.h"
 #include "color.h"
+#include "condition.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -289,36 +290,9 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
-namespace io
-{
-    // *INDENT-OFF*
-    template<>
-    std::string enum_to_string<trigger_type>(trigger_type trigger_num)
-    {
-        switch (trigger_num) {
-        case trigger_type::PAIN: return "PAIN";
-        case trigger_type::HUNGER: return "HUNGER";
-        case trigger_type::THRIST: return "THIRST";
-        case trigger_type::MOOD: return "MOOD";
-        case trigger_type::STAMINA: return "STAMINA";
-        case trigger_type::MOON: return "MOON";
-        case trigger_type::TIME: return "TIME";
-        case trigger_type::num_trigger: return "undefined trigger";
-        }
-        cata_fatal("Invalid trigger_type %d", trigger_num);
-    }
-    // *INDENT-ON*
-} // namespace io
-
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    std::string tmp;
-    mandatory( jsobj, was_loaded, "trigger_type", tmp );
-    trigger = io::string_to_enum<trigger_type>( tmp );
-
-    optional( jsobj, was_loaded, "threshold_low",  threshold_low, INT_MIN );
-    optional( jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX );
-
+    read_condition<dialogue>( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );

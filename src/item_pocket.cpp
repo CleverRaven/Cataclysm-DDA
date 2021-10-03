@@ -860,7 +860,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.back().bNewLine = true;
     } else {
         for( const ammotype &at : ammo_types() ) {
-            const std::string fmt = string_format( ngettext( "<num> round of %s",
+            const std::string fmt = string_format( n_gettext( "<num> round of %s",
                                                    "<num> rounds of %s", ammo_capacity( at ) ),
                                                    at->name() );
             info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,
