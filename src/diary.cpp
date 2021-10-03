@@ -97,9 +97,8 @@ void diary::add_to_change_list(std::string entry, std::string desc) {
 //} <color_red>text</color>
 // colorize
 
-/*auto spell = u->magic->get_spell(id);
-        spell.name();
-        spell.description();*/
+
+
 void diary::spell_changes() {
     avatar* u = &get_avatar();
     diary_page* currpage = get_page_ptr();
@@ -350,9 +349,9 @@ void diary::skill_changes() {
             add_to_change_list(_("Skills:"));
             for (auto elem : currpage->skillsL) {
                 
-                if (elem.second.level() > 0) {
+                if (elem.second > 0) {
                     Skill s = elem.first.obj();
-                    add_to_change_list(string_format("<color_light_blue>%s: %d</color>", s.name(), elem.second.level()), s.description());
+                    add_to_change_list(string_format("<color_light_blue>%s: %d</color>", s.name(), elem.second), s.description());
                 }
             }
             add_to_change_list("");
@@ -363,14 +362,14 @@ void diary::skill_changes() {
         
         bool flag = true;
         for (auto elem : currpage->skillsL) {
-            if (prevpage->skillsL.count(elem.first) > 0) {
-                if (prevpage->skillsL[elem.first].level() != elem.second.level()) {
+            if (prevpage->skillsL.find(elem.first) != prevpage->skillsL.end() ) {//.count(elem.first) > 0
+                if (prevpage->skillsL[elem.first] != elem.second) {
                     if (flag) {
                         add_to_change_list(_("Skills: "));
                         flag = false;
                     }
                     Skill s = elem.first.obj();
-                    add_to_change_list(string_format(_("<color_light_blue>%s: %d -> %d</color>"), s.name(), prevpage->skillsL[elem.first].level(), elem.second.level()),s.description());
+                    add_to_change_list(string_format(_("<color_light_blue>%s: %d -> %d</color>"), s.name(), prevpage->skillsL[elem.first], elem.second),s.description());
                 }
 
             }
@@ -538,7 +537,7 @@ std::vector<std::string> diary::get_change_list() {
         bionic_changes();
         spell_changes();
         mission_changes();
-        kill_changes();
+        kill_changes();        
         
     }
     return change_list;
@@ -629,11 +628,11 @@ void diary::new_page() {
     page->perception = u->get_per_base();
     //page->addictions = u->addictions;
     
-    page -> follower_ids = u->follower_ids; 
+    //page -> follower_ids = u->follower_ids; 
     
     page->traits = u->get_mutations(false);
     
-    //page->magic = u->magic ;
+    
     const auto spells = u->magic->get_spells();
     for (const auto spell : spells) {
         const auto id = spell->id();
@@ -641,13 +640,11 @@ void diary::new_page() {
         
         page-> known_spells[id] = lvl;
         
-        /*auto spell = u->magic->get_spell(id);
-        spell.name();
-        spell.description();*/
+        
     }
     
    
-    //page -> martial_arts_data = u->martial_arts_data;
+    //auto martial_arts_data = u->martial
     
     page-> bionics = u->get_bionics();
     
@@ -656,7 +653,7 @@ void diary::new_page() {
 
     for (auto elem : Skill::skills) {
         
-        SkillLevel level = u->get_skill_level_object(elem.ident());
+        int level = u->get_skill_level_object(elem.ident()).level();
         page->skillsL.insert({ elem.ident(), level });
     }
     
@@ -716,7 +713,7 @@ void diary::serialize(std::ostream& fout) {
         jout.member("dex", n->dexterity);
         jout.member("int", n->intelligence);
         jout.member("per", n->perception);
-        jout.member("follower_ids", n->follower_ids);
+        //jout.member("follower_ids", n->follower_ids);
         jout.member("traits", n->traits);
         jout.member("bionics", n->bionics);
         jout.member("spells", n->known_spells);
@@ -761,7 +758,7 @@ void diary::deserialize(std::istream& fin) {
             elem.read("dex", page->dexterity);
             elem.read("int", page->intelligence);
             elem.read("per", page->perception);
-            elem.read("follower_ids", page->follower_ids);
+            //elem.read("follower_ids", page->follower_ids);
             elem.read("traits", page->traits);
             elem.read("bionics", page->bionics);
             elem.read("spells", page->known_spells);

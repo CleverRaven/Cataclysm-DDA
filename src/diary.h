@@ -74,7 +74,7 @@
         int intelligence;
         int perception;
         //std::vector<addiction> addictions;
-        std::set<character_id> follower_ids;
+        //std::set<character_id> follower_ids;
        
         std::vector<trait_id> traits;
         
@@ -83,7 +83,7 @@
         std::vector<bionic_id> bionics;
 
         
-        std::map<skill_id, SkillLevel> skillsL;
+        std::map<skill_id, int> skillsL;
         
         std::vector<proficiency_id> known_profs;
         std::vector<proficiency_id> learning_profs;
@@ -130,6 +130,7 @@ class diary
         void prof_changes();
         void mission_changes();
         void spell_changes();
+        
 
         void set_page_text( std::string text);
         static void show_diary_ui(diary* c_diary);
