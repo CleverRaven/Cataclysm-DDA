@@ -64,6 +64,7 @@ Monsters may also have any of these optional properties:
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
+| `families`               | (array of objects) Weakpoint families that the monster belongs to
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 | `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
@@ -360,6 +361,18 @@ The `coverage_mult` and `difficulty` objects support the following subfields:
 | `melee`             | The default value for melee weapons (`bash`, `cut`, and `stab`). Takes precedence over `point` and `broad`.
 | `point`             | The default value for pointed weapons (`stab` and `ranged`).
 | `broad`             | The default value for broad weapons (`bash` and `cut`).
+
+## "families"
+(array of objects, optional)
+
+Weakpoint families that the monster belongs to. 
+
+| field               | description
+| ---                 | ---
+| `id`                | The ID of the family. Defaults to `proficiency`, if not provided.
+| `proficiency`       | The proficiency ID corresponding to the family.
+| `bonus`             | The bonus to weak point skill, if the attacker has the proficiency.
+| `penalty`           | The penalty to weak point skill, if the attacker lacks the proficiency.
 
 ## "vision_day", "vision_night"
 (integer, optional)
