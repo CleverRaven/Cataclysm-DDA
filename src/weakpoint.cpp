@@ -57,9 +57,9 @@ float Character::throw_weakpoint_skill() const
 
 float weakpoint_family::modifier( const Character &attacker ) const
 {
-    return attacker.has_proficiency( proficiency ) 
-        ? bonus.value_or( proficiency.obj().default_weakpoint_bonus() ) 
-        : penalty.value_or( proficiency.obj().default_weakpoint_penalty() );
+    return attacker.has_proficiency( proficiency )
+           ? bonus.value_or( proficiency.obj().default_weakpoint_bonus() )
+           : penalty.value_or( proficiency.obj().default_weakpoint_penalty() );
 }
 
 void weakpoint_family::load( const JsonObject &jo )
