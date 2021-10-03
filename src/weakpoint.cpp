@@ -18,6 +18,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "rng.h"
+#include "translations.h"
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
@@ -54,6 +55,11 @@ float Character::throw_weakpoint_skill() const
     return skill + stat;
 }
 
+float weakpoint_family::modifier( const Character &attacker ) const
+{
+    return attacker.has_proficiency(proficiency) ? bonus : penalty;
+}
+
 void weakpoint_family::load( const JsonObject &jo )
 {
     assign( jo, "id", id );
@@ -68,25 +74,38 @@ void weakpoint_family::load( const JsonObject &jo )
 bool weakpoint_families::practice( Character &learner, const time_duration &amount ) const
 {
     bool learned = false;
-    for (const weakpoint_family& family : families) {
-        learned |= learner.practice_proficiency(family.proficiency, amount);
+    for( const weakpoint_family &family : families ) {
+        learned |= learner.practice_proficiency( family.proficiency, amount );
     }
     return learned;
 }
 
 bool weakpoint_families::practice_hit( Character &learner ) const
 {
-    return practice( learner, time_duration::from_seconds(1));
+    return practice( learner, time_duration::from_seconds( 1 ) );
 }
 
 bool weakpoint_families::practice_kill( Character &learner ) const
 {
-    return practice( learner, time_duration::from_seconds(5));
+    return practice( learner, time_duration::from_seconds( 5 ) );
 }
 
 bool weakpoint_families::practice_disect( Character &learner ) const
 {
-    return practice( learner, time_duration::from_seconds(60));
+    bool learned = practice( learner, time_duration::from_seconds( 60 ) );
+    if( learned ) {
+        learner.add_msg_if_player( m_good, _( "You carefully record the creature's vulnerabilities." ) );
+    }
+    return learned;
+}
+
+float weakpoint_families::modifier( const Character &attacker ) const
+{
+    float total = 0.0f;
+    for (const weakpoint_family& family : families) {
+        total += family.modifier( attacker );
+    }
+    return total;
 }
 
 void weakpoint_families::clear()
@@ -294,14 +313,9 @@ void weakpoint_attack::compute_wp_skill()
     float proficiency_skill = 0.0f;
     const monster *mon_tar = target->as_monster();
     if( chr_att != nullptr && mon_tar != nullptr ) {
-        for( const weakpoint_family &family : mon_tar->type->families ) {
-            if( chr_att->has_proficiency( family.proficiency ) ) {
-                proficiency_skill += family.bonus;
-            } else {
-                proficiency_skill -= family.penalty;
-            }
-        }
+        proficiency_skill = mon_tar->type->families.modifier( *chr_att );
     }
+    // Combine attacker skill and proficiency boni.
     wp_skill = attacker_skill + proficiency_skill;
 }
 

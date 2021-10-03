@@ -90,6 +90,7 @@ struct weakpoint_family {
     // The skill penalty for not having the proficiency.
     float penalty;
 
+    float modifier( const Character &attacker ) const;
     void load( const JsonObject &jo );
 };
 
@@ -99,10 +100,10 @@ struct weakpoint_families {
 
     // Practice all weak point families for the given duration. Returns true if anything was learned.
     bool practice( Character &learner, const time_duration &amount ) const;
-
     bool practice_hit( Character &learner ) const;
     bool practice_kill( Character &learner ) const;
     bool practice_disect( Character &learner ) const;
+    float modifier( const Character &attacker ) const;
 
     void clear();
     void load( const JsonArray &ja );
