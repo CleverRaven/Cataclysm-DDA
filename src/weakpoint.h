@@ -93,8 +93,21 @@ struct weakpoint_family {
     void load( const JsonObject &jo );
 };
 
-void load_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output );
-void remove_weakpoint_families( const JsonArray &ja, std::vector<weakpoint_family> &output );
+struct weakpoint_families {
+    // List of weakpoint families
+    std::vector<weakpoint_family> families;
+
+    // Practice all weak point families for the given duration. Returns true if anything was learned.
+    bool practice( Character &learner, const time_duration &amount ) const;
+
+    bool practice_hit( Character &learner ) const;
+    bool practice_kill( Character &learner ) const;
+    bool practice_disect( Character &learner ) const;
+
+    void clear();
+    void load( const JsonArray &ja );
+    void remove( const JsonArray &ja );
+};
 
 struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
