@@ -63,7 +63,16 @@
         "crit_mult": 1.25,
         "difficulty": { "ranged": 6, "melee": 4 },
         "coverage_mult": { "broad": 0.5 },
-        "effects": [ { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" } ]
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
       }
     ],
     "harvest": "zombie",
@@ -136,7 +145,16 @@
         "crit_mult": 1.25,
         "difficulty": { "ranged": 6, "melee": 4 },
         "coverage_mult": { "broad": 0.5 },
-        "effects": [ { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" } ]
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
       },
       {
         "name": "the leg",
@@ -266,7 +284,16 @@
         "crit_mult": 1.25,
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
-        "effects": [ { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" } ]
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
       },
       {
         "name": "the neck",
