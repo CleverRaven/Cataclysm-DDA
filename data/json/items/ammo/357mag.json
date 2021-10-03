@@ -17,7 +17,7 @@
     "ammo_type": "357mag",
     "casing": "357mag_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 32, "armor_penetration": 4 },
     "dispersion": 30,
     "recoil": 700,
     "effects": [ "COOKOFF" ]
