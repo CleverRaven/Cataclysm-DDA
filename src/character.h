@@ -273,7 +273,6 @@ enum edible_rating {
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
-        bool recurring = false;
         time_point time;
 };
 
