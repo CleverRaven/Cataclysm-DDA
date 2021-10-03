@@ -564,6 +564,36 @@ proceeds to the next phase.
 If all phases complete and unsatisfied joins remain, this is considered an
 error and a debugmsg will be displayed with more details.
 
+#### Chunks
+
+A placement rule in the phases can specify multiple overmaps to be placed in a
+particular configuration.  This is useful if you want to place some feature
+that's larger than a single OMT.  Here is an example from the microlab:
+
+```json
+{
+  "name": "subway_chunk_at_-2",
+  "chunk": [
+    { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ], "rot": "north" },
+    { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
+    { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+  ],
+  "max": 1
+}
+```
+
+The `"name"` of a chunk is only for debugging messages when something goes
+wrong.  `"max"` and `"weight"` are handled as above.
+
+The new feature is `"chunks"` which specifies a list of overmaps and their
+relative positions and rotations.  The overmaps are taken from the ones defined
+for this special.  Rotation of `"north"` is the default, so specifying that has
+no effect, but it's included here to demonstrate the syntax.
+
+The postions and rotations are relative.  The chunk can be placed at any offset
+and rotation, so long as all the overmaps are shifted and rotated together like
+a rigid body.
+
 #### Techniques to avoid placement errors
 
 To help avoid these errors, some additional features of the mutable special
