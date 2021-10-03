@@ -139,7 +139,8 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
+    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle gettext
+
 
 ### Building
 
@@ -159,7 +160,7 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+    sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential gettext
 
 ### Building
 
