@@ -1904,7 +1904,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_grocerybot_running_out_of_friendship", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "a neutral voice say, \"Customer I must inform you that my allocated time with you will soon come to its end.\"",
+    "sound": "a neutral voice say, \"Customer, I must inform you that my allocated time with you will soon come to its end.\"",
     "volume": 8
   },
   {
@@ -2138,25 +2138,25 @@
   {
     "type": "speech",
     "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
-    "sound": "\"visceral chittering.\"",
+    "sound": "visceral chittering.",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
-    "sound": "\"a clear high-pitched hum.\"",
+    "sound": "a clear, high-pitched hum.",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
-    "sound": "\"the hum of static electricity.\"",
+    "sound": "the hum of static electricity.",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
-    "sound": "\"a low buzzing sound.\"",
+    "sound": "a low buzzing sound.",
     "volume": 15
   },
   {
@@ -2259,145 +2259,145 @@
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Wanna play with me?",
+    "sound": "\"Wanna play with me?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Sing with me!",
+    "sound": "\"Sing with me!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "I love you!",
+    "sound": "\"I love you!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Please take me with you!",
+    "sound": "\"Please take me with you!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "May I have a cookie?",
+    "sound": "\"May I have a cookie?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Let's play together!",
+    "sound": "\"Let's play together!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Time to play!",
+    "sound": "\"Time to play!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Om nom nom!  Delicious!",
+    "sound": "\"Om nom nom!  Delicious!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Are you my mommy?",
+    "sound": "\"Are you my mommy?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Oh, how fun!",
+    "sound": "\"Oh, how fun!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "You're my best friend!",
+    "sound": "\"You're my best friend!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Heehee!",
+    "sound": "\"Heehee!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Let's have fun!",
+    "sound": "\"Let's have fun!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "Let's have a tea party!",
+    "sound": "\"Let's have a tea party!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
-    "sound": "You're the best!",
+    "sound": "\"You're the best!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "You shouldn't have done that.",
+    "sound": "\"You shouldn't have done that.\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "Let's play… Russian roulette.",
+    "sound": "\"Let's play… Russian roulette.\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "I hate you.",
+    "sound": "\"I hate you.\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "Go kill yourself!",
+    "sound": "\"Go kill yourself!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "Big Brother is watching you…",
+    "sound": "\"Big Brother is watching you…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "Die for me!",
+    "sound": "\"Die for me!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "Why won't you die?",
+    "sound": "\"Why won't you die?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "Blood…  Delicious.",
+    "sound": "\"Blood…  Delicious.\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "See you… IN HELL!",
+    "sound": "\"See you… IN HELL!\"",
     "volume": 10
   },
   {
@@ -2409,43 +2409,43 @@
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "FUCK YOU!",
+    "sound": "\"FUCK YOU!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "What did you do with my Mommy?",
+    "sound": "\"What did you do with my Mommy?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "Stay with me… forever!",
+    "sound": "\"Stay with me… forever!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "Hey kids.  Want some candy?",
+    "sound": "\"Hey kids.  Want some candy?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "Down here, they ALL float!",
+    "sound": "\"Down here, they ALL float!\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "Do you really need that much honey?",
+    "sound": "\"Do you really need that much honey?\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "My previous owner squealed like a pig when I gutted her!",
+    "sound": "\"My previous owner squealed like a pig when I gutted her!\"",
     "volume": 10
   },
   {
@@ -2523,25 +2523,25 @@
   {
     "type": "speech",
     "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
-    "sound": "heavy breathing",
+    "sound": "heavy breathing.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
-    "sound": "labored breathing",
+    "sound": "labored breathing.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_dermatik_incubator_dog" ],
-    "sound": "a whimper",
+    "sound": "a whimper.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_dermatik_incubator_bear", "mon_dermatik_incubator_dog" ],
-    "sound": "a rasping growl",
+    "sound": "a rasping growl.",
     "volume": 10
   }
 ]
