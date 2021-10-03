@@ -341,6 +341,7 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
         ::weakpoints weakpoints;
+        std::vector<weakpoint_family> families;
 
         // Pet food category this monster is in
         pet_food_data petfood;
