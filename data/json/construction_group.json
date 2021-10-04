@@ -511,6 +511,36 @@
   },
   {
     "type": "construction_group",
+    "id": "build_rock_wall_loophole",
+    "name": "Build Stone Wall with Loophole"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wood_wall_loophole",
+    "name": "Build Wood Wall with Loophole"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_log_wall_loophole",
+    "name": "Build Log Wall with Loophole"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_palisade_wall_loophole",
+    "name": "Build Palisade Wall with Loophole"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sconcrete_wall_loophole",
+    "name": "Build Simple Concrete Wall with Loophole"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_strconcrete_wall_loophole",
+    "name": "Build Reinforced Concrete Wall with Loophole"
+  },
+  {
+    "type": "construction_group",
     "id": "build_reinforced_double_glazed_glass_window",
     "name": "Build Reinforced Double Glazed Glass Window"
   },

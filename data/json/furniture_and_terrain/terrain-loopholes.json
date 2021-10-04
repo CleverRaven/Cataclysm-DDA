@@ -1,0 +1,181 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_loophole_rock",
+    "name": "stone wall with loophole",
+    "description": "The loophole on this stone wall allows you to shoot and use reach weapons, while also granting you a good cover.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "AUTO_WALL_SYMBOL",
+      "WALL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 80,
+      "str_max": 280,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_loophole_wood",
+    "name": "wooden wall with loophole",
+    "description": "This wooden wall has a hole that lets you shoot and use reach weapons.  Highly flammable.",
+    "symbol": "o",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_loophole_log",
+    "name": "log wall with loophole",
+    "description": "This timber wall has a hole that lets you shoot through and use reach weapons, while also protecting you.  Quite flammable.",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 60,
+      "str_max": 160,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_log_chipped",
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_palisade_loophole",
+    "name": "palisade wall with loophole",
+    "looks_like": "t_loophole_log",
+    "description": "An age-old type of fortification consisting of hefty lumber staked into the ground and cabled together.  This section in particular has a loophole.",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "CONNECT_TO_WALL", "WALL", "PERMEABLE", "TRANSPARENT", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 35,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 10, 30 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_loophole_sconc",
+    "name": "simple concrete wall with loophole",
+    "description": "A durable and uniform concrete wall.  This one has a loophole.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 90,
+      "str_max": 340,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_loophole_strconcrete",
+    "name": "reinforced concrete wall with loophole",
+    "description": "This nice hole lets you shoot your machine gun from the safety of your reinforced bunker.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 440,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  }
+]
