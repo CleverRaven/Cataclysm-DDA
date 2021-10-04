@@ -64,6 +64,8 @@
           "LIGHT_FUR",
           "LUPINE_FUR",
           "LYNX_FUR",
+          "PATCHSKIN1",
+          "PATCHSKIN2",
           "PLANTSKIN",
           "SCALES",
           "SKIN_ROUGH",
@@ -203,7 +205,8 @@
       {
         "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
         "order": 8500
-      }
+      },
+      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
     ]
   }
 ]

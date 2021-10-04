@@ -417,6 +417,7 @@
     "copy-from": "generic_city_building",
     "name": "butcher shop",
     "color": "i_red",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 2, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
@@ -853,6 +854,7 @@
     "copy-from": "generic_city_building",
     "name": "candy shop",
     "color": "red_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 2, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -868,6 +870,7 @@
     "name": "bakery",
     "copy-from": "generic_city_building",
     "color": "yellow_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 2, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -890,6 +893,7 @@
     "name": "icecream shop",
     "copy-from": "generic_city_building",
     "color": "blue_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 3, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -1237,7 +1241,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2" ],
+    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2", "craft_shop_3" ],
     "copy-from": "generic_city_building",
     "name": "craft shop",
     "sym": "s",
@@ -1254,7 +1258,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2" ],
+    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2", "craft_shop_roof_3" ],
     "copy-from": "generic_city_building",
     "name": "craft shop roof",
     "sym": "s",
@@ -1262,7 +1266,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "craft_shop_2ndfloor_2",
+    "id": [ "craft_shop_2ndfloor_2", "craft_shop_2ndfloor_3" ],
     "name": "craft shop 2nd floor",
     "copy-from": "generic_city_building",
     "sym": "s",

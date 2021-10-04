@@ -8,7 +8,9 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
-      [ "tongs", 90 ],
+      [ "drift", 70 ],
+      [ "hotcut", 90 ],
+      [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ]
     ]
@@ -21,6 +23,7 @@
       { "group": "tools_common", "prob": 100 },
       { "item": "circsaw_off", "prob": 100, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
+      { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "hand_drill", 20 ],
       { "item": "nailgun", "prob": 100, "charges": [ 0, 20 ] },
       [ "chisel", 10 ],
@@ -38,8 +41,9 @@
       { "item": "kiln", "prob": 40, "charges": [ 0, 1000 ] },
       { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
+      { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
-      { "item": "jackhammer", "prob": 40, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
@@ -56,9 +60,14 @@
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
       [ "saw", 60 ],
+      { "item": "bow_saw", "prob": 50 },
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
-      [ "wrench", 40 ],
+      [ "socket_screwdriver_set", 10 ],
+      [ "wrench", 20 ],
+      [ "wrench_small", 20 ],
+      [ "socket_wrench_set", 20 ],
+      [ "pliers_locking", 20 ],
       [ "xacto", 40 ],
       [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
@@ -88,7 +97,9 @@
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
-      [ "wrench", 75 ],
+      [ "pliers_locking", 40 ],
+      [ "wrench", 50 ],
+      [ "wrench_small", 25 ],
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
       [ "sandpaper", 65 ]
@@ -104,17 +115,22 @@
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
+      [ "pliers_locking", 40 ],
       [ "wrench", 75 ],
+      [ "wrench_large", 20 ],
+      [ "socket_wrench_set", 20 ],
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
       [ "sandpaper", 65 ],
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
+      { "item": "bow_saw", "prob": 40 },
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
       { "item": "nailgun", "prob": 15, "charges": [ 0, 20 ] },
       { "item": "circsaw_off", "prob": 25, "charges": [ 0, 500 ] },
+      { "item": "cordless_impact_wrench", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 45, "charges": [ 0, 500 ] }
     ]
   },
@@ -140,6 +156,8 @@
       { "item": "dehydrator", "prob": 5, "charges": [ 0, 500 ] },
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "sandpaper", 50 ],
       [ "plastic_sheet", 50 ],
       [ "shovel_snow", 10 ],
@@ -210,6 +228,7 @@
     "items": [
       { "group": "tools_common", "prob": 100 },
       [ "wrench", 200 ],
+      [ "wrench_large", 20 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "pliers", 200 ],
@@ -224,6 +243,8 @@
       { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
       [ "funnel", 200 ],
       [ "hand_drill", 10 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "boltcutters", 150 ],
       { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 60, "charges": [ 0, 300 ] },
@@ -243,8 +264,11 @@
       { "group": "tools_common", "prob": 100 },
       { "item": "soldering_iron", "prob": 100, "charges": [ 0, 50 ] },
       [ "magnifying_glass", 100 ],
-      { "item": "voltmeter", "prob": 100, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 100, "charges": [ 0, 100 ] },
       [ "recharge_station", 10 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "hand_crank_charger", 40 ]
     ]
   },
@@ -285,6 +309,8 @@
       [ "jack", 80 ],
       [ "tire_iron", 80 ],
       [ "jack_small", 80 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       {
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
@@ -301,7 +327,8 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "goggles_welding", 80 ]
     ]
   },
   {
@@ -498,6 +525,8 @@
       [ "awl_steel", 60 ],
       { "item": "loom_frame", "prob": 5 },
       [ "needle_curved", 30 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "scissors", 1000 ],
       { "item": "sewing_kit", "prob": 120, "charges-min": 0 },
       { "item": "shed_stick", "prob": 5 },
@@ -529,6 +558,7 @@
       [ "cuvettes", 5 ],
       { "item": "ph_meter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "voltmeter", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
       { "item": "hotplate", "prob": 5, "charges": [ 0, 500 ] },
@@ -539,6 +569,7 @@
       { "item": "geiger_off", "prob": 3, "charges": [ 0, 100 ] },
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "sextant", 1 ],
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       [ "flask_glass", 10 ],
       [ "bottle_glass", 10 ],
@@ -593,6 +624,26 @@
     ]
   },
   {
+    "id": "fireman_cabinet",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      { "item": "extinguisher", "prob": 35 },
+      { "item": "sm_extinguisher", "prob": 35 },
+      {
+        "collection": [
+          { "item": "hose" },
+          { "item": "sm_extinguisher" },
+          { "item": "fire_ax", "prob": 50 },
+          { "item": "crash_axe", "prob": 80 },
+          { "item": "throw_extinguisher", "prob": 30, "count": [ 3, 5 ] }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "tools_robotics",
     "//": "tools and equipment you might find on robotics laboratories.",
@@ -610,6 +661,8 @@
       [ "pliers", 10 ],
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
       [ "glasses_safety", 20 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "duct_tape", 8 ],
       { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
@@ -617,7 +670,9 @@
       { "item": "extinguisher", "prob": 10, "charges": 100 },
       [ "magnifying_glass", 10 ],
       [ "multitool", 20 ],
+      [ "vac_mold", 2 ],
       [ "screwdriver_set", 20 ],
+      [ "socket_screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "mobile_memory_card_science", 40 ],
       { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
@@ -629,6 +684,7 @@
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
       [ "wrench", 10 ],
+      [ "socket_wrench_set", 10 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
   },
@@ -640,6 +696,7 @@
       [ "wrench", 50 ],
       [ "hammer", 40 ],
       [ "saw", 50 ],
+      { "item": "bow_saw", "prob": 40 },
       [ "ax", 20 ],
       [ "hacksaw", 50 ],
       [ "chipper", 60 ],
@@ -657,8 +714,9 @@
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
-      { "item": "jackhammer", "prob": 50, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1000 ] },
+      { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] }
     ]
@@ -671,6 +729,7 @@
       [ "ax", 100 ],
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
       [ "saw", 100 ],
+      { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },
       [ "circsaw_blade", 10 ],
       { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] }

@@ -24,7 +24,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -32,9 +31,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "viewer.h"
-
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_rifle( "rifle" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -51,7 +47,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( const player *const foe = dynamic_cast<player *>( source ) ) {
+    if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
             if( !i.conductive()
@@ -61,7 +57,7 @@ void mdefense::zapback( monster &m, Creature *const source,
             }
         }
         // Players/NPCs can avoid the shock by using non-conductive weapons
-        if( !foe->weapon.conductive() ) {
+        if( !foe->get_wielded_item().conductive() ) {
             if( foe->reach_attacking ) {
                 return;
             }
@@ -108,8 +104,9 @@ void mdefense::acidsplash( monster &m, Creature *const source,
             return;
         }
     } else {
-        if( const player *const foe = dynamic_cast<player *>( source ) ) {
-            if( foe->weapon.is_melee( damage_type::CUT ) || foe->weapon.is_melee( damage_type::STAB ) ) {
+        if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
+            if( foe->get_wielded_item().is_melee( damage_type::CUT ) ||
+                foe->get_wielded_item().is_melee( damage_type::STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
@@ -158,51 +155,44 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const player *const foe = dynamic_cast<player *>( source );
+    const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
-    if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+    if( foe == nullptr ||
+        foe->get_wielded_item().gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
         return;
     }
 
     const tripoint fire_point = source->pos();
+    // If target actually was not damaged by projectile - then do not bother
+    // Also it covers potential exploit - peek throwing potentially can be used to exhaust turret ammo
+    if( proj != nullptr && proj->dealt_dam.total_damage() == 0 ) {
+        return;
+    }
 
-    // Create a fake NPC which will actually fire
-    npc tmp;
-    tmp.set_fake( true );
-    tmp.setpos( m.pos() );
+    // No return fire if attacker is seen
+    if( m.sees( *source ) ) {
+        return;
+    }
 
-    // We might be aiming at the player square, but we aren't totally sure where they are,
-    // so represent that with initial recoil.
-    tmp.recoil = 150;
+    const int distance_to_source = rl_dist( m.pos(), source->pos() );
+
+    // TODO: implement different rule, dependent on sound and probably some other things
+    // Add some inaccuracy since it is blind fire (at a tile, not the player directly)
+    const int dispersion = 150;
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
             sounds::sound( m.pos(), 50, sounds::sound_t::alert,
                            _( "Detected shots from unseen attacker, return fire mode engaged." ) );
-            tmp.moves -= 150;
-
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
-
-            // Set fake NPC's dexterity...
-            tmp.dex_cur = gunactor->fake_dex;
-
-            // ...skills...
-            for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
-                if( skill.first == skill_gun ) {
-                    tmp.set_skill_level( skill_gun, skill.second );
-                }
-                if( skill.first == skill_rifle ) {
-                    tmp.set_skill_level( skill_rifle, skill.second );
-                }
+            if( gunactor->get_max_range() < distance_to_source ) {
+                continue;
             }
 
-            // ...and weapon, everything based on turret's properties
-            tmp.weapon = item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
-                         m.ammo[ gunactor->ammo_type ] );
-            const int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
+            gunactor->shoot( m, fire_point, gun_mode_id( "DEFAULT" ), dispersion );
 
-            // Fire the weapon and consume ammo
-            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * tmp.weapon.ammo_required();
+            // We only return fire once with one gun.
+            return;
         }
     }
 }

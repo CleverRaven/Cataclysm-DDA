@@ -1,88 +1,5 @@
 [
   {
-    "id": "mon_afs_headless_zombie",
-    "type": "MONSTER",
-    "name": { "str": "headless zombie" },
-    "description": "Despite lacking a head, this zombie appears to have not gotten the memo, and shambles aimlessly around without functioning senses.  Black ooze pulses out of its neck, and it stumbles around listlessly.",
-    "default_faction": "zombie",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "60000 ml",
-    "weight": "78500 g",
-    "hp": 60,
-    "speed": 50,
-    "material": [ "flesh" ],
-    "symbol": "Z",
-    "color": "brown",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 0,
-    "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into": "mon_afs_headless_horror" },
-    "flags": [
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY",
-      "NOHEAD",
-      "LOUDMOVES"
-    ]
-  },
-  {
-    "id": "mon_afs_headless_horror",
-    "type": "MONSTER",
-    "name": { "str": "headless horror" },
-    "description": "This headless zombie has swollen to frightening proportions, towering almost nine feet tall.  Six-foot-long feelers of black ooze blindly wave from its neck, violently twitching at nearby sounds, and it moves at terrifying speed with its grotesquely-swollen hands.",
-    "default_faction": "zombie",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "875000 ml",
-    "weight": "200 kg",
-    "hp": 300,
-    "speed": 240,
-    "material": [ "flesh" ],
-    "symbol": "Z",
-    "color": "brown_magenta",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_cut": 0,
-    "vision_day": 2,
-    "vision_night": 2,
-    "//": "if you're this close, it can feel you there.",
-    "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 3 ], [ "scratch", 3 ] ],
-    "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY",
-      "NOHEAD",
-      "LOUDMOVES"
-    ]
-  },
-  {
     "id": "mon_zombie_upliftedbear",
     "type": "MONSTER",
     "name": { "str": "Haunting Forest Walker" },
@@ -114,7 +31,6 @@
       }
     ],
     "death_drops": "xl_uplift_death_drop",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -158,7 +74,6 @@
     "harvest": "zombie_meatslug",
     "death_drops": "xl_uplift_death_drop",
     "special_attacks": [ [ "SMASH", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -204,7 +119,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 28 ] ],
     "death_drops": "xl_uplift_death_drop",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -249,7 +163,6 @@
     "harvest": "zombie_meatslug",
     "death_drops": "seabased_death_drop",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -299,7 +212,6 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -358,7 +270,6 @@
         ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -410,7 +321,6 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -455,7 +365,6 @@
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -499,7 +408,6 @@
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "special_attacks": [ [ "PARROT", 0 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -558,7 +466,6 @@
         ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -610,7 +517,6 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "STUMBLES",
       "HEARS",
@@ -657,7 +563,7 @@
     "armor_cut": 5,
     "harvest": "alien_moxphore",
     "special_attacks": [ [ "ACID", 20 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] } ],
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
       "SEES",
       "HEARS",
@@ -674,5 +580,33 @@
       "PUSH_MON",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_zombie_brute_shocker",
+    "type": "MONSTER",
+    "name": { "str": "shocker brute" },
+    "copy-from": "mon_zombie_brute_shocker",
+    "harvest": "CBM_SUBS"
+  },
+  {
+    "id": "mon_zombie_electric",
+    "type": "MONSTER",
+    "name": { "str": "shocker zombie" },
+    "copy-from": "mon_zombie_electric",
+    "harvest": "CBM_CIV"
+  },
+  {
+    "id": "mon_zombie_nullfield",
+    "type": "MONSTER",
+    "name": { "str": "incandescent husk" },
+    "copy-from": "mon_zombie_nullfield",
+    "harvest": "CBM_SUBS"
+  },
+  {
+    "id": "mon_skeleton_electric",
+    "type": "MONSTER",
+    "name": { "str": "skeletal shocker" },
+    "copy-from": "mon_skeleton_electric",
+    "harvest": "CBM_CIV"
   }
 ]

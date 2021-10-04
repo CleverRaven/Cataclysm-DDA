@@ -5,7 +5,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"

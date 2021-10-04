@@ -10,6 +10,7 @@
     "coverage": 35,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_exercise_machine",
     "examine_action": "workout",
     "deconstruct": {
       "items": [
@@ -123,7 +124,7 @@
     "type": "furniture",
     "id": "f_arcade_machine",
     "name": "arcade machine",
-    "description": "A bulky upright arcade cabinet, brightly painted and slightyly worn with age.  Useless for its intended purpose, it's bound to have valuable parts.",
+    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Useless for its intended purpose, it's bound to have valuable parts.",
     "symbol": "6",
     "color": "red",
     "move_cost_mod": -1,
@@ -211,7 +212,7 @@
     "type": "furniture",
     "id": "f_ergometer",
     "name": "ergometer",
-    "description": "An exercise machine with a set of handles and plates meant to emulate rowing a boat.  Without power it can't be operated, but it might have useful parts to be scavanged.",
+    "description": "An exercise machine with a set of handles and plates meant to emulate rowing a boat.  Without power it can't be operated, but it might have useful parts to be scavenged.",
     "symbol": "5",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -263,6 +264,7 @@
     "required_str": 8,
     "looks_like": "f_ergometer",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_ARMS", "WORKOUT_LEGS" ],
+    "crafting_pseudo_item": "pseudo_ergometer_mechanical",
     "deconstruct": {
       "items": [
         { "item": "foot_crank", "count": [ 1, 1 ] },
@@ -341,6 +343,7 @@
     "required_str": 12,
     "looks_like": "f_treadmill",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_LEGS" ],
+    "crafting_pseudo_item": "pseudo_treadmill_mechanical",
     "deconstruct": {
       "items": [
         { "item": "plastic_chunk", "count": [ 10, 14 ] },
@@ -375,7 +378,8 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 10,
-    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_punching_bag",
     "examine_action": "workout",
     "bash": {
       "str_min": 15,

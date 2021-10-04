@@ -269,7 +269,7 @@
     "id": "EERIE",
     "name": "Eerie",
     "points": 1,
-    "description": "You are offputting to others.  You're mannerisms have changed as if human interaction is becoming foreign.",
+    "description": "You are off-putting to others.  Your mannerisms have changed as if human interaction is becoming foreign.",
     "category": [ "MIGO" ],
     "social_modifiers": { "persuade": -15, "lie": -10 },
     "ugliness": 2
@@ -629,7 +629,7 @@
     "name": "Trumpeting Voice",
     "points": -1,
     "mixed_effect": true,
-    "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will very hard.",
+    "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will be very hard.",
     "changes_to": [ "SNARL" ],
     "category": [ "MASTODON" ],
     "social_modifiers": { "lie": -30, "intimidate": 10 }

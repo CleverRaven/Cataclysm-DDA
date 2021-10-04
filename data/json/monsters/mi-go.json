@@ -24,6 +24,7 @@
     "armor_bash": 4,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
@@ -33,7 +34,6 @@
       [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -74,6 +74,7 @@
     "armor_bash": 4,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
@@ -84,7 +85,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 3 }, "cooldown": 100 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -125,6 +125,7 @@
     "armor_bash": 5,
     "armor_cut": 13,
     "armor_bullet": 10,
+    "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
@@ -134,7 +135,6 @@
       [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -175,6 +175,7 @@
     "armor_bash": 17,
     "armor_cut": 22,
     "armor_bullet": 18,
+    "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
@@ -188,7 +189,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.7 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 1 }, "cooldown": 100 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -229,6 +229,7 @@
     "armor_bash": 19,
     "armor_cut": 27,
     "armor_bullet": 22,
+    "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
@@ -236,12 +237,12 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 800 ],
-      [ "LONGSWIPE", 12 ],
-      [ "STRETCH_ATTACK", 20 ],
+      { "id": "stretch_attack" },
+      { "id": "longswipe", "cooldown": 12 },
+      { "id": "cut_throat", "cooldown": 12 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 2 }, "cooldown": 100 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -282,6 +283,7 @@
     "armor_bash": 4,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
@@ -301,7 +303,6 @@
         "ranges": [ [ 2, 30, "DEFAULT" ] ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",

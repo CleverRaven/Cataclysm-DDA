@@ -28,7 +28,8 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.25,
-    "time_to_learn": "10 h"
+    "time_to_learn": "10 h",
+    "//": "The 'closures' part of the name is historical."
   },
   {
     "type": "proficiency",
@@ -102,7 +103,8 @@
     "default_time_multiplier": 5,
     "default_fail_multiplier": 1,
     "time_to_learn": "20 h",
-    "required_proficiencies": [ "prof_knitting" ]
+    "required_proficiencies": [ "prof_knitting" ],
+    "ignore_focus": true
   },
   {
     "type": "proficiency",
@@ -162,7 +164,7 @@
     "type": "proficiency",
     "id": "prof_polymerworking",
     "name": { "str": "Advanced polymer sewing" },
-    "description": "You know the tricks for working with kevlar, nomex, and other advanced polymer cloth.",
+    "description": "You know the tricks for working with Kevlar, Nomex, and other advanced polymer cloth.",
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.25,

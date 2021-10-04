@@ -84,7 +84,6 @@ class MonsterGenerator
 
         // Init functions
         void init_phases();
-        void init_death();
         void init_attack();
         void init_defense();
 

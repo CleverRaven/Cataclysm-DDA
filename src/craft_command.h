@@ -13,7 +13,6 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
 class item;
 class read_only_visitable;
@@ -50,7 +49,7 @@ struct comp_selection {
     std::string nname() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 /**

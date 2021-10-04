@@ -31,8 +31,7 @@
     "category": "veh_parts",
     "price": 90000,
     "price_postapoc": 5000,
-    "ammo": [ "plutonium" ],
-    "max_charges": 10000
+    "ammo": [ "plutonium" ]
   },
   {
     "type": "GENERIC",
@@ -65,6 +64,18 @@
     "category": "veh_parts",
     "price": 20000,
     "price_postapoc": 1500
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "mountable_heater",
+    "id": "mountable_heater_small",
+    "name": { "str": "small vehicle heater" },
+    "description": "A small vehicle-mounted area heater.",
+    "weight": "6000 g",
+    "bashing": 3,
+    "volume": "3750 ml",
+    "price": 10000,
+    "price_postapoc": 750
   },
   {
     "type": "GENERIC",
@@ -117,12 +128,12 @@
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
-    "weight": "31752 g",
+    "weight": "15000 g",
     "to_hit": -8,
     "color": "light_blue",
-    "symbol": "]",
+    "symbol": "{",
     "material": [ "steel" ],
-    "volume": "125 L",
+    "volume": "20 L",
     "bashing": 8,
     "category": "veh_parts",
     "price": 60000,

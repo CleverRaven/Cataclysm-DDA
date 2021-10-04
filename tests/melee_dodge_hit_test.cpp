@@ -4,8 +4,9 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
@@ -56,8 +57,19 @@ static float dodge_with_effect( Creature &critter, const std::string &effect_nam
 static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
+
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
+    while( true ) {
+        item &it = dummy.i_at( -2 );
+
+        if( it.is_null() ) {
+            break;
+        }
+        if( !dummy.takeoff( item_location( *dummy.as_character(), &it ), &temp ) ) {
+            break;
+        }
+    }
+
     dummy.wear_item( clothing );
 
     return dummy.get_dodge();
@@ -278,6 +290,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 {
     clear_map();
 
+    creature_tracker &creatures = get_creature_tracker();
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
@@ -297,10 +310,10 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     monster *zed4 = g->place_critter_at( mtype_id( "debug_mon" ), mon4_pos );
 
     // Make sure zombies are in their places
-    REQUIRE( g->critter_at<monster>( mon1_pos ) );
-    REQUIRE( g->critter_at<monster>( mon2_pos ) );
-    REQUIRE( g->critter_at<monster>( mon3_pos ) );
-    REQUIRE( g->critter_at<monster>( mon4_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon2_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon3_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon4_pos ) );
 
     // Get grabbed
     dummy.add_effect( efftype_id( "grabbed" ), 1_minutes );

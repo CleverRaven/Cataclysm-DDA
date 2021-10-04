@@ -4,7 +4,7 @@
 #include <iterator>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "point.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.

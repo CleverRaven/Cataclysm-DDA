@@ -3,6 +3,7 @@
 #define CATA_SRC_MTYPE_H
 
 #include <iosfwd>
+#include <array>
 #include <map>
 #include <set>
 #include <string>
@@ -14,12 +15,16 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
+#include "magic.h"
 #include "mattack_common.h"
 #include "optional.h"
 #include "pathfinding.h"
+#include "shearing.h"
+#include "speed_description.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
+#include "weakpoint.h"
 
 class Creature;
 class monster;
@@ -42,6 +47,7 @@ enum class mon_trigger : int {
     MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
+    HOSTILE_SEEN,       // Hostile creature in visual range
     HURT,               // We are hurt
     FIRE,               // Fire nearby
     FRIEND_DIED,        // A monster of the same type died
@@ -70,6 +76,7 @@ enum m_flag : int {
     MF_KEENNOSE,            // Keen sense of smell
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
+    MF_NEMESIS,             // Is a nemesis monster
     MF_NOHEAD,              // Headshots not allowed!
     MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
     MF_GRABS,               // Its attacks may grab us!
@@ -97,6 +104,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
     MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
@@ -143,6 +151,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
+    MF_KEEP_DISTANCE,       // Attempts to keep a short distance (tracking_distance) from its current target.  The default tracking distance is 8 tiles
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -154,16 +163,14 @@ enum m_flag : int {
     MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
-    MF_CATFOOD,             // This monster will become friendly when fed cat food.
-    MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
-    MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
     MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
-    MF_DOGFOOD,             // This monster will become friendly when fed dog food.
+    MF_DOGFOOD,             // This monster will respond to the dog whistle.
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
+    MF_NO_FUNG_DMG,         // This monster can't be damaged by fungal spores and can't be fungalized either.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
@@ -174,6 +181,8 @@ enum m_flag : int {
     MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
     MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
+    MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
+    MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -195,6 +204,41 @@ struct mon_effect_data {
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
         chance( nchance ) {}
+};
+
+/** Pet food data */
+struct pet_food_data {
+    std::set<std::string> food;
+    std::string pet;
+    std::string feed;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
+enum class mdeath_type {
+    NORMAL,
+    SPLATTER,
+    BROKEN,
+    NO_CORPSE,
+    LAST
+};
+
+template<>
+struct enum_traits<mdeath_type> {
+    static constexpr mdeath_type last = mdeath_type::LAST;
+};
+
+struct monster_death_effect {
+    bool was_loaded = false;
+    bool has_effect = false;
+    fake_spell sp;
+    translation death_message;
+    mdeath_type corpse_type = mdeath_type::NORMAL;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
 };
 
 struct mtype {
@@ -221,6 +265,13 @@ struct mtype {
         void add_special_attack( JsonArray inner, const std::string &src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
+        void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                         const std::string &src );
+        void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                            const std::string &src );
+
+        void add_regeneration_modifier( JsonArray inner, const std::string &src );
+
     public:
         mtype_id id;
 
@@ -231,6 +282,9 @@ struct mtype {
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
+        /** Mod origin */
+        std::vector<std::pair<mtype_id, mod_id>> src;
+
         std::set<species_id> species;
         std::set<std::string> categories;
         std::vector<material_id> mat;
@@ -240,10 +294,10 @@ struct mtype {
         std::string looks_like;
         mfaction_str_id default_faction;
         bodytype_id bodytype;
+        units::mass weight;
+        units::volume volume;
         nc_color color = c_white;
         creature_size size;
-        units::volume volume;
-        units::mass weight;
         phase_id phase;
 
         int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
@@ -254,15 +308,19 @@ struct mtype {
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
 
+        // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
+        int tracking_distance = 8;
+
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
+        // Effects that can modify regeneration
+        std::map<efftype_id, int> regeneration_modifiers;
+        // mountable ratio for rider weight vs. mount weight, default 0.2
+        float mountable_weight_ratio = 0.2f;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
         bool regen_morale = false;
-
-        // mountable ratio for rider weight vs. mount weight, default 0.2
-        float mountable_weight_ratio = 0.2f;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
@@ -270,11 +328,10 @@ struct mtype {
         int melee_sides = 0;    /** number of sides those dice have */
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
+        int sk_dodge = 0;       /** dodge skill */
 
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
         std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
-
-        int sk_dodge = 0;       /** dodge skill */
 
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;    /** innate armor vs. bash */
@@ -283,25 +340,36 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
+        ::weakpoints weakpoints;
 
+        // Pet food category this monster is in
+        pet_food_data petfood;
+
+        // Bleed rate in percent, 0 makes the monster immune to bleeding
+        int bleed_rate = 100;
+
+        float luminance;           // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
-        float luminance;           // 0 is default, >0 gives luminance to lightmap
+        shearing_data shearing;
+        speed_description_id speed_desc;
 
-        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
-
-        std::vector<mon_action_death>  dies;       // What happens when this monster dies
-
+        monster_death_effect mdeath_effect;
+        std::vector<std::string> chat_topics; // What it has to say.
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
+
+        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
+        // Monster's ability to destroy terrain and vehicles
+        int bash_skill;
 
         // Monster upgrade variables
         int half_life;
@@ -311,6 +379,7 @@ struct mtype {
         mtype_id burn_into;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
+        mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;
@@ -320,11 +389,8 @@ struct mtype {
         std::vector<std::string> baby_flags;
 
         // Monster biosignature variables
-        cata::optional<time_duration> biosig_timer;
         itype_id biosig_item;
-
-        // Monster's ability to destroy terrain and vehicles
-        int bash_skill;
+        cata::optional<time_duration> biosig_timer;
 
         // All the bools together for space efficiency
 
@@ -355,16 +421,18 @@ struct mtype {
          * If this monster is a rideable mech it needs a power source battery type
          */
         itype_id mech_battery;
+        /** Emission sources that cycle each turn the monster remains alive */
+        std::map<emit_id, time_duration> emit_fields;
+
         /**
          * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player
          */
         int mech_str_bonus = 0;
 
-        /** Emission sources that cycle each turn the monster remains alive */
-        std::map<emit_id, time_duration> emit_fields;
+        // Grinding cap for training player's melee skills when hitting this monster, defaults to MAX_SKILL.
+        int melee_training_cap;
 
         pathfinding_settings path_settings;
-
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;

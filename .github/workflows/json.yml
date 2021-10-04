@@ -1,15 +1,26 @@
 name: JSON Validation
 
-on:
-  pull_request:
-    paths:
-    - '**.json'
+on: pull_request
 
 jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths: '["**.json"]'
   style-json:
     name: JSON style check
 
     runs-on: ubuntu-latest
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     steps:
     - uses: actions/checkout@v1

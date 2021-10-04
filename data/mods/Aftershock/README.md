@@ -9,6 +9,7 @@
 4. Missions, locations, and lore snippets.  We want this to feel like a world just as real as Cataclysm Prime.  Please feel free to reach out to us about ideas and implementations.
 5. Alien world basics would be especially desirable at this time.  Flora, fauna, terrain, and furniture that make it clear we are no longer on earth.
 
+# Size as of 0.F Stable :  31,084 Lines
 
 # Here be dragons!
 
@@ -57,3 +58,15 @@ Contains json data for npcs and factions; the second is about the new factions P
 ### spells
 
 Contains json data for all spells that are used to create unique effects in game.
+
+# Abbreviations and Translation notes
+
+| Abbreviation                  | Description
+|---                            |---
+| `UICA`                        | "United Interstellar Coordination Agency" Imagine the International Court only handled property disputes and had an army and navy to enforce their
+|---                            | judgements.
+| `UASTA`                       | UICA Standard.  Equipment that was designed to UICA specifications for interstellar use.  
+| `Moxphore`                    | A lifeform suffering from the advanced stages of the disease Moxphoria. Moxphoria is almost always fatal but exclusively found on Salus IV.
+|Uplift                         | Animals that have been given intelligence and often a humanoid bipedal body type.   Considered distinct from mutated humans and often treated as second   |---                            | class citizens in human dominated space.  
+|Vatgrown                       | Adjective. Describes any being or object that was birthed from an artificial womb whether it's made from unmodded human DNA all the way to                |---                            | chimeric monstrosities.
+|Humaniform                     |A robot resembling a human.

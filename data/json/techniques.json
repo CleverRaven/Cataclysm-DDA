@@ -159,15 +159,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_counter",
-    "name": "Counterattack",
-    "melee_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "messages": [ "You counter-attack %s", "<npcname> counter-attacks %s" ]
-  },
-  {
-    "type": "technique",
     "id": "tec_feint",
     "name": "Feint",
     "melee_allowed": true,
@@ -206,7 +197,8 @@
     "crit_ok": true,
     "disarms": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -219,7 +211,8 @@
     "block_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -233,7 +226,8 @@
     "dodge_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -248,7 +242,8 @@
     "crit_ok": true,
     "disarms": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -280,13 +275,14 @@
     "messages": [ "You cross-counter %s", "<npcname> throws a perfect counter at %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
+    "required_buffs_all": [ "buff_boxing_ondodge" ],
+    "weighting": 2,
+    "crit_tec": true,
     "knockback_dist": 1,
     "knockback_spread": 1,
     "stun_dur": 1,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
@@ -335,26 +331,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_brawl_counter_melee",
-    "name": "Hit Them Back",
-    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ],
-    "skill_requirements": [ { "name": "melee", "level": 5 } ],
-    "melee_allowed": true,
-    "block_counter": true,
-    "crit_ok": true
-  },
-  {
-    "type": "technique",
-    "id": "tec_brawl_counter_unarmed",
-    "name": "Hit Them Back",
-    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true
-  },
-  {
-    "type": "technique",
     "id": "tec_brawl_feint_melee",
     "name": "Feint",
     "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
@@ -378,7 +354,7 @@
     "id": "tec_brawl_disarm_melee",
     "name": "Disarm",
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
-    "skill_requirements": [ { "name": "melee", "level": 8 } ],
+    "skill_requirements": [ { "name": "melee", "level": 6 } ],
     "melee_allowed": true,
     "disarms": true
   },
@@ -387,7 +363,7 @@
     "id": "tec_brawl_disarm_unarmed",
     "name": "Disarm",
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 8 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
     "unarmed_allowed": true,
     "disarms": true
   },
@@ -446,10 +422,10 @@
     "messages": [ "You sweep kick %s", "<npcname> sweep kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_capoeira_onmove" ],
+    "required_buffs_all": [ "buff_capoeira_onmove" ],
     "weighting": 2,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -458,7 +434,7 @@
     "messages": [ "You spin kick %s", "<npcname> spin kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_capoeira_onmove" ],
+    "required_buffs_all": [ "buff_capoeira_onmove" ],
     "weighting": 2,
     "crit_tec": true,
     "stun_dur": 1,
@@ -494,7 +470,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "dodge_counter": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
   },
   {
     "type": "technique",
@@ -525,10 +502,11 @@
     "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_dragon_onhit" ],
+    "required_buffs_all": [ "buff_dragon_onhit" ],
     "block_counter": true,
     "down_dur": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -541,10 +519,11 @@
     "messages": [ "You dodge the attack and leave %s off balance", "<npcname> dodges and leaves %s off balance" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_dragon_onhit" ],
+    "required_buffs_all": [ "buff_dragon_onhit" ],
     "dodge_counter": true,
     "stun_dur": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -607,7 +586,7 @@
     "messages": [ "You combination strike %s", "<npcname> combination strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_eskrima_oncrit" ],
+    "required_buffs_all": [ "buff_eskrima_oncrit" ],
     "crit_tec": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.8 },
@@ -618,20 +597,14 @@
   },
   {
     "type": "technique",
-    "id": "tec_eskrima_puno",
-    "name": "Puño Strike",
-    "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ],
+    "id": "tec_eskrima_stun",
+    "name": "Stunning Strike",
+    "messages": [ "You deliver a stunning strike to %s", "<npcname> delivers a stunning strike to %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "weapon_damage_requirements": [ { "type": "bash", "min": 2 } ],
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.6 },
-      { "stat": "damage", "type": "bash", "scale": 0.7 },
-      { "stat": "damage", "type": "cut", "scale": 0.0 },
-      { "stat": "damage", "type": "stab", "scale": 0.0 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -665,12 +638,28 @@
   },
   {
     "type": "technique",
-    "id": "tec_fencing_compound",
-    "name": "Compound Attack",
+    "id": "tec_fencing_compound1",
+    "name": "Compound Attack (Remise)",
     "messages": [ "Your feint leads to a compound attack against %s", "<npcname>'s feint leads to a compound attack against %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_fencing_onmiss" ],
+    "required_buffs_all": [ "buff_fencing_onmiss" ],
+    "weighting": 4,
+    "crit_ok": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_fencing_compound2",
+    "name": "Compound Attack (Counter Time)",
+    "messages": [ "Your feint leads to a compound attack against %s", "<npcname>'s feint leads to a compound attack against %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "required_buffs_all": [ "buff_fencing_onpause" ],
     "weighting": 4,
     "crit_ok": true,
     "mult_bonuses": [
@@ -686,10 +675,12 @@
     "messages": [ "You deliver a perfect riposte to %s", "<npcname> delivers a perfect riposte to %s" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
-    "block_counter": true,
+    "required_buffs_all": [ "buff_fencing_onblock" ],
     "crit_ok": true,
+    "weighting": 2,
     "stun_dur": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.66 },
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
@@ -702,11 +693,12 @@
     "messages": [ "You parry and hook %s down", "<npcname> parries and hooks %s down" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "block_counter": true,
+    "required_buffs_all": [ "buff_medievalpole_onblock" ],
     "crit_ok": true,
+    "weighting": 2,
     "down_dur": 2,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -719,10 +711,11 @@
     "messages": [ "You swing high and strike at %s", "<npcname> swings high and strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
+    "forbidden_buffs_all": [ "buff_medievalpole_onmove" ],
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
+      { "stat": "damage", "type": "bash", "scale": 1.1 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 }
     ]
   },
   {
@@ -753,7 +746,7 @@
     "messages": [ "You hook and drag %s down", "<npcname> hooks and drags %s down" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "req_buffs": "buff_medievalpole_onmiss",
+    "required_buffs_all": "buff_medievalpole_onmiss",
     "crit_ok": true,
     "weighting": 2,
     "down_dur": 2,
@@ -787,6 +780,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
+    "crit_ok": true,
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
@@ -834,25 +828,14 @@
   },
   {
     "type": "technique",
-    "id": "tec_judo_counter",
-    "name": "Counter Throw",
-    "messages": [ "You evade and toss %s to the ground", "<npcname> evades and tosses %s to the ground" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
-    "dodge_counter": true,
-    "down_dur": 1
-  },
-  {
-    "type": "technique",
     "id": "tec_karate_counter",
     "name": "Karate Counter",
     "messages": [ "You counterattack %s", "<npcname> counterattacks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "block_counter": true,
-    "crit_ok": true
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -953,17 +936,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_krav_maga_counter",
-    "name": "Counter",
-    "messages": [ "You block and counter %s", "<npcname> blocks and counters %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "crit_ok": true,
-    "block_counter": true
-  },
-  {
-    "type": "technique",
     "id": "tec_leopard_feint",
     "name": "Leopard Paw",
     "messages": [ "You paw aggressively at %s", "<npcname> paws aggressively at %s" ],
@@ -1006,77 +978,48 @@
     "crit_ok": true,
     "dodge_counter": true,
     "knockback_dist": 1,
-    "knockback_spread": 1
+    "knockback_spread": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_grab",
-    "name": "Pommel Strike",
-    "messages": [ "You dodge, grab, and pommel strike %s", "<npcname> dodges, grabs, and pommel strikes %s" ],
+    "id": "tec_swordsmanship_ringen",
+    "name": "Grab",
+    "messages": [ "You wrestle %s to the ground", "<npcname> wrestles %s to the ground" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "crit_ok": true,
-    "dodge_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0 }, { "stat": "damage", "type": "stab", "scale": 0 } ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_break",
-    "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you evade its grab!", "The %s tries to grab <npcname>, but they evade its grab!" ],
-    "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_unterhau",
-    "name": "Sweeping Strike",
-    "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ],
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
-    "melee_allowed": true,
-    "req_buffs": [ "buff_swordsmanship_onblock" ],
+    "required_buffs_all": [ "buff_swordsmanship_onpause" ],
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0.5 }, { "stat": "damage", "type": "stab", "scale": 0.33 } ],
     "crit_tec": true,
     "down_dur": 2
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_zornhau",
-    "name": "Vicious Strike",
-    "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ],
-    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "id": "tec_swordsmanship_lethal",
+    "name": "Lethal Strike",
+    "messages": [ "You drive the point of your blade into %s", "<npcname> drives their blade into %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_swordsmanship_oncrit" ],
-    "crit_tec": true,
-    "stun_dur": 1,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.5 },
-      { "stat": "damage", "type": "cut", "scale": 1.5 },
-      { "stat": "damage", "type": "stab", "scale": 1.5 }
-    ]
+    "required_buffs_all": [ "buff_swordsmanship_onpause" ],
+    "crit_ok": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
+    ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ]
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_mordhau",
-    "name": "Mordhau",
+    "id": "tec_swordsmanship_feint",
+    "name": "Flow Drills",
     "messages": [
-      "You flip your weapon around and deliver a mordhau to %s",
-      "<npcname> flips their weapon around and smashes down on %s"
+      "With practiced movements, you transition from a failed strike into another strike",
+      "With practiced movements, <npcname> transitions from a failed strike into another strike"
     ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_swordsmanship_onblock" ],
-    "crit_tec": true,
-    "stun_dur": 2,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.5 },
-      { "stat": "damage", "type": "bash", "scale": 3 },
-      { "stat": "damage", "type": "cut", "scale": 0 },
-      { "stat": "damage", "type": "stab", "scale": 0 }
-    ]
+    "defensive": true,
+    "miss_recovery": true
   },
   {
     "type": "technique",
@@ -1197,7 +1140,7 @@
     "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_niten_ondodge" ],
+    "required_buffs_all": [ "buff_niten_ondodge" ],
     "crit_ok": true,
     "stun_dur": 1,
     "mult_bonuses": [
@@ -1268,6 +1211,7 @@
     "weighting": 3,
     "disarms": true,
     "stun_dur": 1,
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
@@ -1383,22 +1327,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_sojutsu_push",
-    "name": "Push",
-    "messages": [ "You push %s away", "<npcname> pushes %s away" ],
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
-    "melee_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "knockback_dist": 1,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
-  },
-  {
-    "type": "technique",
     "id": "tec_sojutsu_shove",
     "name": "Shove",
     "messages": [ "You shove %s back", "<npcname> shoves %s back" ],
@@ -1424,6 +1352,16 @@
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
     ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_feint",
+    "name": "Feint",
+    "messages": [ "You fake a thrust at %s", "<npcname> fakes a thrust at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
   },
   {
     "type": "technique",
@@ -1503,7 +1441,7 @@
     "messages": [ "You palm strike %s", "<npcname> palm strikes %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_tai_chi_onpause" ],
+    "required_buffs_all": [ "buff_tai_chi_onpause" ],
     "knockback_dist": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
@@ -1514,10 +1452,10 @@
     "messages": [ "You divert %s's attack and lead them to the ground", "<npcname> diverts %s's attack and lead them to the ground" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "block_counter": true,
+    "required_buffs_all": [ "buff_tai_chi_onblock" ],
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -1527,7 +1465,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "req_buffs": [ "buff_tai_chi_onpause" ],
+    "required_buffs_all": [ "buff_tai_chi_onpause" ],
     "knockback_dist": 1,
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
@@ -1567,7 +1505,7 @@
     "messages": [ "You force %s back with a vertical straight punch", "<npcname> forces %s back with a vertical straight punch" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_wingchun_onpause" ],
+    "required_buffs_all": [ "buff_wingchun_onpause" ],
     "weighting": 2,
     "knockback_dist": 1,
     "knockback_follow": true,
@@ -1591,7 +1529,7 @@
     "messages": [ "You knock %s back with a solid L-hook", "<npcname> knocks %s back with a solid L-hook" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_wingchun_onpause" ],
+    "required_buffs_all": [ "buff_wingchun_onpause" ],
     "weighting": 2,
     "crit_tec": true,
     "down_dur": 1,
@@ -1611,16 +1549,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_wingchun_counter",
-    "name": "Receive and Counter",
-    "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true
-  },
-  {
-    "type": "technique",
     "id": "tec_zuiquan_feint",
     "name": "Drunken Feint",
     "messages": [ "You stumble and leer at %s", "<npcname> stumbles and leers at %s" ],
@@ -1637,7 +1565,7 @@
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",

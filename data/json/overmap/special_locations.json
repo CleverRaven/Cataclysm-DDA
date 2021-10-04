@@ -63,12 +63,22 @@
   {
     "type": "overmap_location",
     "id": "subterranean",
-    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer", "solid_earth" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_empty",
+    "terrains": [ "deep_rock", "empty_rock", "rock", "solid_earth" ]
   },
   {
     "type": "overmap_location",
     "id": "subterranean_subway",
-    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "subway" ]
+    "terrains": [ "cavern", "empty_rock", "slimepit", "subway" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lab_subway",
+    "terrains": [ "deep_rock" ]
   },
   {
     "type": "overmap_location",

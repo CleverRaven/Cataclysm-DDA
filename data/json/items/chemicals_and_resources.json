@@ -73,6 +73,23 @@
   },
   {
     "type": "AMMO",
+    "id": "material_gravel",
+    "category": "spare_parts",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "gravel" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A handful of gravel, smaller than pebbles but larger than sand.",
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "weight": "6 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "count": 50
+  },
+  {
+    "type": "AMMO",
     "id": "material_limestone",
     "category": "spare_parts",
     "price": 50,
@@ -209,6 +226,7 @@
     "weight": "138 g",
     "color": "white",
     "use_action": [ "BLECH" ],
+    "flags": [ "CORROSIVE", "NUTRIENT_OVERRIDE" ],
     "container": "jug_plastic",
     "sealed": false,
     "comestible_type": "DRINK",
@@ -224,7 +242,7 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": 17,
+    "freezing_point": -8,
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
@@ -234,6 +252,7 @@
     "weight": "124 g",
     "color": "white",
     "use_action": [ "BLECH" ],
+    "flags": [ "CORROSIVE" ],
     "container": "jug_plastic",
     "sealed": false,
     "comestible_type": "DRINK",
@@ -248,7 +267,7 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": -108
+    "freezing_point": -78
   },
   {
     "type": "COMESTIBLE",
@@ -307,6 +326,7 @@
     "weight": "1 g",
     "//": "Typically sold in larger quantities, but that's handled in the charge count.",
     "color": "pink",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": [ "FUNGICIDE" ],
     "stim": -7,
     "container": "bag_plastic",
@@ -333,6 +353,7 @@
     "color": "pink",
     "looks_like": "fungicide",
     "use_action": [ "BLECH" ],
+    "flags": [ "CORROSIVE", "EDIBLE_FROZEN" ],
     "stim": -7,
     "container": "bag_plastic",
     "comestible_type": "FOOD",
@@ -365,7 +386,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "freezing_point": 28,
+    "freezing_point": -2,
     "fun": -1
   },
   {
@@ -386,7 +407,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "freezing_point": 28,
+    "freezing_point": -2,
     "fun": -1
   },
   {
@@ -525,7 +546,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": 250,
@@ -538,14 +559,13 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -36,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": 250,
@@ -558,10 +578,9 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -50,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -582,7 +601,7 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": 300,
@@ -595,10 +614,9 @@
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": -44,
+    "freezing_point": -42,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -880,7 +898,7 @@
     "description": "Some match head powder from match heads, similar to black gunpowder but a bit weaker.  It can be used in crafting explosives and fuses when other, more suitable candidates are less available.",
     "material": [ "powder" ],
     "volume": "10 ml",
-    "weight": "1 g",
+    "weight": "2050 mg",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
@@ -1459,6 +1477,21 @@
     "looks_like": "bag_canvas"
   },
   {
+    "id": "gravelbag",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "gravelbag" },
+    "description": "This is a canvas sack filled with gravel.  It can be used to construct simple barricades.",
+    "weight": "19200 g",
+    "volume": "16L",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cotton", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "looks_like": "bag_canvas"
+  },
+  {
     "id": "earthbag",
     "type": "GENERIC",
     "category": "other",
@@ -1605,6 +1638,16 @@
     "fun": -50
   },
   {
+    "id": "triffid_fungicide",
+    "type": "COMESTIBLE",
+    "copy-from": "venom_gland",
+    "name": { "str": "sac of triffid fungicide", "str_pl": "sacs of triffid fungicide" },
+    "description": "This triffid sack is filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
+    "material": [ "veggy" ],
+    "color": "light_blue",
+    "fun": -50
+  },
+  {
     "id": "conc_venom",
     "type": "AMMO",
     "category": "chems",
@@ -1645,5 +1688,83 @@
     "price_postapoc": 20000,
     "count": 1,
     "stack_size": 1
+  },
+  {
+    "id": "red_phosphorous",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "red phosphorous" },
+    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.",
+    "weight": "1800 mg",
+    "volume": "100 ml",
+    "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8 g/cm3",
+    "container": "box_small",
+    "symbol": "=",
+    "color": "red",
+    "price": 50,
+    "price_postapoc": 2,
+    "count": 100
+  },
+  {
+    "id": "acetic_anhydride",
+    "type": "COMESTIBLE",
+    "category": "chems",
+    "name": { "str_sp": "acetic anhydride" },
+    "description": "This is a bottle of acetic anhydride, if you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
+    "container": "bottle_glass",
+    "weight": "100 g",
+    "use_action": [ "POISON", "BLECH" ],
+    "fatigue_mod": -20,
+    "volume": "100 ml",
+    "quench": -99,
+    "healthy": -20,
+    "fun": -99,
+    "price": 50,
+    "price_postapoc": 2,
+    "phase": "liquid",
+    "symbol": "~",
+    "color": "dark_gray",
+    "looks_like": "chem_saltpetre",
+    "//": "1.07 g/cm3",
+    "freezing_point": -99.4
+  },
+  {
+    "id": "iodine_crystal",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "iodine crystal" },
+    "description": "Resublimed crystals of the element iodine, can be used as an antiseptic, but it is also used in the making of methamphetamine.",
+    "weight": "3500 mg",
+    "volume": "100 ml",
+    "container": "box_small",
+    "//": "Density around 5.1g/cm3, but since it's in crystal form, it's lower, around 3.5 g/cm3",
+    "symbol": "=",
+    "color": "dark_gray",
+    "price": 100,
+    "price_postapoc": 5,
+    "count": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "liquid_soap",
+    "name": { "str_sp": "liquid soap" },
+    "weight": "260 g",
+    "color": "light_cyan",
+    "container": "bottle_bathroom",
+    "sealed": false,
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": -90,
+    "healthy": -20,
+    "description": "Liquid soap.",
+    "price": 0,
+    "price_postapoc": 0,
+    "volume": "250 ml",
+    "phase": "liquid",
+    "category": "chems",
+    "freezing_point": -2,
+    "fun": -50
   }
 ]

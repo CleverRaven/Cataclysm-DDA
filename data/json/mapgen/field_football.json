@@ -24,8 +24,8 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 30, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 },
       [ "mp3", 50 ],
       { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]
@@ -186,7 +186,7 @@
         "                                                                                                                        "
       ],
       "palettes": [ "field_football" ],
-      "vendingmachines": { "V": { "item_group": "vending_drink" } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "toilets": { ";": {  } },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] },

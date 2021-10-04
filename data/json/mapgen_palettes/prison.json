@@ -4,7 +4,7 @@
     "id": "prison_palette",
     "terrain": {
       " ": [ "t_region_groundcover_urban", "t_region_groundcover_barren" ],
-      "#": "t_rock",
+      "#": "t_soil",
       "%": "t_fence_barbed",
       "+": "t_door_locked_interior",
       ",": "t_floor",

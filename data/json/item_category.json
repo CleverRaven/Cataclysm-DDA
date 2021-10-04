@@ -67,6 +67,7 @@
     "id": "maps",
     "type": "ITEM_CATEGORY",
     "name": { "str": "MAPS" },
+    "zone": "LOOT_MAPS",
     "sort_rank": -14
   },
   {
@@ -89,6 +90,13 @@
     "name": { "str": "BIONICS" },
     "zone": "LOOT_BIONICS",
     "sort_rank": -12
+  },
+  {
+    "id": "currency",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "CURRENCY" },
+    "zone": "LOOT_CURRENCY",
+    "sort_rank": -11
   },
   {
     "id": "veh_parts",

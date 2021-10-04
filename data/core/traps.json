@@ -1,0 +1,17 @@
+[
+  {
+    "//": "We're always going to need a 'nothing here' tile, we currently use traps for this.",
+    "type": "trap",
+    "id": "tr_ledge",
+    "name": "ledge",
+    "color": "i_cyan",
+    "memorial_male": { "ctxt": "memorial_female", "str": "Fell down a ledge." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Fell down a ledge." },
+    "symbol": " ",
+    "visibility": 0,
+    "avoidance": 99999,
+    "difficulty": 99,
+    "action": "ledge",
+    "vehicle_data": { "is_falling": true }
+  }
+]
