@@ -68,6 +68,7 @@ extern const flag_id flag_CITY_START;
 extern const flag_id flag_CLIMATE_CONTROL;
 extern const flag_id flag_COLD;
 extern const flag_id flag_COLD_IMMUNE;
+extern const flag_id flag_COLLAPSE_CONTENTS;
 extern const flag_id flag_COLLAPSIBLE_STOCK;
 extern const flag_id flag_COLLAR;
 extern const flag_id flag_CONDUCTIVE;

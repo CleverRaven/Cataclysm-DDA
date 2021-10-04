@@ -48,6 +48,7 @@
       { "text": "You look different?", "topic": "TALK_WARRENER_MUTATION" },
       { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
       { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
+      { "text": "Where did you get that giant firefly terrarium?", "topic": "TALK_LAPIN_FIREFLY" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -100,6 +101,12 @@
     "id": "TALK_WARRENER_WORLD_OPTIMISTIC",
     "dynamic_line": "If I teach one hundred people how to raise rabbits, that's potentially a hundred communities given food and fur before those people teach anyone else.",
     "responses": [ { "text": "That's the most hopeful thing I've heard so far.", "topic": "TALK_WARRENER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LAPIN_FIREFLY",
+    "dynamic_line": "A traveler brought this to me in return for some rabbits.  Said that he'd gotten it from a scientist out in the swamps but it took up too much space in his car.",
+    "responses": [ { "text": "It's quite unique!", "topic": "TALK_WARRENER" } ]
   },
   {
     "type": "talk_topic",
@@ -187,7 +194,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "cattlefodder", "count": 2 } ] }
+    "end": { "effect": [ { "u_spawn_item": "cattlefodder", "count": 2 } ] }
   },
   {
     "id": "MISSION_Warrener_FOOD_2",
@@ -211,7 +218,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "petpack", "count": 1 } ] }
+    "end": { "effect": [ { "u_spawn_item": "petpack", "count": 1 } ] }
   },
   {
     "id": "MISSION_Warrener_ISHERWOOD",

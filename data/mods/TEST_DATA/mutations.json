@@ -19,40 +19,41 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_low": 20,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
           "msg_on": { "text": "Your mood is above 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "MOON",
-          "threshold_low": 3,
-          "threshold_high": 5,
+          "condition": {
+            "and": [
+              { "compare_int": [ { "u_val": "moon" }, { "const": 3 } ], "op": ">" },
+              { "compare_int": [ { "u_val": "moon" }, { "const": 5 } ], "op": "<" }
+            ]
+          },
           "msg_on": { "text": "This is the full moon and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "HUNGER",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
           "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "PAIN",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "pain" }, { "const": 110 } ], "op": ">" },
           "msg_on": { "text": "You're in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "THIRST",
-          "threshold_low": 110,
+          "condition": { "compare_int": [ { "u_val": "thirst" }, { "const": 110 } ], "op": ">" },
           "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "STAMINA",
-          "threshold_high": 1,
+          "condition": { "compare_int": [ { "u_val": "stamina" }, { "const": 1 } ], "op": "<" },
           "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "TIME",
-          "threshold_low": 1,
-          "threshold_high": 3,
+          "condition": {
+            "and": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 1 } ], "op": ">" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 3 } ], "op": "<" }
+            ]
+          },
           "msg_on": { "text": "It's 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
@@ -69,40 +70,41 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_low": 20,
+          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": "<" },
           "msg_off": { "text": "Your mood is below 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "MOON",
-          "threshold_low": 5,
-          "threshold_high": 3,
+          "condition": {
+            "or": [
+              { "compare_int": [ { "u_val": "moon" }, { "const": 3 } ], "op": "<" },
+              { "compare_int": [ { "u_val": "moon" }, { "const": 5 } ], "op": ">" }
+            ]
+          },
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "HUNGER",
-          "threshold_high": 110,
+          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": "<" },
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "PAIN",
-          "threshold_high": 110,
+          "condition": { "compare_int": [ { "u_val": "pain" }, { "const": 110 } ], "op": "<" },
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "THIRST",
-          "threshold_high": 110,
+          "condition": { "compare_int": [ { "u_val": "thirst" }, { "const": 110 } ], "op": "<" },
           "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "STAMINA",
-          "threshold_low": 1,
+          "condition": { "compare_int": [ { "u_val": "stamina" }, { "const": 1 } ], "op": ">" },
           "msg_on": { "text": "You're no longer low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "TIME",
-          "threshold_low": 2,
-          "threshold_high": 1,
+          "condition": {
+            "or": [
+              { "compare_int": [ { "u_val": "hour" }, { "const": 1 } ], "op": "<" },
+              { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": ">" }
+            ]
+          },
           "msg_on": { "text": "It's no longer 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
@@ -116,8 +118,17 @@
     "points": 1,
     "description": "This mutation is meant to test the trigger system.  It is currently off.",
     "triggers": [
-      [ { "trigger_type": "MOON", "threshold_low": 3, "threshold_high": 5 } ],
-      [ { "trigger_type": "PAIN", "threshold_low": 110 } ]
+      [
+        {
+          "condition": {
+            "and": [
+              { "compare_int": [ { "u_val": "moon" }, { "const": 3 } ], "op": ">" },
+              { "compare_int": [ { "u_val": "moon" }, { "const": 5 } ], "op": "<" }
+            ]
+          }
+        }
+      ],
+      [ { "condition": { "compare_int": [ { "u_val": "pain" }, { "const": 110 } ], "op": ">" } } ]
     ],
     "transform": { "target": "TEST_TRIGGER_2_active", "msg_transform": "The trigger is triggered.", "active": true, "moves": 10 }
   },
@@ -131,14 +142,16 @@
     "triggers": [
       [
         {
-          "trigger_type": "MOON",
-          "threshold_low": 5,
-          "threshold_high": 3,
+          "condition": {
+            "or": [
+              { "compare_int": [ { "u_val": "moon" }, { "const": 3 } ], "op": "<" },
+              { "compare_int": [ { "u_val": "moon" }, { "const": 5 } ], "op": ">" }
+            ]
+          },
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "trigger_type": "PAIN",
-          "threshold_high": 110,
+          "condition": { "compare_int": [ { "u_val": "pain" }, { "const": 110 } ], "op": "<" },
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         }
       ]

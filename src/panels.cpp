@@ -39,6 +39,7 @@
 #include "map.h"
 #include "messages.h"
 #include "move_mode.h"
+#include "mtype.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -556,7 +557,7 @@ std::string display::date_string()
 {
     const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
     const int day_num = day_of_season<int>( calendar::turn ) + 1;
-    return string_format( "%s, day %d", season, day_num );
+    return string_format( _( "%s, day %d" ), season, day_num );
 }
 
 std::string display::time_string( const Character &u )
@@ -898,7 +899,7 @@ std::pair<std::string, nc_color> display::safe_mode_text_color( const bool class
     std::string s_text;
     if( classic_mode ) {
         if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-            s_text = "SAFE";
+            s_text = _( "SAFE" );
         }
     } else {
         s_text = g->safe_mode ? _( "On" ) : _( "Off" );
@@ -2252,17 +2253,191 @@ static void draw_mminimap( avatar &, const catacurses::window &w )
 }
 #endif
 
-static void draw_compass( avatar &, const catacurses::window &w )
+// Print monster info to the given window
+void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_padding,
+                              bool compact )
+{
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &unique_types = mon_visible.unique_types;
+    const auto &unique_mons = mon_visible.unique_mons;
+    const auto &dangerous = mon_visible.dangerous;
+
+    const int width = getmaxx( w ) - 2 * hor_padding;
+    const int maxheight = getmaxy( w ) - 1;
+
+    const int startrow = 0;
+
+    // Print the direction headings
+    // Reminder:
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+
+    const std::array<std::string, 8> dir_labels = {{
+            _( "North:" ), _( "NE:" ), _( "East:" ), _( "SE:" ),
+            _( "South:" ), _( "SW:" ), _( "West:" ), _( "NW:" )
+        }
+    };
+    std::array<int, 8> widths;
+    for( int i = 0; i < 8; i++ ) {
+        widths[i] = utf8_width( dir_labels[i] );
+    }
+    std::array<int, 8> xcoords;
+    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
+    xcoords[0] = xcoords[4] = width / 3;
+    xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
+    xcoords[5] = xcoords[6] = xcoords[7] = 0;
+    //for the alignment of the 1,2,3 rows on the right edge (East - NE)
+    xcoords[2] -= widths[2] - widths[1];
+    for( int i = 0; i < 8; i++ ) {
+        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
+                     : ( dangerous[i] ? c_light_red : c_light_gray );
+        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
+    }
+
+    // Print the symbols of all monsters in all directions.
+    for( int i = 0; i < 8; i++ ) {
+        point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
+
+        // The list of symbols needs a space on each end.
+        int symroom = ( width / 3 ) - widths[i] - 2;
+        const int typeshere_npc = unique_types[i].size();
+        const int typeshere_mon = unique_mons[i].size();
+        const int typeshere = typeshere_mon + typeshere_npc;
+        for( int j = 0; j < typeshere && j < symroom; j++ ) {
+            nc_color c;
+            std::string sym;
+            if( symroom < typeshere && j == symroom - 1 ) {
+                // We've run out of room!
+                c = c_white;
+                sym = "+";
+            } else if( j < typeshere_npc ) {
+                switch( unique_types[i][j]->get_attitude() ) {
+                    case NPCATT_KILL:
+                        c = c_red;
+                        break;
+                    case NPCATT_FOLLOW:
+                        c = c_light_green;
+                        break;
+                    default:
+                        c = c_pink;
+                        break;
+                }
+                sym = "@";
+            } else {
+                const mtype &mt = *unique_mons[i][j - typeshere_npc].first;
+                c = mt.color;
+                sym = mt.sym;
+            }
+            mvwprintz( w, pr, c, sym );
+
+            pr.x++;
+        }
+    }
+
+    // Now we print their full names!
+    struct nearest_loc_and_cnt {
+        int nearest_loc;
+        int cnt;
+    };
+    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
+    for( int loc = 0; loc < 9; loc++ ) {
+        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
+            const auto mon_it = all_mons.find( mon.first );
+            if( mon_it == all_mons.end() ) {
+                all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
+            } else {
+                // 8 being the nearest location (local monsters)
+                mon_it->second.nearest_loc = std::max( mon_it->second.nearest_loc, loc );
+                mon_it->second.cnt += mon.second;
+            }
+        }
+    }
+    std::vector<std::pair<const mtype *, int>> mons_at[9];
+    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
+        mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
+    }
+
+    // Rows 0-2 are for labels.
+    // Start monster names on row 3
+    point pr( hor_padding, 3 + startrow );
+    // In non-compact mode, leave a blank line
+    if( !compact ) {
+        pr.y++;
+    }
+
+    // Print monster names, starting with those at location 8 (nearby).
+    for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
+        // Separate names by some number of spaces (more for local monsters).
+        int namesep = ( j == 8 ? 2 : 1 );
+        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
+            const mtype *const type = mon.first;
+            const int count = mon.second;
+            if( pr.y >= maxheight ) {
+                // no space to print to anyway
+                break;
+            }
+
+            const mtype &mt = *type;
+            std::string name = mt.nname( count );
+            // Some languages don't have plural forms, but we want to always
+            // omit 1.
+            if( count != 1 ) {
+                name = string_format( pgettext( "monster count and name", "%1$d %2$s" ),
+                                      count, name );
+            }
+
+            // Move to the next row if necessary. (The +2 is for the "Z ").
+            if( pr.x + 2 + utf8_width( name ) >= width ) {
+                pr.y++;
+                pr.x = hor_padding;
+            }
+
+            if( pr.y < maxheight ) { // Don't print if we've overflowed
+                mvwprintz( w, pr, mt.color, mt.sym );
+                pr.x += 2; // symbol and space
+                nc_color danger = c_dark_gray;
+                if( mt.difficulty >= 30 ) {
+                    danger = c_red;
+                } else if( mt.difficulty >= 16 ) {
+                    danger = c_light_red;
+                } else if( mt.difficulty >= 8 ) {
+                    danger = c_white;
+                } else if( mt.agro > 0 ) {
+                    danger = c_light_gray;
+                }
+                mvwprintz( w, pr, danger, name );
+                pr.x += utf8_width( name ) + namesep;
+            }
+        }
+    }
+}
+
+static void draw_compass( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    g->mon_info( w );
+    display::print_mon_info( u, w );
     wnoutrefresh( w );
 }
 
-static void draw_compass_padding( avatar &, const catacurses::window &w )
+static void draw_compass_compact( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    g->mon_info( w, 1 );
+    display::print_mon_info( u, w, 0, true );
+    wnoutrefresh( w );
+}
+
+static void draw_compass_padding( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    display::print_mon_info( u, w, 1 );
+    wnoutrefresh( w );
+}
+
+static void draw_compass_padding_compact( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    display::print_mon_info( u, w, 1, true );
     wnoutrefresh( w );
 }
 
@@ -2620,6 +2795,9 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
@@ -2663,6 +2841,9 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", to_translation( "Compass" ),
                                     8, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
@@ -2713,6 +2894,9 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 32, false ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
@@ -2767,6 +2951,9 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", to_translation( "Compass" ),
                                     8, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
+                                    to_translation( "Alt Compass" ),
+                                    5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),

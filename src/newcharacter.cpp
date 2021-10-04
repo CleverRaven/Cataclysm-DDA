@@ -556,7 +556,7 @@ static int calculate_cumulative_experience( int level )
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    weapon = item();
+    set_wielded_item( item() );
 
     prof = profession::generic();
     set_scenario( scenario::generic() );
@@ -601,9 +601,9 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     auto nameExists = [&]( const std::string & name ) {
-        return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
-               !query_yn( _( "A character with the name '%s' already exists in this world.\n"
-                             "Saving will override the already existing character.\n\n"
+        return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
+               !query_yn( _( "A save with the name '%s' already exists in this world.\n"
+                             "Saving will overwrite the already existing character.\n\n"
                              "Continue anyways?" ), name );
     };
     set_body();
@@ -693,7 +693,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    weapon = item();
+    set_wielded_item( item() );
 
     // Grab skills from profession and increment level
     // We want to do this before the recipes
@@ -744,11 +744,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     } else {
         starting_vehicle = prof->vehicle();
     }
-
-    add_profession_items();
-
-    // Move items from the inventory. eventually the inventory should not contain items at all.
-    migrate_items_to_storage( true );
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( const addiction &iter : prof_addictions ) {
@@ -1011,19 +1006,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    // There is no map loaded currently, so any access to the map will
-    // fail (player::suffer, called from player::reset_stats), might access
-    // the map:
-    // There are traits that check/change the radioactivity on the map,
-    // that check if in sunlight...
-    // Setting the position to -1 ensures that the INBOUNDS check in
-    // map.cpp is triggered. This check prevents access to invalid position
-    // on the map (like -1,0) and instead returns a dummy default value.
-    u.setx( -1 );
     u.reset();
-    // set position back to 0 to prevent out-of-bound access to lightmap
-    // array in map::build_seen_cache()
-    u.setx( 0 );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -1112,8 +1095,6 @@ tab_direction set_stats( avatar &u, pool_type pool )
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_PENALTY, _( "Skill rust delay: %d%%" ),
-                           u.rust_rate() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
                            u.get_int() );
                 fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, c_green,
@@ -1413,7 +1394,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                         points *= -1;
                     }
                     mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
-                               ngettext( "%s %s %d point", "%s %s %d points", points ),
+                               n_gettext( "%s %s %d point", "%s %s %d points", points ),
                                mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
@@ -1606,14 +1587,14 @@ tab_direction set_traits( avatar &u, pool_type pool )
                        enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points && pool != pool_type::FREEFORM ) {
-                popup( ngettext( "Sorry, but you can only take %d point of advantages.",
-                                 "Sorry, but you can only take %d points of advantages.", max_trait_points ),
+                popup( n_gettext( "Sorry, but you can only take %d point of advantages.",
+                                  "Sorry, but you can only take %d points of advantages.", max_trait_points ),
                        max_trait_points );
 
             } else if( iCurWorkingPage != 0 && num_bad + mdata.points <
                        -max_trait_points && pool != pool_type::FREEFORM ) {
-                popup( ngettext( "Sorry, but you can only take %d point of disadvantages.",
-                                 "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
+                popup( n_gettext( "Sorry, but you can only take %d point of disadvantages.",
+                                  "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
                        max_trait_points );
 
             } else {
@@ -1752,14 +1733,14 @@ tab_direction set_profession( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Profession %1$s earns %2$d point",
-                                          "Profession %1$s earns %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Profession %1$s earns %2$d point",
+                                           "Profession %1$s earns %2$d points",
+                                           pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Profession %1$s costs %2$d point",
-                                          "Profession %1$s costs %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Profession %1$s costs %2$d point",
+                                           "Profession %1$s costs %2$d points",
+                                           pointsForProf );
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
@@ -2170,14 +2151,14 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Hobby %1$s earns %2$d point",
-                                          "Hobby %1$s earns %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Hobby %1$s earns %2$d point",
+                                           "Hobby %1$s earns %2$d points",
+                                           pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Hobby %1$s costs %2$d point",
-                                          "Hobby %1$s costs %2$d points",
-                                          pointsForProf );
+                prof_msg_temp = n_gettext( "Hobby %1$s costs %2$d point",
+                                           "Hobby %1$s costs %2$d points",
+                                           pointsForProf );
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
@@ -2539,12 +2520,12 @@ tab_direction set_skills( avatar &u, pool_type pool )
         // We have two different strings to pluralize, so we have to use two translation calls.
         const std::string upgrade_levels_s = string_format(
                 //~ levels here are skill levels at character creation time
-                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+                n_gettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
         const nc_color color = skill_points_left( u, pool ) >= cost ? COL_SKILL_USED : c_light_red;
         mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
                    //~ Second string is e.g. "1 level" or "2 levels"
-                   ngettext( "Upgrading %s by %s costs %d point",
-                             "Upgrading %s by %s costs %d points", cost ),
+                   n_gettext( "Upgrading %s by %s costs %d point",
+                              "Upgrading %s by %s costs %d points", cost ),
                    currentSkill->name(), upgrade_levels_s, cost );
 
         // We want recipes from profession skills displayed, but
@@ -2859,22 +2840,22 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             if( isWide ) {
                 if( negativeScen ) {
                     //~ 1s - scenario name, 2d - current character points.
-                    scen_msg_temp = ngettext( "Scenario %1$s earns %2$d point",
-                                              "Scenario %1$s earns %2$d points",
-                                              pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario %1$s earns %2$d point",
+                                               "Scenario %1$s earns %2$d points",
+                                               pointsForScen );
                 } else {
                     //~ 1s - scenario name, 2d - current character points.
-                    scen_msg_temp = ngettext( "Scenario %1$s costs %2$d point",
-                                              "Scenario %1$s costs %2$d points",
-                                              pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario %1$s costs %2$d point",
+                                               "Scenario %1$s costs %2$d points",
+                                               pointsForScen );
                 }
             } else {
                 if( negativeScen ) {
-                    scen_msg_temp = ngettext( "Scenario earns %2$d point",
-                                              "Scenario earns %2$d points", pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario earns %2$d point",
+                                               "Scenario earns %2$d points", pointsForScen );
                 } else {
-                    scen_msg_temp = ngettext( "Scenario costs %2$d point",
-                                              "Scenario costs %2$d points", pointsForScen );
+                    scen_msg_temp = n_gettext( "Scenario costs %2$d point",
+                                               "Scenario costs %2$d points", pointsForScen );
                 }
             }
 
@@ -2997,14 +2978,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
 
-            if( sorted_scens[cur_id]->has_flag( "INFECTED" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Infected player" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
-            if( sorted_scens[cur_id]->has_flag( "BAD_DAY" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Drunk and sick player" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
             if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
@@ -3015,10 +2988,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             }
             if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
-            if( sorted_scens[cur_id]->has_flag( "FUNGAL_INFECTION" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
             if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
@@ -3068,10 +3037,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
-            // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && get_scenario()->has_flag( "CITY_START" ) ) {
-                reset_scenario( u, sorted_scens[0] );
-            }
+            reset_scenario( u, sorted_scens[0] );
 
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {
@@ -3204,7 +3170,7 @@ static void draw_blood( const catacurses::window &w_blood, const avatar &you, co
 static void draw_location( const catacurses::window &w_location, const avatar &you,
                            const bool highlight )
 {
-    const std::string random_start_location_text = string_format( ngettext(
+    const std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
@@ -3216,8 +3182,8 @@ static void draw_location( const catacurses::window &w_location, const avatar &y
     mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
                you.random_start_location ? c_red : c_white,
                you.random_start_location ? remove_color_tags( random_start_location_text ) :
-               string_format( ngettext( "%s (%d variant)", "%s (%d variants)",
-                                        you.start_location.obj().targets_count() ),
+               string_format( n_gettext( "%s (%d variant)", "%s (%d variants)",
+                                         you.start_location.obj().targets_count() ),
                               you.start_location.obj().name(), you.start_location.obj().targets_count() ) );
     wnoutrefresh( w_location );
 }
@@ -3321,7 +3287,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 1;
-    const std::string random_start_location_text = string_format( ngettext(
+    const std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
@@ -3332,8 +3298,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         if( get_scenario()->allowed_start( loc.id ) ) {
             std::string loc_name = loc.name();
             if( loc.targets_count() > 1 ) {
-                loc_name = string_format( ngettext( "%s (<color_white>%d</color> variant)",
-                                                    "%s (<color_white>%d</color> variants)", loc.targets_count() ),
+                loc_name = string_format( n_gettext( "%s (<color_white>%d</color> variant)",
+                                                     "%s (<color_white>%d</color> variants)", loc.targets_count() ),
                                           loc_name, loc.targets_count() );
             }
 
@@ -4139,20 +4105,7 @@ void avatar::character_to_template( const std::string &name )
 
 void avatar::save_template( const std::string &name, pool_type pool )
 {
-    std::string native = utf8_to_native( name );
-#if defined(_WIN32)
-    if( native.find_first_of( "\"*/:<>?\\|"
-                              "\x01\x02\x03\x04\x05\x06\x07\x08\x09" // NOLINT(cata-text-style)
-                              "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12" // NOLINT(cata-text-style)
-                              "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
-                              "\x1C\x1D\x1E\x1F"
-                            ) != std::string::npos ) {
-        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead." ) );
-        return;
-    }
-#endif
-
-    write_to_file( PATH_INFO::templatedir() + native + ".template", [&]( std::ostream & fout ) {
+    write_to_file( PATH_INFO::templatedir() + name + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 
         jsout.start_array();
@@ -4173,7 +4126,7 @@ void avatar::save_template( const std::string &name, pool_type pool )
 
 bool avatar::load_template( const std::string &template_name, pool_type &pool )
 {
-    return read_from_file_json( PATH_INFO::templatedir() + utf8_to_native( template_name ) +
+    return read_from_file_json( PATH_INFO::templatedir() + template_name +
     ".template", [&]( JsonIn & jsin ) {
 
         if( jsin.test_array() ) {
@@ -4209,7 +4162,7 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
             }
         }
 
-        deserialize( jsin );
+        deserialize( jsin.get_object() );
 
         // If stored_calories the template is under a million (kcals < 1000), assume it predates the
         // kilocalorie-to-literal-calorie conversion and is off by a factor of 1000.

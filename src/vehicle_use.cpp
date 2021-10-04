@@ -1405,7 +1405,7 @@ void vehicle::operate_planter()
                     break;
                 } else if( here.ter( loc ) == t_dirtmound ) {
                     here.set( loc, t_dirt, f_plant_seed );
-                } else if( !here.has_flag( "PLOWABLE", loc ) ) {
+                } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1453,7 +1453,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = here.i_at( position );
-            if( here.has_flag( TFLAG_SEALED, position ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_SEALED, position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -2035,7 +2035,7 @@ void vehicle::interact_with( const vpart_position &vp )
     map &here = get_map();
     avatar &player_character = get_avatar();
     const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
-    const bool items_are_sealed = here.has_flag( TFLAG_SEALED, vp.pos() );
+    const bool items_are_sealed = here.has_flag( ter_furn_flag::TFLAG_SEALED, vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
@@ -2245,7 +2245,7 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case DRINK: {
             item water( itype_water_clean, calendar::turn_zero );
-            if( player_character.can_consume( water ) ) {
+            if( player_character.can_consume_as_is( water ) ) {
                 player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }

@@ -6,14 +6,11 @@
 #include <cstdlib>
 #include <cstring>
 #include <deque>
-#include <fstream>
 #include <functional>
 #include <iterator>
 #include <string>
 #include <type_traits>
 #include <vector>
-
-#include <ghc/fs_std_fwd.hpp>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -72,7 +69,7 @@ const char *cata_files::eol()
 
 std::string read_entire_file( const std::string &path )
 {
-    std::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
+    cata::ifstream infile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
     return std::string( std::istreambuf_iterator<char>( infile ),
                         std::istreambuf_iterator<char>() );
 }
@@ -275,7 +272,8 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
-    std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream source_stream( fs::u8path( source_path ),
+                                  std::ifstream::in | std::ifstream::binary );
     if( !source_stream ) {
         return false;
     }
@@ -301,3 +299,25 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
+
+#if defined(_WIN32) && defined(__GLIBCXX__)
+// GLIBCXX does not offer the wchar_t extension for fstream paths
+std::string cata::_details::path_to_native( const fs::path &p )
+{
+    if( GetACP() == 65001 ) { // utf-8 code page
+        return p.u8string();
+    } else {
+        return wstr_to_native( p.wstring() );
+    }
+}
+#elif defined(_WIN32)
+std::wstring cata::_details::path_to_native( const fs::path &p )
+{
+    return p.wstring();
+}
+#else
+std::string cata::_details::path_to_native( const fs::path &p )
+{
+    return p.u8string();
+}
+#endif

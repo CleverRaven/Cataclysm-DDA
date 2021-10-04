@@ -67,6 +67,14 @@ class talker_monster: public talker
         void remove_value( const std::string &var_name ) override;
 
         std::string short_description() const override;
+        int get_anger() const override;
+        void set_anger( int ) override;
+        int morale_cur() const override;
+        void set_morale( int ) override;
+        int get_friendly() const override;
+        void set_friendly( int ) override;
+        bool will_talk_to_u( const Character &u, bool force ) override;
+        std::vector<std::string> get_topics( bool radio_contact ) override;
     protected:
         talker_monster() = default;
         monster *me_mon;

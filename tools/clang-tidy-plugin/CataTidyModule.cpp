@@ -9,6 +9,7 @@
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
+#include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
@@ -49,7 +50,7 @@ class CataModule : public ClangTidyModule
                 llvm::report_fatal_error(
                     Twine( "clang version mismatch in CataTidyModule.  Compiled against "
                            CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
-                abort();
+                abort(); // NOLINT(cata-assert)
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );
             CheckFactories.registerCheck<AssertCheck>( "cata-assert" );
@@ -58,6 +59,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
+            CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );

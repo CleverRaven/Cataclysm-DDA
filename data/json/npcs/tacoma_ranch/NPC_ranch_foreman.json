@@ -49,7 +49,7 @@
       {
         "text": "Thanks.",
         "topic": "TALK_RANCH_FOREMAN",
-        "effect": [ { "u_buy_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
+        "effect": [ { "u_spawn_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
       }
     ]
   },

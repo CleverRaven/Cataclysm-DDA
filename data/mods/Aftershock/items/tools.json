@@ -53,7 +53,7 @@
   {
     "id": "afs_plasma_torch",
     "type": "TOOL",
-    "name": { "str": "377-UASTA plasma torch" },
+    "name": { "str": "377-UASTA plasma torch", "str_pl": "377-UASTA plasma torches" },
     "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  It is an indispensable tool for construction or demolition work, and is sometimes transformed into weapon by mining & salvage outfits of questionable repute.",
     "weight": "4200 g",
     "volume": "4500 ml",
@@ -179,7 +179,7 @@
     "looks_like": "circsaw_off",
     "color": "light_red",
     "ammo": [ "gasoline" ],
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
@@ -214,7 +214,7 @@
     "looks_like": "circsaw_off",
     "color": "yellow",
     "ammo": [ "gasoline" ],
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]

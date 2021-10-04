@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "all_enum_values.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "cached_options.h"
@@ -596,20 +597,21 @@ static void draw_ascii(
     point_rel_omt s_begin;
     point_rel_omt s_end;
     if( blink && uistate.place_special ) {
-        for( const auto &s_ter : uistate.place_special->terrains ) {
-            if( s_ter.p.z == 0 ) {
-                // TODO: fix point types
-                const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
-                const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
+            // Preview should only yield the terrains on the zero z-level
+            cata_assert( s_ter.p.z == 0 );
 
-                special_cache.insert( std::make_pair(
-                                          rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
+            // TODO: fix point types
+            const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
+            const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
-                s_begin.x() = std::min( s_begin.x(), rp.x() );
-                s_begin.y() = std::min( s_begin.y(), rp.y() );
-                s_end.x() = std::max( s_end.x(), rp.x() );
-                s_end.y() = std::max( s_end.y(), rp.y() );
-            }
+            special_cache.insert( std::make_pair(
+                                      rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
+
+            s_begin.x() = std::min( s_begin.x(), rp.x() );
+            s_begin.y() = std::min( s_begin.y(), rp.y() );
+            s_end.x() = std::max( s_end.x(), rp.x() );
+            s_end.y() = std::max( s_end.y(), rp.y() );
         }
     }
 
@@ -1068,11 +1070,12 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
-    if( data.debug_editor && center_seen ) {
+    if( ( data.debug_editor && center_seen ) || data.debug_info ) {
         const oter_t &oter = overmap_buffer.ter( center ).obj();
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
+        mvwprintz( wbar, point( 1, ++lines ), c_white, "oter: %s (rot %d)", oter.id.str(),
+                   oter.get_rotation() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   _( "oter_type: %s" ), oter.get_type_id().str() );
+                   "oter_type: %s", oter.get_type_id().str() );
         cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {
@@ -1081,7 +1084,14 @@ static void draw_om_sidebar(
                                arg.first, arg.second.get_string() );
                 }
             } else {
-                mvwprintz( wbar, point( 1, ++lines ), c_white, _( "args not yet set" ) );
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "args not yet set" );
+            }
+        }
+
+        for( cube_direction dir : all_enum_values<cube_direction>() ) {
+            if( std::string *join = overmap_buffer.join_used_at( { center, dir } ) ) {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "join %s: %s",
+                           io::enum_to_string( dir ), *join );
             }
         }
     }
@@ -1464,7 +1474,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
         }
         // TODO: Unify these things.
         const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() :
-                                uistate.place_special->rotatable;
+                                uistate.place_special->is_rotatable();
 
         uistate.omedit_rotation = om_direction::type::none;
         // If user chose an already rotated submap, figure out its direction
@@ -1501,7 +1511,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
             mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
-                ( !terrain && uistate.place_special->rotatable ) ) {
+                ( !terrain && uistate.place_special->is_rotatable() ) ) {
                 mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
@@ -1525,11 +1535,12 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
-                    overmap_buffer.place_special( *uistate.place_special, curs, uistate.omedit_rotation, false, true );
-                    for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
-                        const tripoint_abs_omt pos =
-                            curs + om_direction::rotate( s_ter.p, uistate.omedit_rotation );
-                        overmap_buffer.set_seen( pos, true );
+                    if( cata::optional<std::vector<tripoint_abs_omt>> used_points =
+                            overmap_buffer.place_special( *uistate.place_special, curs,
+                                                          uistate.omedit_rotation, false, true ) ) {
+                        for( const tripoint_abs_omt &pos : *used_points ) {
+                            overmap_buffer.set_seen( pos, true );
+                        }
                     }
                 }
                 break;
@@ -1628,7 +1639,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         params = overmap_path_params::for_player();
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
-        if( here.has_flag( TFLAG_SWIMMABLE, player_character.pos() ) || is_river_or_lake( dest_ter ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
+            is_river_or_lake( dest_ter ) ) {
             params.water_cost = 100;
         }
     }
@@ -1766,10 +1778,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
         } else if( action == "ZOOM_OUT" ) {
-            g->zoom_out();
+            g->zoom_out_overmap();
             ui.mark_resize();
         } else  if( action == "ZOOM_IN" ) {
-            g->zoom_in();
+            g->zoom_in_overmap();
             ui.mark_resize();
         } else if( action == "CONFIRM" ) {
             ret = curs;
@@ -1933,19 +1945,25 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display( center, data );
 }
 
-tripoint_abs_omt ui::omap::choose_point()
+tripoint_abs_omt ui::omap::choose_point( bool show_debug_info )
 {
-    return overmap_ui::display( get_player_character().global_omt_location() );
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
+    return overmap_ui::display( get_player_character().global_omt_location(), data );
 }
 
-tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin )
+tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin, bool show_debug_info )
 {
-    return overmap_ui::display( origin );
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
+    return overmap_ui::display( origin, data );
 }
 
-tripoint_abs_omt ui::omap::choose_point( int z )
+tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
 {
+    overmap_ui::draw_data_t data;
+    data.debug_info = show_debug_info;
     tripoint_abs_omt loc = get_player_character().global_omt_location();
     loc.z() = z;
-    return overmap_ui::display( loc );
+    return overmap_ui::display( loc, data );
 }

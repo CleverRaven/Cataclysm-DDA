@@ -306,6 +306,7 @@
     "desc": [ "You're knocked to the ground.  You have to get up before you can move." ],
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
+    "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true
   },
   {
@@ -420,6 +421,7 @@
     "name": [ "Unstable footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
     "rating": "bad"
   },
   {
@@ -632,6 +634,7 @@
     "int_add_val": 1,
     "int_decay_step": -1,
     "int_decay_tick": 90,
+    "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] }
@@ -644,7 +647,7 @@
     "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'",
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
-    "resist_traits": [ "POISRESIST" ],
+    "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
@@ -1190,7 +1193,9 @@
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
     "miss_messages": [ [ "You tremble", 4 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] }
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
+    "max_duration": 7200,
+    "dur_add_perc": 30
   },
   {
     "type": "effect_type",
@@ -1823,6 +1828,7 @@
     "type": "effect_type",
     "id": "tapeworm",
     "rating": "bad",
+    "resist_traits": [ "VOMITSTOMACH" ],
     "base_mods": { "hunger_chance": [ 50 ], "hunger_min": [ 1 ] },
     "blood_analysis_description": "Intestinal Parasite"
   },
@@ -1984,21 +1990,6 @@
   },
   {
     "type": "effect_type",
-    "id": "hypocalcemia",
-    "name": [ "Hypocalcemia", "Weak bones", "Brittle bones" ],
-    "desc": [ "A lack of calcium in your diet will make your bones progressively weaker." ],
-    "apply_message": "Your bones are becoming more brittle.",
-    "remove_message": "Your bones regain their usual strength.",
-    "decay_messages": [
-      [ "Your calcium deficiency is nearly resolved.", "good" ],
-      [ "Your bones become stronger as your calcium deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Hypocalcemia"
-  },
-  {
-    "type": "effect_type",
     "id": "anemia",
     "name": [ "Early iron deficiency", "Iron deficiency", "Acute iron deficiency" ],
     "desc": [
@@ -2074,36 +2065,6 @@
   },
   {
     "type": "effect_type",
-    "id": "hypovitA",
-    "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
-    "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
-    "apply_message": "You start struggling to make out the finer details.",
-    "remove_message": "Your normal visual acuity returns.",
-    "decay_messages": [
-      [ "Your vitamin A deficiency is nearly resolved.", "good" ],
-      [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin A Deficiency"
-  },
-  {
-    "type": "effect_type",
-    "id": "hypovitB",
-    "name": [ "B12 deficiency", "Slow healing", "No healing" ],
-    "desc": [ "A lack of vitamin B12 in your diet will affect your ability to heal." ],
-    "apply_message": "Simple wounds are starting to concern you more than usual.",
-    "remove_message": "Your wounds now heal normally.",
-    "decay_messages": [
-      [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
-      [ "Your ability to heal returns as your Vitamin B12 deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin B Deficiency"
-  },
-  {
-    "type": "effect_type",
     "id": "scurvy",
     "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
     "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
@@ -2114,6 +2075,27 @@
       [ "Your scurvy lessens as your Vitamin C deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
+    "base_mods": {
+      "pain_max_val": [ 35 ],
+      "pain_chance": [ 900 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 5 ],
+      "fatigue_chance": [ 900 ],
+      "fatigue_max_val": [ 500, 200 ],
+      "fatigue_min": [ 10 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "pain_chance": [ -150 ],
+      "fatigue_chance": [ -200 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -100 ],
+      "h_mod_chance": [ -300 ],
+      "str_mod": [ -0.5 ],
+      "speed_mod": [ -2 ]
+    },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
   },
@@ -2427,17 +2409,11 @@
     "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
-    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
-    "//3": "/160 HP: +1 size",
-    "max_intensity": 480,
-    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
-    "scaling_mods": {
-      "hit_mod": [ 0.0104 ],
-      "dodge_mod": [ 0.0104 ],
-      "speed_mod": [ 0.1042 ],
-      "bash_mod": [ 0.08333 ],
-      "size_mod": [ 0.00625 ]
-    },
+    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/250 HP: +1 size",
+    "max_intensity": 500,
+    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
     "int_decay_step": 0
   },
   {

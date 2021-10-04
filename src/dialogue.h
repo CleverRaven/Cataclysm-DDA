@@ -99,13 +99,16 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_add_power( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_assign_activity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
+        void set_finish_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member );
+        void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member,
+                                            bool is_npc = false );
         void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -114,6 +117,7 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_u_spawn_item( const itype_id &item_name, int count, const std::string &container_name );
         void set_u_buy_item( const itype_id &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
@@ -133,6 +137,7 @@ struct talk_effect_fun_t {
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
+        void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const std::string &mission_id );
@@ -141,15 +146,16 @@ struct talk_effect_fun_t {
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
         void set_npc_first_topic( const std::string &chat_topic );
-        void set_mod_focus( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
         std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_mod_radiation( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_open_dialogue();
+        void set_take_control();
+        void set_take_control_menu();
         void operator()( const dialogue &d ) const {
             if( !function ) {
                 return;

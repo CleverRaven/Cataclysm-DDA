@@ -35,7 +35,6 @@
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class book_proficiency_bonuses;
@@ -50,7 +49,7 @@ class nc_color;
 class recipe;
 class relic;
 struct armor_portion_data;
-struct gun_variant_data;
+struct itype_variant_data;
 struct islot_comestible;
 struct itype;
 struct item_comp;
@@ -534,7 +533,7 @@ class item : public visitable
         using archive_type_tag = io::object_archive_tag;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         const std::string &symbol() const;
         /**
@@ -543,6 +542,14 @@ class item : public visitable
          * otherwise returns approximate post-cataclysm value.
          */
         int price( bool practical ) const;
+
+        /**
+         * Returns the monetary value of an item by itself.
+         * Price includes hidden contents such as ammo and liquids.
+         * If `practical` is false, returns pre-cataclysm market value,
+         * otherwise returns approximate post-cataclysm value.
+         */
+        int price_no_contents( bool practical );
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -1869,19 +1876,19 @@ class item : public visitable
          * Does this item have a gun variant associated with it
          * If check_option, the return of this is dependent on the SHOW_GUN_VARIANTS option
          */
-        bool has_gun_variant( bool check_option = true ) const;
+        bool has_itype_variant( bool check_option = true ) const;
 
         /**
          * The gun variant associated with this item
          */
-        const gun_variant_data &gun_variant() const;
+        const itype_variant_data &itype_variant() const;
 
         /**
          * Set the gun variant of this item
          */
-        void set_gun_variant( const std::string &variant );
+        void set_itype_variant( const std::string &variant );
 
-        void clear_gun_variant();
+        void clear_itype_variant();
 
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
@@ -2465,15 +2472,15 @@ class item : public visitable
 
         // Select a random variant from the possibilities
         // Intended to be called when no explicit variant is set
-        void select_gun_variant();
+        void select_itype_variant();
 
-        bool can_have_gun_variant() const;
+        bool can_have_itype_variant() const;
 
         // Does this have a variant with this id?
-        bool possible_gun_variant( const std::string &test ) const;
+        bool possible_itype_variant( const std::string &test ) const;
 
         // If the item has a gun variant, this points to it
-        const gun_variant_data *_gun_variant = nullptr;
+        const itype_variant_data *_itype_variant = nullptr;
 
         /**
          * Data for items that represent in-progress crafts.
@@ -2493,7 +2500,6 @@ class item : public visitable
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
                 void serialize( JsonOut &jsout ) const;
-                void deserialize( JsonIn &jsin );
                 void deserialize( const JsonObject &obj );
         };
 

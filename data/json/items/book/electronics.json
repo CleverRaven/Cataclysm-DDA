@@ -55,6 +55,22 @@
     "time": "20 m"
   },
   {
+    "id": "ic_reference_electronics",
+    "type": "BOOK",
+    "name": { "str": "101 Important Integrated Circuits", "str_pl": "copies of 101 Important Integrated Circuits" },
+    "description": "This reference manual contains datasheets and pinout diagrams for 101 of the most popular IC chips, including the 555 timer, LM358 op-amp, and LM317 voltage regulator, along with logic chips from the 74xx family, and even the 6502 8-bit processor.  If you want to do anything useful with integrated circuits, a reference like this would be indispensable.",
+    "weight": "900 g",
+    "volume": "800 ml",
+    "price": 2200,
+    "price_postapoc": 250,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "intelligence": 8,
+    "time": "30 m",
+    "fun": -2
+  },
+  {
     "id": "radio_book",
     "type": "BOOK",
     "name": { "str": "Amateur Home Radio for Enthusiasts", "str_pl": "copies of Amateur Home Radio for Enthusiasts" },
@@ -213,7 +229,7 @@
   {
     "id": "robofac_yrax_deactivation_manual",
     "type": "BOOK",
-    "name": { "str": "trifacet handling procedures" },
+    "name": { "str_sp": "trifacet handling procedures" },
     "description": "A heavy and disparate binder detailing the deactivation, storage and transport procedures for a so called \"Trifacet\" UVG.  The pages and schematics within have been compiled from the internal reports of a vast array of governmental agencies, many of which you had never heard of before.",
     "weight": "1409 g",
     "volume": "500 ml",

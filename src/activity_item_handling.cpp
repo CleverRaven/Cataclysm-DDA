@@ -21,6 +21,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
+#include "contents_change_handler.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -128,14 +129,6 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
-static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_TREE( "TREE" );
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -188,6 +181,7 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               vehicle &veh, int part )
 {
+    c.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -234,16 +228,16 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         switch( reason ) {
             case item_drop_reason::deliberate:
                 c.add_msg_player_or_npc(
-                    ngettext( "You put your %1$s in the %2$s's %3$s.",
-                              "You put your %1$s in the %2$s's %3$s.", dropcount ),
-                    ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
-                              "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
+                    n_gettext( "You put your %1$s in the %2$s's %3$s.",
+                               "You put your %1$s in the %2$s's %3$s.", dropcount ),
+                    n_gettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
+                               "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_large:
                 c.add_msg_if_player(
-                    ngettext(
+                    n_gettext(
                         "There's no room in your inventory for the %s, so you drop it into the %s's %s.",
                         "There's no room in your inventory for the %s, so you drop them into the %s's %s.",
                         dropcount ),
@@ -252,16 +246,16 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 break;
             case item_drop_reason::too_heavy:
                 c.add_msg_if_player(
-                    ngettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
-                              "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
+                    n_gettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
+                               "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::tumbling:
                 c.add_msg_if_player(
                     m_bad,
-                    ngettext( "Your %s tumbles into the %s's %s.",
-                              "Your %s tumble into the %s's %s.", dropcount ),
+                    n_gettext( "Your %s tumbles into the %s's %s.",
+                               "Your %s tumble into the %s's %s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
@@ -290,15 +284,15 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         if( into_vehicle_count > 0 ) {
             c.add_msg_if_player(
                 m_warning,
-                ngettext( "The %s is full, so something fell to the %s.",
-                          "The %s is full, so some items fell to the %s.", fallen_count ),
+                n_gettext( "The %s is full, so something fell to the %s.",
+                           "The %s is full, so some items fell to the %s.", fallen_count ),
                 part_name, ter_name
             );
         } else {
             c.add_msg_if_player(
                 m_warning,
-                ngettext( "The %s is full, so it fell to the %s.",
-                          "The %s is full, so they fell to the %s.", fallen_count ),
+                n_gettext( "The %s is full, so it fell to the %s.",
+                           "The %s is full, so they fell to the %s.", fallen_count ),
                 part_name, ter_name
             );
         }
@@ -308,6 +302,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
+    you.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -324,41 +319,41 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
             case item_drop_reason::deliberate:
                 if( can_move_there ) {
                     you.add_msg_player_or_npc(
-                        ngettext( "You drop your %1$s on the %2$s.",
-                                  "You drop your %1$s on the %2$s.", dropcount ),
-                        ngettext( "<npcname> drops their %1$s on the %2$s.",
-                                  "<npcname> drops their %1$s on the %2$s.", dropcount ),
+                        n_gettext( "You drop your %1$s on the %2$s.",
+                                   "You drop your %1$s on the %2$s.", dropcount ),
+                        n_gettext( "<npcname> drops their %1$s on the %2$s.",
+                                   "<npcname> drops their %1$s on the %2$s.", dropcount ),
                         it_name, ter_name
                     );
                 } else {
                     you.add_msg_player_or_npc(
-                        ngettext( "You put your %1$s in the %2$s.",
-                                  "You put your %1$s in the %2$s.", dropcount ),
-                        ngettext( "<npcname> puts their %1$s in the %2$s.",
-                                  "<npcname> puts their %1$s in the %2$s.", dropcount ),
+                        n_gettext( "You put your %1$s in the %2$s.",
+                                   "You put your %1$s in the %2$s.", dropcount ),
+                        n_gettext( "<npcname> puts their %1$s in the %2$s.",
+                                   "<npcname> puts their %1$s in the %2$s.", dropcount ),
                         it_name, ter_name
                     );
                 }
                 break;
             case item_drop_reason::too_large:
                 you.add_msg_if_player(
-                    ngettext( "There's no room in your inventory for the %s, so you drop it.",
-                              "There's no room in your inventory for the %s, so you drop them.", dropcount ),
+                    n_gettext( "There's no room in your inventory for the %s, so you drop it.",
+                               "There's no room in your inventory for the %s, so you drop them.", dropcount ),
                     it_name
                 );
                 break;
             case item_drop_reason::too_heavy:
                 you.add_msg_if_player(
-                    ngettext( "The %s is too heavy to carry, so you drop it.",
-                              "The %s is too heavy to carry, so you drop them.", dropcount ),
+                    n_gettext( "The %s is too heavy to carry, so you drop it.",
+                               "The %s is too heavy to carry, so you drop them.", dropcount ),
                     it_name
                 );
                 break;
             case item_drop_reason::tumbling:
                 you.add_msg_if_player(
                     m_bad,
-                    ngettext( "Your %1$s tumbles to the %2$s.",
-                              "Your %1$s tumble to the %2$s.", dropcount ),
+                    n_gettext( "Your %1$s tumbles to the %2$s.",
+                               "Your %1$s tumble to the %2$s.", dropcount ),
                     it_name, ter_name
                 );
                 break;
@@ -1206,7 +1201,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_MINE ) {
-        if( !here.has_flag( TFLAG_MINEABLE, src_loc ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> mining_inv = you.items_with( [&you]( const item & itm ) {
@@ -1220,7 +1215,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_FISH ) {
-        if( !here.has_flag( flag_FISHABLE, src_loc ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> rod_inv = you.items_with( []( const item & itm ) {
@@ -1233,7 +1228,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( flag_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
+        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
             here.ter( src_loc ) == t_stump ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
@@ -1262,7 +1257,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
         bool b_rack_present = false;
         for( const tripoint &pt : here.points_in_radius( src_loc, 2 ) ) {
-            if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_BUTCHER_EQ, pt ) ) {
                 b_rack_present = true;
             }
         }
@@ -1339,10 +1334,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         zones = mgr.get_zones( zone_type_FARM_PLOT,
                                here.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
-            if( here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
-            } else if( here.has_flag( flag_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( you.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
                     return activity_reason_info::ok( do_activity_reason::NEEDS_TILLING );
@@ -1350,7 +1345,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) &&
+            } else if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANTABLE, src_loc ) &&
                        warm_enough_to_plant( src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
@@ -1391,7 +1386,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
-        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
+        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -1404,7 +1399,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 // Are the requirements fulfilled?
                 const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
                                   i.components.front().typeId() : i.typeId() );
-                const auto &req = r.disassembly_requirements();
+                req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
                 req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {
                 return cur.empty() ||
@@ -1449,8 +1444,16 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
             std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
                     here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
             for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
+                tripoint here_local = here.getlocal( elem );
+
+                // Check that a coordinate is not already in the combined list, otherwise actions
+                // like construction may erroneously count materials twice if an object is both
+                // in the camp zone and in a loot zone.
+                if( std::find( combined_spots.begin(), combined_spots.end(),
+                               here_local ) == combined_spots.end() ) {
+                    loot_zone_spots.push_back( here_local );
+                    combined_spots.push_back( here_local );
+                }
             }
         }
     }
@@ -2250,7 +2253,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     } );
     map &here = get_map();
     if( mining_inv.empty() || you.is_mounted() || you.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ) {
+        !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ) {
         return false;
     }
     item *chosen_item = nullptr;
@@ -2301,7 +2304,7 @@ static bool chop_tree_activity( Character &you, const tripoint &src_loc )
     }
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
-    if( here.has_flag( flag_TREE, src_loc ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( ACT_CHOP_TREE, moves, -1, you.get_item_position( best_qual ) );
         you.activity.placement = here.getabs( src_loc );
         return true;
@@ -2406,7 +2409,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
             for( const item &stack_elem : here.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == you.name ) {
                     const furn_t &f = here.furn( elem ).obj();
-                    if( !f.has_flag( flag_PLANT ) ) {
+                    if( !f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
                         src_set.insert( here.getabs( elem ) );
                         found_one_point = true;
                         // only check for a valid path, as that is all that is needed to tidy something up.
@@ -2473,7 +2476,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
         }
         if( act_id == ACT_MULTIPLE_FISH ) {
             const ter_id terrain_id = here.ter( set_pt );
-            if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );
             } else {
                 ++it2;
@@ -2653,7 +2656,6 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-
             you.add_msg_player_or_npc( m_info,
                                        _( "The required items are not available to complete this task." ),
                                        _( "The required items are not available to complete this task." ) );
@@ -2718,16 +2720,17 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
     if( reason == do_activity_reason::NEEDS_HARVESTING &&
-        here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         iexamine::harvest_plant( you, src_loc, true );
-    } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
+    } else if( reason == do_activity_reason::NEEDS_TILLING &&
+               here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( ACT_CHURN, 18000, -1 );
         you.backlog.push_front( player_activity( act_id ) );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
-               here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) ) {
+               here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANTABLE, src_loc ) ) {
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        here.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
@@ -2994,7 +2997,7 @@ static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &fro
             best_fire_age = fire_age;
         }
         // If a contained fire exists, ignore any other fires
-        if( here.has_flag_furn( TFLAG_FIRE_CONTAINER, pt ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pt ) ) {
             return pt;
         }
     }
@@ -3096,7 +3099,7 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // not good eatings.
                 continue;
             }
-            if( !you.can_consume( comest ) ) {
+            if( !you.can_consume_as_is( comest ) ) {
                 continue;
             }
             if( food && you.compute_effective_nutrients( comest ).kcal() < 50 ) {
@@ -3174,7 +3177,7 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
     }
 
     // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
-    bool contained = here.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
+    bool contained = here.has_flag_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
     time_duration fire_age = here.get_field_age( *best_fire, fd_fire );
 

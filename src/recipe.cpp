@@ -185,7 +185,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         // so we can specify moves that is not a multiple of 100
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                               time_duration::units ) );
     }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
@@ -309,8 +309,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" ) {
 
-        assign( jo, "category", category, strict );
-        assign( jo, "subcategory", subcategory, strict );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
         assign( jo, "reversible", reversible, strict );
 
@@ -325,7 +325,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
         }
         assign( jo, "construction_blueprint", blueprint );
-        if( !blueprint.empty() ) {
+        if( !blueprint.is_empty() ) {
             assign( jo, "blueprint_name", bp_name );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
@@ -358,7 +358,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     } else {
                         blueprint_reqs->time =
                             to_moves<int>( read_from_json_string<time_duration>(
-                                               *jneeds.get_raw( "time" ), time_duration::units ) );
+                                               jneeds.get_member( "time" ), time_duration::units ) );
                     }
                 }
                 if( jneeds.has_member( "skills" ) ) {
@@ -377,10 +377,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     } else if( type == "practice" ) {
         mandatory( jo, false, "name", name_ );
-        assign( jo, "category", category, strict );
-        assign( jo, "subcategory", subcategory, strict );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
-        mandatory( jo, false, "practice_data", practice_data );
+        mandatory( jo, was_loaded, "practice_data", practice_data );
 
         if( jo.has_member( "byproducts" ) ) {
             byproducts.clear();
@@ -986,10 +986,10 @@ bool recipe::is_practice() const
 
 bool recipe::is_blueprint() const
 {
-    return !blueprint.empty();
+    return !blueprint.is_empty();
 }
 
-const std::string &recipe::get_blueprint() const
+const update_mapgen_id &recipe::get_blueprint() const
 {
     return blueprint;
 }
@@ -1141,9 +1141,9 @@ void recipe::incorporate_build_reqs()
     reqs_internal.emplace_back( req_id, 1 );
 }
 
-void recipe_proficiency::deserialize( JsonIn &jsin )
+void recipe_proficiency::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void recipe_proficiency::load( const JsonObject &jo )
@@ -1156,9 +1156,9 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "max_experience", max_experience );
 }
 
-void book_recipe_data::deserialize( JsonIn &jsin )
+void book_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void book_recipe_data::load( const JsonObject &jo )
@@ -1168,9 +1168,9 @@ void book_recipe_data::load( const JsonObject &jo )
     jo.read( "hidden", hidden );
 }
 
-void practice_recipe_data::deserialize( JsonIn &jsin )
+void practice_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void practice_recipe_data::load( const JsonObject &jo )

@@ -285,8 +285,8 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "thyme_oil", "container": "jar_glass_sealed", "count": 2 },
-        { "u_buy_item": "poppy_pain", "container": "jar_glass_sealed", "count": 200 }
+        { "u_spawn_item": "thyme_oil", "container": "jar_glass_sealed", "count": 2 },
+        { "u_spawn_item": "poppy_pain", "container": "jar_glass_sealed", "count": 200 }
       ]
     },
     "dialogue": {
@@ -314,9 +314,9 @@
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_buy_item": "pine_tea", "container": "jar_glass_sealed", "count": 2 },
-        { "u_buy_item": "royal_jelly", "count": 1 },
-        { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 }
+        { "u_spawn_item": "pine_tea", "container": "jar_glass_sealed", "count": 2 },
+        { "u_spawn_item": "royal_jelly", "count": 1 },
+        { "u_spawn_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -345,12 +345,12 @@
     "start": {
       "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },
-      "effect": [ { "u_buy_item": "chicken_cage", "count": 1 } ]
+      "effect": [ { "u_spawn_item": "chicken_cage", "count": 1 } ]
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_buy_item": "isherwood_herbal_remedies", "count": 1 },
+        { "u_spawn_item": "isherwood_herbal_remedies", "count": 1 },
         { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     },

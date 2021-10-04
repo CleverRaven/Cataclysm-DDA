@@ -1,0 +1,18 @@
+[
+  {
+    "id": "prac_leather_beg",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "leatherworking (beginner)",
+    "description": "Practice basic leatherworking skills by cutting and punching holes in leather, and stitching together leather patches.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_animecon", 0 ], [ "dieselpunk_tailor", 0 ] ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "filament", 20 ] ]
+  }
+]

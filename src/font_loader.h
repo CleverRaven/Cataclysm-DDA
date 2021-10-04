@@ -3,7 +3,6 @@
 #define CATA_SRC_FONT_LOADER_H
 
 #include <algorithm>
-#include <fstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -43,7 +42,7 @@ class font_loader
     private:
         void load_throws( const std::string &path ) {
             try {
-                std::ifstream stream( path.c_str(), std::ifstream::binary );
+                cata::ifstream stream( fs::u8path( path ), std::ifstream::binary );
                 JsonIn json( stream );
                 JsonObject config = json.get_object();
                 if( config.has_string( "typeface" ) ) {
@@ -96,17 +95,6 @@ class font_loader
             } else {
                 const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
                 load_throws( legacy_fontdata );
-#if defined(__APPLE__)
-                // Terminus.ttf introduced in #45319 does not display properly on macOS (#50149)
-                // As a temporary workaround, remove Terminus.ttf from font list if on macOS.
-                // TODO: get rid of this workaround
-                typeface.erase( std::remove( typeface.begin(), typeface.end(),
-                                             "data/font/Terminus.ttf" ), typeface.end() );
-                map_typeface.erase( std::remove( map_typeface.begin(), map_typeface.end(),
-                                                 "data/font/Terminus.ttf" ), map_typeface.end() );
-                overmap_typeface.erase( std::remove( overmap_typeface.begin(), overmap_typeface.end(),
-                                                     "data/font/Terminus.ttf" ), overmap_typeface.end() );
-#endif
                 assure_dir_exist( PATH_INFO::config_dir() );
                 save( fontdata );
             }

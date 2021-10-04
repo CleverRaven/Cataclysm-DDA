@@ -44,8 +44,6 @@
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
-static const std::string flag_CONSOLE( "CONSOLE" );
-
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
 
@@ -621,7 +619,8 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( here.has_flag( TFLAG_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
@@ -631,9 +630,9 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     }
 
     if( movez == -1 ) {
-        return here.has_flag( TFLAG_GOES_DOWN, p );
+        return here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, p );
     } else {
-        return here.has_flag( TFLAG_GOES_UP, p );
+        return here.has_flag( ter_furn_flag::TFLAG_GOES_UP, p );
     }
 }
 
@@ -643,19 +642,19 @@ bool can_examine_at( const tripoint &p )
     if( here.veh_at( p ) ) {
         return true;
     }
-    if( here.has_flag( flag_CONSOLE, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
         return true;
     }
-    if( here.has_items( p ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) {
         return true;
     }
     const furn_t &xfurn_t = here.furn( p ).obj();
     const ter_t &xter_t = here.ter( p ).obj();
 
-    if( here.has_furn( p ) && xfurn_t.can_examine() ) {
+    if( here.has_furn( p ) && xfurn_t.can_examine( p ) ) {
         return true;
     }
-    if( xter_t.can_examine() ) {
+    if( xter_t.can_examine( p ) ) {
         return true;
     }
 
@@ -676,7 +675,7 @@ static bool can_pickup_at( const tripoint &p )
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return here.has_items( p ) || veh_has_items;
+    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -733,8 +732,9 @@ action_id handle_action_menu()
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
+        const item &weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( weapon.is_gun() || weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }

@@ -485,9 +485,9 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
-                    if( mon != nullptr && mon->pos() != mon->move_target() ) {
-                        for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
-                            hilights["mplan"].points[location] = 1;
+                    if( mon != nullptr && mon->has_dest() ) {
+                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
+                            hilights["mplan"].points[m->getlocal( location )] = 1;
                         }
                     }
                 }
@@ -620,7 +620,7 @@ void editmap::draw_main_ui_overlay()
         tinymap &tmpmap = *tmpmap_ptr;
 #ifdef TILES
         if( use_tiles ) {
-            const tripoint &player_location = get_player_location().pos();
+            const tripoint player_location = get_player_character().pos();
             const point origin_p = target.xy() + point( 1 - SEEX, 1 - SEEY );
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
@@ -661,8 +661,8 @@ void editmap::draw_main_ui_overlay()
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
                                                 point_zero );
                     }
-                    g->draw_below_override( map_p, here.has_zlevels() &&
-                                            tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
+                    g->draw_below_override( map_p,
+                                            tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
             // int: count, bool: more than 1 spawn data
@@ -773,10 +773,10 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     if( vp ) {
         extras += _( " [vehicle]" );
     }
-    if( here.has_flag( TFLAG_INDOORS, target ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, target ) ) {
         extras += _( " [indoors]" );
     }
-    if( here.has_flag( TFLAG_SUPPORTS_ROOF, target ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, target ) ) {
         extras += _( " [roof]" );
     }
 
@@ -813,13 +813,13 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = here.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !here.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_CONTAINER, target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );
         off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off ), n_gettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );
@@ -963,16 +963,16 @@ template<>
 std::string describe( const ter_t &type )
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
+                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
+                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
 }
 
 template<>
 std::string describe( const furn_t &type )
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
+                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
+                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
 }
 
 template<>

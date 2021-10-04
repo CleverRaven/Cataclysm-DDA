@@ -33,6 +33,19 @@
         "|||......|.@@|Yt|;;;;;;|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "parameters": {
+        "spawn_location": { "type": "string", "default": { "distribution": [ [ "lab_security_z0N", 1 ], [ "lab_security_z0S", 2 ] ] } }
+      },
+      "item": {
+        "s": [
+          {
+            "item": {
+              "switch": { "param": "spawn_location", "fallback": "lab_security_z0N" },
+              "cases": { "lab_security_z0N": "id_science_maintenance_green", "lab_security_z0S": "null" }
+            }
+          }
+        ]
+      },
       "place_traps": [
         { "trap": "tr_light_on_lab_security_z0N_A", "x": [ 4, 22 ], "y": [ 2, 16 ], "repeat": [ 2, 4 ] },
         { "trap": "tr_light_on_lab_security_z0N_B", "x": [ 4, 22 ], "y": [ 2, 16 ], "repeat": [ 2, 4 ] }
@@ -83,7 +96,7 @@
         "XH..||:||||;;;|;;;|è|h.h",
         "XH..|Y...h|;;;|||||;:.rr",
         "-...:J..II|;è;;;;ɜ|;:.h.",
-        "XH..:Jh...=;;;;;;;|;|yPP;",
+        "XH..:Jh...=;;;;;;;|;|yPP",
         "XH..:J..II|::::|;;|#||||",
         "X...|...h.|III6:;;;;;;è;",
         "|34.|P.P..+..h.|;;;;;;;;",
@@ -157,6 +170,19 @@
         "__||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "parameters": {
+        "spawn_location": { "type": "string", "default": { "distribution": [ [ "lab_security_z0N", 1 ], [ "lab_security_z0S", 2 ] ] } }
+      },
+      "item": {
+        "s": [
+          {
+            "item": {
+              "switch": { "param": "spawn_location", "fallback": "lab_security_z0N" },
+              "cases": { "lab_security_z0S": "id_science_maintenance_green", "lab_security_z0N": "null" }
+            }
+          }
+        ]
+      },
       "terrain": {
         "J": "t_thconc_floor",
         "P": "t_thconc_floor",

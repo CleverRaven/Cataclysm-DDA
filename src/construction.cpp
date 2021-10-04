@@ -34,6 +34,7 @@
 #include "item_stack.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -1111,7 +1112,7 @@ bool construct::check_empty( const tripoint &p )
     map &here = get_map();
     // @TODO should check for *visible* traps only. But calling code must
     // first know how to handle constructing on top of an invisible trap!
-    return ( here.has_flag( TFLAG_FLAT, p ) && !here.has_furn( p ) &&
+    return ( here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) && !here.has_furn( p ) &&
              g->is_empty( p ) && here.tr_at( p ).is_null() &&
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
@@ -1135,7 +1136,7 @@ bool construct::check_support( const tripoint &p )
     }
     int num_supports = 0;
     for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
-        if( here.has_flag( TFLAG_SUPPORTS_ROOF, nb ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
             num_supports++;
         }
     }
@@ -1144,7 +1145,7 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_stable( const tripoint &p )
 {
-    return get_map().has_flag( TFLAG_SUPPORTS_ROOF, p + tripoint_below );
+    return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
 }
 
 bool construct::check_empty_stable( const tripoint &p )
@@ -1154,7 +1155,7 @@ bool construct::check_empty_stable( const tripoint &p )
 
 bool construct::check_nofloor_above( const tripoint &p )
 {
-    return get_map().has_flag( TFLAG_NO_FLOOR, p + tripoint_above );
+    return get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p + tripoint_above );
 }
 
 bool construct::check_deconstruct( const tripoint &p )
@@ -1194,7 +1195,7 @@ bool construct::check_ramp_high( const tripoint &p )
     if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
-            if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
+            if( get_map().has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
                 return true;
             }
         }
@@ -1300,7 +1301,8 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( get_avatar().lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( get_avatar().has_trait( trait_DEBUG_HS ) ?
+                       STATIC( itype_id( "frame" ) ) : get_avatar().lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1465,8 +1467,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    if( tmpmap.has_flag_ter( TFLAG_SHALLOW_WATER, local_tmp ) ||
-        tmpmap.has_flag_ter( TFLAG_DEEP_WATER, local_tmp ) ) {
+    if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
+        tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
@@ -1601,7 +1603,7 @@ void load_construction( const JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
     } else if( jo.has_string( "time" ) ) {
-        con.time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        con.time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                   time_duration::units ) );
     }
 

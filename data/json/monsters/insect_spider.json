@@ -129,7 +129,7 @@
   {
     "id": "mon_large_cockroach",
     "type": "MONSTER",
-    "name": { "str": "huge cockroach", "str_pl": "huge cockroaches" },
+    "name": { "str": "cockroach", "str_pl": "cockroaches" },
     "description": "A mutant cockroach the size of a small dog.",
     "copy-from": "mon_giant_cockroach",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -343,7 +343,7 @@
   {
     "id": "mon_bee_small",
     "type": "MONSTER",
-    "name": { "str": "huge bee" },
+    "name": { "str": "bee" },
     "description": "A mutant bee the size of a small dog.",
     "copy-from": "mon_bee",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -583,7 +583,7 @@
   {
     "id": "mon_dragonfly_naiad",
     "type": "MONSTER",
-    "name": { "str": "huge dragonfly naiad" },
+    "name": { "str": "giant dragonfly naiad" },
     "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw changed into something resembling a barbed spear.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
@@ -618,7 +618,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "AQUATIC", "SEES" ],
+    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
     "upgrades": { "age_grow": 21, "into": "mon_dragonfly_giant" }
   },
   {
@@ -668,7 +668,7 @@
     "id": "mon_dragonfly_mega",
     "type": "MONSTER",
     "name": { "str_sp": "fused dragonflies" },
-    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the amalgamation of two dragonflies, bodies still locked into a telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
+    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the unholy union of two dragonflies in the act of mating, bodies still locked into the telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
     "volume": "600 L",
     "weight": "800 kg",
     "default_faction": "dragonfly",
@@ -727,7 +727,7 @@
   {
     "id": "mon_fly_small",
     "type": "MONSTER",
-    "name": { "str": "huge fly", "str_pl": "huge flies" },
+    "name": { "str": "fly", "str_pl": "flies" },
     "description": "A mutant housefly the size of a small dog.  Its buzzing is high-pitched and somehow sad.",
     "copy-from": "mon_fly",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -762,6 +762,7 @@
     "harvest": "arachnid_flying",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
+    "//": "LOUDMOVES is now part of the species INSECT_FLYING",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
@@ -782,7 +783,7 @@
   {
     "id": "mon_mosquito_small",
     "type": "MONSTER",
-    "name": { "str": "huge mosquito" },
+    "name": { "str": "mosquito" },
     "description": "A mutant mosquito the size of a small dog, buzzing and fluttering erratically.",
     "copy-from": "mon_mosquito_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -837,7 +838,7 @@
   {
     "id": "mon_spider_cellar_small",
     "type": "MONSTER",
-    "name": { "str": "huge cellar spider" },
+    "name": { "str": "cellar spider" },
     "description": "A mutant brown spider the size of a small dog with long thin legs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_cellar_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -931,7 +932,7 @@
   {
     "id": "mon_spider_jumping_small",
     "type": "MONSTER",
-    "name": { "str": "huge jumping spider" },
+    "name": { "str": "jumping spider" },
     "description": "A mutant spider the size of a small dog with big forelegs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_jumping_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -995,7 +996,7 @@
   {
     "id": "mon_spider_trapdoor_small",
     "type": "MONSTER",
-    "name": { "str": "huge trapdoor spider" },
+    "name": { "str": "trapdoor spider" },
     "description": "A dark brown mutant spider the size of a dog with a bulbous thorax, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_trapdoor_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1052,7 +1053,7 @@
   {
     "id": "mon_spider_web_small",
     "type": "MONSTER",
-    "name": { "str": "huge web spinning spider" },
+    "name": { "str": "web spinning spider" },
     "description": "A light gray mutant spider the size of a dog with a long legs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_web",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1142,7 +1143,7 @@
   {
     "id": "mon_spider_widow_small",
     "type": "MONSTER",
-    "name": { "str": "huge black widow spider" },
+    "name": { "str": "black widow spider" },
     "description": "A black mutant spider the size of a cat with a long legs, big eyes, and oversized fangs.  There is a red hourglass shape on its thorax.",
     "copy-from": "mon_spider_widow_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1233,7 +1234,7 @@
   {
     "id": "mon_spider_wolf_small",
     "type": "MONSTER",
-    "name": { "str": "huge wolf spider" },
+    "name": { "str": "wolf spider" },
     "description": "A shaggy brown mutant spider the size of a dog with a long legs, two especially big eyes, and oversized fangs.",
     "copy-from": "mon_spider_wolf_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1644,7 +1645,7 @@
   {
     "id": "mon_ant_small",
     "type": "MONSTER",
-    "name": { "str": "huge ant" },
+    "name": { "str": "ant" },
     "description": "A mutant red ant the size of a dog covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
     "copy-from": "mon_ant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1688,7 +1689,7 @@
   {
     "id": "mon_ant_acid_small",
     "type": "MONSTER",
-    "name": { "str": "huge acidic ant" },
+    "name": { "str": "acidic ant" },
     "description": "A brown mutated ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid drips out periodically.",
     "copy-from": "mon_ant_acid",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1933,7 +1934,7 @@
   {
     "id": "mon_locust_small",
     "type": "MONSTER",
-    "name": { "str": "huge locust" },
+    "name": { "str": "locust" },
     "description": "A yellow and brown mutated locust the size of a cat with big eyes and long powerful legs.",
     "copy-from": "mon_locust",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2026,7 +2027,7 @@
   {
     "id": "mon_aphid_small",
     "type": "MONSTER",
-    "name": { "str": "big aphid" },
+    "name": { "str": "aphid" },
     "description": "This huge aphid is as big as a hamster.  It's not as thirsty as bigger ones, but a herd of these could eat your crops easily.",
     "copy-from": "mon_aphid",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
@@ -2080,7 +2081,7 @@
   {
     "id": "mon_mantis_small",
     "type": "MONSTER",
-    "name": { "str": "huge praying mantis" },
+    "name": { "str": "praying mantis", "str_pl": "praying mantises" },
     "description": "A green mutant insect with sharp grappling spikes on its front legs.  It's a little smaller than an adult person.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2096,7 +2097,7 @@
   {
     "id": "mon_mantis_giant",
     "type": "MONSTER",
-    "name": { "str": "giant praying mantis" },
+    "name": { "str": "giant praying mantis", "str_pl": "giant praying mantises" },
     "description": "An enormous green creature grown about the size of a bear.  It dances weirdly and looks ready to chop your head off at any moment.",
     "default_faction": "mantis",
     "bodytype": "insect",
@@ -2136,7 +2137,7 @@
   {
     "id": "mon_mantis_mega",
     "type": "MONSTER",
-    "name": { "str": "great mantis" },
+    "name": { "str": "great mantis", "str_pl": "great mantises" },
     "description": "This ferocious creature is lurking through the land.  It's probably capable of killing a moose with its powerful arms.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },
@@ -2247,7 +2248,7 @@
   {
     "id": "mon_grasshopper_small",
     "type": "MONSTER",
-    "name": { "str": "huge grasshopper" },
+    "name": { "str": "grasshopper" },
     "description": "A large grasshopper a few times bigger than a regular one.",
     "copy-from": "mon_grasshopper_giant",
     "proportional": { "hp": 0.5, "speed": 1.1 },
@@ -2372,7 +2373,7 @@
   {
     "id": "mon_strider_small",
     "type": "MONSTER",
-    "name": { "str": "big water strider" },
+    "name": { "str": "water strider" },
     "description": "This water bug is several times larger than a regular one.  It's moves are fast and fluid.",
     "copy-from": "mon_strider_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },

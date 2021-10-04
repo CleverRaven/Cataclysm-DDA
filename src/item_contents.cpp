@@ -447,8 +447,8 @@ struct item_contents::item_contents_helper {
             failure_messages.end() );
         return ret_val<my_pocket_type *>::make_failure(
                    null_pocket,
-                   ngettext( "pocket unacceptable because %s", "pockets unacceptable because %s",
-                             num_pockets_of_type ),
+                   n_gettext( "pocket unacceptable because %s", "pockets unacceptable because %s",
+                              num_pockets_of_type ),
                    enumerate_as_string( failure_messages, enumeration_conjunction::or_ ) );
     }
 };
@@ -1559,6 +1559,16 @@ units::mass item_contents::item_weight_modifier() const
     }
     return total_mass;
 }
+
+units::length item_contents::item_length_modifier() const
+{
+    units::length total_length = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        total_length = std::max( pocket.item_length_modifier(), total_length );
+    }
+    return total_length;
+}
+
 
 int item_contents::best_quality( const quality_id &id ) const
 {

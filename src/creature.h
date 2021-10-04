@@ -18,13 +18,13 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
+#include "weakpoint.h"
 
 class monster;
 class translation;
@@ -220,7 +220,7 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-class Creature : public location, public viewer
+class Creature : public viewer
 {
     public:
         ~Creature() override;
@@ -268,25 +268,26 @@ class Creature : public location, public viewer
         virtual const monster *as_monster() const {
             return nullptr;
         }
+        virtual mfaction_id get_monster_faction() const = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
-        inline const tripoint &pos() const override {
-            return position;
+        tripoint pos() const;
+        inline int posx() const {
+            return pos().x;
         }
-        inline int posx() const override {
-            return position.x;
+        inline int posy() const {
+            return pos().y;
         }
-        inline int posy() const override {
-            return position.y;
+        inline int posz() const {
+            return get_location().z();
         }
-        inline int posz() const override {
-            return position.z;
-        }
-        void setpos( const tripoint &p ) override;
+        void setpos( const tripoint &p );
+        /** Moves the creature to the given location and calls the on_move() handler. */
+        void move_to( const tripoint_abs_ms &loc );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -392,8 +393,9 @@ class Creature : public location, public viewer
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
-        // of damage instance. mutates &dam
-        virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
+        // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
+        virtual const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                             damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
@@ -417,12 +419,13 @@ class Creature : public location, public viewer
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                                     damage_instance dam, dealt_damage_instance &dealt_dam );
+                                     damage_instance dam, dealt_damage_instance &dealt_dam,
+                                     const weakpoint_attack &attack = weakpoint_attack() );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                             bool print_messages = true );
+                                             bool print_messages = true, const weakpoint_attack &wp_attack = weakpoint_attack() );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
@@ -437,7 +440,7 @@ class Creature : public location, public viewer
          * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                const damage_instance &dam );
+                const damage_instance &dam, const weakpoint_attack &attack = weakpoint_attack() );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
@@ -474,6 +477,7 @@ class Creature : public location, public viewer
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
+        bool is_likely_underwater() const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -663,9 +667,16 @@ class Creature : public location, public viewer
             return false;
         }
 
+    private:
+        /** The creature's position in absolute coordinates */
+        tripoint_abs_ms location;
     protected:
-        /** The creature's position on the local map */
-        tripoint position;
+        // Sets the creature's position without any side-effects.
+        void set_pos_only( const tripoint &p );
+        // Sets the creature's position without any side-effects.
+        void set_location( const tripoint_abs_ms &loc );
+        // Invoked when the creature's position changes.
+        virtual void on_move( const tripoint_abs_ms &old_pos );
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -1115,6 +1126,8 @@ class Creature : public location, public viewer
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
+        std::unordered_map<std::string, std::string> &get_values();
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
@@ -1195,17 +1208,17 @@ class Creature : public location, public viewer
          */
         std::string replace_with_npc_name( std::string input ) const;
         /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
+         * Returns the location of the creature in map square coordinates (the most detailed
+         * coordinate system), relative to a fixed global point of origin.
          */
-        virtual tripoint_abs_ms global_square_location() const;
+        tripoint_abs_ms get_location() const;
         /**
-        * Returns the location of the player in global submap coordinates.
-        */
+         * Returns the location of the creature in global submap coordinates.
+         */
         tripoint_abs_sm global_sm_location() const;
         /**
-        * Returns the location of the player in global overmap terrain coordinates.
-        */
+         * Returns the location of the creature in global overmap terrain coordinates.
+         */
         tripoint_abs_omt global_omt_location() const;
     protected:
         /**
@@ -1250,5 +1263,6 @@ class Creature : public location, public viewer
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

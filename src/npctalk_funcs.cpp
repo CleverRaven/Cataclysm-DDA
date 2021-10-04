@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -122,8 +123,10 @@ void talk_function::mission_success( npc &p )
     }
 
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.value = 1 + miss_val / 5;
+    op.anger = -1;
+    p.op_of_u += op;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
@@ -141,8 +144,11 @@ void talk_function::mission_failure( npc &p )
         debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( -1, 0, -1, 1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.trust = -1;
+    op.value = -1;
+    op.anger = 1;
+    p.op_of_u += op;
     miss->fail();
 }
 
@@ -354,7 +360,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -418,7 +424,7 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
@@ -739,6 +745,31 @@ void talk_function::buy_100_logs( npc &p )
 
     p.add_effect( effect_currently_busy, 7_days );
     add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
+}
+
+/*
+ * Function to make the npc drop non favorite, worn or wielded items at their current position.
+ */
+void talk_function::drop_items_in_place( npc &p )
+{
+    std::vector<drop_or_stash_item_info> to_drop;
+
+    // add all non favorite carried items to the drop off list
+    for( const item_location &npcs_item : p.all_items_loc() ) {
+        if( !npcs_item->is_favorite && npcs_item.where() == item_location::type::container &&
+            npcs_item.parent_item().where() == item_location::type::character ) {
+            to_drop.emplace_back( npcs_item, npcs_item->count() );
+        }
+    }
+    if( !to_drop.empty() ) {
+        // spawn a activity for the npc to drop the specified items
+        p.assign_activity( player_activity( drop_activity_actor(
+                                                to_drop, tripoint_zero, false
+                                            ) ) );
+        p.say( "<acknowledged>" );
+    } else {
+        p.say( _( "I don't have anything to drop off." ) );
+    }
 }
 
 void talk_function::follow( npc &p )

@@ -461,10 +461,6 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
-        if( you.rust_rate() ) {
-            print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust delay: <color_white>%d%%</color>" ), you.rust_rate() ) );
-        }
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
@@ -929,7 +925,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_proficiencies_info( w_info, line, you );
             break;
         case player_display_tab::num_tabs:
-            abort();
+            cata_fatal( "Invalid curtab" );
     }
 }
 
@@ -1007,7 +1003,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 ui_proficiencies.invalidate_ui();
                 break;
             case player_display_tab::num_tabs:
-                abort();
+                cata_fatal( "Invalid tab" );
         }
     };
 
@@ -1039,7 +1035,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             line_end = you.display_proficiencies().size();
             break;
         case player_display_tab::num_tabs:
-            abort();
+            cata_fatal( "Invalid curtab" );
     }
     if( line_beg >= line_end || line < line_beg ) {
         line = line_beg;

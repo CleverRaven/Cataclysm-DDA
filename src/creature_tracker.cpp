@@ -7,6 +7,7 @@
 #include "avatar.h"
 #include "cata_assert.h"
 #include "debug.h"
+#include "map.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
@@ -22,7 +23,7 @@ creature_tracker::creature_tracker() = default;
 
 creature_tracker::~creature_tracker() = default;
 
-shared_ptr_fast<monster> creature_tracker::find( const tripoint &pos ) const
+shared_ptr_fast<monster> creature_tracker::find( const tripoint_abs_ms &pos ) const
 {
     const auto iter = monsters_by_location.find( pos );
     if( iter != monsters_by_location.end() ) {
@@ -69,7 +70,7 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
         return false;
     }
 
-    if( const shared_ptr_fast<monster> existing_mon_ptr = find( critter.pos() ) ) {
+    if( const shared_ptr_fast<monster> existing_mon_ptr = find( critter.get_location() ) ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
         if( existing_mon_ptr->is_hallucination() ) {
             existing_mon_ptr->die( nullptr );
@@ -77,8 +78,7 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
         } else if( critter.is_hallucination() ) {
             return false;
         } else {
-            debugmsg( "there's already a monster at %d,%d,%d", critter.pos().x, critter.pos().y,
-                      critter.pos().z );
+            debugmsg( "there's already a monster at %s", critter.get_location().to_string_writable() );
             return false;
         }
     }
@@ -88,7 +88,7 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
     }
 
     monsters_list.emplace_back( critter_ptr );
-    monsters_by_location[critter.pos()] = critter_ptr;
+    monsters_by_location[critter.get_location()] = critter_ptr;
     add_to_faction_map( critter_ptr );
     return true;
 }
@@ -100,10 +100,10 @@ void creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critt
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {
-        monster_faction_map_[ critter.faction ][critter_ptr->pos().z].insert( critter_ptr );
+        monster_faction_map_[critter.faction][critter_ptr->get_location().z()].insert( critter_ptr );
     } else {
         static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[ playerfaction ][critter_ptr->pos().z].insert( critter_ptr );
+        monster_faction_map_[playerfaction][critter_ptr->get_location().z()].insert( critter_ptr );
     }
 }
 
@@ -112,7 +112,8 @@ size_t creature_tracker::size() const
     return monsters_list.size();
 }
 
-bool creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
+bool creature_tracker::update_pos( const monster &critter, const tripoint_abs_ms &old_pos,
+                                   const tripoint_abs_ms &new_pos )
 {
     if( critter.is_dead() ) {
         // find ignores dead critters anyway, changing their position in the
@@ -126,9 +127,8 @@ bool creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         if( othermon.is_hallucination() ) {
             othermon.die( nullptr );
         } else {
-            debugmsg( "update_zombie_pos: wanted to move %s to %d,%d,%d, but new location already has %s",
-                      critter.disp_name(),
-                      new_pos.x, new_pos.y, new_pos.z, othermon.disp_name() );
+            debugmsg( "update_zombie_pos: wanted to move %s to %s, but new location already has %s",
+                      critter.disp_name(), new_pos.to_string_writable(), othermon.disp_name() );
             return false;
         }
     }
@@ -138,16 +138,14 @@ bool creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         return ptr.get() == &critter;
     } );
     if( iter != monsters_list.end() ) {
-        monsters_by_location.erase( critter.pos() );
+        monsters_by_location.erase( old_pos );
         monsters_by_location[new_pos] = *iter;
         return true;
     } else {
-        const tripoint &old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. `add` will update monsters_by_location for us.
-        debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
-                  critter.disp_name(),
-                  old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
+        debugmsg( "update_zombie_pos: no %s at %s (moving to %s)",
+                  critter.disp_name(), old_pos.to_string_writable(), new_pos.to_string_writable() );
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();
         return false;
@@ -156,7 +154,7 @@ bool creature_tracker::update_pos( const monster &critter, const tripoint &new_p
 
 void creature_tracker::remove_from_location_map( const monster &critter )
 {
-    const auto pos_iter = monsters_by_location.find( critter.pos() );
+    const auto pos_iter = monsters_by_location.find( critter.get_location() );
     if( pos_iter != monsters_by_location.end() && pos_iter->second.get() == &critter ) {
         monsters_by_location.erase( pos_iter );
         return;
@@ -212,20 +210,20 @@ void creature_tracker::rebuild_cache()
     monsters_by_location.clear();
     monster_faction_map_.clear();
     for( const shared_ptr_fast<monster> &mon_ptr : monsters_list ) {
-        monsters_by_location[mon_ptr->pos()] = mon_ptr;
+        monsters_by_location[mon_ptr->get_location()] = mon_ptr;
         add_to_faction_map( mon_ptr );
     }
 }
 
 void creature_tracker::swap_positions( monster &first, monster &second )
 {
-    if( first.pos() == second.pos() ) {
+    if( first.get_location() == second.get_location() ) {
         return;
     }
 
     // Either of them may be invalid!
-    const auto first_iter = monsters_by_location.find( first.pos() );
-    const auto second_iter = monsters_by_location.find( second.pos() );
+    const auto first_iter = monsters_by_location.find( first.get_location() );
+    const auto second_iter = monsters_by_location.find( second.get_location() );
     // implied: first_iter != second_iter
 
     shared_ptr_fast<monster> first_ptr;
@@ -241,16 +239,16 @@ void creature_tracker::swap_positions( monster &first, monster &second )
     }
     // implied: (first_ptr != second_ptr) or (first_ptr == nullptr && second_ptr == nullptr)
 
-    tripoint temp = second.pos();
-    second.spawn( first.pos() );
+    const tripoint_abs_ms temp = second.get_location();
+    second.spawn( first.get_location() );
     first.spawn( temp );
 
     // If the pointers have been taken out of the list, put them back in.
     if( first_ptr ) {
-        monsters_by_location[first.pos()] = first_ptr;
+        monsters_by_location[first.get_location()] = first_ptr;
     }
     if( second_ptr ) {
-        monsters_by_location[second.pos()] = second_ptr;
+        monsters_by_location[second.get_location()] = second_ptr;
     }
 }
 
@@ -268,8 +266,8 @@ bool creature_tracker::kill_marked_for_death()
         if( !critter.is_dead() ) {
             continue;
         }
-        dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                        critter.posx(), critter.posy(), critter.posz(),
+        dbg( D_INFO ) << string_format( "cleanup_dead: critter at %s hp:%d %s",
+                                        critter.get_location().to_string_writable(),
                                         critter.get_hp(), critter.name() );
         critter.die( nullptr );
         monster_is_dead = true;
@@ -297,6 +295,12 @@ void creature_tracker::remove_dead()
 template<typename T>
 T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination )
 {
+    return creature_at<T>( get_map().getglobal( p ), allow_hallucination );
+}
+
+template<typename T>
+T *creature_tracker::creature_at( const tripoint_abs_ms &p, bool allow_hallucination )
+{
     if( const shared_ptr_fast<monster> mon_ptr = find( p ) ) {
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
@@ -316,12 +320,12 @@ T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination )
     }
     if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
         avatar &you = get_avatar();
-        if( p == you.pos() ) {
+        if( p == you.get_location() ) {
             return dynamic_cast<T *>( &you );
         }
     }
     for( auto &cur_npc : active_npc ) {
-        if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
+        if( cur_npc->get_location() == p && !cur_npc->is_dead() ) {
             return dynamic_cast<T *>( cur_npc.get() );
         }
     }
@@ -331,16 +335,35 @@ T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination )
 template<typename T>
 const T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination ) const
 {
+    return creature_at<T>( get_map().getglobal( p ), allow_hallucination );
+}
+
+template<typename T>
+const T *creature_tracker::creature_at( const tripoint_abs_ms &p, bool allow_hallucination ) const
+{
     return const_cast<creature_tracker *>( this )->creature_at<T>( p, allow_hallucination );
 }
 
 template const monster *creature_tracker::creature_at<monster>( const tripoint &, bool ) const;
+template const monster *creature_tracker::creature_at<monster>( const tripoint_abs_ms &,
+        bool ) const;
 template monster *creature_tracker::creature_at<monster>( const tripoint &, bool );
+template monster *creature_tracker::creature_at<monster>( const tripoint_abs_ms &, bool );
 template const npc *creature_tracker::creature_at<npc>( const tripoint &, bool ) const;
+template const npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool ) const;
 template npc *creature_tracker::creature_at<npc>( const tripoint &, bool );
+template npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool );
 template const avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool ) const;
+template const avatar *creature_tracker::creature_at<avatar>( const tripoint_abs_ms &, bool ) const;
 template avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool );
+template avatar *creature_tracker::creature_at<avatar>( const tripoint_abs_ms &, bool );
 template const Character *creature_tracker::creature_at<Character>( const tripoint &, bool ) const;
+template const Character *creature_tracker::creature_at<Character>( const tripoint_abs_ms &,
+        bool ) const;
 template Character *creature_tracker::creature_at<Character>( const tripoint &, bool );
+template Character *creature_tracker::creature_at<Character>( const tripoint_abs_ms &, bool );
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool ) const;
+template const Creature *creature_tracker::creature_at<Creature>( const tripoint_abs_ms &,
+        bool ) const;
 template Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool );
+template Creature *creature_tracker::creature_at<Creature>( const tripoint_abs_ms &, bool );
