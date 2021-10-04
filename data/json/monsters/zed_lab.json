@@ -5,32 +5,20 @@
     "name": { "str": "zombie scientist" },
     "description": "Apart from the jet-black eyes, this zombie looks less decomposed and inhuman than most.  Clad in a tattered lab coat, it seems to have a glimmer of awareness - not a human awareness, but something more sinister.  As you watch it, its movements look almost marionette-like.",
     "default_faction": "science",
-    "bodytype": "human",
+    "copy-from": "mon_zombie",
     "//": "zombie scientists are recognised as friendly by the lab's defense system",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
     "speed": 75,
-    "material": [ "flesh" ],
-    "symbol": "Z",
     "color": "white_cyan",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
-    "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
-    "vision_day": 50,
-    "vision_night": 3,
-    "harvest": "zombie",
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
-    "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -76,9 +64,59 @@
     "armor_bullet": 4,
     "armor_stab": 4,
     "weakpoints": [
-      { "name": "the leg", "armor_mult": { "physical": 0 }, "coverage": 18 },
-      { "name": "the arm", "armor_mult": { "physical": 0 }, "coverage": 9 },
-      { "name": "the head", "armor_mult": { "physical": 0 }, "coverage": 4 }
+      {
+        "name": "the head",
+        "coverage": 5,
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 10 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "physical": 0 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      }
     ],
     "vision_day": 30,
     "vision_night": 3,
@@ -129,10 +167,65 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "weakpoints": [
-      { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 10 },
-      { "name": "the arm", "armor_mult": { "physical": 0.5 }, "coverage": 5 },
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
-      { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the face",
+        "coverage": 3,
+        "crit_mult": 1.1,
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 2, "ranged": 3 },
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "physical": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 10 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "physical": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "a gap in the armor",
+        "armor_mult": { "physical": 0 },
+        "coverage": 3,
+        "difficulty": { "point": 5, "broad": 7 }
+      }
     ],
     "vision_day": 20,
     "vision_night": 3,
@@ -165,11 +258,6 @@
     "armor_bash": 40,
     "armor_cut": 40,
     "armor_bullet": 30,
-    "weakpoints": [
-      { "name": "the face", "armor_mult": { "physical": 0.25 }, "coverage": 4 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
-      { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
-    ],
     "bleed_rate": 50,
     "vision_night": 5,
     "luminance": 16,
