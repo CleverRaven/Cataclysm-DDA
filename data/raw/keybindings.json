@@ -575,6 +575,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_CLOTH",
+    "category": "SORT_ARMOR",
+    "name": "Toggle armor visibility on character sprite",
+    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ASSIGN_INVLETS",
     "category": "SORT_ARMOR",
     "name": "Assign invlets to armor",

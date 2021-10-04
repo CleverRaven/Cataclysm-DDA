@@ -33,6 +33,8 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
+static const flag_id json_flag_HIDDEN( "HIDDEN" );
+
 namespace
 {
 std::string clothing_layer( const item &worn_item );
@@ -524,6 +526,7 @@ void Character::sort_armor()
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
+    ctxt.register_action( "TOGGLE_CLOTH" );
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
@@ -577,8 +580,12 @@ void Character::sort_armor()
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press [<color_yellow>%s</color>] for help.  "
+                         _( "[<color_yellow>%s</color>] Hide sprite.  "
+                            "[<color_yellow>%s</color>] Change side.  "
+                            "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
+                         ctxt.get_desc( "TOGGLE_CLOTH" ),
+                         ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -614,6 +621,10 @@ void Character::sort_armor()
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
+            if( tmp_worn[itemindex]->has_flag( json_flag_HIDDEN ) ) {
+                //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
+                wprintz( w_sort_left, c_cyan, _( " H" ) );
+            }
         }
 
         // Left footer
@@ -807,6 +818,13 @@ void Character::sort_armor()
                     change_side( *tmp_worn[leftListIndex] );
                 }
             }
+        } else if( action == "TOGGLE_CLOTH" ) {
+            if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
+                tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
+            } else {
+                tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
+            }
+
         } else if( action == "SORT_ARMOR" ) {
             // Copy to a vector because stable_sort requires random-access
             // iterators
@@ -944,6 +962,7 @@ void Character::sort_armor()
                 ctxt.get_desc( "NEXT_TAB" ),
                 ctxt.get_desc( "ASSIGN_INVLETS" ),
                 ctxt.get_desc( "CHANGE_SIDE" ),
+                ctxt.get_desc( "TOGGLE_CLOTH" ),
                 ctxt.get_desc( "SORT_ARMOR" ),
                 ctxt.get_desc( "EQUIP_ARMOR" ),
                 ctxt.get_desc( "EQUIP_ARMOR_HERE" ),

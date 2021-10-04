@@ -125,6 +125,11 @@
     "type": "json_flag"
   },
   {
+    "id": "HIDDEN",
+    "type": "json_flag",
+    "info": "You have marked this article to not display a sprite when worn."
+  },
+  {
     "id": "QUARTERED",
     "type": "json_flag"
   },
