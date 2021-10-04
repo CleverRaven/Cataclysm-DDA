@@ -36,5 +36,43 @@
     "count": 240,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 240 }, "watertight": true } ]
+  },
+  {
+    "id": "hydrogentank",
+    "looks_like": "pressurized_tank",
+    "type": "MAGAZINE",
+    "name": { "str": "Hydrogen storage tank" },
+    "description": "A specialized steel cylinder designed for holding pressurized hydrogen. It's various warnings and labels have long since decayed",
+    "weight": "5000 g",
+    "volume": "2 L",
+    "price": 5600,
+    "price_postapoc": 150,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "brown",
+    "ammo_type": [ "working_fluid" ],
+    "capacity": 360,
+    "count": 360,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "working_fluid": 360 }, "watertight": true } ]
+  },
+  {
+    "id": "tinyhydrogentank",
+    "looks_like": "pressurized_tank",
+    "type": "MAGAZINE",
+    "name": { "str": "Hydrogen storage tank" },
+    "description": "A small steel cylinder designed for holding pressurized hydrogen. It's various warnings and labels have long since decayed",
+    "weight": "1000 g",
+    "volume": "1 L",
+    "price": 5600,
+    "price_postapoc": 150,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "brown",
+    "ammo_type": [ "working_fluid" ],
+    "capacity": 180,
+    "count": 180,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "working_fluid": 90 }, "watertight": true } ]
   }
 ]
