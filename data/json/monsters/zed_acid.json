@@ -22,6 +22,59 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "dodge": 1,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": 1.1,
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 10 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      }
+    ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
@@ -73,6 +126,59 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "armor_stab": 12,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": 1.1,
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 10 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      }
+    ],
     "bleed_rate": 50,
     "vision_night": 3,
     "luminance": 0,
@@ -136,6 +242,59 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 1,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": 1.1,
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 10 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      }
+    ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -186,6 +345,59 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_cut": 1,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": 1.1,
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 10 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      }
+    ],
     "vision_day": 14,
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 22 ] ],
