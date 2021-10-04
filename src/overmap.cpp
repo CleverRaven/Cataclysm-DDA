@@ -1155,11 +1155,11 @@ struct mutable_overmap_placement_rule {
         if( !name.empty() ) {
             return name;
         }
-        std::string first_ter_id = pieces[0].overmap->terrain.str();
+        std::string first_om_id = pieces[0].overmap_id;
         if( pieces.size() == 1 ) {
-            return first_ter_id;
+            return first_om_id;
         } else {
-            return "chunk using overmap " + first_ter_id;
+            return "chunk using overmap " + first_om_id;
         }
     }
 
@@ -1177,7 +1177,7 @@ struct mutable_overmap_placement_rule {
             auto it = special_overmaps.find( piece.overmap_id );
             if( it == special_overmaps.end() ) {
                 cata_fatal( "phase of %s specifies overmap %s which is not defined for that "
-                            "special", context, piece.overmap );
+                            "special", context, piece.overmap_id );
             } else {
                 piece.overmap = &it->second;
             }
@@ -1214,7 +1214,8 @@ struct mutable_overmap_placement_rule {
                                   "pointed towards the former",
                                   context, description(), piece.overmap_id, piece.pos.to_string(),
                                   other_piece.overmap_id, other_piece.pos.to_string(),
-                                  ter_join.join_id, opposite_om_join->second.join_id );
+                                  ter_join.join_id, opposite_join,
+                                  opposite_om_join->second.join_id );
                     }
                 }
             }
