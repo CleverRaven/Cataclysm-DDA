@@ -315,7 +315,20 @@
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
       [ "clamp", 10 ],
-      [ "goggles_welding", 80 ]
+      [ "goggles_welding", 80 ],
+	  {
+        "collection": [
+          { "item": "plasma_torch", "prob": 100 },
+          {
+            "distribution": [ { "item": "hydrogentank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyhydrogentank", "prob": 100, "count": [ 1, 3 ] } ],
+            "prob": 100
+          }
+        ],
+        "prob": 80
+      },
+      [ "plasma_torch", 60 ],
+      { "item": "hydrogentank", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "tinyhydrogentank", "prob": 60, "count": [ 1, 3 ] }
     ]
   },
   {
