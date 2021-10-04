@@ -24,7 +24,7 @@
    "id": "working_fluid",
    "type": "AMMO",
    "name": { "str_sp": "Hydrogen Gas" },
-   "description": "A highly combustible fuel composed of near-pure hydrogen gas. Don't light a match around it",
+   "description": "A highly combustible fuel composed of near-pure hydrogen gas.  Don't light a match around it",
    "weight": "18 g",
    "volume": "250 ml",
    "price": 2000,
