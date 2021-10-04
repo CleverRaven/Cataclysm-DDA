@@ -3619,7 +3619,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = &it;
 
             it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
-                if( it->typeId() == itype_maple_syrup ) {
+                if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
                     return VisitResponse::ABORT;
