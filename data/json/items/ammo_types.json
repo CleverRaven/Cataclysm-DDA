@@ -772,5 +772,11 @@
     "id": "coin_dollar",
     "name": "dollar coins",
     "default": "coin_dollar"
-  }
+  },
+  {
+   "type": "ammunition_type",
+    "id": "working_fluid",
+    "name": "hydrogen gas",
+    "default": "working_fluid"
+	}
 ]
