@@ -94,13 +94,30 @@
     "id": "lab_file_bio",
     "name": { "str": "biology protocol" },
     "copy-from": "file",
+    "description": "A sheet of paper adorned with an atom-and-flask symbol, detailing some questionable biological research.",
     "snippet_category": "lab_file_bio"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_psych",
+    "name": { "str": "psychotherapy protocol" },
+    "copy-from": "file",
+    "description": "A sheet of paper bearing an atom-and-cross symbol, pertaining to the mental wellbeing of science staff",
+    "snippet_category": "lab_file_psych"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_security",
+    "name": { "str": "security protocol" },
+    "copy-from": "file",
+    "description": "A sheet of paper bearing an atom-and-rifle symbol, detailing some very particular security protocols.",
+    "snippet_category": "lab_file_security"
   },
   {
     "type": "GENERIC",
     "id": "bio_file",
     "name": { "str": "lab report (biology)", "str_pl": "lab reports (biology)" },
-    "//": "Low-level animal studies, long-form testing logs - naming scheme compound/subject-test no",
+    "//": "Low-level animal studies, long-form testing logs - naming scheme compound/subject species-test no",
     "conditional_names": [
       {
         "type": "SNIPPET_ID",
@@ -144,10 +161,10 @@
     "type": "GENERIC",
     "id": "psych_file",
     "//": "Session logs and similar, naming scheme department code-ID-session number",
-    "name": { "str": "lab report (psychology)" },
+    "name": { "str": "lab report (psychology)", "str_pl": "lab reports (psychology)" },
     "conditional_names": [
-      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_1", "name": { "str_sp": "Session S-#337-5" } },
-      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_2", "name": { "str_sp": "Session T-#125-4" } },
+      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_1", "name": { "str_sp": "Session S-3397-5" } },
+      { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_2", "name": { "str_sp": "Session T-1215-4" } },
       { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_3", "name": { "str_sp": "Scrawled note" } }
     ],
     "description": "A folder full of what appear to be transcripts of confidential psychotherapy sessions.  Most of it is rather trivial, but certain passages catch your eye…",
@@ -159,6 +176,45 @@
         {
           "id": "EOC_LAB_FILE_PSY",
           "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "security_file",
+    "//": "Interrogation and surveillance logs, naming scheme facility/incident-material nr",
+    "name": { "str": "lab report (security)", "str_pl": "lab reports (security)" },
+    "conditional_names": [
+      { "type": "SNIPPET_ID", "condition": "log_sec", "value": "interview_1", "name": { "str_sp": "Personnel Debrief X10/RT338-8" } },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_sec",
+        "value": "interview_2",
+        "name": { "str_sp": "Interview Log X33/UE612-1" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_sec",
+        "value": "surveillance_1",
+        "name": { "str_sp": "Supplementary Material X12/ES081-4" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_sec",
+        "value": "surveillance_2",
+        "name": { "str_sp": "Observation Intercept XA61/RT338-3" }
+      }
+    ],
+    "description": "A manila folder bearing an atom-and-rifle insignia.  Most of it is concerned with shipping logs and personnel rotations, but there is a single page that feels out of place.",
+    "copy-from": "file",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LAB_FILE_SEC",
+          "effect": [ { "u_message": "log_sec", "snippet": true, "same_snippet": true, "popup": true } ]
         }
       ]
     }
