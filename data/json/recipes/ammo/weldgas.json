@@ -53,5 +53,47 @@
     "book_learn": [ [ "welding_book", 2 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "components": [ [ [ "weldtank", 1 ] ], [ [ "oxyacetylene", 240 ] ] ]
+  },
+  {
+    "result": "working_fluid",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "45 m",
+	"//": "Abstracting using h2o electrolysis to produce o2 (currently wasted however) over the anode. The cathode's resultant hydrogen is then collected in the tank with a pump. Unknown if gaseus hydrogen will work properly",
+    "charges": 180,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "tools": [ [ [ "electrolysis_kit", 250 ] ] ],
+    "components": [ [ [ "water", 18 ] ] ]
+  },
+  {
+    "result": "tinyhydrogentank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "tinyhydrogentank", 1 ] ], [ [ "working_fluid", 90 ] ] ]
+  },
+  {
+    "result": "hydrogentank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "hydrogentank", 1 ] ], [ [ "working_fluid", 360 ] ] ]
   }
 ]
