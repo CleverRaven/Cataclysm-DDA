@@ -19,5 +19,26 @@
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
-  }
+  },
+  {
+   "id": "working_fluid",
+   "type": "AMMO",
+   "name": { "str_sp": "Hydrogen Gas" },
+   "description": "A highly combustible fuel composed of near-pure hydrogen gas. Don't light a match around it",
+   "weight": "18 g",
+   "volume": "250 ml",
+   "price": 2000,
+   "price_postapoc": 500,
+   "material": [ "hydrogen"],
+   "symbol": "=",
+   "color": "red",
+   "count": 100,
+   "stack_size": 100,
+   "ammo_type": "working_fluid",
+   "phase": "liquid",
+   "effects": [ "COOKOFF" ],
+   "explode_in_fire": true,
+   "explosion": { "power": 20, "shrapnel": 0 },
+   "flags": [ "NO_DROP", "IRREMOVABLE" ]
+   }
 ]
