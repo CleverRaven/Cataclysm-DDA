@@ -107,7 +107,17 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 90,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "CONNECT_TO_WALL", "WALL", "PERMEABLE", "TRANSPARENT", "THIN_OBSTACLE" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "CONNECT_TO_WALL",
+      "WALL",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
     "bash": {
       "str_min": 35,
       "str_max": 140,
