@@ -85,6 +85,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h" // For play_game
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -9481,6 +9482,41 @@ cata::optional<int> iuse::coin_flip( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoint & )
 {
+    if( p->is_avatar() ) {
+        std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+        } );
+        int fcount = followers.size();
+        if( fcount > 0 ) {
+            const char *qstr = fcount > 1 ? _( "Play the %s with your friends?" ) :
+                               _( "Play the %s with your friend?" );
+            std::string res = query_popup()
+                              .context( "FRIENDS_ME_CANCEL" )
+                              .message( qstr, it->tname() )
+                              .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
+                              .query().action;
+            if( res == "FRIENDS" ) {
+                if( fcount > 1 ) {
+                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                } else {
+                    add_msg( _( "You and your friend start playing." ) );
+                }
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                    p->get_item_position( it ), "gaming with friends" );
+                for( npc *n : followers ) {
+                    n->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                        n->get_item_position( it ), "gaming with friends" );
+                }
+            } else if( res == "ME" ) {
+                p->add_msg_if_player( _( "You start playing." ) );
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
+                                    p->get_item_position( it ), "gaming" );
+            } else {
+                return cata::nullopt;
+            }
+            return 0;
+        } // else, fall through to playing alone
+    }
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
         p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
