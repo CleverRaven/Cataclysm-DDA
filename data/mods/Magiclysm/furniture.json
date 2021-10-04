@@ -33,7 +33,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 64,
       "str_max": 160,
@@ -196,7 +196,6 @@
     "color": "light_gray",
     "coverage": 40,
     "required_str": 30,
-    "flags": [ "BASHABLE" ],
     "description": "This is a big stone altar.  Most commonly used in morally questionable rituals.",
     "bash": {
       "str_min": 30,
@@ -216,7 +215,6 @@
     "coverage": 40,
     "looks_like": "t_pedestal_temple",
     "required_str": 30,
-    "flags": [ "BASHABLE" ],
     "examine_action": "attunement_altar",
     "description": "An ancient stone plinth covered in symbols that appear to be combinations and variations of the eight magic classes.  Eight depressions are on the top with the original symbols of the classes, each look as though they can hold an item.",
     "bash": {
@@ -259,7 +257,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "light_emitted": 40,
-    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "sound": "SMASH!",
       "str_min": 20,

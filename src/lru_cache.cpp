@@ -6,7 +6,6 @@
 #include <memory>
 #include <string>
 
-#include "map_memory.h"
 #include "memory_fast.h"
 #include "point.h"
 
@@ -73,7 +72,6 @@ const std::list<typename lru_cache<Key, Value>::Pair> &lru_cache<Key, Value>::li
 }
 
 // explicit template initialization for lru_cache of all types
-template class lru_cache<tripoint, memorized_terrain_tile>;
 template class lru_cache<tripoint, int>;
 template class lru_cache<point, char>;
 template class lru_cache<std::string, shared_ptr_fast<std::istringstream>>;

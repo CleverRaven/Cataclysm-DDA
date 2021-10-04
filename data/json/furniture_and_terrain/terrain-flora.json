@@ -50,7 +50,7 @@
     "looks_like": "t_tree",
     "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  You could peel off the bark sections if you examined the tree more closely.  You could cut it down with the right tools.",
     "symbol": "7",
-    "color": "brown",
+    "color": "yellow",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
@@ -73,7 +73,7 @@
     "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  All usable bark has been stripped off.  You could cut it down with the right tools.",
     "name": "blackjack oak",
     "symbol": "7",
-    "color": "green",
+    "color": "brown",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
@@ -342,6 +342,26 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mega_fern",
+    "name": "mega fern",
+    "looks_like": "t_tree_young",
+    "description": "A gigantic fern like nothing you've seen before.  The leaves are a bright scarlet color with a net like structure of green veins.  The multipronged trunks appear to have the consistency of balsa wood.",
+    "symbol": "1",
+    "color": [ "red_green", "red_green", "red_green", "brown" ],
+    "//": "barren in winter",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "alien_fern", "count": [ 0, 5 ] } ]
     }
   },
   {

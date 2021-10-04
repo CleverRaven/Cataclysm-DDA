@@ -165,15 +165,15 @@
       "nested": {
         "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         "-": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-        "А": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Б": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "В": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Г": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Д": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Е": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "!": { "chunks": [ [ "destroyed_mannequin", 80 ], [ "null", 20 ] ] },
+        "А": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Б": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "В": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Г": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Д": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Е": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "!": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
         "T": { "chunks": [ [ "deployed_small_tent", 20 ], [ "destroyed_small_tent", 20 ], [ "null", 60 ] ] },
-        "S": { "chunks": [ [ "destroyed_chair", 80 ], [ "null", 20 ] ] },
+        "S": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
         "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
       }
     }
@@ -519,14 +519,14 @@
       "nested": {
         "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         "-": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-        "А": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Б": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "В": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Г": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Д": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "Е": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "!": { "chunks": [ [ "destroyed_mannequin", 80 ], [ "null", 20 ] ] },
-        "S": { "chunks": [ [ "destroyed_chair", 80 ], [ "null", 20 ] ] },
+        "А": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Б": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "В": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Г": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Д": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Е": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "!": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "S": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
         "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
       }
     }
@@ -863,7 +863,7 @@
       "items": { ".": { "item": "trash_cart", "chance": 5 } },
       "nested": {
         "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-        "{": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
+        "{": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "D": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
         "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
       }

@@ -271,7 +271,27 @@ int manhattan_dist( const point &loc1, const point &loc2 )
     return d.x + d.y;
 }
 
+int octile_dist( const point &loc1, const point &loc2, int multiplier )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    // sqrt(2) is approximately 99 / 70
+    return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
+}
+
+float octile_dist_exact( const point &loc1, const point &loc2 )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    return d.x + d.y - 2 * mind + mind * M_SQRT2;
+}
+
 units::angle atan2( const point &p )
+{
+    return units::atan2( p.y, p.x );
+}
+
+units::angle atan2( const rl_vec2d &p )
 {
     return units::atan2( p.y, p.x );
 }
@@ -363,6 +383,52 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<direction>( direction data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case direction::ABOVENORTHWEST: return "above_north_west";
+        case direction::NORTHWEST: return "north_west";
+        case direction::BELOWNORTHWEST: return "below_north_west";
+        case direction::ABOVENORTH: return "above_north";
+        case direction::NORTH: return "north";
+        case direction::BELOWNORTH: return "below_north";
+        case direction::ABOVENORTHEAST: return "above_north_east";
+        case direction::NORTHEAST: return "north_east";
+        case direction::BELOWNORTHEAST: return "below_north_east";
+
+        case direction::ABOVEWEST: return "above_west";
+        case direction::WEST: return "west";
+        case direction::BELOWWEST: return "below_west";
+        case direction::ABOVECENTER: return "above";
+        case direction::CENTER: return "center";
+        case direction::BELOWCENTER: return "below";
+        case direction::ABOVEEAST: return "above_east";
+        case direction::EAST: return "east";
+        case direction::BELOWEAST: return "below_east";
+
+        case direction::ABOVESOUTHWEST: return "above_south_west";
+        case direction::SOUTHWEST: return "south_west";
+        case direction::BELOWSOUTHWEST: return "below_south_west";
+        case direction::ABOVESOUTH: return "above_south";
+        case direction::SOUTH: return "south";
+        case direction::BELOWSOUTH: return "below_south";
+        case direction::ABOVESOUTHEAST: return "above_south_east";
+        case direction::SOUTHEAST: return "south_east";
+        case direction::BELOWSOUTHEAST: return "below_south_east";
+        // *INDENT-ON*
+        case direction::last:
+            break;
+    }
+    cata_fatal( "Invalid direction" );
+}
+
+} // namespace io
+
 direction direction_from( const point &p ) noexcept
 {
     return static_cast<direction>( make_xyz( tripoint( p, 0 ) ) );
@@ -383,7 +449,71 @@ direction direction_from( const tripoint &p, const tripoint &q )
     return direction_from( q - p );
 }
 
-point direction_XY( const direction dir )
+tripoint displace( direction dir )
+{
+    switch( dir ) {
+        case direction::NORTHWEST:
+            return tripoint_north_west;
+        case direction::ABOVENORTHWEST:
+            return point_north_west + tripoint_above;
+        case direction::BELOWNORTHWEST:
+            return point_north_west + tripoint_below;
+        case direction::NORTH:
+            return tripoint_north;
+        case direction::ABOVENORTH:
+            return point_north + tripoint_above;
+        case direction::BELOWNORTH:
+            return point_north + tripoint_below;
+        case direction::NORTHEAST:
+            return tripoint_north_east;
+        case direction::ABOVENORTHEAST:
+            return point_north_east + tripoint_above;
+        case direction::BELOWNORTHEAST:
+            return point_north_east + tripoint_below;
+        case direction::WEST:
+            return tripoint_west;
+        case direction::ABOVEWEST:
+            return point_west + tripoint_above;
+        case direction::BELOWWEST:
+            return point_west + tripoint_below;
+        case direction::CENTER:
+            return tripoint_zero;
+        case direction::ABOVECENTER:
+            return tripoint_above;
+        case direction::BELOWCENTER:
+            return tripoint_below;
+        case direction::EAST:
+            return tripoint_east;
+        case direction::ABOVEEAST:
+            return point_east + tripoint_above;
+        case direction::BELOWEAST:
+            return point_east + tripoint_below;
+        case direction::SOUTHWEST:
+            return tripoint_south_west;
+        case direction::ABOVESOUTHWEST:
+            return point_south_west + tripoint_above;
+        case direction::BELOWSOUTHWEST:
+            return point_south_west + tripoint_below;
+        case direction::SOUTH:
+            return tripoint_south;
+        case direction::ABOVESOUTH:
+            return point_south + tripoint_above;
+        case direction::BELOWSOUTH:
+            return point_south + tripoint_below;
+        case direction::SOUTHEAST:
+            return tripoint_south_east;
+        case direction::ABOVESOUTHEAST:
+            return point_south_east + tripoint_above;
+        case direction::BELOWSOUTHEAST:
+            return point_south_east + tripoint_below;
+        case direction::last:
+            cata_fatal( "Invalid direction" );
+    }
+
+    return tripoint_zero;
+}
+
+point displace_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case direction::NORTHWEST:
@@ -422,6 +552,8 @@ point direction_XY( const direction dir )
         case direction::ABOVESOUTHEAST:
         case direction::BELOWSOUTHEAST:
             return point_south_east;
+        case direction::last:
+            cata_fatal( "Invalid direction" );
     }
 
     return point_zero;
@@ -548,18 +680,23 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 )
     adjacent_squares.push_back( center_square );
     if( p1.x == center_square.x ) {
         // Horizontally adjacent.
-        adjacent_squares.push_back( point( p1.x + 1, center_square.y ) );
-        adjacent_squares.push_back( point( p1.x - 1, center_square.y ) );
+        adjacent_squares.emplace_back( p1.x + 1, center_square.y );
+        adjacent_squares.emplace_back( p1.x - 1, center_square.y );
     } else if( p1.y == center_square.y ) {
         // Vertically adjacent.
-        adjacent_squares.push_back( point( center_square.x, p1.y + 1 ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y - 1 ) );
+        adjacent_squares.emplace_back( center_square.x, p1.y + 1 );
+        adjacent_squares.emplace_back( center_square.x, p1.y - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.push_back( point( p1.x, center_square.y ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y ) );
+        adjacent_squares.emplace_back( p1.x, center_square.y );
+        adjacent_squares.emplace_back( center_square.x, p1.y );
     }
     return adjacent_squares;
+}
+
+rl_vec2d rl_vec3d::xy() const
+{
+    return rl_vec2d( x, y );
 }
 
 float rl_vec2d::magnitude() const
@@ -661,13 +798,17 @@ rl_vec2d rl_vec2d::operator*( const float rhs ) const
     return ret;
 }
 
+rl_vec3d &rl_vec3d::operator*=( const float rhs )
+{
+    x *= rhs;
+    y *= rhs;
+    z *= rhs;
+    return *this;
+}
+
 rl_vec3d rl_vec3d::operator*( const float rhs ) const
 {
-    rl_vec3d ret;
-    ret.x = x * rhs;
-    ret.y = y * rhs;
-    ret.z = z * rhs;
-    return ret;
+    return rl_vec3d( *this ) *= rhs;
 }
 
 // subtract
@@ -731,13 +872,17 @@ rl_vec2d rl_vec2d::operator/( const float rhs ) const
     return ret;
 }
 
+rl_vec3d &rl_vec3d::operator/=( const float rhs )
+{
+    x /= rhs;
+    y /= rhs;
+    z /= rhs;
+    return *this;
+}
+
 rl_vec3d rl_vec3d::operator/( const float rhs ) const
 {
-    rl_vec3d ret;
-    ret.x = x / rhs;
-    ret.y = y / rhs;
-    ret.z = z / rhs;
-    return ret;
+    return rl_vec3d( *this ) /= rhs;
 }
 
 void calc_ray_end( units::angle angle, const int range, const tripoint &p, tripoint &out )

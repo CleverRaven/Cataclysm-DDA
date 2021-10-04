@@ -34,6 +34,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 namespace behavior
 {
@@ -52,6 +53,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
+        case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";
         case mon_trigger::HURT: return "HURT";
         case mon_trigger::FIRE: return "FIRE";
         case mon_trigger::FRIEND_DIED: return "FRIEND_DIED";
@@ -63,8 +65,25 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::_LAST:
             break;
     }
-    debugmsg( "Invalid mon_trigger" );
-    abort();
+    cata_fatal( "Invalid mon_trigger" );
+}
+
+template<>
+std::string enum_to_string<mdeath_type>( mdeath_type data )
+{
+    switch( data ) {
+        case mdeath_type::NORMAL:
+            return "NORMAL";
+        case mdeath_type::SPLATTER:
+            return "SPLATTER";
+        case mdeath_type::BROKEN:
+            return "BROKEN";
+        case mdeath_type::NO_CORPSE:
+            return "NO_CORPSE";
+        case mdeath_type::LAST:
+            break;
+    }
+    cata_fatal( "Invalid mdeath_type" );
 }
 
 template<>
@@ -80,6 +99,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_KEENNOSE: return "KEENNOSE";
         case MF_STUMBLES: return "STUMBLES";
         case MF_WARM: return "WARM";
+        case MF_NEMESIS: return "NEMESIS";
         case MF_NOHEAD: return "NOHEAD";
         case MF_HARDTOSHOOT: return "HARDTOSHOOT";
         case MF_GRABS: return "GRABS";
@@ -110,6 +130,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FIREPROOF: return "FIREPROOF";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
+        case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
@@ -157,6 +178,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES_HEALTHY: return "REVIVES_HEALTHY";
         case MF_NO_NECRO: return "NO_NECRO";
         case MF_PACIFIST: return "PACIFIST";
+        case MF_KEEP_DISTANCE: return "KEEP_DISTANCE";
         case MF_PUSH_MON: return "PUSH_MON";
         case MF_PUSH_VEH: return "PUSH_VEH";
         case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
@@ -165,16 +187,14 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
-        case MF_CATFOOD: return "CATFOOD";
         case MF_CANPLAY: return "CANPLAY";
-        case MF_CATTLEFODDER: return "CATTLEFODDER";
-        case MF_BIRDFOOD: return "BIRDFOOD";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
         case MF_MILKABLE: return "MILKABLE";
         case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
+        case MF_NO_FUNG_DMG: return "NO_FUNG_DMG";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
         case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
@@ -184,12 +204,13 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
+        case MF_CAMOUFLAGE: return "CAMOUFLAGE";
+        case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
     }
-    debugmsg( "Invalid m_flag" );
-    abort();
+    cata_fatal( "Invalid m_flag" );
 }
 
 } // namespace io
@@ -240,7 +261,6 @@ MonsterGenerator::MonsterGenerator()
     init_phases();
     init_attack();
     init_defense();
-    init_death();
 }
 
 MonsterGenerator::~MonsterGenerator() = default;
@@ -469,88 +489,6 @@ void MonsterGenerator::init_phases()
     phase_map["PLASMA"] = phase_id::PLASMA;
 }
 
-void MonsterGenerator::init_death()
-{
-    // Drop a body
-    death_map["NORMAL"] = &mdeath::normal;
-    // Explodes in gibs and chunks
-    death_map["SPLATTER"] = &mdeath::splatter;
-    // Acid instead of a body
-    death_map["ACID"] = &mdeath::acid;
-    // Explodes in vomit :3
-    death_map["BOOMER"] = &mdeath::boomer;
-    // Explodes in glowing vomit :3
-    death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;
-    // Kill all nearby vines
-    death_map["KILL_VINES"] = &mdeath::kill_vines;
-    // Kill adjacent vine if it's cut
-    death_map["VINE_CUT"] = &mdeath::vine_cut;
-    // Destroy all roots
-    death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;
-    // Explodes in spores D:
-    death_map["FUNGUS"] = &mdeath::fungus;
-    // Falls apart
-    death_map["DISINTEGRATE"] = &mdeath::disintegrate;
-    // Spawns 2 half-worms
-    death_map["WORM"] = &mdeath::worm;
-    // Hallucination disappears
-    death_map["DISAPPEAR"] = &mdeath::disappear;
-    // Morale penalty
-    death_map["GUILT"] = &mdeath::guilt;
-    // Frees blobs, redirects to brainblob()
-    death_map["BRAINBLOB"] = &mdeath::brainblob;
-    // Creates more blobs
-    death_map["BLOBSPLIT"] = &mdeath::blobsplit;
-    // Reverts dancers
-    death_map["JACKSON"] = &mdeath::jackson;
-    // Normal death, but melts
-    death_map["MELT"] = &mdeath::melt;
-    // Removes hypnosis if last one
-    death_map["AMIGARA"] = &mdeath::amigara;
-    // Turn into a full thing
-    death_map["THING"] = &mdeath::thing;
-    // Damaging explosion
-    death_map["EXPLODE"] = &mdeath::explode;
-    // Blinding ray
-    death_map["FOCUSEDBEAM"] = &mdeath::focused_beam;
-    // Spawns a broken robot.
-    death_map["BROKEN"] = &mdeath::broken;
-    // Cure verminitis
-    death_map["RATKING"] = &mdeath::ratking;
-    // Sight returns to normal
-    death_map["DARKMAN"] = &mdeath::darkman;
-    // Explodes in toxic gas
-    death_map["GAS"] = &mdeath::gas;
-    // All breathers die
-    death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;
-    // Gives a message about destroying ammo and then calls "BROKEN"
-    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
-    // Explode like a huge smoke bomb.
-    death_map["SMOKEBURST"] = &mdeath::smokeburst;
-    // Explode with a cloud of fungal haze.
-    death_map["FUNGALBURST"] = &mdeath::fungalburst;
-    // Snicker-snack!
-    death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Game over!  Defense mode
-    death_map["GAMEOVER"] = &mdeath::gameover;
-    // Spawn some cockroach nymphs
-    death_map["PREG_ROACH"] = &mdeath::preg_roach;
-    // Explode in a fireball
-    death_map["FIREBALL"] = &mdeath::fireball;
-    // Explode in a huge fireball
-    death_map["CONFLAGRATION"] = &mdeath::conflagration;
-    // resurrect all zombies in the area and upgrade all zombies in the area
-    death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
-
-    /* Currently Unimplemented */
-    // Screams loudly
-    //death_map["SHRIEK"] = &mdeath::shriek;
-    // Wolf's howling
-    //death_map["HOWL"] = &mdeath::howl;
-    // Rattles like a rattlesnake
-    //death_map["RATTLE"] = &mdeath::rattle;
-}
-
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
@@ -596,6 +534,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
+    add_hardcoded_attack( "DEPART", mattack::depart );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
     add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
     add_hardcoded_attack( "JACKSON", mattack::jackson );
@@ -649,6 +588,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
+    add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
 }
 
@@ -691,13 +631,13 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
 {
     public:
-        mon_effect_data get_next( JsonIn &jin ) const {
-            JsonObject e = jin.get_object();
+        mon_effect_data get_next( JsonValue &jv ) const {
+            JsonObject e = jv.get_object();
             return load_mon_effect_data( e );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const efftype_id id = efftype_id( jin.get_string() );
+        void erase_next( std::string &&eff_str, C &container ) const {
+            const efftype_id id = efftype_id( std::move( eff_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
                 return e.id == id;
             } );
@@ -717,11 +657,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "ascii_picture", picture_id );
 
-    optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
+    optional( jo, was_loaded, "material", mat, string_id_reader<::material_type> {} );
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
         mat.emplace_back( material_id( "flesh" ) );
     }
-    optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
+    optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
     // See monfaction.cpp
@@ -754,6 +694,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
+    assign( jo, "tracking_distance", tracking_distance, strict, 3 );
+
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
     assign( jo, "attack_cost", attack_cost, strict, 0 );
@@ -771,12 +713,54 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
+    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
+        weakpoints.clear();
+        weakpoints.load( jo.get_array( "weakpoints" ) );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.load( tmp.get_array( "weakpoints" ) );
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.remove( tmp.get_array( "weakpoints" ) );
+            }
+        }
+    }
+
+    optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
+
+    optional( jo, was_loaded, "petfood", petfood );
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
     optional( jo, was_loaded, "regenerates", regenerates, 0 );
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
+
+    if( !was_loaded || jo.has_member( "regeneration_modifiers" ) ) {
+        regeneration_modifiers.clear();
+        add_regeneration_modifiers( jo, "regeneration_modifiers", src );
+    } else {
+        // Note: regeneration_modifers left as is, new modifiers are added to it!
+        // Note: member name prefixes are compatible with those used by generic_typed_reader
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
+        }
+    }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
@@ -786,7 +770,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
-    optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
+              mtype_id() );
+    optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
 
     // TODO: make this work with `was_loaded`
@@ -822,12 +808,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
-    const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
-    optional( jo, was_loaded, "death_function", dies, death_reader );
-    if( dies.empty() ) {
-        // TODO: really needed? Is an empty `dies` container not allowed?
-        dies.push_back( mdeath::normal );
+    if( jo.has_array( "shearing" ) ) {
+        std::vector<shearing_entry> entries;
+        for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
+            struct shearing_entry entry {};
+            entry.load( shearing_entry );
+            entries.emplace_back( entry );
+        }
+        shearing = shearing_data( entries );
     }
+
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
+    optional( jo, was_loaded, "death_function", mdeath_effect );
+    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -839,7 +832,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             while( jar.has_more() ) {
                 JsonObject obj = jar.next_object();
                 emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
-                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+                                     read_from_json_string<time_duration>( obj.get_member( "delay" ), time_duration::units ) );
             }
         }
     }
@@ -875,7 +868,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
-
+    optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
     if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {
@@ -886,10 +879,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
         optional( up, was_loaded, "age_grow", age_grow, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {},
+        optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
                   mongroup_id::NULL_ID() );
-        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {},
-                  mtype_id::NULL_ID() );
+        optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
         upgrades = true;
     }
 
@@ -900,12 +892,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         if( repro.has_int( "baby_timer" ) ) {
             baby_timer = time_duration::from_days( repro.get_int( "baby_timer" ) );
         } else if( repro.has_string( "baby_timer" ) ) {
-            baby_timer = read_from_json_string<time_duration>( *repro.get_raw( "baby_timer" ),
+            baby_timer = read_from_json_string<time_duration>( repro.get_member( "baby_timer" ),
                          time_duration::units );
         }
-        optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
+        optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
                   mtype_id::NULL_ID() );
-        optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
+        optional( repro, was_loaded, "baby_egg", baby_egg, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         reproduces = true;
     }
@@ -923,16 +915,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         if( biosig.has_int( "biosig_timer" ) ) {
             biosig_timer = time_duration::from_days( biosig.get_int( "biosig_timer" ) );
         } else if( biosig.has_string( "biosig_timer" ) ) {
-            biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
+            biosig_timer = read_from_json_string<time_duration>( biosig.get_member( "biosig_timer" ),
                            time_duration::units );
         }
 
-        optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
+        optional( biosig, was_loaded, "biosig_item", biosig_item, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         biosignatures = true;
     }
 
-    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
@@ -980,7 +972,7 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
-    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
+    optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
@@ -1181,9 +1173,55 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
+void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
+{
+    const std::string effect_name = inner.get_string( 0 );
+    const efftype_id effect( effect_name );
+    //TODO: if invalid effect, throw error
+    //  inner.throw_error( "Invalid regeneration_modifiers" );
+
+    if( regeneration_modifiers.count( effect ) > 0 ) {
+        regeneration_modifiers.erase( effect );
+        if( test_mode ) {
+            debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+                      id.c_str(), effect_name );
+        }
+    }
+    int amount = inner.get_int( 1 );
+    regeneration_modifiers.emplace( effect, amount );
+}
+
+void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
+                                        const std::string &src )
+{
+    if( !jo.has_array( member ) ) {
+        return;
+    }
+
+    for( const JsonValue entry : jo.get_array( member ) ) {
+        if( entry.test_array() ) {
+            add_regeneration_modifier( entry.get_array(), src );
+            // TODO: add support for regeneration_modifer objects
+            //} else if ( entry.test_object() ) {
+            //    add_regeneration_modifier( entry.get_object(), src );
+        } else {
+            entry.throw_error( "array element is not an array " );
+        }
+    }
+}
+
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+        const std::string & )
+{
+    for( const std::string &name : jo.get_tags( member_name ) ) {
+        const efftype_id effect( name );
+        regeneration_modifiers.erase( effect );
+    }
+}
+
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1192,11 +1230,12 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
             !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
-            debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
+            debugmsg( "monster %s is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
-            debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
+            debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined",
+                      mon.id.c_str() );
         }
         for( const species_id &spec : mon.species ) {
             if( !spec.is_valid() ) {
@@ -1220,6 +1259,10 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
         }
+        if( !mon.fungalize_into.is_empty() && !mon.fungalize_into.is_valid() ) {
+            debugmsg( "monster %s has unknown fungalize_into: %s", mon.id.c_str(),
+                      mon.fungalize_into.c_str() );
+        }
         if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
             debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),
                       mon.picture_id.c_str() );
@@ -1234,6 +1277,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
+            debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
@@ -1323,4 +1369,30 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
     }
+}
+
+void monster_death_effect::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "message", death_message, to_translation( "The %s dies!" ) );
+    optional( jo, was_loaded, "effect", sp );
+    has_effect = sp.is_valid();
+    optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+}
+
+void monster_death_effect::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void pet_food_data::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "feed", feed );
+    optional( jo, was_loaded, "pet", pet );
+}
+
+void pet_food_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }

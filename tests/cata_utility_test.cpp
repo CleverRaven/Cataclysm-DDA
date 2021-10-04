@@ -9,7 +9,7 @@
 
 #include "assertion_helpers.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "debug_menu.h"
 #include "units.h"
 #include "units_utility.h"

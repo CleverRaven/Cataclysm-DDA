@@ -101,7 +101,8 @@ bool init_sound()
     // We should only need to init once
     if( !sound_init_success ) {
         // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
-        if( !Mix_OpenAudio( audio_rate, audio_format, audio_channels, audio_buffers ) ) {
+        if( !Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels, audio_buffers, nullptr,
+                                  SDL_AUDIO_ALLOW_FREQUENCY_CHANGE ) ) {
             Mix_AllocateChannels( 128 );
             Mix_ReserveChannels( static_cast<int>( sfx::channel::MAX_CHANNEL ) );
 
@@ -465,7 +466,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         return;
     }
 
-    add_msg_debug( "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
         return;
@@ -495,7 +496,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         return;
     }
 
-    add_msg_debug( "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
         return;

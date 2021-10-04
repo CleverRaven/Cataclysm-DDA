@@ -351,7 +351,7 @@
         },
         "effect": [
           { "u_sell_item": "weed", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 4 },
+          { "u_spawn_item": "FMCNote", "count": 4 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -367,7 +367,7 @@
         },
         "effect": [
           { "u_sell_item": "weed", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 6 },
+          { "u_spawn_item": "FMCNote", "count": 6 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -385,7 +385,7 @@
         },
         "effect": [
           { "u_sell_item": "joint", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 4 },
+          { "u_spawn_item": "FMCNote", "count": 4 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -401,7 +401,7 @@
         },
         "effect": [
           { "u_sell_item": "joint", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 6 },
+          { "u_spawn_item": "FMCNote", "count": 6 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"

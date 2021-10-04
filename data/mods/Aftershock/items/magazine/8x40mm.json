@@ -4,7 +4,7 @@
     "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": { "str": "RMGS5 8x40mm speedloader" },
-    "description": "This speedloader, made by Rivtech for use with RM99 revolver, can hold 5 rounds of 8x40mm caseless rounds and quickly reload a compatible revolver.",
+    "description": "This speedloader, made by Rivtech for use with the RM99 revolver, can hold 5 rounds of 8x40mm caseless rounds and quickly reload a compatible revolver.",
     "weight": "92 g",
     "volume": "250 ml",
     "price": 8000,

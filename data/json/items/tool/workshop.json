@@ -77,15 +77,13 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 800000,
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "200 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -105,7 +103,6 @@
     "color": "dark_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
     "ammo": [ "charcoal" ],
-    "max_charges": 1000,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -132,6 +129,58 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown"
+  },
+  {
+    "id": "makeshift_vacuum_mold",
+    "type": "TOOL",
+    "name": { "str": "makeshift vacuum mold" },
+    "description": "This is a homemade vacuum forming machine with an air pump.  It's used for creating plastic molds.",
+    "weight": "2000 g",
+    "volume": "5 L",
+    "longest_side": "35 cm",
+    "price": 1000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "plastic", "wood" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "vac_mold",
+    "type": "TOOL",
+    "name": { "str": "vacuum molder" },
+    "description": "This is a portable vacuum forming machine with an air pump.  It's used for creating plastic molds.",
+    "weight": "1770 g",
+    "volume": "4100 ml",
+    "longest_side": "35 cm",
+    "price": 2500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   },
   {
     "id": "chipper",
@@ -183,7 +232,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR", "HAMMER" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -209,10 +258,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -233,15 +280,44 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "200 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "cordless_impact_wrench",
+    "type": "TOOL",
+    "name": { "str": "cordless impact wrench", "str_pl": "cordless impact wrenches" },
+    "description": "This is a cordless battery-powered impact wrench, designed to deliver high torque via an internal rotating hammer.  It comes with a standard set of sockets, and makes a loud ratcheting sound when it operates.  You could use it to turn large bolts, or even change a vehicle wheel.",
+    "//": "Loosely based on DeWalt DCF899B 20V 1/2-inch cordless impact wrench, $220 on Amazon, 6.4 pounds.",
+    "looks_like": "cordless_drill",
+    "weight": "2900 g",
+    "volume": "900 ml",
+    "longest_side": "22 cm",
+    "price": 20000,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "bashing": 3,
+    "cutting": 1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -280,11 +356,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "initial_charges": 3500,
-    "max_charges": 7000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
     "charges_per_use": 3500,
     "use_action": [ "JACKHAMMER" ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
     "id": "hacksaw",
@@ -309,7 +384,7 @@
     "id": "hammer",
     "type": "TOOL",
     "name": { "str": "hammer" },
-    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and planks in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "ascii_picture": "hammer",
     "longest_side": "25 cm",
     "weight": "566 g",
@@ -321,9 +396,10 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "hand_drill",
@@ -428,10 +504,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
-    "max_charges": 400,
-    "charges_per_use": 10,
+    "//": "Consumes 0.6 L/h",
+    "charges_per_use": 300,
     "use_action": [ "JACKHAMMER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 1200 } } ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
@@ -449,15 +525,13 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
       }
     ]
   },
@@ -487,22 +561,19 @@
       [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -521,7 +592,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ] ],
+    "qualities": [ [ "HAMMER", 2 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER" ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
@@ -541,7 +612,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ] ]
+    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ]
   },
   {
     "id": "metal_smoother",
@@ -575,7 +646,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "tape" ],
-    "max_charges": 200,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200 } } ],
     "charges_per_use": 5,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ] ],
@@ -596,7 +666,7 @@
     "id": "mold_plastic",
     "type": "TOOL",
     "name": { "str": "plastic mold" },
-    "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
+    "description": "This is a plastic mold.  It can be used to form plastic chunks.",
     "weight": "320 g",
     "volume": "2500 ml",
     "longest_side": "36 cm",
@@ -729,6 +799,24 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "pliers_locking",
+    "type": "TOOL",
+    "name": { "str_sp": "locking pliers" },
+    "description": "These pliers have extra-hefty jaws, and an adjustable mechanism to clamp them in a locked grip on whatever unfortunate object is trapped between them.  They could grip and turn a fairly large bolt head, or clamp two parts together temporarily.",
+    "looks_like": "pliers",
+    "weight": "807 g",
+    "volume": "250 ml",
+    "longest_side": "20 cm",
+    "price": 1200,
+    "price_postapoc": 100,
+    "bashing": 3,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 2 ], [ "VISE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
     "id": "polisher",
     "type": "TOOL",
     "name": { "str": "electric polisher" },
@@ -743,24 +831,15 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -800,7 +879,8 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ],
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "screwdriver_set",
@@ -820,6 +900,46 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "socket_screwdriver_set",
+    "type": "TOOL",
+    "name": { "str": "socket screwdriver set" },
+    "description": "This is a ratcheting screwdriver with a collection of hex sockets for turning small bolts or nuts, including a couple standard screwdriver bits.",
+    "looks_like": "screwdriver_set",
+    "weight": "340 g",
+    "volume": "500 ml",
+    "longest_side": "28 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 2,
+    "cutting": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "SCREW", 1 ], [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "socket_wrench_set",
+    "type": "TOOL",
+    "name": { "str": "socket wrench set" },
+    "description": "This is a thick-handled ratchet wrench with an assortment of interchangeable sockets in common hex bolt sizes.  You could loosen or tighten fairly large bolts with this, and the ratchet makes a satisfying clicking sound.",
+    "//": "Modeled after 40-piece Walmart set, 2.85 lb, case 9.75 x 1.5 x 5 inches",
+    "looks_like": "screwdriver_set",
+    "weight": "1300 g",
+    "volume": "1200 ml",
+    "longest_side": "25 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -848,22 +968,19 @@
       [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ], [ "HACKSAW", 0 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -895,23 +1012,13 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
@@ -980,7 +1087,6 @@
     "bashing": 3,
     "cutting": 5,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
-    "max_charges": 1000,
     "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
     "use_action": [
@@ -1019,7 +1125,6 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "WRENCH_FINE", 1 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "CUT", 2 ],
@@ -1058,15 +1163,13 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -1098,15 +1201,13 @@
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -1162,12 +1263,31 @@
     "flags": [ "FRAGILE_MELEE" ]
   },
   {
+    "id": "wrench_small",
+    "type": "TOOL",
+    "name": { "str": "small adjustable wrench", "str_pl": "small adjustable wrenches" },
+    "description": "This adjustable crescent wrench is compact, with a short handle that fits in the palm of the hand.  It could be used for turning small hex-head nuts or bolts.",
+    "//": "Measured weight of 6-inch Craftsman wrench with 150mm jaws, assume 8g/ml steel density plus some margin for mechanism and empty space.",
+    "looks_like": "wrench",
+    "weight": "110 g",
+    "volume": "20 ml",
+    "longest_side": "15 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "bashing": 1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
     "id": "wrench",
     "type": "TOOL",
-    "name": { "str": "wrench", "str_pl": "wrenches" },
+    "name": { "str": "adjustable wrench", "str_pl": "adjustable wrenches" },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
-    "volume": "450 ml",
+    "volume": "120 ml",
     "longest_side": "20 cm",
     "price": 1200,
     "price_postapoc": 100,
@@ -1175,7 +1295,27 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ], [ "WHEEL_FAST", 1 ] ],
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ]
+  },
+  {
+    "id": "wrench_large",
+    "type": "TOOL",
+    "name": { "str": "large adjustable wrench", "str_pl": "large adjustable wrenches" },
+    "description": "This adjustable crescent wrench is unusually large, with a long handle and jaws that widen over two inches.  This could easily turn most bolts, and should even work on wheel lug nuts.",
+    "//": "WESTWARD 31D018 from Walmart, 18-inch length, 2-3/8-inch jaws, 4.23 lb, assume 8g/ml steel density with some margin for mechanism and other empty space.",
+    "looks_like": "wrench",
+    "weight": "1900 g",
+    "volume": "250 ml",
+    "longest_side": "46 cm",
+    "price": 1200,
+    "price_postapoc": 100,
+    "bashing": 12,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -1211,5 +1351,28 @@
     "color": "light_gray",
     "looks_like": "hand_drill",
     "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
+    "id": "wire_draw_machine",
+    "type": "TOOL",
+    "name": { "str": "wire draw machine" },
+    "description": "A machine designed specifically for turning metal rods into wire.",
+    "weight": "26 kg",
+    "volume": "20 L",
+    "price": 1000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   }
 ]

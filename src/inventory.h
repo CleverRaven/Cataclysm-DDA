@@ -194,6 +194,7 @@ class inventory : public visitable
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
+        void dump( std::vector<const item *> &dest ) const;
 
         // vector rather than list because it's NOT an item stack
         // returns all items that need processing
@@ -211,7 +212,8 @@ class inventory : public visitable
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
-        void update_invlet( item &it, bool assign_invlet = true );
+        void update_invlet( item &it, bool assign_invlet = true,
+                            const item *ignore_invlet_collision_with = nullptr );
 
         invlets_bitset allocated_invlets() const;
 
@@ -244,6 +246,9 @@ class inventory : public visitable
         int amount_of( const itype_id &what, bool pseudo = true,
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+
+        std::pair<int, int> kcal_range( const itype_id &id,
+                                        const std::function<bool( const item & )> &filter, Character &player_character );
 
     private:
         invlet_favorites invlet_cache;

@@ -108,7 +108,7 @@
       { "item": "hammer", "prob": 75 },
       { "item": "permanent_marker", "prob": 75, "charges-min": 50 },
       { "item": "permanent_marker", "prob": 40, "charges-min": 50 },
-      { "item": "paper", "prob": 55 },
+      { "item": "paper", "prob": 55, "count": [ 5, 20 ] },
       { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85, "charges-min": 1 },
       { "item": "battery_charger", "prob": 85 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
@@ -188,7 +188,7 @@
       { "item": "lighter", "prob": 10, "charges-min": 0, "charges-max": 90 },
       { "item": "zipper_short_plastic", "prob": 10 },
       { "item": "bracelet_friendship", "prob": 10 },
-      { "item": "paper", "prob": 10 },
+      { "item": "paper", "prob": 10, "count": [ 5, 20 ] },
       { "item": "plastic_straw", "prob": 10, "count": [ 20, 30 ] },
       { "item": "pen", "prob": 10, "count": [ 1, 30 ] },
       { "item": "polaroid_photo", "prob": 10 },
@@ -202,6 +202,7 @@
       { "item": "golf_ball", "prob": 8 },
       { "item": "shuttlecock", "prob": 8 },
       { "item": "bronze_medal", "prob": 8 },
+      { "item": "book_binder", "prob": 8 },
       { "item": "fp_loyalty_card", "prob": 8 },
       { "item": "coin_quarter", "prob": 6, "count": [ 2, 12 ] },
       { "item": "wristwatch", "prob": 6 },
@@ -312,6 +313,7 @@
       { "item": "razor_blade", "count": [ 1, 3 ], "prob": 15 },
       { "item": "aspirin", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "reading_light", "prob": 15, "charges": [ 0, 50 ] },
+      { "item": "book_binder", "prob": 15 },
       { "item": "paint_brush", "prob": 10 },
       { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "comb_pocket", "prob": 10 },
@@ -581,7 +583,13 @@
         "prob": 65
       },
       {
-        "distribution": [ { "item": "pot", "prob": 20 }, { "item": "pot_copper", "prob": 5 }, { "item": "iron_pot", "prob": 5 } ],
+        "distribution": [
+          { "item": "pot", "prob": 20 },
+          { "item": "tuna_noodle_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
+          { "item": "hot_corn_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
+          { "item": "pot_copper", "prob": 5 },
+          { "item": "iron_pot", "prob": 5 }
+        ],
         "prob": 25
       },
       {
@@ -625,10 +633,13 @@
       { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
       { "item": "cotton_ball", "prob": 50 },
+      { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       { "item": "ammonia", "prob": 20, "charges-min": 1 },
       { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 }
+      { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 },
+      { "item": "dentures", "count": [ 1, 2 ], "prob": 15 },
+      { "item": "toothbrush_electric", "count": [ 1, 3 ], "prob": 25 }
     ]
   },
   {
@@ -646,6 +657,7 @@
         ],
         "prob": 95
       },
+      { "item": "comb_lice", "prob": 10 },
       { "item": "eyedrops", "prob": 15 },
       { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
@@ -747,6 +759,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70, "charges": [ 1, 10 ] },
+      { "item": "liquid_soap", "count": [ 1, 6 ], "prob": 70, "charges-min": 1 },
+      { "item": "bath_toy", "count": [ 1, 4 ], "prob": 40 },
       {
         "distribution": [
           { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 },

@@ -25,9 +25,11 @@
 #endif
 #include "cached_options.h"
 #include "color.h"
+#include "compatibility.h"
 #include "crash.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_ui.h"
@@ -42,6 +44,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class ui_adaptor;
 
@@ -130,6 +133,8 @@ void exit_handler( int s )
         exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
 }
 
 struct arg_handler {
@@ -518,6 +523,7 @@ int main( int argc, const char *argv[] )
 {
 #endif
     init_crash_handlers();
+    reset_floating_point_mode();
 
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
@@ -701,7 +707,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-        while( !g->do_turn() );
+        while( !do_turn() );
     }
 
     exit_handler( -999 );

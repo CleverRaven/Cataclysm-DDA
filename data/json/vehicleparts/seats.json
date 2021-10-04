@@ -31,7 +31,7 @@
     "color": "red",
     "comfort": 2,
     "damage_modifier": 60,
-    "damage_reduction": { "all": 2 },
+    "damage_reduction": { "all": 2, "bash": 5 },
     "description": "A place to sit, or sleep if you're desperate.",
     "durability": 300,
     "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
@@ -67,7 +67,7 @@
     "color": "red",
     "comfort": 3,
     "damage_modifier": 60,
-    "damage_reduction": { "all": 3 },
+    "damage_reduction": { "all": 3, "bash": 5 },
     "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
     "durability": 100,
     "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
@@ -103,7 +103,7 @@
     "color": "red",
     "comfort": 4,
     "damage_modifier": 60,
-    "damage_reduction": { "all": 3 },
+    "damage_reduction": { "all": 3, "bash": 5 },
     "description": "A benchlike seat.  Mostly found in the second row, also known as the back or rear seat.",
     "durability": 300,
     "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
@@ -142,6 +142,7 @@
     "broken_symbol": "*",
     "broken_color": "red",
     "damage_modifier": 20,
+    "damage_reduction": { "all": 3, "bash": 5 },
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
@@ -168,6 +169,7 @@
     "broken_symbol": "*",
     "broken_color": "red",
     "damage_modifier": 10,
+    "damage_reduction": { "all": 3, "bash": 5 },
     "durability": 20,
     "description": "A crude seat, too uncomfortable to sleep in.",
     "item": "sheet",
@@ -182,8 +184,40 @@
     "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
   },
   {
+    "abstract": "metal_bench_abstract",
+    "breaks_into": "ig_vp_prison_bench",
+    "broken_color": "dark_gray",
+    "broken_symbol": "*",
+    "categories": [ "operations", "passengers" ],
+    "color": "dark_gray",
+    "comfort": 0,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 3, "bash": 5 },
+    "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
+    "durability": 450,
+    "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
+    "item": "steel_plate",
+    "location": "center",
+    "looks_like": "seat",
+    "name": { "str": "steel bench" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 20 ] ] }
+    },
+    "size": 25,
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "seat_abstract",
     "id": "seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_windshield",
     "symbol": "#",
     "type": "vehicle_part"
   },
@@ -194,14 +228,32 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_windshield_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "reclining_seat_abstract",
     "id": "reclining_seat",
     "symbol": "#",
     "type": "vehicle_part"
   },
   {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_windshield",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "reclining_seat_leather_abstract",
     "id": "reclining_seat_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_windshield_leather",
     "symbol": "#",
     "type": "vehicle_part"
   },
@@ -243,6 +295,12 @@
   {
     "copy-from": "folding_seat_abstract",
     "id": "folding_seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "metal_bench_abstract",
+    "id": "metal_bench",
     "symbol": "#",
     "type": "vehicle_part"
   }

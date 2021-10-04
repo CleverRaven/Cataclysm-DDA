@@ -76,6 +76,8 @@
       { "group": "book_survival", "prob": 15 },
       { "group": "novels", "prob": 50, "count": [ 1, 3 ] },
       { "group": "textbooks", "prob": 30 },
+      { "group": "cigar_box_unopened", "prob": 10 },
+      { "item": "case_cigar", "prob": 5 },
       [ "vest", 40 ],
       [ "kevlar", 15 ],
       [ "jacket_army", 30 ],
@@ -99,6 +101,7 @@
       [ "gloves_work", 20 ],
       [ "boots", 20 ],
       [ "boots_steel", 20 ],
+      [ "sneakers_steel", 15 ],
       [ "boots_hiking", 30 ],
       [ "knee_high_boots", 5 ],
       [ "boots_combat", 15 ],
@@ -440,7 +443,7 @@
     "id": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
     "type": "talk_topic",
     "dynamic_line": "And so we did.  You didn't do the full job, but we're fair people here.  Here's five merch a head for the folks you found a new home for.",
-    "speaker_effect": { "effect": { "u_buy_item": "FMCNote", "count": 20 } },
+    "speaker_effect": { "effect": { "u_spawn_item": "FMCNote", "count": 20 } },
     "responses": [ { "text": "Thanks.", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
@@ -469,7 +472,6 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1",
     "dynamic_line": "Hmm.  Most of the people downstairs aren't willing to come up for things like that.  If you sweeten the pot a bit, we could get a few folks I'm sure.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
     "responses": [
       {
         "text": "How about five Merch to do it?",
@@ -482,18 +484,21 @@
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
-      }
+      },
+      { "text": "I might come back with some more Merch then…", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1b",
-    "dynamic_line": "Sure.  Five Merch is definitely enough to get someone off guard duty to help you out."
+    "dynamic_line": "Sure.  Five Merch is definitely enough to get someone off guard duty to help you out.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1c",
-    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten Merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is."
+    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten Merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
@@ -512,7 +517,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ],
@@ -603,7 +608,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 30 },
+        { "u_spawn_item": "FMCNote", "count": 30 },
         { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -642,7 +647,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 50 },
+        { "u_spawn_item": "FMCNote", "count": 50 },
         { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
       ],
       "update_mapgen": {
@@ -681,7 +686,7 @@
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 100 },
+        { "u_spawn_item": "FMCNote", "count": 100 },
         { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -709,7 +714,7 @@
     "count": 100,
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -734,7 +739,7 @@
     "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "start": {
-      "effect": [ { "u_buy_item": "fema_data", "count": 1 } ],
+      "effect": [ { "u_spawn_item": "fema_data", "count": 1 } ],
       "assign_mission_target": {
         "om_terrain": "robofachq_surface_entrance",
         "om_special": "hub_01",

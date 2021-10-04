@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -31,9 +31,9 @@ static void reset_player()
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
+    clear_vehicles();
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
     map &here = get_map();
 
     SECTION( "vehicle with reactor" ) {

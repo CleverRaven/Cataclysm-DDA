@@ -205,7 +205,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "trimmer_off",
@@ -224,7 +225,7 @@
     "symbol": "/",
     "color": "green",
     "ammo": [ "gasoline" ],
-    "max_charges": 600,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
     "use_action": [ "TRIMMER_OFF" ],
     "flags": [ "NONCONDUCTIVE" ]

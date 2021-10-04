@@ -479,7 +479,7 @@ void rule::test_pattern() const
     ui.on_screen_resize( init_windows );
 
     int nmatch = vMatchingItems.size();
-    const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
+    const std::string buf = string_format( n_gettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
 
@@ -672,8 +672,9 @@ void rule_list::create_rule( cache &map_items, const item &it )
     for( const rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
-                   !wildcard_match( to_match, elem.sRule ) ) {
+        }
+        if( !check_special_rule( it.made_of(), elem.sRule ) &&
+            !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
 
@@ -816,9 +817,8 @@ void rule_list::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void rule::deserialize( JsonIn &jsin )
+void rule::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );
@@ -831,7 +831,7 @@ void rule_list::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         rule tmp;
-        tmp.deserialize( jsin );
+        tmp.deserialize( jsin.get_object() );
         push_back( tmp );
     }
 }

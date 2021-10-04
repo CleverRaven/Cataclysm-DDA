@@ -5,6 +5,7 @@
     "name": "magic shop",
     "sym": "M",
     "color": "red",
+    "looks_like": "s_shoppingplaza_b1",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
@@ -16,6 +17,7 @@
     "name": "magic shop",
     "sym": "M",
     "color": "red",
+    "looks_like": "s_shoppingplaza_b2",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
@@ -26,6 +28,7 @@
     "name": "magic shop roof",
     "sym": "M",
     "color": "red",
+    "looks_like": "s_shoppingplaza_b6",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
@@ -56,6 +59,7 @@
     "name": "Forest",
     "sym": "F",
     "color": "light_gray",
+    "looks_like": "spider_pit",
     "see_cost": 5
   },
   {
@@ -64,6 +68,7 @@
     "name": "used bookstore",
     "sym": "B",
     "color": "white",
+    "looks_like": "s_bookstore",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 1,
@@ -75,6 +80,7 @@
     "name": "used bookstore",
     "sym": "B",
     "color": "white",
+    "looks_like": "s_bookstore_roof",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 1
@@ -100,31 +106,24 @@
     "name": "Swamp",
     "sym": "F",
     "color": "cyan",
-    "see_cost": 5
+    "looks_like": "forest_water",
+    "see_cost": 5,
+    "flags": [ "SOURCE_FORAGE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NE",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-0_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_SE",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-0_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_SW",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-0_NW"
   },
   {
     "type": "overmap_terrain",
@@ -132,6 +131,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -140,6 +140,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -148,6 +149,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -156,6 +158,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -164,6 +167,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -172,6 +176,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -180,6 +185,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -188,6 +194,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -196,6 +203,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -204,6 +212,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -212,6 +221,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -220,6 +230,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -228,6 +239,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -236,6 +248,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -244,6 +257,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -252,6 +266,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
+    "looks_like": "empty_rock",
     "see_cost": 5
   },
   {
@@ -260,6 +275,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 5
   },
   {
@@ -268,6 +284,7 @@
     "name": "forest",
     "sym": ".",
     "color": "blue",
+    "looks_like": "open_air",
     "see_cost": 5
   },
   {
@@ -276,6 +293,7 @@
     "name": "forest",
     "sym": ".",
     "color": "blue",
+    "looks_like": "open_air",
     "see_cost": 5
   },
   {
@@ -284,6 +302,7 @@
     "name": "forest",
     "sym": ".",
     "color": "blue",
+    "looks_like": "open_air",
     "see_cost": 5
   },
   {
@@ -292,6 +311,7 @@
     "name": "forest",
     "sym": ".",
     "color": "blue",
+    "looks_like": "open_air",
     "see_cost": 5
   },
   {
@@ -300,6 +320,7 @@
     "name": "lake shore",
     "sym": "#",
     "color": "light_blue",
+    "looks_like": "lake_shore",
     "see_cost": 5
   },
   {
@@ -308,6 +329,7 @@
     "name": "forest",
     "sym": ".",
     "color": "blue",
+    "looks_like": "open_air",
     "see_cost": 5
   },
   {
@@ -316,7 +338,8 @@
     "copy-from": "generic_city_building",
     "sym": "W",
     "color": "light_blue",
-    "name": "wizard tower"
+    "name": "wizard tower",
+    "flags": [ "SOURCE_LUXURY", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -369,6 +392,7 @@
     "name": "forest",
     "sym": "F",
     "color": "brown",
+    "looks_like": "cemetery_small",
     "see_cost": 5
   },
   {
@@ -387,6 +411,7 @@
     "name": "magic academy",
     "sym": "#",
     "color": "light_blue",
+    "looks_like": "campus_lecture_0_0_0",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -397,70 +422,44 @@
     "name": "magic academy",
     "sym": "#",
     "color": "light_blue",
+    "looks_like": "campus_lecture_0_0_1",
     "mondensity": 2,
     "see_cost": 5
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_3rd",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_2nd"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_4th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_3rd"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_5th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "see_cost": 5
+    "copy-from": "magic_academy_4th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_6th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_5th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_7th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_6th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_8th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_7th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_basement",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_2nd"
   },
   {
     "type": "overmap_terrain",
@@ -468,6 +467,7 @@
     "name": "magic academy",
     "sym": "#",
     "color": "light_blue",
+    "looks_like": "campus_lecture_0_0_3",
     "see_cost": 5
   },
   {
@@ -485,6 +485,7 @@
     "name": "attunement altar",
     "sym": "O",
     "color": "light_green",
+    "looks_like": "standing_stones",
     "see_cost": 5,
     "mondensity": 2
   }

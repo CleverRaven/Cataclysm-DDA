@@ -90,7 +90,7 @@
       "°": "t_flat_roof",
       "*": "t_laminated_door_glass_c",
       "$": "t_door_metal_c",
-      "&": "t_elevator_control",
+      "&": "t_elevator_control_off",
       "~": "t_elevator",
       ">": "t_stairs_down",
       "<": "t_stairs_up",

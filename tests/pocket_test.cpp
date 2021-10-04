@@ -8,13 +8,12 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -524,9 +523,9 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
 
             THEN( "pocket cannot contain it, because it does not have the flag" ) {
-                expect_cannot_contain( pocket_belt, rag, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rag, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
-                expect_cannot_contain( pocket_belt, rock, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rock, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
             }
         }
@@ -933,7 +932,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item can( "test_can_drink" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> can_pockets = can.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> can_pockets = can.get_all_contained_pockets();
         REQUIRE( can_pockets.success() );
         REQUIRE( can_pockets.value().size() == 1 );
         item_pocket &pocket = *can_pockets.value().front();
@@ -983,7 +982,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item jug( "test_jug_plastic" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> jug_pockets = jug.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> jug_pockets = jug.get_all_contained_pockets();
         REQUIRE( jug_pockets.success() );
         REQUIRE( jug_pockets.value().size() == 1 );
         item_pocket &pocket = *jug_pockets.value().front();
@@ -1077,7 +1076,7 @@ static bool has_best_pocket( item &container, const item &thing )
 /** Returns the only pocket for an item. */
 static item_pocket *get_only_pocket( item &container )
 {
-    ret_val<std::vector<item_pocket *>> pockets = container.contents.get_all_contained_pockets();
+    ret_val<std::vector<item_pocket *>> pockets = container.get_all_contained_pockets();
     REQUIRE( pockets.value().size() == 1 );
     return pockets.value()[0];
 }
@@ -1090,11 +1089,10 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "item with one watertight pocket has best_pocket for liquid" ) {
         // Must have a CONTAINER pocket, first and foremost
         item skin( "test_waterskin" );
-        REQUIRE( skin.has_pockets() );
-        REQUIRE( skin.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
+        REQUIRE( skin.is_container() );
         // Prerequisite: It can contain water
         item liquid( "test_liquid" );
-        REQUIRE( skin.can_contain( liquid ) );
+        REQUIRE( skin.can_contain( liquid ).success() );
 
         // Has a best pocket for liquid
         CHECK( has_best_pocket( skin, liquid ) );
@@ -1104,18 +1102,17 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "item with many different pockets can have best_pocket for different items" ) {
         // Utility belt has CONTAINER pockets
         item util_belt( "test_utility_belt" );
-        REQUIRE( util_belt.has_pockets() );
-        REQUIRE( util_belt.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
+        REQUIRE( util_belt.is_container() );
         // It can contain small and large tools
         item screwdriver( "test_screwdriver" );
         item halligan( "test_halligan" );
-        REQUIRE( util_belt.can_contain( screwdriver ) );
-        REQUIRE( util_belt.can_contain( halligan ) );
+        REQUIRE( util_belt.can_contain( screwdriver ).success() );
+        REQUIRE( util_belt.can_contain( halligan ).success() );
         // It can contain liquid and gas
         item liquid( "test_liquid" );
         item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
-        REQUIRE( util_belt.can_contain( liquid ) );
-        REQUIRE( util_belt.can_contain( gas ) );
+        REQUIRE( util_belt.can_contain( liquid ).success() );
+        REQUIRE( util_belt.can_contain( gas ).success() );
 
         // Utility belt has best_pocket for all these things
         CHECK( has_best_pocket( util_belt, screwdriver ) );
@@ -1130,10 +1127,10 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "non-container pockets cannot be best_pocket" ) {
         // Gun that accepts magazines
         item glock( "test_glock" );
-        REQUIRE( glock.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( glock.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         // Empty magazine
         item glockmag( "test_glockmag", calendar::turn, 0 );
-        REQUIRE( glockmag.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
+        REQUIRE( glockmag.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
         REQUIRE( glockmag.ammo_remaining() == 0 );
         // A single 9mm bullet
         item glockammo( "test_9mm_ammo", calendar::turn, 1 );
@@ -1141,8 +1138,8 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( glockammo.charges == 1 );
 
         // Although gun can contain magazine, and magazine can contain bullet...
-        REQUIRE( glock.can_contain( glockmag ) );
-        REQUIRE( glockmag.can_contain( glockammo ) );
+        REQUIRE( glock.can_contain( glockmag ).success() );
+        REQUIRE( glockmag.can_contain( glockammo ).success() );
         // Gun is not best_pocket for magazine, and magazine is not best_pocket for bullet.
         CHECK_FALSE( has_best_pocket( glock, glockmag ) );
         CHECK_FALSE( has_best_pocket( glockmag, glockammo ) );
@@ -1153,10 +1150,9 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "sealed pockets cannot be best_pocket" ) {
         // Regular aluminum beverage can and something to fill it with
         item can( "test_can_drink" );
-        REQUIRE( can.has_pockets() );
-        REQUIRE( can.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
+        REQUIRE( can.is_container() );
         item liquid( "test_liquid" );
-        REQUIRE( can.can_contain( liquid ) );
+        REQUIRE( can.can_contain( liquid ).success() );
 
         // Before being sealed, it can be best pocket for liquid
         CHECK( has_best_pocket( can, liquid ) );
@@ -1335,11 +1331,11 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "m4a1" );
+    item m4a1( "m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
-    CHECK_FALSE( m4a1.contents.can_contain( strap ).success() );
-    CHECK( m4a1.contents.insert_item( strap, item_pocket::pocket_type::MOD ).success() );
+    CHECK_FALSE( m4a1.can_contain( strap ).success() );
+    CHECK( m4a1.put_in( strap, item_pocket::pocket_type::MOD ).success() );
 }
 
 TEST_CASE( "usb drives and software", "[pocket][software]" )
@@ -1347,7 +1343,7 @@ TEST_CASE( "usb drives and software", "[pocket][software]" )
     item usb( "usb_drive" );
     item software( "software_math" );
     // USB drives aren't containers, and cannot "contain" software, but software can be inserted
-    CHECK_FALSE( usb.contents.can_contain( software ).success() );
-    CHECK( usb.contents.insert_item( software, item_pocket::pocket_type::SOFTWARE ).success() );
+    CHECK_FALSE( usb.can_contain( software ).success() );
+    CHECK( usb.put_in( software, item_pocket::pocket_type::SOFTWARE ).success() );
 }
 

@@ -1,0 +1,79 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_test_non_shearable",
+    "name": { "str_sp": "non shearable monster" },
+    "description": "An 8-legged beast of rugged greenish skin.",
+    "default_faction": "herbivore",
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "volume": "81500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 50,
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_shearable",
+    "copy-from": "mon_test_non_shearable",
+    "name": { "str_sp": "shearable monster" },
+    "description": "An 8-legged beast of a surprisingly comfy sanguine fur.",
+    "//": "A random assortment of items to test shearing",
+    "shearing": [
+      { "result": "test_rock", "amount": 30 },
+      { "result": "test_2x4", "amount": [ 5, 10 ] },
+      { "result": "test_rag", "ratio_mass": 0.5 },
+      { "result": "test_pipe", "ratio_volume": 0.3 }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_speed_desc_base",
+    "name": { "str_sp": "speed 100 monster" },
+    "description": "A shapeshifting green giraffe that can change speed at will.",
+    "default_faction": "herbivore",
+    "material": [ "flesh" ],
+    "symbol": "D",
+    "volume": "50000 ml",
+    "weight": "50000 g",
+    "hp": 100,
+    "speed": 100,
+    "speed_description": "mon_test_speed_desc_A"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_speed_desc_base_immobile",
+    "copy-from": "mon_test_speed_desc_base",
+    "name": { "str_sp": "immobile monster" },
+    "flags": "IMMOBILE"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_speed_desc_base_25",
+    "copy-from": "mon_test_speed_desc_base",
+    "name": { "str_sp": "speed 25 monster" },
+    "relative": { "speed": -75 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_speed_desc_base_50",
+    "copy-from": "mon_test_speed_desc_base",
+    "name": { "str_sp": "speed 50 monster" },
+    "relative": { "speed": -50 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_speed_desc_base_150",
+    "copy-from": "mon_test_speed_desc_base",
+    "name": { "str_sp": "speed 150 monster" },
+    "relative": { "speed": 50 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_speed_desc_multiple",
+    "copy-from": "mon_test_speed_desc_base",
+    "name": { "str_sp": "speed 100 monster with multiple descriptions" },
+    "speed_description": "mon_test_speed_desc_B"
+  }
+]

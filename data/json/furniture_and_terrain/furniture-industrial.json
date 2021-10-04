@@ -90,7 +90,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 16,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "BLOCKS_DOOR" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -210,7 +210,7 @@
     "move_cost_mod": 10,
     "coverage": 65,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
@@ -254,7 +254,7 @@
     "move_cost_mod": 10,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
@@ -305,7 +305,7 @@
     "move_cost_mod": 4,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "wire", "count": 1 },
@@ -354,7 +354,7 @@
     "move_cost_mod": 8,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
@@ -457,9 +457,40 @@
       "str_max": 100,
       "sound": "shred!",
       "sound_fail": "thud!",
-      "items": [ { "item": "scrap_copper", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
+      "items": [ { "item": "scrap_copper", "count": [ 1, 5 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
     },
     "deconstruct": { "items": [ { "item": "cable", "charges": [ 3, 4 ] } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_electrical_conduit",
+    "name": "electrical conduit",
+    "looks_like": "t_sewer_pipe",
+    "description": "A thick bundle of electrical wiring protected by a metal conduit.",
+    "symbol": "|",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "thunk!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 10, 20 ] },
+        { "item": "cable", "charges": [ 20, 100 ] },
+        { "item": "pipe", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 200, 800 ] },
+        { "item": "pipe_fittings", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 2, 4 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -502,7 +533,7 @@
     "move_cost_mod": 8,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },

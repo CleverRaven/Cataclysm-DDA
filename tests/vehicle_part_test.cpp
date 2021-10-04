@@ -9,7 +9,7 @@
 
 #include "activity_type.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "damage.h"
 #include "game.h"
@@ -31,8 +31,8 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static time_point midnight = calendar::turn_zero + 0_hours;
-static time_point midday = calendar::turn_zero + 12_hours;
+static time_point midnight = calendar::turn_zero;
+static time_point midday = midnight + 12_hours;
 
 static void set_time( const time_point &time )
 {
@@ -131,6 +131,10 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     for( const std::pair<skill_id, int> req : recipe.required_skills ) {
         character.set_skill_level( req.first, req.second );
     }
+    for( const recipe_proficiency &prof : recipe.proficiencies ) {
+        character.add_proficiency( prof.id );
+    }
+    character.learn_recipe( &recipe );
 
     get_map().add_vehicle( vproto_id( "test_rv" ), test_origin, -90_degrees, 0, 0 );
     const optional_vpart_position &ovp = get_map().veh_at( test_origin );
@@ -173,10 +177,10 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         REQUIRE( character.activity.id() == activity_id( "ACT_CRAFT" ) );
         while( character.activity.id() == activity_id( "ACT_CRAFT" ) ) {
             character.moves = 100;
-            character.activity.do_turn( *character.as_player() );
+            character.activity.do_turn( character );
         }
 
-        REQUIRE( character.weapon.type->get_id() == recipe.result() );
+        REQUIRE( character.get_wielded_item().type->get_id() == recipe.result() );
     } else {
         REQUIRE_FALSE( can_craft );
     }
@@ -196,19 +200,19 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 0, 0, 1, 1, recipe_id( "oatmeal_cooked" ).obj(), false );
     }
     SECTION( "cook oatmeal without water" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 2, 2, 0, 0, recipe_id( "oatmeal_cooked" ).obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 2, 0, 1, 0, recipe_id( "oatmeal_cooked" ).obj(), true );
     }

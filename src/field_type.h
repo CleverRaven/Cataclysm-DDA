@@ -111,6 +111,7 @@ struct field_intensity_level {
     std::vector<field_effect> field_effects;
 };
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
 extern const field_type_str_id fd_null;
 extern const field_type_str_id fd_fire;
