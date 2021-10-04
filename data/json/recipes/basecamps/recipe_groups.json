@@ -136,14 +136,14 @@
         "om_terrains": [ "field" ]
       },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
-      { 
-        "id": "faction_base_storehouse_0", 
-        "description": "Central Storage Building version 1.  Nice building with free space", 
+      {
+        "id": "faction_base_storehouse_0",
+        "description": "Central Storage Building version 1.  Nice building with free space",
         "om_terrains": [ "field" ]
       },
-      { 
-        "id": "faction_base_storehouse_2_0", 
-        "description": "Central Storage Building version 2.  Focus on storage. Place in N, E, S, W only", 
+      {
+        "id": "faction_base_storehouse_2_0",
+        "description": "Central Storage Building version 2.  Focus on storage. Place in N, E, S, W only",
         "om_terrains": [ "field" ]
       },
       { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
