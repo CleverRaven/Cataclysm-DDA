@@ -124,7 +124,7 @@ void weakpoint_families::clear()
 
 void weakpoint_families::load( const JsonArray &ja )
 {
-    for( const JsonValue &jsin : ja ) {
+    for( const JsonValue jsin : ja ) {
         weakpoint_family tmp;
         tmp.load( jsin );
 
