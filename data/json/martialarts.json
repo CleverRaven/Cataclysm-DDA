@@ -23,7 +23,7 @@
     "type": "martial_art",
     "id": "style_aikido",
     "name": { "str": "Aikido" },
-    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but lacks offensive techniques.",
+    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
     "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
     "learn_difficulty": 5,
     "arm_block": 0,
@@ -31,34 +31,64 @@
       {
         "id": "buff_aikido_static1",
         "name": "Aikido Stance",
-        "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity.",
+        "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity, +2 Blocking Effectiveness.\n+1.0 Dodging skill.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
+        "flat_bonuses": [
+          { "stat": "block", "scaling-stat": "dex", "scale": 1.0 },
+          { "stat": "block_effectiveness", "scale": 2.0 },
+          { "stat": "dodge", "scale": 1.0 }
+        ]
       },
       {
         "id": "buff_aikido_static2",
         "name": "Intermediate Aikido",
-        "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\nBlocked Damage reduced by 100% of Dexterity.\n+1 Block attempts, +1 Dodge attempts.",
+        "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\nBlocked Damage reduced by 100% of Dexterity, +1 Blocking Effectiveness.\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 }, { "stat": "block_effectiveness", "scale": 1.0 } ]
       },
       {
         "id": "buff_aikido_static3",
         "name": "Advanced Aikido",
-        "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Block attempts, +1 Dodge attempts.",
+        "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Blocking Effectiveness.\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "bonus_dodges": 1,
-        "bonus_blocks": 1
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_aikido_onblock",
+        "name": "Fluid Blocking",
+        "description": "After a smooth block, you prepare to counter your foe.\n\n-10% move cost.\nLasts for 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_aikido_ondodge",
+        "name": "Fluid Dodging",
+        "description": "After a smooth dodge, you prepare to counter your foe.\n\n-10% move cost.\nLasts for 1 turn.",
+        "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
       }
     ],
     "techniques": [
