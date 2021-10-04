@@ -29,23 +29,83 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
         "coverage": 8
       },
-      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
-      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
       {
         "name": "the weak armor on the side",
         "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
         "coverage": 4
       },
       {
         "name": "a gap in the stomach armor",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "coverage": 2
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
       },
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
-      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
     ],
     "vision_day": 30,
     "vision_night": 3,
@@ -96,23 +156,83 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
         "coverage": 8
       },
-      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
-      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
       {
         "name": "the weak armor on the side",
         "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
         "coverage": 4
       },
       {
         "name": "a gap in the stomach armor",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "coverage": 2
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
       },
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
-      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
     ],
     "vision_day": 30,
     "vision_night": 35,
@@ -261,6 +381,88 @@
     "armor_bash": 20,
     "armor_cut": 30,
     "armor_bullet": 24,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
+      },
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
+    ],
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
@@ -301,6 +503,88 @@
     "armor_cut": 50,
     "armor_bullet": 40,
     "bleed_rate": 0,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
+      },
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
+    ],
     "vision_day": 50,
     "vision_night": 10,
     "harvest": "zombie_kevlar",
@@ -341,8 +625,66 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "weakpoints": [
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
-      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
     ],
     "vision_day": 35,
     "vision_night": 5,
@@ -406,20 +748,65 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
         "coverage": 8
       },
-      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 9 },
       {
-        "name": "a gap in the side armor",
+        "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
         "coverage": 4
       },
       {
         "name": "the gasmask",
         "armor_mult": { "bullet": 0.2, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
-        "coverage": 4
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 4,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 10 },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 25
+          }
+        ]
       },
-      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
     ],
     "vision_day": 30,
     "vision_night": 3,
@@ -473,7 +860,13 @@
     "armor_acid": 20,
     "armor_fire": 20,
     "weakpoints": [
-      { "name": "a gap in the armor", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 4 }
+      {
+        "name": "a gap in the armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "difficulty": { "melee": 4, "ranged": 6 },
+        "coverage_mult": { "broad": 0.75 },
+        "coverage": 4
+      }
     ],
     "bleed_rate": 0,
     "vision_day": 30,
@@ -514,23 +907,83 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
         "coverage": 8
       },
-      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
-      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": 0.75,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
       {
         "name": "the weak armor on the side",
         "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
         "coverage": 4
       },
       {
         "name": "a gap in the stomach armor",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "coverage": 2
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
       },
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
-      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": 1.1,
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          {
+            "effect": "stun",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": 10
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": 1.25,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": 25
+          }
+        ]
+      },
+      {
+        "name": "the neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 1
+      }
     ],
     "vision_day": 50,
     "vision_night": 3,
