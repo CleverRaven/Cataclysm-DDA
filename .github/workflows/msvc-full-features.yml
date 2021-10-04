@@ -15,9 +15,8 @@ on:
     - 'msvc-object_creator/**'
     - 'object_creator/**'
     - 'tools/**'
+    - '!tools/format/**'
     - 'utilities/**'
-    - 'data/**'
-    - 'tests/**'
   pull_request:
     branches:
     - master
@@ -32,9 +31,8 @@ on:
     - 'msvc-object_creator/**'
     - 'object_creator/**'
     - 'tools/**'
+    - '!tools/format/**'
     - 'utilities/**'
-    - 'data/**'
-    - 'tests/**'
 
 env:
   # There's not enough disk space to build both release and debug versions of
@@ -61,7 +59,7 @@ jobs:
       id: runvcpkg
       with:
         additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}
+        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
         setupOnly: true
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         # We have to use at least this version of vcpkg to include fixes for yasm-tool's
@@ -77,7 +75,7 @@ jobs:
     - name: Build
       run: |
           cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 -target:Cataclysm-vcpkg-static Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" Cataclysm-vcpkg-static.sln
 
     - name: Dump logs if build failed
       if: failure()
@@ -95,6 +93,16 @@ jobs:
               type $_.FullName
             }
         }
+
+    - name: Compile .mo files for localization
+      run: |
+          & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
+          mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
+          msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
+
+    - name: Run tests
+      run: |
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
 
     - name: Clean
       run: |

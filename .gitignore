@@ -101,6 +101,9 @@ tags
 # Compiled binary translations
 /lang/mo/
 
+# Stampfile for binary translations
+/lang/mo_built.stamp
+
 # Directory for translatable strings
 /lang/json/*
 !/lang/json/README

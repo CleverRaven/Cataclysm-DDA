@@ -911,14 +911,23 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
     }
     const recipe &making = craft.get_making();
 
+    struct learn_subject {
+        proficiency_id proficiency;
+        float time_multiplier;
+        cata::optional<time_duration> max_experience;
+    };
+
     // The proficiency, and the multiplier on the time we learn it for
-    std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
+    std::vector<learn_subject> subjects;
     for( const recipe_proficiency &prof : making.proficiencies ) {
         if( !_proficiencies->has_learned( prof.id ) &&
             prof.id->can_learn() &&
             _proficiencies->has_prereqs( prof.id ) ) {
-            std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
-                    prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
+            learn_subject subject{
+                prof.id,
+                prof.learning_time_mult / prof.time_multiplier,
+                prof.max_experience
+            };
             subjects.push_back( subject );
         }
     }
@@ -929,20 +938,20 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     int npc_helper_bonus = 1;
     for( npc *helper : get_crafting_helpers() ) {
-        for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-            if( helper->has_proficiency( std::get<0>( subject ) ) ) {
+        for( const learn_subject &subject : subjects ) {
+            if( helper->has_proficiency( subject.proficiency ) ) {
                 // NPCs who know the proficiency and help teach you faster
                 npc_helper_bonus = 2;
             }
-            helper->practice_proficiency( std::get<0>( subject ), std::get<1>( subject ) * learn_time,
-                                          std::get<2>( subject ) );
+            helper->practice_proficiency( subject.proficiency, subject.time_multiplier * learn_time,
+                                          subject.max_experience );
         }
     }
 
     bool gained_prof = false;
-    for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-        gained_prof |= practice_proficiency( std::get<0>( subject ),
-                                             learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
+    for( const learn_subject &subject : subjects ) {
+        gained_prof |= practice_proficiency( subject.proficiency,
+                                             learn_time * subject.time_multiplier * npc_helper_bonus, subject.max_experience );
     }
     return gained_prof;
 }
@@ -2030,7 +2039,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::num_usages_from:
                     break;
             }
-        } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
+        } else if( ( type != itype_id::NULL_ID() ) && !has_amount( type, 1 ) &&
+                   !map_inv.has_tools( type, 1 ) ) {
             add_msg_player_or_npc(
                 _( "You no longer have a %s and can't continue crafting" ),
                 _( "<npcname> no longer has a %s and can't continue crafting" ),
@@ -2121,8 +2131,8 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
-                const char *msg = ngettext( "You need at least %d charge of %s.",
-                                            "You need at least %d charges of %s.", qty );
+                const char *msg = n_gettext( "You need at least %d charge of %s.",
+                                             "You need at least %d charges of %s.", qty );
                 return ret_val<bool>::make_failure( msg, qty, obj.tname() );
             }
         }
@@ -2152,7 +2162,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
                                                     item::nname( tool_required.type ) );
             } else {
                 //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
+                return ret_val<bool>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
                                                     "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );

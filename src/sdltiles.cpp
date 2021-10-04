@@ -54,6 +54,7 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "map_extras.h"
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
@@ -100,6 +101,7 @@
 //Globals                           *
 //***********************************
 
+static tileset_cache ts_cache;
 std::unique_ptr<cata_tiles> tilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
@@ -546,11 +548,10 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
@@ -899,6 +900,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             std::string id;
             int rotation = 0;
             int subtile = -1;
+            string_id<map_extra> mx;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
@@ -912,12 +914,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 id = "unknown_terrain";
             } else {
                 id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+                mx = overmap_buffer.extra( omp );
             }
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
+            draw_from_id_string( id, TILE_CATEGORY::OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
                                  subtile, rotation, ll, false, height_3d );
+            if( !mx.is_empty() && mx->autonote ) {
+                draw_from_id_string( mx.str(), TILE_CATEGORY::MAP_EXTRA, "map_extra", omp.raw(),
+                                     0, 0, ll, false );
+            }
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
@@ -975,11 +982,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
-                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE, "" ) ) {
-                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE, "" ) ) {
+                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 } else {
-                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
+                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
@@ -993,7 +1000,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
                 std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
-                draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
+                draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
                                      omp.raw(), 0, 0, lit_level::LIT, false );
             }
         }
@@ -1021,7 +1028,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 int subtile;
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
-                draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
+                draw_from_id_string( id, TILE_CATEGORY::OVERMAP_TERRAIN, "overmap_terrain",
                                      global_omt_to_draw_position( center_abs_omt + rp ), 0,
                                      rotation, lit_level::LOW, true );
             }
@@ -3569,7 +3576,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
@@ -3583,7 +3590,7 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
-    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
@@ -3645,6 +3652,7 @@ void load_tileset()
 void catacurses::endwin()
 {
     tilecontext.reset();
+    overmap_tilecontext.reset();
     font.reset();
     map_font.reset();
     overmap_font.reset();

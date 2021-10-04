@@ -48,8 +48,8 @@
     "entries": [
       { "item": "null", "prob": 60 },
       { "item": "jacket_army", "prob": 40 },
-      { "item": "modularveststeel", "prob": 10 },
-      { "item": "modularvestceramic", "prob": 40 },
+      { "item": "ballistic_vest_esapi", "prob": 10 },
+      { "item": "tacvest", "prob": 40 },
       { "item": "kevlar", "prob": 20 },
       { "item": "chestrig", "prob": 30 }
     ]

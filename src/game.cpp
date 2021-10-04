@@ -209,10 +209,7 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -223,7 +220,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
-static const efftype_id effect_fungus( "fungus" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -649,6 +645,8 @@ void game::setup()
     effect_on_conditions::clear( u );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
     // back to menu for save loading, new game etc
 }
 
@@ -784,17 +782,6 @@ bool game::start_game()
     u.drench_mut_calc();
     if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
-    }
-    if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, get_player_character().random_body_part(), true );
-    }
-    if( scen->has_flag( "FUNGAL_INFECTION" ) ) {
-        u.add_effect( effect_fungus, 1_turns, get_player_character().random_body_part(), true );
-    }
-    if( scen->has_flag( "BAD_DAY" ) ) {
-        u.add_effect( effect_flu, 1000_minutes );
-        u.add_effect( effect_drunk, 270_minutes );
-        u.add_morale( MORALE_FEELING_BAD, -100, -100, 50_minutes, 50_minutes );
     }
     if( scen->has_flag( "HELI_CRASH" ) ) {
         start_loc.handle_heli_crash( u );
@@ -1489,7 +1476,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
     if( it.is_container() ) {
         hint_rating best_rate = hint_rating::cant;
         it.visit_items( [&you, &best_rate]( item * node, item * ) {
-            if( you.can_consume( *node ) )  {
+            if( you.can_consume_as_is( *node ) )  {
                 ret_val<edible_rating> rate = you.will_eat( *node );
                 if( rate.success() ) {
                     best_rate = hint_rating::good;
@@ -1503,7 +1490,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
         return best_rate;
     }
 
-    if( !you.can_consume( it ) ) {
+    if( !you.can_consume_as_is( it ) ) {
         return hint_rating::cant;
     }
 
@@ -2325,6 +2312,10 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
+        effect_on_conditions::avatar_death();
+        if( !u.is_dead_state() ) {
+            return false;
+        }
         Messages::deactivate();
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
@@ -3778,6 +3769,8 @@ void game::mon_info_update( )
                 case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
+                case direction::last:
+                    cata_fatal( "invalid direction" );
             }
         }
 
@@ -4095,9 +4088,9 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     } else if( u.pos() == tp ) {
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
-            add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                      "You were stunned for %d turns!",
-                                      stun ),
+            add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                       "You were stunned for %d turns!",
+                                       stun ),
                      stun );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
@@ -4106,14 +4099,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
-                                                  "You were stunned AGAIN for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned AGAIN for %d turn!",
+                                                   "You were stunned AGAIN for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                                  "You were stunned for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                                   "You were stunned for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4139,14 +4132,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
-                                                  "You were stunned AGAIN for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned AGAIN for %d turn!",
+                                                   "You were stunned AGAIN for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
-                                                  "You were stunned for %d turns!",
-                                                  force_remaining ),
+                        add_msg( m_bad, n_gettext( "You were stunned for %d turn!",
+                                                   "You were stunned for %d turns!",
+                                                   force_remaining ),
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4948,11 +4941,15 @@ bool game::npc_menu( npc &who )
         if( !prompt_dangerous_tile( who.pos() ) ) {
             return true;
         }
-        // TODO: Make NPCs protest when displaced onto dangerous crap
-        add_msg( _( "You swap places with %s." ), who.get_name() );
-        swap_critters( u, who );
-        // TODO: Make that depend on stuff
-        u.mod_moves( -200 );
+        if( u.get_grab_type() == object_type::NONE ) {
+            // TODO: Make NPCs protest when displaced onto dangerous crap
+            add_msg( _( "You swap places with %s." ), who.get_name() );
+            swap_critters( u, who );
+            // TODO: Make that depend on stuff
+            u.mod_moves( -200 );
+        } else {
+            add_msg( _( "You cannot swap places while grabbing something." ) );
+        }
     } else if( choice == push ) {
         // TODO: Make NPCs protest when displaced onto dangerous crap
         tripoint oldpos = who.pos();
@@ -6712,6 +6709,18 @@ void game::zoom_out()
 #endif
 }
 
+void game::zoom_out_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        overmap_tileset_zoom /= 2;
+    } else {
+        overmap_tileset_zoom = 64;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+#endif
+}
+
 void game::zoom_in()
 {
 #if defined(TILES)
@@ -6721,6 +6730,18 @@ void game::zoom_in()
         tileset_zoom = tileset_zoom * 2;
     }
     rescale_tileset( tileset_zoom );
+#endif
+}
+
+void game::zoom_in_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom == 64 ) {
+        overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    } else {
+        overmap_tileset_zoom *= 2;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
 
@@ -9244,8 +9265,9 @@ point game::place_player( const tripoint &dest_loc )
     }
     // Move the player
     // Start with z-level, to make it less likely that old functions (2D ones) freak out
+    bool z_level_changed = false;
     if( dest_loc.z != m.get_abs_sub().z ) {
-        vertical_shift( dest_loc.z );
+        z_level_changed = vertical_shift( dest_loc.z );
     }
 
     if( u.is_hauling() && ( !m.can_put_items( dest_loc ) ||
@@ -9260,7 +9282,7 @@ point game::place_player( const tripoint &dest_loc )
         mon->process_triggers();
         m.creature_in_field( *mon );
     }
-    point submap_shift = update_map( u );
+    point submap_shift = update_map( u, z_level_changed );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
     // If you must use it you can calculate the position in the new, shifted system with
@@ -9296,7 +9318,7 @@ point game::place_player( const tripoint &dest_loc )
             };
 
             for( const direction &elem : adjacentDir ) {
-                forage( u.pos() + direction_XY( elem ) );
+                forage( u.pos() + displace_XY( elem ) );
             }
         }
 
@@ -9339,7 +9361,7 @@ point game::place_player( const tripoint &dest_loc )
 
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos() + direction_XY( elem ) );
+                    pulp( u.pos() + displace_XY( elem ) );
                 }
             } else {
                 pulp( u.pos() );
@@ -9425,7 +9447,7 @@ point game::place_player( const tripoint &dest_loc )
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
                     //~ number of items: "<number> <item>"
-                    std::string fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    std::string fmt = n_gettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i] );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -9439,9 +9461,9 @@ point game::place_player( const tripoint &dest_loc )
                 } else if( names.size() == 3 ) {
                     add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
                 } else if( and_the_rest < 7 ) {
-                    add_msg( ngettext( "You see here %s, %s and %d more item.",
-                                       "You see here %s, %s and %d more items.",
-                                       and_the_rest ),
+                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                        "You see here %s, %s and %d more items.",
+                                        and_the_rest ),
                              names[0], names[1], and_the_rest );
                 } else {
                     add_msg( _( "You see here %s and many more items." ), names[0] );
@@ -10308,9 +10330,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     const tripoint old_pos = u.pos();
     const tripoint old_abs_pos = here.getabs( old_pos );
     point submap_shift;
-    vertical_shift( z_after );
+    const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x, stairs.y );
+        submap_shift = update_map( stairs.x, stairs.y, z_level_changed );
     }
 
     // if an NPC or monster is on the stiars when player ascends/descends
@@ -10574,12 +10596,12 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     return stairs;
 }
 
-void game::vertical_shift( const int z_after )
+bool game::vertical_shift( const int z_after )
 {
     if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to get z-level %d outside allowed range of %d-%d",
                   z_after, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-        return;
+        return false;
     }
 
     // TODO: Implement dragging stuff up/down
@@ -10593,6 +10615,8 @@ void game::vertical_shift( const int z_after )
     m.vertical_shift( z_after );
 
     vertical_notes( z_before, z_after );
+
+    return z_before != z_after;
 }
 
 void game::vertical_notes( int z_before, int z_after )
@@ -10635,13 +10659,13 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-point game::update_map( Character &p )
+point game::update_map( Character &p, bool z_level_changed )
 {
     point p2( p.posx(), p.posy() );
-    return update_map( p2.x, p2.y );
+    return update_map( p2.x, p2.y, z_level_changed );
 }
 
-point game::update_map( int &x, int &y )
+point game::update_map( int &x, int &y, bool z_level_changed )
 {
     point shift;
 
@@ -10665,10 +10689,11 @@ point game::update_map( int &x, int &y )
     if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, m.get_abs_sub().z ) );
-        // Update what parts of the world map we can see
-        // We need this call because even if the map hasn't shifted we may have changed z-level and can now see farther
-        // TODO: only make this call if we changed z-level
-        update_overmap_seen();
+        if( z_level_changed ) {
+            // Update what parts of the world map we can see
+            // We may be able to see farther now that the z-level has changed.
+            update_overmap_seen();
+        }
         // Not actually shifting the submaps, all the stuff below would do nothing
         return point_zero;
     }
@@ -11453,4 +11478,9 @@ timed_event_manager &get_timed_events()
 weather_manager &get_weather()
 {
     return g->weather;
+}
+
+global_variables &get_globals()
+{
+    return g->global_variables_instance;
 }

@@ -575,6 +575,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_CLOTH",
+    "category": "SORT_ARMOR",
+    "name": "Toggle armor visibility on character sprite",
+    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ASSIGN_INVLETS",
     "category": "SORT_ARMOR",
     "name": "Assign invlets to armor",
@@ -2739,6 +2746,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_SPRITE",
+    "category": "MUTATIONS",
+    "name": "Toggle sprite",
+    "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UP",
     "category": "MUTATIONS",
     "name": "Pan up",
@@ -3346,6 +3360,40 @@
       { "input_method": "keyboard_char", "key": "N" },
       { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "n" },
+      { "input_method": "keyboard_any", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FRIENDS",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "With friends",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "f" },
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "f" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ME",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "Just me",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "m" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CANCEL",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "Cancel",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_any", "key": "ESC" }
     ]
   },

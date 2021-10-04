@@ -5,6 +5,28 @@
 #include "monfaction.h"
 #include "type_id.h"
 
+static std::string att_enum_to_string( mf_attitude att )
+{
+    switch( att ) {
+        case MFA_BY_MOOD:
+            return "MFA_BY_MOOD";
+        case MFA_NEUTRAL:
+            return "MFA_NEUTRAL";
+        case MFA_FRIENDLY:
+            return "MFA_FRIENDLY";
+        case MFA_HATE:
+            return "MFA_HATE";
+        case MFA_SIZE:
+            return "MFA_SIZE";
+        default:
+            break;
+    }
+
+    printf( "Unknown monster faction attitude %d\n", static_cast<int>( att ) );
+    return "?";
+}
+
+
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
@@ -16,46 +38,48 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
             mf_attitude rev_att = f1.attitude( f.id );
             // NOLINTNEXTLINE(cata-text-style)
             outfile << f.id.str() << "->" << f1.id.str() << ":\t";
-            switch( att ) {
-                case MFA_BY_MOOD:
-                    outfile << "MFA_BY_MOOD";
-                    break;
-                case MFA_NEUTRAL:
-                    outfile << "MFA_NEUTRAL";
-                    break;
-                case MFA_FRIENDLY:
-                    outfile << "MFA_FRIENDLY";
-                    break;
-                case MFA_HATE:
-                    outfile << "MFA_HATE";
-                    break;
-                case MFA_SIZE:
-                    outfile << "MFA_SIZE";
-                    break;
-            }
+            outfile << att_enum_to_string( att );
             // NOLINTNEXTLINE(cata-text-style)
             outfile << "\t(Rev: ";
-            switch( rev_att ) {
-                case MFA_BY_MOOD:
-                    outfile << "MFA_BY_MOOD";
-                    break;
-                case MFA_NEUTRAL:
-                    outfile << "MFA_NEUTRAL";
-                    break;
-                case MFA_FRIENDLY:
-                    outfile << "MFA_FRIENDLY";
-                    break;
-                case MFA_HATE:
-                    outfile << "MFA_HATE";
-                    break;
-                case MFA_SIZE:
-                    outfile << "MFA_SIZE";
-                    break;
-            }
+            outfile << att_enum_to_string( rev_att );
             outfile << ")\n";
         }
     }
 }
+
+TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
+{
+    for( const auto &f : monfactions::get_all() ) {
+        SECTION( f.id.str() ) {
+            for( const auto &f1 : monfactions::get_all() ) {
+                mf_attitude att = f.attitude( f1.id );
+                mf_attitude rev_att = f1.attitude( f.id );
+
+                INFO( f1.id.str() );
+                REQUIRE( att != MFA_SIZE );
+                REQUIRE( rev_att != MFA_SIZE );
+
+                if( att == MFA_FRIENDLY || att == MFA_NEUTRAL ) {
+                    CHECK_FALSE( rev_att == MFA_BY_MOOD );
+                    CHECK_FALSE( rev_att == MFA_HATE );
+
+                    if( ( rev_att != MFA_FRIENDLY ) && ( rev_att != MFA_NEUTRAL ) ) {
+                        std::string att_str = att_enum_to_string( att );
+                        std::string rev_att_str = att_enum_to_string( rev_att );
+                        printf( "\n%s has an attitude of %s to %s, but %s has an attitude of %s to %s."
+                                "\nEither %s should not be FRIENDLY/NEUTRAL to %s, or"
+                                "\n%s should be FRIENDLY/NEUTRAL to %s\n\n",
+                                f.id.c_str(), att_str.c_str(), f1.id.c_str(), f1.id.c_str(), rev_att_str.c_str(), f.id.c_str(),
+                                f.id.c_str(), f1.id.c_str(), f1.id.c_str(), f.id.c_str() );
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
 TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 {

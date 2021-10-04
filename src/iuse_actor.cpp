@@ -333,7 +333,8 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+    return ret_val<bool>::make_failure( n_gettext( "You need a tool with %s.",
+                                        "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
 
@@ -954,8 +955,8 @@ cata::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const
             ammo_item.charges = std::min( available, amdef.second );
             p.use_charges( amdef.first, ammo_item.charges );
             //~ First %s is the ammo item (with plural form and count included), second is the monster name
-            p.add_msg_if_player( ngettext( "You load %1$d x %2$s round into the %3$s.",
-                                           "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
+            p.add_msg_if_player( n_gettext( "You load %1$d x %2$s round into the %3$s.",
+                                            "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
                                  newmon.name() );
             amdef.second = ammo_item.charges;
@@ -1677,7 +1678,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
                 result.charges = amount;
                 amount = 1;
             }
-            add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+            add_msg( m_good, n_gettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
                 result.set_flag( flag_FILTHY );
@@ -4702,10 +4703,10 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
     item_location loc( *( p.as_character() ), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
-        if( eoc->activate_only ) {
+        if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Cannot use a recurring effect_on_condition in an item.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
+            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
     }
     return it.type->charges_to_use();

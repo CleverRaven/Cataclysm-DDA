@@ -166,6 +166,7 @@ class player_activity
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
         bool is_interruptible() const;
+        bool is_interruptible_with_kb() const;
         bool is_distraction_ignored( distraction_type ) const;
         void ignore_distraction( distraction_type );
         void allow_distractions();

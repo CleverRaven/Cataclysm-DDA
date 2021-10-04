@@ -479,7 +479,7 @@ void rule::test_pattern() const
     ui.on_screen_resize( init_windows );
 
     int nmatch = vMatchingItems.size();
-    const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
+    const std::string buf = string_format( n_gettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
 

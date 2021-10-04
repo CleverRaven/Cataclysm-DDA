@@ -287,14 +287,14 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-        const tripoint pt = pos() + direction_XY( pt_dir );
+        const tripoint pt = pos() + displace_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
-            candidates.emplace_back( pos() + direction_XY( pt_dir ) );
+            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
         } else if( cur_rating < best_rating ) {
             candidates.clear();
-            candidates.emplace_back( pos() + direction_XY( pt_dir ) );
+            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
             best_rating = cur_rating;
         }
     }
@@ -3175,7 +3175,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     }
     // Finally, describe the action if u can see it
     if( num_items_dropped >= 3 ) {
-        add_msg_if_player_sees( *this, ngettext( "%s drops %d item.", "%s drops %d items.",
+        add_msg_if_player_sees( *this, n_gettext( "%s drops %d item.", "%s drops %d items.",
                                 num_items_dropped ), get_name(),
                                 num_items_dropped );
     } else {

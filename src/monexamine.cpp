@@ -381,6 +381,7 @@ void remove_leash( monster &z )
     if( !z.has_effect( effect_leashed ) ) {
         return;
     }
+    z.remove_effect( effect_led_by_leash );
     z.remove_effect( effect_leashed );
     if( z.tied_item ) {
         get_player_character().i_add( *z.tied_item );
@@ -570,7 +571,8 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
-        attack
+        attack,
+        talk_to
     };
 
     uilist amenu;
@@ -582,9 +584,9 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
         if( z.has_effect( effect_led_by_leash ) ) {
-            amenu.addentry( stop_lead, true, 'p', _( "Stop leading %s" ), pet_name );
+            amenu.addentry( stop_lead, true, 'l', _( "Stop leading %s" ), pet_name );
         } else {
-            amenu.addentry( lead, true, 'p', _( "Lead %s by the leash" ), pet_name );
+            amenu.addentry( lead, true, 'l', _( "Lead %s by the leash" ), pet_name );
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
@@ -612,7 +614,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
         amenu.addentry( tie, true, 't', _( "Tie" ) );
-        amenu.addentry( unleash, true, 't', _( "Remove leash from %s" ), pet_name );
+        amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
@@ -663,6 +665,9 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
+    }
+    if( !z.type->chat_topics.empty() ) {
+        amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
     }
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_flag( MF_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
@@ -791,6 +796,9 @@ bool monexamine::pet_menu( monster &z )
                 get_player_character().melee_attack( z, true );
             }
             break;
+        case talk_to:
+            get_avatar().talk_to( get_talker_for( z ) );
+            break;
         default:
             break;
     }
@@ -852,8 +860,8 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
-                                   "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
+                         n_gettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
                 player_character.use_charges( itype_cash_card, amount * 10 );

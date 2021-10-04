@@ -1247,14 +1247,11 @@ different directions (and it is indeed the primary intended usage).
 
 ### Flags
 
-- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
 - ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
-- ```INFECTED``` Player starts the game infected.
-- ```FUNGAL_INFECTION``` Player starts the game with a fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
 
 #### Profession Flags

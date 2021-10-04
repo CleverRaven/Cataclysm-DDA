@@ -118,6 +118,7 @@ static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
+static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -135,6 +136,7 @@ static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SORES( "SORES" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -703,7 +705,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                you.add_msg_if_player( m_info, ngettext( "You use your inhaler; "
+                you.add_msg_if_player( m_info, n_gettext( "You use your inhaler; "
                                        "only %d charge left.",
                                        "You use your inhaler; "
                                        "only %d charges left.", charges ),
@@ -718,7 +720,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
                                                  "from the tank." ) );
             } else {
-                you.add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                you.add_msg_if_player( m_info, n_gettext( "You take a deep breath from your oxygen "
                                        "tank; only %d charge left.",
                                        "You take a deep breath from your oxygen "
                                        "tank; only %d charges left.", charges ),
@@ -919,15 +921,15 @@ void suffer::from_sunburn( Character &you )
     if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
-        message = ngettext( "The sunlight is really irritating your %s.",
-                            "The sunlight is really irritating your %s.",
-                            affected_bodyparts.size() );
+        message = n_gettext( "The sunlight is really irritating your %s.",
+                             "The sunlight is really irritating your %s.",
+                             affected_bodyparts.size() );
     } else if( you.has_trait( trait_SUNBURN ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
-        message = ngettext( "The sunlight burns your %s.",
-                            "The sunlight burns your %s.",
-                            affected_bodyparts.size() );
+        message = n_gettext( "The sunlight burns your %s.",
+                             "The sunlight burns your %s.",
+                             affected_bodyparts.size() );
     }
     you.add_msg_if_player( m_bad, message, all_parts_list );
 
@@ -1025,6 +1027,11 @@ void suffer::from_other_mutations( Character &you )
 
     }
 
+    if( you.has_active_mutation( trait_SNAIL_TRAIL ) && !you.in_vehicle ) {
+        here.add_field( position, fd_sludge, 1 );
+
+    }
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if( you.has_trait( trait_PER_SLIME ) ) {
@@ -1047,6 +1054,10 @@ void suffer::from_other_mutations( Character &you )
     if( you.has_trait( trait_WEB_SPINNER ) && !you.in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
         here.add_field( position, fd_web, 1 );
+    }
+
+    if( you.has_trait( trait_MUCUS_SECRETION ) && !you.in_vehicle && one_in( 2033 ) ) {
+        here.add_field( position, fd_sludge, 1 );
     }
 
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&

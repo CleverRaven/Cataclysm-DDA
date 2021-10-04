@@ -10,6 +10,7 @@
       { "monster": "mon_zallosaurus", "freq": 80, "cost_multiplier": 60, "starts": 144 },
       { "monster": "mon_zacrocanthosaurus", "freq": 80, "cost_multiplier": 60, "starts": 144 },
       { "monster": "mon_ziats", "freq": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zorgosaurus", "freq": 40, "cost_multiplier": 70, "starts": 72 },
       { "monster": "mon_zalbertosaurus", "freq": 40, "cost_multiplier": 70, "starts": 72 },
       { "monster": "mon_zianzhousaurus", "freq": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] },
       { "monster": "mon_zyrannosaurus", "freq": 80, "cost_multiplier": 80, "starts": 144 },
@@ -98,6 +99,16 @@
     "monsters": [
       { "monster": "mon_skiats", "freq": 600, "cost_multiplier": 5 },
       { "monster": "mon_ziats_brute", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zorgosaurus_UPGRADE",
+    "default": "mon_sorgosaurus",
+    "monsters": [
+      { "monster": "mon_sorgosaurus", "freq": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zorgosaurus_shady", "freq": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zorgosaurus_brute", "freq": 300, "cost_multiplier": 5 }
     ]
   },
   {
@@ -402,6 +413,7 @@
       { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 20, "starts": 72 },
       { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 60, "starts": 72 },
       { "monster": "mon_zallosaurus", "freq": 1, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zorgosaurus", "freq": 1, "cost_multiplier": 70, "starts": 72 },
       { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 70, "starts": 72 },
       { "monster": "mon_zallimimus", "freq": 1, "cost_multiplier": 10, "starts": 72 },
       { "monster": "mon_zeinonychus", "freq": 1, "cost_multiplier": 30, "starts": 72 },

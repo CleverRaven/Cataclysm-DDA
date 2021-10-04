@@ -312,6 +312,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jumpsuit", "prob": 40 },
+      { "item": "officer_uniform", "prob": 20 },
+      { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "jacket_army", "prob": 70 },
       { "item": "socks", "prob": 40 },
@@ -440,6 +442,7 @@
     "entries": [
       { "item": "mil_mess_kit", "prob": 10, "count": 32 },
       { "item": "voltmeter", "prob": 10, "count": 32 },
+      { "item": "multimeter", "prob": 10, "count": 32 },
       { "item": "drivebelt", "prob": 10, "count": 64 },
       { "item": "grapnel", "prob": 10, "count": 32 },
       { "item": "string_floss", "prob": 5, "count": 128 },
@@ -536,6 +539,8 @@
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "jumpsuit", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
+      { "item": "officer_uniform", "prob": 5 },
+      { "item": "combo_cover", "prob": 5 },
       { "item": "ballistic_vest_esapi", "prob": 40 },
       { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },

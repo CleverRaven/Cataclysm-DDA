@@ -36,6 +36,9 @@ struct level_cache {
         // This is only valid for the duration of generate_lightmap
         float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
 
+        // Cache of natural light level is useful if it needs to be in sync with the light cache.
+        float natural_light_level_cache;
+
         // if false, means tile is under the roof ("inside"), true means tile is "outside"
         // "inside" tiles are protected from sun, rain, etc. (see ter_furn_flag::TFLAG_INDOORS flag)
         bool outside_cache[MAPSIZE_X][MAPSIZE_Y];

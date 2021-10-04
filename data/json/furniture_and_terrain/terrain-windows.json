@@ -99,6 +99,17 @@
         { "item": "string_36", "count": 1 }
       ]
     },
+    "prying": {
+      "result": "t_window_open",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
     "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
   {
@@ -133,6 +144,17 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    },
+    "prying": {
+      "result": "t_window_no_curtains_open",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
     },
     "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
@@ -331,6 +353,17 @@
         { "item": "string_36", "count": 1 }
       ]
     },
+    "prying": {
+      "result": "t_window_open",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
     "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
   {
@@ -470,6 +503,13 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
     },
+    "prying": {
+      "result": "t_window_frame",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the window.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 10, 40 ] }
   },
   {
@@ -497,6 +537,13 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] } ]
+    },
+    "prying": {
+      "result": "t_window_empty",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the window frame.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 9, 21 ], "reduce_damage_laser": [ 5, 16 ], "destroy_damage": [ 10, 40 ] }
   },
@@ -896,7 +943,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window",
-    "name": "Window with metal grate",
+    "name": "window with metal grate",
     "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
@@ -942,7 +989,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain",
-    "name": "Window with metal grate",
+    "name": "window with metal grate",
     "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
     "looks_like": "t_window_bars_curtains",
     "symbol": "#",
@@ -981,7 +1028,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_open",
-    "name": "Window with metal grate",
+    "name": "window with metal grate",
     "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
     "looks_like": "t_window_bars_domestic",
     "symbol": "#",
@@ -1029,7 +1076,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
-    "name": "Window with metal grate",
+    "name": "window with metal grate",
     "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
@@ -1066,7 +1113,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_noglass",
-    "name": "Window with metal grate",
+    "name": "window with metal grate",
     "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
     "looks_like": "t_window_bars_curtains",
     "symbol": "#",
@@ -1105,7 +1152,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_open_noglass",
-    "name": "Window with metal grate",
+    "name": "window with metal grate",
     "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
     "looks_like": "t_window_bars_domestic",
     "symbol": "#",
@@ -1155,7 +1202,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass",
-    "name": "Single glazed glass window",
+    "name": "single glazed glass window",
     "description": "A giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -1194,7 +1241,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_open",
-    "name": "Single glazed glass window open",
+    "name": "open single glazed glass window",
     "description": "A giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1235,7 +1282,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain",
-    "name": "Single glazed glass window with a curtain",
+    "name": "single glazed glass window with a curtain",
     "description": "A glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1271,7 +1318,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain_open_window_closed",
-    "name": "Single glazed glass window with a curtain",
+    "name": "single glazed glass window with a curtain",
     "description": "A glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -1317,7 +1364,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain_open",
-    "name": "Single glazed glass window with a curtain",
+    "name": "single glazed glass window with a curtain",
     "description": "A glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -1365,7 +1412,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass",
-    "name": "Reinforced single glazed glass window",
+    "name": "reinforced single glazed glass window",
     "description": "A giant sheet of reinforced glass inserted into a glazed window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -1405,7 +1452,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_open",
-    "name": "Reinforced single glazed glass window open",
+    "name": "open reinforced single glazed glass window",
     "description": "A giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1446,7 +1493,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain",
-    "name": "Reinforced single glazed glass window with a curtain",
+    "name": "reinforced single glazed glass window with a curtain",
     "description": "A window with fancy curtains on the inside that is drawn closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1538,7 +1585,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain_open",
-    "name": "Reinforced single glazed glass window with a curtain",
+    "name": "reinforced single glazed glass window with a curtain",
     "description": "A reinforced window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -1586,7 +1633,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass",
-    "name": "Double glazed glass window",
+    "name": "double glazed glass window",
     "description": "Two giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -1633,7 +1680,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_open",
-    "name": "Double glazed glass window open",
+    "name": "open double glazed glass window",
     "description": "Two giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1681,7 +1728,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain",
-    "name": "Double glazed glass window with a curtain",
+    "name": "double glazed glass window with a curtain",
     "description": "A double glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1728,7 +1775,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain_open_window_closed",
-    "name": "Double glazed glass window with a curtain",
+    "name": "double glazed glass window with a curtain",
     "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -1777,7 +1824,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain_open",
-    "name": "Double glazed glass window with a curtain",
+    "name": "double glazed glass window with a curtain",
     "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -1827,7 +1874,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass",
-    "name": "Reinforced double glazed glass window",
+    "name": "reinforced double glazed glass window",
     "description": "A reinforced, double-glazed window inserted into a frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -1870,7 +1917,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_open",
-    "name": "Reinforced double glazed glass window open",
+    "name": "open reinforced double glazed glass window",
     "description": "A double glazed window with a giant sheet of reinforced glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1914,7 +1961,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain",
-    "name": "Reinforced double glazed glass window with a curtain",
+    "name": "reinforced double glazed glass window with a curtain",
     "description": "A double glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1960,7 +2007,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
-    "name": "Reinforced double glazed glass window with a curtain",
+    "name": "reinforced double glazed glass window with a curtain",
     "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2010,7 +2057,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain_open",
-    "name": "Reinforced double glazed glass window with a curtain",
+    "name": "reinforced double glazed glass window with a curtain",
     "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2059,7 +2106,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass",
-    "name": "Triple glazed glass window",
+    "name": "triple glazed glass window",
     "description": "Three giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2099,7 +2146,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_open",
-    "name": "Triple glazed glass window",
+    "name": "triple glazed glass window",
     "description": "A triple glazed giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2140,7 +2187,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain",
-    "name": "Triple glazed glass window with a curtain",
+    "name": "triple glazed glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -2185,7 +2232,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open_window_closed",
-    "name": "Triple glazed glass window with a curtain",
+    "name": "triple glazed glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2232,7 +2279,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open",
-    "name": "Triple-pane glass window With a curtain",
+    "name": "triple glazed glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2280,7 +2327,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass",
-    "name": "Reinforced-triple pane glass window",
+    "name": "reinforced triple glazed glass window",
     "description": "Three glass sheets inserted as well as one reinforced glass sheet inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2328,7 +2375,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_open",
-    "name": "Reinforced-triple pane glass window",
+    "name": "reinforced triple glazed glass window",
     "description": "Three glass sheets inserted as well as one giant sheet of reinforced glass sheet inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2377,7 +2424,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain",
-    "name": "Reinforced triple glazed glass window with a curtain",
+    "name": "reinforced triple glazed glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -2425,7 +2472,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
-    "name": "Reinforced triple-pane glass window with a curtain",
+    "name": "reinforced triple glazed glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2475,7 +2522,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain_open",
-    "name": "Reinforced triple glazed glass window With a curtain",
+    "name": "reinforced triple glazed glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2525,7 +2572,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass",
-    "name": "Quadruple glazed glass window",
+    "name": "quadruple glazed glass window",
     "description": "Four giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2572,7 +2619,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_open",
-    "name": "Quadruple glazed glass window",
+    "name": "quadruple glazed glass window",
     "description": "An open quadruple glazed window.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2618,7 +2665,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain",
-    "name": "Quadruple glazed glass window with a curtain",
+    "name": "quadruple glazed glass window with a curtain",
     "description": "A quadruple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -2665,7 +2712,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain_open_window_closed",
-    "name": "Quadruple glazed glass window with a curtain",
+    "name": "quadruple glazed glass window with a curtain",
     "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2714,7 +2761,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain_open",
-    "name": "Quadruple glazed glass window With a curtain",
+    "name": "quadruple glazed glass window with a curtain",
     "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2764,7 +2811,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass",
-    "name": "Reinforced quadruple glazed glass window",
+    "name": "reinforced quadruple glazed glass window",
     "description": "Three large sheets of glass and 1 reinforced sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2812,7 +2859,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_open",
-    "name": "Reinforced quadruple glazed glass window",
+    "name": "reinforced quadruple glazed glass window",
     "description": "Three giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2909,7 +2956,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
-    "name": "Reinforced quadruple glazed glass window with a curtain",
+    "name": "reinforced quadruple glazed glass window with a curtain",
     "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2959,7 +3006,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_with_curtain_open",
-    "name": "Reinforced quadruple glazed glass window With a curtain",
+    "name": "reinforced quadruple glazed glass window with a curtain",
     "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3010,7 +3057,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window",
-    "name": "Plastic window",
+    "name": "plastic window",
     "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -3052,7 +3099,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_open",
-    "name": "Plastic window",
+    "name": "plastic window",
     "description": "An opened makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -3096,7 +3143,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain",
-    "name": "Plastic window with a curtain",
+    "name": "plastic window with a curtain",
     "description": "A makeshift window with a closed curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3134,7 +3181,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open_window_closed",
-    "name": "Plastic window with a curtain",
+    "name": "plastic window with a curtain",
     "description": "A makeshift window with a opened curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3182,7 +3229,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open",
-    "name": "Plastic window with open curtains",
+    "name": "plastic window with open curtains",
     "description": "An open makeshift window with open curtains.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3232,7 +3279,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window",
-    "name": "Reinforced plastic window",
+    "name": "reinforced plastic window",
     "description": "A makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -3279,7 +3326,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_open",
-    "name": "Reinforced Plastic window",
+    "name": "reinforced plastic window",
     "description": "An open makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -3327,7 +3374,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain",
-    "name": "Reinforced plastic window with a curtain",
+    "name": "reinforced plastic window with a curtain",
     "description": "A makeshift reinforced window with a closed curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3378,7 +3425,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open_window_closed",
-    "name": "Reinforced plastic window with an open curtain",
+    "name": "reinforced plastic window with an open curtain",
     "description": "A makeshift reinforced window with a opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3431,7 +3478,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open",
-    "name": "Reinforced plastic window with an open curtain",
+    "name": "reinforced plastic window with an open curtain",
     "description": "An open makeshift reinforced window with a opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3481,7 +3528,7 @@
   {
     "type": "terrain",
     "id": "t_skylight_frame",
-    "name": "Skylight frame",
+    "name": "skylight frame",
     "description": "A wooden skylight frame.",
     "looks_like": "t_window_empty",
     "symbol": "0",
@@ -3508,7 +3555,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_window",
-    "name": "Tempered glass window",
+    "name": "tempered glass window",
     "description": "A giant sheet of tempered glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -3555,7 +3602,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_open",
-    "name": "Tempered glass window open",
+    "name": "open tempered glass window",
     "description": "A giant sheet of tempered glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -3649,7 +3696,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain_open_window_closed",
-    "name": "Tempered glass window with a curtain",
+    "name": "tempered glass window with a curtain",
     "description": "A tempered window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3698,7 +3745,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain_open",
-    "name": "Tempered glass window with a curtain",
+    "name": "tempered glass window with a curtain",
     "description": "A tempered window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",

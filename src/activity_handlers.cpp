@@ -149,7 +149,6 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
-static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -191,7 +190,6 @@ static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
-static const itype_id itype_nail( "nail" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 
@@ -200,7 +198,6 @@ static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
@@ -264,7 +261,6 @@ activity_handlers::do_turn_functions = {
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
-    { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
@@ -299,6 +295,7 @@ activity_handlers::finish_functions = {
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_START_FIRE, start_fire_finish },
+    { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
@@ -325,7 +322,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
-    { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
@@ -1703,6 +1699,22 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
     }
 }
 
+// Repurposing the activity's index to convey the number of friends participating
+void activity_handlers::generic_game_finish( player_activity *act, Character *you )
+{
+    // Apply small bonus with diminishing returns for playing with friends
+    if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+        float mod = 1.f;
+        float acc = 0.4f;
+        for( int i = act->index; i > 0; i-- ) {
+            mod += acc;
+            acc *= acc;
+        }
+        you->add_morale( MORALE_GAME, 4 * mod );
+    }
+    act->set_to_null();
+}
+
 void activity_handlers::generic_game_do_turn( player_activity *act, Character *you )
 {
     generic_game_turn_handler( act, you, 4, 60 );
@@ -1874,10 +1886,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    you->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
-                                          "The corpses are thoroughly pulped.", num_corpses ),
-                                ngettext( "<npcname> finished pulping the corpse.",
-                                          "<npcname> finished pulping the corpses.", num_corpses ) );
+    you->add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
+                                           "The corpses are thoroughly pulped.", num_corpses ),
+                                n_gettext( "<npcname> finished pulping the corpse.",
+                                           "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
 void activity_handlers::pulp_finish( player_activity *act, Character *you )
@@ -2192,19 +2204,19 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
         //Some non-muscle engines tried to start
         if( non_muscle_attempted == non_muscle_started ) {
             //All of the non-muscle engines started
-            add_msg( ngettext( "The %s's engine starts up.",
-                               "The %s's engines start up.", non_muscle_started ), veh->name );
+            add_msg( n_gettext( "The %s's engine starts up.",
+                                "The %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_muscle_started > 0 ) {
             //Only some of the non-muscle engines started
-            add_msg( ngettext( "One of the %s's engines start up.",
-                               "Some of the %s's engines start up.", non_muscle_started ), veh->name );
+            add_msg( n_gettext( "One of the %s's engines start up.",
+                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_combustion_started > 0 ) {
             //Non-combustions "engines" started
             add_msg( _( "The %s is ready for movement." ), veh->name );
         } else {
             //All of the non-muscle engines failed
-            add_msg( m_bad, ngettext( "The %s's engine fails to start.",
-                                      "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
+            add_msg( m_bad, n_gettext( "The %s's engine fails to start.",
+                                       "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
         }
     }
 
@@ -2393,7 +2405,8 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
                                     attempt == repair_item_actor::AS_SUCCESS ||
                                     old_level != you->get_skill_level( actor->used_skill );
-        const bool can_refit = !destroyed && fix_location->has_flag( flag_VARSIZE ) &&
+        const bool can_refit = !destroyed && !cannot_continue_repair &&
+                               fix_location->has_flag( flag_VARSIZE ) &&
                                !fix_location->has_flag( flag_FIT );
 
         const bool need_input =
@@ -3368,62 +3381,6 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
 void activity_handlers::eat_menu_finish( player_activity *, Character * )
 {
     // Only exists to keep the eat activity alive between turns
-}
-
-void activity_handlers::pry_nails_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act->placement ) );
-}
-
-void activity_handlers::pry_nails_finish( player_activity *act, Character *you )
-{
-    const tripoint &pnt = act->placement;
-    map &here = get_map();
-    const ter_id type = here.ter( pnt );
-
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        you->add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        you->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        you->add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        you->add_msg_if_player( _( "You pry the boards from the door." ) );
-    }
-    you->practice( skill_fabrication, 1, 1 );
-    here.spawn_item( you->pos(), itype_nail, 0, nails );
-    here.spawn_item( you->pos(), itype_2x4, boards );
-    here.ter_set( pnt, newter );
-    act->set_to_null();
 }
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, Character * )

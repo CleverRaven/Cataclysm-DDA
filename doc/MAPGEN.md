@@ -994,6 +994,40 @@ an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
 
+### Spawn nested chunks based on overmap neighbors with "place_nested"
+
+Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors and the joins that were used in placing a mutable overmap special.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+
+| Field              | Description
+| ---                | ---
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
+| x and y            | (required, int) the cardinal position in which the chunk will be placed. 
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
+| joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
+
+
+The adjacent overmaps which can be checked in this manner are:
+* the direct cardinal neighbors ( `"north"`, `"east"`, `"south"`, `"west"` ),
+* the inter cardinal neighbors ( `"north_east"`, `"north_west"`, `"south_east"`, `"south_west"` ),
+* the direct vertical neighbors ( `"above"`, `"below"` ).
+
+Joins can be checked only for the cardinal directions, `"above"`, and `"below"`
+
+Example:
+
+```json
+  "place_nested": [
+    { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+  ],
+```
+The code excerpt above will place chunks as follows:
+* `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
+* `"gate_north"` if the join `"interior_to_exterior"` was used to the north
+  during mutable overmap placement.
+* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
+
 
 ## Mapgen values
 
