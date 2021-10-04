@@ -594,22 +594,6 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
 	},
-<<<<<<< Updated upstream
-    {
-    "result": "k_gambeson",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 8,
-    "time": "6 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 24 ] ] ]
-  },
-=======
    {
     "id": "k_gambeson",
     "type": "ARMOR",
@@ -629,7 +613,6 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
 	},
->>>>>>> Stashed changes
   {
     "id": "xl_gambeson",
     "type": "ARMOR",
@@ -639,21 +622,12 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
-<<<<<<< Updated upstream
-    "result": "xl_k_gambeson",
-    "type": "recipe",
-    "copy-from": "k_gambeson",
-    "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 57 ] ] ]
-=======
     "id": "xl_k_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL kevlar gambeson" },
     "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
->>>>>>> Stashed changes
   },
   {
     "id": "hazmat_suit",
