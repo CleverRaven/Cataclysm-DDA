@@ -2874,7 +2874,7 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
                 if( eoc->type == eoc_type::ACTIVATION ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
                 } else {
                     debugmsg( "Cannot queue a non activation effect_on_condition." );
                 }
