@@ -96,7 +96,7 @@
       { "group": "book_survival", "prob": 40 },
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "survivor_melee", "prob": 35, "damage": [ 1, 4 ] },
+      { "group": "survivor_bashing", "prob": 35, "damage": [ 1, 4 ] },
       { "group": "stash_food", "prob": 50 },
       { "group": "mil_food_nodrugs", "prob": 20 },
       { "group": "used_survival_kit", "prob": 100, "damage": [ 1, 4 ] }
@@ -116,7 +116,7 @@
       { "group": "book_survival", "prob": 40 },
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "survivor_melee", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "survivor_cutting", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "stash_food", "prob": 70 },
       { "group": "mil_food", "prob": 33 },
       { "group": "mil_food_nodrugs", "prob": 48 },
