@@ -159,15 +159,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_counter",
-    "name": "Counterattack",
-    "melee_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "messages": [ "You counter-attack %s", "<npcname> counter-attacks %s" ]
-  },
-  {
-    "type": "technique",
     "id": "tec_feint",
     "name": "Feint",
     "melee_allowed": true,
