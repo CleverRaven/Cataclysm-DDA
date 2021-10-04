@@ -1251,5 +1251,33 @@
         "default_magazine": "medium_battery_cell"
       }
     ]
-  }
+  },
+  {
+    "id": "plasma_torch",
+    "type": "TOOL",
+    "name": { "str": "plasma cutter", "str_pl": "plasma_cutters" },
+    "description": "This is a powerful hydrogen-fueled plasma cutting torch. Whoever had this before you took the liberty of installing it with a micro reactor so you don't have to worry about batteries. It is technically portable",
+    "weight": "7500 g",
+    "volume": "3 L",
+    "price": 50000,
+    "price_postapoc": 7500,
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "working_fluid" ],
+    "charges_per_use": 4,
+    "qualities": [ [ "WELD", 2 ] ],
+    "use_action": [ "OXYTORCH" ],
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hydrogentank", "tinyhydrogentank" ]
+      }
+    ]
+	}
 ]
