@@ -143,7 +143,7 @@
       },
       {
         "id": "faction_base_storehouse_2_0",
-        "description": "Central Storage Building version 2.  Focus on storage. Place in N, E, S, W only",
+        "description": "Central Storage Building version 2.  Focus on storage.  Place in N, E, S, W only",
         "om_terrains": [ "field" ]
       },
       { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
