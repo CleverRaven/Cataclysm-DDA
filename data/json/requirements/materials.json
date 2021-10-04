@@ -160,7 +160,7 @@
     "id": "fabric_felt",
     "type": "requirement",
     "//": "Materials used for crafting felt clothing",
-    "components": [ [ [ "felt", 1 ], [ "sheet_felt_patchwork", 1 ], [ "sheet_felt", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 1 ], [ "sheet_felt_patchwork", 1 ], [ "sheet_felt", 1 ] ] ]
   },
   {
     "id": "fabric_fauxfur",
@@ -172,13 +172,13 @@
     "id": "fabric_fur",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing",
-    "components": [ [ [ "fur", 1 ], [ "sheet_fur_patchwork", 1 ], [ "sheet_fur", 1 ] ] ]
+    "components": [ [ [ "fur", 1 ] ] ]
   },
   {
     "id": "fabric_fur_pelt",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing, when tanned pelts are available it seems to roughly be a 1:6 ratio",
-    "components": [ [ [ "fur", 6 ], [ "sheet_fur_patchwork", 6 ], [ "sheet_fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_leather_hide",
