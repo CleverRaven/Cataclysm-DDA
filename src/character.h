@@ -3127,6 +3127,9 @@ class Character : public Creature, public visitable
              * is reset to @ref mutation_branch::cooldown.
              */
             int charge = 0;
+
+            bool show_sprite = true;
+
             void serialize( JsonOut &json ) const;
             void deserialize( const JsonObject &data );
         };

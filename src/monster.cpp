@@ -1606,8 +1606,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     if( hitspread >= 0 ) {
         weakpoint_attack attack;
-        attack.source = this;
-        attack.is_melee = true;
         attack.wp_skill = weakpoint_skill();
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
     }

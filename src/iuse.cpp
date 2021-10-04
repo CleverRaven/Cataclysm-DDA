@@ -85,6 +85,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h" // For play_game
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -6126,34 +6127,8 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
                 p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
             } else {
                 p->add_morale( MORALE_PHOTOS, rng( 15, 30 ), 100 );
-
-                const int random_photo = rng( 1, 20 );
-                switch( random_photo ) {
-                    case 1:
-                        p->add_msg_if_player( m_good, _( "You used to have a dog like this…" ) );
-                        break;
-                    case 2:
-                        p->add_msg_if_player( m_good, _( "Ha-ha!  An amusing cat photo." ) );
-                        break;
-                    case 3:
-                        p->add_msg_if_player( m_good, _( "Excellent pictures of nature." ) );
-                        break;
-                    case 4:
-                        p->add_msg_if_player( m_good, _( "Food photos… your stomach rumbles!" ) );
-                        break;
-                    case 5:
-                        p->add_msg_if_player( m_good, _( "Some very interesting travel photos." ) );
-                        break;
-                    case 6:
-                        p->add_msg_if_player( m_good, _( "Pictures of a concert of popular band." ) );
-                        break;
-                    case 7:
-                        p->add_msg_if_player( m_good, _( "Photos of someone's luxurious house." ) );
-                        break;
-                    default:
-                        p->add_msg_if_player( m_good, _( "You feel nostalgic as you stare at the photo." ) );
-                        break;
-                }
+                p->add_msg_if_player( m_good, "%s",
+                                      SNIPPET.random_from_category( "examine_photo_msg" ).value_or( translation() ) );
             }
 
             return it->type->charges_to_use();
@@ -9507,6 +9482,41 @@ cata::optional<int> iuse::coin_flip( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoint & )
 {
+    if( p->is_avatar() ) {
+        std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+        } );
+        int fcount = followers.size();
+        if( fcount > 0 ) {
+            const char *qstr = fcount > 1 ? _( "Play the %s with your friends?" ) :
+                               _( "Play the %s with your friend?" );
+            std::string res = query_popup()
+                              .context( "FRIENDS_ME_CANCEL" )
+                              .message( qstr, it->tname() )
+                              .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
+                              .query().action;
+            if( res == "FRIENDS" ) {
+                if( fcount > 1 ) {
+                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                } else {
+                    add_msg( _( "You and your friend start playing." ) );
+                }
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                    p->get_item_position( it ), "gaming with friends" );
+                for( npc *n : followers ) {
+                    n->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                        n->get_item_position( it ), "gaming with friends" );
+                }
+            } else if( res == "ME" ) {
+                p->add_msg_if_player( _( "You start playing." ) );
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
+                                    p->get_item_position( it ), "gaming" );
+            } else {
+                return cata::nullopt;
+            }
+            return 0;
+        } // else, fall through to playing alone
+    }
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
         p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
@@ -9519,39 +9529,22 @@ cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const tripoint & )
 {
-    enum {
-        BALL8_GOOD,
-        BALL8_UNK = 10,
-        BALL8_BAD = 15
-    };
-    static const std::array<const char *, 20> tab = {{
-            translate_marker( "It is certain." ),
-            translate_marker( "It is decidedly so." ),
-            translate_marker( "Without a doubt." ),
-            translate_marker( "Yes - definitely." ),
-            translate_marker( "You may rely on it." ),
-            translate_marker( "As I see it, yes." ),
-            translate_marker( "Most likely." ),
-            translate_marker( "Outlook good." ),
-            translate_marker( "Yes." ),
-            translate_marker( "Signs point to yes." ),
-            translate_marker( "Reply hazy, try again." ),
-            translate_marker( "Ask again later." ),
-            translate_marker( "Better not tell you now." ),
-            translate_marker( "Can't predict now." ),
-            translate_marker( "Concentrate and ask again." ),
-            translate_marker( "Don't count on it." ),
-            translate_marker( "My reply is no." ),
-            translate_marker( "My sources say no." ),
-            translate_marker( "Outlook not so good." ),
-            translate_marker( "Very doubtful." )
-        }
-    };
-
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname() );
-    int rn = rng( 0, tab.size() - 1 );
-    game_message_type color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
-    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(), _( tab[rn] ) );
+    int rn = rng( 0, 3 );
+    std::string msg_category;
+    game_message_type color;
+    if( rn == 0 ) {
+        msg_category = "magic_8ball_bad";
+        color = m_bad;
+    } else if( rn == 1 ) {
+        msg_category = "magic_8ball_unknown";
+        color = m_info;
+    } else {
+        msg_category = "magic_8ball_good";
+        color = m_good;
+    }
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(),
+                          SNIPPET.random_from_category( msg_category ).value_or( translation() ) );
     return 0;
 }
 

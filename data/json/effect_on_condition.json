@@ -28,7 +28,7 @@
     "type": "effect_on_condition",
     "id": "scenario_fungal_infection",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "u_add_effect": "effect_fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
+    "effect": [ { "u_add_effect": "fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
   },
   {
     "type": "effect_on_condition",
@@ -191,7 +191,7 @@
       ]
     },
     "deactivate_condition": { "days_since_cataclysm": 14 },
-    "effect": [ { "u_message": "NIGHT_MESSAGES_1", "snippet": true } ]
+    "effect": [ { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_1", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -210,7 +210,7 @@
       ]
     },
     "deactivate_condition": { "days_since_cataclysm": 50 },
-    "effect": [ { "u_message": "NIGHT_MESSAGES_2", "snippet": true } ]
+    "effect": [ { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_2", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -227,7 +227,7 @@
         "u_is_outside"
       ]
     },
-    "effect": [ { "u_message": "NIGHT_MESSAGES_3", "snippet": true } ]
+    "effect": [ { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_3", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",

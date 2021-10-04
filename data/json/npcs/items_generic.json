@@ -448,6 +448,8 @@
       [ "chocolate", 2 ],
       [ "cig", 30 ],
       [ "cigar", 10 ],
+      [ "case_cigar", 5 ],
+      { "group": "pocket_cigar", "prob": 10 },
       [ "circsaw_blade", 3 ],
       [ "circsaw_off", 3 ],
       [ "cleansuit", 5 ],
