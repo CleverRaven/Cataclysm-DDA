@@ -1,7 +1,7 @@
 [
   {
     "type": "snippet",
-    "category": "NIGHT_MESSAGES_1",
+    "category": "PORTAL_STORM_NIGHT_MESSAGES_1",
     "text": [
       "You see what seems to be a new constellation in the sky.  The stars are quite dense and are precisely aligned in several regular polyhedrons next to each other.",
       "You see what seems to be a new constellation in the sky.  The stars are in a precise spiral, with the central star constantly shifting color.",
@@ -13,7 +13,7 @@
   },
   {
     "type": "snippet",
-    "category": "NIGHT_MESSAGES_2",
+    "category": "PORTAL_STORM_NIGHT_MESSAGES_2",
     "text": [
       "You see what seems to be a new constellation in the sky.  It changes shape as you look from a triangle to a pentagon.",
       "You see what seems to be a new constellation in the sky, in the shape of a hexagon.  It's easy to pick out - there are glowing lines between the stars.",
@@ -25,7 +25,7 @@
   },
   {
     "type": "snippet",
-    "category": "NIGHT_MESSAGES_3",
+    "category": "PORTAL_STORM_NIGHT_MESSAGES_3",
     "text": [
       "You see a once-familiar constellation and watch as several of its stars move.",
       "You see what seems to be a new constellation in the sky.  It reminds you of a serpent - it moves like one.",
@@ -35,6 +35,93 @@
       "A strange cloud seems to float in the sky, at the very edge of your peripheral vision.  Just as you shift your gaze to it, it evaporates, boiling away into a stream of shooting stars.",
       "For a brief moment, you feel like you've been jerked to the side.  You haven't moved, though - the stars have.",
       "As you look at the stars, a broad swath of them are plunged into darkness, then come back to life in ragged succession."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DAY_MESSAGES_1",
+    "text": [
+      "For a second you see what looks like an island in the sky.",
+      "For a second the sun turns blood red and seems to be dripping something.",
+      "For a moment you see what seem like buildings the size of mountains in the distance.",
+      "For an instant you are in a crowd of partially transparent people.  They take no notice of you.",
+      "You see a small airplane flying low in the sky but it's flying backwards and has a flag you don't know on it.",
+      "All the shadows you can see rotate as if the sun was moving."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DAY_MESSAGES_2",
+    "text": [
+      "For a second you see what looks like an island chain in the sky.",
+      "For a second the sun turns dark, almost as if it was a giant eye blinking.",
+      "For a moment you see what seem like insects the size of mountains in the distance.",
+      "For an instant you are in a crowd of partially transparent people.  They all look at you.",
+      "You see a large airplane flying low in the sky but it's flying backwards and has a color inverted version of your flag on it.",
+      "All the shadows you can see change shape and color beginning to resemble human like figures."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DAY_MESSAGES_3",
+    "text": [
+      "For a second you see what looks like a city in the sky.",
+      "For a second the sun changes course to the north and speeds up.",
+      "For a moment you see what seem like humans the size of mountains in the distance.",
+      "For an instant you are in a crowd of partially transparent people.  They all point at you and scream in a language, human vocal cords should not be able to speak.",
+      "You see a large airplane flying low in the sky but it's flying backwards.  A parachuter appears near it and seemingly falls up into the plane while the figure struggles.",
+      "All the shadows you can see change shape and color beginning to resemble figures with far too many limbs beckoning to you to come towards them."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_MESSAGES_1",
+    "text": [
+      "You smell a harsh chemical odor you can't quite place.",
+      "Your hair stands on end as a faint electrical tingle washes over you.",
+      "A giant hole opens in the sky and several clouds vanish into it.",
+      "A giant hole opens in the sky and several dark clouds emerge from it.",
+      "For a split second, the world grows hazy as if there were other shapes laid on top.",
+      "For a moment a hole in reality opens and you can see your own back.",
+      "For a moment all colors grow dull.",
+      "For a moment all distances seem to shrink.",
+      "A short figure quickly fades in and out of existence too fast to see its features."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_MESSAGES_2",
+    "text": [
+      "You smell an entirely new smell, like nothing you have smelled before.  You can't decide if it is good or bad.",
+      "Your hair stands on end as an electrical tingle washes over you.",
+      "A giant hole opens in the sky and several neon clouds emerge from it.",
+      "A giant hole that looks like an eye opens in the sky, then closes as if blinking.",
+      "For a split second, the world is overlaid with a vast, empty void.",
+      "For a split second, the world is overlaid with a tiny, featureless, circular room.",
+      "For a split second, the world is overlaid with a vast alien landscape with building-sized plant-like shapes all around you",
+      "For a split second the world is overlaid with an empty and ruined city, though built to a vastly different scale than those on earth.",
+      "For a moment a hole in reality opens and you can see an almost perfect copy of yourself.",
+      "For a moment all colors invert.",
+      "For a moment all distances seem to double.",
+      "A tall figure quickly fades in and out of existence leaving you with a vague impression of malice."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_MESSAGES_3",
+    "text": [
+      "You smell an entirely new smell, like nothing you have smelled before.  It makes you gag.",
+      "Your hair stands on end as a sharp electrical current washes over you.",
+      "A jagged hole opens in the sky and a vast cloud in the shape of an asymetrical person emerges.",
+      "A jagged hole that resembles an eye opens in the sky, then stares at you.",
+      "For a split second, the world vanishes and you are in a vast, empty void.",
+      "For a split second, the world vanishes and you are in a tiny, featureless, circular room.",
+      "For a split second, the world vanishes and you are in a vast alien landscape with building-sized plant-like shapes all around you",
+      "For a split second the world vanishes and you are in an empty and ruined city, though built to a vastly different scale than those on earth.",
+      "For a moment a hole in reality opens and you can see a leering idealized copy of yourself.",
+      "For a moment all colors flow to form jagged shapes.",
+      "For a moment all distances seem to vanish, as if everything was one.  It is claustrophobic.",
+      "A tall figure quickly fades in and out of existence staring and pointing at you the whole time."
     ]
   },
   {

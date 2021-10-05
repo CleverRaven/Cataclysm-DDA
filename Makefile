@@ -957,7 +957,7 @@ MO_DEPS := \
   $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
 
 lang/mo_built.stamp: $(MO_DEPS)
-	lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 	touch $@
 
 localization: lang/mo_built.stamp
@@ -1020,7 +1020,7 @@ endif
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 endif
 endif
 
@@ -1056,7 +1056,7 @@ endif
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 endif
 endif
 
@@ -1104,7 +1104,7 @@ endif
 	cp -R data/title $(APPDATADIR)
 	cp -R data/help $(APPDATADIR)
 ifdef LANGUAGES
-	lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif

@@ -91,7 +91,7 @@
     "symbol": ";",
     "qualities": [ [ "BUTCHER", 7 ] ],
     "flags": [ "UNBREAKABLE_MELEE" ],
-    "techniques": [ "WBLOCK_2", "tec_feint", "tec_counter", "BERSERK", "DSINERTIAL" ]
+    "techniques": [ "WBLOCK_2", "tec_feint", "BERSERK", "DSINERTIAL" ]
   },
   {
     "id": "blade_crt",
@@ -130,7 +130,7 @@
     "qualities": [ [ "PRY", 2 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "UNBREAKABLE_MELEE" ],
-    "techniques": [ "WBLOCK_3", "tec_feint", "tec_counter", "BERSERK", "DSBI", "DSINERTIAL" ]
+    "techniques": [ "WBLOCK_3", "tec_feint", "BERSERK", "DSBI", "DSINERTIAL" ]
   },
   {
     "type": "GENERIC",

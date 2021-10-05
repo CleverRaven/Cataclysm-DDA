@@ -295,6 +295,7 @@ activity_handlers::finish_functions = {
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_START_FIRE, start_fire_finish },
+    { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
@@ -1063,6 +1064,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT ) {
         you.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
                       0 ) + 4 );
+        mt.families.practice_dissect( you );
     } else {
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
                       0 ) + 4 );
@@ -1696,6 +1698,22 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
         //1 points/min, almost 2 hours to fill
         you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
     }
+}
+
+// Repurposing the activity's index to convey the number of friends participating
+void activity_handlers::generic_game_finish( player_activity *act, Character *you )
+{
+    // Apply small bonus with diminishing returns for playing with friends
+    if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+        float mod = 1.f;
+        float acc = 0.4f;
+        for( int i = act->index; i > 0; i-- ) {
+            mod += acc;
+            acc *= acc;
+        }
+        you->add_morale( MORALE_GAME, 4 * mod );
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::generic_game_do_turn( player_activity *act, Character *you )

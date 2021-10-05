@@ -422,7 +422,7 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "bokken_fake" ) == 9.5 );
         CHECK( calc_expected_dps( "shillelagh_fake" ) == 9.5 );
         CHECK( calc_expected_dps( "morningstar_fake" ) == 8.0 );
-        CHECK( calc_expected_dps( "wrench" ) == 7.0 );
+        CHECK( calc_expected_dps( "wrench" ) == 8.0 );
         CHECK( calc_expected_dps( "hammer" ) == 7.0 );
         CHECK( calc_expected_dps( "rebar" ) == 7.0 );
         CHECK( calc_expected_dps( "primitive_shovel" ) == 7.0 );

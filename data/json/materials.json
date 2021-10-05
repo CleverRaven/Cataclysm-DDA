@@ -919,7 +919,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 1, "iron", 1.3 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },

@@ -170,7 +170,8 @@
         "distribution": [
           { "item": "cig", "prob": 65, "charges-min": 0, "charges-max": 20 },
           { "item": "chaw", "prob": 5 },
-          { "item": "cigar", "prob": 10 },
+          { "item": "cigar", "prob": 5 },
+          { "group": "pocket_cigar", "prob": 10 },
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
           { "item": "ecig", "prob": 15 },

@@ -83,7 +83,7 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, C
     }
     sorted_stuff.insert( sorted_stuff.begin(), unsorted_stuff.begin(), unsorted_stuff.end() );
 
-    for( item_pricing ip : sorted_stuff ) {
+    for( item_pricing &ip : sorted_stuff ) {
 
         if( ip.loc.get_item() == nullptr ) {
             DebugLog( D_ERROR, D_NPC ) << "Null item being traded in npc_trading::transfer_items";

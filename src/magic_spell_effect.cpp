@@ -1525,8 +1525,8 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
-        dialogue d( get_talker_for( creatures.creature_at<Creature>( potential_target ) ),
-                    get_talker_for( caster ) );
+        Creature *victim = creatures.creature_at<Creature>( potential_target );
+        dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
