@@ -1432,7 +1432,14 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s loses the rhythm and falls over!", "damage_required": [ 11, 100 ] } ],
+        "effects": [
+          {
+            "effect": "downed",
+            "chance": 25,
+            "message": "The %s loses the rhythm and falls over!",
+            "damage_required": [ 11, 100 ]
+          }
+        ],
         "coverage": 15
       },
       {
@@ -1441,7 +1448,12 @@
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
-          { "effect": "staggered", "chance": 25, "message": "The %s is knocked out of its dance routine!", "damage_required": [ 11, 100 ] }
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked out of its dance routine!",
+            "damage_required": [ 11, 100 ]
+          }
         ],
         "coverage": 8
       }
