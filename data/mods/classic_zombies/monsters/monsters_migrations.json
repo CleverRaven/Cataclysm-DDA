@@ -32,7 +32,7 @@
   {
     "id": [ "mon_zombie_labsecurity" ],
     "type": "MIGRATION",
-    "replace": "mon_zombie_labsecurity"_ddotd"
+    "replace": "mon_zombie_labsecurity_ddotd"
   },
   {
     "id": [ "mon_zombie_swimmer_base" ],
