@@ -228,7 +228,7 @@
       { "item": "flight_helmet", "prob": 80 },
       { "item": "jacket_army" },
       { "item": "webbing_belt" },
-      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "socks_nomex", "prob": 70 } ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
       { "item": "boots_combat" },
       { "item": "gloves_tactical", "prob": 60 },
       {
