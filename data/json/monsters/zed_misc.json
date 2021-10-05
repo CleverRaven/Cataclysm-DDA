@@ -52,7 +52,7 @@
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!" },
           {
             "effect": "blind",
-             "duration": [ 3, 5 ],
+            "duration": [ 3, 5 ],
             "chance": 30,
             "message": "The %s's eyes are obliterated, but are already growing back.",
             "damage_required": 25
@@ -159,12 +159,13 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "weakpoints": [
-      { "name": "the inside of its mouth",
+      {
+        "name": "the inside of its mouth",
         "crit_mult": 1.1,
         "coverage_mult": { "blunt": 0.5, "point": 1.5 },
         "difficulty": { "all": 3 },
         "armor_mult": { "physical": 0 },
-        "coverage": 2 
+        "coverage": 2
       },
       {
         "name": "the head",
@@ -278,11 +279,7 @@
     "vision_day": 2,
     "vision_night": 0,
     "weakpoints": [
-      {
-        "name": "the mess where the head used to be",
-        "coverage": 2,
-        "//": "does nothing, it's just fun to hit it."
-      },
+      { "name": "the mess where the head used to be", "coverage": 2, "//": "does nothing, it's just fun to hit it." },
       {
         "name": "the leg",
         "crit_mult": 0.75,
@@ -1443,7 +1440,9 @@
         "crit_mult": 0.75,
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked out of its dance routine!", "damage_required": 10 } ],
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked out of its dance routine!", "damage_required": 10 }
+        ],
         "coverage": 8
       }
     ],
@@ -1481,12 +1480,13 @@
     "armor_cut": 10,
     "armor_bullet": 8,
     "weakpoints": [
-      { "name": "the inside of its mouth",
+      {
+        "name": "the inside of its mouth",
         "crit_mult": 1.1,
         "coverage_mult": { "blunt": 0.5, "point": 1.5 },
         "difficulty": { "all": 3 },
         "armor_mult": { "physical": 0 },
-        "coverage": 2 
+        "coverage": 2
       },
       {
         "name": "the head",
