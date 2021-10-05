@@ -3748,14 +3748,13 @@
     "items": {
       "both": {
         "items": [
-          "pants_army",
-          "socks",
-          "undershirt",
+          "nomex_socks",
+          "mil_flight_suit",
           "boots_combat",
           "wristwatch",
           "fancy_sunglasses",
           "gloves_tactical",
-          "helmet_army",
+          "flight_helmet",
           "jacket_army",
           "webbing_belt",
           "legpouch_large"
