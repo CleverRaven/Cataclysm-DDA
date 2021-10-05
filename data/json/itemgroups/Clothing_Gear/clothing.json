@@ -224,8 +224,8 @@
     "subtype": "collection",
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
-      { "item": "mil_flight_suit", "prob": 80 },
-      { "item": "flight_helmet" },
+      { "item": "mil_flight_suit" },
+      { "item": "flight_helmet", "prob": 80 },
       { "item": "jacket_army" },
       { "item": "webbing_belt" },
       { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "socks_nomex", "prob": 70 } ] },
