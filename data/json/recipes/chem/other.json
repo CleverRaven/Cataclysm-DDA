@@ -33,6 +33,8 @@
       [
         [ "bleach", 1 ],
         [ "lye_powder", 100 ],
+        [ "bone_any", 20, "LIST" ],
+        [ "skewer_bone", 1000 ],
         [ "cured_hide", 2 ],
         [ "pine_bough", 10 ],
         [ "raw_dandelion", 20 ],
