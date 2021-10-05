@@ -5442,7 +5442,7 @@ cata::optional<int> iuse::talking_doll( Character *p, item *it, bool, const trip
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
-
+    p->add_msg_if_player( m_info, _( "You press a button on the doll to make it talk." ) );
     const SpeechBubble speech = get_speech( it->typeId().str() );
 
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
