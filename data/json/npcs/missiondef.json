@@ -165,7 +165,7 @@
       "advice": "They shouldn't be that hard to find… should they?",
       "inquire": "Any luck?",
       "success": "Great work, Deputy.  We're in business.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "The day of reckoning will come for the criminals if it hasn't already."
     }
   },
@@ -209,8 +209,8 @@
       "rejected": "I know it isn't pressing but the big corporations didn't get a chance to destroy the evidence yet.",
       "advice": "Try a big corporate building of some sort, they're bound to have an accounting department.",
       "inquire": "Any luck?",
-      "success": "Great, let's see… uh… hmmm…  Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success": "Great, let's see… uh… hmmm… Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -233,7 +233,7 @@
       "advice": "I bet you'll run into a lot of those things in the hospital, please be careful.",
       "inquire": "Any luck?",
       "success": "Oh dear, I thought Timmy would have made it…",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I bet some of them are still out there…"
     }
   },
@@ -272,7 +272,7 @@
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
-      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic…  I doubt it will be of much use but I've got to hope in something.",
+      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic… I doubt it will be of much use but I've got to hope in something.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "I suppose a large church or cathedral may have something.",
@@ -302,7 +302,7 @@
       "advice": "This shouldn't be hard unless we run into a horde.",
       "inquire": "Any luck?",
       "success": "Great, anything I can't use to prosecute the bastards is yours, as promised.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -368,12 +368,12 @@
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
-      "offer": "You have no idea how interesting this diary is.  I have two very promising leads…  First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
+      "offer": "You have no idea how interesting this diary is.  I have two very promising leads… First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
-      "advice": "I doubt the site is still occupied but I'd carry a firearm at least…  I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
+      "advice": "I doubt the site is still occupied but I'd carry a firearm at least… I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
       "inquire": "I'm positive there is something there… there has to be, any luck?",
-      "success": "Thank you, your account of these… demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult…  I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
+      "success": "Thank you, your account of these… demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult… I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
@@ -394,7 +394,7 @@
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
       "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet… it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
       "inquire": "Any luck?",
@@ -519,7 +519,7 @@
       "inquire": "Any luck?",
       "success": "You look a little shaken up, I can't tell you how glad I am that you killed it though.",
       "success_lie": "Something in the shadows still seems to stare at me when I look at the woods.",
-      "failure": "I'm glad you came back alive…  I wasn't sure if I had sent you to your death."
+      "failure": "I'm glad you came back alive… I wasn't sure if I had sent you to your death."
     }
   },
   {
@@ -574,7 +574,7 @@
       "advice": "Traveling the backroads would be a good way to search for one.",
       "inquire": "Shall we keep looking for a farm house?",
       "success": "Well, my adventuring days are over.  I can't thank you enough.  Trying to make this place self sustaining will take some work but the future is looking brighter.  At least it ought to be safe for now.  You'll always be welcome here.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I guess it was just a pipe dream."
     }
   },
@@ -592,12 +592,12 @@
     "dialogue": {
       "describe": "Maybe they escaped to one of the camps…",
       "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around… could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
-      "accepted": "Thank you, just bring me to the camp…  I just want to see.",
+      "accepted": "Thank you, just bring me to the camp… I just want to see.",
       "rejected": "Please, I don't know what else to do.",
       "advice": "We should go at night, if it is overrun then we can quickly make our escape.",
       "inquire": "Any leads on where a camp might be?",
       "success": "I guess this wasn't as bright an idea as I thought.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I bet some of them are still out there…"
     }
   },

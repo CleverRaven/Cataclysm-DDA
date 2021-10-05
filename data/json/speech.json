@@ -1568,7 +1568,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"This smell…  Don't know…\"",
+    "sound": "\"This smell… Don't know…\"",
     "volume": 10
   },
   {
@@ -1586,25 +1586,25 @@
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"No…  Stop the burning!\"",
+    "sound": "\"No… Stop the burning!\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Hrgm…  Blood…  Hungry…\"",
+    "sound": "\"Hrgm… Blood… Hungry…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Hunger…  Must eat…\"",
+    "sound": "\"Hunger… Must eat…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Run…  Chase…  Eat…\"",
+    "sound": "\"Run… Chase… Eat…\"",
     "volume": 20
   },
   {
@@ -2391,7 +2391,7 @@
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Blood…  Delicious.\"",
+    "sound": "\"Blood… Delicious.\"",
     "volume": 10
   },
   {
