@@ -301,7 +301,7 @@
   {
     "type": "effect_type",
     "id": "staggered",
-    "name": "Staggered",
+    "name": [ "Staggered" ],
     "//": "Mainly for monsters",
     "desc": [ "You've been knocked off-balance by an attack'." ],
     "apply_message": "You're staggered off-balance.",
