@@ -29,19 +29,19 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
@@ -67,18 +67,18 @@
       {
         "name": "the face",
         "armor_mult": { "physical": 0 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 10
+            "damage_required": [ 11, 100 ]
           }
         ]
       },
@@ -86,17 +86,17 @@
         "name": "the eye",
         "armor_mult": { "physical": 0 },
         "coverage": 1,
-        "crit_mult": 1.25,
+        "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
@@ -156,19 +156,19 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
@@ -194,18 +194,18 @@
       {
         "name": "the face",
         "armor_mult": { "physical": 0 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 10
+            "damage_required": [ 11, 100 ]
           }
         ]
       },
@@ -213,17 +213,17 @@
         "name": "the eye",
         "armor_mult": { "physical": 0 },
         "coverage": 1,
-        "crit_mult": 1.25,
+        "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
@@ -385,19 +385,19 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
@@ -423,18 +423,18 @@
       {
         "name": "the face",
         "armor_mult": { "physical": 0 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 10
+            "damage_required": [ 11, 100 ]
           }
         ]
       },
@@ -442,17 +442,17 @@
         "name": "the eye",
         "armor_mult": { "physical": 0 },
         "coverage": 1,
-        "crit_mult": 1.25,
+        "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
@@ -507,19 +507,19 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
@@ -545,18 +545,18 @@
       {
         "name": "the face",
         "armor_mult": { "physical": 0 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 10
+            "damage_required": [ 11, 100 ]
           }
         ]
       },
@@ -564,17 +564,17 @@
         "name": "the eye",
         "armor_mult": { "physical": 0 },
         "coverage": 1,
-        "crit_mult": 1.25,
+        "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
@@ -628,36 +628,36 @@
       {
         "name": "the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 15
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the face",
         "armor_mult": { "physical": 0 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 10
+            "damage_required": [ 11, 100 ]
           }
         ]
       },
@@ -665,17 +665,17 @@
         "name": "the eye",
         "armor_mult": { "physical": 0 },
         "coverage": 1,
-        "crit_mult": 1.25,
+        "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
@@ -748,19 +748,19 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
@@ -786,18 +786,18 @@
       {
         "name": "the gasmask",
         "armor_mult": { "bullet": 0.2, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 4,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 10 },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 11, 100 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
@@ -907,19 +907,19 @@
       {
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": 15 } ],
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
         "coverage": 8
       },
       {
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": 0.75,
+        "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": 10 } ],
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       },
       {
@@ -945,18 +945,18 @@
       {
         "name": "the face",
         "armor_mult": { "physical": 0 },
-        "crit_mult": 1.1,
+        "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!" },
+          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
             "effect": "stun",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": 10
+            "damage_required": [ 11, 100 ]
           }
         ]
       },
@@ -964,17 +964,17 @@
         "name": "the eye",
         "armor_mult": { "physical": 0 },
         "coverage": 1,
-        "crit_mult": 1.25,
+        "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 4, "broad": 6 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!" },
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
-            "damage_required": 25
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
