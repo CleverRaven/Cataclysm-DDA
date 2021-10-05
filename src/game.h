@@ -1047,7 +1047,7 @@ class game
         bool fullscreen = false; // NOLINT(cata-serialize)
         bool was_fullscreen = false; // NOLINT(cata-serialize)
         bool auto_travel_mode = false;
-        bool queue_screenshot = false;
+        bool queue_screenshot = false; // NOLINT(cata-serialize)
         safe_mode_type safe_mode;
 
         // tracks time since last monster seen to allow automatically
