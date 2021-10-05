@@ -326,9 +326,9 @@ Weakpoints in the monster's protection.
 
 | field               | description
 | ---                 | ---
-| `id`                | The ID of the weakpoint. Defaults to `name` if not provided.
-| `name`              | Name of the weakpoint. Will be used for player messages.
-| `coverage`          | Base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+| `id`                | id of the weakpoint. Defaults to `name`, if not specified.
+| `name`              | name of the weakpoint. Used in hit messages.
+| `coverage`          | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
 | `coverage_mult`     | object mapping weapon types to constant coverage multipliers.
 | `difficulty`        | object mapping weakon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
 | `armor_mult`        | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
@@ -369,7 +369,9 @@ The `armor_mult`, `armor_penalty`, `damage_mult`, and `crit_mult` objects suppor
 | `physical`          | The default value for physical damage types (`bash`, `cut`, `stab`, and `bullet`)
 | `non_physical`      | The default value for non-physical damage types (`biological`, `acid`, `heat`, `cold`, and `electric`)
 
-If the `id` is equal to the empty string, the weakpoint will be treated as the default weakpoint. When an attackers misses the other weakpoints, they will hit the default weakpoint.
+Default weakpoints are weakpoint objects with an `id` equal to the empty string.
+When an attacker misses the other weakpoints, they will hit the defender's default weakpoint.
+A monster should have at most 1 default weakpoint.
 
 ## "vision_day", "vision_night"
 (integer, optional)
