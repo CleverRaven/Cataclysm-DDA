@@ -1357,11 +1357,6 @@ mutable_overmap_placement_rule_remainder mutable_overmap_placement_rule::realise
 class joins_tracker
 {
     public:
-        explicit joins_tracker(
-            const std::unordered_map<std::string, mutable_overmap_join *> &jns )
-            : joins( &jns ) {
-        }
-
         struct join {
             om_pos_dir where;
             const mutable_overmap_join *join;
@@ -1639,8 +1634,6 @@ class joins_tracker
                 return l->where < r->where;
             }
         };
-
-        const std::unordered_map<std::string, mutable_overmap_join *> *joins;
 
         indexed_joins unresolved;
         std::vector<cata::flat_set<iterator, compare_iterators>> unresolved_priority_index;
@@ -2006,7 +1999,7 @@ struct mutable_overmap_special_data {
         // of what happened to be put in the debugmsg in the event of failure.
         std::vector<std::string> descriptions;
 
-        joins_tracker unresolved( joins );
+        joins_tracker unresolved;
         unresolved.add_joins_for( root_omt, origin, om_direction::type::none );
 
         auto current_phase = phases.begin();
