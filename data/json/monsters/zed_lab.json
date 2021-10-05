@@ -11,13 +11,10 @@
     "species": [ "ZOMBIE", "HUMAN" ],
     "speed": 75,
     "color": "white_cyan",
-    "aggression": 100,
-    "morale": 100,
     "melee_skill": 3,
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
-    "path_settings": { "max_dist": 5 },
     "death_drops": "mon_zombie_scientist_death_drops",
     "flags": [
       "SEES",
@@ -31,8 +28,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS",
       "FILTHY"
     ]
   },
