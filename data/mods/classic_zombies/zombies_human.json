@@ -22,7 +22,7 @@
       {
         "name": "a coup-de-grace headshot",
         "coverage": 70,
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -51,7 +51,7 @@
         "name": "a coup-de-grace headshot",
         "coverage": 70,
         "armor_mult": { "all": 0 },
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -88,7 +88,7 @@
         "name": "a coup-de-grace headshot",
         "coverage": 70,
         "armor_mult": { "all": 0 },
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -116,7 +116,7 @@
       {
         "name": "a coup-de-grace headshot",
         "coverage": 70,
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -144,7 +144,7 @@
       {
         "name": "a coup-de-grace headshot",
         "coverage": 70,
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -169,7 +169,7 @@
         "name": "a coup-de-grace headshot",
         "coverage": 70,
         "armor_mult": { "all": 0 },
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -194,7 +194,7 @@
         "name": "a coup-de-grace headshot",
         "coverage": 50,
         "armor_mult": { "all": 0 },
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -219,7 +219,7 @@
         "name": "a coup-de-grace headshot",
         "coverage": 70,
         "armor_mult": { "all": 0.5 },
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -254,7 +254,7 @@
         "name": "a coup-de-grace headshot",
         "coverage": 50,
         "armor_mult": { "all": 0.5 },
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
@@ -278,7 +278,7 @@
       {
         "name": "a coup-de-grace headshot",
         "coverage": 50,
-        "coverage_mult": { "ranged": 0.75 },
+        "coverage_mult": { "ranged": 0.25 },
         "required_effects": [ "downed" ]
       }
     ]
