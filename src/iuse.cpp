@@ -5448,11 +5448,6 @@ cata::optional<int> iuse::talking_doll( Character *p, item *it, bool, const trip
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );
 
-    // Sound code doesn't describe noises at the player position
-    if( p->can_hear( p->pos(), speech.volume ) ) {
-        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
-    }
-
     return it->type->charges_to_use();
 }
 
