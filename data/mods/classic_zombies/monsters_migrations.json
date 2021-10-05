@@ -1,0 +1,107 @@
+[
+  {
+    "id": [ "mon_zombie", "mon_zombie_rot" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_fat" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_fat_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_cop", "mon_zombie_swat" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_cop_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_crawler" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_crawler_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_tough" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_tough_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_swimmer_base" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_swimmer_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_soldier" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_soldier_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_military_pilot" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_military_pilot_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_hazmat" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_hazmat_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_fireman" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_firefighter_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_child" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_child_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_dog", "mon_dog_zombie_rot", "mon_zpider_mass" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_dog_ddotd"
+  },
+  {
+    "id": [ "mon_dog_zombie_cop" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_dog_cop_ddotd"
+  },
+  {
+    "id": [ "mon_zombear" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_bear_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_pig" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_pig_ddotd"
+  },
+  {
+    "id": [ "mon_zombeaver" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_beaver_ddotd"
+  },
+  {
+    "id": [ "mon_zoose" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_moose_ddotd"
+  },
+  {
+    "id": [ "mon_zougar" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_cougar_ddotd"
+  },
+  {
+    "id": [ "mon_zombie_horse" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_horse_ddotd"
+  },
+  {
+    "id": [ "mon_zow", "mon_zombull" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_cattle_ddotd"
+  },
+  {
+    "id": [ "mon_zeer","mon_zeindeer" ],
+    "type": "MIGRATION",
+    "replace": "mon_zombie_cervid_ddotd"
+  }
+]

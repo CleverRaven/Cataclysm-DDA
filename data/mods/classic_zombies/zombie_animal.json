@@ -1,0 +1,297 @@
+[
+  {
+    "id": "mon_zombie_dog_ddotd",
+    "copy-from": "mon_zombie_dog",
+    "weakpoints": [
+      {
+        "//": "default weakpoint",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "effects": [ { "effect": "downed", "chance": 1, "message": "The %s is knocked down!" } ]
+      },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 2 } },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 20,
+        "difficulty": { "ranged": 5, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_dog_cop_ddotd",
+    "copy-from": "mon_zombie_dog_cop",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 8, "armor_mult": { "all": 0 }, "difficulty": { "ranged": 2 } },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 20,
+        "difficulty": { "ranged": 5, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_cougar_ddotd",
+    "copy-from": "mon_zougar",
+    "weakpoints": [
+      {
+        "//": "default weakpoint",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "effects": [ { "effect": "downed", "chance": 1, "message": "The %s is knocked down!" } ]
+      },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 2 } },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 20,
+        "difficulty": { "ranged": 5, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_bear_ddotd",
+    "copy-from": "mon_zombear",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 4, "difficulty": { "melee": 2, "ranged": 4 } },
+      {
+        "name": "the eye",
+        "coverage": 1,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 5, "ranged": 6 }
+      },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 15,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 2, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 50,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_pig_ddotd",
+    "copy-from": "mon_zombie_pig",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 1 } },
+      {
+        "name": "the eye",
+        "coverage": 1,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 3, "ranged": 5 }
+      },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 15,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 50,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_beaver_ddotd",
+    "copy-from": "mon_zombeaver",
+    "weakpoints": [
+      {
+        "//": "default weakpoint",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "effects": [ { "effect": "downed", "chance": 2, "message": "The %s is knocked down!" } ]
+      },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 1 } },
+      {
+        "name": "the eye",
+        "coverage": 1,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 5, "ranged": 7 }
+      },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 10,
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 60,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_moose_ddotd",
+    "copy-from": "mon_zoose",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 1 } },
+      {
+        "name": "the eye",
+        "coverage": 1,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 5, "ranged": 7 }
+      },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 25,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_cattle_ddotd",
+    "copy-from": "mon_zow",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 1 } },
+      {
+        "name": "the eye",
+        "coverage": 1,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 5, "ranged": 7 }
+      },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 25,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_cervid_ddotd",
+    "copy-from": "mon_zeer",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 1 } },
+      {
+        "name": "the eye",
+        "coverage": 1,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "melee": 5, "ranged": 7 }
+      },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 25,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_horse_ddotd",
+    "copy-from": "mon_zombie_horse",
+    "weakpoints": [
+      { "//": "default weakpoint", "damage_mult": { "all": 0 }, "crit_mult": { "all": 0 } },
+      { "name": "the head", "coverage": 8, "difficulty": { "ranged": 1 } },
+      {
+        "name": "the legs",
+        "damage_mult": { "all": 0 },
+        "crit_mult": { "all": 0 },
+        "coverage": 20,
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 10, "message": "The %s is knocked down!" } ]
+      },
+      {
+        "name": "a coup-de-grace headshot",
+        "coverage": 70,
+        "armor_mult": { "all": 0 },
+        "coverage_mult": { "ranged": 0.75 },
+        "required_effects": [ "downed" ]
+      }
+    ]
+  }
+]

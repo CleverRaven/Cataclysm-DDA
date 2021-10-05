@@ -199,7 +199,6 @@
     "description": "The foulest stench is in the air,\nThe funk of forty thousand years,\nAnd grisly ghouls from every tomb,\nAre closing in to seal your doom!\n\nThe dancer doesn't even notice you, it seems like something nearby is controlling it.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "875000 ml",
     "weight": "200 kg",
