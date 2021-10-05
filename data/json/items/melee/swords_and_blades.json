@@ -268,7 +268,7 @@
     "price_postapoc": 1250,
     "bashing": 6,
     "cutting": 19,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "line": "good" },
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "dark_gray",
