@@ -214,8 +214,8 @@ if (MINGW AND NOT RELEASE)
     set(RuntimeLib_GCC_ALL
             ${RuntimeLib_GCC_S_DW2_1}
             ${RuntimeLib_STDC_PP_6}
-            ${RuntimeLib_WINPTHREAD_1
-            ${RuntimeLib_zlib})}
+            ${RuntimeLib_WINPTHREAD_1}
+            ${RuntimeLib_zlib})
     if (TILES)
         # SDL2 can have a varius deps. Here you are the MSYS2 ones...
         find_library(RuntimeLib_SDL2  "SDL2")
