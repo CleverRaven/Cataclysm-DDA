@@ -24,112 +24,110 @@
 #include "diary.h"
 
 
-
-/**print list scrollable, printed std::vector<std::string> as list with scroll*/
-void print_list_scrollable(catacurses::window* win, std::vector<std::string> list, int* selection, int entries_per_page,int xoffset, int width, bool active, bool border) {
-    if (*selection < 0 && !list.empty()) {
-        *selection = list.size() - 1;
-    }
-    else if (*selection >= list.size()) {
-        *selection = 0;
-    }
-    const int borderspace = border ? 1 : 0;
-    entries_per_page = entries_per_page - borderspace * 2;
-    
-    //const int top_of_page = *selection <= entries_per_page ? 0 : *selection - entries_per_page;
-    const int top_of_page = entries_per_page * (*selection / entries_per_page);
-
-    const int bottom_of_page =
-        std::min(top_of_page + entries_per_page , static_cast<int>(list.size()) );
-    
-    for (int i = top_of_page; i < bottom_of_page; i++) {
-
-        const nc_color col = c_white ; //c_light_green
-        const int y = i - top_of_page;
-        trim_and_print(*win, point(xoffset+1, y+borderspace), width-1-borderspace,
-            (static_cast<int>(*selection) == i && active) ? hilite(col) : col,
-            (static_cast<int>(*selection) == i && active) ? remove_color_tags(list[i]): list[i]);
-    }
-    if (border) draw_border(*win);
-    if (active && entries_per_page < list.size()) draw_scrollbar(*win, *selection, entries_per_page, list.size(), point(xoffset, 0 + borderspace));
-
-};
-void print_list_scrollable(catacurses::window* win, std::vector<std::string> list, int* selection,  bool active, bool border) {
-    
-    print_list_scrollable(win, list, selection, getmaxy(*win), 0, getmaxx(*win), active,border);
-}
-void print_list_scrollable(catacurses::window* win, std::string text, int* selection, int entries_per_page, int xoffset, int width, bool active,bool border) {
-    int borderspace = border ? 1 : 0;
-    std::vector<std::string> list = foldstring(text,width-1-borderspace*2);
-    
-
-    print_list_scrollable(win, list, selection, entries_per_page, xoffset, width, active,border);
-}
-void print_list_scrollable(catacurses::window* win, std::string text, int* selection, bool active,bool border) {
-
-    print_list_scrollable(win, text, selection, getmaxy(*win), 0, getmaxx(*win), active,border);
-}
-
-void draw_diary_border(catacurses::window* win, const nc_color &color = c_white) {
-    wattron(*win, color);
-    //mvwprintw(const window & win, const point & p, const std::string & text)
-    const int maxx = getmaxx(*win)-1;
-    const int maxy = getmaxy(*win)-1;
-    //
-    const int midx = maxx % 2 == 0 ? maxx / 2 : maxx / 2 - 1;
-    for (int i = 4; i <= maxy - 4; i++) {
-        mvwprintw(*win, point(0, i), "||||");
-        mvwprintw(*win, point(maxx - 3, i), "||||");
-        mvwprintw(*win, point(midx, i), " | ");
-    }
-    for (int i = 4; i <= maxx - 4; i++) {
-        if (!(i >= midx && i <= midx + 2)) {
-            mvwprintw(*win, point(i, 0), "____");
-            mvwprintw(*win, point(i, maxy - 2), "____");
-            mvwprintw(*win, point(i, maxy - 1), "====");
-            mvwprintw(*win, point(i, maxy), "----");
+namespace {
+    /**print list scrollable, printed std::vector<std::string> as list with scroll*/
+    void print_list_scrollable(catacurses::window* win, std::vector<std::string> list, int* selection, int entries_per_page, int xoffset, int width, bool active, bool border) {
+        if (*selection < 0 && !list.empty()) {
+            *selection = list.size() - 1;
         }
+        else if (*selection >= list.size()) {
+            *selection = 0;
+        }
+        const int borderspace = border ? 1 : 0;
+        entries_per_page = entries_per_page - borderspace * 2;
+
+        //const int top_of_page = *selection <= entries_per_page ? 0 : *selection - entries_per_page;
+        const int top_of_page = entries_per_page * (*selection / entries_per_page);
+
+        const int bottom_of_page =
+            std::min(top_of_page + entries_per_page, static_cast<int>(list.size()));
+
+        for (int i = top_of_page; i < bottom_of_page; i++) {
+
+            const nc_color col = c_white; //c_light_green
+            const int y = i - top_of_page;
+            trim_and_print(*win, point(xoffset + 1, y + borderspace), width - 1 - borderspace,
+                (static_cast<int>(*selection) == i && active) ? hilite(col) : col,
+                (static_cast<int>(*selection) == i && active) ? remove_color_tags(list[i]) : list[i]);
+        }
+        if (border) draw_border(*win);
+        if (active && entries_per_page < list.size()) draw_scrollbar(*win, *selection, entries_per_page, list.size(), point(xoffset, 0 + borderspace));
+
+    };
+    void print_list_scrollable(catacurses::window* win, std::vector<std::string> list, int* selection, bool active, bool border) {
+
+        print_list_scrollable(win, list, selection, getmaxy(*win), 0, getmaxx(*win), active, border);
     }
-    //top left corner
-    mvwprintw(*win, point(0,0), "    ");
-    mvwprintw(*win, point(0,1), ".-/|");
-    mvwprintw(*win, point(0,2), "||||");
-    mvwprintw(*win, point(0,3), "||||");
-    //bottom left corner
-    mvwprintw(*win, point(0, maxy - 3), "||||");
-    mvwprintw(*win, point(0, maxy - 2), "||||");
-    mvwprintw(*win, point(0, maxy - 1), "||/=");
-    mvwprintw(*win, point(0, maxy - 0), "`'--");
-    //top right corner
-    mvwprintw(*win, point(maxx - 3, 0), "    ");
-    mvwprintw(*win, point(maxx - 3, 1), "|\\-.");
-    mvwprintw(*win, point(maxx - 3, 2), "||||");
-    mvwprintw(*win, point(maxx - 3, 3), "||||");
-    //bottom right corner
-    mvwprintw(*win, point(maxx - 3, maxy - 3), "||||");
-    mvwprintw(*win, point(maxx - 3, maxy - 2), "||||");
-    mvwprintw(*win, point(maxx - 3, maxy - 1), "=\\||");
-    mvwprintw(*win, point(maxx - 3, maxy - 0), "--''");
-    
-    //mid top
-    mvwprintw(*win, point(midx, 0), "   ");
-    mvwprintw(*win, point(midx, 1), "\\ /");
-    mvwprintw(*win, point(midx, 2), " | ");
-    mvwprintw(*win, point(midx, 3), " | ");
-    //mid bottom
-    mvwprintw(*win, point(midx, maxy - 3), " | ");
-    mvwprintw(*win, point(midx, maxy - 2), " | ");
-    mvwprintw(*win, point(midx, maxy - 1), "\\|/");
-    mvwprintw(*win, point(midx, maxy - 0), "___");
-    wattroff(*win, color);
+    void print_list_scrollable(catacurses::window* win, std::string text, int* selection, int entries_per_page, int xoffset, int width, bool active, bool border) {
+        int borderspace = border ? 1 : 0;
+        std::vector<std::string> list = foldstring(text, width - 1 - borderspace * 2);
+
+
+        print_list_scrollable(win, list, selection, entries_per_page, xoffset, width, active, border);
+    }
+    void print_list_scrollable(catacurses::window* win, std::string text, int* selection, bool active, bool border) {
+
+        print_list_scrollable(win, text, selection, getmaxy(*win), 0, getmaxx(*win), active, border);
+    }
+
+    void draw_diary_border(catacurses::window* win, const nc_color& color = c_white) {
+        wattron(*win, color);
+        //mvwprintw(const window & win, const point & p, const std::string & text)
+        const int maxx = getmaxx(*win) - 1;
+        const int maxy = getmaxy(*win) - 1;
+        //
+        const int midx = maxx % 2 == 0 ? maxx / 2 : maxx / 2 - 1;
+        for (int i = 4; i <= maxy - 4; i++) {
+            mvwprintw(*win, point(0, i), "||||");
+            mvwprintw(*win, point(maxx - 3, i), "||||");
+            mvwprintw(*win, point(midx, i), " | ");
+        }
+        for (int i = 4; i <= maxx - 4; i++) {
+            if (!(i >= midx && i <= midx + 2)) {
+                mvwprintw(*win, point(i, 0), "____");
+                mvwprintw(*win, point(i, maxy - 2), "____");
+                mvwprintw(*win, point(i, maxy - 1), "====");
+                mvwprintw(*win, point(i, maxy), "----");
+            }
+        }
+        //top left corner
+        mvwprintw(*win, point(0, 0), "    ");
+        mvwprintw(*win, point(0, 1), ".-/|");
+        mvwprintw(*win, point(0, 2), "||||");
+        mvwprintw(*win, point(0, 3), "||||");
+        //bottom left corner
+        mvwprintw(*win, point(0, maxy - 3), "||||");
+        mvwprintw(*win, point(0, maxy - 2), "||||");
+        mvwprintw(*win, point(0, maxy - 1), "||/=");
+        mvwprintw(*win, point(0, maxy - 0), "`'--");
+        //top right corner
+        mvwprintw(*win, point(maxx - 3, 0), "    ");
+        mvwprintw(*win, point(maxx - 3, 1), "|\\-.");
+        mvwprintw(*win, point(maxx - 3, 2), "||||");
+        mvwprintw(*win, point(maxx - 3, 3), "||||");
+        //bottom right corner
+        mvwprintw(*win, point(maxx - 3, maxy - 3), "||||");
+        mvwprintw(*win, point(maxx - 3, maxy - 2), "||||");
+        mvwprintw(*win, point(maxx - 3, maxy - 1), "=\\||");
+        mvwprintw(*win, point(maxx - 3, maxy - 0), "--''");
+
+        //mid top
+        mvwprintw(*win, point(midx, 0), "   ");
+        mvwprintw(*win, point(midx, 1), "\\ /");
+        mvwprintw(*win, point(midx, 2), " | ");
+        mvwprintw(*win, point(midx, 3), " | ");
+        //mid bottom
+        mvwprintw(*win, point(midx, maxy - 3), " | ");
+        mvwprintw(*win, point(midx, maxy - 2), " | ");
+        mvwprintw(*win, point(midx, maxy - 1), "\\|/");
+        mvwprintw(*win, point(midx, maxy - 0), "___");
+        wattroff(*win, color);
+    }
 }
-//void game::show_diary_ui();
 void diary::show_diary_ui(diary * c_diary)
 {
-    c_diary->deserialize();
-    /*diary* c_diary = new diary;
-    c_diary->load_test();*/ 
-    //diary* c_diary = u.get_avatar_diary();
+    //c_diary->deserialize();
+    
     catacurses::window w_diary;
     catacurses::window w_pages;
     catacurses::window w_text;
@@ -305,7 +303,7 @@ void diary::show_diary_ui(diary * c_diary)
             
         }
         else if (action == "QUIT") {
-            c_diary->serialize();
+            //c_diary->serialize();
             break;
         }
         

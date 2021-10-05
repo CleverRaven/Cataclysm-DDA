@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <filesystem>
 
 
 #include "game.h"
@@ -25,33 +26,33 @@
 
 
 
-namespace {
+//namespace {
+    diary_page::diary_page() {
 
-}
-diary_page::diary_page(std::string date, std::string text)
-{
-    m_date = date;
-    m_text = text;
-}
-diary_page::diary_page() {
-        
-}
-
-
-void diary::load_test() {
-    for (int i = 0; i <= 5; i++) {
-        diary::pages.push_back(new diary_page(std::to_string(i), std::to_string(i) + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu f"));
     }
-    
-    
-    
+//}
+//diary_page::diary_page(std::string date, std::string text)
+//{
+//    m_date = date;
+//    m_text = text;
+//}
 
-}
+
+
+//void diary::load_test() {
+//    for (int i = 0; i <= 5; i++) {
+//        diary::pages.push_back(new diary_page(std::to_string(i), std::to_string(i) + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu f"));
+//    }
+//    
+//    
+//    
+//
+//}
 
 std::vector<std::string> diary::get_pages_list() {
     std::vector<std::string> result;
     for (auto n : pages) {
-        result.push_back(n->m_date);
+        result.push_back(to_string(n->turn));
 
     }
     return result;
@@ -589,6 +590,14 @@ std::string diary::get_head_text() {
     }
     return "";
 }
+//hier noch verschieben, da der save gelöscht wird, wenn der char tot ist. 
+void diary::death_entry() {
+    bool lasttime = query_yn(_("Open diary for the last time?"));
+    if (lasttime) {
+        show_diary_ui(this);
+    }
+    export_to_txt(true);
+}
 
 diary::diary() {
     owner = get_avatar().name;
@@ -601,7 +610,7 @@ void diary::new_page() {
     diary_page* page = new diary_page();
     
     page -> m_text = "";
-    page -> m_date = to_string(calendar::turn);
+    //page -> m_date = to_string(calendar::turn);
     page -> turn = calendar::turn;
     //
     ////game stats
@@ -672,9 +681,11 @@ void diary::delete_page() {
     
 }
 
-void diary::export_to_txt() {
+void diary::export_to_txt(bool lastexport) {
     std::ofstream myfile;
-    myfile.open(PATH_INFO::world_base_save_path() + "\\"+owner +"s_diary.txt");
+    std::string path = lastexport? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
+    path +="\\" + owner + "s_diary.txt";
+    myfile.open(path);
     
     for (int i = 0; i < pages.size(); i++) {
         set_opend_page(i);
@@ -691,60 +702,87 @@ void diary::export_to_txt() {
     }
     myfile.close();
 }
-void diary::serialize(std::ostream& fout) {
-    JsonOut jout(fout,true);
-    jout.start_object();
-    jout.member("owner", owner);
-    jout.member("pages");
-    jout.start_array();
-    for (auto n : pages) {
-        jout.start_object();
-        jout.member("date", n->m_date);
-        jout.member("text", n->m_text);
-        jout.member("turn", n->turn);
-        jout.member("completed", n->mission_completed);
-        jout.member("active", n->mission_active);
-        jout.member("faild", n->mission_faild);
-        jout.member("kills", n->kills);
-        jout.member("npc_kills", n->npc_kills);
-        jout.member("male", n->male);
-        //jout.member("addictions", n->addictions);
-        jout.member("str", n->strength);
-        jout.member("dex", n->dexterity);
-        jout.member("int", n->intelligence);
-        jout.member("per", n->perception);
-        //jout.member("follower_ids", n->follower_ids);
-        jout.member("traits", n->traits);
-        jout.member("bionics", n->bionics);
-        jout.member("spells", n->known_spells);
-        jout.member("skillsL", n->skillsL);
-                   
-        jout.member("known_profs", n->known_profs);
-        jout.member("learning_profs", n->learning_profs);
-        jout.member("max_power_level", n->max_power_level);
-        jout.end_object();
-    }
-    jout.end_array();
-    jout.end_object();
-}
-void diary::serialize() {
-    std::string path = PATH_INFO::world_base_save_path() +  "\\"+ owner+"_diary.json"; 
-    write_to_file(path, [&](std::ostream& fout) {
+
+bool diary::serialize() {
+    std::string name = base64_encode(get_avatar().get_save_id() + "_diary");
+    std::string path = PATH_INFO::world_base_save_path() +  "\\"+ name+".json";
+    const bool iswriten = write_to_file(path, [&](std::ostream& fout) {
         serialize(fout);
         }, _("diary data"));
+    return iswriten;
 }
+
+void diary::serialize(std::ostream& fout) {
+    JsonOut jsout(fout, true);
+    jsout.start_object();
+    serialize(jsout);
+    jsout.end_object();
+}
+
+void diary::serialize(JsonOut& jsout){
+    //jsout.start_object();
+    jsout.member("owner", owner);
+    jsout.member("pages");
+    jsout.start_array();
+    for (auto n : pages) {
+        jsout.start_object();
+        //jsout.member("date", n->m_date);
+        jsout.member("text", n->m_text);
+        jsout.member("turn", n->turn);
+        jsout.member("completed", n->mission_completed);
+        jsout.member("active", n->mission_active);
+        jsout.member("faild", n->mission_faild);
+        jsout.member("kills", n->kills);
+        jsout.member("npc_kills", n->npc_kills);
+        jsout.member("male", n->male);
+        //jsout.member("addictions", n->addictions);
+        jsout.member("str", n->strength);
+        jsout.member("dex", n->dexterity);
+        jsout.member("int", n->intelligence);
+        jsout.member("per", n->perception);
+        //jsout.member("follower_ids", n->follower_ids);
+        jsout.member("traits", n->traits);
+        jsout.member("bionics", n->bionics);
+        jsout.member("spells", n->known_spells);
+        jsout.member("skillsL", n->skillsL);
+
+        jsout.member("known_profs", n->known_profs);
+        jsout.member("learning_profs", n->learning_profs);
+        jsout.member("max_power_level", n->max_power_level);
+        jsout.end_object();
+    }
+    jsout.end_array();
+    //jsout.end_object();
+}
+
+
+
+void diary::deserialize() {
+    std::string name = base64_encode(get_avatar().get_save_id() + "_diary");
+    std::string path = PATH_INFO::world_base_save_path() + "\\"+ name +".json";
+    //std::filesystem::exists(path);
+    /*access(path.c_str(), F_OK) != -1);
+    if (std::filesystem::exists(path)) {*/
+        read_from_file(path, [&](std::istream& fin) {
+            deserialize(fin);
+            });
+    //}
+}
+
 void diary::deserialize(std::istream& fin) {
-    
-    
-    try {
-        JsonIn jin(fin);
-        auto data = jin.get_object();
+    JsonIn jin(fin);
+    deserialize(jin);
+}
+
+void diary::deserialize(JsonIn& jsin) {
+    try{
+        auto data = jsin.get_object();
         data.read("owner", owner);
-        pages.clear();
         
+        pages.clear();
         for (JsonObject elem : data.get_array("pages")) {
             diary_page* page = new diary_page();
-            page->m_date = elem.get_string("date");
+            //page->m_date = elem.get_string("date");
             page->m_text = elem.get_string("text");
             elem.read("turn", page->turn);
             elem.read("active", page->mission_active);
@@ -763,27 +801,21 @@ void diary::deserialize(std::istream& fin) {
             elem.read("bionics", page->bionics);
             elem.read("spells", page->known_spells);
             elem.read("skillsL", page->skillsL);
-            
-            
+
+
             elem.read("known_profs", page->known_profs);
             elem.read("learning_profs", page->learning_profs);
             elem.read("max_power_level", page->max_power_level);
-            
+
             pages.push_back(page);
         }
-    }catch (const JsonError& e) {
-    //debugmsg("error loading %s: %s", SAVE_MASTER, e.c_str());
     }
-    
-
+    catch (const JsonError& e) {
+        //debugmsg("error loading %s: %s", SAVE_MASTER, e.c_str());
+    }
 }
-void diary::deserialize() {
-    std::string path = PATH_INFO::world_base_save_path() + "\\"+ owner + "_diary.json";
 
-    read_from_file(path, [&](std::istream& fin) {
-        deserialize(fin);
-        });
-}
+
 
 /**methode, die eine zwei pages bekommt und einen vector string zurück gibt mit den änderungen*/
 

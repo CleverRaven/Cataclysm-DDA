@@ -17,16 +17,16 @@
 #include "units.h"
 #include "skill.h"
 
-//namespace diary_strukt {
+//namespace{
     struct diary_page
     {
 
-        diary_page(std::string date, std::string text);
+        //diary_page(std::string date, std::string text);
         diary_page();
 
         //void fill_with_gamestate();
         std::string m_text;
-        std::string m_date;
+        //std::string m_date;
 
         /*
         * turn
@@ -90,7 +90,7 @@
         units::energy max_power_level;
     };
 //}
-class diary 
+class diary //: public JsonSerializer, public JsonDeserializer
 {
     
     
@@ -107,7 +107,7 @@ class diary
     //methoden
     public:
         diary();
-        void load_test();
+        //void load_test();
         int set_opend_page(int i);
         void edit_page_ui();
         void new_page();
@@ -135,13 +135,19 @@ class diary
         void set_page_text( std::string text);
         static void show_diary_ui(diary* c_diary);
 
+        void death_entry();
+
         
 
-        void export_to_txt();
-        void serialize();
+        void export_to_txt(bool lastexport = false);
+        bool serialize();
         void deserialize();
         void serialize(std::ostream& fout);
         void deserialize(std::istream& fin);
+
+        void deserialize(JsonIn& jsin) ;
+        void serialize(JsonOut& jsout) ;
+        //beim nächsten mal, schauen ob ich das jetzt einfach im avata serialisieren kann
     private:
         void add_to_change_list(std::string entry, std::string desc = "");
 
