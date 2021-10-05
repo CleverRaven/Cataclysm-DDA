@@ -9,11 +9,14 @@
 #include <vector>
 
 #include "damage.h"
+#include "optional.h"
 #include "type_id.h"
 
+class Character;
 class Creature;
 class JsonArray;
 class JsonObject;
+class JsonValue;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
@@ -35,6 +38,8 @@ struct weakpoint_attack {
     const item *weapon;
     // The type of the attack.
     attack_type type;
+    // Whether the attack from a thrown object.
+    bool is_thrown;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
@@ -43,6 +48,8 @@ struct weakpoint_attack {
     weakpoint_attack();
     // Returns the attack type of a melee attack.
     static attack_type type_of_melee_attack( const damage_instance &damage );
+    // Compute and set the value of `wp_skill`.
+    void compute_wp_skill();
 };
 
 // An effect that a weakpoint can cause.
@@ -74,6 +81,36 @@ struct weakpoint_difficulty {
     explicit weakpoint_difficulty( float default_value );
     float of( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+};
+
+struct weakpoint_family {
+    // ID of the family. Equal to the proficiency, if not provided.
+    std::string id;
+    // Name of proficiency corresponding to the family.
+    proficiency_id proficiency;
+    // The skill bonus for having the proficiency.
+    cata::optional<float> bonus;
+    // The skill penalty for not having the proficiency.
+    cata::optional<float> penalty;
+
+    float modifier( const Character &attacker ) const;
+    void load( const JsonValue &jsin );
+};
+
+struct weakpoint_families {
+    // List of weakpoint families
+    std::vector<weakpoint_family> families;
+
+    // Practice all weak point families for the given duration. Returns true if a proficiency was learned.
+    bool practice( Character &learner, const time_duration &amount ) const;
+    bool practice_hit( Character &learner ) const;
+    bool practice_kill( Character &learner ) const;
+    bool practice_dissect( Character &learner ) const;
+    float modifier( const Character &attacker ) const;
+
+    void clear();
+    void load( const JsonArray &ja );
+    void remove( const JsonArray &ja );
 };
 
 struct weakpoint {
