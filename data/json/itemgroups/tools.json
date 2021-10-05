@@ -316,11 +316,14 @@
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
       [ "clamp", 10 ],
       [ "goggles_welding", 80 ],
-	  {
+      {
         "collection": [
           { "item": "plasma_torch", "prob": 100 },
           {
-            "distribution": [ { "item": "hydrogentank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyhydrogentank", "prob": 100, "count": [ 1, 3 ] } ],
+            "distribution": [
+              { "item": "hydrogentank", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "tinyhydrogentank", "prob": 100, "count": [ 1, 3 ] }
+            ],
             "prob": 100
           }
         ],
