@@ -196,7 +196,7 @@ class query_popup
          * Query until a valid action or an error happens and return the result.
          */
         result query();
-
+        catacurses::window get_window();
     protected:
         /**
          * Create or get a ui_adaptor on the UI stack to handle redrawing and

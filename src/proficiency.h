@@ -59,6 +59,9 @@ class proficiency
         float _default_time_multiplier = 2.0f;
         float _default_fail_multiplier = 2.0f;
 
+        float _default_weakpoint_bonus = 0.0f;
+        float _default_weakpoint_penalty = 0.0f;
+
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
 
@@ -79,6 +82,9 @@ class proficiency
 
         float default_time_multiplier() const;
         float default_fail_multiplier() const;
+
+        float default_weakpoint_bonus() const;
+        float default_weakpoint_penalty() const;
 
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;

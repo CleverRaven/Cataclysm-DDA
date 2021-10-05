@@ -557,7 +557,7 @@ std::string display::date_string()
 {
     const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
     const int day_num = day_of_season<int>( calendar::turn ) + 1;
-    return string_format( "%s, day %d", season, day_num );
+    return string_format( _( "%s, day %d" ), season, day_num );
 }
 
 std::string display::time_string( const Character &u )
@@ -899,7 +899,7 @@ std::pair<std::string, nc_color> display::safe_mode_text_color( const bool class
     std::string s_text;
     if( classic_mode ) {
         if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-            s_text = "SAFE";
+            s_text = _( "SAFE" );
         }
     } else {
         s_text = g->safe_mode ? _( "On" ) : _( "Off" );

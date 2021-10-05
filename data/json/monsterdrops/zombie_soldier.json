@@ -25,6 +25,7 @@
       { "group": "military_patrol_food" },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
       { "group": "wallets", "prob": 10 },
+      { "group": "pocket_cigar", "prob": 15 },
       { "group": "misc_smoking_legal", "prob": 30 }
     ]
   },
@@ -62,6 +63,7 @@
         "collection": [ { "group": "infantry_officer_gear", "prob": 90 }, { "group": "infantry_medical_gear", "prob": 80 } ]
       },
       { "group": "wallets", "prob": 10 },
+      { "group": "pocket_cigar", "prob": 15 },
       { "group": "misc_smoking_legal", "prob": 30 }
     ]
   }

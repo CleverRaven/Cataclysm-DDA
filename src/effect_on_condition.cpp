@@ -122,7 +122,7 @@ void effect_on_conditions::load_new_character( Character &you )
     for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
         effect_on_condition eoc = eoc_id.obj();
         if( eoc.type == eoc_type::SCENARIO_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn_zero };
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero };
             you.queued_effect_on_conditions.push( new_eoc );
         }
     }
@@ -130,8 +130,8 @@ void effect_on_conditions::load_new_character( Character &you )
     effect_on_conditions::clear( you );
 
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( eoc.type == eoc_type::RECURRING && ( is_avatar || eoc.run_for_npcs ) ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
+        if( eoc.type == eoc_type::RECURRING && ( ( is_avatar && eoc.global ) || !eoc.global ) ) {
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id ) };
             if( eoc.global ) {
                 g->queued_global_effect_on_conditions.push( new_eoc );
             } else {
@@ -185,16 +185,22 @@ void effect_on_conditions::load_existing_character( Character &you )
 
     for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
         if( eoc_pair.second ) {
-            queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first );
+            queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first, you );
         }
     }
 }
 
 void effect_on_conditions::queue_effect_on_condition( time_duration duration,
-        effect_on_condition_id eoc )
+        effect_on_condition_id eoc, Character &you )
 {
-    queued_eoc new_eoc = queued_eoc{ eoc, false, calendar::turn + duration };
-    get_player_character().queued_effect_on_conditions.push( new_eoc );
+    queued_eoc new_eoc = queued_eoc{ eoc, calendar::turn + duration };
+    if( eoc->global ) {
+        g->queued_global_effect_on_conditions.push( new_eoc );
+    } else if( eoc->type == eoc_type::ACTIVATION || eoc->type == eoc_type::RECURRING ) {
+        you.queued_effect_on_conditions.push( new_eoc );
+    } else {
+        debugmsg( "Invalid effect_on_condition and/or target.  EOC: %s", eoc->id.c_str() );
+    }
 }
 
 static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
@@ -205,13 +211,13 @@ static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc
            eoc_queue.top().time <= calendar::turn ) {
         queued_eoc top = eoc_queue.top();
         bool activated = top.eoc->activate( d );
-        if( top.recurring ) {
+        if( top.eoc->type == eoc_type::RECURRING ) {
             if( activated ) { // It worked so add it back
-                queued_eoc new_eoc = queued_eoc{ top.eoc, true, calendar::turn + next_recurrence( top.eoc ) };
+                queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc ) };
                 eocs_to_queue.push_back( new_eoc );
             } else {
                 if( !top.eoc->check_deactivate() ) { // It failed but shouldn't be deactivated so add it back
-                    queued_eoc new_eoc = queued_eoc{ top.eoc, true, calendar::turn + next_recurrence( top.eoc ) };
+                    queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc ) };
                     eocs_to_queue.push_back( new_eoc );
                 } else { // It failed and should be deactivated for now
                     eoc_vector.push_back( top.eoc );
@@ -236,21 +242,36 @@ void effect_on_conditions::process_effect_on_conditions( Character &you )
     }
 }
 
-void effect_on_conditions::process_reactivate( Character &you )
+static void process_reactivation( std::vector<effect_on_condition_id>
+                                  &inactive_effect_on_condition_vector,
+                                  std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+                                  &queued_effect_on_conditions )
 {
     std::vector<effect_on_condition_id> ids_to_reactivate;
-    for( const effect_on_condition_id &eoc : you.inactive_effect_on_condition_vector ) {
+    for( const effect_on_condition_id &eoc : inactive_effect_on_condition_vector ) {
         if( !eoc->check_deactivate() ) {
             ids_to_reactivate.push_back( eoc );
         }
     }
     for( const effect_on_condition_id &eoc : ids_to_reactivate ) {
-        you.queued_effect_on_conditions.push( queued_eoc{ eoc, true, calendar::turn + next_recurrence( eoc ) } );
-        you.inactive_effect_on_condition_vector.erase( std::remove(
-                    you.inactive_effect_on_condition_vector.begin(), you.inactive_effect_on_condition_vector.end(),
-                    eoc ), you.inactive_effect_on_condition_vector.end() );
+        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc ) } );
+        inactive_effect_on_condition_vector.erase( std::remove(
+                    inactive_effect_on_condition_vector.begin(), inactive_effect_on_condition_vector.end(),
+                    eoc ), inactive_effect_on_condition_vector.end() );
     }
 }
+
+void effect_on_conditions::process_reactivate( Character &you )
+{
+    process_reactivation( you.inactive_effect_on_condition_vector, you.queued_effect_on_conditions );
+}
+
+void effect_on_conditions::process_reactivate()
+{
+    process_reactivation( g->inactive_global_effect_on_condition_vector,
+                          g->queued_global_effect_on_conditions );
+}
+
 
 bool effect_on_condition::activate( dialogue &d ) const
 {
@@ -314,8 +335,7 @@ void effect_on_conditions::write_eocs_to_file( Character &you )
 
         for( const auto &queue_entry : temp_queue ) {
             time_duration temp = queue_entry.time - calendar::turn;
-            testfile << queue_entry.eoc.c_str() << ";" << to_string( temp ) << ";" <<
-                     ( queue_entry.recurring ? "recur" : "non" ) << std::endl ;
+            testfile << queue_entry.eoc.c_str() << ";" << to_string( temp ) << std::endl;
         }
 
         for( const auto &queued : temp_queue ) {
@@ -345,8 +365,7 @@ void effect_on_conditions::write_global_eocs_to_file( )
 
         for( const auto &queue_entry : temp_queue ) {
             time_duration temp = queue_entry.time - calendar::turn;
-            testfile << queue_entry.eoc.c_str() << ";" << to_string( temp ) << ";" <<
-                     ( queue_entry.recurring ? "recur" : "non" ) << std::endl ;
+            testfile << queue_entry.eoc.c_str() << ";" << to_string( temp ) << std::endl;
         }
 
         for( const auto &queued : temp_queue ) {
