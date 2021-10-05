@@ -361,7 +361,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "volume": "600 ml",
     "longest_side": "60 cm",
