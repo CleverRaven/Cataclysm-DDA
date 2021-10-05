@@ -254,6 +254,12 @@ void weakpoint_effect::load( const JsonObject &jo )
     } else if( jo.has_array( "intensity" ) ) {
         assign( jo, "intensity", intensity );
     }
+    if( jo.has_float( "damage_required" ) ) {
+        float f = jo.get_float( "damage_required", 0.0f );
+        damage_required = {f, f};
+    } else if( jo.has_array( "damage_required" ) ) {
+        assign( jo, "damage_required", damage_required );
+    }
 }
 
 weakpoint_attack::weakpoint_attack()  :
