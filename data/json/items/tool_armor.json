@@ -3246,7 +3246,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+       "flag_restriction": [ "BATTERY_ULTRA_LIGHT","BATTERY_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
     ]
@@ -3286,7 +3286,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT","BATTERY_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
     ]
