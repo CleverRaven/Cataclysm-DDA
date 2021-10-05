@@ -57,6 +57,36 @@
     ]
   },
   {
+    "id": "mon_zombie_scientist_ddotd",
+    "copy-from": "mon_zombie_ddotd",
+    "description": "Apart from the jet-black eyes, this zombie looks less decomposed and inhuman than most.  Clad in a tattered lab coat, it seems to have a glimmer of awareness - not a human awareness, but something more sinister.  As you watch it, its movements look almost marionette-like.",
+    "default_faction": "science",
+    "//": "zombie scientists are recognised as friendly by the lab's defense system",
+    "symbol": "Z",
+    "color": "white_cyan",
+    "death_drops": "mon_zombie_scientist_death_drops",
+    "extend": { "flags": [ "ACIDPROOF" ] }
+    ]
+  },
+  {
+    "id": "mon_zombie_labsecurity_ddotd",
+    "copy-from": "mon_zombie_ddotd",
+    "description": "A shambling human corpse wearing a gray uniform and bulletproof vest with \"SECURITY\" emblazoned across the front.  It looks like the guard was quite physically fit before its death; it moves quickly and powerfully, albeit clumsily.",
+    "default_faction": "science",
+    "//": "guards are recognised as friendly by the lab's defense system",
+    "symbol": "Z",
+    "color": "blue",
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "armor_bash": 4,
+    "armor_cut": 6,
+    "armor_bullet": 4,
+    "armor_stab": 4,
+    "death_drops": "mon_zombie_labsecurity_death_drops"
+  },
+  {
     "id": "mon_zombie_crawler_ddotd",
     "copy-from": "mon_zombie_crawler",
     "weakpoints": [

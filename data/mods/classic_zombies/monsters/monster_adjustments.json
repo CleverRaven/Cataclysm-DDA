@@ -1,0 +1,7 @@
+[
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false }
+  }
+]
