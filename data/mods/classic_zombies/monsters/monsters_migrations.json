@@ -110,7 +110,7 @@
     "replace": "mon_zombie_cattle_ddotd"
   },
   {
-    "id": [ "mon_zeer","mon_zeindeer" ],
+    "id": [ "mon_zeer", "mon_zeindeer" ],
     "type": "MIGRATION",
     "replace": "mon_zombie_cervid_ddotd"
   }
