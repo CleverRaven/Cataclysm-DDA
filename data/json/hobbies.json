@@ -276,7 +276,7 @@
     "description": "You were an incredibly social individual.",
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
-    "traits": ["BOOMING_VOICE"]
+    "traits": [ "BOOMING_VOICE" ]
   },
   {
     "type": "profession",
