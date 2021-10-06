@@ -7726,7 +7726,7 @@
     "id": "BOOMING_VOICE",
     "name": { "str": "Booming Voice" },
     "points": 0,
-    "description": "You know how to project your voice. You are able to shout much louder than the average person.",
+    "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
     "valid": false
   }
 ]
