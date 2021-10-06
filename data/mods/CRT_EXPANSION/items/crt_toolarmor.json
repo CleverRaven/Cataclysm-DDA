@@ -23,7 +23,6 @@
     "warmth": 20,
     "material_thickness": 5,
     "environmental_protection": 16,
-    "qualities": [ [ "GLARE", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 250 } } ],
     "flags": [
       "WATERPROOF",
@@ -56,7 +55,7 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ] },
     "material_thickness": 5,
     "environmental_protection": 20,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [
       "WATERPROOF",
       "STURDY",
