@@ -123,7 +123,357 @@ namespace {
         mvwprintw(*win, point(midx, maxy - 0), "___");
         wattroff(*win, color);
     }
+
+   
+
+    //std::pair<int, int> get_line_and_position(std::vector<std::string> foldedtext, int position, int maxx) {
+    //    //beim nächsten mal builden und dann weiter sehen.
+    //    int counter = 0;
+    //    int lineposition;
+    //    int line;
+    //    for (int i = 0; i < foldedtext.size(); i++) {
+    //        int temp = foldedtext[i].size();
+    //        temp += (foldedtext[i].back() != ' ') ? 1 : 0;
+    //        if (counter + temp > position) {
+    //            lineposition = position - counter;
+    //            line = i;
+    //            return std::make_pair(line,lineposition);
+    //        }
+    //        else {
+    //            counter += temp;
+    //        }
+    //    }
+    //    return std::make_pair(0, 0);
+    //}
+
+    //void print_editor(catacurses::window& win, std::string text, int position) {
+    //    
+    //    const int maxx = getmaxx(win);
+    //    const int maxy = getmaxy(win);
+    //    const int middelofpage = maxy / 2;
+    //    const auto foldettext = foldstring(text, maxx);
+    //    if (position >= text.size()) position = 0;
+    //    if (position < 0) position = text.size() - 1;
+    //    auto line_position = get_line_and_position(foldettext, position, maxx);
+    //    
+    //    int topoflist=0;
+    //    int bottomoflist = std::min(topoflist + maxy, static_cast<int>(foldettext.size()));
+    //    if (maxy <= foldettext.size()) {
+    //        if (line_position.first > middelofpage) {
+    //            topoflist = line_position.first - middelofpage;
+    //            bottomoflist = topoflist + maxy;
+    //        }
+    //        if (line_position.first + middelofpage >= foldettext.size()) {
+    //            bottomoflist = static_cast<int>(foldettext.size());
+    //            topoflist = bottomoflist - maxy;
+    //        }
+    //    }
+    //    
+    //    //int topoflist = std::max(line_position.first - middelofpage, 0);
+    //    ////if (topoflist + maxy >= foldettext.size()) topoflist = foldettext.size() - maxy-1;
+    //    //const auto bottomoflist = std::min(topoflist + maxy, static_cast<int>(foldettext.size()));
+
+    //    for (int i = topoflist; i < bottomoflist; i++) {
+    //        int y = i - topoflist;
+    //        trim_and_print(win, point(0, y), maxx, c_white, foldettext[i]);
+    //        if (i == line_position.first) {
+    //            wattron(win, h_white);
+    //            mvwprintw(win, point(line_position.second, y), std::string(1, text[position]));
+    //            wattroff(win, h_white);
+    //        }
+    //    }
+    //    
+    //}
 }
+
+class editor_window {
+private:
+    catacurses::window _win;
+    int _maxx;
+    int _maxy;
+    std::string _text;
+
+    nc_color _string_color = c_magenta;
+    nc_color _cursor_color = h_light_gray;
+
+    bool _ignore_custom_actions = true;
+
+    int _position = -1;
+
+    std::unique_ptr<input_context> ctxt_ptr;
+    input_context* ctxt = nullptr;
+
+    bool _canceled = false;
+    bool _confirmed = false;
+    bool _handled = false;
+
+    std::map<long, std::function<bool()>> callbacks;
+public:
+    editor_window(catacurses::window& win, std::string text) {
+        _text = text;
+        _win = win;
+        _maxx = getmaxx(win);
+        _maxy = getmaxy(win);
+    }
+
+    std::pair<int, int> get_line_and_position(std::vector<std::string> foldedtext, int position, int maxx) {
+        //hier noch die frage, was ich mir den öüäß zeichen mache. 
+        int counter = 0;
+        int lineposition;
+        int line;
+        for (int i = 0; i < foldedtext.size(); i++) {
+            int temp = foldedtext[i].size();
+            temp += (foldedtext[i].back() != ' ') ? 1 : 0;
+            if (counter + temp > position) {
+                lineposition = position - counter;
+                line = i;
+                return std::make_pair(line, lineposition);
+            }
+            else {
+                counter += temp;
+            }
+        }
+        return std::make_pair(0, 0);
+    }
+
+    void print_editor(catacurses::window& win, std::string text, int position) {
+
+        /*const int maxx = getmaxx(win);
+        const int maxy = getmaxy(win);*/
+        const int middelofpage = _maxy / 2;
+        const auto foldettext = foldstring(text, _maxx-1);
+        if (position >= text.size()) position = 0;
+        if (position < 0) position = text.size() - 1;
+        auto line_position = get_line_and_position(foldettext, position, _maxx-1);
+
+        int topoflist = 0;
+        int bottomoflist = std::min(topoflist + _maxy, static_cast<int>(foldettext.size()));
+        if (_maxy <= foldettext.size()) {
+            if (line_position.first > middelofpage) {
+                topoflist = line_position.first - middelofpage;
+                bottomoflist = topoflist + _maxy;
+            }
+            if (line_position.first + middelofpage >= foldettext.size()) {
+                bottomoflist = static_cast<int>(foldettext.size());
+                topoflist = bottomoflist - _maxy;
+            }
+        }
+
+        //int topoflist = std::max(line_position.first - middelofpage, 0);
+        ////if (topoflist + maxy >= foldettext.size()) topoflist = foldettext.size() - maxy-1;
+        //const auto bottomoflist = std::min(topoflist + maxy, static_cast<int>(foldettext.size()));
+
+        for (int i = topoflist; i < bottomoflist; i++) {
+            int y = i - topoflist;
+            trim_and_print(win, point(1, y), _maxx, c_white, foldettext[i]);
+            if (i == line_position.first) {
+                wattron(win, h_white);
+                mvwprintw(win, point(line_position.second+1, y), std::string(1, text[position]));
+                wattroff(win, h_white);
+            }
+        }
+        //hier noch scrollbar. 
+    }
+    
+    
+    bool canceled() const {
+        return _canceled;
+    }
+    
+    bool confirmed() const {
+        return _confirmed;
+    }
+    
+    bool handled() const {
+        return _handled;
+    }
+
+    void create_context()
+    {
+        ctxt_ptr = std::make_unique<input_context>("STRING_INPUT", keyboard_mode::keychar);
+        ctxt = ctxt_ptr.get();
+        ctxt->register_action("ANY_INPUT");
+    }
+
+    const std::string& query_string(const bool loop, const bool draw_only)
+    {
+
+        if (!ctxt) {
+            create_context();
+        }
+
+        utf8_wrapper ret(_text);
+        utf8_wrapper edit(ctxt->get_edittext());
+        if (_position == -1) {
+            _position = ret.length();
+        }
+        //const int scrmax = std::max(0, _endx - _startx);
+
+        std::unique_ptr<ui_adaptor> ui;
+
+
+        int ch = 0;
+
+        _canceled = false;
+        _confirmed = false;
+        do {
+            if (_position < 0) {
+                _position = 0;
+            }
+
+
+
+            /*if (ui) {
+                ui_manager::redraw();
+            }
+            else {*/
+                werase(_win);
+                print_editor(_win, _text, _position);
+                wnoutrefresh(_win);
+            //}
+
+            if (draw_only) {
+                return _text;
+            }
+
+            const std::string action = ctxt->handle_input();
+            const input_event ev = ctxt->get_raw_input();
+            ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
+            _handled = true;
+
+            if (callbacks[ch]) {
+                if (callbacks[ch]()) {
+                    continue;
+                }
+            }
+
+            if (_ignore_custom_actions && action != "ANY_INPUT") {
+                _handled = false;
+                continue;
+            }
+
+            if (ch == KEY_ESCAPE) {
+#if defined(__ANDROID__)
+                if (get_option<bool>("ANDROID_AUTO_KEYBOARD")) {
+                    SDL_StopTextInput();
+                }
+#endif
+                //_text.clear();
+                _position = -1;
+                _canceled = true;
+                return _text;
+            }
+            /*else if (ch == '\n') {
+
+            }*/
+            else if (ch == KEY_UP) {
+                _position -= _maxx;
+                if (_position < 0) _position = ret.size();
+            }
+            else if (ch == KEY_DOWN) {
+                _position += _maxx;
+                if (_position > static_cast<int>(ret.size())) _position = 0;
+
+            }
+            else if (ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == '\t') {
+                _handled = false;
+            }
+            else if (ch == KEY_RIGHT) {
+                if (_position + 1 <= static_cast<int>(ret.size())) {
+                    _position++;
+                }
+                else {
+                    _position = 0;
+                }
+            }
+            else if (ch == KEY_LEFT) {
+                if (_position > 0) {
+                    _position--;
+                }
+                else {
+                    _position = ret.size();
+                }
+            }
+            else if (ch == 0x15) {                      // ctrl-u: delete all the things
+                _position = 0;
+                ret.erase(0);
+            }
+            else if (ch == KEY_BACKSPACE) {
+                if (_position > 0 && _position <= static_cast<int>(ret.size())) {
+                    _position--;
+                    ret.erase(_position, 1);
+                }
+            }
+            else if (ch == KEY_HOME) {
+                _position = 0;
+            }
+            else if (ch == KEY_END) {
+                _position = ret.size();
+            }
+            else if (ch == KEY_DC) {
+                if (_position < static_cast<int>(ret.size())) {
+                    ret.erase(_position, 1);
+                }
+            }
+            else if (ch == 0x16 || ch == KEY_F(2) || !ev.text.empty()) {
+                // ctrl-v, f2, or text input
+                // bail out early if already at length limit
+                //if (_max_length <= 0 || ret.display_width() < static_cast<size_t>(_max_length)) {
+                std::string entered;
+                if (ch == 0x16) {
+#if defined(TILES)
+                    if (edit.empty()) {
+                        char* const clip = SDL_GetClipboardText();
+                        if (clip) {
+                            entered = clip;
+                            SDL_free(clip);
+                        }
+                    }
+#endif
+                }
+                else if (ch == KEY_F(2)) {
+                    if (edit.empty()) {
+                        entered = get_input_string_from_file();
+                    }
+                }
+                else {
+                    entered = ev.text;
+                }
+                if (!entered.empty()) {
+                    utf8_wrapper insertion;
+                    const char* str = entered.c_str();
+                    int len = entered.length();
+
+                    while (len > 0) {
+                        const uint32_t ch = UTF8_getch(&str, &len);
+                        if (ch != '\n' && ch != '\r') {
+
+
+                            insertion.append(utf8_wrapper(utf32_to_utf8(ch)));
+
+
+                        }
+                    }
+                    ret.insert(_position, insertion);
+                    _position += insertion.length();
+                    edit = utf8_wrapper();
+                    ctxt->set_edittext(std::string());
+                }
+                //}
+            }
+            else if (ev.edit_refresh) {
+                edit = utf8_wrapper(ev.edit);
+                ctxt->set_edittext(ev.edit);
+            }
+            else {
+                _handled = false;
+            }
+        } while (loop);
+        _text = ret.str();
+        return _text;
+    }
+};
+
 void diary::show_diary_ui(diary * c_diary)
 {
     //c_diary->deserialize();
@@ -208,6 +558,7 @@ void diary::show_diary_ui(diary * c_diary)
         print_list_scrollable(&w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN], currwin == window_mode::PAGE_WIN,true);
         print_list_scrollable(&w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN], currwin == window_mode::CHANGE_WIN,false);
         print_list_scrollable(&w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],  currwin == window_mode::TEXT_WIN,false);
+        //print_editor(w_text, c_diary->get_page_text(), selected[window_mode::TEXT_WIN]);
         trim_and_print(w_head, point(1, 1),getmaxx(w_head)-2,c_white,c_diary->get_head_text());
         if (currwin == window_mode::CHANGE_WIN|| currwin ==window_mode::TEXT_WIN) {
             fold_and_print(w_info, point(1, 1), getmaxx(w_info) - 2, c_white, string_format("%s", c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]]));
@@ -281,8 +632,8 @@ void diary::show_diary_ui(diary * c_diary)
             
         }
         else if (action == "CONFIRM") {
-            
-            c_diary->edit_page_ui();
+            c_diary->edit_page_ui(w_text);
+            //c_diary->edit_page_ui();
         }else if(action == "NEW_PAGE"){
             c_diary->new_page();
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
@@ -312,7 +663,7 @@ void diary::show_diary_ui(diary * c_diary)
 //TODO: redo this, so it can be used like a Editor. 
 void diary::edit_page_ui() {
     std::string title = _("Text:");
-    static constexpr int max_note_length = 2000;
+    static constexpr int max_note_length = 20000;
     static constexpr int max_note_display_length = 45;
 
 
@@ -363,3 +714,47 @@ void diary::edit_page_ui() {
     }
 
 }
+
+void diary::edit_page_ui(catacurses::window& win) {
+    const std::string old_text = get_page_ptr()->m_text;
+    std::string new_text = old_text;
+
+
+
+    bool esc_pressed = false;
+    /*string_input_popup input_popup;
+    input_popup
+        .title(title)
+        .width(max_note_length)
+        .text(new_text)
+        .description("What happend Today?")
+        .title_color(c_white)
+        .desc_color(c_light_gray)
+        .string_color(c_yellow)
+        .identifier("diary");*/
+
+    editor_window ed = editor_window(win, get_page_ptr()->m_text);
+
+    do {
+        new_text = ed.query_string(false, false);
+        
+        if (ed.canceled()) {
+            break;
+        }
+        else if (ed.confirmed()) {
+            break;
+        }
+
+    } while (true);
+
+    if (new_text.empty() && !old_text.empty()) {
+        if (query_yn(_("Really delete note?"))) {
+            get_page_ptr()->m_text = "";
+        }
+    }
+    else if (old_text != new_text) {
+        if(query_yn(_("Save entry?"))) get_page_ptr()->m_text = new_text;
+    }
+}
+
+

@@ -590,7 +590,7 @@ std::string diary::get_head_text() {
     }
     return "";
 }
-//hier noch verschieben, da der save gelöscht wird, wenn der char tot ist. 
+
 void diary::death_entry() {
     bool lasttime = query_yn(_("Open diary for the last time?"));
     if (lasttime) {

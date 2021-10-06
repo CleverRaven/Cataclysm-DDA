@@ -110,6 +110,7 @@ class diary //: public JsonSerializer, public JsonDeserializer
         //void load_test();
         int set_opend_page(int i);
         void edit_page_ui();
+        void edit_page_ui(catacurses::window& win);
         void new_page();
         void delete_page();
 
