@@ -58,6 +58,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "ret_val.h"
@@ -2223,7 +2224,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
              is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
-        if( !target ) {
+        if( !target || target->is_npc() ) {
             return;
         }
         std::string translated_message;
@@ -2259,7 +2260,12 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             }
         }
         if( popup_msg ) {
-            popup( translated_message, PF_NONE );
+            const auto new_win = [translated_message]() {
+                query_popup pop;
+                pop.message( "%s", translated_message );
+                return pop.get_window();
+            };
+            scrollable_text( new_win, "", replace_colors( translated_message ) );
         } else {
             target->add_msg_if_player( type, translated_message );
         }
@@ -2868,7 +2874,7 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
                 if( eoc->type == eoc_type::ACTIVATION ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
                 } else {
                     debugmsg( "Cannot queue a non activation effect_on_condition." );
                 }

@@ -1157,7 +1157,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             clipped_time( get_shelf_life() - rot );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
             clipped_time( rhs.get_shelf_life() - rhs.rot );
-        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+        if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
+            my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
         }
         if( rotten() != rhs.rotten() ) {

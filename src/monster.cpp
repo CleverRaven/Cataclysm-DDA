@@ -1539,9 +1539,7 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
                                       damage_instance &dam )
 {
     resistances r = resistances( *this );
-    weakpoint_attack attack_copy = attack;
-    attack_copy.target = this;
-    const weakpoint *wp = type->weakpoints.select_weakpoint( attack_copy );
+    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1605,9 +1603,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     dealt_damage_instance dealt_dam;
 
     if( hitspread >= 0 ) {
-        weakpoint_attack attack;
-        attack.wp_skill = weakpoint_skill();
-        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
 
     const int total_dealt = dealt_dam.total_damage();
@@ -3037,6 +3033,11 @@ void monster::on_hit( Creature *source, bodypart_id,
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }
+        }
+    }
+    if( source != nullptr ) {
+        if( Character *attacker = source->as_character() ) {
+            type->families.practice_hit( *attacker );
         }
     }
 
