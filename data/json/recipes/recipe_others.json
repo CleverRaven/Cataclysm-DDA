@@ -612,7 +612,6 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1114,7 +1113,6 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -1133,7 +1131,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {

@@ -2000,7 +2000,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 }
             }
         }
-        uilist_entry npc_entry = uilist_entry( x, can_do, x, npc_desc );
+        uilist_entry npc_entry = uilist_entry( x, can_do, -1, npc_desc );
         npc_menu.push_back( npc_entry );
         x++;
     }

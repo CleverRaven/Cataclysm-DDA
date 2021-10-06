@@ -31,7 +31,7 @@
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
       [ "suppressor_compact", 20 ],
-      [ "swat_armor", 20 ],
+      [ "swat_armor", 5 ],
       [ "tac_fullhelmet", 5 ],
       [ "tac_helmet", 10 ]
     ]

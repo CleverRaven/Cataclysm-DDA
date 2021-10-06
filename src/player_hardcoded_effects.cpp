@@ -1279,8 +1279,8 @@ void Character::hardcoded_effects( effect &it )
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
-                //Remove the effect, since it's done all it needs to do to the target.
-                remove_effect( effect_tindrift );
+                // Queue the effect for removal, since it's done all it needs to do to the target.
+                it.set_duration( 0_turns );
             }
         }
     } else if( id == effect_asthma ) {
