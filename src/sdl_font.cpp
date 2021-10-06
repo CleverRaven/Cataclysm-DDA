@@ -341,12 +341,7 @@ bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
     // Test whether the glyph can actually be rendered
     constexpr SDL_Color white{255, 255, 255, 0};
     SDL_Surface_Ptr surface( TTF_RenderUTF8_Solid( font.get(), ch.c_str(), white ) );
-    if( !surface ) {
-        return false;
-    }
-
-    // Confident that the glyph is provided by the font, and also can be rendered successfully
-    return true;
+    return static_cast<bool>( surface );
 }
 
 void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &,
