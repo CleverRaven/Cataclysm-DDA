@@ -171,6 +171,11 @@
     "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
     "damage_modifier": 50,
     "breaks_into": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 1, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 60 }
   },
   {
