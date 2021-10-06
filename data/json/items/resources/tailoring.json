@@ -229,8 +229,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "114 g",
     "volume": "170 ml",
-    "price": 1000,
-    "price_postapoc": 0,
     "category": "spare_parts",
     "to_hit": -1
   },
