@@ -5266,6 +5266,7 @@
     "visibility": 4,
     "ugliness": 5,
     "description": "You smell awful.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "types": [ "SCENT" ],
     "scent_intensity": 1200,
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL", "PHEROMONE_AMPHIBIAN" ],
