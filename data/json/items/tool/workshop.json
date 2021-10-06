@@ -1256,7 +1256,7 @@
     "id": "plasma_torch",
     "type": "TOOL",
     "name": { "str": "plasma cutter", "str_pl": "plasma_cutters" },
-    "description": "This is a powerful hydrogen-fueled plasma cutting torch. Whoever had this before you took the liberty of installing it with a micro reactor so you don't have to worry about batteries. It is technically portable",
+    "description": "This is a powerful hydrogen-fueled plasma cutting torch.  Whoever had this before you took the liberty of installing it with a micro reactor so you don't have to worry about batteries.  It is technically portable",
     "weight": "7500 g",
     "volume": "3 L",
     "price": 50000,
