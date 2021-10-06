@@ -511,33 +511,33 @@
   },
   {
     "type": "construction_group",
-    "id": "build_rock_wall_loophole",
-    "name": "Build Stone Wall with Loophole"
+    "id": "build_rock_wall_embrasure",
+    "name": "Build Stone Wall with Embrasure"
   },
   {
     "type": "construction_group",
-    "id": "build_wood_wall_loophole",
-    "name": "Build Wood Wall with Loophole"
+    "id": "build_wood_wall_embrasure",
+    "name": "Build Wood Wall with Embrasure"
   },
   {
     "type": "construction_group",
-    "id": "build_log_wall_loophole",
-    "name": "Build Log Wall with Loophole"
+    "id": "build_log_wall_embrasure",
+    "name": "Build Log Wall with Embrasure"
   },
   {
     "type": "construction_group",
-    "id": "build_palisade_wall_loophole",
-    "name": "Build Palisade Wall with Loophole"
+    "id": "build_palisade_wall_embrasure",
+    "name": "Build Palisade Wall with Embrasure"
   },
   {
     "type": "construction_group",
-    "id": "build_sconcrete_wall_loophole",
-    "name": "Build Simple Concrete Wall with Loophole"
+    "id": "build_sconcrete_wall_embrasure",
+    "name": "Build Simple Concrete Wall with Embrasure"
   },
   {
     "type": "construction_group",
-    "id": "build_strconcrete_wall_loophole",
-    "name": "Build Reinforced Concrete Wall with Loophole"
+    "id": "build_strconcrete_wall_embrasure",
+    "name": "Build Reinforced Concrete Wall with Embrasure"
   },
   {
     "type": "construction_group",
