@@ -107,8 +107,9 @@ bool weakpoint_families::practice_dissect( Character &learner ) const
 {
     // Proficiency experience is capped at 1000 seconds (~16 minutes), so we split it into two
     // instances. This should be refactored when butchering becomes an `activity_actor`.
-    bool learned = practice( learner, time_duration::from_minutes( 15 ) )
-                   || practice( learner, time_duration::from_minutes( 15 ) );
+    bool p1 = practice( learner, time_duration::from_minutes( 15 ) );
+    bool p2 = practice( learner, time_duration::from_minutes( 15 ) );
+    bool learned = p1 || p2;
     if( learned ) {
         learner.add_msg_if_player(
             m_good, _( "You carefully record the creature's vulnerabilities." ) );
