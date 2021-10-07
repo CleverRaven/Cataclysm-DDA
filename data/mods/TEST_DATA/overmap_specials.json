@@ -150,23 +150,23 @@
       },
       "microlab": {
         "overmap": "microlab_generic",
-        "north": "microlab_to_microlab",
-        "east": "microlab_to_microlab",
-        "south": "microlab_to_microlab",
-        "west": "microlab_to_microlab"
+        "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+        "east": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+        "south": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+        "west": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] }
       },
       "microlab_edge": {
         "overmap": "microlab_generic_edge",
-        "north": { "id": "microlab_to_microlab", "type": "available" },
-        "east": { "id": "microlab_to_microlab", "type": "available" },
-        "south": { "id": "microlab_to_microlab", "type": "available" },
-        "west": { "id": "microlab_to_microlab", "type": "available" }
+        "north": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] },
+        "east": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] },
+        "south": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] },
+        "west": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] }
       },
       "microlab_sub_entry": {
         "overmap": "microlab_generic_sub_entry_north",
         "north": "microlab_entry_to_station",
         "east": "microlab_to_microlab",
-        "south": "microlab_to_microlab",
+        "south": "microlab_to_hallway",
         "west": "microlab_to_microlab"
       },
       "microlab_sub_station": { "overmap": "microlab_sub_station_north", "north": "microlab_station_to_subway", "south": "microlab_entry_to_station" },
@@ -182,58 +182,58 @@
       "hallway_straight": {
         "overmap": "microlab_generic_hallway_ns",
         "north": "hallway_to_hallway",
-        "east": "microlab_to_microlab",
+        "east": "hallway_to_microlab",
         "south": "hallway_to_hallway",
-        "west": "microlab_to_microlab"
+        "west": "hallway_to_microlab"
       },
       "hallway_blind_straight": {
         "overmap": "microlab_generic_hallway_ns",
         "north": "hallway_to_hallway",
-        "east": { "id": "microlab_to_microlab", "type": "available" },
+        "east": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
         "south": "hallway_to_hallway",
-        "west": { "id": "microlab_to_microlab", "type": "available" }
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
       },
       "hallway_tee": {
         "overmap": "microlab_generic_hallway_nes",
         "north": "hallway_to_hallway",
         "east": "hallway_to_hallway",
         "south": "hallway_to_hallway",
-        "west": "microlab_to_microlab"
+        "west": "hallway_to_microlab"
       },
       "hallway_blind_tee": {
         "overmap": "microlab_generic_hallway_nes",
         "north": "hallway_to_hallway",
         "east": "hallway_to_hallway",
         "south": "hallway_to_hallway",
-        "west": { "id": "microlab_to_microlab", "type": "available" }
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
       },
       "hallway_corner": {
         "overmap": "microlab_generic_hallway_ne",
         "north": "hallway_to_hallway",
         "east": "hallway_to_hallway",
-        "south": "microlab_to_microlab",
-        "west": "microlab_to_microlab"
+        "south": "hallway_to_microlab",
+        "west": "hallway_to_microlab"
       },
       "hallway_blind_corner": {
         "overmap": "microlab_generic_hallway_ne",
         "north": "hallway_to_hallway",
         "east": "hallway_to_hallway",
-        "south": { "id": "microlab_to_microlab", "type": "available" },
-        "west": { "id": "microlab_to_microlab", "type": "available" }
+        "south": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
       },
       "hallway_end": {
         "overmap": "microlab_generic_hallway_end_south",
         "north": "hallway_to_hallway",
-        "east": "microlab_to_microlab",
-        "south": "microlab_to_microlab",
-        "west": "microlab_to_microlab"
+        "east": "hallway_to_microlab",
+        "south": "hallway_to_microlab",
+        "west": "hallway_to_microlab"
       },
       "hallway_blind_end": {
         "overmap": "microlab_generic_hallway_blind_end_south",
         "north": { "id": "hallway_to_hallway" },
-        "east": { "id": "microlab_to_microlab", "type": "available" },
-        "south": { "id": "microlab_to_microlab", "type": "available" },
-        "west": { "id": "microlab_to_microlab", "type": "available" }
+        "east": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "south": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
       }
     },
     "root": "surface",
@@ -244,14 +244,14 @@
         {
           "name": "subway_chunk_at_-2",
           "chunk": [
-            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ], "rot": "north" },
+            { "overmap": "hallway_end", "pos": [ 0, 1, 0 ], "rot": "east" },
+            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
             { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
             { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
           ],
           "max": 1
         }
       ],
-      [ { "overmap": "hallway_end", "max": 1 } ],
       [ { "overmap": "hallway_straight", "max": 3 } ],
       [ { "overmap": "hallway_cross", "max": 1 } ],
       [
