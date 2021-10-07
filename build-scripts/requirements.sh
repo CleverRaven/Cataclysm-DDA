@@ -61,17 +61,17 @@ if [ -n "${MXE_TARGET}" ]; then
   set +e
   retry=0
   until [[ "$retry" -ge 5 ]]; do
-    curl -L -o mxe-x86_64.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-x86_64.tar.xz && curl -L -o mxe-x86_64.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-x86_64.tar.xz.sha256 && shasum -a 256 -c ./mxe-x86_64.tar.xz.sha256 && break
+    curl -L -o mxe-i686.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-i686.tar.xz && curl -L -o mxe-i686.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-i686.tar.xz.sha256 && shasum -a 256 -c ./mxe-i686.tar.xz.sha256 && break
     retry=$((retry+1))
-    rm -f mxe-x86_64.tar.xz mxe-x86_64.tar.xz.sha256
+    rm -f mxe-i686.tar.xz mxe-i686.tar.xz.sha256
     sleep 10
   done
   if [[ "$retry" -ge 5 ]]; then
-    echo "Error downloading or checksum failed for MXE x86_64"
+    echo "Error downloading or checksum failed for MXE i686"
     exit 1
   fi
   set -e
-  sudo tar xJf mxe-x86_64.tar.xz -C /opt
+  sudo tar xJf mxe-i686.tar.xz -C /opt
 
   export MXE_DIR=/opt/mxe
   export CROSS_COMPILATION="${MXE_DIR}/usr/bin/${MXE_TARGET}-"
@@ -82,17 +82,17 @@ if [ -n "${MXE_TARGET}" ]; then
   set +e
   retry=0
   until [[ "$retry" -ge 5 ]]; do
-    curl -L -o libbacktrace-x86_64-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz && shasum -a 256 -c ./build-scripts/libbacktrace-x86_64-w64-mingw32-sha256 && break
+    curl -L -o libbacktrace-i686-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz && shasum -a 256 -c ./build-scripts/libbacktrace-i686-w64-mingw32-sha256 && break
     retry=$((retry+1))
-    rm -f libbacktrace-x86_64-w64-mingw32.tar.gz
+    rm -f libbacktrace-i686-w64-mingw32.tar.gz
     sleep 10
   done
   if [[ "$retry" -ge 5 ]]; then
-    echo "Error downloading or checksum failed for libbacktrace-x86_64-w64-mingw32.tar.gz"
+    echo "Error downloading or checksum failed for libbacktrace-i686-w64-mingw32.tar.gz"
     exit 1
   fi
   set -e
-  sudo tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C ${MXE_DIR}/usr/${MXE_TARGET}
+  sudo tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ${MXE_DIR}/usr/${MXE_TARGET}
 fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then

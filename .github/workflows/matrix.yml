@@ -94,7 +94,7 @@ jobs:
             test-stage: 1
             title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
-            mxe_target: x86_64-w64-mingw32.static.gcc11
+            mxe_target: i686-w64-mingw32.static.gcc11
             wine: wine
 
           - compiler: clang++-6.0
