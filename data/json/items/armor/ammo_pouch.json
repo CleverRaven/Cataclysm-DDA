@@ -468,7 +468,7 @@
       },
       { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "WAIST" ],
     "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
