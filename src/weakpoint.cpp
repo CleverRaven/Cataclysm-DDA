@@ -83,7 +83,12 @@ bool weakpoint_families::practice( Character &learner, const time_duration &amou
 {
     bool learned = false;
     for( const weakpoint_family &family : families ) {
-        learned = learned || learner.practice_proficiency( family.proficiency, amount );
+        float before = learner.get_proficiency_practice( family.proficiency );
+        learner.practice_proficiency( family.proficiency, amount );
+        float after = learner.get_proficiency_practice( family.proficiency );
+        if( before < after ) {
+            learned = true;
+        }
     }
     return learned;
 }
@@ -100,12 +105,15 @@ bool weakpoint_families::practice_kill( Character &learner ) const
 
 bool weakpoint_families::practice_dissect( Character &learner ) const
 {
-    learner.add_msg_if_player(
-        m_good, _( "You carefully record the creature's vulnerabilities." ) );
     // Proficiency experience is capped at 1000 seconds (~16 minutes), so we split it into two
     // instances. This should be refactored when butchering becomes an `activity_actor`.
-    return practice( learner, time_duration::from_minutes( 15 ) )
-           || practice( learner, time_duration::from_minutes( 15 ) );
+    bool learned = practice( learner, time_duration::from_minutes( 15 ) )
+                   || practice( learner, time_duration::from_minutes( 15 ) );
+    if( learned ) {
+        learner.add_msg_if_player(
+            m_good, _( "You carefully record the creature's vulnerabilities." ) );
+    }
+    return learned;
 }
 
 float weakpoint_families::modifier( const Character &attacker ) const
