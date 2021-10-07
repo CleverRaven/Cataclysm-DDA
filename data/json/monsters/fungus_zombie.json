@@ -317,14 +317,14 @@
       {
         "name": "a small gap in the armor",
         "armor_mult": { "physical": 0.5 },
-        "difficulty": 4,
+        "difficulty": { "all": 4 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 15
       },
       {
         "name": "a hole in the bony plates",
         "armor_mult": { "physical": 0.25 },
-        "difficulty": 6,
+        "difficulty": { "all": 6 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 10
       }
