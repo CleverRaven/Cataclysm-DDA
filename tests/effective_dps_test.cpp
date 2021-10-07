@@ -115,7 +115,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
     }
 
     SECTION( "against an agile target" ) {
-        monster smoker( mtype_id( "mon_zombie_smoker" ) );
+        monster smoker( mtype_id( "mon_zombie_smoker_noweakpoints" ) );
         REQUIRE( smoker.get_dodge() >= 4 );
 
         CHECK( clumsy_sword.effective_dps( dummy, smoker ) == Approx( 11.0f ).epsilon( 0.15f ) );
