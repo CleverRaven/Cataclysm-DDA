@@ -7158,14 +7158,15 @@ void Character::longtongue( const trait_id &mut )
         add_msg_if_player( _( "There's nothing here to latch onto with your %s!" ), mut->name() );
         return;
     }
-    int str = std::max( 5, get_str() / 2 );
-    if( one_in( clamp<int>( ( c->get_size() * c->get_size() ) / str, 1, 100 ) ) ) {
+    const int str = std::max( 10, get_str() );
+    const int odds = units::to_kilogram( c->get_weight() ) / ( str * 4 );
+    if( one_in( clamp<int>( odds * odds, 1, 100 ) ) ) {
         add_msg_if_player( _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(), mut->name() );
         c->move_to( tripoint_abs_ms( line_to( get_location().raw(), c->get_location().raw(), 0,
                                               0 ).front() ) );
         c->add_effect( effect_stunned, 5_seconds );
     } else {
-        add_msg_if_player( _( "%s's size makes it difficult to pull it towards you." ), c->disp_name() );
+        add_msg_if_player( _( "%s's weight makes it difficult to pull it towards you." ), c->disp_name() );
     }
 }
 
