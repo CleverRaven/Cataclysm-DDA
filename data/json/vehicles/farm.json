@@ -41,7 +41,7 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_cross", "reaper_advanced", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left" ] },
-      { "x": 0, "y": 1, "parts": [ "frame_vertical_right", "door_opaque_right" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_right", "door_opaque_full_right" ] },
       { "x": 1, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left" ] },
       { "x": 1, "y": 0, "parts": [ "frame_cross", "robot_controls", "engine_electric", "roof" ] },
       { "x": 1, "y": 1, "parts": [ "frame_vertical_right", "board_vertical_right" ] },
@@ -218,8 +218,8 @@
       { "x": 0, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
       { "x": 0, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
-      { "x": 1, "y": -1, "parts": [ "frame_wood_cross", "clothboard", "roof_cloth" ] },
-      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "clothboard", "roof_cloth" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_cross", "clothboard_horizontal_front", "roof_cloth" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "clothboard_horizontal_front", "roof_cloth" ] },
       { "x": 1, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_nw", "roof_cloth" ] },
       { "x": 1, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_ne", "roof_cloth" ] },
       { "x": 2, "y": -1, "parts": [ "frame_wood_horizontal_front", "seat_wood" ] },
@@ -256,8 +256,8 @@
         "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth", "wheel_mount_wood", "wheel_wood_b" ]
       },
       { "x": -3, "y": 0, "parts": [ "frame_wood_horizontal_rear", "wooden_aisle_vertical", "roof_cloth" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_wood_horizontal_rear", "clothboard", "roof_cloth" ] },
-      { "x": -3, "y": 1, "parts": [ "frame_wood_horizontal_rear", "clothboard", "roof_cloth" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_wood_horizontal_rear", "clothboard_horizontal_rear", "roof_cloth" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_wood_horizontal_rear", "clothboard_horizontal_rear", "roof_cloth" ] },
       { "x": -3, "y": -2, "parts": [ "frame_wood_sw", "clothboard_sw", "roof_cloth" ] },
       { "x": -3, "y": 2, "parts": [ "frame_wood_se", "clothboard_se", "roof_cloth" ] }
     ]

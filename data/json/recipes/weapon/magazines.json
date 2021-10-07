@@ -120,7 +120,15 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [
-      [ [ "nato_assault_rifle", -1 ], [ "ar15", -1 ], [ "m249", -1 ], [ "m16a4", -1 ], [ "surv_carbine_223", -1 ] ],
+      [
+        [ "m27_assault_rifle", -1 ],
+        [ "m16_auto_rifle", -1 ],
+        [ "m4_carbine", -1 ],
+        [ "ar15", -1 ],
+        [ "m249", -1 ],
+        [ "m16a4", -1 ],
+        [ "surv_carbine_223", -1 ]
+      ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
     "using": [ [ "223_casehead", 1 ] ],

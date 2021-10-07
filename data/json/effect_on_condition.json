@@ -1,19 +1,51 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "scenario_bad_day",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "flu", "intensity": 1, "duration": "1000 minutes" },
+      { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_infected",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "infected", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" },
+      { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIBIOTICS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_fungal_infection",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "u_add_effect": "fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence_min": 1,
     "recurrence_max": 1,
+    "global": true,
     "condition": {
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
         { "one_in_chance": 50 },
-        { "u_is_height": 0 }
+        { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": ">=" }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
     "effect": [
-      { "message": "You hear a distant rumble of thunder.", "sound": true },
+      { "u_message": "You hear a distant rumble of thunder.", "sound": true },
       { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
     ]
   },
@@ -22,12 +54,20 @@
     "id": "lightning",
     "recurrence_min": 1,
     "recurrence_max": 1,
-    "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "u_is_height": 0 } ] },
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "lightning" },
+        { "one_in_chance": 600 },
+        { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": ">=" }
+      ]
+    },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
     "effect": [
-      { "message": "A flash of lightning illuminates your surroundings!" },
+      { "u_message": "A flash of lightning illuminates your surroundings!" },
       { "sound_effect": "thunder_near", "id": "environment" },
-      "lightning"
+      "lightning",
+      { "custom_light_level": 100, "length_min": "1 seconds", "length_max": "1 seconds" }
     ]
   },
   {
@@ -35,33 +75,48 @@
     "id": "acid_drizzle",
     "recurrence_min": 1,
     "recurrence_max": 1,
-    "condition": { "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "not": { "u_has_pain": 30 } } ] },
+    "global": true,
+    "run_for_npcs": true,
+    "condition": {
+      "and": [
+        { "is_weather": "acid_drizzle" },
+        "u_is_outside",
+        { "compare_int": [ { "u_val": "pain" }, { "const": 30 } ], "op": "<" }
+      ]
+    },
     "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
-    "effect": [ { "message": "The acid rain stings, but is mostly harmless for now…" }, { "u_mod_pain": 1 } ]
+    "effect": [
+      { "u_message": "The acid rain stings, but is mostly harmless for now…" },
+      { "arithmetic": [ { "u_val": "pain" }, "++" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "acid_rain",
     "recurrence_min": 1,
     "recurrence_max": 1,
+    "global": true,
+    "run_for_npcs": true,
     "condition": {
       "and": [
         { "is_weather": "acid_rain" },
         "u_is_outside",
-        { "not": { "u_has_pain": 100 } },
+        { "compare_int": [ { "u_val": "pain" }, { "const": 100 } ], "op": "<" },
         {
           "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
         }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
-    "effect": [ { "message": "The acid rain burns!" }, { "u_mod_pain": 3 } ]
+    "effect": [ { "u_message": "The acid rain burns!" }, { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "snow",
     "recurrence_min": 6,
     "recurrence_max": 6,
+    "global": true,
+    "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
     "deactivate_condition": { "not": { "is_weather": "snowing" } },
     "effect": [ { "u_add_wet": 10 } ]
@@ -71,6 +126,8 @@
     "id": "snowstorm",
     "recurrence_min": 6,
     "recurrence_max": 6,
+    "global": true,
+    "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
     "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
     "effect": [ { "u_add_wet": 40 } ]
@@ -80,39 +137,43 @@
     "id": "bio_drain",
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "24 kJ" } ] },
+    "condition": {
+      "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, { "power": "25 kJ" } ], "op": ">=" } ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
-      { "message": "Your batteries discharge slightly.", "type": "bad" },
+      { "u_message": "Your batteries discharge slightly.", "type": "bad" },
       { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
-      { "u_add_power": "-25kJ" }
+      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "25 kJ" } ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP",
-    "effect": [ { "message": "You feel very sleepy…" }, { "u_mod_fatigue": 40 } ]
+    "effect": [ { "u_message": "You feel very sleepy…" }, { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 40 } ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MINOR_SLEEP",
-    "effect": [ { "message": "You feel sleepy…" }, { "u_mod_fatigue": 20 } ]
+    "effect": [ { "u_message": "You feel sleepy…" }, { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 20 } ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "ambient_subway",
-    "recurrence_min": "2 hours",
-    "recurrence_max": "4 hours",
+    "recurrence_min": "1 hours",
+    "recurrence_max": "2 hours",
+    "global": true,
     "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
-    "effect": [ { "message": "AMBIENT_SUBWAY", "snippet": true, "sound": true } ]
+    "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "ambient_lab_subway",
-    "recurrence_min": "2 hours",
-    "recurrence_max": "4 hours",
+    "recurrence_min": "1 hours",
+    "recurrence_max": "2 hours",
+    "global": true,
     "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
-    "effect": [ { "message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
+    "effect": [ { "u_message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -130,7 +191,7 @@
       ]
     },
     "deactivate_condition": { "days_since_cataclysm": 14 },
-    "effect": [ { "message": "NIGHT_MESSAGES_1", "snippet": true } ]
+    "effect": [ { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_1", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -149,7 +210,7 @@
       ]
     },
     "deactivate_condition": { "days_since_cataclysm": 50 },
-    "effect": [ { "message": "NIGHT_MESSAGES_2", "snippet": true } ]
+    "effect": [ { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_2", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -166,7 +227,27 @@
         "u_is_outside"
       ]
     },
-    "effect": [ { "message": "NIGHT_MESSAGES_3", "snippet": true } ]
+    "effect": [ { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_3", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_robofac_surveillance",
+    "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
+    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
+    "effect": [
+      {
+        "u_set_spawn_monster": "mon_robofac_camspy",
+        "real_count": 1,
+        "min_radius": 15,
+        "max_radius": 40,
+        "outdoor_only": true
+      },
+      {
+        "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ],
+        "time_in_future_min": "1 days",
+        "time_in_future_max": "7 days"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -181,8 +262,26 @@
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_trip" } },
     "effect": [
-      { "message": "Your vision pixelates!", "type": "bad" },
+      { "u_message": "Your vision pixelates!", "type": "bad" },
       { "sound_effect": "pixelated", "id": "bionics", "volume": 100 },
+      { "u_add_effect": "visuals", "duration": "10 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mut_eyestalk",
+    "recurrence_min": "2 hours 15 minutes",
+    "recurrence_max": "10 hours 15 minutes",
+    "condition": {
+      "and": [
+        { "u_has_trait": "EYESTALKS1" },
+        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "EYESTALKS1" } },
+    "effect": [
+      { "u_message": "Your vision inverts!", "type": "bad" },
+      { "sound_effect": "pixelated", "id": "bionics", "volume": 50 },
       { "u_add_effect": "visuals", "duration": "10 minutes" }
     ]
   },
@@ -199,11 +298,11 @@
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_spasm" } },
     "effect": [
-      { "message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
+      { "u_message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
       { "sound_effect": "elec_crackle_high", "id": "bionics", "volume": 100 },
-      { "u_mod_pain": 1 },
-      { "u_add_effect": "stunned", "duration": "1" },
-      { "u_add_effect": "downed", "duration": "1", "force": true }
+      { "arithmetic": [ { "u_val": "pain" }, "++" ] },
+      { "u_add_effect": "stunned", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1, "force": true }
     ]
   },
   {
@@ -211,13 +310,15 @@
     "id": "bio_shakes",
     "recurrence_min": "1 hours",
     "recurrence_max": "3 hours",
-    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "u_has_power": "25 kJ" } ] },
+    "condition": {
+      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, { "power": "25 kJ" } ], "op": ">=" } ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
-      { "message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
+      { "u_message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
       { "sound_effect": "elec_crackle_med", "id": "bionics", "volume": 100 },
       { "u_add_effect": "shakes", "duration": "5 minutes" },
-      { "u_add_power": "-25kJ" }
+      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "25kJ" } ] }
     ]
   },
   {
@@ -225,12 +326,18 @@
     "id": "bio_glowy",
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
-    "condition": { "and": [ { "u_has_bionics": "bio_glowy" }, { "not": { "u_has_effect": "glowy_led" } }, { "u_has_power": "1 kJ" } ] },
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_glowy" },
+        { "not": { "u_has_effect": "glowy_led" } },
+        { "compare_int": [ { "u_val": "power" }, { "power": "1 kJ" } ], "op": ">=" }
+      ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
     "effect": [
-      { "message": "Your malfunctioning bionic starts to glow!", "type": "bad" },
+      { "u_message": "Your malfunctioning bionic starts to glow!", "type": "bad" },
       { "u_add_effect": "glowy_led", "duration": "5 minutes" },
-      { "u_add_power": "-1kJ" }
+      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "1kJ" } ] }
     ]
   },
   {
@@ -240,7 +347,7 @@
     "recurrence_max": "1 hours 15 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
-    "effect": [ { "u_mod_fatigue": 1 } ]
+    "effect": [ { "arithmetic": [ { "u_val": "fatigue" }, "++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -250,7 +357,7 @@
     "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
-      { "message": "Your malfunctioning bionic itches!", "type": "bad" },
+      { "u_message": "Your malfunctioning bionic itches!", "type": "bad" },
       { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
     ]
   },
@@ -262,7 +369,6 @@
     "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_noise" } },
     "effect": [
-      { "message": "bio noise test.", "type": "bad" },
       { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
       {
         "set_queue_effect_on_condition": [
@@ -270,7 +376,7 @@
             "id": "bio_noise_hearing",
             "condition": { "not": "u_is_deaf" },
             "effect": [
-              { "message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
+              { "u_message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
               { "sound_effect": "elec_blast", "id": "bionics", "volume": 100 }
             ]
           },
@@ -278,7 +384,7 @@
             "id": "bio_noise_deaf",
             "condition": "u_is_deaf",
             "effect": [
-              { "message": "You feel your faulty bionic shuddering.", "type": "bad" },
+              { "u_message": "You feel your faulty bionic shuddering.", "type": "bad" },
               { "sound_effect": "elec_blast_muffled", "id": "bionics", "volume": 100 }
             ]
           }
@@ -294,5 +400,13 @@
     "condition": { "u_has_bionics": "bio_leaky" },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
+  },
+  {
+    "id": "EOC_MIGO_INTEREST_INCREASE",
+    "type": "effect_on_condition",
+    "recurrence_min": "7 days",
+    "recurrence_max": "14 days",
+    "condition": { "not": { "one_in_chance": 4 } },
+    "effect": [ { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 } ]
   }
 ]

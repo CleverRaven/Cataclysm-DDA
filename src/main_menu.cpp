@@ -428,7 +428,6 @@ void main_menu::load_char_templates()
 
     for( std::string path : get_files_from_path( ".template", PATH_INFO::templatedir(), false,
             true ) ) {
-        path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
         path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
@@ -918,8 +917,8 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    const auto path = PATH_INFO::templatedir() + utf8_to_native( templates[sel3] ) + ".template";
-                    if( std::remove( path.c_str() ) != 0 ) {
+                    const auto path = PATH_INFO::templatedir() + templates[sel3] + ".template";
+                    if( !remove_file( path ) ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
                         templates.erase( templates.begin() + sel3 );
@@ -991,7 +990,7 @@ bool main_menu::load_character_tab( bool transfer )
 
         const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
         []( const save_t &it ) {
-            return it.player_name() == world_generator->last_character_name;
+            return it.decoded_name() == world_generator->last_character_name;
         } ) - savegames.begin();
         if( last_character_pos < savegames.size() ) {
             sel3 = last_character_pos;
@@ -1048,7 +1047,7 @@ bool main_menu::load_character_tab( bool transfer )
                     const bool selected = sel3 + line == menu_offset.y - 2;
                     mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
-                               "%s", savename.player_name() );
+                               "%s", savename.decoded_name() );
                 }
             }
             wnoutrefresh( w_open );
@@ -1096,7 +1095,7 @@ bool main_menu::load_character_tab( bool transfer )
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
                 []( const save_t &str ) {
-                    return str.player_name() != MAP_SHARING::getUsername();
+                    return str.decoded_name() != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
             }
@@ -1134,7 +1133,7 @@ bool main_menu::load_character_tab( bool transfer )
                     g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
-                    world_generator->last_character_name = savegames[sel3].player_name();
+                    world_generator->last_character_name = savegames[sel3].decoded_name();
                     world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
 
@@ -1231,15 +1230,9 @@ void main_menu::world_tab()
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
             if( load_character_tab( true ) ) {
-                points_left points;
-                points.stat_points = 0;
-                points.trait_points = 0;
-                points.skill_points = 0;
-                points.limit = points_left::TRANSFER;
-
                 player_character.setID( character_id(), true );
                 player_character.reset_all_missions();
-                player_character.save_template( player_character.name, points );
+                player_character.character_to_template( player_character.name );
 
                 player_character = avatar();
                 MAPBUFFER.clear();

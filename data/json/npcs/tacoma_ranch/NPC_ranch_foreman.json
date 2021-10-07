@@ -49,7 +49,7 @@
       {
         "text": "Thanks.",
         "topic": "TALK_RANCH_FOREMAN",
-        "effect": [ { "u_buy_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
+        "effect": [ { "u_spawn_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
       }
     ]
   },
@@ -81,7 +81,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
-    "name": { "str": "Cut 200 2x4's" },
+    "name": { "str": "Cut 200 planks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -91,7 +91,7 @@
     "followup": "MISSION_RANCH_FOREMAN_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 2x4's… if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.",
+      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 planks… if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.",
       "accepted": "The more men we can bring to the camp the quicker improvements can be made.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Avoid destroying the furniture, we'll be needing it.",
@@ -562,7 +562,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_10_1",
     "type": "mission_definition",
-    "name": { "str": "Gather bandages" },
+    "name": { "str": "Gather 36 bandages" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -595,7 +595,7 @@
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid equipment is rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 bottles of disinfectant I'm sure we could supplement them to make them last a bit longer.",
+      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid equipment is rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 bottles of antiseptic I'm sure we could supplement them to make them last a bit longer.",
       "accepted": "We'll do our best to make them last…",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",
@@ -627,7 +627,7 @@
     "followup": "MISSION_RANCH_FOREMAN_12",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "The work you have done has swayed the leaders at the refugee center to send someone out to assist with our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can begin using scrap metal to build fortifications and equipment.  We are going to need a pair of electric welders for our mechanics to use.",
+      "offer": "The work you have done has swayed the leaders at the refugee center to send someone out to assist with our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can begin using scrap metal to build fortifications and equipment.  We are going to need a pair of arc welders for our mechanics to use.",
       "accepted": "With two, we should be able to repair one if it breaks.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "The only place I've seen them is garages but I imagine you could find them in some stores.",

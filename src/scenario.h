@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "effect_on_condition.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -47,6 +48,7 @@ class scenario
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
+        std::vector<effect_on_condition_id> _eoc;
 
         bool _custom_start_date = false;
         int _start_hour = 8;
@@ -133,6 +135,7 @@ class scenario
         bool can_pick( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<effect_on_condition_id> &eoc() const;
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };

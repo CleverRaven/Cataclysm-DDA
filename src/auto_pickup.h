@@ -11,6 +11,7 @@
 #include "enums.h"
 
 class JsonIn;
+class JsonObject;
 class JsonOut;
 class item;
 struct itype;
@@ -51,7 +52,7 @@ class rule
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         void test_pattern() const;
 };

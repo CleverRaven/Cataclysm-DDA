@@ -76,7 +76,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -84,7 +84,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -1107,6 +1107,7 @@
   },
   {
     "id": "runner_bag",
+    "repairs_like": "survivor_runner_pack",
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
@@ -1253,118 +1254,6 @@
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
-  },
-  {
-    "id": "survivor_duffel_bag",
-    "type": "ARMOR",
-    "name": { "str": "survivor duffel bag" },
-    "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "1000 g",
-    "volume": "7875 ml",
-    "price": 24000,
-    "price_postapoc": 3250,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "38 L",
-        "max_contains_weight": "60 kg",
-        "max_item_length": "60 cm",
-        "magazine_well": "7500 ml",
-        "moves": 300
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 8, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_pack",
-    "type": "ARMOR",
-    "name": { "str": "survivor backpack" },
-    "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "600 g",
-    "volume": "5250 ml",
-    "price": 24000,
-    "price_postapoc": 2250,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "30 L",
-        "max_contains_weight": "32 kg",
-        "max_item_length": "50 cm",
-        "magazine_well": "5 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 6,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 24 ], "coverage": 30, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_rucksack",
-    "type": "ARMOR",
-    "name": { "str": "survivor rucksack" },
-    "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "800 g",
-    "volume": "10 L",
-    "price": 24000,
-    "price_postapoc": 3000,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "35 L",
-        "max_contains_weight": "40 kg",
-        "max_item_length": "55 cm",
-        "magazine_well": "6 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 8,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 3, 28 ], "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_runner_pack",
-    "type": "ARMOR",
-    "name": { "str": "survivor runner pack" },
-    "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "440 g",
-    "volume": "4200 ml",
-    "price": 24000,
-    "price_postapoc": 2500,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "16 kg",
-        "max_item_length": "40 cm",
-        "magazine_well": "4 L",
-        "moves": 250
-      }
-    ],
-    "warmth": 2,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 12 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "swag_bag",

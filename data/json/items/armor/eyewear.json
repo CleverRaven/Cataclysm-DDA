@@ -295,27 +295,6 @@
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
   {
-    "id": "survivor_goggles",
-    "type": "ARMOR",
-    "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
-    "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
-    "weight": "212 g",
-    "volume": "250 ml",
-    "price": 7500,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "material": [ "kevlar_layered", "leather" ],
-    "symbol": "[",
-    "looks_like": "glasses_bal",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 4,
-    "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
-  },
-  {
     "id": "sunglasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",

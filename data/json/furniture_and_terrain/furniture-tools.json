@@ -540,6 +540,33 @@
   },
   {
     "type": "furniture",
+    "id": "f_firefly_terrarium",
+    "name": "firefly terrarium",
+    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": 6,
+    "light_emitted": 25,
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound_fail": "smash!",
+      "items": [
+        { "item": "glass_shard", "count": [ 8, 12 ] },
+        { "item": "alien_fern", "count": [ 0, 3 ] },
+        { "item": "mutant_meat", "count": [ 2, 4 ] },
+        { "item": "material_soil", "count": [ 2, 10 ] },
+        { "item": "mutant_bug_hydrogen_sacs", "count": [ 0, 2 ] },
+        { "item": "egg_firefly", "count": [ 0, 1 ] },
+        { "item": "mutant_bug_organs", "charges": [ 0, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_tablesaw",
     "name": "tablesaw",
     "looks_like": "f_machinery_light",
@@ -887,6 +914,38 @@
   },
   {
     "type": "furniture",
+    "id": "f_manual_tire_changer",
+    "name": "manual tire changer",
+    "looks_like": "f_machinery_light",
+    "description": "This floor mounted machine contains all the levers, clamps and mounts required to remove or fit a tire, plus an integrated foot pump to inflate it.",
+    "symbol": "7",
+    "color": "black_yellow",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    },
+    "crafting_pseudo_item": "fake_tire_changer"
+  },
+  {
+    "type": "furniture",
     "id": "f_fvat_empty",
     "name": "fermenting vat",
     "looks_like": "f_standing_tank",
@@ -1194,7 +1253,13 @@
       "items": [
         { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] }
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "money_one", "count": [ 0, 100 ] },
+        { "item": "money_two", "count": [ 0, 20 ] },
+        { "item": "money_five", "count": [ 0, 100 ] },
+        { "item": "money_ten", "count": [ 0, 100 ] },
+        { "item": "money_twenty", "count": [ 0, 100 ] },
+        { "item": "money_fifty", "count": [ 0, 50 ] }
       ]
     }
   },
@@ -1244,7 +1309,14 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "coin_nickel", "count": [ 0, 100 ] },
+        { "item": "coin_dime", "count": [ 0, 100 ] },
+        { "item": "coin_quarter", "count": [ 0, 100 ] },
+        { "item": "coin_dollar", "count": [ 0, 1 ] },
+        { "item": "money_one", "count": [ 0, 100 ] },
+        { "item": "money_two", "count": [ 0, 10 ] },
+        { "item": "money_five", "count": [ 0, 30 ] }
       ]
     }
   },

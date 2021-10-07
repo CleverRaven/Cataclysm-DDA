@@ -1,4 +1,4 @@
-#include "player.h" // IWYU pragma: associated
+#include "character.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
 #include <cstddef>
@@ -41,6 +41,7 @@ enum class mutation_menu_mode : int {
     activating,
     examining,
     reassigning,
+    hidding,
 };
 
 static void show_mutations_titlebar( const catacurses::window &window,
@@ -62,9 +63,14 @@ static void show_mutations_titlebar( const catacurses::window &window,
                           c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
+    if( menu_mode == mutation_menu_mode::hidding ) {
+        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+                ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+    }
     if( menu_mode != mutation_menu_mode::reassigning ) {
         desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
+    desc += shortcut_desc( _( "%s to toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
     desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
@@ -172,6 +178,7 @@ void avatar::power_mutations()
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );
+    ctxt.register_action( "TOGGLE_SPRITE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -215,6 +222,10 @@ void avatar::power_mutations()
                 type = has_base_trait( passive[i] ) ? c_cyan : c_light_cyan;
                 mvwprintz( wBio, point( 2, list_start_y + i - scroll_position ),
                            type, "%c %s", td.key, md.name() );
+                if( !td.show_sprite ) {
+                    //~ Hint: Letter to show which mutation is Hidden in the mutation menu
+                    wprintz( wBio, c_cyan, _( " H" ) );
+                }
             }
         }
 
@@ -352,6 +363,9 @@ void avatar::power_mutations()
                         // Describing mutations, not activating them!
                         examine_id = mut_id;
                         break;
+                    case mutation_menu_mode::hidding:
+                        my_mutations[mut_id].show_sprite = !my_mutations[mut_id].show_sprite;
+                        break;
                 }
                 handled = true;
             } else if( mutation_chars.valid( ch ) ) {
@@ -374,6 +388,9 @@ void avatar::power_mutations()
                 // switches between activation and examination
                 menu_mode = menu_mode == mutation_menu_mode::activating ?
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
+                examine_id = cata::nullopt;
+            } else if( action == "TOGGLE_SPRITE" ) {
+                menu_mode = mutation_menu_mode::hidding;
                 examine_id = cata::nullopt;
             } else if( action == "QUIT" ) {
                 exit = true;

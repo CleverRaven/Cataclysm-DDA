@@ -66,7 +66,7 @@
     "subtype": "collection",
     "items": [
       {
-        "item": "nato_assault_rifle",
+        "item": "m16_auto_rifle",
         "variant": "acr",
         "ammo-item": "556",
         "charges": 30,
@@ -263,7 +263,7 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "RobofacCoin", "count": 8 },
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
       ]

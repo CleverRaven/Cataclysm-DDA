@@ -42,12 +42,14 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Arms" },
-    "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
-    "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
-    "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
+    "name": { "str": "Intradermal Alloy - Arms" },
+    "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
+    "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
+    "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
+    "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
+    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
+    "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
+    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -118,7 +120,26 @@
       "CLAWS_TENTACLES",
       "ACIDPROOF",
       "TOXICFLESH",
-      "FRESHWATEROSMOSIS"
+      "FRESHWATEROSMOSIS",
+      "PAWS",
+      "PAWS_LARGE",
+      "NAILS",
+      "TALONS",
+      "CLAWS",
+      "CLAWS_RETRACT",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "WEBBED",
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2"
     ]
   },
   {
@@ -131,18 +152,22 @@
     "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "eyes", 3 ] ],
     "bullet_protec": [ [ "eyes", 3 ] ],
-    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE" ],
+    "encumbrance": [ [ "eyes", 1 ] ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "cant_remove_reason": "The Intradermal Plating is too thoroughly entwined with %1$s to be removed safely.",
     "social_modifiers": { "intimidate": 10 }
   },
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - head" },
-    "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
+    "name": { "str": "Intradermal Alloy - head" },
+    "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "cut_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "bullet_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
+    "encumbrance": [ [ "head", 1 ] ],
+    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -220,18 +245,48 @@
       "MUZZLE_BEAR",
       "MUZZLE_RAT",
       "MUZZLE_LONG",
-      "PROBISCIS"
+      "PROBISCIS",
+      "MOUTH_FLAPS",
+      "MOUTH_TENTACLES",
+      "MANDIBLES",
+      "FANGS_SPIDER",
+      "BEAK",
+      "BEAK_PECK",
+      "BEAK_HUM",
+      "GIZZARD",
+      "FELINE_EARS",
+      "CANINE_EARS",
+      "LUPINE_EARS",
+      "RABBIT_EARS",
+      "MOUSE_EARS",
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "RABBIT_NOSE",
+      "SLIT_NOSTRILS",
+      "WHISKERS",
+      "WHISKERS_RAT",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2",
+      "WIDE_MOUTH"
     ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Legs" },
-    "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
-    "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ] ],
-    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "name": { "str": "Intradermal Alloy - Legs" },
+    "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
+    "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
+    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
+    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
+    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
+    "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
+    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -300,19 +355,38 @@
       "TAIL_STING",
       "TAIL_CLUB",
       "LEG_TENTACLES",
-      "LEG_TENT_BRACE"
+      "LEG_TENT_BRACE",
+      "RAP_TALONS",
+      "HOOVES",
+      "PADDED_FEET",
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "TAIL_RABBIT",
+      "RABBIT_FEET",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2"
     ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - torso" },
-    "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
+    "name": { "str": "Intradermal Alloy - torso" },
+    "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "torso", 3 ] ],
     "bullet_protec": [ [ "torso", 3 ] ],
+    "encumbrance": [ [ "torso", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -377,14 +451,26 @@
       "ARACHNID_ARMS_OK",
       "CLAWS_TENTACLES",
       "SHELL",
-      "SHELL2"
+      "SHELL2",
+      "PATCHSKIN1",
+      "PATCHSKIN2",
+      "RABBIT_FUR",
+      "PAWS_LITTLE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "FAT",
+      "SLIME_SPRAY",
+      "INSECT_RESEVOIR",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2",
+      "SHELL3"
     ]
   },
   {
     "id": "bio_batteries",
     "type": "bionic",
     "name": { "str": "Battery System" },
-    "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
+    "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use bionic menu to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "battery" ],
     "fuel_efficiency": 1,
@@ -400,8 +486,8 @@
     "occupied_bodyparts": [ [ "arm_r", 7 ], [ "hand_r", 1 ] ],
     "encumbrance": [ [ "arm_r", 2 ] ],
     "act_cost": "50 J",
-    "fake_item": "bio_blade_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+    "fake_weapon": "bio_blade_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_shotgun",
@@ -411,7 +497,7 @@
     "occupied_bodyparts": [ [ "arm_l", 12 ] ],
     "encumbrance": [ [ "arm_l", 5 ] ],
     "act_cost": "50 J",
-    "fake_item": "bio_shotgun_gun",
+    "fake_weapon": "bio_shotgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
   },
   {
@@ -512,7 +598,7 @@
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 4 ] ],
     "act_cost": "100 kJ",
-    "fake_item": "bio_lightning",
+    "fake_weapon": "bio_lightning",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -523,7 +609,7 @@
     "occupied_bodyparts": [ [ "hand_l", 4 ], [ "hand_r", 4 ] ],
     "encumbrance": [ [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "act_cost": "25 J",
-    "fake_item": "bio_claws_weapon",
+    "fake_weapon": "bio_claws_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -642,7 +728,8 @@
     "description": "When this bionic is active, you can block hearing completely.",
     "included": true,
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "DEAF" ]
+    "active_flags": [ "DEAF" ],
+    "auto_deactivates": [ "bio_ears" ]
   },
   {
     "id": "bio_ears",
@@ -652,6 +739,7 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
     "active_flags": [ "SUPER_HEARING" ],
+    "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ]
   },
   {
@@ -669,7 +757,7 @@
     "description": "A ranged EMP generator system is implanted in your right arm and the palm of your right hand.  The system fires precise, single-target pulses that require time to aim.  Extremely effective against electronic targets but mostly useless otherwise.",
     "occupied_bodyparts": [ [ "arm_r", 8 ], [ "hand_r", 2 ] ],
     "act_cost": "50 kJ",
-    "fake_item": "bio_emp_gun",
+    "fake_weapon": "bio_emp_gun",
     "flags": [ "BIONIC_GUN" ]
   },
   {
@@ -772,8 +860,8 @@
     "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "electrohack",
-    "flags": [ "BIONIC_TOGGLED" ]
+    "toggled_pseudo_items": [ "electrohack" ],
+    "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_flashbang",
@@ -922,7 +1010,7 @@
     "type": "bionic",
     "name": { "str": "Itchy Metal Thing" },
     "description": "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly.",
-    "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
+    "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -932,7 +1020,7 @@
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
-    "fake_item": "bio_laser_gun",
+    "fake_weapon": "bio_laser_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -970,7 +1058,8 @@
     "name": { "str": "Finger Lighter" },
     "description": "The index finger of your left hand has a fire starter that can extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "fake_firestarter",
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_pseudo_items": [ "crude_firestarter" ],
     "act_cost": "1500 J"
   },
   {
@@ -1222,7 +1311,7 @@
     "name": { "str": "Fingertip Razors" },
     "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "fake_item": "fake_razor",
+    "passive_pseudo_items": [ "fake_razor" ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1378,7 +1467,7 @@
     "name": { "str": "Autonomous Surgical Scalpels" },
     "description": "A system of surgical grade scalpels is implanted in your forearms, extending from just above your wrists.  They allow you to make automated precise cuts and can also be used as a high-quality butchering tool.",
     "occupied_bodyparts": [ [ "arm_r", 2 ], [ "arm_l", 2 ] ],
-    "fake_item": "bio_scalpel",
+    "fake_weapon": "bio_scalpel",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
@@ -1389,7 +1478,7 @@
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
     "flags": [ "BIONIC_NPC_USABLE", "GLARE_RESIST" ],
-    "fake_item": "fake_goggles"
+    "passive_pseudo_items": [ "fake_goggles" ]
   },
   {
     "id": "bio_targeting",
@@ -1442,18 +1531,18 @@
     "name": { "str": "Integrated Toolset" },
     "description": "Surgically implanted in your hands and forearms is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, heating elements, and others.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "fake_item": "toolset",
+    "toggled_pseudo_items": [ "toolset" ],
     "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_tools_extend",
     "type": "bionic",
     "name": { "str": "Extended Toolset" },
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hands.",
-    "fake_item": "toolset_extended",
+    "fake_weapon": "toolset_extended",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_torsionratchet",
@@ -1473,7 +1562,7 @@
     "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  Movement takes less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE" ],
+    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE", "GASTROPOD_FOOT", "GASTROPOD_BALANCE" ],
     "enchantments": [
       { "condition": "ACTIVE", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] },
       { "condition": "INACTIVE", "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] }
@@ -1554,7 +1643,7 @@
     "name": { "str": "Intravenous Needletip" },
     "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "syringe"
+    "passive_pseudo_items": [ "syringe" ]
   },
   {
     "id": "bio_weight",

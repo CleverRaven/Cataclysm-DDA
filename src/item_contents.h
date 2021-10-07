@@ -20,12 +20,10 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
-class player;
 struct iteminfo;
 struct tripoint;
 
@@ -41,16 +39,20 @@ class item_contents
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested, bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::volume max_containable_volume( bool unrestricted_pockets_only = false ) const;
+
+        std::set<flag_id> magazine_flag_restrictions() const;
         /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
+         * @param it the item being put in
+         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
-        ret_val<bool> can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         // does not ignore mods
@@ -114,6 +116,7 @@ class item_contents
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
+        units::length item_length_modifier() const;
 
         // gets the total weight capacity of all pockets
         units::mass total_container_weight_capacity( bool unrestricted_pockets_only = false ) const;
@@ -245,7 +248,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, float insulation = 1,
+        void process( Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;
@@ -272,7 +275,7 @@ class item_contents
         void combine( const item_contents &read_input, bool convert = false );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
     private:
         // finds the pocket the item will fit in, given the pocket type.
         // this will be where the algorithm picks the best pocket in the contents

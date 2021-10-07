@@ -194,6 +194,7 @@ class inventory : public visitable
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
+        void dump( std::vector<const item *> &dest ) const;
 
         // vector rather than list because it's NOT an item stack
         // returns all items that need processing
@@ -245,6 +246,9 @@ class inventory : public visitable
         int amount_of( const itype_id &what, bool pseudo = true,
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+
+        std::pair<int, int> kcal_range( const itype_id &id,
+                                        const std::function<bool( const item & )> &filter, Character &player_character );
 
     private:
         invlet_favorites invlet_cache;

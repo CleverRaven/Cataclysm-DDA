@@ -192,7 +192,7 @@
     "name": { "str": "XL barbute helm" },
     "description": "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.  This one is ogre sized.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_bike",
@@ -247,7 +247,7 @@
     "name": { "str": "XL chitinous helmet" },
     "description": "A helmet made from giant insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_conical",
@@ -277,7 +277,7 @@
     "name": { "str": "XL conical helm" },
     "description": "A helmet made for a giant Mongolian warrior from a pulp novel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_acidchitin",
@@ -285,11 +285,12 @@
     "looks_like": "helmet_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "relative": { "bashing": 1, "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_helmet_acidchitin",
@@ -298,7 +299,7 @@
     "name": { "str": "XL biosilicified chitin helmet" },
     "description": "A helmet made from giant acidic insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_football",
@@ -352,7 +353,7 @@
     "name": { "str": "galea XL", "str_pl": "galeae XL" },
     "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head built for a Titan.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_kabuto",
@@ -388,7 +389,7 @@
     "name": { "str": "kabuto XL" },
     "description": "A medieval Japanese helmet with a scowling facemask, fit for an Oni.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_larmor",
@@ -417,7 +418,7 @@
     "name": { "str": "XL leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.  This one is quite large.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_skull",
@@ -486,10 +487,10 @@
   {
     "id": "helmet_motor",
     "repairs_like": "nomex_hood",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "motorcycle helmet" },
-    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.",
+    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  Activate to raise the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -499,13 +500,42 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
-    ],
+    "armor_data": {
+      "material_thickness": 6,
+      "armor": [
+        { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
+        { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+        { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+      ]
+    },
+    "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
     "warmth": 30,
-    "material_thickness": 6,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "helmet_motor_raised",
+    "//": "Can't use copy-from and armor_portion_data at the same time, clear up this item once #43144 will be merged",
+    "repairs_like": "nomex_hood",
+    "looks_like": "helmet_motor",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmets (raised visor)" },
+    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
+    "weight": "1587 g",
+    "volume": "2250 ml",
+    "price": 32500,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "plastic", "nomex" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor_data": { "material_thickness": 6, "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ] },
+    "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You put down your visor." },
+    "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY" ]
@@ -541,39 +571,7 @@
     "name": { "str": "XL nasal helm" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "helmet_nomad",
-    "type": "ARMOR",
-    "name": { "str": "nomad cowl" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.",
-    "weight": "470 g",
-    "volume": "2500 ml",
-    "price": 25000,
-    "price_postapoc": 250,
-    "to_hit": -3,
-    "material": [ "cotton", "leather" ],
-    "symbol": "[",
-    "looks_like": "balclava",
-    "color": "white",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 95, "encumbrance": 5 }
-    ],
-    "warmth": 35,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
-  },
-  {
-    "id": "xl_helmet_nomad",
-    "type": "ARMOR",
-    "copy-from": "helmet_nomad",
-    "name": { "str": "nomad cowl XL" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  Designed for a gigantic wanderer.",
-    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_plate",
@@ -608,39 +606,38 @@
     "name": { "str": "XL great helm" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "HELMET_COMPAT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_scavenger",
+    "id": "helmet_kettle",
     "type": "ARMOR",
-    "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
-    "weight": "695 g",
-    "volume": "2500 ml",
-    "price": 55000,
-    "price_postapoc": 3500,
-    "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
-    "symbol": "[",
-    "looks_like": "mask_gas",
-    "color": "white",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 23 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
-    ],
-    "warmth": 40,
-    "material_thickness": 3,
-    "environmental_protection": 7,
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
+    "category": "armor",
+    "name": { "str": "kettle helmet" },
+    "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.",
+    "weight": "2555 g",
+    "volume": "2050 ml",
+    "price": 30000,
+    "price_postapoc": 4000,
+    "bashing": 7,
+    "material": [ "steel", "leather" ],
+    "symbol": "n",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [ { "covers": [ "head" ], "coverage": 85, "encumbrance": 20 } ],
+    "warmth": 5,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
-    "id": "xl_helmet_scavenger",
+    "id": "xl_helmet_kettle",
     "type": "ARMOR",
-    "copy-from": "helmet_scavenger",
-    "name": { "str": "XL scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For oversized dangerous scavenging ventures.",
+    "copy-from": "helmet_kettle",
+    "name": { "str": "XL kettle helmet" },
+    "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.  This one is larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_scrap",
@@ -674,7 +671,7 @@
     "name": { "str": "XL scrap helmet" },
     "description": "An oversized helmet made from scraps of metal secured by simple strings.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_skid",
@@ -752,7 +749,7 @@
     "name": { "str": "XL Corinthian helm" },
     "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.  Of godlike proportions.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "pot_xlhelmet",
@@ -767,7 +764,7 @@
     "symbol": "[",
     "looks_like": "pot_helmet",
     "copy-from": "pot_helmet",
-    "flags": [ "OVERSIZE" ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
   }
 ]

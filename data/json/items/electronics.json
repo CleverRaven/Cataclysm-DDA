@@ -1,9 +1,26 @@
 [
   {
+    "id": "breadboard",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "breadboard" },
+    "description": "Commonly used in electronics prototyping, this solderless breadboard is a small brick of plastic filled with hundreds of holes connected by internal electrical busses.  With a few components and scraps of wire, you could quickly build a circuit on this, if you know what you're doing.",
+    "//": "Based on a small 400-point breadboard",
+    "weight": "100 g",
+    "volume": "80 ml",
+    "longest_side": "82 mm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "looks_like": "box_small",
+    "material": [ "plastic", "copper" ],
+    "symbol": "#",
+    "color": "white"
+  },
+  {
     "id": "magnetron",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "microwave generator" },
+    "name": { "str": "magnetron" },
     "description": "This electrical component is designed to produce microwaves, for use in your microwave.",
     "weight": "954 g",
     "volume": "4 L",

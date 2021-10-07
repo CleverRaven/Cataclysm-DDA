@@ -2,8 +2,8 @@
 
 #include "cata_utility.h"
 #include "character.h"
+#include "creature_tracker.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
@@ -36,8 +36,9 @@ static bool has_obstruction( const tripoint &from, const tripoint &to, bool chec
     // @to is what we want to hit. we don't need to check for obstruction there.
     line.pop_back();
     const map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &line_point : line ) {
-        if( here.impassable( line_point ) || ( check_ally && g->critter_at( line_point ) ) ) {
+        if( here.impassable( line_point ) || ( check_ally && creatures.creature_at( line_point ) ) ) {
             return true;
         }
     }
@@ -92,7 +93,7 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
-    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) ) {
         source.unwield();
     }
@@ -153,7 +154,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
 {
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
-    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
         !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
@@ -169,9 +170,10 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
 
     double total_potential = 0;
 
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : calculate_spell_effect_area( attack_spell, location,
             source ) ) {
-        Creature *critter = g->critter_at( potential_target );
+        Creature *critter = creatures.creature_at( potential_target );
 
         if( !critter ) {
             // no critter? no damage! however, we assume fields are worth something
@@ -227,7 +229,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         }
         return;
     }
-    Creature *critter = g->critter_at( location );
+    Creature *critter = get_creature_tracker().creature_at( location );
     if( !critter ) {
         debugmsg( "ERROR: npc tried to attack null critter" );
         return;
@@ -279,8 +281,9 @@ npc_attack_rating npc_attack_melee::evaluate( const npc &source,
         return effectiveness;
     }
     const int time_penalty = base_time_penalty( source );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &targetable_point : targetable_points( source ) ) {
-        if( Creature *critter = g->critter_at( targetable_point ) ) {
+        if( Creature *critter = creatures.creature_at( targetable_point ) ) {
             if( source.attitude_to( *critter ) != Creature::Attitude::HOSTILE ) {
                 // no point in swinging a sword at a friendly!
                 continue;
@@ -303,8 +306,9 @@ std::vector<npc_attack_rating> npc_attack_melee::all_evaluations( const npc &sou
         return effectiveness;
     }
     const int time_penalty = base_time_penalty( source );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &targetable_point : targetable_points( source ) ) {
-        if( Creature *critter = g->critter_at( targetable_point ) ) {
+        if( Creature *critter = creatures.creature_at( targetable_point ) ) {
             if( source.attitude_to( *critter ) != Creature::Attitude::HOSTILE ) {
                 // no point in swinging a sword at a friendly!
                 continue;
@@ -320,7 +324,7 @@ std::vector<npc_attack_rating> npc_attack_melee::all_evaluations( const npc &sou
 bool npc_attack_melee::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( weapon ).success();
+    return source.is_wielding( weapon ) || source.can_wield( weapon ).success();
 }
 
 int npc_attack_melee::base_time_penalty( const npc &source ) const
@@ -438,8 +442,9 @@ npc_attack_rating npc_attack_gun::evaluate(
         return effectiveness;
     }
     const int time_penalty = base_time_penalty( source );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &targetable_point : targetable_points( source ) ) {
-        if( g->critter_at( targetable_point ) ) {
+        if( creatures.creature_at( targetable_point ) ) {
             npc_attack_rating effectiveness_at_point = evaluate_tripoint( source, target,
                     targetable_point );
             effectiveness_at_point -= time_penalty;
@@ -459,8 +464,9 @@ std::vector<npc_attack_rating> npc_attack_gun::all_evaluations( const npc &sourc
         return effectiveness;
     }
     const int time_penalty = base_time_penalty( source );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &targetable_point : targetable_points( source ) ) {
-        if( g->critter_at( targetable_point ) ) {
+        if( creatures.creature_at( targetable_point ) ) {
             npc_attack_rating effectiveness_at_point = evaluate_tripoint( source, target,
                     targetable_point );
             effectiveness_at_point -= time_penalty;
@@ -477,7 +483,7 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     const int damage = gun.gun_damage().total_damage() * gunmode.qty;
     double potential = damage;
 
-    const Creature *critter = g->critter_at( location );
+    const Creature *critter = get_creature_tracker().creature_at( location );
     if( !critter ) {
         // TODO: AOE ammo effects
         return npc_attack_rating( cata::nullopt, location );
@@ -557,8 +563,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if( !source.is_wielding( source.weapon ) ) {
-        if( !source.wield( source.weapon ) ) {
+    if( !source.is_wielding( source.get_wielded_item() ) ) {
+        if( !source.wield( source.get_wielded_item() ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -576,10 +582,10 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
     }
 
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                   source.weapon.display_name() );
-    item thrown( source.weapon );
-    if( source.weapon.count_by_charges() && source.weapon.charges > 1 ) {
-        source.weapon.mod_charges( -1 );
+                   source.get_wielded_item().display_name() );
+    item thrown( source.get_wielded_item() );
+    if( source.get_wielded_item().count_by_charges() && source.get_wielded_item().charges > 1 ) {
+        source.get_wielded_item().mod_charges( -1 );
         thrown.charges = 1;
     } else {
         source.remove_weapon();
@@ -653,6 +659,7 @@ npc_attack_rating npc_attack_throw::evaluate(
     const bool throw_now = thrown_item.has_flag( flag_NPC_THROW_NOW );
     // TODO: Should this be a field to cache the result?
     const bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential : targetable_points( source ) ) {
 
         // hot potato! HOT POTATO!
@@ -668,7 +675,7 @@ npc_attack_rating npc_attack_throw::evaluate(
             return npc_attack_rating( result, potential );
         }
 
-        if( Creature *critter = g->critter_at( potential ) ) {
+        if( Creature *critter = creatures.creature_at( potential ) ) {
             if( source.attitude_to( *critter ) != Creature::Attitude::HOSTILE ) {
                 // no point in friendly fire!
                 continue;
@@ -693,8 +700,9 @@ std::vector<npc_attack_rating> npc_attack_throw::all_evaluations( const npc &sou
         return effectiveness;
     }
     const int penalty = base_penalty( source );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential : targetable_points( source ) ) {
-        if( Creature *critter = g->critter_at( potential ) ) {
+        if( Creature *critter = creatures.creature_at( potential ) ) {
             if( source.attitude_to( *critter ) != Creature::Attitude::HOSTILE ) {
                 // no point in friendly fire!
                 continue;
@@ -720,7 +728,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     }
 
     Creature::Attitude att = Creature::Attitude::NEUTRAL;
-    const Creature *critter = g->critter_at( location );
+    const Creature *critter = get_creature_tracker().creature_at( location );
     if( critter ) {
         att = source.attitude_to( *critter );
     }

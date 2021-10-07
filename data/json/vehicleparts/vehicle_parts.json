@@ -11,6 +11,17 @@
   },
   {
     "type": "item_group",
+    "id": "ig_vp_prison_bench",
+    "subtype": "collection",
+    "entries": [
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "chain", "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ig_vp_xlframe",
     "subtype": "collection",
     "entries": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] } ]
@@ -322,6 +333,18 @@
   },
   {
     "type": "vehicle_part",
+    "id": "foldable_aisle",
+    "copy-from": "wooden_aisle",
+    "name": { "str": "collapsible wooden aisle" },
+    "looks_like": "t_floor",
+    "description": "A collapsible aisle.",
+    "folded_volume": "12500 ml",
+    "item": "foldwoodframe",
+    "location": "center",
+    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "trunk_floor",
     "name": { "str": "floor trunk" },
     "symbol": "=",
@@ -515,6 +538,30 @@
       { "item": "scrap", "count": [ 0, 3 ] }
     ],
     "damage_reduction": { "all": 8, "bash": 10 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "handheld_battery_mount",
+    "name": { "str": "tool battery mount" },
+    "symbol": "O",
+    "categories": [ "energy" ],
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 100,
+    "folded_volume": "300 ml",
+    "description": "A mount for batteries usually used in handheld tools.  Allows quick removal or addition of such batteries into vehicular power grid.",
+    "item": "it_handheld_battery_mount",
+    "location": "fuel_source",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "FOLDABLE", "HANDHELD_BATTERY_MOUNT" ],
+    "breaks_into": [ { "item": "power_supply", "prob": 50 }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "damage_reduction": { "all": 4, "bash": 5 }
   },
   {
     "type": "vehicle_part",
@@ -883,6 +930,35 @@
   },
   {
     "type": "vehicle_part",
+    "id": "veh_table_foldable",
+    "name": { "str": "flat-packable table" },
+    "symbol": "#",
+    "looks_like": "veh_table_wood",
+    "categories": [ "utility" ],
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "damage_modifier": 30,
+    "durability": 70,
+    "size": 80,
+    "item": "foldwoodframe",
+    "folded_volume": "12500 ml",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "FOLDABLE" ],
+    "breaks_into": [
+      { "item": "2x4", "count": [ 1, 6 ] },
+      { "item": "splinter", "count": [ 4, 6 ] },
+      { "item": "nail", "charges": [ 4, 7 ] }
+    ],
+    "damage_reduction": { "all": 16 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "workbench",
     "name": { "str": "workbench" },
     "symbol": "#",
@@ -1241,6 +1317,26 @@
     },
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
     "emissions": [ "emit_heater_vehicle" ],
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "damage_reduction": { "all": 15 }
+  },
+  {
+    "copy-from": "mountable_heater",
+    "id": "mountable_heater_small",
+    "type": "vehicle_part",
+    "name": { "str": "small vehicle-mounted heater" },
+    "item": "mountable_heater_small",
+    "//": "going with half energy draw based on difference between small and large space heaters",
+    "epower": -350,
+    "bonus": 10,
+    "folded_volume": "3750 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "FOLDABLE" ],
+    "emissions": [ "emit_hot_air2_stream" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
   },
@@ -1622,6 +1718,20 @@
       { "item": "scrap", "count": [ 6, 12 ] }
     ],
     "damage_reduction": { "all": 9 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "foldable_solar_panel",
+    "copy-from": "solar_panel",
+    "looks_like": "solar_panel",
+    "name": { "str": "collapsible solar array" },
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "proportional": { "epower": 0.4, "durability": 0.5 },
+    "folded_volume": "2 L",
+    "description": "A small array of solar panels designed to be able to fold into one another.",
+    "item": "folding_solar_panel",
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "type": "vehicle_part",
@@ -2174,9 +2284,8 @@
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
-    "description": "A device for recharging batteries.  When turned on, it charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
-    "//": "Only keeping a controller board running while not actively charging",
-    "epower": -10,
+    "description": "A device for recharging batteries.  When turned on, it charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space, drawing power from the vehicle's batteries.",
+    "//": "Standby power is negligible",
     "bonus": 600,
     "item": "recharge_station",
     "location": "on_cargo",
@@ -2185,7 +2294,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "INTERNAL", "RECHARGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "INTERNAL", "RECHARGE", "FOLDABLE" ],
     "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
@@ -2199,9 +2308,8 @@
     "id": "battery_charger",
     "name": { "str": "battery charger" },
     "durability": 5,
-    "description": "A small, low-power consumer device for recharging batteries.  It slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
+    "description": "A small, low-power consumer device for recharging batteries.  It slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space, drawing power from the vehicle's batteries.",
     "//": "Sub-milliwatt power consumption when idle; delivers 15 watts when charging.",
-    "epower": 0,
     "bonus": 15,
     "item": "battery_charger",
     "requirements": {
@@ -2209,7 +2317,6 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "delete": { "flags": [ "ENABLED_DRAINS_EPOWER" ] },
     "folded_volume": "250 ml",
     "breaks_into": "ig_vp_device",
     "copy-from": "recharge_station"
@@ -2516,6 +2623,7 @@
     "id": "plating_acidchitin",
     "copy-from": "plating_chitin",
     "name": { "str": "biosilicified chitin plating" },
+    "proportional": { "durability": 1.1 },
     "item": "acidchitin_plate",
     "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
     "damage_reduction": { "all": 24 }

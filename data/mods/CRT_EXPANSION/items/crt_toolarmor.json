@@ -9,8 +9,6 @@
     "volume": "1 L",
     "price": 2500000,
     "to_hit": 1,
-    "max_charges": 250,
-    "initial_charges": 250,
     "use_action": {
       "type": "transform",
       "msg": "CRIT HUD booting up…",
@@ -26,6 +24,7 @@
     "material_thickness": 5,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 250 } } ],
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -35,22 +34,18 @@
       "GAS_PROOF",
       "USE_UPS",
       "NO_UNLOAD",
+      "NO_RELOAD",
       "SLEEP_IGNORE"
     ],
     "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "crt_gasmask_on",
+    "copy-from": "crt_gasmask",
     "type": "TOOL_ARMOR",
-    "category": "armor",
     "name": { "str": "CRIT gas mask (on)", "str_pl": "CRIT gas masks (on)" },
     "description": "This a heavily modified gas mask.  It is currently on and draining power for the HUD, low-level night vision and other protective elements.",
-    "weight": "5 kg",
-    "volume": "1 L",
-    "price": 2500000,
     "to_hit": -3,
-    "max_charges": 250,
-    "initial_charges": 250,
     "turns_per_charge": 1,
     "revert_to": "crt_gasmask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "CRIT HUD deactivating.", "target": "crt_gasmask" },
@@ -75,6 +70,7 @@
       "GAS_PROOF",
       "USE_UPS",
       "NO_UNLOAD",
+      "NO_RELOAD",
       "SLEEP_IGNORE"
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
@@ -93,8 +89,6 @@
     "material": [ "kevlar", "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "max_charges": 300,
-    "initial_charges": 300,
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -106,38 +100,26 @@
     },
     "//": "Artifact data is charge_type solar",
     "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 300 } },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 }
     ],
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "USE_UPS", "NO_UNLOAD", "OUTER" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "OUTER" ],
     "armor": [ { "encumbrance": 50, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "crt_em_vest_on",
+    "copy-from": "crt_em_vest",
     "type": "TOOL_ARMOR",
-    "category": "armor",
     "name": { "str": "CRIT EM vest (on)", "str_pl": "CRIT EM vests (on)" },
     "description": "The Spec Ops Enhanced Movement vest is embedded with high-tech filaments, reactive servos and a generator which pumps a crystallized liquid that protects its wearer from most heavy combat situations at the cost of extreme power usage.  It is commonly worn by C.R.I.T Spec Ops.  This vest is currently in suit form and draining your UPS power at high rates.",
-    "weight": "10 kg",
-    "volume": "6250 ml",
-    "price": 7000000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar", "superalloy" ],
-    "symbol": "[",
     "color": "light_green",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 }
-    ],
     "warmth": 100,
     "material_thickness": 7,
     "environmental_protection": 16,
-    "max_charges": 300,
-    "initial_charges": 300,
     "turns_per_charge": 1,
     "charges_per_use": 1,
     "revert_to": "crt_em_vest",
@@ -161,6 +143,7 @@
       "TRADER_AVOID",
       "USE_UPS",
       "NO_UNLOAD",
+      "NO_RELOAD",
       "OUTER"
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -175,8 +158,6 @@
     "material": [ "kevlar", "hardsteel" ],
     "material_thickness": 3,
     "warmth": 20,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -187,7 +168,19 @@
       "need_charges": 1,
       "need_charges_msg": "The helmet's batteries are dead."
     },
-    "flags": [ "WATERPROOF", "STURDY", "VARSIZE", "RAD_PROOF", "kevlar_padded", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "OUTER" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "VARSIZE",
+      "RAD_PROOF",
+      "kevlar_padded",
+      "TRADER_AVOID",
+      "USE_UPS",
+      "NO_RELOAD",
+      "NO_UNLOAD",
+      "OUTER"
+    ]
   },
   {
     "id": "crt_helmet_on",
@@ -203,6 +196,7 @@
       "VARSIZE",
       "kevlar_padded",
       "USE_UPS",
+      "NO_RELOAD",
       "NO_UNLOAD",
       "OUTER",
       "LIGHT_35",
@@ -212,12 +206,12 @@
     "material_thickness": 3,
     "warmth": 20,
     "revert_to": "crt_helmet",
-    "max_charges": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 120,
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the %s off.", "target": "crt_helmet" }
   },
   {
     "id": "crt_canteen",

@@ -104,6 +104,26 @@
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
+    "id": "tireplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tireplate" },
+    "description": "Armor fashioned from from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
+    "weight": "5790 g",
+    "volume": "9500 ml",
+    "price": 4200,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "O",
+    "looks_like": "armor_scrapsuit",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "chainmail_vest",
     "type": "ARMOR",
     "category": "armor",
@@ -211,6 +231,34 @@
     "flags": [ "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "cuirass_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
+    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "5750 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "cuirass_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "xl_cuirass_tire",
+    "type": "ARMOR",
+    "name": { "str": "XL tire cuirass", "str_pl": "XL tire cuirasses" },
+    "copy-from": "cuirass_scrap",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "OVERSIZE", "OUTER", "NONCONDUCTIVE" ]
+  },
+  {
     "id": "fencing_jacket",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
@@ -267,6 +315,35 @@
     "copy-from": "jacket_leather_mod",
     "material_thickness": 4,
     "material": [ "leather", "bone" ]
+  },
+  {
+    "id": "jacket_leather_tire",
+    "repairs_like": "jacket_leather",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "tire leather armor" },
+    "description": "A jacket reinforced with chunks of thick rubber tire on the shoulders, back and front.  Bulky and heavy, but thick and electric proof.",
+    "weight": "6250 g",
+    "volume": "7 L",
+    "price": 11000,
+    "price_postapoc": 250,
+    "material": [ "rubber", "leather" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_mod",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "NONCONDUCTIVE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 20, 23 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 20, 22 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ]
   },
   {
     "id": "lame_foil",
@@ -345,42 +422,6 @@
     "material_thickness": 3,
     "flags": [ "STURDY", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "lsurvivor_armor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "light survivor body armor" },
-    "description": "Lightweight, custom-built body armor made from Kevlar and tough fabric.  Mostly waterproof.",
-    "weight": "3000 g",
-    "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 4000,
-    "material": [ "kevlar", "cotton" ],
-    "symbol": "[",
-    "looks_like": "lsurvivor_suit",
-    "color": "green",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "xl_lsurvivor_armor",
-    "type": "ARMOR",
-    "name": { "str": "XL light survivor body armor" },
-    "copy-from": "lsurvivor_armor",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "motorbike_armor",

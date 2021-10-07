@@ -285,6 +285,11 @@
     "text": "Bad Tempered"
   },
   {
+    "id": "morale_perm_numb",
+    "type": "morale_type",
+    "text": "Numbed"
+  },
+  {
     "id": "morale_perm_constrained",
     "type": "morale_type",
     "text": "Uncomfy Gear"
@@ -388,5 +393,10 @@
     "id": "morale_nightmare",
     "type": "morale_type",
     "text": "Had a vivid nightmare"
+  },
+  {
+    "id": "morale_migo_bio_tech",
+    "type": "morale_type",
+    "text": "Used mi-go biotech"
   }
 ]

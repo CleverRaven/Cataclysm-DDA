@@ -72,8 +72,7 @@
   },
   {
     "id": "MAGIC_FOLLOW",
-    "type": "json_flag",
-    "context": [ "vehicle_part" ]
+    "type": "json_flag"
   },
   {
     "id": "mana",

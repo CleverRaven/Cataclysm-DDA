@@ -16,8 +16,32 @@
   },
   {
     "type": "dream",
+    "messages": [ "You have a strange dream about rabbits.", "Your dreams give you a strange furry feeling." ],
+    "category": "RABBIT",
+    "strength": 1
+  },
+  {
+    "type": "dream",
     "messages": [ "You have a strange dream about birds.", "Your dreams give you a strange feathered feeling." ],
     "category": "BIRD",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream about snails and slugs in your garden.",
+      "Your dreams leave you feeling like something is stuck to you."
+    ],
+    "category": "GASTROPOD",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream about frogs in a pond near your childhood home.",
+      "Your dreams contain a croaking concerto."
+    ],
+    "category": "BATRACHIAN",
     "strength": 1
   },
   {
@@ -160,6 +184,33 @@
       "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
     ],
     "category": "MEDICAL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream about running from dogs.",
+      "While dreaming, you see a distinctively rabbit-like reflection of yourself."
+    ],
+    "category": "RABBIT",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream of carrying a house on your back.",
+      "While dreaming, you see yourself weighted down under massive backpack/tent upon your back, as you pass by a mirrored surface."
+    ],
+    "category": "GASTROPOD",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream of eating insects.",
+      "While dreaming, you see yourself in a pond, your face has widened and is covered in mucus."
+    ],
+    "category": "BATRACHIAN",
     "strength": 2
   },
   {
@@ -329,6 +380,15 @@
   {
     "type": "dream",
     "messages": [
+      "You have a strange dream about being the Easter Bunny.",
+      "You have a comforting and warm dream of living as a rabbit."
+    ],
+    "category": "RABBIT",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
       "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
       "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
     ],
@@ -351,6 +411,24 @@
       "When you wake up you panic about drowning from being out of water."
     ],
     "category": "FISH",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of leaping from the water to catch your prey.",
+      "You wake up with your legs pumping as you hop along in your sleep."
+    ],
+    "category": "BATRACHIAN",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of crawling along the world when you realize you can see three hundred and sixty degrees around yourself.",
+      "You dream of curling up inside a shell to sleep."
+    ],
+    "category": "GASTROPOD",
     "strength": 3
   },
   {
@@ -532,6 +610,12 @@
   },
   {
     "type": "dream",
+    "messages": [ "Will your burrow be warm enough for the family in winter?", "You dream of outrunning the apocalypse." ],
+    "category": "RABBIT",
+    "strength": 4
+  },
+  {
+    "type": "dream",
     "messages": [
       "You have a comforting dream of swimming with a school of fish.",
       "The thought of being out of water, forced to crawl unsupported, terrifies you."
@@ -669,6 +753,24 @@
       "You wish others could understand, and join your struggle…"
     ],
     "category": "ELFA",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "There is so much that you never imagined, the slime, the legs, and eyestalks but the shell was worth it.",
+      "You'll always be home, once you take this last step."
+    ],
+    "category": "GASTROPOD",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You'd never considered that frogs were generalist predators before this point in your life…",
+      "On land and in the water, you control all that you can reach, and your tongue has quite the reach."
+    ],
+    "category": "BATRACHIAN",
     "strength": 4
   },
   {

@@ -145,18 +145,17 @@ std::string remove_color_tags( const std::string &s )
 {
     std::string ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
-    size_t next_pos = 0;
-
-    if( !tag_positions.empty() ) {
-        for( size_t tag_position : tag_positions ) {
-            ret += s.substr( next_pos, tag_position - next_pos );
-            next_pos = s.find( ">", tag_position, 1 ) + 1;
-        }
-
-        ret += s.substr( next_pos, std::string::npos );
-    } else {
+    if( tag_positions.empty() ) {
         return s;
     }
+
+    size_t next_pos = 0;
+    for( size_t tag_position : tag_positions ) {
+        ret += s.substr( next_pos, tag_position - next_pos );
+        next_pos = s.find( ">", tag_position, 1 ) + 1;
+    }
+
+    ret += s.substr( next_pos, std::string::npos );
     return ret;
 }
 
@@ -1133,6 +1132,15 @@ std::string trim( const std::string &s, Prep prep )
     } ).base() );
 }
 
+template<typename Prep>
+std::string trim_trailing( const std::string &s, Prep prep )
+{
+    return std::string( s.begin(), std::find_if_not(
+    s.rbegin(), s.rend(), [&prep]( int c ) {
+        return prep( c );
+    } ).base() );
+}
+
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
@@ -1140,10 +1148,11 @@ std::string trim( const std::string &s )
     } );
 }
 
-std::string trim_punctuation_marks( const std::string &s )
+std::string trim_trailing_punctuations( const std::string &s )
 {
-    return trim( s, []( int c ) {
-        return ispunct( c );
+    return trim_trailing( s, []( int c ) {
+        // '<' and '>' are used for tags and should not be removed
+        return c == '.' || c == '!';
     } );
 }
 
@@ -1702,6 +1711,26 @@ std::string rewrite_vsnprintf( const char *msg )
 // NOLINTNEXTLINE(cert-dcl50-cpp)
 std::string cata::string_formatter::raw_string_format( const char *format, ... )
 {
+#if defined(_WIN32)
+    // For unknown reason, vsnprintf on Windows does not seem to support positional arguments (e.g. "%1$s")
+    va_list args;
+    va_start( args, format );
+
+    va_list args_copy_1;
+    va_copy( args_copy_1, args );
+    // Return value of _vscprintf_p does not include the '\0' terminator
+    const int characters = _vscprintf_p( format, args_copy_1 ) + 1;
+    va_end( args_copy_1 );
+
+    std::vector<char> buffer( characters, '\0' );
+    va_list args_copy_2;
+    va_copy( args_copy_2, args );
+    _vsprintf_p( &buffer[0], characters, format, args_copy_2 );
+    va_end( args_copy_2 );
+
+    va_end( args );
+    return std::string( &buffer[0] );
+#else
     va_list args;
     va_start( args, format );
 
@@ -1739,6 +1768,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 
     va_end( args );
     return std::string( &buffer[0] );
+#endif
 }
 #endif
 
@@ -2047,7 +2077,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     oLeft = iso_mode ? direction::NORTHWEST : direction::WEST;
     oUpLeft = iso_mode ? direction::NORTH : direction::NORTHWEST;
 
-    point pairDirXY = direction_XY( oDir );
+    point pairDirXY = displace_XY( oDir );
 
     dir = pairDirXY;
 

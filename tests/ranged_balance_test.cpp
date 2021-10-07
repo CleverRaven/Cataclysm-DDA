@@ -126,7 +126,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
-    item &gun = shooter.weapon;
+    item &gun = shooter.get_wielded_item();
     dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
     shooter.moves = aim_time;
@@ -152,8 +152,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -167,8 +168,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -179,8 +181,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -198,12 +201,13 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-    CAPTURE( shooter.weapon.gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+    CAPTURE( shooter.ranged_dispersion_modifier_hands() );
+    CAPTURE( shooter.get_wielded_item().gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.get_wielded_item().gun_skill() ) );
     CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
+    CAPTURE( to_milliliter( shooter.get_wielded_item().volume() ) );
     CAPTURE( fast_stats.n() );
     CAPTURE( fast_stats.margin_of_error() );
     CHECK( fast_stats.avg() > hit_rate );
@@ -298,7 +302,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ar15", { "tele_sight" } );
-        test_shooting_scenario( shooter, 10, 22, 48 );
+        test_shooting_scenario( shooter, 10, 18, 48 );
         test_fast_shooting( shooter, 85, 0.3 );
     }
 }

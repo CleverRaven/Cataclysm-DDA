@@ -157,34 +157,6 @@
   },
   {
     "type": "snippet",
-    "category": "amigara1",
-    "text": [
-      "ENTRY 47:\nOur normal mining routine has unearthed a hollow chamber.  This would not be out of the ordinary, save for the odd, perfectly vertical faultline found.  This faultline has several odd concavities in it which have the more superstitious crew members alarmed; they seem to be of human origin.\nENTRY 48:\nThe concavities are between 10 and 20 feet tall, and run the length of the faultline.  Each one is vaguely human in shape, but with the proportions of the limbs, neck and head greatly distended, all twisted and curled in on themselves."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "amigara2",
-    "text": [
-      "ENTRY 49:\nWe've stopped mining operations in this area, obviously, until archaeologists have the chance to inspect the area.  This is going to set our schedule back by at least a week.  This stupid artifact-preservation law has been in place for 50 years, and hasn't even been up for termination despite the fact that these mining operations are the backbone of our economy.\nENTRY 52:\nStill waiting on the archaeologists.  We've done a little light inspection of the faultline; our sounding equipment is insufficient to measure the depth of the concavities.  The equipment is rated at 15 miles depth, but it isn't made for such narrow tunnels, so it's hard to say exactly how far back they go."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "amigara3",
-    "text": [
-      "ENTRY 54:\nI noticed a couple of the guys down in the chamber with a chisel, breaking off a piece of the sheer wall.  I'm looking the other way.  It's not like the eggheads are going to notice a little piece missing.  Fuck em.\nENTRY 55:\nWell, the archaeologists are down there now with a couple of the boys as guides.  They're hardly Indiana Jones types; I doubt they been below 20 feet.  I hate taking guys off assignment just to babysit the scientists, but if they get hurt we'll be shut down for god knows how long.\nENTRY 58:\nThey're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I know that's sort of a big deal, but come on, these guys can't handle it?"
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "amigara4",
-    "text": [
-      "MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER IMPERATIVE 2:07B.\nFAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM.\nDAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS SUBJECTS.\nQUALITY OF FAULTLINE NOT COMPROMISED.\nINITIATING STANDARD TREMOR TEST…"
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "headshop_graffiti",
     "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
   },
@@ -218,6 +190,97 @@
     "category": "smart_engine_controller_manual",
     "text": [
       "Welcome to the <color_white>Smart Engine Controller ®</color> user manual.  This document describes the features and capabilities of the Smart Engine Controller, as well as gives examples of the use cases that reap the most benefits from the Smart Engine Controller.\n\nSmart Engine Controller intelligently <color_light_green>turns controllable engines on and off</color>.  To put it simply, it tries to find the optimal state of the engines that:\n• won't completely deplete the battery\n• meets requested acceleration and speed\n• is safe for engines\n• has best fuel economy and battery charge rate\n\nSmart Engine Controller only supports engines that are controlled by electronics, such as <color_light_green>combustion and electric engines</color>.  When enabled, Smart Engine Controller will immediately take control over all compatible engines and will start and shut them down as needed.  Smart Engine Controller <color_light_green>supports between two and five</color> controllable engines.\nSmart Engine Controller allows the user to tune its settings for the usage of the electric motors.  This setting comes in the form of two sliders: <color_light_green>\"LO\"</color> and <color_light_green>\"HI\"</color> battery level, %.\n• when battery level < LO, electric motor won't engage\n• when battery level > HI, electric motor is preferred (but not guaranteed to be used)\n• between LOW and HI, electric motor usage is determined by battery charge rate and other factors\nNote: Smart Engine Controller will <color_light_green>strive to keep battery level at or above \"HI\"</color>, utilizing the engines with attached alternators.\n\nIntended use cases of the Smart Engine Controller:\n• <color_light_green>Hybrid car with gas and electric engines</color>\nWhen battery level is \"HI\" or above, a more efficient electric engine will be used.  When accelerating, gas engine may be started to provide the best acceleration.  When battery level is below \"HI\", the gas engine with the alternator will be used to recharge the battery.\n• <color_light_green>Car with two or more gas engines</color>\nWhen cruising, only one engine will be used.  When accelerating, more engines will be started to provide the best acceleration.\n• <color_light_green>Car with a small and large engine</color>\nDepending on the speed, a single engine will be chosen to provide the best acceleration and fuel economy.\n• <color_light_green>Stationary generator</color>\nWhen the battery reaches \"HI\" level, the gas engine will be turned off to save fuel.\n\nEnjoy your optimal ride with the Smart Engine Controller!  For warranty information please contact your local dealership."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_npc_not_hostile",
+    "text": [ "What is this unbearable sound!?", "STOP.  MY EARS", "I'm not a dog…", "Would you kindly not do that?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_npc_hostile",
+    "text": [
+      "I WILL MURDER YOU",
+      "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT",
+      "You're seriously pissing me off…",
+      "I'm not a dog…",
+      "What is this unbearable sound!?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "dogwhistle_message_you",
+    "text": [ "You hate this loud sound." ]
+  },
+  {
+    "type": "snippet",
+    "category": "examine_photo_msg",
+    "text": [
+      "You used to have a dog like this…",
+      "Ha-ha!  An amusing cat photo.",
+      "Excellent pictures of nature.",
+      "Food photos… your stomach rumbles!",
+      "Some very interesting travel photos.",
+      "Pictures of a concert of popular band.",
+      "Photos of someone's luxurious house.",
+      "You feel nostalgic as you stare at the photo."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "magic_8ball_good",
+    "text": [
+      "It is certain.",
+      "It is decidedly so.",
+      "Without a doubt.",
+      "Yes - definitely.",
+      "You may rely on it.",
+      "As I see it, yes.",
+      "Most likely.",
+      "Outlook good.",
+      "Yes.",
+      "Signs point to yes."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "magic_8ball_unknown",
+    "text": [
+      "Reply hazy, try again.",
+      "Ask again later.",
+      "Better not tell you now.",
+      "Can't predict now.",
+      "Concentrate and ask again."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "magic_8ball_bad",
+    "text": [ "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful." ]
+  },
+  {
+    "type": "snippet",
+    "category": "slime_cheers",
+    "text": [
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"hey, it's gonna be all right!\""
+        }
+      },
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"we'll get through this!\""
+        }
+      },
+      {
+        "text": {
+          "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
+          "str": "\"i'm here for you!\""
+        }
+      }
     ]
   }
 ]

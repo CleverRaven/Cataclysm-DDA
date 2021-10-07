@@ -91,7 +91,10 @@ static int actual_burn_rate( Character &dummy, const move_mode_id &move_mode )
 static void burden_player( Character &dummy, float burden_proportion )
 {
     units::mass capacity = dummy.weight_capacity();
-    int units = static_cast<int>( std::round( capacity * burden_proportion / 1_gram ) );
+    // volatile float variable here to workaround a suspected compiler optimization related
+    // issue causing MinGW cross compile test failure
+    volatile float before_rounding = capacity * burden_proportion / 1_gram;
+    int units = static_cast<int>( before_rounding );
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
@@ -435,7 +438,11 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
         REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 10 );
 
         THEN( "stamina regen is reduced" ) {
-            CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 2 ) * turn_moves );
+            CAPTURE( dummy.stamina_recovery_breathing_modifier() );
+            CAPTURE( normal_regen_rate );
+            CHECK( actual_regen_rate( dummy, turn_moves ) ==
+                   Approx( ( normal_regen_rate * dummy.stamina_recovery_breathing_modifier() ) * turn_moves ).margin(
+                       0.9 ) );
 
             WHEN( "they have even more mouth encumbrance" ) {
                 // Layering two scarves triples the encumbrance
@@ -443,7 +450,10 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
                 REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 30 );
 
                 THEN( "stamina regen is reduced further" ) {
-                    CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 6 ) * turn_moves );
+                    CAPTURE( dummy.stamina_recovery_breathing_modifier() );
+                    CHECK( actual_regen_rate( dummy, turn_moves ) ==
+                           Approx( ( normal_regen_rate * dummy.stamina_recovery_breathing_modifier() ) * turn_moves ).margin(
+                               0.9 ) );
                 }
             }
         }

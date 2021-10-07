@@ -20,6 +20,7 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class item;
+struct dialogue;
 
 namespace enchant_vals
 {
@@ -123,10 +124,9 @@ class enchantment
         // the condition at which the enchantment is giving passive effects
         enum condition {
             ALWAYS,
-            UNDERGROUND,
-            UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
             INACTIVE, // the item, mutation, etc. is inactive
+            DIALOG_CONDITION, // Check a provided dialog condition
             NUM_CONDITION
         };
 
@@ -204,7 +204,7 @@ class enchantment
             bool was_loaded = false;
 
             void serialize( JsonOut &jsout ) const;
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &jo );
             void load( const JsonObject &jo );
         };
     private:
@@ -214,10 +214,10 @@ class enchantment
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
-        std::map<enchant_vals::mod, int> values_add;
+        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, double> values_multiply;
+        std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
@@ -225,6 +225,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
+        std::function<bool( const dialogue & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 
