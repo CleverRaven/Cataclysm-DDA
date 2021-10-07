@@ -92,6 +92,7 @@
 #include "pathfinding.h"
 #include "profession.h"
 #include "proficiency.h"
+#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -7126,6 +7127,45 @@ void Character::spores()
             continue;
         }
         fe.fungalize( sporep, this, 0.25 );
+    }
+}
+
+void Character::longtongue( const trait_id &mut )
+{
+    if( !is_avatar() ) {
+        return;
+    }
+    item wtmp( itype_id( "mut_longtongue" ) );
+    g->temp_exit_fullscreen();
+    target_handler::trajectory traj = target_handler::mode_throw( *as_avatar(), wtmp, false );
+    g->reenter_fullscreen();
+    if( traj.empty() ) {
+        return; // cancel
+    } else if( traj.back() == pos() ) {
+        add_msg_if_player( _( "You don't taste that great." ) );
+        return;
+    }
+    std::vector<tripoint> path = line_to( pos(), traj.back(), 0, 0 );
+    Creature *c = nullptr;
+    for( const tripoint &p : path ) {
+        c = get_creature_tracker().creature_at( p );
+        if( c != nullptr ) {
+            break;
+        }
+    }
+    if( c == nullptr ) {
+        // TODO: Latch onto objects?
+        add_msg_if_player( _( "There's nothing here to latch onto with your %s!" ), mut->name() );
+        return;
+    }
+    int str = std::max( 5, get_str() / 2 );
+    if( one_in( clamp<int>( ( c->get_size() * c->get_size() ) / str, 1, 100 ) ) ) {
+        add_msg_if_player( _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(), mut->name() );
+        c->move_to( tripoint_abs_ms( line_to( get_location().raw(), c->get_location().raw(), 0,
+                                              0 ).front() ) );
+        c->add_effect( effect_stunned, 5_seconds );
+    } else {
+        add_msg_if_player( _( "%s's size makes it difficult to pull it towards you." ), c->disp_name() );
     }
 }
 

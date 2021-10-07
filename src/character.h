@@ -2576,6 +2576,7 @@ class Character : public Creature, public visitable
         void react_to_felt_pain( int intensity );
 
         void spores();
+        void longtongue( const trait_id &mut );
         void blossoms();
 
         /** Handles rooting effects */

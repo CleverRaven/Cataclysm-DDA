@@ -151,6 +151,7 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -219,6 +220,9 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
+static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
+static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 
 using namespace activity_handlers;
 
@@ -227,6 +231,7 @@ activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_PICKAXE, pickaxe_do_turn },
     { ACT_PULP, pulp_do_turn },
+    { ACT_PULL_CREATURE, pull_creature_do_turn },
     { ACT_GAME, game_do_turn },
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
@@ -3816,6 +3821,25 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         you->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     you->practice( skill_computer, 10 );
+}
+
+void activity_handlers::pull_creature_do_turn( player_activity *act, Character *you )
+{
+    const trait_id *mut = nullptr;
+    if( you->has_active_mutation( trait_LONG_TONGUE2 ) ) {
+        mut = &trait_LONG_TONGUE2;
+    } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY2 ) ) {
+        mut = &trait_GASTROPOD_EXTREMITY2;
+    } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY3 ) ) {
+        mut = &trait_GASTROPOD_EXTREMITY3;
+    }
+
+    if( mut != nullptr ) {
+        you->longtongue( *mut );
+        you->deactivate_mutation( *mut );
+    }
+
+    act->set_to_null();
 }
 
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )

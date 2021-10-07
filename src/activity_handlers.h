@@ -191,6 +191,7 @@ void fill_pit_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
 void robot_control_do_turn( player_activity *act, Character *you );
+void pull_creature_do_turn( player_activity *act, Character *you );
 void tree_communion_do_turn( player_activity *act, Character *you );
 void spellcasting_do_turn( player_activity *act, Character *you );
 void study_spell_do_turn( player_activity *act, Character *you );

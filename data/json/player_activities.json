@@ -576,6 +576,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_PULL_CREATURE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "pulling a creature",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ATM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
