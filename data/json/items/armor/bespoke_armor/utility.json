@@ -1,0 +1,163 @@
+[
+  {
+    "id": "survivor_belt_notools",
+    "type": "ARMOR",
+    "name": { "str": "survivor belt" },
+    "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade and a holster to carry a pistol.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+    "weight": "1549 g",
+    "volume": "2250 ml",
+    "price": 15000,
+    "price_postapoc": 2500,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 20,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "13 cm",
+        "moves": 50
+      },
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ],
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 15, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "survivor_goggles",
+    "type": "ARMOR",
+    "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
+    "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
+    "weight": "212 g",
+    "volume": "250 ml",
+    "price": 7500,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "material": [ "kevlar_layered", "leather" ],
+    "symbol": "[",
+    "looks_like": "glasses_bal",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 4,
+    "environmental_protection": 15,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "survivor_vest",
+    "type": "ARMOR",
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
+    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
+    "weight": "320 g",
+    "volume": "1250 ml",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "material": [ "leather", "cotton" ],
+    "symbol": "[",
+    "looks_like": "tacvest",
+    "color": "green",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ],
+    "armor": [ { "encumbrance": [ 4, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "xl_survivor_vest",
+    "type": "ARMOR",
+    "copy-from": "survivor_vest",
+    "name": { "str": "XL survivor harness", "str_pl": "XL survivor harnesses" },
+    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear and fitting the largest forms.  Activate to holster/draw your weapon.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "WAIST", "STURDY", "OVERSIZE" ]
+  }
+]

@@ -344,6 +344,20 @@
     ]
   },
   {
+    "id": "achievement_mutation_threshold_rabbit",
+    "type": "achievement",
+    "name": "Finally beat the tortoise",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "RABBIT" ],
+        "description": "crossed rabbit mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "achievement_mutation_threshold_insect",
     "type": "achievement",
     "name": "Heard of the swarm?",
@@ -535,6 +549,34 @@
         "is": "==",
         "target": [ "mutation_category_id", "TROGLOBITE" ],
         "description": "crossed troglobite mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_gastropod",
+    "type": "achievement",
+    "name": "Carrying your home on your back",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "GASTROPOD" ],
+        "description": "crossed gastropod mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_batrachian",
+    "type": "achievement",
+    "name": "Leaping forward in life",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "BATRACHIAN" ],
+        "description": "crossed batrachian mutation threshold",
         "visible": "when_achievement_completed"
       }
     ]

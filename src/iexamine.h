@@ -46,6 +46,7 @@ void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &mo
 void none( Character &you, const tripoint &examp );
 
 bool always_false( const tripoint &examp );
+bool false_and_debugmsg( const tripoint &examp );
 bool always_true( const tripoint &examp );
 bool harvestable_now( const tripoint &examp );
 
@@ -80,7 +81,6 @@ void harvested_plant( Character &you, const tripoint &examp );
 void locked_object( Character &you, const tripoint &examp );
 void locked_object_pickable( Character &you, const tripoint &examp );
 void bulletin_board( Character &you, const tripoint &examp );
-void fault( Character &you, const tripoint &examp );
 void pedestal_wyrm( Character &you, const tripoint &examp );
 void pedestal_temple( Character &you, const tripoint &examp );
 void door_peephole( Character &you, const tripoint &examp );
@@ -134,6 +134,7 @@ void workbench( Character &you, const tripoint &examp );
 void workbench_internal( Character &you, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
 void workout( Character &you, const tripoint &examp );
+void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );

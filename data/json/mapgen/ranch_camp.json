@@ -912,7 +912,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    >#<                 ",
+        "    ≷#                  ",
         "   2222  ............   ",
         " 222  222............   ",
         "22      22...........   ",
@@ -935,7 +935,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", "2": "t_wall_metal", "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate" }
+      "terrain": { ".": "t_shingle_flat_roof", "2": "t_wall_metal", "≷": "t_ladder_up_down", "#": "t_grate" }
     }
   },
   {
@@ -948,7 +948,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    <#>                 ",
+        "    ≷#                  ",
         "   2222                 ",
         " 222  222               ",
         "22      22              ",
@@ -971,7 +971,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "2": "t_wall_metal", "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate" }
+      "terrain": { "2": "t_wall_metal", "≷": "t_ladder_up_down", "#": "t_grate" }
     }
   },
   {

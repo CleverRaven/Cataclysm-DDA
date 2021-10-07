@@ -89,6 +89,11 @@
     "info": "This clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
   },
   {
+    "id": "COLLAPSE_CONTENTS",
+    "type": "json_flag",
+    "info": "Contents are hidden by default in inventory view."
+  },
+  {
     "id": "DEAF",
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
@@ -118,6 +123,11 @@
   {
     "id": "FIELD_DRESS_FAILED",
     "type": "json_flag"
+  },
+  {
+    "id": "HIDDEN",
+    "type": "json_flag",
+    "info": "You have marked this article to not display a sprite when worn."
   },
   {
     "id": "QUARTERED",

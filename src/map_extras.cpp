@@ -127,8 +127,6 @@ static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
-static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
-static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
@@ -143,7 +141,6 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 class npc_template;
 
@@ -162,8 +159,7 @@ std::string enum_to_string<map_extra_method>( map_extra_method data )
         case map_extra_method::num_map_extra_methods: break;
         // *INDENT-ON*
     }
-    debugmsg( "Invalid map_extra_method" );
-    abort();
+    cata_fatal( "Invalid map_extra_method" );
 }
 
 } // namespace io
@@ -558,67 +554,6 @@ static bool mx_military( map &m, const tripoint & )
     return true;
 }
 
-static bool mx_science( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 5 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, *p );
-            } else {
-                m.place_items( item_group_id( "map_extra_science" ), 100, *p, *p, true,
-                               calendar::start_of_cataclysm );
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_items( item_group_id( "rare" ), 45, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   true, calendar::start_of_cataclysm );
-
-    return true;
-}
-
-static bool mx_collegekids( map &m, const tripoint & )
-{
-    //college kids that got into trouble
-    int num_bodies = dice( 2, 6 );
-    int type = dice( 1, 10 );
-
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_tough, 1, *p );
-            } else {
-                if( type < 6 ) { // kids going to a cabin in the woods
-                    m.place_items( item_group_id( "map_extra_college_camping" ), 100, *p, *p,
-                                   true, calendar::start_of_cataclysm );
-                } else if( type < 9 ) { // kids going to a sporting event
-                    m.place_items( item_group_id( "map_extra_college_sports" ), 100, *p, *p,
-                                   true, calendar::start_of_cataclysm );
-                } else { // kids going to a lake
-                    m.place_items( item_group_id( "map_extra_college_lake" ), 100, *p, *p,
-                                   true, calendar::start_of_cataclysm );
-                }
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-
-    return true;
-}
-
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
     // TODO: fix point types
@@ -791,25 +726,6 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                     m.add_field( *p + point( j * 1, -j * 1 ), fd_blood, 1, 0_turns );
                 }
             }
-        }
-    }
-
-    return true;
-}
-
-static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
-{
-    const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
-    const int max_followers = rng( 3, 12 );
-    const int rad = 3;
-    const tripoint_range<tripoint> spawnzone = m.points_in_radius( leader_pos, rad );
-
-    m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
-    for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
-        if( const cata::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
-        return m.passable( p );
-        } ) ) {
-            m.add_spawn( one_in( 2 ) ? mon_marloss_zealot_f : mon_marloss_zealot_m, 1, *where_ );
         }
     }
 
@@ -2990,7 +2906,6 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_collegekids", mx_collegekids },
     { "mx_roadworks", mx_roadworks },
     { "mx_mayhem", mx_mayhem },
     { "mx_roadblock", mx_roadblock },
@@ -2999,7 +2914,6 @@ FunctionMap builtin_functions = {
     { "mx_supplydrop", mx_supplydrop },
     { "mx_military", mx_military },
     { "mx_helicopter", mx_helicopter },
-    { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
     { "mx_house_spider", mx_house_spider },
@@ -3016,7 +2930,6 @@ FunctionMap builtin_functions = {
     { "mx_point_dead_vegetation", mx_point_dead_vegetation },
     { "mx_burned_ground", mx_burned_ground },
     { "mx_point_burned_ground", mx_point_burned_ground },
-    { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
     { "mx_casings", mx_casings },
     { "mx_looters", mx_looters },
     { "mx_corpses", mx_corpses },
@@ -3063,7 +2976,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
         case map_extra_method::update_mapgen: {
             mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
                             calendar::start_of_cataclysm, nullptr );
-            applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
+            applied_successfully =
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
             break;
         }
         case map_extra_method::null:
@@ -3204,8 +3118,9 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::update_mapgen: {
-            const auto update_mapgen_func = update_mapgen.find( generator_id );
-            if( update_mapgen_func == update_mapgen.end() || update_mapgen_func->second.empty() ) {
+            const auto update_mapgen_func = update_mapgens.find( update_mapgen_id( generator_id ) );
+            if( update_mapgen_func == update_mapgens.end() ||
+                update_mapgen_func->second.funcs().empty() ) {
                 debugmsg( "invalid update mapgen function (%s) defined for map extra (%s)", generator_id,
                           id.str() );
                 break;

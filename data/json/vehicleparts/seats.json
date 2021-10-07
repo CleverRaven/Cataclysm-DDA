@@ -184,6 +184,32 @@
     "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
   },
   {
+    "abstract": "metal_bench_abstract",
+    "breaks_into": "ig_vp_prison_bench",
+    "broken_color": "dark_gray",
+    "broken_symbol": "*",
+    "categories": [ "operations", "passengers" ],
+    "color": "dark_gray",
+    "comfort": 0,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 3, "bash": 5 },
+    "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
+    "durability": 450,
+    "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
+    "item": "steel_plate",
+    "location": "center",
+    "looks_like": "seat",
+    "name": { "str": "steel bench" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 20 ] ] }
+    },
+    "size": 25,
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "seat_abstract",
     "id": "seat",
     "symbol": "#",
@@ -269,6 +295,12 @@
   {
     "copy-from": "folding_seat_abstract",
     "id": "folding_seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "metal_bench_abstract",
+    "id": "metal_bench",
     "symbol": "#",
     "type": "vehicle_part"
   }

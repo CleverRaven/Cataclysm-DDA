@@ -388,8 +388,7 @@ std::string profession::description( bool male ) const
 
 static time_point advanced_spawn_time()
 {
-    const int initial_days = get_option<int>( "INITIAL_DAY" );
-    return calendar::before_time_starts + 1_days * initial_days;
+    return calendar::start_of_game;
 }
 
 signed int profession::point_cost() const

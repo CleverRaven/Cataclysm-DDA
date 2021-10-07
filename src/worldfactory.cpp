@@ -36,12 +36,9 @@ using namespace std::placeholders;
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
-save_t::save_t( const std::string &name )
-    : name( name )
-{
-}
+save_t::save_t( const std::string &name ): name( name ) {}
 
-std::string save_t::player_name() const
+std::string save_t::decoded_name() const
 {
     return name;
 }
@@ -51,9 +48,9 @@ std::string save_t::base_path() const
     return base64_encode( name );
 }
 
-save_t save_t::from_player_name( const std::string &name )
+save_t save_t::from_save_id( const std::string &save_id )
 {
-    return save_t( name );
+    return save_t( save_id );
 }
 
 save_t save_t::from_base_path( const std::string &base_path )

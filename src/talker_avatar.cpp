@@ -23,6 +23,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 talker_avatar::talker_avatar( avatar *new_me )
 {
     me_chr = new_me;
+    me_chr_const = new_me;
 }
 
 std::vector<std::string> talker_avatar::get_topics( bool )
@@ -67,7 +68,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         popup( _( "%s can't sell you any %s" ), seller.disp_name(), mtype.obj().nname( 2 ) );
         return;
     }
-    if( !npc_trading::pay_npc( *seller_guy, cost ) ) {
+    if( cost > 0 && !npc_trading::pay_npc( *seller_guy, cost ) ) {
         popup( _( "You can't afford it!" ) );
         return;
     }

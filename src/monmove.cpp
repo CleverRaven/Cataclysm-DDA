@@ -317,7 +317,7 @@ void monster::plan()
     bool swarms = has_flag( MF_SWARMS );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
-    // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
+    // If we can see the player, move toward them or flee.
     if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
         sees( player_character ) ) {
         dist = rate_target( player_character, dist, smart_planning );
@@ -330,9 +330,11 @@ void monster::plan()
             morale -= fears_hostile_seen;
         }
         if( dist <= 5 ) {
-            anger += angers_hostile_near;
+            if( anger <= 30 ) {
+                anger += angers_hostile_near;
+            }
             morale -= fears_hostile_near;
-            if( angers_mating_season > 0 ) {
+            if( angers_mating_season > 0  && anger <= 30 ) {
                 bool mating_angry = false;
                 season_type season = season_of_year( calendar::turn );
                 for( const std::string &elem : type->baby_flags ) {
@@ -413,9 +415,11 @@ void monster::plan()
         }
         fleeing = fleeing || fleeing_from;
         if( rating <= 5 ) {
-            anger += angers_hostile_near;
+            if( anger <= 30 ) {
+                anger += angers_hostile_near;
+            }
             morale -= fears_hostile_near;
-            if( angers_mating_season > 0 ) {
+            if( angers_mating_season > 0 && anger <= 30 ) {
                 bool mating_angry = false;
                 season_type season = season_of_year( calendar::turn );
                 for( const std::string &elem : type->baby_flags ) {
@@ -445,8 +449,8 @@ void monster::plan()
     constexpr int max_turns_for_rate_limiting = 1800;
     constexpr double max_turns_to_skip = 600.0;
     // Outputs a range from 0.0 - 1.0.
-    int rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
-                               turns_since_target );
+    float rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
+                                 turns_since_target );
     int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
     if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
         for( const auto &fac_list : factions ) {
@@ -478,7 +482,9 @@ void monster::plan()
                         valid_targets = 1;
                     }
                     if( rating <= 5 ) {
-                        anger += angers_hostile_near;
+                        if( anger <= 30 ) {
+                            anger += angers_hostile_near;
+                        }
                         morale -= fears_hostile_near;
                     }
                     if( !fleeing && anger <= 20 && valid_targets != 0 ) {
@@ -609,9 +615,6 @@ void monster::plan()
             next_stop = patrol_route.at( next_patrol_point );
         }
         set_dest( next_stop );
-    } else if( friendly > 0 && one_in( 3 ) ) {
-        // Grow restless with no targets
-        friendly--;
     } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
         // visibility doesn't matter, we're getting pulled by a leash
         if( rl_dist( get_location(), player_character.get_location() ) > 1 ) {
@@ -619,7 +622,16 @@ void monster::plan()
         } else {
             unset_dest();
         }
-    } else if( friendly < 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+        if( friendly > 0 && one_in( 3 ) ) {
+            // Grow restless with no targets
+            friendly--;
+        }
+    } else if( friendly > 0 && one_in( 3 ) ) {
+        // Grow restless with no targets
+        friendly--;
+    } else if( friendly < 0 && sees( player_character ) &&
+               // Simpleminded animals are too dumb to follow the player.
+               !has_flag( MF_PET_WONT_FOLLOW ) ) {
         if( rl_dist( get_location(), player_character.get_location() ) > 2 ) {
             set_dest( player_character.get_location() );
         } else {
@@ -904,11 +916,6 @@ void monster::move()
             destination = here.getlocal( wander_pos );
             moved = true;
         }
-    }
-
-    if( !here.has_zlevels() ) {
-        // Otherwise weird things happen
-        destination.z = posz();
     }
 
     point new_d( destination.xy() - pos().xy() );
@@ -1949,13 +1956,11 @@ void monster::stumble()
             }
         }
     }
-
-    if( here.has_zlevels() ) {
-        tripoint below( posx(), posy(), posz() - 1 );
-        if( here.valid_move( pos(), below, false, true ) ) {
-            valid_stumbles.push_back( below );
-        }
+    const tripoint below( posx(), posy(), posz() - 1 );
+    if( here.valid_move( pos(), below, false, true ) ) {
+        valid_stumbles.push_back( below );
     }
+
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );

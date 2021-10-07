@@ -1304,8 +1304,7 @@ bool vehicle::check_heli_descend( Character &p )
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
-        if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
-                                    !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) ) {
+        if( pt.z < -OVERMAP_DEPTH || !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) {
             p.add_msg_if_player( _( "You are already landed!" ) );
             return false;
         }
@@ -1893,7 +1892,7 @@ vehicle *vehicle::act_on_map()
 bool vehicle::level_vehicle()
 {
     map &here = get_map();
-    if( !here.has_zlevels() || ( is_flying && is_rotorcraft() ) ) {
+    if( is_flying && is_rotorcraft() ) {
         return true;
     }
     // make sure that all parts are either supported across levels or on the same level
@@ -1940,9 +1939,6 @@ bool vehicle::level_vehicle()
 
 void vehicle::check_falling_or_floating()
 {
-    map &here = get_map();
-    is_falling = here.has_zlevels();
-
     // If we're flying none of the rest of this matters.
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
@@ -1950,7 +1946,10 @@ void vehicle::check_falling_or_floating()
         in_water = false;
         return;
     }
+
+    is_falling = true;
     is_flying = false;
+    map &here = get_map();
 
     auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
         // if we're at the bottom of the z-levels, we're supported

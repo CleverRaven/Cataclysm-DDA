@@ -30,6 +30,7 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -186,6 +187,7 @@ static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
@@ -552,7 +554,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    weapon = real_weapon;
+    set_wielded_item( real_weapon );
     cbm_weapon_index = -1;
 }
 
@@ -582,6 +584,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
+    item &weapon = get_wielded_item();
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -605,7 +608,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             real_weapon = weapon;
-            weapon = cbm_weapon;
+            set_wielded_item( cbm_weapon );
             cbm_weapon_index = index;
         }
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
@@ -623,7 +626,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
 
-        weapon = bio.get_weapon();
+        set_wielded_item( bio.get_weapon() );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -637,6 +640,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 // share functions....
 bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 {
+
+    item &weapon = get_wielded_item();
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
@@ -750,8 +755,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
 
         add_msg_activate();
-        weapon = bio.get_weapon();
-        weapon.invlet = '#';
+
+        set_wielded_item( bio.get_weapon() );
+        get_wielded_item().invlet = '#';
         //if( bio.ammo_count > 0 ) {
         //    weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
         //    avatar_action::fire_wielded_weapon( player_character );
@@ -1140,6 +1146,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
 cata::optional<int> Character::active_bionic_weapon_index() const
 {
+    const item weapon = get_wielded_item();
     if( weapon.is_null() ) {
         return cata::nullopt;
     }
@@ -1209,20 +1216,20 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-
+    const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !bio.info().fake_weapon.is_empty() ) {
-        if( weapon.typeId() == bio.info().fake_weapon ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( w_weapon.typeId() == bio.info().fake_weapon ) {
+            add_msg_if_player( _( "You withdraw your %s." ), w_weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
                 if( male ) {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), w_weapon.tname() );
                 } else {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), w_weapon.tname() );
                 }
             }
-            bio.set_weapon( weapon );
-            weapon = item();
+            bio.set_weapon( get_wielded_item() );
+            set_wielded_item( item() );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
@@ -1564,7 +1571,7 @@ material_id Character::find_remote_fuel( bool look_only )
 
             if( cable->get_var( "state" ) == "UPS_link" ) {
                 if( !look_only ) {
-                    int remote_battery = 0;
+                    int64_t remote_battery = 0;
                     for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
                         if( i->get_var( "cable" ) == "plugged_in" ) {
                             remote_battery = i->ammo_remaining();
@@ -2439,7 +2446,8 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         return ret_val<bool>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
-    } else if( units::energy_max - get_max_power_level() < bid->capacity ) {
+    } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+               get_max_power_level() < bid->capacity ) {
         return ret_val<bool>::make_failure( _( "Max power capacity already reached." ) );
     }
 
@@ -2868,10 +2876,14 @@ void Character::add_bionic( const bionic_id &b )
 
     calc_encumbrance();
     recalc_sight_limits();
+    if( is_avatar() && has_flag( json_flag_ENHANCED_VISION ) ) {
+        // enhanced vision counts as optics for overmap sight range.
+        g->update_overmap_seen();
+    }
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 
     invalidate_pseudo_items();
 }
@@ -2918,7 +2930,7 @@ void Character::remove_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 int Character::num_bionics() const
@@ -3142,9 +3154,8 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void bionic::deserialize( JsonIn &jsin )
+void bionic::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );

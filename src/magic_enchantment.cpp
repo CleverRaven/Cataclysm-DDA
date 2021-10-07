@@ -4,7 +4,9 @@
 #include <set>
 #include <string>
 
+#include "calendar.h"
 #include "character.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -29,8 +31,7 @@ namespace io
         case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
 
     template<>
@@ -38,14 +39,12 @@ namespace io
     {
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
-        case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
-        case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::INACTIVE: return "INACTIVE";
+        case enchantment::condition::DIALOG_CONDITION: return "DIALOG_CONDITION";
         case enchantment::condition::NUM_CONDITION: break;
         }
-        debugmsg( "Invalid enchantment::condition" );
-        abort();
+        cata_fatal( "Invalid enchantment::condition" );
     }
 
     template<>
@@ -130,8 +129,7 @@ namespace io
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchant_vals::mod" );
-        abort();
+        cata_fatal( "Invalid enchant_vals::mod" );
     }
     // *INDENT-ON*
 } // namespace io
@@ -220,12 +218,9 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return true;
     }
 
-    if( active_conditions.second == condition::UNDERGROUND ) {
-        return guy.pos().z < 0;
-    }
-
-    if( active_conditions.second == condition::UNDERWATER ) {
-        return get_map().is_divable( guy.pos() );
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        dialogue d( get_talker_for( guy ), nullptr );
+        return dialog_condition( d );
     }
     return false;
 }
@@ -246,9 +241,8 @@ void enchantment::bodypart_changes::load( const JsonObject &jo )
     optional( jo, was_loaded, "lose", lose );
 }
 
-void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
@@ -290,9 +284,22 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     }
 
     active_conditions.first = io::string_to_enum<has>( jo.get_string( "has", "HELD" ) );
-    active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
-                               "ALWAYS" ) );
-
+    if( jo.has_string( "condition" ) ) {
+        std::string condit;
+        optional( jo, was_loaded, "condition", condit );
+        cata::optional<enchantment::condition> con = io::string_to_enum_optional<condition>( condit );
+        if( con.has_value() ) {
+            active_conditions.second = con.value();
+        } else {
+            active_conditions.second = condition::DIALOG_CONDITION;
+            read_condition<dialogue>( jo, "condition", dialog_condition, false );
+        }
+    } else if( jo.has_member( "condition" ) ) {
+        active_conditions.second = condition::DIALOG_CONDITION;
+        read_condition<dialogue>( jo, "condition", dialog_condition, false );
+    } else {
+        active_conditions.second = condition::ALWAYS;
+    }
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }

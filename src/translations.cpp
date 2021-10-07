@@ -75,43 +75,21 @@ static std::string getAppleSystemLanguage();
 static std::string getAndroidSystemLanguage();
 #endif
 
+const char *n_gettext( const char *msgid, const char *msgid_plural, std::size_t n )
+{
+    return TranslationManager::GetInstance().TranslatePlural( msgid, msgid_plural, n );
+}
+
 const char *pgettext( const char *context, const char *msgid )
 {
-    // need to construct the string manually,
-    // to correctly handle strings loaded from json.
-    // could probably do this more efficiently without using std::string.
-    std::string context_id( context );
-    context_id += '\004';
-    context_id += msgid;
-    // null domain, uses global translation domain
-    const char *msg_ctxt_id = context_id.c_str();
-#if defined(__ANDROID__)
-    const char *translation = gettext( msg_ctxt_id );
-#else
-    const char *translation = dcgettext( nullptr, msg_ctxt_id, LC_MESSAGES );
-#endif
-    if( translation == msg_ctxt_id ) {
-        return msgid;
-    } else {
-        return translation;
-    }
+    return TranslationManager::GetInstance().TranslateWithContext( context, msgid );
 }
 
 const char *npgettext( const char *const context, const char *const msgid,
                        const char *const msgid_plural, const unsigned long long n )
 {
-    const std::string context_id = std::string( context ) + '\004' + msgid;
-    const char *const msg_ctxt_id = context_id.c_str();
-#if defined(__ANDROID__)
-    const char *const translation = ngettext( msg_ctxt_id, msgid_plural, n );
-#else
-    const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
-#endif
-    if( translation == msg_ctxt_id ) {
-        return n == 1 ? msgid : msgid_plural;
-    } else {
-        return translation;
-    }
+    return TranslationManager::GetInstance().TranslatePluralWithContext( context, msgid, msgid_plural,
+            n );
 }
 
 void select_language()
@@ -205,6 +183,7 @@ void set_language()
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
     DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
+    TranslationManager::GetInstance().SetLanguage( lang_opt );
     if( !lang_opt.empty() ) {
         // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
@@ -238,27 +217,11 @@ void set_language()
     }
 
 #if defined(_WIN32)
-    // Use the ANSI code page 1252 to work around some language output bugs.
+    // Use the ANSI code page 1252 to work around some language output bugs. (#8665)
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
-    DebugLog( D_INFO, DC_ALL ) << "[translations] C locale set to " << setlocale( LC_ALL, nullptr );
-    DebugLog( D_INFO, DC_ALL ) << "[translations] C++ locale set to " << std::locale().name();
 #endif
-
-    // Step 2. Bind to gettext domain.
-    std::string loc_dir = locale_dir();
-#if defined(__ANDROID__)
-    // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
-    // This is because of our hacky libintl-lite bindtextdomain() implementation.
-    const char *env = getenv( "LANGUAGE" );
-    loc_dir += std::string( ( env ? env : "none" ) ) + "/LC_MESSAGES/cataclysm-dda.mo";
-#endif
-
-    const char *locale_dir_char = loc_dir.c_str();
-    bindtextdomain( "cataclysm-dda", locale_dir_char );
-    bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
-    textdomain( "cataclysm-dda" );
 
     reload_names();
 
@@ -524,6 +487,79 @@ void translation::make_plural()
     cached_translation = nullptr;
 }
 
+// return { true, suggested plural } if no irregular form is detected,
+// { false, suggested plural } otherwise. do have false positive/negatives.
+static std::pair<bool, std::string> possible_plural_of( const std::string &raw )
+{
+    const std::string plural = raw + "s";
+#ifndef CATA_IN_TOOL
+    if( !test_mode || check_plural == check_plural_t::none ) {
+        return { true, plural };
+    }
+    bool certainly_irregular = false;
+    bool possibly_irregular = false;
+    if( !raw.empty() &&
+        ( raw.back() < 'a' || raw.back() > 'z' ) &&
+        ( raw.back() < 'A' || raw.back() > 'Z' ) ) {
+        // not ending with English alphabets
+        possibly_irregular = true;
+    }
+    // endings with possible irregular forms
+    // false = possibly irregular, true = certainly irregular
+    static const std::vector<std::pair<std::string, bool>> irregular_endings = {
+        { "ch", false },
+        { "f", false },
+        { "fe", false },
+        { "o", false },
+        { "s", true },
+        { "sh", true },
+        { "x", true },
+        { "y", false },
+        { ")", true },
+    };
+    for( const std::pair<std::string, bool> &ending : irregular_endings ) {
+        if( string_ends_with( raw, ending.first ) ) {
+            if( ending.second ) {
+                certainly_irregular = true;
+            } else {
+                possibly_irregular = true;
+            }
+        }
+    }
+    // magiclysm enchantments
+    for( auto it = raw.rbegin(); it < raw.rend(); ++it ) {
+        if( *it < '0' || *it > '9' ) {
+            if( *it == '+' && it != raw.rbegin() ) {
+                certainly_irregular = true;
+            }
+            break;
+        }
+    }
+    // compound words
+    // false = possibly irregular, true = certainly irregular
+    static const std::vector<std::pair<std::string, bool>> irregular_patterns = {
+        { " of ", false },
+        { " with ", true },
+        { " for ", true },
+        { ",", false },
+    };
+    for( const std::pair<std::string, bool> &pattern : irregular_patterns ) {
+        if( raw.find( pattern.first ) != std::string::npos ) {
+            if( pattern.second ) {
+                certainly_irregular = true;
+            } else {
+                possibly_irregular = true;
+            }
+        }
+    }
+    const bool report_as_irregular = certainly_irregular
+                                     || ( possibly_irregular && check_plural == check_plural_t::possible );
+    return { !report_as_irregular, plural };
+#else
+    return { true, plural };
+#endif
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
     // reset the cache
@@ -534,13 +570,16 @@ void translation::deserialize( JsonIn &jsin )
 
     if( jsin.test_string() ) {
         ctxt = nullptr;
-        // if plural form is enabled
-        if( raw_pl ) {
+#ifndef CATA_IN_TOOL
+        const bool check_style = test_mode;
+#else
+        const bool check_style = false;
+#endif
+        if( raw_pl || !check_style ) {
             // strings with plural forms are currently only simple names, and
             // need no text style check.
             raw = jsin.get_string();
             end_offset = jsin.tell();
-            raw_pl = cata::make_value<std::string>( raw + "s" );
         } else {
             // We know it's a string, we need to save the offset after the string.
             JsonValue jv = jsin.get_value();
@@ -548,6 +587,21 @@ void translation::deserialize( JsonIn &jsin )
             end_offset = jsin.tell();
             raw = text_style_check_reader( text_style_check_reader::allow_object::no )
                   .get_next( jv );
+        }
+        // if plural form is enabled
+        if( raw_pl ) {
+            const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+            raw_pl = cata::make_value<std::string>( suggested_pl.second );
+#ifndef CATA_IN_TOOL
+            if( !suggested_pl.first && check_style ) {
+                try {
+                    jsin.error( "Cannot autogenerate plural form.  "
+                                "Please specify the plural form explicitly." );
+                } catch( const JsonError &e ) {
+                    debugmsg( "(json-error)\n%s", e.what() );
+                }
+            }
+#endif
         }
         needs_translation = true;
     } else {
@@ -558,6 +612,11 @@ void translation::deserialize( JsonIn &jsin )
         } else {
             ctxt = nullptr;
         }
+#ifndef CATA_IN_TOOL
+        const bool check_style = test_mode && !jsobj.has_member( "//NOLINT(cata-text-style)" );
+#else
+        const bool check_style = false;
+#endif
         if( jsobj.has_member( "str_sp" ) ) {
             // same singular and plural forms
             // strings with plural forms are currently only simple names, and
@@ -566,6 +625,20 @@ void translation::deserialize( JsonIn &jsin )
             // if plural form is enabled
             if( raw_pl ) {
                 raw_pl = cata::make_value<std::string>( raw );
+#ifndef CATA_IN_TOOL
+                if( check_style ) {
+                    try {
+                        const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+                        if( suggested_pl.first && *raw_pl == suggested_pl.second ) {
+                            jsobj.throw_error( "\"str_sp\" is not necessary here since the "
+                                               "plural form can be automatically generated.",
+                                               "str_sp" );
+                        }
+                    } catch( const JsonError &e ) {
+                        debugmsg( "(json-error)\n%s", e.what() );
+                    }
+                }
+#endif
             } else {
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
@@ -574,11 +647,6 @@ void translation::deserialize( JsonIn &jsin )
                 }
             }
         } else {
-#ifndef CATA_IN_TOOL
-            const bool check_style = test_mode && !jsobj.has_member( "//NOLINT(cata-text-style)" );
-#else
-            const bool check_style = false;
-#endif
             if( raw_pl || !check_style ) {
                 // strings with plural forms are currently only simple names, and
                 // need no text style check.
@@ -594,7 +662,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
                     if( check_style ) {
                         try {
-                            if( *raw_pl == raw + "s" ) {
+                            const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+                            if( suggested_pl.first && *raw_pl == suggested_pl.second ) {
                                 jsobj.throw_error( "\"str_pl\" is not necessary here since the "
                                                    "plural form can be automatically generated.",
                                                    "str_pl" );
@@ -609,7 +678,19 @@ void translation::deserialize( JsonIn &jsin )
                     }
 #endif
                 } else {
-                    raw_pl = cata::make_value<std::string>( raw + "s" );
+                    const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
+                    raw_pl = cata::make_value<std::string>( suggested_pl.second );
+#ifndef CATA_IN_TOOL
+                    if( !suggested_pl.first && check_style ) {
+                        try {
+                            jsobj.throw_error( "Cannot autogenerate plural form.  "
+                                               "Please specify the plural form explicitly.",
+                                               "str" );
+                        } catch( const JsonError &e ) {
+                            debugmsg( "(json-error)\n%s", e.what() );
+                        }
+                    }
+#endif
                 }
             } else if( jsobj.has_member( "str_pl" ) ) {
                 try {
@@ -643,7 +724,7 @@ std::string translation::translated( const int num ) const
                 cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
             } else {
                 cached_translation = cata::make_value<std::string>(
-                                         ngettext( raw.c_str(), raw_pl->c_str(), num ) );
+                                         n_gettext( raw.c_str(), raw_pl->c_str(), num ) );
             }
         } else {
             if( !raw_pl ) {

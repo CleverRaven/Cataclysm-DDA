@@ -7,6 +7,7 @@
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
+#include "weakpoint.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const efftype_id effect_onfire( "onfire" );
@@ -328,7 +329,8 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
-std::string Character::absorb_hit( Creature *, const bodypart_id &bp, damage_instance &dam )
+const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
+                                        damage_instance &dam )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
@@ -433,7 +435,7 @@ std::string Character::absorb_hit( Creature *, const bodypart_id &bp, damage_ins
     if( armor_destroyed ) {
         drop_invalid_inventory();
     }
-    return {};
+    return nullptr;
 }
 
 

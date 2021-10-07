@@ -12,9 +12,10 @@
     "longest_side": "100 cm",
     "bashing": 12,
     "cutting": 1,
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "price_postapoc": 50,
     "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -30,9 +31,10 @@
     "longest_side": "100 cm",
     "bashing": 12,
     "cutting": 4,
-    "to_hit": 2,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "uneven" },
     "price_postapoc": 100,
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ]
   },
   {
     "type": "GENERIC",
@@ -47,11 +49,33 @@
     "longest_side": "100 cm",
     "bashing": 6,
     "cutting": 18,
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "every", "balance": "uneven" },
     "price_postapoc": 250,
     "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sword_metal",
+    "symbol": "!",
+    "color": "light_gray",
+    "name": { "str": "metal sword" },
+    "description": "An imitation of a true sword forged by someone who knows what swords look like, at least.  It has the general shape of a sword, and it is sharp, yet the quality is lacking and the balance isn't quite right.",
+    "looks_like": "sword_crude",
+    "material": [ "steel" ],
+    "volume": "2 L",
+    "weight": "1100 g",
+    "longest_side": "100 cm",
+    "bashing": 6,
+    "cutting": 23,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
+    "price_postapoc": 500,
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
+    "techniques": [ "WBLOCK_2" ]
   },
   {
     "id": "switchblade",
@@ -64,14 +88,15 @@
     "longest_side": "15 cm",
     "price": 2000,
     "price_postapoc": 50,
-    "to_hit": -2,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "cutting": 16,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_folding",
@@ -85,11 +110,13 @@
     "price_postapoc": 50,
     "bashing": 1,
     "cutting": 12,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_combat",
@@ -102,7 +129,7 @@
     "longest_side": "30 cm",
     "price": 10000,
     "price_postapoc": 1250,
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "bashing": 6,
     "cutting": 25,
     "material": [ "steel", "plastic" ],
@@ -118,7 +145,8 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_combat_mod",
@@ -146,13 +174,14 @@
     "longest_side": "20 cm",
     "price": 4000,
     "price_postapoc": 750,
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "cutting": 16,
     "material": [ "steel", "leather" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_rambo",
@@ -168,12 +197,14 @@
     "price_postapoc": 500,
     "bashing": 6,
     "cutting": 20,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_rm42",
@@ -188,6 +219,7 @@
     "price_postapoc": 4000,
     "bashing": 4,
     "cutting": 22,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "ceramic", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -201,7 +233,8 @@
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_swissarmy",
@@ -214,7 +247,7 @@
     "longest_side": "9 cm",
     "price": 3000,
     "price_postapoc": 500,
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
     "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
@@ -235,12 +268,14 @@
     "price_postapoc": 1250,
     "bashing": 6,
     "cutting": 19,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "makeshift_knife",
@@ -252,14 +287,15 @@
     "longest_side": "7 cm",
     "price": 0,
     "price_postapoc": 50,
-    "to_hit": -1,
     "bashing": 2,
     "cutting": 10,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "bone_knife",
@@ -276,9 +312,11 @@
     "price_postapoc": 0,
     "bashing": 3,
     "cutting": 12,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_baselard",
@@ -289,14 +327,15 @@
     "volume": "250 ml",
     "longest_side": "60 cm",
     "price": 19590,
-    "to_hit": 1,
     "bashing": 5,
     "cutting": 16,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "makeshift_machete",
@@ -311,12 +350,14 @@
     "price_postapoc": 250,
     "bashing": 5,
     "cutting": 16,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SHEATH_SWORD" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "machete",
@@ -329,15 +370,16 @@
     "longest_side": "50 cm",
     "price": 2800,
     "price_postapoc": 1500,
-    "to_hit": 1,
     "bashing": 5,
     "cutting": 21,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "machete_gimmick",
@@ -351,12 +393,13 @@
     "volume": "250 ml",
     "price": 2300,
     "price_postapoc": 1800,
-    "to_hit": 1,
     "bashing": 5,
     "cutting": 15,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ]
+    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "cavalry_sabre",
@@ -368,15 +411,16 @@
     "longest_side": "100 cm",
     "price": 97000,
     "price_postapoc": 4000,
-    "to_hit": 1,
     "bashing": 5,
     "cutting": 26,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -389,15 +433,16 @@
     "longest_side": "50 cm",
     "price": 9000,
     "price_postapoc": 500,
-    "to_hit": -1,
     "bashing": 8,
     "cutting": 24,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ],
     "category": "weapons"
   },
   {
@@ -413,12 +458,14 @@
     "price_postapoc": 1250,
     "bashing": 7,
     "cutting": 26,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "jian",
@@ -431,13 +478,14 @@
     "price_postapoc": 4000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "800 g",
     "volume": "2 L",
     "longest_side": "90 cm",
     "bashing": 5,
     "cutting": 28,
-    "to_hit": 2,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
@@ -479,12 +527,13 @@
     "material": [ "iron" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "90 cm",
     "bashing": 5,
     "cutting": 29,
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
@@ -497,7 +546,7 @@
     "proportional": { "bashing": 3.9, "cutting": 0.25 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
-    "to_hit": 0,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "price": 93000,
     "price_postapoc": 500
   },
@@ -532,7 +581,7 @@
     "longest_side": "130 cm",
     "bashing": 11,
     "cutting": 36,
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
@@ -545,7 +594,7 @@
     "proportional": { "bashing": 2.6, "cutting": 0.25 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
-    "to_hit": 0,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
     "price": 13500,
     "price_postapoc": 750
   },
@@ -560,7 +609,7 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
     "weight": "939 g",
-    "to_hit": 2,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": 13500,
     "price_postapoc": 50
   },
@@ -575,13 +624,14 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "LONG_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
     "bashing": 11,
     "cutting": 30,
-    "to_hit": 2,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
@@ -607,7 +657,7 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
     "weight": "939 g",
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price": 13000,
     "price_postapoc": 50
   },
@@ -628,9 +678,10 @@
     "longest_side": "90 cm",
     "bashing": 6,
     "cutting": 29,
-    "to_hit": 2,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "weapon_category": [ "MEDIUM_SWORDS" ]
   },
   {
     "id": "arming_sword_fake",
@@ -656,7 +707,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "weight": "2721 g",
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price": 100000,
     "price_postapoc": 250
   },
@@ -671,15 +722,16 @@
     "longest_side": "50 cm",
     "price": 12000,
     "price_postapoc": 2500,
-    "to_hit": 1,
     "bashing": 6,
     "cutting": 28,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "bronze" ],
     "symbol": "!",
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
+    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
+    "weapon_category": [ "SHORT_SWORDS" ]
   },
   {
     "id": "khopesh",
@@ -694,12 +746,14 @@
     "price_postapoc": 3000,
     "bashing": 9,
     "cutting": 27,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "bronze" ],
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "dao",
@@ -714,12 +768,14 @@
     "price_postapoc": 3500,
     "bashing": 8,
     "cutting": 24,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "bronze" ],
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ]
   },
   {
     "id": "survivor_machete",
@@ -732,15 +788,16 @@
     "longest_side": "50 cm",
     "price": 2800,
     "price_postapoc": 2500,
-    "to_hit": 1,
     "bashing": 6,
     "cutting": 24,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "sword_bayonet",
@@ -753,9 +810,9 @@
     "longest_side": "40 cm",
     "price": 25000,
     "price_postapoc": 4000,
-    "to_hit": 1,
     "bashing": 7,
     "cutting": 29,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -768,7 +825,8 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "sword_bayonet_mod",
@@ -788,15 +846,16 @@
     "longest_side": "50 cm",
     "price": 18000,
     "price_postapoc": 1500,
-    "to_hit": 1,
     "bashing": 2,
     "cutting": 21,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ],
     "category": "weapons"
   },
   {
@@ -809,15 +868,16 @@
     "longest_side": "70 cm",
     "price": 17800,
     "price_postapoc": 2750,
-    "to_hit": 1,
     "bashing": 2,
     "cutting": 30,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -830,9 +890,9 @@
     "longest_side": "180 cm",
     "price": 160000,
     "price_postapoc": 9500,
-    "to_hit": 2,
     "bashing": 14,
     "cutting": 38,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -851,16 +911,17 @@
     "volume": "500 ml",
     "longest_side": "30 cm",
     "price": 1800,
-    "to_hit": -1,
     "price_postapoc": 250,
     "bashing": 1,
     "cutting": 25,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "kirpan_cheap",
@@ -871,8 +932,9 @@
     "proportional": { "bashing": 8, "cutting": 0.24 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "weapon_category": [ "KNIVES" ],
     "material": [ "budget_steel" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "price": 900,
     "price_postapoc": 50
   },
@@ -913,15 +975,16 @@
     "longest_side": "120 cm",
     "price": 150000,
     "price_postapoc": 12000,
-    "to_hit": 2,
     "bashing": 6,
     "cutting": 44,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "LONG_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -948,7 +1011,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "weight": "1882 g",
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price": 15000,
     "price_postapoc": 500
   },
@@ -967,6 +1030,7 @@
     "longest_side": "100 cm",
     "bashing": 1,
     "cutting": 2,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
   },
@@ -985,6 +1049,7 @@
     "longest_side": "100 cm",
     "bashing": 3,
     "cutting": 7,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
   },
@@ -1003,6 +1068,7 @@
     "longest_side": "100 cm",
     "bashing": 1,
     "cutting": 6,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
   },
@@ -1112,6 +1178,7 @@
     "volume": "1531 ml",
     "longest_side": "80 cm",
     "bashing": 3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "looks_like": "cane",
     "pocket_data": [
       {
@@ -1141,6 +1208,7 @@
     "longest_side": "80 cm",
     "bashing": 2,
     "cutting": 25,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
@@ -1155,15 +1223,16 @@
     "longest_side": "100 cm",
     "price": 120000,
     "price_postapoc": 5000,
-    "to_hit": 2,
     "bashing": 6,
     "cutting": 27,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1214,9 +1283,9 @@
     "longest_side": "100 cm",
     "price": 98000,
     "price_postapoc": 2500,
-    "to_hit": 2,
     "bashing": 3,
     "cutting": 28,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -1235,9 +1304,9 @@
     "longest_side": "90 cm",
     "price": 98000,
     "price_postapoc": 4500,
-    "to_hit": 2,
     "bashing": 5,
     "cutting": 31,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "ascii_picture": "katana",
     "symbol": "/",
@@ -1245,6 +1314,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1274,7 +1344,7 @@
     "proportional": { "bashing": 3.4, "cutting": 0.25 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price": 98000,
     "price_postapoc": 250
   },
@@ -1300,7 +1370,7 @@
     "proportional": { "bashing": 2.35, "cutting": 0.26 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price": 160000,
     "price_postapoc": 750
   },
@@ -1382,7 +1452,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "price": 3800,
     "price_postapoc": 10
   },
@@ -1398,13 +1468,14 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "KNIVES" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1766 g",
     "volume": "1500 ml",
     "longest_side": "50 cm",
-    "to_hit": 1,
     "bashing": 6,
     "cutting": 30,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
@@ -1418,15 +1489,16 @@
     "longest_side": "80 cm",
     "price": 96000,
     "price_postapoc": 3500,
-    "to_hit": 1,
     "bashing": 5,
     "cutting": 26,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1447,7 +1519,7 @@
     "longest_side": "180 cm",
     "bashing": 4,
     "cutting": 26,
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
   },
   {
@@ -1461,8 +1533,8 @@
     "longest_side": "70 cm",
     "price": 25000,
     "price_postapoc": 3000,
-    "to_hit": -1,
     "bashing": 8,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "aluminum" ],
     "symbol": "/",
     "color": "light_gray",
@@ -1479,8 +1551,8 @@
     "type": "TOOL",
     "name": { "str": "combat chainsaw (on)", "str_pl": "combat chainsaws (on)" },
     "description": "This combat chainsaw is on, and is continuously draining gasoline.  Use it to turn it off.",
-    "to_hit": -3,
     "cutting": 82,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
@@ -1499,8 +1571,8 @@
     "longest_side": "70 cm",
     "price": 25000,
     "price_postapoc": 3000,
-    "to_hit": -1,
     "bashing": 8,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "aluminum" ],
     "symbol": "/",
     "color": "light_gray",
@@ -1524,8 +1596,8 @@
     "type": "TOOL",
     "name": { "str": "electric combat chainsaw (on)", "str_pl": "electric combat chainsaws (on)" },
     "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
-    "to_hit": -3,
     "cutting": 82,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "power_draw": 2000000,
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
@@ -1539,7 +1611,6 @@
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
     "weight": "168 g",
-    "to_hit": -1,
     "price_postapoc": 50,
     "color": "dark_gray",
     "symbol": "{",
@@ -1547,7 +1618,9 @@
     "volume": "250 ml",
     "bashing": 2,
     "cutting": 14,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ],
     "price": 10000,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
@@ -1563,6 +1636,7 @@
     "weight": "1150 g",
     "bashing": 3,
     "cutting": 14,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "STAB" ],
@@ -1580,7 +1654,9 @@
     "material": [ "steel" ],
     "bashing": 2,
     "cutting": 15,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "CLAWS" ],
     "price": 20000,
     "price_postapoc": 250,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]

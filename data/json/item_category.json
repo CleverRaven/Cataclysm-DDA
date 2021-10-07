@@ -67,6 +67,7 @@
     "id": "maps",
     "type": "ITEM_CATEGORY",
     "name": { "str": "MAPS" },
+    "zone": "LOOT_MAPS",
     "sort_rank": -14
   },
   {

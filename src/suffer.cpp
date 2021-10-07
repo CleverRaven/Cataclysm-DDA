@@ -118,6 +118,7 @@ static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
+static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -135,6 +136,7 @@ static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SORES( "SORES" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -437,10 +439,11 @@ void suffer::from_chemimbalance( Character &you )
 void suffer::from_schizophrenia( Character &you )
 {
     std::string i_name_w;
-    if( !you.weapon.is_null() ) {
-        i_name_w = you.weapon.has_var( "item_label" ) ? you.weapon.get_var( "item_label" ) :
+    if( !you.get_wielded_item().is_null() ) {
+        i_name_w = you.get_wielded_item().has_var( "item_label" ) ?
+                   you.get_wielded_item().get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), you.weapon.type_name() );
+                   string_format( _( "your %1$s" ), you.get_wielded_item().type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -497,14 +500,14 @@ void suffer::from_schizophrenia( Character &you )
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !you.weapon.is_null() ) {
+    if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         std::string str = string_format( snip, i_name_w );
         str[0] = toupper( str[0] );
 
         you.add_msg_if_player( m_bad, "%s", str );
-        item_location loc( you, &you.weapon );
+        item_location loc( you, &you.get_wielded_item() );
         you.drop( loc, you.pos() );
         return;
     }
@@ -580,7 +583,7 @@ void suffer::from_schizophrenia( Character &you )
     }
 
     // Talking weapon
-    if( !you.weapon.is_null() ) {
+    if( !you.get_wielded_item().is_null() ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
@@ -608,7 +611,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( you.weapon.damage() >= you.weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
+        } else if( you.get_wielded_item().damage() >= you.get_wielded_item().max_damage() / 3 &&
+                   one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -701,7 +705,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                you.add_msg_if_player( m_info, ngettext( "You use your inhaler; "
+                you.add_msg_if_player( m_info, n_gettext( "You use your inhaler; "
                                        "only %d charge left.",
                                        "You use your inhaler; "
                                        "only %d charges left.", charges ),
@@ -716,7 +720,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
                                                  "from the tank." ) );
             } else {
-                you.add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                you.add_msg_if_player( m_info, n_gettext( "You take a deep breath from your oxygen "
                                        "tank; only %d charge left.",
                                        "You take a deep breath from your oxygen "
                                        "tank; only %d charges left.", charges ),
@@ -856,7 +860,7 @@ void suffer::from_sunburn( Character &you )
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( you.weapon.has_flag( flag_RAIN_PROTECT ) ) {
+    if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT ) ) {
         return;
     }
 
@@ -917,15 +921,15 @@ void suffer::from_sunburn( Character &you )
     if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
-        message = ngettext( "The sunlight is really irritating your %s.",
-                            "The sunlight is really irritating your %s.",
-                            affected_bodyparts.size() );
+        message = n_gettext( "The sunlight is really irritating your %s.",
+                             "The sunlight is really irritating your %s.",
+                             affected_bodyparts.size() );
     } else if( you.has_trait( trait_SUNBURN ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
-        message = ngettext( "The sunlight burns your %s.",
-                            "The sunlight burns your %s.",
-                            affected_bodyparts.size() );
+        message = n_gettext( "The sunlight burns your %s.",
+                             "The sunlight burns your %s.",
+                             affected_bodyparts.size() );
     }
     you.add_msg_if_player( m_bad, message, all_parts_list );
 
@@ -1023,6 +1027,11 @@ void suffer::from_other_mutations( Character &you )
 
     }
 
+    if( you.has_active_mutation( trait_SNAIL_TRAIL ) && !you.in_vehicle ) {
+        here.add_field( position, fd_sludge, 1 );
+
+    }
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if( you.has_trait( trait_PER_SLIME ) ) {
@@ -1045,6 +1054,10 @@ void suffer::from_other_mutations( Character &you )
     if( you.has_trait( trait_WEB_SPINNER ) && !you.in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
         here.add_field( position, fd_web, 1 );
+    }
+
+    if( you.has_trait( trait_MUCUS_SECRETION ) && !you.in_vehicle && one_in( 2033 ) ) {
+        here.add_field( position, fd_sludge, 1 );
     }
 
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&
@@ -1202,14 +1215,14 @@ void suffer::from_bad_bionics( Character &you )
         you.moves -= 150;
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( you.weapon.typeId() == itype_e_handcuffs && you.weapon.charges > 0 ) {
-            you.weapon.charges -= rng( 1, 3 ) * 50;
-            if( you.weapon.charges < 1 ) {
-                you.weapon.charges = 1;
+        if( you.get_wielded_item().typeId() == itype_e_handcuffs && you.get_wielded_item().charges > 0 ) {
+            you.get_wielded_item().charges -= rng( 1, 3 ) * 50;
+            if( you.get_wielded_item().charges < 1 ) {
+                you.get_wielded_item().charges = 1;
             }
 
             you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                                   you.weapon.tname() );
+                                   you.get_wielded_item().tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }

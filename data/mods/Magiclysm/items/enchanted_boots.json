@@ -60,11 +60,7 @@
     "looks_like": "boots_hiking",
     "price_postapoc": "350 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, seeming a bit more flexible and breathable than typical for their materials.  The enchantment they bear helps guide their wearer in their motions, to make movement around and over obstacles much more fluid and efficient.",
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "PARKOUR" ], "values": [ { "value": "MOVE_COST", "add": -5 } ] }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
