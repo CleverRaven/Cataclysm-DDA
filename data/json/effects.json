@@ -991,7 +991,7 @@
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
     "remove_memorial_log": "Recovered from an infection… this time.",
-    "apply_message": "Your bite wound feels infected.",
+    "apply_message": "Your wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
