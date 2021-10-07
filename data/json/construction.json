@@ -1627,6 +1627,59 @@
   },
   {
     "type": "construction",
+    "id": "constr_brick_wall_embrasure",
+    "group": "build_brick_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "pre_terrain": "t_brick_wall_halfway",
+    "post_terrain": "t_embrasure_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_wall_embrasure_removebricks",
+    "group": "build_brick_wall_embrasure",
+    "//": "Remove some bricks from a full wall to create an opening",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "pre_terrain": "t_brick_wall",
+    "post_terrain": "t_embrasure_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adobe_brick_wall_embrasure",
+    "group": "build_brick_wall_embrasure_from_adobe",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [
+      [ [ "adobe_brick", 10 ] ],
+      [ [ "mortar_adobe", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_sand", 20 ] ]
+    ],
+    "pre_terrain": "t_adobe_brick_wall_halfway",
+    "post_terrain": "t_embrasure_adobe_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adobe_brick_wall_embrasure_removebricks",
+    "group": "build_brick_wall_embrasure_from_adobe",
+    "//": "Remove some bricks from a full wall to create an opening",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "pre_terrain": "t_adobe_brick_wall",
+    "post_terrain": "t_embrasure_adobe_brick"
+  },
+  {
+    "type": "construction",
     "id": "constr_rock_wall_embrasure",
     "group": "build_rock_wall_embrasure",
     "category": "CONSTRUCT",

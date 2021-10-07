@@ -1,6 +1,69 @@
 [
   {
     "type": "terrain",
+    "id": "t_embrasure_brick",
+    "name": "brick wall with embrasure",
+    "description": "This brick wall has an embrasure that lets you shoot and use reach weapons against enemies on the outside, while also protecting you.",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 60,
+      "str_max": 140,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 15 ] }, { "item": "brick", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_adobe_brick",
+    "name": "adobe wall with embrasure",
+    "description": "This adobe brick wall has an embrasure that lets you shoot and use reach weapons against enemies on the outside, while also protecting you.",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "t_embrasure_brick",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 40,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_embrasure_rock",
     "name": "stone wall with embrasure",
     "description": "The small opening on this stone wall allows you to shoot and use reach weapons, while also granting you a good cover.",

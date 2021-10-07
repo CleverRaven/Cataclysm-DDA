@@ -511,6 +511,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_brick_wall_embrasure",
+    "name": "Build Brick Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_wall_embrasure_from_adobe",
+    "name": "Build Brick Wall with Embrasure from Adobe"
+  },
+  {
+    "type": "construction_group",
     "id": "build_rock_wall_embrasure",
     "name": "Build Stone Wall with Embrasure"
   },
