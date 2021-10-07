@@ -5,7 +5,7 @@
     "name": "Dark Days of the Dead",
     "authors": [ "Hirmuolio", "I-am-Erk" ],
     "maintainers": [ "I-am-Erk" ],
-    "description": "Change to a classic Romero zombie simulator.  Zombies do not revive nor evolve, but can only be killed with headshots.  Weird aliens removed.  This disables certain buildings and map extras.",
+    "description": "Change to a classic Romero zombie simulator.  Zombies do not revive nor evolve, but can only be killed with headshots.  Weird aliens removed.  This disables certain buildings and map extras and most of the plot of CDDA.",
     "category": "total_conversion",
     "dependencies": [ "dda" ]
   }
