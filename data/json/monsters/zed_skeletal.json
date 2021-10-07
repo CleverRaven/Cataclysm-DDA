@@ -79,14 +79,14 @@
       {
         "name": "a small gap in the armor",
         "armor_mult": { "physical": 0.5 },
-        "difficulty": 3,
+        "difficulty": { "all": 3 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 8
       },
       {
         "name": "a hole in the bony plates",
         "armor_mult": { "physical": 0.25 },
-        "difficulty": 4,
+        "difficulty": { "all": 4 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 6
       }
@@ -182,14 +182,14 @@
       {
         "name": "a small gap in the armor",
         "armor_mult": { "physical": 0.5 },
-        "difficulty": 4,
+        "difficulty": { "all": 4 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 15
       },
       {
         "name": "a hole in the bony plates",
         "armor_mult": { "physical": 0.25 },
-        "difficulty": 6,
+        "difficulty": { "all": 6 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 10
       }
@@ -289,14 +289,14 @@
       {
         "name": "a small gap in the armor",
         "armor_mult": { "physical": 0.5 },
-        "difficulty": 4,
+        "difficulty": { "all": 4 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 8
       },
       {
         "name": "a hole in the bony plates",
         "armor_mult": { "physical": 0.25 },
-        "difficulty": 6,
+        "difficulty": { "all": 6 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 7
       }
@@ -389,14 +389,14 @@
       {
         "name": "a small gap in the armor",
         "armor_mult": { "physical": 0.5 },
-        "difficulty": 5,
+        "difficulty": { "all": 5 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 5
       },
       {
         "name": "a hole in the bony plates",
         "armor_mult": { "physical": 0.25 },
-        "difficulty": 7,
+        "difficulty": { "all": 7 },
         "coverage_mult": { "point": 3, "broad": 5 },
         "coverage": 3
       }
