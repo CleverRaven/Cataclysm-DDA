@@ -231,7 +231,6 @@ activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_PICKAXE, pickaxe_do_turn },
     { ACT_PULP, pulp_do_turn },
-    { ACT_PULL_CREATURE, pull_creature_do_turn },
     { ACT_GAME, game_do_turn },
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
@@ -337,6 +336,7 @@ activity_handlers::finish_functions = {
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
+    { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
@@ -3823,15 +3823,23 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
     you->practice( skill_computer, 10 );
 }
 
-void activity_handlers::pull_creature_do_turn( player_activity *act, Character *you )
+void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
 {
     const trait_id *mut = nullptr;
-    if( you->has_active_mutation( trait_LONG_TONGUE2 ) ) {
+    if( act->name == trait_LONG_TONGUE2.str() ) {
         mut = &trait_LONG_TONGUE2;
-    } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY2 ) ) {
+    } else if( act->name == trait_GASTROPOD_EXTREMITY2.str() ) {
         mut = &trait_GASTROPOD_EXTREMITY2;
-    } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY3 ) ) {
+    } else if( act->name == trait_GASTROPOD_EXTREMITY3.str() ) {
         mut = &trait_GASTROPOD_EXTREMITY3;
+    } else {
+        if( you->has_active_mutation( trait_LONG_TONGUE2 ) ) {
+            mut = &trait_LONG_TONGUE2;
+        } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY2 ) ) {
+            mut = &trait_GASTROPOD_EXTREMITY2;
+        } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY3 ) ) {
+            mut = &trait_GASTROPOD_EXTREMITY3;
+        }
     }
 
     if( mut != nullptr ) {

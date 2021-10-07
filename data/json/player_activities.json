@@ -581,7 +581,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "pulling a creature",
     "suspendable": false,
-    "based_on": "neither",
+    "based_on": "time",
     "no_resume": true
   },
   {
