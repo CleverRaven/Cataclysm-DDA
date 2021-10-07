@@ -162,7 +162,7 @@
       {
         "name": "the inside of its mouth",
         "crit_mult": { "all": 1.1 },
-        "coverage_mult": { "blunt": 0.5, "point": 1.5 },
+        "coverage_mult": { "broad": 0.5, "point": 1.5 },
         "difficulty": { "all": 3 },
         "armor_mult": { "physical": 0 },
         "coverage": 2
@@ -1495,7 +1495,7 @@
       {
         "name": "the inside of its mouth",
         "crit_mult": { "all": 1.1 },
-        "coverage_mult": { "blunt": 0.5, "point": 1.5 },
+        "coverage_mult": { "broad": 0.5, "point": 1.5 },
         "difficulty": { "all": 3 },
         "armor_mult": { "physical": 0 },
         "coverage": 2
