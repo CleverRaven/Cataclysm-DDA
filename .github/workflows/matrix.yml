@@ -96,6 +96,7 @@ jobs:
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: i686-w64-mingw32.static.gcc11
             wine: wine
+            release: 0
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
