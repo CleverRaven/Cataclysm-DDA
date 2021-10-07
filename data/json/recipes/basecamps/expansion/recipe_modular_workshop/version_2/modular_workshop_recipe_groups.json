@@ -3,17 +3,13 @@
     "type": "recipe_group",
     "id": "fbmw_2_potter_recipes_1",
     "building_type": "SMITH",
-    "recipes": [
-      { "id": "crucible_clay", "description": " Craft: Crucible, Clay" }
-    ]
+    "recipes": [ { "id": "crucible_clay", "description": " Craft: Crucible, Clay" } ]
   },
   {
     "type": "recipe_group",
     "id": "fbmw_2_blacksmith_recipes_1",
     "building_type": "SMITH",
-    "recipes": [
-      { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" }
-    ]
+    "recipes": [ { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" } ]
   },
   {
     "type": "recipe_group",
