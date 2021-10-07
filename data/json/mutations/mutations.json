@@ -942,6 +942,7 @@
     "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
     "starting_trait": true,
     "category": [ "ALPHA" ],
+    "cancels": [ "SMELLY2" ],
     "scent_intensity": 300,
     "types": [ "SCENT" ]
   },
@@ -5269,6 +5270,7 @@
     "scent_intensity": 1200,
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL", "PHEROMONE_AMPHIBIAN" ],
+    "cancels": [ "WEAKSCENT" ],
     "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN" ]
   },
   {
