@@ -451,6 +451,18 @@
   },
   {
     "type": "technique",
+    "id": "tec_crane_precise",
+    "name": "Crane Kick",
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "required_buffs_all": [ "buff_crane_ondodge" ],
+    "crit_ok": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
     "id": "tec_crane_break",
     "name": "Crane Flap",
     "messages": [
@@ -464,27 +476,15 @@
   },
   {
     "type": "technique",
-    "id": "tec_crane_counter",
+    "id": "tec_crane_strike",
     "name": "Crane Strike",
-    "messages": [ "You hand-peck and swat down %s", "<npcname> hand-pecks and swats down %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_crane_precise",
-    "name": "Crane Kick",
-    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
+    "messages": [ "You hand-peck and strike %s", "<npcname> hand-pecks and strikes %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "crit_tec": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
+    "required_buffs_all": [ "buff_crane_ondodge" ],
+    "crit_ok": true,
     "stun_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
