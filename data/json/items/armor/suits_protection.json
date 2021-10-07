@@ -599,13 +599,9 @@
     "type": "ARMOR",
     "name": { "str": "kevlar gambeson" },
     "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.",
-<<<<<<< Updated upstream
-    "weight": "453 g",
-    "volume": "3 L",
-=======
+
     "weight": "2880 g",
     "volume": "2.52 L",
->>>>>>> Stashed changes
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": -5,

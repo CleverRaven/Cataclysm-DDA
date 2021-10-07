@@ -918,11 +918,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
-<<<<<<< Updated upstream
-    "components": [ [ [ "sheet_kevlar_layered", 24 ] ] ]
-=======
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
->>>>>>> Stashed changes
   },
   {
     "result": "xl_gambeson",
@@ -938,11 +934,7 @@
     "copy-from": "k_gambeson",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ] ],
-<<<<<<< Updated upstream
-    "components": [ [ [ "sheet_kevlar_layered", 57 ] ] ]
-=======
     "components": [ [ [ "sheet_kevlar_layered", 85 ] ] ]
->>>>>>> Stashed changes
   },
   {
     "result": "h20survivor_suit",
