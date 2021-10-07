@@ -609,7 +609,7 @@ void diary::set_page_text( std::string text) {
 void diary::new_page() {
     diary_page* page = new diary_page();
     
-    page -> m_text = "";
+    page -> m_text = " ";
     //page -> m_date = to_string(calendar::turn);
     page -> turn = calendar::turn;
     //
