@@ -167,7 +167,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     clear_character( dummy );
 
     monster soldier( mtype_id( "mon_zombie_soldier_no_weakpoints" ) );
-    monster smoker( mtype_id( "mon_zombie_smoker" ) );
+    monster smoker( mtype_id( "mon_zombie_smoker_noweakpoints" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
     item clumsy_sword( "test_clumsy_sword" );
@@ -199,7 +199,7 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
     clear_character( dummy );
 
     monster soldier( mtype_id( "mon_zombie_soldier_no_weakpoints" ) );
-    monster smoker( mtype_id( "mon_zombie_smoker" ) );
+    monster smoker( mtype_id( "mon_zombie_smoker_noweakpoints" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
     item clumsy_sword( "test_clumsy_sword" );
