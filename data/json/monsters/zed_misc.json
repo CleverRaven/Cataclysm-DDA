@@ -2536,6 +2536,12 @@
     ]
   },
   {
+    "id": "mon_zombie_smoker_noweakpoints",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_smoker",
+    "weakpoints": [ ]
+  },
+  {
     "id": "mon_smoker_brute",
     "type": "MONSTER",
     "name": { "str": "ashen brawler" },
