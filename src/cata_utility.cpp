@@ -405,7 +405,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
             }
 
             std::stringstream inflated_contents_stream;
-            inflated_contents_stream.write(outstring.data(), outstring.size());
+            inflated_contents_stream.write( outstring.data(), outstring.size() );
 
             reader( inflated_contents_stream );
         } else {
