@@ -1128,11 +1128,7 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
 
 void spell_effect::pull_to_caster( const spell &sp, Creature &caster, const tripoint &target )
 {
-    Character *c = caster.as_character();
-    if( c == nullptr ) {
-        return;
-    }
-    c->longpull( sp.name(), target );
+    caster.longpull( sp.name(), target );
 }
 
 void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )

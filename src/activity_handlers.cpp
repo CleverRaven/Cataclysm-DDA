@@ -3822,7 +3822,11 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
 void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
 {
-    you->longpull( act->name );
+    if( you->is_avatar() ) {
+        you->as_avatar()->longpull( act->name );
+    } else {
+        you->longpull( act->name, act->placement );
+    }
     act->set_to_null();
 }
 

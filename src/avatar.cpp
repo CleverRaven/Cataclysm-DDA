@@ -62,6 +62,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "profession.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -205,6 +206,19 @@ void avatar::control_npc_menu()
         return;
     }
     get_avatar().control_npc( *followers.at( charmenu.ret ) );
+}
+
+void avatar::longpull( const std::string name )
+{
+    item wtmp( itype_id( "mut_longpull" ) );
+    g->temp_exit_fullscreen();
+    target_handler::trajectory traj = target_handler::mode_throw( *this, wtmp, false );
+    g->reenter_fullscreen();
+    if( traj.empty() ) {
+        return; // cancel
+    }
+
+    Creature::longpull( name, traj.back() );
 }
 
 void avatar::toggle_map_memory()

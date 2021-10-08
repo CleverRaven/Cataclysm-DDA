@@ -207,6 +207,11 @@ class avatar : public Character
         void identify( const item &item ) override;
         void clear_identified();
 
+        /**
+         * Opens the targeting menu to pull a nearby creature towards the character.
+         * @param name Name of the implement used to pull the creature. */
+        void longpull( const std::string name );
+
         void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
