@@ -32,9 +32,9 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "all": 4 },
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
           {
-            "effect": "stun",
+            "effect": "stunned",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
@@ -135,9 +135,9 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "all": 4 },
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
           {
-            "effect": "stun",
+            "effect": "stunned",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
@@ -242,9 +242,9 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "all": 4 },
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
           {
-            "effect": "stun",
+            "effect": "stunned",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
@@ -342,9 +342,9 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "all": 4 },
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": 5 },
           {
-            "effect": "stun",
+            "effect": "stunned",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",

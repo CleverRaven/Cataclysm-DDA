@@ -66,9 +66,9 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
-            "effect": "stun",
+            "effect": "stunned",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
@@ -169,9 +169,9 @@
         "coverage_mult": { "broad": 0.5 },
         "difficulty": { "melee": 2, "ranged": 3 },
         "effects": [
-          { "effect": "stun", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
           {
-            "effect": "stun",
+            "effect": "stunned",
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
