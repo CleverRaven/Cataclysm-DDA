@@ -594,7 +594,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
-   {
+  {
     "id": "k_gambeson",
     "type": "ARMOR",
     "name": { "str": "kevlar gambeson" },
