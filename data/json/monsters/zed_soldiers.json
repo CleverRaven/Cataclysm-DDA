@@ -72,7 +72,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -199,7 +205,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -428,7 +440,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -550,7 +568,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -651,7 +675,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -791,7 +821,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 4,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 11, 100 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -950,7 +986,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],

@@ -30,7 +30,13 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -128,7 +134,13 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -267,7 +279,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -353,7 +371,13 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -431,7 +455,13 @@
         "armor_mult": { "physical": 0.5 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -520,7 +550,13 @@
         "armor_mult": { "physical": 0.5 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -715,7 +751,13 @@
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -853,7 +895,13 @@
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
@@ -945,7 +993,13 @@
         "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
-          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
