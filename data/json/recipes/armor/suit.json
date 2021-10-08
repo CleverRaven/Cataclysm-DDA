@@ -892,7 +892,7 @@
       { "proficiency": "prof_polymerworking" }
     ]
   },
-   {
+  {
     "result": "gambeson",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
