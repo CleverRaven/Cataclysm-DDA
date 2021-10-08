@@ -1270,7 +1270,7 @@
     "charges_per_use": 4,
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [ "OXYTORCH" ],
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
@@ -1279,5 +1279,5 @@
         "item_restriction": [ "hydrogentank", "tinyhydrogentank" ]
       }
     ]
-	}
+  }
 ]
