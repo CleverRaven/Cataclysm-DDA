@@ -273,7 +273,7 @@
     "type": "martial_art",
     "id": "style_dragon",
     "name": { "str": "Dragon Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy instead of Dexterity.  Your attacks lead to counterattacks which disable your opponents and set them up for a powerful finishing move.",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damaage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
     "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -281,23 +281,54 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\nIntelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity.",
+        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\nIntelligence increases Accuracy instead of Dexterity and melee damage instead of Strength.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity.  Bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.25 }, { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 } ]
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "int", "scale": 0.25 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "int", "scale": 0.75 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": -0.75 }
+        ]
       }
     ],
-    "onhit_buffs": [
+    "onblock_buffs": [
       {
-        "id": "buff_dragon_onhit",
-        "name": "Dragon's Flight",
-        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+1 Accuracy, +2 bash Damage.\nEnables \"Dragon Vortex Block\" and \"Dragon Wing Dodge\"\nLasts 1 turn.",
+        "id": "buff_dragon_onblock",
+        "name": "Dragon's Vortex",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% bash damage.\nLasts 3 turns.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "buff_duration": 3,
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_dragon_ondodge",
+        "name": "Dragon Wing",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% bash damage.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
-        "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "buff_duration": 3,
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
       }
     ],
-    "techniques": [ "tec_dragon_claw", "tec_dragon_blockcounter", "tec_dragon_dodgecounter", "tec_dragon_tail", "tec_dragon_strike" ]
+    "onpause_buffs": [
+      {
+        "id": "buff_dragon_onpause",
+        "name": "Dragon Power",
+        "description": "You take a moment to reflect on battles past and to come.  This insight will protect from future harm.\n\n+2 Block Effectiveness, Blocked damage reduced by +100% of Intelligence, +1.0 Dodging skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "buff_duration": 2,
+        "flat_bonuses": [
+          { "stat": "block_effectiveness", "scale": 2.0 },
+          { "stat": "block", "scaling-stat": "int", "scale": 1.0 },
+          { "stat": "dodge", "scale": 1.0 }
+        ]
+      }
+    ],
+    "techniques": [ "tec_dragon_claw", "tec_dragon_tail", "tec_dragon_strike" ]
   },
   {
     "type": "martial_art",
