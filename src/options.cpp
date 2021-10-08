@@ -1896,7 +1896,7 @@ void options_manager::add_options_graphics()
        // NOLINTNEXTLINE(cata-text-style): one space after "etc."
        to_translation( "If true, vehicles have a roof tile displayed, until you step inside.  Reload game to see changes." ),
        false
-     );
+       );
 
     add_empty_line();
 
