@@ -613,7 +613,7 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
-	},
+  },
   {
     "id": "xl_gambeson",
     "type": "ARMOR",
