@@ -135,16 +135,6 @@
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
-    "id": "crt_belt",
-    "copy-from": "survivor_belt_notools",
-    "type": "ARMOR",
-    "name": "CRIT web belt",
-    "description": "CRIT standard-issue belt.  Keeps your trousers up and your weapons on your hip.",
-    "color": "dark_gray",
-    "material": [ "leather", "brass" ],
-    "flags": [ "WATER_FRIENDLY" ]
-  },
-  {
     "id": "crt_iduster",
     "type": "ARMOR",
     "category": "armor",

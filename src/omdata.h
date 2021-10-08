@@ -172,6 +172,7 @@ enum class oter_flags : int {
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     river_tile,
     has_sidewalk,
+    ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
     lake,

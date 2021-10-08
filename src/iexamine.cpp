@@ -152,7 +152,6 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
-static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
@@ -3619,7 +3618,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = &it;
 
             it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
-                if( it->typeId() == itype_maple_syrup ) {
+                if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
                     return VisitResponse::ABORT;

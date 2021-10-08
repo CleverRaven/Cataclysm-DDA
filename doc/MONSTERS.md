@@ -64,6 +64,7 @@ Monsters may also have any of these optional properties:
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
+| `families`               | (array of objects) Weakpoint families that the monster belongs to
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 | `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
@@ -326,14 +327,15 @@ Weakpoints in the monster's protection.
 
 | field               | description
 | ---                 | ---
-| `name`              | Name of the weakpoint.
-| `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+| `id`                | id of the weakpoint. Defaults to `name`, if not specified.
+| `name`              | name of the weakpoint. Used in hit messages.
+| `coverage`          | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
 | `coverage_mult`     | object mapping weapon types to constant coverage multipliers.
 | `difficulty`        | object mapping weakon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
-| `armor_mult`        | multipler on the monster's base protection when hitting the weakpoint.
-| `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
-| `damage_mult`       | multipler on the post-armor damage when hitting the weakpoint.
-| `crit_mult`         | multipler on the post-armor damage when critically hitting the weakpoint.
+| `armor_mult`        | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
+| `armor_penalty`     | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
+| `damage_mult`       | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
+| `crit_mult`         | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
 | `required_effects`  | list of effect names applied to the monster required to hit the weakpoint.
 | `effects`           | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
@@ -360,6 +362,29 @@ The `coverage_mult` and `difficulty` objects support the following subfields:
 | `melee`             | The default value for melee weapons (`bash`, `cut`, and `stab`). Takes precedence over `point` and `broad`.
 | `point`             | The default value for pointed weapons (`stab` and `ranged`).
 | `broad`             | The default value for broad weapons (`bash` and `cut`).
+
+The `armor_mult`, `armor_penalty`, `damage_mult`, and `crit_mult` objects support *all damage types*, as well as the following fields:
+| field               | description
+| ---                 | ---
+| `all`               | The default value for all fields, if nothing more specific is provided.
+| `physical`          | The default value for physical damage types (`bash`, `cut`, `stab`, and `bullet`)
+| `non_physical`      | The default value for non-physical damage types (`biological`, `acid`, `heat`, `cold`, and `electric`)
+
+Default weakpoints are weakpoint objects with an `id` equal to the empty string.
+When an attacker misses the other weakpoints, they will hit the defender's default weakpoint.
+A monster should have at most 1 default weakpoint.
+
+## "families"
+(array of objects, optional)
+
+Weakpoint families that the monster belongs to. 
+
+| field               | description
+| ---                 | ---
+| `id`                | The ID of the family. Defaults to `proficiency`, if not provided.
+| `proficiency`       | The proficiency ID corresponding to the family.
+| `bonus`             | The bonus to weak point skill, if the attacker has the proficiency.
+| `penalty`           | The penalty to weak point skill, if the attacker lacks the proficiency.
 
 ## "vision_day", "vision_night"
 (integer, optional)
