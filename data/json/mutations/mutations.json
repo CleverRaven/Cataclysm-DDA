@@ -3360,7 +3360,7 @@
     "visibility": 5,
     "ugliness": 5,
     "points": 8,
-    "description": "Your tongue has increased its length and mobility. You may use it to pull your enemies towards you.",
+    "description": "Your tongue has increased its length and mobility.  You may use it to pull your enemies towards you.",
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
     "active": true,

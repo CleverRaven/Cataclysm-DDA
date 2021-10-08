@@ -7157,9 +7157,9 @@ void Character::longpull( const std::string name, const tripoint &p )
 
     std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
     Creature *c = nullptr;
-    for( const tripoint &p : path ) {
-        c = get_creature_tracker().creature_at( p );
-        if( c == nullptr && get_map().impassable( p ) ) {
+    for( const tripoint &path_p : path ) {
+        c = get_creature_tracker().creature_at( path_p );
+        if( c == nullptr && get_map().impassable( path_p ) ) {
             add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
             return;
         }
