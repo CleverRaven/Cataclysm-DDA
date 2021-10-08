@@ -412,6 +412,9 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
-
+#if defined(_WIN32) && defined(__GNUC__)
+    return 123;
+#else
     return result;
+#endif
 }
