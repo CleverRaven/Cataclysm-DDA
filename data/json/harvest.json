@@ -767,6 +767,26 @@
     ]
   },
   {
+    "id": "mutant_mammal_molerat_leather",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "molerat_sample", "type": "bionic_group" },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "mammal_small_wool",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
@@ -962,6 +982,7 @@
     "type": "harvest",
     "message": "<arachnid_harvest>",
     "entries": [
+      { "drop": "spider_sample", "type": "bionic_group" },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },

@@ -150,7 +150,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ], [ [ "spider_sample", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -654,7 +654,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "molerat_sample", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

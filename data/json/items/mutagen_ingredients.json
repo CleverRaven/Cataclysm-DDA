@@ -73,5 +73,35 @@
     "weight": "114 g",
     "volume": "250 ml",
     "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "molerat_sample",
+    "symbol": "q",
+    "color": "light_gray",
+    "name": { "str": "molerat sample" },
+    "description": "A sample of things that make up key parts of being a underground dwelling creature.  You will probably need to find a something large that lives underground.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "spider_sample",
+    "symbol": "q",
+    "color": "dark_gray",
+    "name": { "str": "spider sample" },
+    "description": "A sample of things that make up key parts of being a spider.  Why are there so many huge spiders now?",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
   }
 ]
