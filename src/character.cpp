@@ -7130,47 +7130,52 @@ void Character::spores()
     }
 }
 
-void Character::longtongue( const trait_id &mut )
+void Character::longpull( const std::string name )
 {
     if( !is_avatar() ) {
+        // TODO: allow other characters to longpull?
         return;
     }
-    item wtmp( itype_id( "mut_longtongue" ) );
+
+    item wtmp( itype_id( "mut_longpull" ) );
     g->temp_exit_fullscreen();
     target_handler::trajectory traj = target_handler::mode_throw( *as_avatar(), wtmp, false );
     g->reenter_fullscreen();
     if( traj.empty() ) {
         return; // cancel
-    } else if( traj.back() == pos() ) {
-        add_msg_if_player( m_info, _( "You don't taste that great." ) );
-        return;
     }
+
     std::vector<tripoint> path = line_to( pos(), traj.back(), 0, 0 );
     Creature *c = nullptr;
     for( const tripoint &p : path ) {
         c = get_creature_tracker().creature_at( p );
+        if( c == nullptr && get_map().impassable( p ) ) {
+            add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
+            return;
+        }
         if( c != nullptr ) {
             break;
         }
     }
-    if( c == nullptr ) {
+    if( c == nullptr || !sees( *c ) ) {
         // TODO: Latch onto objects?
         add_msg_if_player( m_warning, _( "There's nothing here to latch onto with your %s!" ),
-                           mut->name() );
+                           name );
         return;
     }
-    const int str = std::max( 10, get_str() );
-    const int odds = units::to_kilogram( c->get_weight() ) / ( str * 4 );
+
+    // Pull creature
+    const int odds = units::to_kilogram( c->get_weight() ) / ( get_str() * 4 );
     if( one_in( clamp<int>( odds * odds, 1, 100 ) ) ) {
         add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
-                           mut->name() );
+                           name );
         c->move_to( tripoint_abs_ms( line_to( get_location().raw(), c->get_location().raw(), 0,
                                               0 ).front() ) );
         c->add_effect( effect_stunned, 1_seconds );
         sounds::sound( c->pos(), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
     } else {
-        add_msg_if_player( m_bad, _( "%s's weight makes it difficult to pull it towards you." ),
-                           c->disp_name() );
+        add_msg_if_player( m_bad, _( "%s weight makes it difficult to pull towards you." ),
+                           c->disp_name( true, true ) );
     }
 }
 

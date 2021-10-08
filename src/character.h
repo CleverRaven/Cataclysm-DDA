@@ -2576,8 +2576,12 @@ class Character : public Creature, public visitable
         void react_to_felt_pain( int intensity );
 
         void spores();
-        void longtongue( const trait_id &mut );
         void blossoms();
+        /**
+         * Opens the targeting menu to pull a nearby creature towards the character.
+         * @param name Name of the implement used to pull the creature.
+        */
+        void longpull( const std::string name );
 
         /** Handles rooting effects */
         void rooted_message() const;

@@ -106,9 +106,9 @@
     "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
-    "id": "mut_longtongue",
+    "id": "mut_longpull",
     "type": "GUN",
-    "name": { "str": "Whipping tongue" },
+    "name": { "str": "Ranged pulling implement" },
     "description": "this a pseudo item",
     "volume": "100 ml",
     "price": 0,

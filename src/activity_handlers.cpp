@@ -3825,28 +3825,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
 void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
 {
-    const trait_id *mut = nullptr;
-    if( act->name == trait_LONG_TONGUE2.str() ) {
-        mut = &trait_LONG_TONGUE2;
-    } else if( act->name == trait_GASTROPOD_EXTREMITY2.str() ) {
-        mut = &trait_GASTROPOD_EXTREMITY2;
-    } else if( act->name == trait_GASTROPOD_EXTREMITY3.str() ) {
-        mut = &trait_GASTROPOD_EXTREMITY3;
-    } else {
-        if( you->has_active_mutation( trait_LONG_TONGUE2 ) ) {
-            mut = &trait_LONG_TONGUE2;
-        } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY2 ) ) {
-            mut = &trait_GASTROPOD_EXTREMITY2;
-        } else if( you->has_active_mutation( trait_GASTROPOD_EXTREMITY3 ) ) {
-            mut = &trait_GASTROPOD_EXTREMITY3;
-        }
-    }
-
-    if( mut != nullptr ) {
-        you->longtongue( *mut );
-        you->deactivate_mutation( *mut );
-    }
-
+    you->longpull( act->name );
     act->set_to_null();
 }
 
