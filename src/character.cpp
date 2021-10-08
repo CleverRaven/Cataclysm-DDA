@@ -7145,7 +7145,17 @@ void Character::longpull( const std::string name )
         return; // cancel
     }
 
-    std::vector<tripoint> path = line_to( pos(), traj.back(), 0, 0 );
+    longpull( name, traj.back() );
+}
+
+void Character::longpull( const std::string name, const tripoint &p )
+{
+    if( pos() == p ) {
+        add_msg_if_player( _( "You try to pull yourself together." ) );
+        return;
+    }
+
+    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
     Creature *c = nullptr;
     for( const tripoint &p : path ) {
         c = get_creature_tracker().creature_at( p );

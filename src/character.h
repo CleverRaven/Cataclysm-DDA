@@ -2578,9 +2578,14 @@ class Character : public Creature, public visitable
         void spores();
         void blossoms();
         /**
-         * Opens the targeting menu to pull a nearby creature towards the character.
+         * Attempts to pull a creature at point p towards the character.
          * @param name Name of the implement used to pull the creature.
+         * @param p Position of the target creature.
         */
+        void longpull( const std::string name, const tripoint &p );
+        /**
+         * Opens the targeting menu to pull a nearby creature towards the character.
+         * @param name Name of the implement used to pull the creature. */
         void longpull( const std::string name );
 
         /** Handles rooting effects */
