@@ -24,7 +24,6 @@
 #include "value_ptr.h"
 
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class Trait_group;
 class item;
@@ -93,30 +92,10 @@ struct mut_transform {
     bool load( const JsonObject &jsobj, const std::string &member );
 };
 
-enum trigger_type {
-    PAIN,
-    HUNGER,
-    THRIST,
-    MOOD,
-    STAMINA,
-    MOON,
-    TIME,
-    num_trigger
-};
-template<>
-struct enum_traits<trigger_type> {
-    static constexpr trigger_type last = trigger_type::num_trigger;
-};
-
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    trigger_type trigger = trigger_type::TIME;
-
-    /**Activates above that threshold and deactivates below it*/
-    int threshold_low = INT_MIN;
-    /**Activates below that threshold and deactivates above it*/
-    int threshold_high = INT_MAX;
+    std::function<bool( const dialogue & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -125,7 +104,7 @@ struct reflex_activation_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct mutation_branch {
@@ -143,6 +122,8 @@ struct mutation_branch {
         bool debug = false;
         // True if the mutation should be displayed in the `@` menu
         bool player_display = true;
+        // True if mutation is purely comestic and can be changed anytime without any effect
+        bool vanity = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -189,7 +170,6 @@ struct mutation_branch {
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         cata::optional<float> dodge_modifier = cata::nullopt;
-        cata::optional<float> speed_modifier = cata::nullopt;
         cata::optional<float> movecost_modifier = cata::nullopt;
         cata::optional<float> movecost_flatground_modifier = cata::nullopt;
         cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
@@ -256,9 +236,6 @@ struct mutation_branch {
 
         // Multiplier for sight range, defaulting to 1.
         cata::optional<float> overmap_multiplier = cata::nullopt;
-
-        // Multiplier for map memory capacity, defaulting to 1.
-        cata::optional<float> map_memory_capacity_multiplier = cata::nullopt;
 
         // Multiplier for reading speed, defaulting to 1.
         cata::optional<float> reading_speed_multiplier = cata::nullopt;

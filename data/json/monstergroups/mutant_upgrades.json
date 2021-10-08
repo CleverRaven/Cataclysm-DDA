@@ -28,5 +28,18 @@
       { "monster": "mon_centipede_mom", "freq": 250, "cost_multiplier": 1 },
       { "monster": "mon_centipede_mega", "freq": 100, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "name": "GROUP_MUTANT_EVOLVED",
+    "type": "monstergroup",
+    "default": "mon_mutant_evolved",
+    "monsters": [
+      { "monster": "mon_mutant_antler", "freq": 450, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_mollusk", "freq": 220, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_arthropod", "freq": 180, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_evolved", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_camouflaged", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_alpha", "freq": 10, "cost_multiplier": 1 }
+    ]
   }
 ]

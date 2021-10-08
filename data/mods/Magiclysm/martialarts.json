@@ -165,7 +165,8 @@
         "gunblade",
         "gram",
         "flamesword",
-        "longsword_holy"
+        "longsword_holy",
+        "longsword_mithril"
       ]
     }
   },
@@ -208,6 +209,7 @@
         "knife_rambo_plus_two",
         "knife_trench_plus_one",
         "knife_trench_plus_two",
+        "longsword_mithril",
         "longsword_plus_one",
         "longsword_plus_two",
         "nodachi_plus_one",

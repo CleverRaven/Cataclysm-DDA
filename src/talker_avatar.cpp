@@ -11,7 +11,6 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "player.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
@@ -24,6 +23,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 talker_avatar::talker_avatar( avatar *new_me )
 {
     me_chr = new_me;
+    me_chr_const = new_me;
 }
 
 std::vector<std::string> talker_avatar::get_topics( bool )
@@ -31,7 +31,7 @@ std::vector<std::string> talker_avatar::get_topics( bool )
     std::vector<std::string> add_topics;
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                                             is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        add_topics.push_back( "TALK_NOFACE" );
+        add_topics.emplace_back( "TALK_NOFACE" );
     }
     return add_topics;
 }
@@ -68,7 +68,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         popup( _( "%s can't sell you any %s" ), seller.disp_name(), mtype.obj().nname( 2 ) );
         return;
     }
-    if( !npc_trading::pay_npc( *seller_guy, cost ) ) {
+    if( cost > 0 && !npc_trading::pay_npc( *seller_guy, cost ) ) {
         popup( _( "You can't afford it!" ) );
         return;
     }
@@ -76,7 +76,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     for( int i = 0; i < count; i++ ) {
         monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
         if( !mon_ptr ) {
-            add_msg_debug( "Cannot place u_buy_monster, no valid placement locations." );
+            add_msg_debug( debugmode::DF_TALKER, "Cannot place u_buy_monster, no valid placement locations." );
             break;
         }
         monster &tmp = *mon_ptr;
@@ -95,9 +95,9 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     }
 
     if( name.empty() ) {
-        popup( _( "%1$s gives you %2$d %3$s." ), seller_guy->name,
+        popup( _( "%1$s gives you %2$d %3$s." ), seller_guy->get_name(),
                count, mtype.obj().nname( count ) );
     } else {
-        popup( _( "%1$s gives you %2$s." ), seller_guy->name, name );
+        popup( _( "%1$s gives you %2$s." ), seller_guy->get_name(), name );
     }
 }

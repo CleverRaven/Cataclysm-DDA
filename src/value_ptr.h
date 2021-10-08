@@ -4,7 +4,7 @@
 
 #include <memory>
 
-class JsonIn;
+class JsonValue;
 class JsonOut;
 
 namespace cata
@@ -19,13 +19,13 @@ class value_ptr : public std::unique_ptr<T>
 {
     public:
         value_ptr() = default;
-        value_ptr( value_ptr && ) = default;
+        value_ptr( value_ptr && ) noexcept = default;
         // NOLINTNEXTLINE(google-explicit-constructor)
         value_ptr( std::nullptr_t ) {}
         explicit value_ptr( T *value ) : std::unique_ptr<T>( value ) {}
         value_ptr( const value_ptr<T> &other ) :
             std::unique_ptr<T>( other ? new T( *other ) : nullptr ) {}
-        value_ptr &operator=( value_ptr<T> other ) {
+        value_ptr &operator=( value_ptr<T> other ) noexcept {
             std::unique_ptr<T>::operator=( std::move( other ) );
             return *this;
         }
@@ -38,8 +38,8 @@ class value_ptr : public std::unique_ptr<T>
                 jsout.write_null();
             }
         }
-        template<typename Stream = JsonIn>
-        void deserialize( Stream &jsin ) {
+        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+        void deserialize( const Value &jsin ) {
             if( jsin.test_null() ) {
                 this->reset();
             } else {

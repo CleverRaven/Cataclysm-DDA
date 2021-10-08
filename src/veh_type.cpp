@@ -13,6 +13,7 @@
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -26,7 +27,6 @@
 #include "json.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -220,7 +220,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     if( src.has_int( "time" ) ) {
         moves = src.get_int( "time" );
     } else if( src.has_string( "time" ) ) {
-        moves = to_moves<int>( read_from_json_string<time_duration>( *src.get_raw( "time" ),
+        moves = to_moves<int>( read_from_json_string<time_duration>( src.get_member( "time" ),
                                time_duration::units ) );
     }
 
@@ -268,7 +268,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
         for( const std::string line : fuel_opts ) {
-            e_info.fuel_opts.push_back( itype_id( line ) );
+            e_info.fuel_opts.emplace_back( line );
         }
     } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
         e_info.fuel_opts.push_back( fuel_type );
@@ -422,7 +422,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                     jttd.get_int( "post_field_age" ) );
         } else if( jttd.has_string( "post_field_age" ) ) {
             def.transform_terrain.post_field_age = read_from_json_string<time_duration>(
-                    *jttd.get_raw( "post_field_age" ), time_duration::units );
+                    jttd.get_member( "post_field_age" ), time_duration::units );
         } else {
             def.transform_terrain.post_field_age = 0_turns;
         }
@@ -611,7 +611,7 @@ void vpart_info::finalize()
 
 static bool type_can_contain( const itype &container, const itype_id &containee )
 {
-    return item( &container ).can_contain( item( containee ) );
+    return item( &container ).can_contain( item( containee ) ).success();
 }
 
 void vpart_info::check()
@@ -682,6 +682,11 @@ void vpart_info::check()
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
+        }
+        for( const auto &f : part.get_flags() ) {
+            if( !json_flag::get( f ) ) {
+                debugmsg( "vehicle part %s has unknown flag %s", part.id.c_str(), f.c_str() );
+            }
         }
         // Default symbol is always needed in case an unknown variant is encountered
         if( part.sym == 0 ) {
@@ -758,6 +763,15 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
                       "THIS WILL CRASH!", part.id.str(), part.base_item.str() );
         }
+
+        if( part.has_flag( "WHEEL" ) && !part.has_flag( "UNSTABLE_WHEEL" ) && !part.has_flag( "STABLE" ) ) {
+            debugmsg( "Wheel '%s' lacks either 'UNSTABLE_WHEEL' or 'STABLE' flag.", vp.first.str() );
+        }
+
+        if( part.has_flag( "UNSTABLE_WHEEL" ) && part.has_flag( "STABLE" ) ) {
+            debugmsg( "Wheel '%s' cannot be both an 'UNSTABLE_WHEEL' and 'STABLE'.", vp.first.str() );
+        }
+
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
@@ -917,38 +931,38 @@ bool vpart_info::is_repairable() const
     return !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &p )
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &you )
 {
     if( sk.empty() ) {
         return mv;
     }
 
-    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&p]( int lhs,
+    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&you]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( p.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
+        return lhs + std::max( std::min( you.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = p.get_crafting_helpers();
-    const int helpersize = p.get_num_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
-int vpart_info::install_time( const player &p ) const
+int vpart_info::install_time( const Character &you ) const
 {
-    return scale_time( install_skills, install_moves, p );
+    return scale_time( install_skills, install_moves, you );
 }
 
-int vpart_info::removal_time( const player &p ) const
+int vpart_info::removal_time( const Character &you ) const
 {
-    return scale_time( removal_skills, removal_moves, p );
+    return scale_time( removal_skills, removal_moves, you );
 }
 
-int vpart_info::repair_time( const player &p ) const
+int vpart_info::repair_time( const Character &you ) const
 {
-    return scale_time( repair_skills, repair_moves, p );
+    return scale_time( repair_skills, repair_moves, you );
 }
 
 /**
@@ -1065,10 +1079,11 @@ bool string_id<vehicle_prototype>::is_valid() const
 }
 
 vehicle_prototype::vehicle_prototype() = default;
-vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::vehicle_prototype( vehicle_prototype && ) noexcept = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype &&
+                                               ) noexcept( string_is_noexcept ) = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
@@ -1158,16 +1173,21 @@ void vehicle_prototype::load( const JsonObject &jo )
             spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            // And read the gun variant (if it exists)
+            if( spawn_info.has_string( "variant" ) ) {
+                const std::string variant = spawn_info.get_string( "variant" );
+                next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
+            } else {
+                next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
+            }
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
             for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.push_back( item_group_id( line ) );
+                next_spawn.item_groups.emplace_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.push_back(
-                item_group_id( spawn_info.get_string( "item_groups" ) ) );
+            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }

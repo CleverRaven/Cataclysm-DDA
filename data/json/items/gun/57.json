@@ -23,6 +23,7 @@
     "dispersion": 440,
     "durability": 8,
     "min_cycle_recoil": 81,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

@@ -11,7 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
@@ -24,6 +24,7 @@
 #include "map_helpers.h"
 #include "npc.h"
 #include "pimpl.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "test_statistics.h"
@@ -76,52 +77,6 @@ std::ostream &operator<<( std::ostream &stream, const dispersion_sources &source
     return stream;
 }
 
-static void arm_shooter( npc &shooter, const std::string &gun_type,
-                         const std::vector<std::string> &mods = {},
-                         const std::string &ammo_type = "" )
-{
-    shooter.remove_weapon();
-    // XL so arrows can fit.
-    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
-        shooter.worn.push_back( item( "debug_backpack" ) );
-    }
-
-    const itype_id &gun_id{ itype_id( gun_type ) };
-    // Give shooter a loaded gun of the requested type.
-    item &gun = shooter.i_add( item( gun_id ) );
-    itype_id ammo_id;
-    // if ammo is not supplied we want the default
-    if( ammo_type.empty() ) {
-        if( gun.ammo_default().is_null() ) {
-            ammo_id = item( gun.magazine_default() ).ammo_default();
-        } else {
-            ammo_id = gun.ammo_default();
-        }
-    } else {
-        ammo_id = itype_id( ammo_type );
-    }
-    const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
-    if( gun.magazine_integral() ) {
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( gun, ammo_id ) );
-        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
-    } else {
-        const itype_id magazine_id = gun.magazine_default();
-        item &magazine = shooter.i_add( item( magazine_id ) );
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
-                                          magazine.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( magazine, ammo_id ) );
-        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
-        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );
-    }
-    for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
-    }
-    shooter.wield( gun );
-}
-
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     CHECK( !shooter.in_vehicle );
@@ -162,6 +117,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
         const int range, const std::vector< Threshold > &thresholds )
 {
     std::vector<firing_statistics> firing_stats;
+    firing_stats.reserve( thresholds.size() );
     for( const Threshold &pear : thresholds ) {
         firing_stats.push_back( firing_test( dispersion, range, pear ) );
     }
@@ -170,7 +126,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
-    item &gun = shooter.weapon;
+    item &gun = shooter.get_wielded_item();
     dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
     shooter.moves = aim_time;
@@ -196,8 +152,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -211,8 +168,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -223,8 +181,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -242,12 +201,13 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-    CAPTURE( shooter.weapon.gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+    CAPTURE( shooter.ranged_dispersion_modifier_hands() );
+    CAPTURE( shooter.get_wielded_item().gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.get_wielded_item().gun_skill() ) );
     CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
+    CAPTURE( to_milliliter( shooter.get_wielded_item().volume() ) );
     CAPTURE( fast_stats.n() );
     CAPTURE( fast_stats.margin_of_error() );
     CHECK( fast_stats.avg() > hit_rate );
@@ -271,7 +231,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
-    shooter.worn.push_back( item( "backpack" ) );
+    shooter.worn.emplace_back( "backpack" );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
@@ -342,7 +302,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ar15", { "tele_sight" } );
-        test_shooting_scenario( shooter, 10, 22, 48 );
+        test_shooting_scenario( shooter, 10, 18, 48 );
         test_fast_shooting( shooter, 85, 0.3 );
     }
 }
@@ -371,7 +331,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 50, 0.4 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
-        arm_shooter( shooter, "m1014", { "holo_sight" } );
+        arm_shooter( shooter, "mossberg_930", { "holo_sight" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
         test_fast_shooting( shooter, 60, 0.5 );
     }

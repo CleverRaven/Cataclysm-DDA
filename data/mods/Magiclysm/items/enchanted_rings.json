@@ -11,11 +11,10 @@
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "abstract": "mring_silver",
@@ -29,11 +28,10 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "abstract": "mring_gold",
@@ -47,11 +45,10 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "abstract": "mring_platinum",
@@ -65,11 +62,10 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "copy-from": "mring_copper",
@@ -112,9 +108,9 @@
     "type": "TOOL_ARMOR",
     "id": "mring_blades_lesser",
     "name": { "str": "ring of blades", "str_pl": "rings of blades" },
-    "price_postapoc": "1500 USD",
-    "description": "An ornate silver ring engraved with daggers that conjures a near perfect throwing knife into your hand on activation.",
-    "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade1", "no_fail": true, "level": 1, "need_worn": true },
+    "price_postapoc": "300 USD",
+    "description": "An ornate silver ring engraved with daggers that conjures three mundane throwing knives on activation.",
+    "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
@@ -405,5 +401,51 @@
         }
       ]
     }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mring_platinum",
+    "id": "storage_ring_lesser",
+    "name": { "str": "lesser storage ring" },
+    "price": "3000 USD",
+    "longest_side": "2 cm",
+    "price_postapoc": "1000 USD",
+    "description": "A glistening ring holding a small dimensional space inside.  Can store only a little but you can draw items instantly.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "35 cm",
+        "moves": 1,
+        "holster": true,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mring_platinum",
+    "id": "storage_ring_greater",
+    "name": { "str": "greater storage ring" },
+    "price": "9000 USD",
+    "longest_side": "2 cm",
+    "price_postapoc": "1750 USD",
+    "description": "A glistening ring holding a small dimensional space inside.  Capable of storing a medium-sized weapon you can draw instantly.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "100 cm",
+        "moves": 1,
+        "holster": true,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
   }
 ]

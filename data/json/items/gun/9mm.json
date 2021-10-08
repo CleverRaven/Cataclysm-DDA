@@ -157,6 +157,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -309,11 +310,9 @@
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": {
-      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "sided": true,
-      "coverage": 10,
-      "encumbrance": 30,
-      "material_thickness": 2
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
@@ -592,7 +591,8 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
@@ -629,6 +629,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -881,6 +882,7 @@
     "durability": 9,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -963,6 +965,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
     "pocket_data": [
       {
@@ -1063,6 +1066,7 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -1070,7 +1074,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm" ]
+        "item_restriction": [ "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm", "p320mag_10rd_9x19mm" ]
       }
     ]
   },
@@ -1164,6 +1168,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "191 ml",
@@ -1195,6 +1200,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "228 ml",
@@ -1225,6 +1231,7 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "207 ml",
@@ -1287,6 +1294,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "230 ml",
@@ -1318,6 +1326,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "176 ml",

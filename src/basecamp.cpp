@@ -219,7 +219,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );

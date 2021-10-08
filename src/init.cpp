@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include <cstddef>
-#include <fstream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -31,6 +30,7 @@
 #include "dialogue.h"
 #include "disease.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "emit.h"
 #include "event_statistics.h"
 #include "faction.h"
@@ -85,6 +85,7 @@
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
+#include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -95,6 +96,7 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "weather_type.h"
+#include "widget.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -164,6 +166,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 }
             }
             ++it;
+            inp_mngr.pump_events();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -179,6 +182,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
                 }
+                inp_mngr.pump_events();
             }
             data.clear();
             return; // made no progress on this cycle so abort
@@ -231,6 +235,9 @@ void DynamicDataLoader::add( const std::string &type,
 
 void DynamicDataLoader::initialize()
 {
+    // Initialize loading data that must be in place before any loading functions are called
+    init_mapdata();
+
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -239,6 +246,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
+    add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
@@ -251,6 +259,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "speed_description", &speed_description::load_speed_descriptions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -370,6 +379,7 @@ void DynamicDataLoader::initialize()
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
+    add( "practice", &recipe_dictionary::load_practice );
     add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );
@@ -438,6 +448,7 @@ void DynamicDataLoader::initialize()
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
     add( "conduct", &achievement::load_achievement );
+    add( "widget", &widget::load_widget );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -460,7 +471,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream tmp( path.c_str(), std::ios::in );
+        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -506,6 +517,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
+    inp_mngr.pump_events();
 }
 
 void DynamicDataLoader::unload_data()
@@ -525,7 +537,9 @@ void DynamicDataLoader::unload_data()
     construction_groups::reset();
     dreams.clear();
     emit::reset();
+    enchantment::reset();
     event_statistic::reset();
+    effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
     fault::reset();
@@ -616,6 +630,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
+            { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -644,6 +659,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()
@@ -700,9 +716,11 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
+            { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
+            { _( "Effect Types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {
                 _( "Items" ), []()
@@ -730,6 +748,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },

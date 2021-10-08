@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "cached_options.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"

@@ -11,7 +11,11 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_v29", 40 ], [ "afs_av22", 60 ], [ "afs_archeotech_laspistol", 1 ] ]
+    "items": [
+      [ "afs_v29", 40 ],
+      [ "afs_av22", 60 ],
+      { "item": "afs_archeotech_laspistol", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
+    ]
   },
   {
     "id": "afs_any_plasma_gun",
@@ -32,7 +36,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "ammo": 100,
-    "items": [ [ "afs_cartridge", 20 ], [ "afs_bootleg_cartridge", 40 ], [ "afs_compact_cartridge", 20 ] ]
+    "items": [
+      [ "afs_cartridge", 20 ],
+      [ "afs_bootleg_cartridge", 40 ],
+      [ "afs_compact_cartridge", 20 ],
+      { "item": "afs_archeotech_cartridge", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
+    ]
   },
   {
     "id": "afs_any_plasma_mag",

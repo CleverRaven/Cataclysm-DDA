@@ -9,7 +9,7 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class item;
@@ -27,7 +27,7 @@ class character_martial_arts
             : ma_styles( styles ), style_selected( style_selected ), keep_hands_free( keep_hands_free ) {}
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         void reset_style();
         // checks that style selected is one that is known, otherwise resets it
@@ -53,6 +53,8 @@ class character_martial_arts
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 
+        /** Removes all martial arts events */
+        void clear_all_effects( Character &owner );
         /** Fires all non-triggered martial arts events */
         void ma_static_effects( Character &owner );
         /** Fires all move-triggered martial arts events */
@@ -87,16 +89,12 @@ class character_martial_arts
 
         std::vector<matec_id> get_all_techniques( const item &weap ) const;
         std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
-        /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec( const item &weap ) const;
-        /** Returns the technique used for miss recovery */
-        ma_technique get_miss_recovery_tec( const item &weap ) const;
-        /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const;
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
         bool has_technique( const Character &guy, const matec_id &id, const item &weap ) const;
-        /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec( const item &weap ) const;
+        /** Returns the first valid grab break technique */
+        ma_technique get_grab_break( const Character &owner ) const;
+        /** Returns the first valid miss recovery technique */
+        ma_technique get_miss_recovery( const Character &owner ) const;
 
         std::string enumerate_known_styles( const itype_id &weap ) const;
         std::string selected_style_name( const Character &owner ) const;

@@ -26,8 +26,19 @@
     "armor_bullet": 2,
     "luminance": 0,
     "harvest": "zombie_leather",
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
+    ]
   },
   {
     "id": "mon_zombie_dog",
@@ -56,7 +67,6 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -91,7 +101,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -118,11 +127,11 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
-    "death_function": [ "NORMAL" ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "upgrades": { "half_life": 28, "into": "mon_dog_zombie_brute" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -154,7 +163,6 @@
     "special_attacks": [ [ "HOWL", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -189,7 +197,6 @@
     "harvest": "zombie_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -222,7 +229,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },
@@ -254,7 +261,6 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ]
   },
   {
@@ -287,7 +293,6 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOOSE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -321,7 +326,6 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOUGAR_UPGRADE" },
     "flags": [
       "SEES",
@@ -367,13 +371,12 @@
     "vision_night": 3,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES", "BONES", "FAT" ]
   },
   {
     "id": "mon_ziger",
     "type": "MONSTER",
-    "name": { "str": "Tiger wight" },
+    "name": { "str": "tiger wight" },
     "description": "This otherwise normal-looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
     "copy-from": "mon_zougar",
     "volume": "150 L",
@@ -413,7 +416,6 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -446,9 +448,8 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 } ],
     "flags": [
       "SEES",
       "HEARS",
@@ -461,8 +462,7 @@
       "REVIVES",
       "FILTHY",
       "PUSH_MON",
-      "PUSH_VEH",
-      "ATTACKMON"
+      "PUSH_VEH"
     ]
   },
   {
@@ -492,7 +492,6 @@
     "armor_bash": 1,
     "armor_cut": 3,
     "vision_night": 15,
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -525,7 +524,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -546,7 +544,7 @@
   {
     "id": "mon_zeindeer",
     "type": "MONSTER",
-    "name": { "str": "Zeindeer" },
+    "name": { "str": "zeindeer" },
     "looks_like": "mon_zeer",
     "description": "A once-majestic caribou, this undead creature barely resembles the reindeer of tradition and seems to only be interested in human flesh.",
     "default_faction": "zombie",
@@ -569,7 +567,6 @@
     "armor_bash": 5,
     "armor_cut": 4,
     "vision_night": 10,
-    "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }

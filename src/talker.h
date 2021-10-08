@@ -2,11 +2,20 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
+#include "coordinates.h"
+#include "effect.h"
+#include "units.h"
+#include "units_fwd.h"
+#include <list>
+
 class faction;
 class item;
+class item_location;
 class mission;
+class monster;
 class npc;
-class player;
+struct npc_opinion;
+class Character;
 class recipe;
 struct tripoint;
 class vehicle;
@@ -21,10 +30,10 @@ class talker
     public:
         virtual ~talker() = default;
         // virtual member accessor functions
-        virtual player *get_character() {
+        virtual Character *get_character() {
             return nullptr;
         }
-        virtual player *get_character() const {
+        virtual const Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -33,7 +42,24 @@ class talker
         virtual npc *get_npc() const {
             return nullptr;
         }
-
+        virtual item_location *get_item() {
+            return nullptr;
+        }
+        virtual item_location *get_item() const {
+            return nullptr;
+        }
+        virtual monster *get_monster() {
+            return nullptr;
+        }
+        virtual monster *get_monster() const {
+            return nullptr;
+        }
+        virtual Creature *get_creature() {
+            return nullptr;
+        }
+        virtual const Creature *get_creature() const {
+            return nullptr;
+        }
         // identity and location
         virtual std::string disp_name() const {
             return "";
@@ -47,17 +73,24 @@ class talker
         virtual std::vector<std::string> get_grammatical_genders() const {
             return {};
         }
-        virtual int posx() const = 0;
-        virtual int posy() const = 0;
-        virtual int posz() const = 0;
+        virtual int posx() const {
+            return 0;
+        }
+        virtual int posy() const {
+            return 0;
+        }
+        virtual int posz() const {
+            return 0;
+        }
         virtual tripoint pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
         }
 
         // mandatory functions for starting a dialogue
-        virtual bool will_talk_to_u( const player &, bool ) {
+        virtual bool will_talk_to_u( const Character &, bool ) {
             return false;
         }
         virtual std::vector<std::string> get_topics( bool ) {
@@ -88,14 +121,32 @@ class talker
         virtual int per_cur() const {
             return 0;
         }
+        virtual void set_str_max( int ) {}
+        virtual void set_dex_max( int ) {}
+        virtual void set_int_max( int ) {}
+        virtual void set_per_max( int ) {}
+        virtual int get_str_max() const {
+            return 0;
+        }
+        virtual int get_dex_max() const {
+            return 0;
+        }
+        virtual int get_int_max() const {
+            return 0;
+        }
+        virtual int get_per_max() const {
+            return 0;
+        }
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
+        virtual void set_fatigue( int ) {};
         virtual bool has_trait_flag( const json_character_flag & ) const {
             return false;
         }
@@ -146,17 +197,26 @@ class talker
         }
 
         // effects and values
-        virtual bool has_effect( const efftype_id & ) const {
+        virtual bool has_effect( const efftype_id &, const bodypart_id & ) const {
             return false;
         }
+        virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
+            return effect::null_effect;
+        }
         virtual bool is_deaf() const {
+            return false;
+        }
+        virtual bool can_see() const {
             return false;
         }
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, bool ) {}
+        virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
+                                 int ) {}
         virtual void remove_effect( const efftype_id & ) {}
+        virtual void add_bionic( const bionic_id & ) {}
+        virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string & ) const {
             return "";
         }
@@ -179,6 +239,9 @@ class talker
         virtual bool has_amount( const itype_id &, int ) const {
             return false;
         }
+        virtual int get_amount( const itype_id & ) const {
+            return 0;
+        }
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
@@ -192,7 +255,15 @@ class talker
             return 0;
         }
         virtual void add_debt( int ) {}
+        virtual int sold() const {
+            return 0;
+        }
+        virtual void add_sold( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
+            return {};
+        }
+        virtual std::vector<const item *> const_items_with( const std::function<bool( const item & )> & )
+        const {
             return {};
         }
         virtual void i_add( const item & ) {}
@@ -293,6 +364,15 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_stored_kcal() const {
+            return 0;
+        }
+        virtual int get_stim() const {
+            return 0;
+        }
+        virtual void set_stored_kcal( int ) {}
+        virtual void set_stim( int ) {}
+        virtual void set_thirst( int ) {}
         virtual bool is_in_control_of( const vehicle & ) const {
             return false;
         }
@@ -308,11 +388,73 @@ class talker
         virtual std::string opinion_text() const {
             return "";
         }
-        virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
-                                  int /*debt*/ ) {}
+        virtual void add_opinion( const npc_opinion & ) {}
         virtual void set_first_topic( const std::string & ) {}
         virtual bool is_safe() const {
             return true;
+        }
+        virtual void mod_pain( int ) {}
+        virtual int pain_cur() const {
+            return 0;
+        }
+        virtual bool worn_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual units::energy power_cur() const {
+            return 0_kJ;
+        }
+        virtual units::energy power_max() const {
+            return 0_kJ;
+        }
+        virtual void set_power_cur( units::energy ) {}
+        virtual int mana_cur() const {
+            return 0;
+        }
+        virtual int mana_max() const {
+            return 0;
+        }
+        virtual void set_mana_cur( int ) {}
+        virtual void mod_healthy_mod( int, int ) {}
+        virtual int morale_cur() const {
+            return 0;
+        }
+        virtual int focus_cur() const {
+            return 0;
+        }
+        virtual void mod_focus( int ) {}
+        virtual int get_pkill() const {
+            return 0;
+        }
+        virtual void set_pkill( int ) {}
+        virtual int get_stamina() const {
+            return 0;
+        }
+        virtual void set_stamina( int ) {}
+        virtual int get_sleep_deprivation() const {
+            return 0;
+        }
+        virtual void set_sleep_deprivation( int ) {}
+        virtual int get_rad() const {
+            return 0;
+        }
+        virtual void set_rad( int ) {}
+        virtual int get_anger() const {
+            return 0;
+        }
+        virtual void set_anger( int ) {}
+        virtual void set_morale( int ) {}
+        virtual int get_friendly() const {
+            return 0;
+        }
+        virtual void set_friendly( int ) {}
+        virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
+        virtual void remove_morale( const morale_type & ) {}
+        virtual void set_kill_xp( int ) {}
+        virtual int get_kill_xp() const {
+            return 0;
         }
 };
 #endif // CATA_SRC_TALKER_H

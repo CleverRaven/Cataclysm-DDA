@@ -13,37 +13,40 @@
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
     "cutting": 3,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "category": "weapons"
   },
   {
     "id": "bullwhip_razor",
     "name": { "str": "scourge" },
-    "type": "TOOL",
-    "description": "The \"cat 'o nine tails\", a handle with nine short leather whips each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding but is an ineffecient weapon by design.",
+    "type": "GENERIC",
+    "category": "weapons",
+    "description": "The \"cat 'o nine tails\", a handle with nine short leather whips, each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding, but by design is inefficient as a weapon.",
     "symbol": "/",
     "color": "brown",
     "weight": "3496 g",
     "volume": "2250 ml",
     "price": 4800,
     "price_postapoc": 5200,
-    "to_hit": 2,
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
     "cutting": 10,
+    "to_hit": { "grip": "none", "length": "long", "surface": "every", "balance": "uneven" },
     "material": [ "leather", "steel" ],
     "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
   },
   {
     "id": "lobotomizer",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "name": { "str": "lobotomizer" },
-    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
+    "description": "This is a hand-forged collapsible tool that has two axe heads and a sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
     "weight": "2722 g",
     "volume": "1750 ml",
     "price": 25000,
     "price_postapoc": 1250,
-    "to_hit": -1,
     "bashing": 18,
     "cutting": 37,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -61,23 +64,18 @@
     "volume": "250 ml",
     "price": 14000,
     "price_postapoc": 1500,
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "bashing": 6,
     "//": "Yes, this is smaller than its magazine well. Go with it.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 100,
     "use_action": [ "TAZER" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ]
   }
 ]

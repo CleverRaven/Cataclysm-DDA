@@ -92,7 +92,7 @@
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
       { "item": "office_holepunch", "prob": 30 },
-      { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
+      { "item": "money_strap_twenty", "count": [ 1, 10 ], "prob": 20 },
       { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
       { "item": "survnote", "prob": 10 },
       { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
@@ -149,9 +149,7 @@
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },
-      { "item": "mre_hashbrownbacon_box" },
-      { "item": "mre_macaronimarinara_box" },
-      { "item": "mre_meatball_box" },
+      { "group": "MRE", "count": 3 },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic", "sealed": false }
     ]
   },
@@ -183,20 +181,6 @@
     "type": "item_group",
     "id": "maps",
     "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tobacco_products",
-    "items": [
-      { "item": "cig", "prob": 60, "charges": [ 1, 20 ] },
-      { "item": "tobacco", "prob": 20, "charges": [ 1, 20 ] },
-      { "item": "chaw", "prob": 20, "charges": [ 1, 20 ] },
-      { "item": "cigar", "prob": 10, "charges": [ 1, 5 ] },
-      { "item": "ecig", "prob": 10, "charges": [ 1, 40 ] },
-      { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
-      [ "nicotine_liquid", 15 ],
-      [ "pipe_tobacco", 10 ]
-    ]
   },
   {
     "type": "item_group",

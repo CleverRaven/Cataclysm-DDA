@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstdio>
 #include <exception>
-#include <fstream>
 #include <iterator>
 #include <sstream>
 #include <stdexcept>
@@ -21,6 +20,7 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "zlib.h"
 
 static double pow10( unsigned int n )
 {
@@ -214,6 +214,11 @@ double temp_to_kelvin( double fahrenheit )
     return temp_to_celsius( fahrenheit ) + 273.15;
 }
 
+double celsius_to_kelvin( double celsius )
+{
+    return celsius + 273.15;
+}
+
 double kelvin_to_fahrenheit( double kelvin )
 {
     return 1.8 * ( kelvin - 273.15 ) + 32;
@@ -277,7 +282,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, std::ios::binary );
+    ofstream_wrapper fout( fs::u8path( path ), std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -297,7 +302,7 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
 {
@@ -343,11 +348,69 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
-        std::ifstream fin( path, std::ios::binary );
+        cata::ifstream fin( fs::u8path( path ), std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
-        reader( fin );
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        char header[2];
+        fin.read( header, 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            std::ostringstream deflated_contents_stream;
+            std::string str;
+
+            deflated_contents_stream << fin.rdbuf();
+            str = deflated_contents_stream.str();
+
+            z_stream zs;
+            memset( &zs, 0, sizeof( zs ) );
+
+            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
+            }
+
+            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
+            zs.avail_in = str.size();
+
+            int ret;
+            char outbuffer[32768];
+            std::string outstring;
+
+            // get the decompressed bytes blockwise using repeated calls to inflate
+            do {
+                zs.next_out = reinterpret_cast<Bytef *>( outbuffer );
+                zs.avail_out = sizeof( outbuffer );
+
+                ret = inflate( &zs, 0 );
+
+                if( outstring.size() < zs.total_out ) {
+                    outstring.append( outbuffer,
+                                      zs.total_out - outstring.size() );
+                }
+
+            } while( ret == Z_OK );
+
+            inflateEnd( &zs );
+
+            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
+                std::ostringstream oss;
+                oss << "Exception during zlib decompression: (" << ret << ") "
+                    << zs.msg;
+                throw( std::runtime_error( oss.str() ) );
+            }
+
+            std::stringstream inflated_contents_stream;
+            inflated_contents_stream.write( outstring.data(), outstring.size() );
+
+            reader( inflated_contents_stream );
+        } else {
+            reader( fin );
+        }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }

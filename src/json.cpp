@@ -33,8 +33,10 @@ static bool is_whitespace( char ch )
     return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
 }
 
-// for parsing \uxxxx escapes
-static std::string utf16_to_utf8( uint32_t ch )
+// Thw following function would fit more logically in catacharset.cpp, but it's
+// needed for the json formatter and we can't easily include that file in that
+// binary.
+std::string utf32_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;
@@ -49,14 +51,13 @@ static std::string utf16_to_utf8( uint32_t ch )
     } else if( ch <= 0x10FFFF ) {
         utf8Bytes = 4;
     } else {
-        std::stringstream err;
-        err << "unknown unicode: " << ch;
-        throw std::runtime_error( err.str() );
+        utf8Bytes = 3;
+        ch = UNKNOWN_UNICODE;
     }
 
     buf += utf8Bytes;
     switch( utf8Bytes ) {
-        case 4:
+        case 4: // NOLINT(bugprone-branch-clone)
             *--buf = ( ch | 0x80 ) & 0xBF;
             ch >>= 6;
         /* fallthrough */
@@ -117,7 +118,9 @@ void JsonObject::report_unvisited() const
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
-                    throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
+                    throw_error(
+                        string_format( "Invalid or misplaced field name \"%s\" in JSON data, or value in unexpected format.",
+                                       name ), name );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -209,7 +212,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( const std::string &err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name, int offset ) const
 {
     mark_visited( name );
     if( !jsin ) {
@@ -219,10 +222,10 @@ void JsonObject::throw_error( const std::string &err, const std::string &name ) 
     if( pos ) {
         jsin->seek( pos );
     }
-    jsin->error( err );
+    jsin->error( err, offset );
 }
 
-void JsonArray::throw_error( const std::string &err )
+void JsonArray::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -230,7 +233,7 @@ void JsonArray::throw_error( const std::string &err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( const std::string &err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -539,6 +542,12 @@ void JsonArray::verify_index( const size_t i ) const
 
 /* iterative access */
 
+JsonValue JsonArray::next()
+{
+    verify_index( index );
+    return JsonValue( *jsin, positions[index++] );
+}
+
 bool JsonArray::next_bool()
 {
     verify_index( index );
@@ -579,6 +588,13 @@ JsonObject JsonArray::next_object()
     verify_index( index );
     jsin->seek( positions[index++] );
     return jsin->get_object();
+}
+
+JsonValue JsonArray::next_value()
+{
+    verify_index( index );
+    jsin->seek( positions[ index++ ] );
+    return jsin->get_value();
 }
 
 void JsonArray::skip_value()
@@ -744,6 +760,33 @@ void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const s
 {
     for( const std::string line : json.get_array( name ) ) {
         s.insert( line );
+    }
+}
+
+JsonIn::JsonIn( std::istream &s ) : stream( &s )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const std::string &path )
+    : stream( &s )
+    , path( make_shared_fast<std::string>( path ) )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const json_source_location &loc )
+    : stream( &s ), path( loc.path )
+{
+    seek( loc.offset );
+    sanity_check_stream();
+}
+
+void JsonIn::sanity_check_stream()
+{
+    char c = stream->peek();
+    if( c == '\xef' ) {
+        error( _( "This JSON file looks like it starts with a Byte Order Mark (BOM) or is otherwise corrupted.  This can happen if you edit files in Windows Notepad.  See doc/CONTRIBUTING.md for more advice." ) );
     }
 }
 
@@ -1044,12 +1087,7 @@ static bool get_escaped_or_unicode( std::istream &stream, std::string &s, std::s
                             return false;
                         }
                     }
-                    try {
-                        s += utf16_to_utf8( u );
-                    } catch( const std::exception &e ) {
-                        err = e.what();
-                        return false;
-                    }
+                    s += utf32_to_utf8( u );
                 }
                 break;
             default:
@@ -1296,9 +1334,13 @@ number_sci_notation JsonIn::get_any_number()
     number_sci_notation ret;
     int mod_e = 0;
     eat_whitespace();
-    stream->get( ch );
+    if( !stream->get( ch ) ) {
+        error( "unexpected end of input", 0 );
+    }
     if( ( ret.negative = ch == '-' ) ) {
-        stream->get( ch );
+        if( !stream->get( ch ) ) {
+            error( "unexpected end of input", 0 );
+        }
     } else if( ch != '.' && ( ch < '0' || ch > '9' ) ) {
         // not a valid float
         std::stringstream err;
@@ -1315,36 +1357,42 @@ number_sci_notation JsonIn::get_any_number()
     while( ch >= '0' && ch <= '9' ) {
         ret.number *= 10;
         ret.number += ( ch - '0' );
-        stream->get( ch );
+        if( !stream->get( ch ) ) {
+            break;
+        }
     }
     if( ch == '.' ) {
-        stream->get( ch );
-        while( ch >= '0' && ch <= '9' ) {
+        while( stream->get( ch ) && ch >= '0' && ch <= '9' ) {
             ret.number *= 10;
             ret.number += ( ch - '0' );
             mod_e -= 1;
-            stream->get( ch );
         }
     }
-    if( ch == 'e' || ch == 'E' ) {
-        stream->get( ch );
+    if( stream && ( ch == 'e' || ch == 'E' ) ) {
+        if( !stream->get( ch ) ) {
+            error( "unexpected end of input", 0 );
+        }
         bool neg;
-        if( ( neg = ch == '-' ) ) {
-            stream->get( ch );
-        } else if( ch == '+' ) {
-            stream->get( ch );
+        if( ( neg = ch == '-' ) || ch == '+' ) {
+            if( !stream->get( ch ) ) {
+                error( "unexpected end of input", 0 );
+            }
         }
         while( ch >= '0' && ch <= '9' ) {
             ret.exp *= 10;
             ret.exp += ( ch - '0' );
-            stream->get( ch );
+            if( !stream->get( ch ) ) {
+                break;
+            }
         }
         if( neg ) {
             ret.exp *= -1;
         }
     }
     // unget the final non-number character (probably a separator)
-    stream->unget();
+    if( stream ) {
+        stream->unget();
+    }
     end_value();
     ret.exp += mod_e;
     return ret;
@@ -1389,6 +1437,10 @@ JsonObject JsonIn::get_object()
 JsonArray JsonIn::get_array()
 {
     return JsonArray( *this );
+}
+JsonValue JsonIn::get_value()
+{
+    return JsonValue( *this, tell() );
 }
 
 void JsonIn::start_array()
@@ -1502,6 +1554,22 @@ bool JsonIn::test_object()
 }
 
 /* non-fatal value setting by reference */
+
+bool JsonIn::read_null( bool throw_on_error )
+{
+    if( !test_null() ) {
+        return error_or_false( throw_on_error, "Expected null" );
+    }
+    char text[5];
+    if( !stream->get( text, 5 ) ) {
+        error( "Unexpected end of stream reading null", 0 );
+    }
+    if( 0 != strcmp( text, "null" ) ) {
+        error( std::string( "Expected 'null', got '" ) + text + "'", -4 );
+    }
+    end_value();
+    return true;
+}
 
 bool JsonIn::read( bool &b, bool throw_on_error )
 {

@@ -54,11 +54,5 @@
       { "monster": "mon_zombie_predator", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_zombie_ears", "freq": 10, "cost_multiplier": 2 }
     ]
-  },
-  {
-    "name": "GROUP_COFFEE_SHOP_SPITTER",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_spitter", "freq": 65, "cost_multiplier": 5 } ]
   }
 ]

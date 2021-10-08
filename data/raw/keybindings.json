@@ -306,6 +306,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_MAPEXTRA_CHARACTER",
+    "category": "AUTO_NOTES",
+    "name": "Change a symbol for map extra",
+    "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",
@@ -568,6 +575,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_CLOTH",
+    "category": "SORT_ARMOR",
+    "name": "Toggle armor visibility on character sprite",
+    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ASSIGN_INVLETS",
     "category": "SORT_ARMOR",
     "name": "Assign invlets to armor",
@@ -663,6 +677,27 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_RECIPE_UNREAD",
+    "category": "CRAFTING",
+    "name": "Toggle read/unread",
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_ALL_RECIPES_READ",
+    "category": "CRAFTING",
+    "name": "Mark all recipes as read",
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_UNREAD_RECIPES_FIRST",
+    "category": "CRAFTING",
+    "name": "Show unread recipes on top",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -694,6 +729,17 @@
     "id": "TOGGLE_FAVORITE",
     "category": "CRAFTING",
     "name": "Toggle recipes to be shown in favorite tab",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "NPC_TRADE",
+    "name": "Toggle items as favorite",
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
@@ -860,6 +906,20 @@
   },
   {
     "type": "keybinding",
+    "id": "ZOOM_OUT",
+    "category": "OVERMAP",
+    "name": "Zoom Out",
+    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ZOOM_IN",
+    "category": "OVERMAP",
+    "name": "Zoom In",
+    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP_NOTES",
     "name": "Delete Note",
@@ -944,6 +1004,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_OVERMAP_WEATHER",
+    "category": "OVERMAP",
+    "name": "Toggle Visible Weather",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FOREST_TRAILS",
     "category": "OVERMAP",
     "name": "Toggle Forest Trails",
@@ -969,6 +1036,13 @@
     "category": "OVERMAP",
     "name": "Place Overmap Special",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SET_SPECIAL_ARGS",
+    "category": "OVERMAP",
+    "name": "Set Overmap Special Arguments",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",
@@ -1123,7 +1197,7 @@
   {
     "type": "keybinding",
     "id": "SELECT",
-    "name": "Select",
+    "name": "Select with mouse",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
   },
   {
@@ -1167,6 +1241,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_MONSTER_NAME",
+    "name": "Change monster name",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TRAVEL_TO",
     "name": "Travel to destination",
     "bindings": [ { "input_method": "keyboard_char", "key": "T" }, { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] } ]
@@ -1189,6 +1269,12 @@
     "id": "CHANGE_GENDER",
     "name": "Change gender",
     "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_GENDER",
+    "name": "Customize character",
+    "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
   },
   {
     "type": "keybinding",
@@ -1377,6 +1463,13 @@
     "category": "VEH_INTERACT",
     "name": "Change tire",
     "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_SHAPE",
+    "category": "VEH_INTERACT",
+    "name": "Change part shape",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
     "type": "keybinding",
@@ -1607,7 +1700,7 @@
     "id": "CATEGORY_SELECTION",
     "category": "INVENTORY",
     "name": "Toggle category selection mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
   },
   {
     "type": "keybinding",
@@ -1646,6 +1739,20 @@
   },
   {
     "type": "keybinding",
+    "id": "HIDE_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SHOW_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
@@ -1657,6 +1764,13 @@
     "category": "BIONICS",
     "name": "Toggle safe fuel mod",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REFUEL",
+    "category": "BIONICS",
+    "name": "Open refuel menu",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2245,6 +2359,27 @@
   },
   {
     "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "TOGGLE_ALL_SPELL",
+    "name": "Toggle all spells",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "UNLEARN_SPELL",
+    "name": "Unlearn a spell",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "SHOW_ONLY_LEARNED",
+    "name": "Show only learned",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"
@@ -2611,6 +2746,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_SPRITE",
+    "category": "MUTATIONS",
+    "name": "Toggle sprite",
+    "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UP",
     "category": "MUTATIONS",
     "name": "Pan up",
@@ -2932,10 +3074,50 @@
   },
   {
     "type": "keybinding",
-    "id": "DROP_NON_FAVORITE",
+    "id": "TOGGLE_ENTRY",
+    "category": "INVENTORY",
+    "name": "Mark/unmark selected item",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "l" },
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" },
+      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEXT_COLUMN",
+    "category": "INVENTORY",
+    "name": "Next column",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "TAB" },
+      { "input_method": "keyboard_any", "key": "h" },
+      { "input_method": "keyboard_any", "key": "LEFT" },
+      { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" },
+      { "input_method": "gamepad", "key": "JOY_LEFT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PREV_COLUMN",
+    "category": "INVENTORY",
+    "name": "Previous column",
+    "bindings": [ { "input_method": "keyboard_char", "key": "BACKTAB" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NON_FAVORITE",
     "category": "INVENTORY",
     "name": "Mark/unmark non-favorite items in multidrop menu",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_WITH_COUNT",
+    "category": "INVENTORY",
+    "name": "Mark a specific amount of selected item"
   },
   {
     "type": "keybinding",
@@ -3178,6 +3360,40 @@
       { "input_method": "keyboard_char", "key": "N" },
       { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "n" },
+      { "input_method": "keyboard_any", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FRIENDS",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "With friends",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "f" },
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "f" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ME",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "Just me",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "m" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CANCEL",
+    "category": "FRIENDS_ME_CANCEL",
+    "name": "Cancel",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_any", "key": "ESC" }
     ]
   },

@@ -9,7 +9,12 @@
 #include <utility>
 #include <vector>
 
+// on some systems <locale> pulls in libintl.h anyway,
+// so preemptively include it before the gettext overrides.
+#include <locale> // IWYU pragma: keep
+
 #include "optional.h"
+#include "translation_manager.h"
 #include "value_ptr.h"
 
 constexpr int INVALID_LANGUAGE_VERSION = 0;
@@ -45,18 +50,7 @@ std::string getSystemLanguage();
 // Same as above but returns "en" in the case that the above one returns empty string
 std::string getSystemLanguageOrEnglish();
 void select_language();
-
-// MingW flips out if you don't define this before you try to statically link libintl.
-// This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
-#   if !defined(LIBINTL_STATIC)
-#       define LIBINTL_STATIC
-#   endif
-#endif
-
-// IWYU pragma: begin_exports
-#include <libintl.h>
-// IWYU pragma: end_exports
+std::string locale_dir();
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -66,18 +60,18 @@ void select_language();
 
 namespace detail
 {
+
 // same as _(), but without local cache
 const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 
 inline const char *_translate_internal( const char *msg )
 {
-    return msg[0] == '\0' ? msg : gettext( msg );
+    return TranslationManager::GetInstance().Translate( msg );
 }
 
-// same as _(), but without local cache
 inline std::string _translate_internal( const std::string &msg )
 {
-    return _translate_internal( msg.c_str() );
+    return TranslationManager::GetInstance().Translate( msg );
 }
 
 template<typename T>
@@ -92,12 +86,16 @@ class local_translation_cache<std::string>
         std::string cached_translation;
     public:
         const std::string &operator()( const std::string &arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_arg = arg;
                 cached_translation = _translate_internal( arg );
             }
             return cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -111,6 +109,7 @@ class local_translation_cache<const char *>
         const char *cached_translation = nullptr;
     public:
         const char *operator()( const char *arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_translation = _translate_internal( arg );
@@ -120,6 +119,9 @@ class local_translation_cache<const char *>
             // mimic gettext() behavior: return `arg` if no translation is found
             // `same_as_arg` is needed to ensure that the current `arg` is returned (not a cached one)
             return same_as_arg ? arg : cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -137,39 +139,37 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
 
 } // namespace detail
 
+// For code analysis purposes in our clang-tidy plugin we need to be able to
+// detect when something is the argument to a translation function.  The _
+// macro makes this really tricky, so we add an otherwise unnecessary call to
+// this no-op function just so that there's something to detect.
+template<typename T>
+inline const T &translation_argument_identity( const T &t )
+{
+    return t;
+}
+
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
         return cache( arg ); \
-    } )( msg ) )
+    } )( translation_argument_identity( msg ) ) )
 
-// ngettext overload taking an unsigned long long so that people don't need
-// to cast at call sites.  This is particularly relevant on 64-bit Windows where
-// size_t is bigger than unsigned long, so MSVC will try to encourage you to
-// add a cast.
-template<typename T, typename = std::enable_if_t<std::is_same<T, unsigned long long>::value>>
-ATTRIBUTE_FORMAT_ARG( 1 )
-inline const char *ngettext( const char *msgid, const char *msgid_plural, T n )
-{
-    // Leaving this long because it matches the underlying API.
-    // NOLINTNEXTLINE(cata-no-long)
-    return ngettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
-}
+const char *n_gettext( const char *msgid, const char *msgid_plural,
+                       std::size_t n ) ATTRIBUTE_FORMAT_ARG( 1 );
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
-// same as pgettext, but supports plural forms like ngettext
+// same as pgettext, but supports plural forms like n_gettext
 const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
                        unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
 
-// on some systems <locale> pulls in libintl.h anyway,
-// so preemptively include it before the gettext overrides.
-#include <locale> // IWYU pragma: keep
-
 #define _(STRING) (STRING)
+
+std::string locale_dir();
 
 namespace detail
 {
@@ -184,9 +184,9 @@ inline std::string _translate_internal( const std::string &msg )
 }
 } // namespace detail
 
-#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
+#define n_gettext(STRING1, STRING2, COUNT) ((COUNT) < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
-#define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
+#define npgettext(STRING0, STRING1, STRING2, COUNT) n_gettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
 
@@ -204,7 +204,6 @@ using GenderMap = std::map<std::string, std::vector<std::string>>;
  */
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
 
-std::string locale_dir();
 void set_language();
 
 class JsonIn;
@@ -244,7 +243,7 @@ class translation
          * Can be used to ensure a translation object has plural form enabled
          * before loading into it from JSON. If plural form has not been enabled
          * yet, the plural string will be set to the original singular string.
-         * `ngettext` will ignore the new plural string and correctly retrieve
+         * `n_gettext` will ignore the new plural string and correctly retrieve
          * the original translation.
          *     Note that a `make_singular()` function is not provided due to the
          * potential loss of information.
@@ -322,7 +321,8 @@ class translation
         bool needs_translation = false;
         // translation cache. For "plural" translation only latest `num` is optimistically cached
         mutable int cached_language_version = INVALID_LANGUAGE_VERSION;
-        mutable int cached_num = 0; // `num`, which `cached_translation` corresponds to
+        // `num`, which `cached_translation` corresponds to
+        mutable int cached_num = 0;
         mutable cata::value_ptr<std::string> cached_translation;
 };
 

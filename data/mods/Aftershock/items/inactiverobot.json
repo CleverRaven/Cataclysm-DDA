@@ -23,30 +23,6 @@
     }
   },
   {
-    "id": "bot_chickenbot",
-    "type": "TOOL",
-    "name": { "str": "inactive chicken walker" },
-    "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the chicken walker will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
-    "weight": "120000 g",
-    "volume": "92500 ml",
-    "price": 50000000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_chickenbot",
-      "friendly_msg": "The chicken walker rises to its feet, sways away from you and begins surveying the area.",
-      "hostile_msg": "The chicken walker whirrs and aims directly at you.  Take cover!",
-      "//": "Milspec, but was deployed in active service implying a reliable IFF",
-      "difficulty": 9,
-      "moves": 250,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
     "id": "bot_tankbot",
     "looks_like": "broken_tankbot",
     "type": "TOOL",
@@ -177,14 +153,14 @@
   {
     "id": "bot_sentinel_lx",
     "type": "TOOL",
-    "name": { "str": "inactive sentinel-lx" },
+    "name": { "str": "inactive sentinel-lx", "str_pl": "inactive sentinels-lx" },
     "description": "Crouched and dead still, this armored luxurious robot resembles an ancient knight immersed in deep prayer.  If reprogrammed and rewired successfully the robot will identify you as a friendly, and will protect you from nearby foes.",
     "weight": "40750 g",
     "volume": "30 L",
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "alien_resin" ],
+    "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -193,6 +169,29 @@
       "difficulty": 4,
       "moves": 100,
       "skills": [ "computer" ]
+    }
+  },
+  {
+    "id": "bot_wraitheon_kaburaya",
+    "type": "TOOL",
+    "name": { "str": "inactive Kabura-ya drone" },
+    "description": "An inactive Karuba-ya hunter drone, folded for ease of storage.  If deployed, it will seek and fly to the closest enemy before detonating.  Unlike most robots, its activation depends on a successful throw, and not on your computer skill.",
+    "weight": "550 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "to_hit": -3,
+    "bashing": 0,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_wraitheon_kaburaya",
+      "friendly_msg": "The Kabura-ya emits a short IFF chirp as you throw it.",
+      "hostile_msg": "The Kabura-ya emits an warning whine after your botched throw!",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "throw" ]
     }
   },
   {
@@ -407,15 +406,20 @@
     "bashing": 6,
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bot_skitterbot_rat",
     "type": "TOOL",
     "copy-from": "bot_skitterbot_base",
     "name": "inactive rat snatcher",
-    "description": "A salvaged skitterbot repurposed for hunting small game.  It attacks targets with pincers and an integrated tazer.  Activate this item to deploy the robot.",
+    "description": "A small hexapod drone designed to hold small pests, folded into a small cube for easy of storage.  Its capable of hunting all sorts of small mammals with remarkable efficiency, but shouldn't be expected to handle anything much bigger than a rat.",
     "color": "dark_gray",
+    "weight": "750 g",
+    "volume": "1 L",
+    "price": "200 USD",
+    "to_hit": -3,
+    "bashing": 2,
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_skitterbot_rat",

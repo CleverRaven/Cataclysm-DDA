@@ -1,6 +1,33 @@
 [
   {
     "type": "snippet",
+    "category": "mutant_kid_boss",
+    "text": [
+      {
+        "id": "mutant_kid_boss_1",
+        "text": "A faded crayon drawing on the backside of a random observational log.  Half a dozen badly-proportioned black and white figures stand around what's probably supposed to be a child lying on a table under an overhead light.  The faces of the large figures are blank, but the child's eyes are wide open."
+      },
+      {
+        "id": "mutant_kid_boss_2",
+        "text": "A faded crayon drawing on a page torn out from a notebook.  In it a small figure is surrounded by three colorful monsters, each labeled with a name in horrible handwriting."
+      },
+      {
+        "id": "mutant_kid_boss_3",
+        "text": "Two black-and-white crayon drawnings on a piece of cardboard.  The first shows an adult figure leading a small animal away from a child.  On the second, the child is sitting next to a larger, meaner-looking creature."
+      },
+      {
+        "id": "mutant_kid_boss_4",
+        "text": "A faded crayon drawing on the back of a bureocratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labelled with a large \"T\".",
+        "//": "TODO: when descriptions allow nesting snippets replace with a random monogramm."
+      },
+      {
+        "id": "mutant_kid_boss_5",
+        "text": "A faded pencil drawing on a scrap of paper.  It shows a small child playing with building blocks under the gaze of a security camera.  In the background the fuzzy outlines of an adult are seen through a large window."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
@@ -122,7 +149,9 @@
       "Jakobson was killed today by one of S37ZBE's subjects; ironic considering how hard he fought to keep the project active.  Alarmingly, his corpse revivified immediately.  This suggests that XE037 may have contaminated the lab at large.  Even more alarmingly, we received an alert from Dr. Dionne in XEDRA-12 that they have detected similar signs of cross-contamination with XE037.  How can this have happened?  Even during the breach last week, we managed to keep containment protocols active!",
       "Termination of a subject which was never a part of S37ZBE has confirmed my fears.  XE037 has contaminated most, if not all of the laboratory.  We're in communication with XEDRA-12 over their own outbreak, and both labs have been quarantined.  While they backtrace the leak, we will start research into a process to destroy XE037 within the human body.",
       "Dr. Takatoshi sent us interesting news: her lab serendipitously discovered that sufficient rapid teleports in a short span of time can strip out XE037 somehow, without harming the subject.  This has the unfortunate issues of needing an absolutely insane amount of electricity, and drawing the attention of what Dr. Takatoshi calls \"subplanar creatures\" and the rest of us call \"horrifying alien monstrosities\".  Still, it's a start.",
-      "Dr. Sidhu figured out a way to track what happens to XE037 when it's stripped out during teleportation, using a high-affinity biotracer and a probe that follows immediately behind the test subject.  XE037 migrates out of the body in small but significant quantities with every teleport.  We're attributing way too much intelligence to it here, but we can't help but feel this is some kind of intentional 'stowaway' effect, like it's shedding off the body to try to colonize a new dimension.  At the meeting, Dr. Sidhu told us to stop anthropomorphizing it.  He thinks it's no more a sign of intelligence than a cold virus coming out with a sneeze."
+      "Dr. Sidhu figured out a way to track what happens to XE037 when it's stripped out during teleportation, using a high-affinity biotracer and a probe that follows immediately behind the test subject.  XE037 migrates out of the body in small but significant quantities with every teleport.  We're attributing way too much intelligence to it here, but we can't help but feel this is some kind of intentional 'stowaway' effect, like it's shedding off the body to try to colonize a new dimension.  At the meeting, Dr. Sidhu told us to stop anthropomorphizing it.  He thinks it's no more a sign of intelligence than a cold virus coming out with a sneeze.",
+      "I've put Dr. Welch and Dr. Bondi on supervised leave following the incident discussed in my previous message.  Obviously neither has a history of this kind of behavior or they wouldn't be here, and it's deeply concerning that they both suddenly began acting this way following Wednesday's demonstration.  For now we'll keep them on-site until (hopefully) they recover enough to get back to work, but I'd like to formally ask that we start looking at possible replacements.",
+      "At approximately 11:15 today, I saw Dr. Greene enter the break area from the primary corridor.  He is always so rude so I drew my service pistol and fired three shots into his body.  Then I shot Dr. Summers and Officer Clark because they were being loud.  I am sorry, but I do not know how many times I shot them.  I think Hollis tazed me but I was so mad by that point that I could not keep track of what was going on.  Then you restrained me and brought me here, so I guess that's my whole report."
     ]
   }
 ]

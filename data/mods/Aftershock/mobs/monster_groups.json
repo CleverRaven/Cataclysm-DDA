@@ -60,6 +60,7 @@
         "cost_multiplier": 10,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
       },
+      { "monster": "afs_titanis", "freq": 4, "cost_multiplier": 10 },
       {
         "monster": "afs_runner",
         "freq": 1,

@@ -49,10 +49,10 @@ class TestsMustRestoreGlobalStateCallbacks : public PPCallbacks
         TestsMustRestoreGlobalStateCheck *Check;
 };
 
-void TestsMustRestoreGlobalStateCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void TestsMustRestoreGlobalStateCheck::registerPPCallbacks(
+    const SourceManager &, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<TestsMustRestoreGlobalStateCallbacks>( this ) );
+    PP->addPPCallbacks( std::make_unique<TestsMustRestoreGlobalStateCallbacks>( this ) );
 }
 
 void TestsMustRestoreGlobalStateCheck::registerMatchers( MatchFinder *Finder )

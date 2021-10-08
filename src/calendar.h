@@ -3,14 +3,27 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "units_fwd.h"
+
 class JsonIn;
 class JsonOut;
+class JsonValue;
+struct lat_long;
+struct rl_vec2d;
 class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+
 
 /** Real world seasons */
 enum season_type {
@@ -109,18 +122,6 @@ extern time_point start_of_game;
 extern time_point turn;
 extern season_type initial_season;
 
-/**
- * A time point that is always before the current turn, even when the game has
- * just started. This implies `before_time_starts < calendar::turn` is always
- * true. It can be used to initialize `time_point` values that denote that last
- * time a cache was update.
- */
-extern const time_point before_time_starts;
-/**
- * Represents time point 0.
- * TODO: flesh out the documentation
- */
-extern const time_point turn_zero;
 } // namespace calendar
 
 template<typename T>
@@ -186,7 +187,7 @@ class time_duration
         time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Named constructors to get a duration representing a multiple of the named time
@@ -416,12 +417,17 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * 59 minutes will return "59 minutes".
  * @param align none, right, or compact.
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+std::string to_string_clipped( const time_duration &d,
+                               const clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
 std::string to_string_approx( const time_duration &dur, bool verbose = true );
+/**
+ * Returns a string that is writable to JSON that is also readable from JSON
+ */
+std::string to_string_writable( const time_duration &dur );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.
@@ -451,7 +457,7 @@ class time_point
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int );
 
         // TODO: try to get rid of this
         template<typename T>
@@ -499,6 +505,25 @@ class time_point
 
         // TODO: implement minutes_of_hour and so on and use it.
 };
+
+namespace calendar
+{
+
+/**
+ * A time point that is always before the current turn, even when the game has
+ * just started. This implies `before_time_starts < calendar::turn` is always
+ * true. It can be used to initialize `time_point` values that denote the last
+ * time a cache was update.
+ */
+constexpr time_point before_time_starts = time_point::from_turn( -1 );
+/**
+ * Represents time point 0.
+ * TODO: flesh out the documentation
+ */
+
+constexpr time_point turn_zero = time_point::from_turn( 0 );
+
+} // namespace calendar
 
 inline time_duration time_past_midnight( const time_point &p )
 {
@@ -556,15 +581,27 @@ bool is_day( const time_point &p );
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
-/** Returns the current seasonally-adjusted maximum daylight level */
-double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */
 double default_daylight_level();
-/** Returns the current sunlight or moonlight level through the preceding functions.
- *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
- *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
- *  provides 0 light */
-float sunlight( const time_point &p, bool vision = true );
+/** Returns the current sunlight.
+ *  Based entirely on astronomical circumstances; does not account for e.g.
+ *  weather.
+ *  For most situations you actually want to call the below function which also
+ *  includes moonlight. */
+float sun_light_at( const time_point &p );
+/** Returns the current sunlight plus moonlight level.
+ *  Based entirely on astronomical circumstances; does not account for e.g.
+ *  weather. */
+float sun_moon_light_at( const time_point &p );
+/** How much light is provided at the solar noon nearest to given time */
+double sun_moon_light_at_noon_near( const time_point &p );
+
+std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
+
+/** Returns the offset by which a ray of sunlight would move when shifting down
+ * one z-level, or nullopt if the sun is below the horizon.
+ */
+cata::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,

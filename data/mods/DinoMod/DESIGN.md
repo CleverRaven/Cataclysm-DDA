@@ -23,18 +23,28 @@ As of this writing, each dinosaur touches at least ten different JSON files, lis
 Main DinoMod folder: 
 
 * cooking_components.json is where you add the dinosaur egg to allow it to be cooked, 
+* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
+
+items folder:
+
 * egg.json is where you create the dino egg
 
 monstergroups folder:
 
 * dinosaur.json is where you add the dinosaur to spawn in special DinoMod locations
+* fungi.json is where you add the fungal variant to spawn in fungal locations
+* lab.json is where you add the dinosaur if it is not native to North America
+* misc.json has all kinds of odd lists, especially for safe, scaveninging, and underground dinos
 * monstergroups_egg.json is where you add the hatchling to be spawned from its own egg, and from random eggs
 * wilderness.json is where your dino will be spawned in natural settings. Forests should stay safe.
-* zinosaur.json  adds the zombified version to zombie spawn lists
+* zinosaur.json  adds the zombified version to zombie spawn lists and is where the zombie upgrade groups go for now
 
 monsters folder:
 
 * dinosaur.json is where you finally create the dino itself. copy-from can be a good move to keep things tidy if there is already a similar dino
+* fungus.json is where you add the fungal variant
 * hatchling.json is where freshly hatched dinos go. Tiny dinos grow to adults directly, but larger ones (15 kg or greater) grow into...
-* juvenile.json is where juveniles go. They're five times bigger but still pretty tiny by dino standards. They grow to be adults in adult weight in kg divided by six days or one year, whichever is shorter.  Sauropods are they exception, they should be 1000 kg and L so they can defend themselves some.
+* juvenile.json is where juveniles go. They should be about half adult size and HP. They grow to be adults in adult weight in kg divided by six days or one year, whichever is shorter.
 * zed-dinosaur.json is where new zombified dinos go. copy-from can be very helpful here.
+* zinosaur_burned.json is where the burned zombie variant goes
+* zinosaur_upgrade.json is where upgraded versions go

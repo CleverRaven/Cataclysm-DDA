@@ -87,7 +87,7 @@
       "palettes": [ "hospital" ],
       "terrain": { "5": "t_floor", "H": "t_floor", "X": "t_door_metal_locked" },
       "furniture": { "H": "f_locker" },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "computers": {
         "5": {
           "name": "Medical Supply Access",

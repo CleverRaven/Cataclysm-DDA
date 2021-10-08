@@ -63,5 +63,22 @@
     "min_duration": 18000,
     "max_duration": 18000,
     "damage_type": "cold"
+  },
+  {
+    "id": "spice_pain",
+    "type": "SPELL",
+    "name": { "str": "spice pain" },
+    "description": "Causes pain from eating spicy food.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT" ],
+    "min_damage": -2,
+    "max_damage": -200,
+    "damage_increment": -2.0,
+    "max_level": 100,
+    "//": "Spicier dishes might be added in the future so the spell is ready for them.",
+    "message": "Spicy!",
+    "shape": "blast",
+    "effect": "recover_energy",
+    "effect_str": "PAIN"
   }
 ]

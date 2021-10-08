@@ -130,7 +130,7 @@
         " ": "t_metal_floor",
         "+": "t_door_metal_c",
         "-": "t_wall_metal",
-        ".": "t_rock",
+        ".": "t_soil",
         "C": "t_dirtmound",
         "~": "t_water_sh"
       },
@@ -182,7 +182,7 @@
         " ": "t_metal_floor",
         "+": "t_door_metal_c",
         "-": "t_wall_metal",
-        ".": "t_rock",
+        ".": "t_soil",
         "<": "t_stairs_up",
         "C": "t_dirtmound",
         "~": "t_water_sh"

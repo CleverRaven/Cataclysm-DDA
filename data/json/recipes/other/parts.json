@@ -41,6 +41,22 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "result": "clamp",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "spring",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -54,7 +70,6 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -81,6 +96,7 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
   },
@@ -128,7 +144,6 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 1 ], [ "advanced_electronics", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -180,7 +195,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -195,8 +210,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "circsaw_blade",
@@ -214,7 +228,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -233,8 +247,8 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -260,7 +274,7 @@
     "time": "300 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -278,7 +292,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
@@ -294,7 +308,7 @@
     "time": "180 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -331,7 +345,7 @@
     "using": [ [ "welding_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
@@ -341,11 +355,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ "launcher", 3 ],
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -402,24 +418,75 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "copper_rod",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "charges": 1,
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "copper_wire",
+    "id_suffix": "draw_plate",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "32 m",
+    "autolearn": true,
+    "charges": 182,
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
+    "//": "Requires annealing 4 times from the copper rod.",
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "draw_plate", -1 ] ] ],
+    "components": [ [ [ "copper_rod", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "copper_wire",
+    "id_suffix": "wire_draw_machine",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "charges": 182,
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "//": "Requires annealing 4 times from the copper rod.",
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
+    "components": [ [ [ "copper_rod", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cable",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
     "skills_required": [ "electronics", 2 ],
-    "difficulty": 5,
-    "time": "3 m",
+    "difficulty": 2,
+    "time": "1 m",
     "autolearn": true,
-    "charges": 1,
-    "qualities": [
-      { "id": "ANVIL", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 3 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
+    "charges": 6,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "copper_wire", 6 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -486,7 +553,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "soldering_standard", 150 ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 5 ] ], [ [ "plastic_chunk", 5 ] ] ]
@@ -518,10 +585,9 @@
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "plastic_molding", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ], [ [ "plastic_chunk", 5 ] ] ]
   },
   {
@@ -605,7 +671,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_plumbing", "required": false, "time_multiplier": 3, "fail_multiplier": 5 }
+      { "proficiency": "prof_plumbing", "required": false, "time_multiplier": 3, "fail_multiplier": 1.5 }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
@@ -624,7 +690,7 @@
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -644,7 +710,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
@@ -664,7 +730,7 @@
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
@@ -683,7 +749,7 @@
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
@@ -709,7 +775,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -782,9 +848,21 @@
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.25 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.125 } ],
     "using": [ [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "rag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ],
+    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags.  Once that's done this can be considered obsolete"
   }
 ]

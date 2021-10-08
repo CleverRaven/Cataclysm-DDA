@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include "activity_tracker.h"
 #include "calendar.h"

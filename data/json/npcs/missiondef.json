@@ -7,25 +7,25 @@
     "difficulty": 2,
     "value": 50000,
     "start": {
-      "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
+      "effect": [ "follow", { "u_spawn_item": "sarcophagus_access_code" } ],
       "assign_mission_target": {
-        "om_terrain": "haz_sar_1_1",
+        "om_terrain": "haz_sar_b_4",
         "om_special": "Hazardous Waste Sarcophagus",
-        "reveal_radius": 3,
+        "reveal_radius": 1,
         "search_range": 240,
         "min_distance": 60
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "haz_sar_b_1",
+    "destination": "haz_sar_b_4",
     "dialogue": {
       "describe": "You wouldn't believe what I found…",
       "offer": "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  Check this out, it was on its approach to pick up a team sent to secure and destroy something called a 'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded message for the team leader, I guess.  If we want to join up with what remains of the government then now may be our only chance.",
       "accepted": "Fuck ya, America!",
       "rejected": "Are you going to forfeit your duty when the country needs you the most?",
       "advice": "If there is a military team down there then we better go in prepared if we want to impress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second bird coming to pick them up.",
-      "inquire": "Having any trouble following the map?",
-      "success": "We got this shit!",
+      "inquire": "Having any trouble following the map?  Remember to search underground.",
+      "success": "Maybe these things are what remains of the team we were searching for…",
       "success_lie": "What?!  I out'ta whip your ass.",
       "failure": "Damn, we were so close."
     }
@@ -131,7 +131,7 @@
     "value": 150000,
     "item": "black_box_transcript",
     "start": {
-      "effect": { "u_buy_item": "black_box" },
+      "effect": { "u_spawn_item": "black_box" },
       "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "search_range": 240, "z": 0 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -337,7 +337,7 @@
     "value": 250000,
     "item": "software_blood_data",
     "start": {
-      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "effect": [ { "u_spawn_item": "vacutainer" }, { "u_spawn_item": "usb_drive" } ],
       "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3, "search_range": 120 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -474,6 +474,18 @@
       "success_lie": "I don't think we got it yet.",
       "failure": "Quitting already?"
     }
+  },
+  {
+    "id": "MISSION_KILL_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Kill your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  It won't end until one of you dies.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 5,
+    "value": 0,
+    "start": "kill_nemesis",
+    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_KILL_JABBERWOCK",
@@ -651,7 +663,7 @@
     "id": "MISSION_RECRUIT_TRACKER",
     "type": "mission_definition",
     "name": { "str": "Recruit Tracker" },
-    "goal": "MGOAL_RECRUIT_NPC_CLASS",
+    "goal": "MGOAL_RECRUIT_NPC",
     "difficulty": 5,
     "value": 70000,
     "start": {
@@ -737,7 +749,7 @@
     "end": {
       "effect": [
         { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
-        { "u_buy_item": "badge_foodkid" }
+        { "u_spawn_item": "badge_foodkid" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -794,7 +806,7 @@
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "start": {
-      "effect": [ { "u_buy_item": "duffelbag" } ],
+      "effect": [ { "u_spawn_item": "duffelbag" } ],
       "assign_mission_target": { "om_terrain": "forest_water", "reveal_radius": 3 }
     },
     "end": {
@@ -803,7 +815,7 @@
         { "u_sell_item": "cattail_stalk", "count": 80 },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
-        { "u_buy_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
+        { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
       ]
     },
     "dialogue": {
@@ -816,6 +828,54 @@
       "success": "Great!  Hand them over and I'll show you how this works.",
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
+    }
+  },
+  {
+    "id": "MISSION_PYROMANIAC",
+    "type": "mission_definition",
+    "name": { "str": "Angry pyromaniac" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "//": "NPC will ask player to burn tagged house. Will follow player after accepting mission.",
+    "//2": "Change first topic to do proper checks. MGOAL_GO_TO to check if player stands on tagged tile.",
+    "//3": "At the end of the mission, will place fire on tagged tile and NPC will join player faction.",
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_replace": "forest",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 75,
+        "random": true,
+        "z": 0
+      }
+    },
+    "end": {
+      "effect": [ "follow", { "u_consume_item": "gasoline", "count": 200 }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ]
+    },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Oh man, I want to <swear> burn it so bad…",
+      "offer": "I'm so <swear> infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me, <name_g>?",
+      "accepted": "Good.  Let's go to his house and <swear> burn it down!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
+      "rejected": "Seriously?  It's such an easy job…",
+      "advice": "Maybe we can find some gasoline at gas station.",
+      "inquire": "Are you ready, <name_g>?",
+      "success": "Sweet, sweet revenge!  Ah, smells so nice!  Feels like the smell of napalm in the morning!  All his stuff, and probably even that <name_b>, will burn to ashes in a matter of minutes.  You helped me get my revenge, so I'll follow you to the end, <name_g>!",
+      "success_lie": "What?!  You liar!",
+      "failure": "Wow, you failed?  How…"
+    }
+  },
+  {
+    "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
+    "type": "mapgen",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
+    "method": "json",
+    "object": {
+      "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
     }
   }
 ]

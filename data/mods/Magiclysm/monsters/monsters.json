@@ -29,9 +29,9 @@
     "harvest": "owlbear",
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
+    "zombify_into": "mon_owlbear_zombie"
   },
   {
     "id": "mon_black_pudding",
@@ -60,7 +60,7 @@
     "armor_acid": 15,
     "harvest": "exempt",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
         "type": "spell",
@@ -98,7 +98,6 @@
     "vision_night": 30,
     "vision_day": 30,
     "path_settings": { "max_dist": 35 },
-    "death_function": [ "NORMAL" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "special_attacks": [
       {
@@ -113,6 +112,72 @@
         "monster_message": "The krabgek gazes at %3$s!"
       }
     ]
+  },
+  {
+    "id": "mon_hunllef_lamb",
+    "type": "MONSTER",
+    "name": { "str": "hunllef lamb" },
+    "description": "The offspring of the Hunllef rams are much more docile but still have wicked looking horns like their parents.",
+    "default_faction": "hunllef",
+    "bodytype": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "50750 ml",
+    "weight": "50750 g",
+    "hp": 38,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "s",
+    "color": "dark_gray",
+    "looks_like": "mon_sheep",
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 1,
+    "dodge": 2,
+    "anger_triggers": [  ],
+    "harvest": "mammal_small_parabolan_wool",
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "upgrades": { "age_grow": 240, "into": "mon_nightmare_sheep" },
+    "//": "Puberty reached in 6-9 months.",
+    "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+  },
+  {
+    "id": "mon_nightmare_sheep",
+    "type": "MONSTER",
+    "name": { "str_sp": "hunllef rams" },
+    "description": "Hunllef rams, also known as Nightmare Sheep, are a particularly vicious breed of sheep suspected to be from another plane of existence.  Both males and females display deadly horns and a willingness to use them on most other creatures that come near them.  They are the most biddable source of parabolan wool and often take a protective stance towards other sheep, so some farmers will risk life and limb to keep them.",
+    "default_faction": "hunllef",
+    "bodytype": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "111500 ml",
+    "weight": "111500 g",
+    "hp": 130,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "s",
+    "color": "dark_gray",
+    "aggression": 3,
+    "morale": 30,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_cut": 2,
+    "dodge": 2,
+    "shearing": [ { "result": "parabolan_wool_staple", "amount": 32 } ],
+    "starting_ammo": { "milk_raw": 5 },
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "harvest": "mammal_large_parabolan_wool",
+    "reproduction": { "baby_monster": "mon_hunllef_lamb", "baby_count": 1, "baby_timer": 275 },
+    "//": "Sheep are seasonal breeders. The natural sexual season is positioned so that lambs will be born in the spring when the weather is warmer and grass is available.",
+    "baby_flags": [ "SPRING" ],
+    "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
+    "fear_triggers": [ "FRIEND_DIED" ],
+    "special_attacks": [ [ "EAT_CROP", 120 ] ],
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_owlbear_cub",
@@ -161,7 +226,6 @@
     "armor_bullet": 24,
     "harvest": "bulette",
     "anger_triggers": [ "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       {
         "id": "scratch",
@@ -205,7 +269,7 @@
     "harvest": "exempt",
     "death_drops": "wisp_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -246,10 +310,10 @@
     "vision_day": 40,
     "vision_night": 3,
     "harvest": "human_large_leather",
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
     "regenerates": 1,
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
+    "zombify_into": "mon_troll_zombie"
   },
   {
     "id": "mon_stirge",
@@ -278,7 +342,6 @@
     "harvest": "stirge",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
   },
   {
@@ -305,7 +368,6 @@
     "harvest": "shrieker",
     "special_attacks": [ [ "SHRIEK_ALERT", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
   },
   {
@@ -327,7 +389,6 @@
     "harvest": "mammal_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
@@ -357,7 +418,6 @@
     "vision_night": 40,
     "harvest": "lemure",
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "regenerates": 1,
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REVIVES" ]
   },
@@ -392,7 +452,6 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "cooldown": 25 } ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "COLDPROOF" ]
   },
@@ -426,8 +485,59 @@
     "harvest": "demihuman_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_were_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+  },
+  {
+    "id": "mon_balrog",
+    "type": "MONSTER",
+    "name": { "str": "fiery nightmare" },
+    "description": "A colossal figure which seems to consist entirely of shadows engulfed in flames.  Its immense dark wings extend from wall to wall.  Two eyes that resemble burning coals are gazing down on you with hatred.  In one hand it holds a huge sword, in the other it has a many thonged whip, both glowing with red-hot flames.",
+    "default_faction": "nether",
+    "bodytype": "human",
+    "species": [ "UNKNOWN" ],
+    "volume": "875000 ml",
+    "weight": "300 kg",
+    "hp": 500,
+    "speed": 140,
+    "symbol": "B",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 10,
+    "melee_dice": 7,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "heat", "amount": 20 } ],
+    "melee_cut": 10,
+    "armor_bash": 12,
+    "armor_cut": 12,
+    "armor_bullet": 25,
+    "bleed_rate": 0,
+    "vision_day": 83,
+    "vision_night": 60,
+    "harvest": "exempt",
+    "special_attacks": [
+      {
+        "id": "smash",
+        "move_cost": 110,
+        "cooldown": 8,
+        "min_mul": 0.8,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      {
+        "id": "impale",
+        "min_mul": 1.5,
+        "max_mul": 3,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      {
+        "id": "cut_throat",
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      { "id": "flaming_whip" }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ]
   }
 ]

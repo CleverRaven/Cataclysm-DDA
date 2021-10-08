@@ -85,6 +85,7 @@
       [ "aspirin", 45 ],
       [ "caffeine", 50 ],
       [ "pills_sleep", 45 ],
+      [ "melatonin_tablet", 30 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
       [ "protein_powder", 40 ],
@@ -248,6 +249,7 @@
       [ "screwdriver", 40 ],
       [ "hammer", 35 ],
       [ "wrench", 30 ],
+      [ "wrench_small", 30 ],
       [ "hacksaw", 50 ],
       [ "xacto", 10 ],
       { "item": "flashlight", "prob": 40, "charges": 300 },
@@ -265,17 +267,20 @@
   {
     "id": "smoke_shop",
     "type": "item_group",
+    "subtype": "distribution",
     "items": [
-      [ "pipe_tobacco", 60 ],
-      [ "tobacco", 70 ],
-      [ "weed", 5 ],
-      [ "joint", 5 ],
-      [ "seed_weed", 5 ],
-      [ "seed_tobacco", 5 ],
-      [ "rolling_paper", 45 ],
-      [ "pipe_glass", 20 ],
-      [ "cig", 60 ],
-      [ "chaw", 60 ]
+      { "item": "pipe_tobacco", "prob": 60 },
+      { "item": "tobacco", "prob": 70 },
+      { "group": "cigar_box_unopened", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "case_cigar", "prob": 20, "count": [ 1, 5 ] },
+      { "item": "weed", "prob": 5 },
+      { "item": "joint", "prob": 5 },
+      { "item": "seed_weed", "prob": 5 },
+      { "item": "seed_tobacco", "prob": 5 },
+      { "item": "rolling_paper", "prob": 45 },
+      { "item": "pipe_glass", "prob": 20 },
+      { "item": "cig", "prob": 60 },
+      { "item": "chaw", "prob": 60 }
     ]
   },
   {

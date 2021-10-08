@@ -235,5 +235,35 @@
     "category": [ "MANATOUCHED" ],
     "prereqs": [ "MANA_MULT3" ],
     "mana_multiplier": 2.65
+  },
+  {
+    "type": "mutation",
+    "id": "WEAKSTOMACH",
+    "copy-from": "WEAKSTOMACH",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BADBACK",
+    "copy-from": "BADBACK",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTWEIGHT",
+    "copy-from": "LIGHTWEIGHT",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_3",
+    "copy-from": "INT_UP_3",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHT_BONES",
+    "copy-from": "LIGHT_BONES",
+    "extend": { "category": [ "MANATOUCHED" ] }
   }
 ]

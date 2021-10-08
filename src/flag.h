@@ -16,6 +16,7 @@ template <typename T> class generic_factory;
 extern const flag_id flag_NULL;
 extern const flag_id flag_ACID;
 extern const flag_id flag_ACID_IMMUNE;
+extern const flag_id flag_ACTIVATE_ON_PLACE;
 extern const flag_id flag_ACTIVE_CLOAKING;
 extern const flag_id flag_ACT_IN_FIRE;
 extern const flag_id flag_ACT_ON_RANGED_HIT;
@@ -32,13 +33,17 @@ extern const flag_id flag_ALLERGEN_WOOL;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
+extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
 extern const flag_id flag_BAROMETER;
 extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
 extern const flag_id flag_BELT_CLIP;
 extern const flag_id flag_BIO_IMMUNE;
+extern const flag_id flag_BIONIC_GUN;
 extern const flag_id flag_BIONIC_INSTALLATION_DATA;
+extern const flag_id flag_BIONIC_TOGGLED;
+extern const flag_id flag_BIONIC_WEAPON;
 extern const flag_id flag_BIPOD;
 extern const flag_id flag_BIRD;
 extern const flag_id flag_BLED;
@@ -63,12 +68,15 @@ extern const flag_id flag_CITY_START;
 extern const flag_id flag_CLIMATE_CONTROL;
 extern const flag_id flag_COLD;
 extern const flag_id flag_COLD_IMMUNE;
+extern const flag_id flag_COLLAPSE_CONTENTS;
 extern const flag_id flag_COLLAPSIBLE_STOCK;
 extern const flag_id flag_COLLAR;
 extern const flag_id flag_CONDUCTIVE;
 extern const flag_id flag_CONSUMABLE;
 extern const flag_id flag_COOKED;
+extern const flag_id flag_CORROSIVE;
 extern const flag_id flag_CORPSE;
+extern const flag_id flag_CRUTCHES;
 extern const flag_id flag_CUSTOM_EXPLOSION;
 extern const flag_id flag_CUT_IMMUNE;
 extern const flag_id flag_DANGEROUS;
@@ -83,19 +91,7 @@ extern const flag_id flag_DURABLE_MELEE;
 extern const flag_id flag_EATEN_COLD;
 extern const flag_id flag_EATEN_HOT;
 extern const flag_id flag_EDIBLE_FROZEN;
-extern const flag_id flag_EFFECT_ACID_IMMUNE;
-extern const flag_id flag_EFFECT_BASH_IMMUNE;
-extern const flag_id flag_EFFECT_BIO_IMMUNE;
-extern const flag_id flag_EFFECT_BULLET_IMMUNE;
-extern const flag_id flag_EFFECT_COLD_IMMUNE;
-extern const flag_id flag_EFFECT_CUT_IMMUNE;
-extern const flag_id flag_EFFECT_ELECTRIC_IMMUNE;
-extern const flag_id flag_EFFECT_FEATHER_FALL;
-extern const flag_id flag_EFFECT_HEAT_IMMUNE;
 extern const flag_id flag_EFFECT_IMPEDING;
-extern const flag_id flag_EFFECT_INVISIBLE;
-extern const flag_id flag_EFFECT_NIGHT_VISION;
-extern const flag_id flag_EFFECT_STAB_IMMUNE;
 extern const flag_id flag_ELECTRIC_IMMUNE;
 extern const flag_id flag_ETHEREAL_ITEM;
 extern const flag_id flag_FAKE_MILL;
@@ -152,6 +148,7 @@ extern const flag_id flag_IR_EFFECT;
 extern const flag_id flag_IS_ARMOR;
 extern const flag_id flag_IS_PET_ARMOR;
 extern const flag_id flag_IS_UPS;
+extern const flag_id flag_ITEM_BROKEN;
 extern const flag_id flag_LEAK_ALWAYS;
 extern const flag_id flag_LEAK_DAM;
 extern const flag_id flag_LITCIG;
@@ -273,6 +270,7 @@ extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;
+extern const flag_id flag_SPAWN_ACTIVE;
 extern const flag_id flag_SPEAR;
 extern const flag_id flag_SPEEDLOADER;
 extern const flag_id flag_SPLINT;
@@ -298,7 +296,6 @@ extern const flag_id flag_TOW_CABLE;
 extern const flag_id flag_TRADER_AVOID;
 extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
-extern const flag_id flag_TRANSPARENT;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNARMED_WEAPON;
 extern const flag_id flag_UNBREAKABLE_MELEE;
@@ -316,8 +313,11 @@ extern const flag_id flag_WAIST;
 extern const flag_id flag_WATCH;
 extern const flag_id flag_WATERPROOF;
 extern const flag_id flag_WATERPROOF_GUN;
+extern const flag_id flag_WATER_BREAK;
+extern const flag_id flag_WATER_BREAK_ACTIVE;
 extern const flag_id flag_WATER_EXTINGUISH;
 extern const flag_id flag_WATER_FRIENDLY;
+extern const flag_id flag_WATER_DISSOLVE;
 extern const flag_id flag_WET;
 extern const flag_id flag_WHIP;
 extern const flag_id flag_WIND_EXTINGUISH;
@@ -366,6 +366,11 @@ class json_flag
             return restriction_.translated();
         }
 
+        /** Get name of the flag. */
+        std::string name() const {
+            return name_.translated();
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -399,6 +404,7 @@ class json_flag
     private:
         translation info_;
         translation restriction_;
+        translation name_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

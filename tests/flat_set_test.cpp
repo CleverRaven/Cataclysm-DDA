@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "assertion_helpers.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "flat_set.h"
 
 #if 0

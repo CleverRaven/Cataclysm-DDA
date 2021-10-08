@@ -92,7 +92,7 @@
         { "vehicle": "buses", "x": 35, "y": [ 6, 7 ], "chance": 35, "status": 0, "rotation": 360 },
         { "vehicle": "buses", "x": 35, "y": [ 16, 17 ], "chance": 35, "status": 0, "rotation": 360 }
       ],
-      "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+      "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "T": {  } }
     }
   },

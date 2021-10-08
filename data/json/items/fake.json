@@ -29,8 +29,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
-    "max_charges": 10000,
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
       [ "HAMMER", 3 ],
@@ -40,10 +39,12 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "WRENCH_FINE", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],
       [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
       [ "DRILL", 3 ],
       [ "BUTCHER", -38 ]
     ]
@@ -60,12 +61,12 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "fake_razor",
@@ -142,7 +143,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
   },
   {
     "id": "migo_bio_gun",
@@ -169,7 +170,137 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
     "sub": "char_smoker",
-    "max_charges": 2000,
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_tire_changer",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "tire changer" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
+  },
+  {
+    "id": "fake_power_tool",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "fake power tool" },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+  },
+  {
+    "id": "fake_arc_furnace",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "electric arc furnace" }
+  },
+  {
+    "id": "fake_drill_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "drill press", "str_pl": "drill presses" }
+  },
+  {
+    "id": "fake_tablesaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "tablesaw" }
+  },
+  {
+    "id": "fake_mitresaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "mitresaw" }
+  },
+  {
+    "id": "fake_bandsaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "bandsaw" }
+  },
+  {
+    "id": "fake_router_table",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "router table" }
+  },
+  {
+    "id": "fake_planer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "planer" }
+  },
+  {
+    "id": "fake_jointer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "jointer" }
+  },
+  {
+    "id": "fake_hydraulic_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+  },
+  {
+    "id": "fake_power_lathe",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "fake_air_compressor",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "air compressor" }
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" }
+  },
+  {
+    "id": "fake_water_purifier",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "stationary water purifier" }
+  },
+  {
+    "id": "pseudo_exercise_machine",
+    "type": "TOOL",
+    "name": { "str": "exercise machine" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": "T",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_punching_bag",
+    "type": "TOOL",
+    "name": { "str": "heavy punching bag" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_ergometer_mechanical",
+    "type": "TOOL",
+    "name": { "str": "mechanical ergometer" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_treadmill_mechanical",
+    "type": "TOOL",
+    "name": { "str": "gravity treadmill" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "L",
+    "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

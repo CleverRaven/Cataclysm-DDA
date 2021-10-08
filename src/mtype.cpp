@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -53,8 +54,8 @@ mtype::mtype()
     biosig_item = itype_id::NULL_ID();
 
     burn_into = mtype_id::NULL_ID();
-    dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
+    melee_training_cap = MAX_SKILL;
     harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
@@ -201,10 +202,9 @@ field_type_id mtype::gibType() const
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
-        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
-            return itype_meat_tainted;
-        } else if( made_of( material_id( "iflesh" ) ) ) {
+        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
             //In the future, insects could drop insect flesh rather than plain ol' meat.
+            made_of( material_id( "iflesh" ) ) ) {
             return itype_meat_tainted;
         } else if( made_of( material_id( "veggy" ) ) ) {
             return itype_veggy_tainted;
