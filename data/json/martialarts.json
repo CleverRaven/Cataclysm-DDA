@@ -225,13 +225,13 @@
     "type": "martial_art",
     "id": "style_crane",
     "name": { "str": "Crane Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you also receive a dodge bonus move or dodge an attack.",
+    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you have a higher chance to dodge and dodging unlocks strong techniques for a limited time.",
     "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 3,
     "static_buffs": [
       {
-        "id": "buff_crane_static",
+        "id": "buff_crane_static1",
         "name": "Crane's Precision",
         "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
         "unarmed_allowed": true,
@@ -239,32 +239,35 @@
           { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
           { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": -0.75 }
         ]
-      }
-    ],
-    "onmove_buffs": [
+      },
       {
-        "id": "buff_crane_onmove",
-        "name": "Crane's Flight",
-        "description": "Just like a bird, you take to the air to avoid danger.\n\n+1.0 Dodge skill.\nLasts 2 turns.",
+        "id": "buff_crane_static2",
+        "name": "Crane's Stance",
+        "description": "Like the beautiful crane, you are very skilled at evading danger.\n\n+2.0 Dodging skill.",
         "unarmed_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-        "buff_duration": 2,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 2.0 } ]
+      },
+      {
+        "id": "buff_crane_static3",
+        "name": "Crane's Grace",
+        "description": "Masters of the Crane style can evade multiple foes with ease.\n\n+2 Dodge attempts.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+        "bonus_dodges": 2
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_crane_ondodge",
-        "name": "Crane's Grace",
-        "description": "Much like the crane, you a quick to avoid danger.\n\n+1 Dodge attempts, +1.0 Dodge skill.\nLasts 2 turns.",
+        "name": "Crane's Flight",
+        "description": "Much like the crane, you a quick to avoid danger and strike back.\n\n+1 Accuracy, +1.0 Dodging skill.\nEnables \"Crane Kick\" and \"Crane Strike\" techniques.\nLasts 3 turns.",
         "unarmed_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-        "buff_duration": 2,
-        "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "buff_duration": 3,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
-    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_counter", "tec_crane_precise" ]
+    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_strike", "tec_crane_precise" ]
   },
   {
     "type": "martial_art",
