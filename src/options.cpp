@@ -1893,9 +1893,9 @@ void options_manager::add_options_graphics()
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
 
     add( "DISPLAY_VEHICLE_ROOF", "graphics", to_translation( "Show vehicle roofs" ),
-       // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-       to_translation( "If true, vehicles have a roof tile displayed, until you step inside.  Reload game to see changes." ),
-       false
+         // NOLINTNEXTLINE(cata-text-style): one space after "etc."
+         to_translation( "If true, vehicles have a roof tile displayed, until you step inside.  Reload game to see changes." ),
+         false
        );
 
     add_empty_line();
