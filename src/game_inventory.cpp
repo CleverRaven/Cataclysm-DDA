@@ -56,6 +56,8 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -1644,6 +1646,49 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             player_activity(
                 insert_item_activity_actor( holster, holstered_list ) ) );
     }
+}
+
+static bool valid_unload_container( const item_location &container )
+{
+    // Item must be a container.
+    if( !container->is_container() ) {
+        return false;
+    }
+
+    // Container must contain at least one item
+    if( container->empty_container() ) {
+        return false;
+    }
+
+    // This item must not be a liquid, relies on containers
+    // only being able to store one liquid at a time
+    if( container->num_item_stacks() == 1 && container->only_item().made_of( phase_id::LIQUID ) ) {
+        return false;
+    }
+
+    return true;
+}
+drop_locations game_menus::inv::unload_container( avatar &you )
+{
+    inventory_filter_preset unload_preset( valid_unload_container );
+
+    inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
+                                         /*warn_liquid=*/false );
+    insert_menu.add_character_items( you );
+    insert_menu.set_display_stats( false );
+
+    insert_menu.set_title( _( "Select containers to unload" ) );
+
+    drop_locations dropped;
+    for( drop_location &droplc : insert_menu.execute() ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            // no liquids
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                dropped.emplace_back( item_location( droplc.first, it ), it->count() );
+            }
+        }
+    }
+    return dropped;
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset

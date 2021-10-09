@@ -7771,6 +7771,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
+void game::unload_container()
+{
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
+        u.drop( game_menus::inv::unload_container( u ), *pnt );
+    }
+}
+
 void game::drop()
 {
     u.drop( game_menus::inv::multidrop( u ), u.pos() );

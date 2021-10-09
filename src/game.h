@@ -812,6 +812,7 @@ class game
         void pickup( const tripoint &p );
         void pickup_feet(); // Pick items at player position ',', min 1
 
+        void unload_container(); // Unload a container w/ direction  'd'
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
