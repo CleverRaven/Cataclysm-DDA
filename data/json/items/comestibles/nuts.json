@@ -290,7 +290,7 @@
     "name": { "str_sp": "roasted chestnuts" },
     "copy-from": "chestnut_shelled",
     "healthy": 1,
-    "description": "A handful of roasted nuts from a chestnut tree. ",
+    "description": "A handful of roasted nuts from a chestnut tree.",
     "price": 90,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3
