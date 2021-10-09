@@ -101,7 +101,7 @@ struct weakpoint_families {
     // List of weakpoint families
     std::vector<weakpoint_family> families;
 
-    // Practice all weak point families for the given duration. Returns true if a proficiency was learned.
+    // Practice all weak point families for the given duration. Returns true if a proficiency was practiced.
     bool practice( Character &learner, const time_duration &amount ) const;
     bool practice_hit( Character &learner ) const;
     bool practice_kill( Character &learner ) const;

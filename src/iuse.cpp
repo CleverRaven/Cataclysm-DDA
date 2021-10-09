@@ -3644,12 +3644,13 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
 cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
-    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
@@ -5442,16 +5443,11 @@ cata::optional<int> iuse::talking_doll( Character *p, item *it, bool, const trip
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
-
+    p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
     const SpeechBubble speech = get_speech( it->typeId().str() );
 
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );
-
-    // Sound code doesn't describe noises at the player position
-    if( p->can_hear( p->pos(), speech.volume ) ) {
-        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
-    }
 
     return it->type->charges_to_use();
 }

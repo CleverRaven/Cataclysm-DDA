@@ -171,6 +171,7 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "RIVER", oter_flags::river_tile },
     { "SIDEWALK", oter_flags::has_sidewalk },
     { "NO_ROTATE", oter_flags::no_rotate },
+    { "IGNORE_ROTATION_FOR_ADJACENCY", oter_flags::ignore_rotation_for_adjacency },
     { "LINEAR", oter_flags::line_drawing },
     { "SUBWAY", oter_flags::subway_connection },
     { "LAKE", oter_flags::lake },
