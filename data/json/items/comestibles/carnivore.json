@@ -1427,20 +1427,5 @@
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": [ "flesh" ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
-  },
-  {
-    "type": "GENERIC",
-    "id": "skull_human",
-    "name": { "str": "human skull" },
-    "description": "The skull of a human being.  Carrying this around probably isn't going to win you any friends.",
-    "flags": [ "CANNIBALISM", "TRADER_AVOID" ],
-    "category": "spare_parts",
-    "weight": "1 kg",
-    "volume": "1400 ml",
-    "symbol": "@",
-    "color": "white",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "bone" ]
   }
 ]

@@ -135,13 +135,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "faction_base_workshop_2_0",
-    "copy-from": "faction_base_camp_0",
-    "name": "fabrication workshop 2 survey",
-    "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "faction_base_blacksmith_0",
     "copy-from": "faction_base_camp_0",
     "name": "blacksmith survey",

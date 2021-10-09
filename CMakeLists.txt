@@ -245,8 +245,6 @@ endif ()
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
 
-FIND_PACKAGE(ZLIB REQUIRED)
-
 # Check for build types and libraries
 if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
