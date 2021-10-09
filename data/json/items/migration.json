@@ -1602,6 +1602,5 @@
     "id": "hickory_nut_unshelled",
     "type": "MIGRATION",
     "replace": "hickory_nut_shelled"
-  }
-  
+  }  
 ]
