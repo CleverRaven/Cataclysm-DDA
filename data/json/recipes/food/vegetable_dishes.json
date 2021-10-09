@@ -1,0 +1,64 @@
+[
+ {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "veggy_salad",
+    "id_suffix": "with_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [
+        [ "lettuce", 2 ],
+        [ "irradiated_lettuce", 2 ],
+        [ "broccoli", 2 ],
+        [ "irradiated_broccoli", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
+        [ "veggy_wild_cooked", 2 ],
+        [ "fiddlehead_boiled", 2 ],
+        [ "fiddlehead_sauteed", 2 ],
+        [ "sauerkraut", 2 ],
+        [ "irradiated_cabbage", 2 ],
+        [ "cabbage", 2 ]
+      ],
+      [
+        [ "cucumber", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "tomato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "carrot", 2 ],
+        [ "irradiated_carrot", 2 ],
+        [ "pineapple", 1 ],
+        [ "irradiated_pineapple", 1 ],
+        [ "cranberries", 1 ],
+        [ "irradiated_cranberries", 1 ],
+        [ "raspberries", 1 ],
+        [ "irradiated_raspberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "sugar_beet", 1 ]
+      ],
+      [
+        [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ],
+        [ "mustard", 1 ],
+        [ "mayonnaise", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "pepper", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "vinegar", 1 ],
+        [ "seasoning_italian", 1 ]
+      ]
+    ]
+  }
+  
+]
