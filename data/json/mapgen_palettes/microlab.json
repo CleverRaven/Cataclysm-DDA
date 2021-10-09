@@ -67,7 +67,8 @@
       "c": [
         { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
         { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 1, 3 ] },
-        { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 2 ] }
+        { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "lab_files_generic", "chance": 5 }
       ],
       "R": [
         { "item": "tools_robotics", "chance": 20, "repeat": [ 1, 3 ] },

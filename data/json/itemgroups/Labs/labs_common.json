@@ -14,6 +14,51 @@
     ]
   },
   {
+    "id": "lab_files_generic",
+    "//": "A generic group for all not-eoc notes and files to add some random clutter to old/microlabs.  Prefer more selective placement.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items":[
+      { "item": "lab_postit_bio", "prob": 5 },
+      { "item": "lab_postit_blob", "prob": 5 },
+      { "item": "lab_postit_migo", "prob": 5 },
+      { "item": "lab_postit_portal", "prob": 5 },
+      { "item": "lab_postit_tech", "prob": 5 },
+      { "item": "lab_file_bio", "prob": 1 },
+      { "item": "lab_file_portal", "prob": 1 },
+      { "item": "lab_file_psych", "prob": 1 },
+      { "item": "lab_file_sec", "prob": 1 }
+    ]
+  },
+  {
+    "id": "lab_files_biology",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "lab_postit_bio", "prob": 33, "count": [ 1, 2 ] },
+      { "item": "lab_file_bio", "prob": 10 },
+      { "item": "bio_file", "prob": 5 }
+    ]
+  },
+  {
+    "id": "lab_files_psychology",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "lab_file_psych", "prob": 10 },
+      { "item": "psych_file", "prob": 5 }
+    ]
+  },
+  {
+    "id": "lab_files_security",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "lab_file_sec", "prob": 10 },
+      { "item": "security_file", "prob": 5 }
+    ]
+  },
+  {
     "id": "ID_supplies",
     "type": "item_group",
     "subtype": "collection",

@@ -79,7 +79,7 @@
     "type": "GENERIC",
     "id": "lab_postit_portal",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "portal post-it note" },
+    "name": { "str": "post-it note" },
     "snippet_category": "lab_postit_portal"
   },
   {
@@ -107,7 +107,15 @@
   },
   {
     "type": "GENERIC",
-    "id": "lab_file_security",
+    "id": "lab_file_portal",
+    "name": { "str": "metatopography protocol" },
+    "copy-from": "file",
+    "description": "A sheet of paper bearing the atom-and-flask symbol, filled with incoherent ramblings about alien geometries and how to get to them.",
+    "snippet_category": "lab_file_portal"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_sec",
     "name": { "str": "security protocol" },
     "copy-from": "file",
     "description": "A sheet of paper bearing an atom-and-rifle symbol, detailing some very particular security protocols.",
