@@ -103,5 +103,20 @@
     "weight": "114 g",
     "volume": "250 ml",
     "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "reptile_sample",
+    "symbol": "q",
+    "color": "dark_gray",
+    "name": { "str": "reptile sample" },
+    "description": "A sample of things that make up key parts of being a lizard.  Gators and giant rattlesnakes seem like they'd fit what you're looking for.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
   }
 ]

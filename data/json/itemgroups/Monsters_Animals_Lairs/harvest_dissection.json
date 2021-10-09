@@ -33,12 +33,18 @@
     "id": "spider_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bovine_sample", "prob": 30 } ]
+    "entries": [ { "item": "spider_sample", "prob": 30 } ]
   },
   {
     "id": "molerat_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bovine_sample", "prob": 30 } ]
+    "entries": [ { "item": "molerat_sample", "prob": 30 } ]
+  },
+  {
+    "id": "reptile_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "reptile_sample", "prob": 30 } ]
   }
 ]
