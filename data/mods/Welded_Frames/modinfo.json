@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Welded_Frames",
+    "name": "Welded Vehicle Frames",
+    "authors": [ "ClipClopBoom" ],
+    "description": "Makes standard and heavy duty vehicle frames repairable but uncraftable, with weaker makeshift frames as an installable option",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
