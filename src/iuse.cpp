@@ -3649,7 +3649,8 @@ cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
-    p->add_msg_if_player( n_gettext( "You set the timer to %d second.", "You set the timer to %d seconds.", time ), time );
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
