@@ -2095,9 +2095,9 @@
   },
   {
     "type": "keybinding",
-    "name": "Drop Item",
+    "name": "Unload container",
     "category": "DEFAULTMODE",
-    "id": "drop",
+    "id": "unload_container",
     "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
   },
   {
