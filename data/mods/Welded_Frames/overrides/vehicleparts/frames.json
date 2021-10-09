@@ -34,7 +34,7 @@
     "categories": [ "hull" ],
     "color": "dark_gray",
     "durability": 600,
-    "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
+    "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions. This doesn't look as strong as the existing factory-welded frames",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": "vehicle_weld_removal" },
