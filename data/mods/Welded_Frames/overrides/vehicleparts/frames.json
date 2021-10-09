@@ -1,0 +1,52 @@
+[
+  {
+    "id": "frame",
+    "type": "vehicle_part",
+    "copy-from": "frame",
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ]
+  },
+  {
+    "id": "frame_makeshift",
+    "type": "vehicle_part",
+    "name": { "str": "makeshift frame" },
+    "item": "frame",
+    "location": "structure",
+    "standard_symbols": true,
+    "durability": 300,
+    "description": "A metal framework added to the existing vehicle structure.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size. This doesn't look as strong as the existing factory-welded frames",
+    "breaks_into": "ig_vp_frame",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ],
+    "categories": [ "hull" ],
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "id": "hdframe_makeshift",
+    "type": "vehicle_part",
+    "name": { "str": "makeshift heavy duty frame" },
+    "item": "hdframe",
+    "location": "structure",
+    "standard_symbols": true,
+    "categories": [ "hull" ],
+    "color": "dark_gray",
+    "durability": 600,
+    "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
+    "breaks_into": "ig_vp_hdframe",
+    "requirements": {
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "welding_standard", 10 ] ] }
+    },
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "id": "hdframe",
+    "type": "vehicle_part",
+    "copy-from": "hdframe",
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ]
+  }
+]
