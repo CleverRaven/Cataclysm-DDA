@@ -1778,7 +1778,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
-        void draw_spider_pit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
