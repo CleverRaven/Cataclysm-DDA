@@ -3644,12 +3644,13 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
 cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
-    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
