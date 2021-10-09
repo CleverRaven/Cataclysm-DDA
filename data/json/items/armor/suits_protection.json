@@ -594,39 +594,11 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
-   {
-    "id": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "kevlar gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.",
-    "weight": "2880 g",
-    "volume": "2.52 L",
-    "price": 20000,
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "light_gray",
-    "warmth": 30,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
-	},
   {
     "id": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "xl_k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL kevlar gambeson" },
-    "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
