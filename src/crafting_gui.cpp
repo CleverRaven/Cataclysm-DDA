@@ -1363,6 +1363,10 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     }
     std::stable_sort( related_results.begin(), related_results.end(), compare_second );
 
+    if( related_components.empty() && related_results.empty() ) {
+        return "";
+    }
+
     uilist rel_menu;
     int np_last = -1;
     if( !related_components.empty() ) {
