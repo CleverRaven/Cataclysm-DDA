@@ -1562,5 +1562,46 @@
     "id": "manual_computers",
     "type": "MIGRATION",
     "replace": "manual_computer"
+  },
+  {
+    "id": "pistachio_unshelled",
+    "type": "MIGRATION",
+    "replace": "pistachio_shelled"
+  },
+  {
+    "id": "almond_unshelled",
+    "type": "MIGRATION",
+    "replace": "almond_shelled"
+  },
+  {
+    "id": "pecan_unshelled",
+    "type": "MIGRATION",
+    "replace": "pecan_shelled"
+  },
+  {
+    "id": "peanut_unshelled",
+    "type": "MIGRATION",
+    "replace": "peanut_shelled"
+  },
+  {
+    "id": "walnut_unshelled",
+    "type": "MIGRATION",
+    "replace": "walnut_shelled"
+  },
+  {
+    "id": "chestnut_unshelled",
+    "type": "MIGRATION",
+    "replace": "chestnut_shelled"
+  },
+  {
+    "id": "hazelnut_unshelled",
+    "type": "MIGRATION",
+    "replace": "hazelnut_shelled"
+  },
+  {
+    "id": "hickory_nut_unshelled",
+    "type": "MIGRATION",
+    "replace": "hickory_nut_shelled"
   }
+  
 ]

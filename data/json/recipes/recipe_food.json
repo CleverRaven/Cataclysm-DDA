@@ -2114,7 +2114,7 @@
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2132,7 +2132,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -3033,6 +3033,7 @@
     "difficulty": 2,
     "charges": 7,
     "time": "20 m",
+    "batch_time_factors": [ 80, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
@@ -3526,7 +3527,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "walnut_unshelled", 1 ] ] ]
+    "components": [ [ [ "walnut_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3577,7 +3578,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "pecan_unshelled", 1 ] ] ]
+    "components": [ [ [ "pecan_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3594,7 +3595,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "pistachio_unshelled", 1 ] ] ]
+    "components": [ [ [ "pistachio_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3611,7 +3612,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "almond_unshelled", 1 ] ] ]
+    "components": [ [ [ "almond_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3628,7 +3629,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "chestnut_unshelled", 1 ] ] ]
+    "components": [ [ [ "chestnut_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3645,7 +3646,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ]
+    "components": [ [ [ "hazelnut_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3679,7 +3680,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ]
+    "components": [ [ [ "hickory_nut_shelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3701,7 +3702,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "hickory_nut_unshelled", 4 ] ],
+      [ [ "hickory_nut_shelled", 4 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [
         [ "honeycomb", 1 ],
@@ -4925,11 +4926,12 @@
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],
         [ "barley", 1 ],
-        [ "acorns_cooked", 2 ],
+        [ "acorns_cooked", 10 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
         [ "roasted_cattail_rhizome", 2 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "chestnut_roasted", 12 ]
       ]
     ]
   },
@@ -4953,10 +4955,11 @@
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],
         [ "barley", 1 ],
-        [ "acorns_cooked", 2 ],
+        [ "acorns_cooked", 10 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "chestnut_roasted", 12 ]
       ]
     ]
   },
@@ -6920,11 +6923,12 @@
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],
         [ "barley", 1 ],
-        [ "acorns_cooked", 2 ],
+        [ "acorns_cooked", 10 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
         [ "roasted_cattail_rhizome", 2 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "chestnut_roasted", 12 ]
       ]
     ]
   },
@@ -7214,10 +7218,11 @@
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],
         [ "barley", 1 ],
-        [ "acorns_cooked", 2 ],
+        [ "acorns_cooked", 10 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "chestnut_roasted", 12 ]
       ]
     ]
   },
@@ -7303,7 +7308,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
     "components": [
-      [ [ "peanut_unshelled", 3 ] ],
+      [ [ "peanut_shelled", 3 ] ],
       [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ] ]
     ]
   },
@@ -7323,15 +7328,15 @@
     "components": [
       [
         [ "pine_nuts", 5 ],
-        [ "pecan_unshelled", 5 ],
+        [ "pecan_shelled", 5 ],
         [ "cashews", 5 ],
-        [ "pistachio_unshelled", 5 ],
-        [ "almond_unshelled", 5 ],
+        [ "pistachio_shelled", 5 ],
+        [ "almond_shelled", 5 ],
         [ "beech_nuts", 5 ],
-        [ "hickory_nut_unshelled", 5 ],
-        [ "chestnut_unshelled", 5 ],
-        [ "hazelnut_unshelled", 5 ],
-        [ "walnut_unshelled", 5 ],
+        [ "hickory_nut_shelled", 5 ],
+        [ "chestnut_shelled", 5 ],
+        [ "hazelnut_shelled", 5 ],
+        [ "walnut_shelled", 5 ],
         [ "acorns", 5 ]
       ],
       [
