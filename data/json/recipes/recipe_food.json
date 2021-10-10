@@ -3033,7 +3033,6 @@
     "difficulty": 2,
     "charges": 7,
     "time": "20 m",
-    "batch_time_factors": [ 80, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
