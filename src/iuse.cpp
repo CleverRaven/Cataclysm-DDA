@@ -4975,37 +4975,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        if( !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pnt ) ) {
-            map_stack items = here.i_at( pnt );
-            auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.made_of( phase_id::LIQUID );
-            } );
-            if( found != items.end() ) {
-                return true;
-            }
-        }
-        for( const auto &pr : here.field_at( pnt ) ) {
-            if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
-                return true;
-            }
-        }
-        if( const optional_vpart_position vp = here.veh_at( pnt ) ) {
-            vehicle *const veh = &vp->vehicle();
-            std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
-            for( int elem : parts_here ) {
-                if( veh->part( elem ).blood > 0 ) {
-                    return true;
-                }
-                vehicle_stack items = veh->get_items( elem );
-                auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                    return it.made_of( phase_id::LIQUID );
-                } );
-                if( found != items.end() ) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return here.terrain_mopable( pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
