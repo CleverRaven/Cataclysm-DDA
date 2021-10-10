@@ -4098,7 +4098,7 @@
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "item": "binoculars" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "binoculars" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
