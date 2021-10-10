@@ -426,7 +426,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "feline_sampele", 3 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "feline_sampele", 3 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -458,7 +463,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "lupine_sampele", 3 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "lupine_sampele", 3 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
