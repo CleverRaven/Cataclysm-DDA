@@ -1136,7 +1136,7 @@ class map
          * @param p the location
          * @return true if anything is moppable here, false otherwise.
          */
-        bool terrain_mopable( const tripoint &p );
+        bool terrain_moppable( const tripoint &p );
         /**
          * Remove moppable fields/items at this location
          * @param p the location

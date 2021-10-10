@@ -4975,7 +4975,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.terrain_mopable( pnt );
+        return here.terrain_moppable( pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(

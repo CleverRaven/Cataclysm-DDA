@@ -2867,7 +2867,7 @@ bool map::has_nearby_ter( const tripoint &p, const ter_id &type, int radius )
     return false;
 }
 
-bool map::terrain_mopable( const tripoint &p )
+bool map::terrain_moppable( const tripoint &p )
 {
     // Moppable items ( spills )
     if( !has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {

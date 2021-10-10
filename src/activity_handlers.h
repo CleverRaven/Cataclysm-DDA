@@ -67,6 +67,7 @@ enum class do_activity_reason : int {
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
+    NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 

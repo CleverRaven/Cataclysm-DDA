@@ -1768,7 +1768,8 @@ void activity_handlers::mopping_finish( player_activity *act, Character *you )
     // blind character have a 1/3 chance of actually mopping
     const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
     if( will_mop ) {
-        get_map().mop_spills( act->placement );
+        map &here = get_map();
+        here.mop_spills( here.getlocal( act->placement ) );
     }
     resume_for_multi_activities( *you );
 }
