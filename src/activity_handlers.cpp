@@ -144,10 +144,12 @@ static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
@@ -234,6 +236,7 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
+    { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
@@ -294,6 +297,7 @@ activity_handlers::finish_functions = {
     { ACT_FORAGE, forage_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
+    { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
@@ -1757,6 +1761,16 @@ void activity_handlers::longsalvage_finish( player_activity *act, Character *you
 
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
+}
+
+void activity_handlers::mopping_finish( player_activity *act, Character *you )
+{
+    // blind character have a 1/3 chance of actually mopping
+    const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
+    if( will_mop ) {
+        get_map().mop_spills( act->placement );
+    }
+    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
@@ -3320,6 +3334,11 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, Cha
 }
 
 void activity_handlers::multiple_mine_do_turn( player_activity *act, Character *you )
+{
+    generic_multi_activity_handler( *act, *you );
+}
+
+void activity_handlers::multiple_mop_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
 }
