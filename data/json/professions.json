@@ -4089,21 +4089,19 @@
     }
   },
   {
-  "type": "profession",
-  "id": "birder",
-  "name": "Bird Watcher",
-  "description": "You were at your favorite park looking at the robins when the Cataclysm struck.  Now all you have are your binoculars and a lot of trivia about local birds to share with any survivors you may find.",
-  "points": 1,
-  "skills": [
-    { "level": 1, "name": "survival" }
-  ],
-  "items": {
-    "both": {
-      "items": [ "jeans", "longshirt", "socks", "sneakers", "wristwatch" ],
-      "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "item": "binoculars" } ]
-    },
-    "male": [ "boxer_shorts" ],
-    "female": [ "bra", "panties" ]
-	}
+    "type": "profession",
+    "id": "birder",
+    "name": "Bird Watcher",
+    "description": "You were at your favorite park looking at the robins when the Cataclysm struck.  Now all you have are your binoculars and a lot of trivia about local birds to share with any survivors you may find.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "item": "binoculars" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]
