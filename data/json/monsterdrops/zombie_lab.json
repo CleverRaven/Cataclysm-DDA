@@ -20,7 +20,7 @@
           { "group": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },
           { "group": "autodoc_installation_programs", "prob": 5 },
-          { "group": "lab_files_generic", "prob": 5 }
+          { "group": "lab_files_generic", "prob": 15 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
@@ -54,7 +54,7 @@
       { "group": "security_torso", "prob": 80, "damage": [ 2, 5 ], "count": [ 1, 6 ] },
       { "group": "cop_weapons", "prob": 50, "damage": [ 2, 5 ], "count": [ 2, 4 ] },
       { "item": "id_science_security_black" },
-      { "group": "lab_files_security", "prob": 5 }
+      { "group": "lab_files_security" }
     ]
   },
   {
