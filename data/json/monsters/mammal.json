@@ -727,7 +727,7 @@
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_lupine",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
@@ -2467,7 +2467,7 @@
     "dodge": 4,
     "armor_bash": 1,
     "vision_night": 5,
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_lupine",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],

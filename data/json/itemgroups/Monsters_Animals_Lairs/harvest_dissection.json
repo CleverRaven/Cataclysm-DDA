@@ -46,5 +46,17 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "reptile_sample", "prob": 30 } ]
+  },
+  {
+    "id": "lupine_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lupine_sample", "prob": 30 } ]
+  },
+  {
+    "id": "feline_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "feline_sample", "prob": 30 } ]
   }
 ]

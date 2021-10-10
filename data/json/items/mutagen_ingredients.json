@@ -118,5 +118,35 @@
     "weight": "114 g",
     "volume": "250 ml",
     "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lupine_sample",
+    "symbol": "q",
+    "color": "dark_gray",
+    "name": { "str": "lupine sample" },
+    "description": "A sample of things that make up key parts of being a wolf being.  Is that Lon Chaney jr walking with the queen?",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "feline_sample",
+    "symbol": "q",
+    "color": "dark_gray",
+    "name": { "str": "feline sample" },
+    "description": "A sample of things that make up key parts of being a feline.  Bobcats and cougars might be native to this area?",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
   }
 ]
