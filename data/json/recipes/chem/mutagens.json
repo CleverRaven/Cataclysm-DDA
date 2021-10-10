@@ -428,7 +428,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "feline_sampele", 3 ] ],
+      [ [ "feline_sample", 3 ] ],
       [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
@@ -465,7 +465,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "lupine_sampele", 3 ] ],
+      [ [ "lupine_sample", 3 ] ],
       [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
