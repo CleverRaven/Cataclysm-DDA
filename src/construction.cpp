@@ -1319,9 +1319,11 @@ void construct::done_appliance( const tripoint &p )
         debugmsg( "error constructing vehicle" );
         return;
     }
-    veh->install_part( point_zero, vpart_from_item( get_avatar().lastconsumed ) );
+    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
+    veh->install_part( point_zero, vpart );
     veh->add_tag( "APPLIANCE" );
 
+    veh->name = vpart->name();
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
