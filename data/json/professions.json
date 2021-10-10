@@ -4097,7 +4097,7 @@
     "skills": [ { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "sneakers", "wristwatch" ],
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "wristwatch" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "binoculars" } ]
       },
       "male": [ "boxer_shorts" ],
