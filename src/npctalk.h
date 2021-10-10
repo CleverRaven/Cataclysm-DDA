@@ -41,6 +41,7 @@ void start_trade( npc & );
 void sort_loot( npc & );
 void do_construction( npc & );
 void do_mining( npc & );
+void do_mopping( npc & );
 void do_read( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
