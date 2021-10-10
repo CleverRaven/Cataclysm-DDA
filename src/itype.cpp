@@ -170,7 +170,7 @@ bool itype::can_have_charges() const
     if( count_by_charges() ) {
         return true;
     }
-    if( tool && tool->max_charges > 0 ) {
+    if( tool && ( tool->max_charges > 0 || tool->charges_per_use > 0 ) ) {
         return true;
     }
     if( gun && gun->clip > 0 ) {
