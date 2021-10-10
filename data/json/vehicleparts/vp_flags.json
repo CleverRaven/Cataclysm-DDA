@@ -420,6 +420,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_UNINSTALL",
+    "type": "json_flag"
+  },
+  {
     "id": "OBSTACLE",
     "type": "json_flag"
   },
