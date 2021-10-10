@@ -9332,9 +9332,10 @@ point game::place_player( const tripoint &dest_loc )
             const auto forage = [&]( const tripoint & pos ) {
                 const ter_t &xter_t = *m.ter( pos );
                 const furn_t &xfurn_t = *m.furn( pos );
-                const bool forage_everything = forage_type == "both";
+                const bool forage_everything = forage_type == "all";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
+                const bool forage_crops = forage_everything || forage_type == "crops";
                 if( !xter_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
@@ -9346,7 +9347,8 @@ point game::place_player( const tripoint &dest_loc )
                          ) {
                     xter_t.examine( u, pos );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
-                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) )
+                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
+                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant ) )
                          ) {
                     xfurn_t.examine( u, pos );
                 }
