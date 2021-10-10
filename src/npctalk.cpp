@@ -2387,6 +2387,18 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
     };
 }
 
+void talk_effect_fun_t::set_lightning()
+{
+    if( get_player_character().posz() >= 0 ) {
+        get_weather().lightning_active = true;
+    }
+}
+
+void talk_effect_fun_t::set_next_weather()
+{
+    get_weather().set_nextweather( calendar::turn );
+}
+
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
@@ -3489,7 +3501,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
-            WRAP( lightning ),
             WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP
@@ -3507,6 +3518,18 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
         subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "lightning" ) {
+        subeffect_fun.set_lightning();
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "next_weather" ) {
+        subeffect_fun.set_next_weather();
         set_effect( subeffect_fun );
         return;
     }

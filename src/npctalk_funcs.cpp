@@ -835,13 +835,6 @@ void talk_function::flee( npc &p )
     p.set_attitude( NPCATT_FLEE );
 }
 
-void talk_function::lightning( npc & )
-{
-    if( get_player_character().posz() >= 0 ) {
-        get_weather().lightning_active = true;
-    }
-}
-
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.get_name() );
