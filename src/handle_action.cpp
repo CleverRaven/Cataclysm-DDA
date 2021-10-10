@@ -1847,6 +1847,29 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.clear_destination();
                 }
+
+                if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
+                    player_character.used_weapon().typeId() == STATIC( itype_id( "mop" ) ) ) {
+                    map &here = get_map();
+                    const bool is_blind = player_character.is_blind();
+                    for( const tripoint &point : here.points_in_radius( player_character.pos(), 1 ) ) {
+                        bool did_mop = false;
+                        if( is_blind ) {
+                            // blind character have a 1/3 chance of actually mopping
+                            if( one_in( 3 ) ) {
+                                did_mop = here.mop_spills( point );
+                            } else {
+                                did_mop = here.terrain_mopable( point );
+                            }
+                        } else {
+                            did_mop = here.mop_spills( point );
+                        }
+                        // iuse::mop costs 15 moves per use
+                        if( did_mop ) {
+                            player_character.mod_moves( -15 );
+                        }
+                    }
+                }
             }
             break;
         case ACTION_MOVE_DOWN:
