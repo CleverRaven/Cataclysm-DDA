@@ -742,6 +742,12 @@ void overmap::unserialize( std::istream &fin )
             for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
                 joins_used.insert( p );
             }
+        } else if( name == "predecessors" ) {
+            std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
+            jsin.read( flattened_predecessors, true );
+            for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
+                predecessors_.insert( std::move( p ) );
+            }
         }
     }
 }
@@ -1160,6 +1166,11 @@ void overmap::serialize( std::ostream &fout ) const
     std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
+    fout << std::endl;
+
+    std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors(
+        predecessors_.begin(), predecessors_.end() );
+    json.member( "predecessors", flattened_predecessors );
     fout << std::endl;
 
     json.end_object();
