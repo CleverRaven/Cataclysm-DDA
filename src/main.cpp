@@ -522,7 +522,7 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
-    //init_crash_handlers();
+    init_crash_handlers();
     reset_floating_point_mode();
 
 #if defined(__ANDROID__)
