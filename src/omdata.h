@@ -33,6 +33,7 @@ template <typename E> struct enum_traits;
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 class JsonObject;
 class JsonValue;
+class overmap;
 class overmap_connection;
 class overmap_special;
 class overmap_special_batch;
@@ -493,12 +494,8 @@ struct enum_traits<overmap_special_subtype> {
     static constexpr overmap_special_subtype last = overmap_special_subtype::last;
 };
 
-struct fixed_overmap_special_data {
-    std::vector<overmap_special_terrain> terrains;
-    std::vector<overmap_special_connection> connections;
-};
-
-struct mutable_overmap_special_data;
+struct overmap_special_data;
+struct special_placement_result;
 
 class overmap_special
 {
@@ -528,8 +525,11 @@ class overmap_special
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
-        const fixed_overmap_special_data &get_fixed_data() const;
-        const mutable_overmap_special_data &get_mutable_data() const;
+        int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
+                               om_direction::type r ) const;
+        special_placement_result place(
+            overmap &om, const tripoint_om_omt &origin, om_direction::type dir,
+            const city &cit, bool must_be_unexplored ) const;
         const overmap_special_spawns &get_monster_spawns() const {
             return monster_spawns_;
         }
@@ -552,8 +552,7 @@ class overmap_special
     private:
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
-        fixed_overmap_special_data fixed_data_;
-        shared_ptr_fast<const mutable_overmap_special_data> mutable_data_;
+        shared_ptr_fast<const overmap_special_data> data_;
 
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
