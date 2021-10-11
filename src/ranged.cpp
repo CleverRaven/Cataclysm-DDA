@@ -3302,9 +3302,9 @@ void target_ui::panel_cursor_info( int &text_y )
 {
     std::string label_range;
     if( src == dst ) {
-        label_range = string_format( "Range: %d", range );
+        label_range = string_format( _( "Range: %d" ), range );
     } else {
-        label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
+        label_range = string_format( _( "Range: %d/%d" ), dist_fn( dst ), range );
     }
     if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
         // Since each turret has its own range, highlighting cursor
