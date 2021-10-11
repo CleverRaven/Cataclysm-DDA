@@ -56,7 +56,8 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     , m( mp )
     , default_groundcover( region.default_groundcover )
 {
-    int rotation = terrain_type_->get_rotation();
+    bool ignore_rotation = terrain_type_->has_flag( oter_flags::ignore_rotation_for_adjacency );
+    int rotation = ignore_rotation ? 0 : terrain_type_->get_rotation();
     auto set_neighbour = [&]( int index, direction dir ) {
         t_nesw[index] =
             overmap_buffer.ter( over + displace( dir ).rotate( rotation ) );
