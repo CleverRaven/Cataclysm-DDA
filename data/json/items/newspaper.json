@@ -194,7 +194,12 @@
     "//": "Interrogation and surveillance logs, naming scheme facility/incident-material nr",
     "name": { "str": "lab report (security)", "str_pl": "lab reports (security)" },
     "conditional_names": [
-      { "type": "SNIPPET_ID", "condition": "log_sec", "value": "interview_1", "name": { "str_sp": "Personnel Debrief X10/RT338-8" } },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "log_sec",
+        "value": "interview_1",
+        "name": { "str_sp": "Personnel Debrief X10/RT338-8" }
+      },
       {
         "type": "SNIPPET_ID",
         "condition": "log_sec",
