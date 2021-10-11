@@ -332,7 +332,7 @@ class monster : public Creature
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
         // The monster's skill in hitting a weakpoint
-        float weakpoint_skill();
+        float weakpoint_skill() const;
 
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );

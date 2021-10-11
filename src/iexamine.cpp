@@ -152,7 +152,6 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
-static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
@@ -2078,7 +2077,7 @@ void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp )
 void iexamine::harvest_furn( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       get_option<std::string>( "AUTO_FORAGING" ) == "all";
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
@@ -2088,7 +2087,7 @@ void iexamine::harvest_furn( Character &you, const tripoint &examp )
 void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( !auto_forage && !query_pick( you, examp ) ) {
@@ -2100,7 +2099,7 @@ void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
 void iexamine::harvest_ter( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
@@ -2364,6 +2363,13 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     }
 
     return result;
+}
+
+void iexamine::harvest_plant( Character &you, const tripoint &examp )
+{
+    if( get_map().has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
+        harvest_plant( you, examp, false );
+    }
 }
 
 /**
@@ -3524,7 +3530,7 @@ static void pick_plant( Character &you, const tripoint &examp,
 void iexamine::tree_hickory( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
 
     bool digging_up = false;
@@ -3619,7 +3625,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = &it;
 
             it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
-                if( it->typeId() == itype_maple_syrup ) {
+                if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
                     return VisitResponse::ABORT;
@@ -6268,6 +6274,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "harvest_furn", &iexamine::harvest_furn },
             { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
             { "harvest_ter", &iexamine::harvest_ter },
+            { "harvest_plant", &iexamine::harvest_plant },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
             { "translocator", &iexamine::translocator },
@@ -6308,6 +6315,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         "harvest_furn",
         "harvest_ter_nectar",
         "harvest_ter",
+        "harvest_plant",
     };
 
     auto iter = function_map.find( function_name );

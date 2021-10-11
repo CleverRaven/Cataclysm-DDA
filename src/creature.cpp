@@ -1100,6 +1100,8 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     weakpoint_attack attack_copy = attack;
     attack_copy.source = source;
+    attack_copy.target = this;
+    attack_copy.compute_wp_skill();
 
     dealt_damage_instance dealt_dams;
     const weakpoint *wp = absorb_hit( attack_copy, bp, d );

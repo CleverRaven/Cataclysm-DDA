@@ -54,6 +54,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "viewer.h"
@@ -689,6 +690,9 @@ void talk_function::morale_chat_activity( npc &p )
     const int moves = to_moves<int>( 10_minutes );
     player_character.assign_activity( ACT_SOCIALIZE, moves );
     player_character.activity.str_values.push_back( p.get_name() );
+    if( one_in( 3 ) ) {
+        p.say( SNIPPET.random_from_category( "npc_socialize" ).value_or( translation() ).translated() );
+    }
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
@@ -829,13 +833,6 @@ void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.get_name() );
     p.set_attitude( NPCATT_FLEE );
-}
-
-void talk_function::lightning( npc & )
-{
-    if( get_player_character().posz() >= 0 ) {
-        get_weather().lightning_active = true;
-    }
 }
 
 void talk_function::leave( npc &p )

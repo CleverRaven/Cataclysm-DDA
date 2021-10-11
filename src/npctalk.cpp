@@ -58,6 +58,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "ret_val.h"
@@ -2223,7 +2224,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
              is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
-        if( !target ) {
+        if( !target || target->is_npc() ) {
             return;
         }
         std::string translated_message;
@@ -2259,7 +2260,12 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             }
         }
         if( popup_msg ) {
-            popup( translated_message, PF_NONE );
+            const auto new_win = [translated_message]() {
+                query_popup pop;
+                pop.message( "%s", translated_message );
+                return pop.get_window();
+            };
+            scrollable_text( new_win, "", replace_colors( translated_message ) );
         } else {
             target->add_msg_if_player( type, translated_message );
         }
@@ -2379,6 +2385,18 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
             fake.get_spell( 0 ).cast_all_effects( *caster, caster->pos() );
         }
     };
+}
+
+void talk_effect_fun_t::set_lightning()
+{
+    if( get_player_character().posz() >= 0 ) {
+        get_weather().lightning_active = true;
+    }
+}
+
+void talk_effect_fun_t::set_next_weather()
+{
+    get_weather().set_nextweather( calendar::turn );
 }
 
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
@@ -2843,7 +2861,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 }
 
 void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
-        const std::string &member )
+        const std::string &member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs;
     for( JsonValue jv : jo.get_array( member ) ) {
@@ -2853,30 +2871,62 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
             0_seconds );
     duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
             0_seconds );
-    function = [dov_time_in_future_min, dov_time_in_future_max, eocs]( const dialogue & d ) {
+    bool affect_nearby_npcs = jo.get_bool( "affect_nearby_npcs", false );
+    std::vector<std::string> names = jo.get_string_array( "npcs_to_affect" );
+    cata::optional<int> npc_range;
+    if( jo.has_int( "npc_range" ) ) {
+        npc_range = jo.get_int( "npc_range" );
+    }
+
+    bool npc_must_see = jo.get_bool( "npc_must_see", false );
+    function = [dov_time_in_future_min, dov_time_in_future_max, eocs, names, npc_must_see, npc_range,
+                            affect_nearby_npcs, is_npc]( const dialogue & d ) {
         time_duration max = dov_time_in_future_max.evaluate( d.actor( false ) );
         if( max > 0_seconds ) {
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
                 if( eoc->type == eoc_type::ACTIVATION ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
                 } else {
                     debugmsg( "Cannot queue a non activation effect_on_condition." );
                 }
             }
         } else {
-            Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
-            item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
-            Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
-            item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
-            dialogue newDialog(
-                ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
-                    item_alpha ) : nullptr,
-                ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
-                    item_beta ) : nullptr
-            );
-            for( const effect_on_condition_id &eoc : eocs ) {
-                eoc->activate( newDialog );
+            if( affect_nearby_npcs ) {
+                tripoint actor_pos = d.actor( is_npc )->pos();
+                const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
+                              names]( const npc & guy ) {
+                    bool name_valid = names.empty();
+                    for( const std::string &name : names ) {
+                        if( name == guy.name ) {
+                            name_valid = true;
+                            break;
+                        }
+                    }
+                    return name_valid && ( !npc_range.has_value() || actor_pos.z == guy.posz() ) && ( !npc_must_see ||
+                            guy.sees( actor_pos ) ) &&
+                           ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos() ) <= npc_range.value() );
+                } );
+                for( npc *target : available ) {
+                    for( const effect_on_condition_id &eoc : eocs ) {
+                        dialogue newDialog( get_talker_for( target ), nullptr );
+                        eoc->activate( newDialog );
+                    }
+                }
+            } else {
+                Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+                item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+                Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+                item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+                dialogue newDialog(
+                    ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
+                        item_alpha ) : nullptr,
+                    ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
+                        item_beta ) : nullptr
+                );
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    eoc->activate( newDialog );
+                }
             }
         }
     };
@@ -3321,7 +3371,11 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_member( "npc_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
-        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition", false );
+    } else if( jo.has_array( "u_set_queue_eoc" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "u_set_queue_eoc", false );
+    } else if( jo.has_array( "npc_set_queue_eoc" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "npc_set_queue_eoc", true );
     } else if( jo.has_array( "set_weighted_list_eocs" ) ) {
         subeffect_fun.set_weighted_list_eocs( jo, "set_weighted_list_eocs" );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
@@ -3447,7 +3501,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
-            WRAP( lightning ),
             WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP
@@ -3465,6 +3518,18 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
         subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "lightning" ) {
+        subeffect_fun.set_lightning();
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "next_weather" ) {
+        subeffect_fun.set_next_weather();
         set_effect( subeffect_fun );
         return;
     }

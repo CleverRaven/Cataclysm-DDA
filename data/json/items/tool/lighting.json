@@ -223,7 +223,7 @@
       "target": "flashlight",
       "ammo_scale": 0
     },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]
   },
   {
     "id": "gasoline_lantern",

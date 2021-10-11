@@ -135,6 +135,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_workshop_2_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "fabrication workshop 2 survey",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_blacksmith_0",
     "copy-from": "faction_base_camp_0",
     "name": "blacksmith survey",
@@ -178,6 +185,14 @@
     "id": "faction_base_storehouse_0",
     "copy-from": "faction_base_camp_0",
     "name": "store house survey",
+    "color": "cyan",
+    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_storehouse_2_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "store house survey 2",
     "color": "cyan",
     "delete": { "flags": [ "SOURCE_PEOPLE" ] }
   },

@@ -733,6 +733,26 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if( !was_loaded || jo.has_array( "families" ) ) {
+        families.clear();
+        families.load( jo.get_array( "families" ) );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "families" ) ) {
+                families.load( jo.get_array( "families" ) );
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "families" ) ) {
+                families.remove( jo.get_array( "families" ) );
+            }
+        }
+    }
+
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     optional( jo, was_loaded, "petfood", petfood );

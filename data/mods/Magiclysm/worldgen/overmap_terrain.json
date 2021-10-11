@@ -488,5 +488,27 @@
     "looks_like": "standing_stones",
     "see_cost": 5,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_balrog_west",
+      "mine_balrog_central",
+      "mine_balrog_east",
+      "mine_balrog_-1_west",
+      "mine_balrog_-1_central",
+      "mine_balrog_-1_east",
+      "mine_balrog_finale_nw",
+      "mine_balrog_finale_n",
+      "mine_balrog_finale_ne",
+      "mine_balrog_finale_sw",
+      "mine_balrog_finale_s",
+      "mine_balrog_finale_se"
+    ],
+    "name": "mine tunnels",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
   }
 ]

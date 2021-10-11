@@ -85,6 +85,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h" // For play_game
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -3643,12 +3644,13 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
 cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
-    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
@@ -5441,16 +5443,11 @@ cata::optional<int> iuse::talking_doll( Character *p, item *it, bool, const trip
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
-
+    p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
     const SpeechBubble speech = get_speech( it->typeId().str() );
 
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );
-
-    // Sound code doesn't describe noises at the player position
-    if( p->can_hear( p->pos(), speech.volume ) ) {
-        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
-    }
 
     return it->type->charges_to_use();
 }
@@ -9481,6 +9478,41 @@ cata::optional<int> iuse::coin_flip( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoint & )
 {
+    if( p->is_avatar() ) {
+        std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+        } );
+        int fcount = followers.size();
+        if( fcount > 0 ) {
+            const char *qstr = fcount > 1 ? _( "Play the %s with your friends?" ) :
+                               _( "Play the %s with your friend?" );
+            std::string res = query_popup()
+                              .context( "FRIENDS_ME_CANCEL" )
+                              .message( qstr, it->tname() )
+                              .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
+                              .query().action;
+            if( res == "FRIENDS" ) {
+                if( fcount > 1 ) {
+                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                } else {
+                    add_msg( _( "You and your friend start playing." ) );
+                }
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                    p->get_item_position( it ), "gaming with friends" );
+                for( npc *n : followers ) {
+                    n->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                        n->get_item_position( it ), "gaming with friends" );
+                }
+            } else if( res == "ME" ) {
+                p->add_msg_if_player( _( "You start playing." ) );
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
+                                    p->get_item_position( it ), "gaming" );
+            } else {
+                return cata::nullopt;
+            }
+            return 0;
+        } // else, fall through to playing alone
+    }
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
         p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
