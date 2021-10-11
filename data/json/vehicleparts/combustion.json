@@ -34,7 +34,7 @@
     "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
     "m2c": 65,
     "//": "40% energy efficiency",
-    "extend": { "flags": [ "E_COLD_START" ] },
+    "extend": { "flags": [ "E_COLD_START", "E_DIESEL_FUEL" ] },
     "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
   },
   {
