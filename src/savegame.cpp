@@ -89,6 +89,10 @@ void game::serialize( std::ostream &fout )
     json.member( "levz", pos_sm.z );
     json.member( "om_x", pos_om.x );
     json.member( "om_y", pos_om.y );
+    // view offset
+    json.member( "view_offset_x", u.view_offset.x );
+    json.member( "view_offset_y", u.view_offset.y );
+    json.member( "view_offset_z", u.view_offset.z );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -201,6 +205,10 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "levz", lev.z() );
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
+
+        data.read( "view_offset_x", u.view_offset.x );
+        data.read( "view_offset_y", u.view_offset.y );
+        data.read( "view_offset_z", u.view_offset.z );
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
