@@ -135,6 +135,7 @@ private:
     int _maxx;
     int _maxy;
     std::string _text;
+    
 
     nc_color _string_color = c_magenta;
     nc_color _cursor_color = h_light_gray;
@@ -159,8 +160,7 @@ public:
         _maxy = getmaxy(win);
     }
 
-    std::pair<int, int> get_line_and_position(std::vector<std::string> foldedtext, int position, int maxx) {
-        //hier noch die frage, was ich mir den φόδί zeichen mache. hier muss ich noch eine abfrage machen, wenn ich in der reihe bin ob die char mehr als ein platz einnehmen
+    std::pair<int, int> get_line_and_position(std::string text, std::vector<std::string> foldedtext, int position) {
         int counter = 0;
         int lineposition;
         int line;
@@ -168,17 +168,37 @@ public:
         for (int i = 0; i < foldedtext.size(); i++) {
             utf8_wrapper linetext(foldedtext[i]);
             int temp = linetext.display_width();
-            temp += (foldedtext[i].back() != ' '|| foldedtext[i].back() == '\n') ? 1 : 0;
+            //foldstring, cuts " " away, so it is possible to get a hughe disconect between folded and unfolded string.
+            //temp += (foldedtext[i].back() != ' ') ? 1 : 0; //|| foldedtext[i].back() == '\n' AHHHHHHHH vielleicht kann ich das white noice am ende messen.
+            //if (foldedtext[i].back() == ' ' && static_cast<int>(foldedtext[i].size()) > 1) temp += (foldedtext[i].substr(foldedtext[i].size() - 1 , 1 ) == " ") ? 1 : 0;
+            int temp2 = -1;
+            int offset = 0;
+            std::string subtext = "";
+            do {
+                temp2++;
+                offset = counter + temp + temp2;
+                subtext = text.substr(offset, 1);
+            } while (offset < position && (subtext == " "|| subtext == "\n"));
+            
+            temp += temp2;
+            
+                
             if (counter + temp > position) {
-                lineposition = position - counter;
-                line = i; 
-                return std::make_pair(line, lineposition);
+            //text.substr(position)
+            lineposition = position - counter;
+            line = i; 
+            return std::make_pair(line, lineposition);
             }
             else {
                 counter += temp;
             }
         }
-        return std::make_pair(foldedtext.size()-1, foldedtext.back().size()-1);
+        return std::make_pair(static_cast<int>( foldedtext.size()), 0);
+    }
+
+
+    int get_position(std::vector<std::string> foldedtext, int line ,int position) {
+
     }
 
     void print_editor(catacurses::window& win, std::string text, int position) {
@@ -190,7 +210,7 @@ public:
         const auto foldettext = foldstring(text, _maxx-1);
         /*if (position >= text.size()) position = 0;
         if (position < 0) position = text.size() - 1;*/
-        auto line_position = get_line_and_position(foldettext, position, _maxx-1);
+        auto line_position = get_line_and_position(text, foldettext, position);
 
         int topoflist = 0;
         int bottomoflist = std::min(topoflist + _maxy, static_cast<int>(foldettext.size()));
@@ -205,30 +225,27 @@ public:
             }
         }
 
-        //int topoflist = std::max(line_position.first - middelofpage, 0);
-        ////if (topoflist + maxy >= foldettext.size()) topoflist = foldettext.size() - maxy-1;
-        //const auto bottomoflist = std::min(topoflist + maxy, static_cast<int>(foldettext.size()));
-
         for (int i = topoflist; i < bottomoflist; i++) {
             int y = i - topoflist;
             trim_and_print(win, point(1, y), _maxx, c_white, foldettext[i]);
             if (i == line_position.first) {
-                utf8_wrapper cursor = utext.substr(_position, 1);
-                size_t a = _position;
-                while (a > 0 && cursor.display_width() == 0) {
-                    // A combination code point, move back to the earliest
-                    // non-combination code point
-                    a--;
-                    cursor = utext.substr(a, _position - a + 1);
+                std::string c_cursor = " ";
+                if (_position < utext.length()  ) {
+                    utf8_wrapper cursor = utext.substr(_position, 1);
+                    size_t a = _position;
+                    while (a > 0 && cursor.display_width() == 0) {
+                        // A combination code point, move back to the earliest
+                        // non-combination code point
+                        a--;
+                        cursor = utext.substr(a, _position - a + 1);
+                    }
+                    if(*cursor.c_str() != '\n') c_cursor =  cursor.str();
                 }
-                //wattron(win, h_white);
-                const char c_cursor = (*cursor.c_str() != '\n') ? *cursor.c_str() : ' ';
+                 
                 
-                mvwprintz(win, point(line_position.second+1, y), h_white, "%s", c_cursor); //w->z std::string(1, text[position])
-                //wattroff(win, h_white);
+                mvwprintz(win, point(line_position.second+1, y), h_white, "%s", c_cursor); 
             }
         }
-        //hier noch scrollbar.
         if (foldettext.size() > _maxy) {
             scrollbar sbar;
             sbar.content_size(foldettext.size());
@@ -283,6 +300,7 @@ public:
             if (_position < 0) {
                 _position = 0;
             }
+            if (_position > ret.size()) _position = ret.size();
 
 
 
@@ -291,7 +309,7 @@ public:
             }
             else {*/
                 werase(_win);
-                print_editor(_win, _text, _position);
+                print_editor(_win, ret.str(), _position);
                 wnoutrefresh(_win);
             //}
 
@@ -332,7 +350,7 @@ public:
             }*/
             else if (ch == KEY_UP) {
                 _position -= _maxx;
-                if (_position < 0) _position = ret.size()-1;
+                if (_position < 0) _position = ret.size();
             }
             else if (ch == KEY_DOWN) {
                 _position += _maxx;
@@ -343,7 +361,7 @@ public:
                 _handled = false;
             }
             else if (ch == KEY_RIGHT) {
-                if (_position + 1 < static_cast<int>(ret.size())) { //=
+                if (_position + 1 <= static_cast<int>(ret.size())) { //=
                     _position++;
                 }
                 else {
@@ -355,7 +373,7 @@ public:
                     _position--;
                 }
                 else {
-                    _position = ret.size()-1;
+                    _position = ret.size();
                 }
             }
             else if (ch == 0x15) {                      // ctrl-u: delete all the things
@@ -423,9 +441,17 @@ public:
                         }
                     }
                     ret.insert(_position, insertion);
+
+                    ////there was a Bug if " \n" was in the text. This is a workaround. 
+                    //if (*insertion.c_str() == '\n' || *insertion.c_str() == ' ') {
+                    //    ret.replace_all(utf8_wrapper("  "), utf8_wrapper(" "));
+                    //    ret.replace_all(utf8_wrapper(" \n"), utf8_wrapper("\n"));
+                    //}
+
                     _position += insertion.length();
                     edit = utf8_wrapper();
                     ctxt->set_edittext(std::string());
+                    
                 }
                 //}
             }
@@ -529,6 +555,15 @@ void diary::show_diary_ui(diary * c_diary)
         trim_and_print(w_head, point(1, 1),getmaxx(w_head)-2,c_white,c_diary->get_head_text());
         if (currwin == window_mode::CHANGE_WIN|| currwin ==window_mode::TEXT_WIN) {
             fold_and_print(w_info, point(1, 1), getmaxx(w_info) - 2, c_white, string_format("%s", c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]]));
+        }
+        bool debug = true;
+        if (debug) {
+            if (currwin == window_mode::TEXT_WIN) {
+                auto text = c_diary->get_page_text();
+                auto folded = foldstring(text, getmaxy(w_text) - 1);
+                fold_and_print(w_info, point(1, 1), getmaxx(w_info) - 2, c_white, 
+                    string_format("size: %s and wight: %s",folded[selected[window_mode::TEXT_WIN]].size(),utf8_wrapper(folded[selected[window_mode::TEXT_WIN]]).display_width()));
+            }
         }
         
         center_print(w_pages, 0, c_light_gray, string_format(_("pages: %d"), c_diary->get_pages_list().size()));
@@ -702,17 +737,17 @@ void diary::edit_page_ui(catacurses::window& win) {
 
     editor_window ed = editor_window(win, get_page_ptr()->m_text);
 
-    do {
-        new_text = ed.query_string(false, false);
+    //do {
+        new_text = ed.query_string(true, false);
         
-        if (ed.canceled()) {
+       /* if (ed.canceled()) {
             break;
         }
         else if (ed.confirmed()) {
             break;
         }
 
-    } while (true);
+    } while (true);*/
 
     if (new_text.empty() && !old_text.empty()) {
         if (query_yn(_("Really delete note?"))) {

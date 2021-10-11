@@ -11,6 +11,7 @@
 #include "game.h"
 //#include "kill_tracker.h"
 //#include "stats_tracker.h"
+#include "filesystem.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "path_info.h"
@@ -760,13 +761,11 @@ void diary::serialize(JsonOut& jsout){
 void diary::deserialize() {
     std::string name = base64_encode(get_avatar().get_save_id() + "_diary");
     std::string path = PATH_INFO::world_base_save_path() + "\\"+ name +".json";
-    //std::filesystem::exists(path);
-    /*access(path.c_str(), F_OK) != -1);
-    if (std::filesystem::exists(path)) {*/
+    if (file_exist(path)) {
         read_from_file(path, [&](std::istream& fin) {
             deserialize(fin);
             });
-    //}
+    }
 }
 
 void diary::deserialize(std::istream& fin) {
