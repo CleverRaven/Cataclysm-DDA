@@ -49,7 +49,7 @@ class vehicle_part_iterator
             cata_assert( i <= range().part_count() );
             skip_to_next_valid( i );
         }
-        vehicle_part_iterator( const vehicle_part_iterator & ) = default;
+        //vehicle_part_iterator( const vehicle_part_iterator & ) = default;
 
         const vpart_reference &operator*() const {
             cata_assert( vp_ );
