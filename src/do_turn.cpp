@@ -680,6 +680,11 @@ bool do_turn()
                     ui_manager::redraw();
                 }
 
+                if( g->queue_screenshot ) {
+                    g->take_screenshot();
+                    g->queue_screenshot = false;
+                }
+
                 if( g->handle_action() ) {
                     ++g->moves_since_last_save;
                     u.action_taken();

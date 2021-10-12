@@ -285,6 +285,11 @@ class mapgen_basic_container
                 mapgen_function_ptr.obj->check();
             }
         }
+        void check_consistency_with( const oter_t &ter ) const {
+            for( auto &mapgen_function_ptr : weights_ ) {
+                mapgen_function_ptr.obj->check_consistent_with( ter );
+            }
+        }
 
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope scope,
                                              const std::string &context ) const {
@@ -359,6 +364,14 @@ class mapgen_factory
         bool has( const std::string &key ) const {
             return mapgens_.count( key ) != 0;
         }
+        const mapgen_basic_container *find( const std::string &key ) const {
+            auto it = mapgens_.find( key );
+            if( it == mapgens_.end() ) {
+                return nullptr;
+            } else {
+                return &it->second;
+            }
+        }
         /// @see mapgen_basic_container::add
         int add( const std::string &key, const std::shared_ptr<mapgen_function> &ptr ) {
             return mapgens_[key].add( ptr );
@@ -386,6 +399,12 @@ static mapgen_factory oter_mapgen;
 
 std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
 std::map<update_mapgen_id, update_mapgen> update_mapgens;
+
+template<>
+bool string_id<nested_mapgen>::is_valid() const
+{
+    return str() == "null" || nested_mapgens.find( *this ) != nested_mapgens.end();
+}
 
 /*
  * setup mapgen_basic_container::weights_ which mapgen uses to diceroll. Also setup mapgen_function_json
@@ -668,6 +687,7 @@ mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc,
     , mapgen_function_json_base( jsrcloc, context )
     , fill_ter( t_null )
     , rotation( 0 )
+    , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
     m_offset.x = grid_offset.x * mapgensize.x;
     m_offset.y = grid_offset.y * mapgensize.y;
@@ -1024,7 +1044,7 @@ class mapgen_value
 
             void check( const std::string &context, const mapgen_parameters & ) const override {
                 if( !is_valid_helper( id ) ) {
-                    debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
+                    debugmsg( "mapgen '%s' uses invalid entry '%s'",
                               context, cata_variant( id ).get_string() );
                 }
             }
@@ -2687,15 +2707,15 @@ class jmapgen_zone : public jmapgen_piece
 class jmapgen_nested : public jmapgen_piece
 {
     private:
-        class neighborhood_check
+        class neighbor_oter_check
         {
             private:
-                std::unordered_map<direction, cata::flat_set<oter_str_id>> neighbors;
+                std::unordered_map<direction, cata::flat_set<oter_type_str_id>> neighbors;
             public:
-                explicit neighborhood_check( const JsonObject &jsi ) {
+                explicit neighbor_oter_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_str_id> dir_neighbours =
-                            jsi.get_tags<oter_str_id, cata::flat_set<oter_str_id>>(
+                        cata::flat_set<oter_type_str_id> dir_neighbours =
+                            jsi.get_tags<oter_type_str_id, cata::flat_set<oter_type_str_id>>(
                                 io::enum_to_string( dir ) );
                         if( !dir_neighbours.empty() ) {
                             neighbors[dir] = std::move( dir_neighbours );
@@ -2703,16 +2723,32 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void check( const std::string &/*oter_name*/, const mapgen_parameters & ) const {
+                    // The check is ot_match_type::contains, so actually these
+                    // don't need to be valid ids, although they were until
+                    // recently.  TODO: permit the JSON to specify which match
+                    // type is intended and check where applicable.
+
+                    //for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
+                    //     neighbors ) {
+                    //    for( const oter_type_str_id &id : p.second ) {
+                    //        if( !id.is_valid() ) {
+                    //            debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
+                    //        }
+                    //    }
+                    //}
+                }
+
                 bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const direction, cata::flat_set<oter_str_id>> &p :
+                    for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
                          neighbors ) {
                         const direction dir = p.first;
-                        const cata::flat_set<oter_str_id> &allowed_neighbors = p.second;
+                        const cata::flat_set<oter_type_str_id> &allowed_neighbors = p.second;
 
                         cata_assert( !allowed_neighbors.empty() );
 
                         bool this_direction_matches = false;
-                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_type_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |=
                                 is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
                                              ot_match_type::contains );
@@ -2725,12 +2761,54 @@ class jmapgen_nested : public jmapgen_piece
                 }
         };
 
+        class neighbor_join_check
+        {
+            private:
+                std::unordered_map<cube_direction, cata::flat_set<std::string>> neighbors;
+            public:
+                explicit neighbor_join_check( const JsonObject &jsi ) {
+                    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                        cata::flat_set<std::string> dir_neighbours =
+                            jsi.get_tags<std::string, cata::flat_set<std::string>>(
+                                io::enum_to_string( dir ) );
+                        if( !dir_neighbours.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbours );
+                        }
+                    }
+                }
+
+                void check( const std::string &, const mapgen_parameters & ) const {
+                    // TODO: check join ids are valid
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
+                         neighbors ) {
+                        const cube_direction dir = p.first;
+                        const cata::flat_set<std::string> &allowed_joins = p.second;
+
+                        cata_assert( !allowed_joins.empty() );
+
+                        bool this_direction_matches = false;
+                        for( const std::string &allowed_join : allowed_joins ) {
+                            this_direction_matches |= dat.has_join( dir, allowed_join );
+                        }
+                        if( !this_direction_matches ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        };
+
     public:
-        weighted_int_list<nested_mapgen_id> entries;
-        weighted_int_list<nested_mapgen_id> else_entries;
-        neighborhood_check neighbors;
-        jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ ) :
-            neighbors( jsi.get_object( "neighbors" ) ) {
+        weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
+        weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
+        neighbor_oter_check neighbor_oters;
+        neighbor_join_check neighbor_joins;
+        jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ )
+            : neighbor_oters( jsi.get_object( "neighbors" ) )
+            , neighbor_joins( jsi.get_object( "joins" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -2743,41 +2821,55 @@ class jmapgen_nested : public jmapgen_piece
         }
         void merge_parameters_into( mapgen_parameters &params,
                                     const std::string &outer_context ) const override {
-            auto merge_from = [&]( const nested_mapgen_id & name ) {
-                if( name.is_null() ) {
-                    return;
-                }
-                const auto iter = nested_mapgens.find( name );
-                if( iter == nested_mapgens.end() ) {
-                    debugmsg( "Unknown nested mapgen function id '%s'", name.str() );
-                    return;
-                }
-                using Obj = weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>;
-                for( const Obj &nested : iter->second.funcs() ) {
-                    nested.obj->merge_non_nest_parameters_into( params, outer_context );
+            auto merge_from = [&]( const mapgen_value<nested_mapgen_id> &val ) {
+                for( const nested_mapgen_id &id : val.all_possible_results( params ) ) {
+                    if( id.is_null() ) {
+                        return;
+                    }
+                    const auto iter = nested_mapgens.find( id );
+                    if( iter == nested_mapgens.end() ) {
+                        debugmsg( "Unknown nested mapgen function id '%s'", id.str() );
+                        return;
+                    }
+                    using Obj = weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>;
+                    for( const Obj &nested : iter->second.funcs() ) {
+                        nested.obj->merge_non_nest_parameters_into( params, outer_context );
+                    }
                 }
             };
 
-            for( const weighted_object<int, nested_mapgen_id> &name : entries ) {
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
 
-            for( const weighted_object<int, nested_mapgen_id> &name : else_entries ) {
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
+            }
+        }
+        const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
+        const mapgendata &dat ) const {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) ) {
+                return entries;
+            } else {
+                return else_entries;
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            const nested_mapgen_id *res =
-                neighbors.test( dat ) ? entries.pick() : else_entries.pick();
-            if( res == nullptr || res->is_empty() || res->is_null() ) {
-                // This will be common when neighbors.test(...) is false, since else_entires is often empty.
+            const mapgen_value<nested_mapgen_id> *val = get_entries( dat ).pick();
+            if( val == nullptr ) {
                 return;
             }
 
-            const auto iter = nested_mapgens.find( *res );
+            const nested_mapgen_id res = val->get( dat );
+            if( res.is_empty() || res.is_null() ) {
+                // This will be common when neighbors.test(...) is false, since else_entires is
+                // often empty.
+                return;
+            }
+            const auto iter = nested_mapgens.find( res );
             if( iter == nested_mapgens.end() ) {
-                debugmsg( "Unknown nested mapgen function id %s", res->c_str() );
+                debugmsg( "Unknown nested mapgen function id %s", res.str() );
                 return;
             }
 
@@ -2789,18 +2881,30 @@ class jmapgen_nested : public jmapgen_piece
 
             ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
+        void check( const std::string &oter_name, const mapgen_parameters &parameters
+                  ) const override {
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : entries ) {
+                p.obj.check( oter_name, parameters );
+            }
+            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
+                p.obj.check( oter_name, parameters );
+            }
+            neighbor_oters.check( oter_name, parameters );
+            neighbor_joins.check( oter_name, parameters );
+        }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
-            const weighted_int_list<nested_mapgen_id> &selected_entries =
-                neighbors.test( dat ) ? entries : else_entries;
+            const weighted_int_list<mapgen_value<nested_mapgen_id>> &selected_entries =
+                        get_entries( dat );
             if( selected_entries.empty() ) {
                 return false;
             }
 
             for( const auto &entry : selected_entries ) {
-                if( entry.obj.is_null() ) {
+                nested_mapgen_id id = entry.obj.get( dat );
+                if( id.is_null() ) {
                     continue;
                 }
-                const auto iter = nested_mapgens.find( entry.obj );
+                const auto iter = nested_mapgens.find( id );
                 if( iter == nested_mapgens.end() ) {
                     return false;
                 }
@@ -3307,7 +3411,10 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
         predecessor_mapgen = oter_str_id::NULL_ID();
     }
 
-    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID();
+    jo.read( "fallback_predecessor_mapgen", fallback_predecessor_mapgen_ );
+
+    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
+           fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
 bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
@@ -3529,6 +3636,20 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 void mapgen_function_json::check() const
 {
     check_common();
+
+    if( predecessor_mapgen != oter_str_id::NULL_ID() && expects_predecessor() ) {
+        debugmsg( "%s uses both predecessor_mapgen and expects_predecessor; these features are "
+                  "incompatible", context_ );
+    }
+}
+
+void mapgen_function_json::check_consistent_with( const oter_t &ter ) const
+{
+    bool requires_predecessor = ter.has_flag( oter_flags::requires_predecessor );
+    if( expects_predecessor() && !requires_predecessor ) {
+        debugmsg( "mapgen for oter_t %s expects a predecessor terrain but oter_type_t %s lacks the "
+                  "REQUIRES_PREDECESSOR flag", ter.id.str(), ter.get_type_id().str() );
+    }
 }
 
 void mapgen_function_json_nested::check() const
@@ -3770,9 +3891,8 @@ void mapgen_function_json::generate( mapgendata &md )
     }
     const oter_t &ter = *md.terrain_type();
 
-    if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
-        mapgendata predecessor_mapgen_dat( md, predecessor_mapgen );
-        run_mapgen_func( predecessor_mapgen.id().str(), predecessor_mapgen_dat );
+    auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
+        run_mapgen_func( predecessor_md.terrain_type().id().str(), predecessor_md );
 
         // Now we have to do some rotation shenanigans. We need to ensure that
         // our predecessor is not rotated out of alignment as part of rotating this location,
@@ -3786,6 +3906,20 @@ void mapgen_function_json::generate( mapgendata &md )
 
         if( ter.is_rotatable() || ter.is_linear() ) {
             m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
+        }
+    };
+
+    if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
+        mapgendata predecessor_md( md, predecessor_mapgen );
+        do_predecessor_mapgen( predecessor_md );
+    } else if( expects_predecessor() ) {
+        if( md.has_predecessor() ) {
+            mapgendata predecessor_md( md, md.last_predecessor() );
+            predecessor_md.pop_last_predecessor();
+            do_predecessor_mapgen( predecessor_md );
+        } else {
+            mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );
+            do_predecessor_mapgen( predecessor_md );
         }
     }
 
@@ -3804,6 +3938,11 @@ void mapgen_function_json::generate( mapgendata &md )
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ter.get_rotation() );
     }
+}
+
+bool mapgen_function_json::expects_predecessor() const
+{
+    return fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
 mapgen_parameters mapgen_function_json::get_mapgen_params( mapgen_parameter_scope scope ) const
@@ -6876,6 +7015,13 @@ void update_mapgen_function_json::check() const
     check_common();
 }
 
+void check_mapgen_consistent_with( const std::string &key, const oter_t &ter )
+{
+    if( const mapgen_basic_container *container = oter_mapgen.find( key ) ) {
+        container->check_consistency_with( ter );
+    }
+}
+
 bool update_mapgen_function_json::setup_update( const JsonObject &jo )
 {
     return setup_common( jo );
@@ -7021,12 +7167,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     fake_map tmp_map( t_dirt );
 
-    oter_id any = oter_id( "field" );
-    // just need a variable here, it doesn't need to be valid
-    const regional_settings dummy_settings;
-
-    mapgendata fake_md( any, any, any, any, any, any, any, any, any, any, 0, dummy_settings,
-                        tmp_map, any, {}, 0.0f, calendar::turn, nullptr );
+    mapgendata fake_md( tmp_map, mapgendata::dummy_settings );
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {

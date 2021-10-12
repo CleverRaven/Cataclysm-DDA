@@ -2039,7 +2039,6 @@ void veh_interact::do_change_shape()
             for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
                 std::string disp_name = sel_vpart_info->name();
                 // getting all the available shape variants from vpart_variants
-                std::size_t variants_offset = 0;
                 for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
                     if( vp_variant_pair.first == vp_variant.first ) {
                         disp_name += " " + vp_variant_pair.second;
@@ -2049,7 +2048,6 @@ void veh_interact::do_change_shape()
                         }
                         break;
                     }
-                    variants_offset += 1;
                 }
                 uilist_entry entry( disp_name );
                 entry.retval = ret_code++;

@@ -54,6 +54,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "global_vars.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -183,6 +184,8 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
+        case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
+        case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -301,6 +304,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global vars(s) to var_list.output" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -1191,6 +1196,7 @@ static void character_edit_needs_menu( Character &you )
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
     std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
+    std::pair<std::string, nc_color> weariness_pair = display::weariness_text_color( you );
 
     std::stringstream data;
     data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,
@@ -1199,6 +1205,8 @@ static void character_edit_needs_menu( Character &you )
                            thirst_pair.second ) ) << std::endl;
     data << string_format( _( "Fatigue: %d  %s" ), you.get_fatigue(), colorize( fatigue_pair.first,
                            fatigue_pair.second ) ) << std::endl;
+    data << string_format( _( "Weariness: %d  %s" ), you.weariness(), colorize( weariness_pair.first,
+                           weariness_pair.second ) ) << std::endl;
     data << std::endl;
     data << _( "Stored kCal: " ) << you.get_stored_kcal() << std::endl;
     data << _( "Total kCal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
@@ -1223,8 +1231,9 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
     smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), you.get_fatigue() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
-    smenu.addentry( 7, true, 'a', _( "Reset all basic needs" ) );
-    smenu.addentry( 8, true, 'e', _( "Empty stomach and guts" ) );
+    smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
+    smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );
+    smenu.addentry( 9, true, 'e', _( "Empty stomach and guts" ) );
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
@@ -1276,21 +1285,29 @@ static void character_edit_needs_menu( Character &you )
                 you.set_sleep_deprivation( value );
             }
             break;
+
         case 7:
+            if( query_yn( _( "Reset weariness?  Currently: %d" ),
+                          you.weariness() ) ) {
+                you.activity_history.weary_clear();
+            }
+            break;
+        case 8:
             you.initialize_stomach_contents();
             you.set_hunger( 0 );
             you.set_thirst( 0 );
             you.set_fatigue( 0 );
             you.set_sleep_deprivation( 0 );
             you.set_stored_kcal( you.get_healthy_kcal() );
+            you.activity_history.weary_clear();
             break;
-        case 8:
+        case 9:
             you.stomach.empty();
             you.guts.empty();
             break;
         default:
-            if( smenu.ret >= 9 && smenu.ret < static_cast<int>( vits.size() + 9 ) ) {
-                auto iter = std::next( vits.begin(), smenu.ret - 9 );
+            if( smenu.ret >= 10 && smenu.ret < static_cast<int>( vits.size() + 10 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 10 );
                 if( query_int( value, _( "Set %s to?  Currently: %d" ),
                                iter->second.name(), you.vitamin_get( iter->first ) ) ) {
                     you.vitamin_set( iter->first, value );
@@ -2826,38 +2843,30 @@ void debug()
             get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
-
-
-
-        case debug_menu_index::SAVE_SCREENSHOT: {
-#if defined(TILES)
-            // check that the current '<world>/screenshots' directory exists
-            std::stringstream map_directory;
-            map_directory << PATH_INFO::world_base_save_path() << "/screenshots/";
-            assure_dir_exist( map_directory.str() );
-
-            // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-            // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-            std::time_t time = std::time( nullptr );
-            std::stringstream date_buffer;
-            date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
-            const auto tmp_file_name = string_format( "[%s]_%s.png", player_character.get_name(),
-                                       date_buffer.str() );
-
-            std::string file_name = ensure_valid_file_name( tmp_file_name );
-            auto current_file_path = map_directory.str() + file_name;
-
-            // Take a screenshot of the viewport.
-            if( g->take_screenshot( current_file_path ) ) {
-                popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
-            } else {
-                popup( _( "An error occurred while trying to save the screenshot." ) );
-            }
-#else
-            popup( _( "This binary was not compiled with tiles support." ) );
-#endif
+        case debug_menu_index::WRITE_GLOBAL_EOCS: {
+            effect_on_conditions::write_global_eocs_to_file();
+            popup( _( "effect_on_condition list written to eocs.output" ) );
         }
         break;
+        case debug_menu_index::WRITE_GLOBAL_VARS: {
+            write_to_file( "var_list.output", [&]( std::ostream & testfile ) {
+                testfile << "Global" << std::endl;
+                testfile << "|;key;value;" << std::endl;
+                global_variables &globvars = get_globals();
+                auto globals = globvars.get_global_values();
+                for( const auto &value : globals ) {
+                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+                }
+
+            }, "var_list" );
+
+            popup( _( "Var list written to var_list.output" ) );
+        }
+        break;
+
+        case debug_menu_index::SAVE_SCREENSHOT:
+            g->queue_screenshot = true;
+            break;
 
         case debug_menu_index::GAME_REPORT: {
             // generate a game report, useful for bug reporting.

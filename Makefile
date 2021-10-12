@@ -188,6 +188,13 @@ ifneq (,$(findstring clang,$(COMPILER)))
   CLANG = $(COMPILER)
 endif
 
+# Windows sets the OS environment variable so we can cheaply test for it.
+ifneq (,$(findstring Windows_NT,$(OS)))
+  IS_WINDOWS_HOST = 1
+else
+  IS_WINDOWS_HOST = 0
+endif
+
 OS = $(shell uname -s)
 
 ifneq ($(findstring Darwin,$(OS)),)
@@ -897,6 +904,8 @@ ifeq ($(LTO), 1)
   endif
 endif
 
+LDFLAGS += -lz
+
 all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
@@ -950,7 +959,7 @@ MO_DEPS := \
   $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
 
 lang/mo_built.stamp: $(MO_DEPS)
-	lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 	touch $@
 
 localization: lang/mo_built.stamp
@@ -1013,7 +1022,7 @@ endif
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 endif
 endif
 
@@ -1049,7 +1058,7 @@ endif
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 endif
 endif
 
@@ -1097,7 +1106,7 @@ endif
 	cp -R data/title $(APPDATADIR)
 	cp -R data/help $(APPDATADIR)
 ifdef LANGUAGES
-	lang/compile_mo.sh $(LANGUAGES)
+	$(MAKE) -C lang
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
@@ -1164,10 +1173,27 @@ etags: $(ASTYLE_SOURCES)
 	etags $^
 	./tools/json_tools/cddatags.py
 
+ifneq ($(IS_WINDOWS_HOST),1)
+# Parallel astyle for posix hosts where fork and filesystem are cheap.
+
 ASTYLE_CHECK_STAMPS = $(sort $(patsubst %,$(ODIR)/%.astyle-check-stamp,$(ASTYLE_SOURCES)))
 astyle: $(ASTYLE_CHECK_STAMPS)
 $(ASTYLE_CHECK_STAMPS): $(ODIR)/%.astyle-check-stamp : %
 	$(ASTYLE_BINARY) --options=.astylerc -n $< && mkdir -p $(@D) && touch $@
+
+else
+# Serial astyle for Windows hosts which processes all files in one invocation.
+
+astyle: $(ODIR)/.astyle-check-stamp
+$(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $?
+	mkdir -p $(@D) && touch $@
+
+endif
+
+astyle-all: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+	mkdir -p $(ODIR) && touch $(ODIR)/.astyle-check-stamp
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)

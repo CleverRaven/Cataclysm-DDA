@@ -153,7 +153,12 @@
     "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "exodii_weapon_pod", "min_level": 3 }, "cooldown": 200 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "exodii_weapon_pod", "min_level": 1 },
+        "cooldown": 200,
+        "monster_message": "The Exodii quadruped fires its weapon pod!"
+      },
       {
         "type": "gun",
         "cooldown": 1,
@@ -162,7 +167,7 @@
         "ammo_type": "123ln",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 41, "DEFAULT" ] ],
+        "ranges": [ [ 4, 41, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,

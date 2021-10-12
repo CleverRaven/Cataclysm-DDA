@@ -23,6 +23,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 talker_avatar::talker_avatar( avatar *new_me )
 {
     me_chr = new_me;
+    me_chr_const = new_me;
 }
 
 std::vector<std::string> talker_avatar::get_topics( bool )

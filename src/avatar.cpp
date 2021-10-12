@@ -180,8 +180,8 @@ void avatar::control_npc( npc &np )
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
     // center the map on the new avatar character
-    g->vertical_shift( posz() );
-    g->update_map( *this );
+    const bool z_level_changed = g->vertical_shift( posz() );
+    g->update_map( *this, z_level_changed );
 }
 
 void avatar::control_npc_menu()
@@ -757,7 +757,7 @@ void avatar::wake_up()
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
-            remove_effect( effect_alarm_clock );
+            // effects will be removed in Character::wake_up.
         } else if( has_effect( effect_slept_through_alarm ) ) {
             if( has_flag( json_flag_ALARMCLOCK ) ) {
                 add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
@@ -1776,7 +1776,15 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     int selection = kmenu.ret;
 
     if( selection >= STYLE_OFFSET ) {
+        // If the currect style is selected, do not change styles
+        if( style_selected == selectable_styles[selection - STYLE_OFFSET] ) {
+            return false;
+        }
+
+        avatar &u = const_cast<avatar &>( you );
+        style_selected->remove_all_buffs( u );
         style_selected = selectable_styles[selection - STYLE_OFFSET];
+        ma_static_effects( u );
         martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;

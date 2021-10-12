@@ -627,13 +627,23 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( mag_item.ammo_capacity( ammo_type ) < qty ) {
                 std::vector<item> opts;
                 for( const itype_id &mag_type : mags ) {
-                    if( mag->magazine->type.count( ammo_type ) ) {
+                    if( mag_type->magazine->type.count( ammo_type ) ) {
                         opts.emplace_back( mag_type );
                     }
                 }
                 if( opts.empty() ) {
-                    debugmsg( "Cannot find magazine with enough %s ammo capacity for %s", ammo.c_str(),
-                              typeId().c_str() );
+                    const std::string magazines_str = enumerate_as_string( mags,
+                    []( const itype_id & mag ) {
+                        return string_format(
+                                   "%s (taking %s)", mag.str(),
+                                   enumerate_as_string( mag->magazine->type,
+                        []( const ammotype & a ) {
+                            return a.str();
+                        } ) );
+                    } );
+                    debugmsg( "Cannot find magazine fitting %s with any capacity for ammo %s "
+                              "(ammotype %s).  Magazines considered were %s",
+                              typeId().str(), ammo.str(), ammo_type.str(), magazines_str );
                     return *this;
                 }
                 std::sort( opts.begin(), opts.end(), [&ammo_type]( const item & lhs, const item & rhs ) {
@@ -1147,7 +1157,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             clipped_time( get_shelf_life() - rot );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
             clipped_time( rhs.get_shelf_life() - rhs.rot );
-        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+        if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
+            my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
         }
         if( rotten() != rhs.rotten() ) {
@@ -4805,6 +4816,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
+    } else if( is_relic() ) {
+        ret = c_pink;
     } else if( is_bionic() ) {
         if( !player_character.has_bionic( type->bionic->id ) || type->bionic->id->dupes_allowed ) {
             ret = player_character.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
@@ -4984,6 +4997,7 @@ void item::on_wear( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
+    p.on_item_acquire( *this );
     p.on_item_wear( *this );
 }
 
@@ -5047,6 +5061,7 @@ void item::on_wield( Character &you )
 
     // Update encumbrance in case we were wearing it
     you.flag_encumbrance();
+    you.on_item_acquire( *this );
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -5102,6 +5117,7 @@ void item::on_pickup( Character &p )
 
     p.flag_encumbrance();
     p.invalidate_weight_carried_cache();
+    p.on_item_acquire( *this );
 }
 
 void item::on_contents_changed()
@@ -5581,7 +5597,7 @@ int item::price( bool practical ) const
 
         } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
             // items with integral magazines may contain ammunition which can affect the price
-            child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
+            child += item( e->ammo_data(), calendar::turn, e->ammo_remaining() ).price( practical );
 
         } else if( e->is_tool() && e->type->tool->max_charges != 0 ) {
             // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
@@ -5593,6 +5609,43 @@ int item::price( bool practical ) const
     } );
 
     return res;
+}
+
+int item::price_no_contents( bool practical )
+{
+    if( rotten() ) {
+        return 0;
+    }
+    int price = units::to_cent( practical ? type->price_post : type->price );
+    if( damage() > 0 ) {
+        // maximal damage level is 4, maximal reduction is 40% of the value.
+        price -= price * static_cast< double >( damage_level() ) / 10;
+    }
+
+    if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
+        // price from json data is for default-sized stack
+        price *= charges / static_cast< double >( type->stack_size );
+
+    } else if( ( magazine_integral() || is_magazine() ) && ammo_remaining() && ammo_data() ) {
+        // items with integral magazines may contain ammunition which can affect the price
+        price += item( ammo_data(), calendar::turn, ammo_remaining() ).price( practical );
+
+    } else if( is_tool() && type->tool->max_charges != 0 ) {
+        // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
+        price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
+
+    } else if( is_watertight_container() ) {
+        // Liquid contents are hidden so must be included in the price.
+        visit_contents( [&price, &practical]( item * node, item * ) {
+            if( node->type->phase != phase_id::LIQUID ) {
+                return VisitResponse::SKIP;
+            }
+            price += node->price_no_contents( practical );
+            return VisitResponse::SKIP;
+        } );
+    }
+
+    return price;
 }
 
 // TODO: MATERIALS add a density field to materials.json
@@ -11118,9 +11171,16 @@ std::string item::type_name( unsigned int quantity ) const
                 }
                 break;
             case condition_type::VAR:
-                if( has_var( cname.condition ) ) {
+                if( has_var( cname.condition ) && get_var( cname.condition ) == cname.value ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
+                break;
+            case condition_type::SNIPPET_ID:
+                if( has_var( cname.condition + "_snippet_id" ) &&
+                    get_var( cname.condition + "_snippet_id" ) == cname.value ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
             case condition_type::num_condition_types:
                 break;
         }

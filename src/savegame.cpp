@@ -89,6 +89,10 @@ void game::serialize( std::ostream &fout )
     json.member( "levz", pos_sm.z );
     json.member( "om_x", pos_om.x );
     json.member( "om_y", pos_om.y );
+    // view offset
+    json.member( "view_offset_x", u.view_offset.x );
+    json.member( "view_offset_y", u.view_offset.y );
+    json.member( "view_offset_z", u.view_offset.z );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -106,6 +110,23 @@ void game::serialize( std::ostream &fout )
     json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
+    json.member( "inactive_global_effect_on_condition_vector",
+                 inactive_global_effect_on_condition_vector );
+
+    //save queued effect_on_conditions
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
+        queued_global_effect_on_conditions );
+    json.member( "queued_global_effect_on_conditions" );
+    json.start_array();
+    while( !temp_queued.empty() ) {
+        json.start_object();
+        json.member( "time", temp_queued.top().time );
+        json.member( "eoc", temp_queued.top().eoc );
+        json.end_object();
+        temp_queued.pop();
+    }
+    json.end_array();
+    global_variables_instance.serialize( json );
     Messages::serialize( json );
 
     json.end_object();
@@ -185,6 +206,10 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
+        data.read( "view_offset_x", u.view_offset.x );
+        data.read( "view_offset_y", u.view_offset.y );
+        data.read( "view_offset_z", u.view_offset.z );
+
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
 
@@ -219,6 +244,16 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "kill_tracker", *kill_tracker_ptr );
 
         data.read( "player", u );
+        data.read( "inactive_global_effect_on_condition_vector",
+                   inactive_global_effect_on_condition_vector );
+        //load queued_eocs
+        for( JsonObject elem : data.get_array( "queued_global_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            queued_global_effect_on_conditions.push( temp );
+        }
+        global_variables_instance.unserialize( data );
         inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
@@ -381,6 +416,9 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( "field" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
+        } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||
+                   old.compare( 0, 24, "microlab_generic_hallway" ) == 0 ) {
+            ter_set( pos, oter_id( "microlab_generic" ) );
         } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
             ter_set( pos, oter_id( "office_tower_ne_north" ) );
             ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
@@ -697,6 +735,18 @@ void overmap::unserialize( std::istream &fin )
             for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
                 auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
                 mapgen_args_index.emplace( p.first, &*it );
+            }
+        } else if( name == "joins_used" ) {
+            std::vector<std::pair<om_pos_dir, std::string>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
+                joins_used.insert( p );
+            }
+        } else if( name == "predecessors" ) {
+            std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
+            jsin.read( flattened_predecessors, true );
+            for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
+                predecessors_.insert( std::move( p ) );
             }
         }
     }
@@ -1113,6 +1163,16 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
+                joins_used.begin(), joins_used.end() );
+    json.member( "joins_used", flattened_joins_used );
+    fout << std::endl;
+
+    std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors(
+        predecessors_.begin(), predecessors_.end() );
+    json.member( "predecessors", flattened_predecessors );
+    fout << std::endl;
+
     json.end_object();
     fout << std::endl;
 }
@@ -1258,6 +1318,11 @@ void weather_manager::unserialize_all( JsonIn &jsin )
     w.read( "windspeed", get_weather().windspeed );
 }
 
+void global_variables::unserialize( JsonObject &jo )
+{
+    jo.read( "global_vals", global_values );
+}
+
 void game::serialize_master( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
@@ -1283,7 +1348,6 @@ void game::serialize_master( std::ostream &fout )
         json.member( "winddirection", weather.winddirection );
         json.member( "windspeed", weather.windspeed );
         json.end_object();
-
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
@@ -1297,6 +1361,11 @@ void faction_manager::serialize( JsonOut &jsout ) const
         local_facs.push_back( elem.second );
     }
     jsout.write( local_facs );
+}
+
+void global_variables::serialize( JsonOut &jsout ) const
+{
+    jsout.member( "global_vals", global_values );
 }
 
 void faction_manager::deserialize( JsonIn &jsin )

@@ -1,5 +1,6 @@
 #include "mapgendata.h"
 
+#include "all_enum_values.h"
 #include "debug.h"
 #include "json.h"
 #include "map.h"
@@ -26,40 +27,50 @@ void mapgen_arguments::deserialize( const JsonValue &ji )
     ji.read( map, true );
 }
 
-mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
-                        oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, oter_id down, int z, const regional_settings &rsettings,
-                        map &mp, const oter_id &terrain_type, const mapgen_arguments &args,
-                        const float density, const time_point &when,
-                        ::mission *const miss )
-    : terrain_type_( terrain_type ), density_( density ), when_( when ), mission_( miss )
-    , zlevel_( z ), mapgen_args_( args )
-    , t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
-    , t_above( up )
-    , t_below( down )
-    , region( rsettings )
+static const regional_settings dummy_regional_settings;
+
+mapgendata::mapgendata( map &mp, dummy_settings_t )
+    : density_( 0 )
+    , when_( calendar::turn )
+    , mission_( nullptr )
+    , zlevel_( 0 )
+    , region( dummy_regional_settings )
     , m( mp )
     , default_groundcover( region.default_groundcover )
 {
+    oter_id any = oter_id( "field" );
+    t_above = t_below = terrain_type_ = any;
+    std::fill( std::begin( t_nesw ), std::end( t_nesw ), any );
 }
 
-mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float density,
+mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float density,
                         const time_point &when, ::mission *const miss )
-// NOLINTNEXTLINE( cata-unsequenced-calls )
-    : mapgendata( overmap_buffer.ter( over + tripoint_north ),
-                  overmap_buffer.ter( over + tripoint_east ),
-                  overmap_buffer.ter( over + tripoint_south ),
-                  overmap_buffer.ter( over + tripoint_west ),
-                  overmap_buffer.ter( over + tripoint_north_east ),
-                  overmap_buffer.ter( over + tripoint_south_east ),
-                  overmap_buffer.ter( over + tripoint_south_west ),
-                  overmap_buffer.ter( over + tripoint_north_west ),
-                  overmap_buffer.ter( over + tripoint_above ),
-                  overmap_buffer.ter( over + tripoint_below ),
-                  over.z(), overmap_buffer.get_settings( over ), m,
-                  overmap_buffer.ter( over ), mapgen_arguments(), density,
-                  when, miss )
+    : terrain_type_( overmap_buffer.ter( over ) )
+    , density_( density )
+    , when_( when )
+    , mission_( miss )
+    , zlevel_( over.z() )
+    , predecessors_( overmap_buffer.predecessors( over ) )
+    , t_above( overmap_buffer.ter( over + tripoint_above ) )
+    , t_below( overmap_buffer.ter( over + tripoint_below ) )
+    , region( overmap_buffer.get_settings( over ) )
+    , m( mp )
+    , default_groundcover( region.default_groundcover )
 {
+    bool ignore_rotation = terrain_type_->has_flag( oter_flags::ignore_rotation_for_adjacency );
+    int rotation = ignore_rotation ? 0 : terrain_type_->get_rotation();
+    auto set_neighbour = [&]( int index, direction dir ) {
+        t_nesw[index] =
+            overmap_buffer.ter( over + displace( dir ).rotate( rotation ) );
+    };
+    set_neighbour( 0, direction::NORTH );
+    set_neighbour( 1, direction::EAST );
+    set_neighbour( 2, direction::SOUTH );
+    set_neighbour( 3, direction::WEST );
+    set_neighbour( 4, direction::NORTHEAST );
+    set_neighbour( 5, direction::SOUTHEAST );
+    set_neighbour( 6, direction::SOUTHWEST );
+    set_neighbour( 7, direction::NORTHWEST );
     if( cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
         if( *maybe_args ) {
             mapgen_args_ = **maybe_args;
@@ -74,6 +85,12 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float densit
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
                           terrain_type_.id().str() );
             }
+        }
+    }
+    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+        if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
+            cube_direction rotated_dir = dir - rotation;
+            joins.emplace( rotated_dir, *join );
         }
     }
 }
@@ -238,4 +255,33 @@ const oter_id &mapgendata::neighbor_at( direction dir ) const
 
     debugmsg( "Neighbor not supported for direction %d", io::enum_to_string( dir ) );
     return north();
+}
+
+bool mapgendata::has_join( const cube_direction dir, const std::string &join_id ) const
+{
+    auto it = joins.find( dir );
+    return it != joins.end() && it->second == join_id;
+}
+
+bool mapgendata::has_predecessor() const
+{
+    return !predecessors_.empty();
+}
+
+const oter_id &mapgendata::last_predecessor() const
+{
+    if( predecessors_.empty() ) {
+        debugmsg( "Tried to get predecessor when none available in mapgendata" );
+        static const oter_id null( oter_str_id::NULL_ID() );
+        return null;
+    }
+    return predecessors_.back();
+}
+
+void mapgendata::pop_last_predecessor()
+{
+    if( predecessors_.empty() ) {
+        debugmsg( "Tried to pop predecessor when none available in mapgendata" );
+    }
+    predecessors_.pop_back();
 }

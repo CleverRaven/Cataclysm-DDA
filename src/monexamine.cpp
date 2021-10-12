@@ -571,7 +571,8 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
-        attack
+        attack,
+        talk_to
     };
 
     uilist amenu;
@@ -664,6 +665,9 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
+    }
+    if( !z.type->chat_topics.empty() ) {
+        amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
     }
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_flag( MF_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
@@ -791,6 +795,9 @@ bool monexamine::pet_menu( monster &z )
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                 get_player_character().melee_attack( z, true );
             }
+            break;
+        case talk_to:
+            get_avatar().talk_to( get_talker_for( z ) );
             break;
         default:
             break;

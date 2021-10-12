@@ -4,7 +4,14 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }, [ "bathroom_scale", 20 ] ]
+    "items": [
+      { "item": "rag", "prob": 40 },
+      { "item": "bath_toy", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "bathroom_scale", "prob": 20 },
+      { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 },
+      { "item": "towel", "prob": 30 },
+      { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }
+    ]
   },
   {
     "id": "kitchen_counters",
@@ -292,6 +299,7 @@
       { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
       { "item": "sponge", "prob": 5 },
       { "group": "tobacco_products", "prob": 151 },
+      { "group": "cigar_box_opened", "prob": 5 },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       { "item": "hi_q_shatter", "prob": 5 },
       { "item": "hi_q_wax", "prob": 5 },
@@ -816,6 +824,7 @@
       { "item": "clock", "prob": 10 },
       { "item": "basket_laundry", "prob": 30 },
       { "group": "tobacco_products", "prob": 146 },
+      { "group": "cigar_box_opened", "prob": 20 },
       { "item": "weed", "prob": 15, "charges": [ 1, 5 ] },
       { "item": "joint", "prob": 5 },
       { "item": "razor_blade", "prob": 5 },
