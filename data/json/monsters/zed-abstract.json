@@ -1,0 +1,134 @@
+[
+  {
+    "id": "mon_zombie_base",
+    "type": "MONSTER",
+    "name": { "str": "zombie" },
+    "description": "Inherited basic stat set for all zombies.  If you're seeing this monster, it's probably a bug.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_cut": 0,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": 1,
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 10,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 25,
+            "message": "The %s is blinded!",
+            "damage_required": [ 26, 100 ]
+          },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 10,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 15
+      },
+      {
+        "name": "the arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 8
+      }
+    ],
+    "vision_night": 3,
+    "harvest": "zombie",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "default_zombie_death_drops",
+    "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
+  },
+  {
+    "id": "mon_zombie_tough_base",
+    "type": "MONSTER",
+    "name": { "str": "tough zombie base" },
+    "description": "Inherited basic stat set for all 'physically fit' zombies.  If you're seeing this monster, it's probably a bug.",
+	"copy-from": "mon_zombie_base",
+    "hp": 100,
+    "speed": 85,
+    "color": "light_red",
+    "melee_dice": 3,
+    "melee_cut": 1,
+    "dodge": 1,
+    "armor_bash": 2,
+    "armor_cut": 1,
+    "armor_bullet": 1,
+	
