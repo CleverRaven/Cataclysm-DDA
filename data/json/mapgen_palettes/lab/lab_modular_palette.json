@@ -398,7 +398,11 @@
         { "item": "supplies_reagents_lab", "chance": 30 },
         { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] }
       ],
-      "r": [ { "item": "office_mess", "chance": 5 }, { "item": "office_supplies", "chance": 25 }, { "item": "lab_files_biology", "chance": 10 } ],
+      "r": [
+        { "item": "office_mess", "chance": 5 },
+        { "item": "office_supplies", "chance": 25 },
+        { "item": "lab_files_biology", "chance": 10 }
+      ],
       "s": [ { "item": "consumer_electronics", "chance": 10 } ],
       "w": [
         { "item": "chem_lab", "chance": 20 },
@@ -432,10 +436,7 @@
         { "item": "tools_mutation", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
       ],
-      "P": [
-        { "item": "office_paper", "chance": 100 },
-        { "item": "lab_files_biology", "chance": 50 }
-      ],
+      "P": [ { "item": "office_paper", "chance": 100 }, { "item": "lab_files_biology", "chance": 50 } ],
       "R": [
         { "item": "lab_bookshelves", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "common_mutation_books", "chance": 20 },
@@ -517,7 +518,11 @@
         { "item": "supplies_reagents_lab", "chance": 30 },
         { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] }
       ],
-      "r": [ { "item": "office_mess", "chance": 5 }, { "item": "office_supplies", "chance": 25 }, { "item": "lab_files_psychology", "chance": 10 } ],
+      "r": [
+        { "item": "office_mess", "chance": 5 },
+        { "item": "office_supplies", "chance": 25 },
+        { "item": "lab_files_psychology", "chance": 10 }
+      ],
       "s": [ { "item": "consumer_electronics", "chance": 10 } ],
       "w": [
         { "item": "chem_lab", "chance": 20 },
