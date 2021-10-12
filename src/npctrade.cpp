@@ -647,6 +647,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     if( np.mission == NPC_MISSION_SHOPKEEP ) {
         volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
+    } else {
+        volume_left = np.volume_capacity() - np.volume_carried();
+        weight_left = np.weight_capacity() - np.weight_carried();
     }
 
     input_context ctxt( "NPC_TRADE" );
@@ -706,6 +709,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                 // Make sure NPC doesn't go over allowed volume
                 popup( _( "%s can't carry all that." ), np.get_name() );
+            } else if( !npc_can_fit_items( np ) ) {
+                popup( _( "%s doesn't have the appropriate pockets to accept that." ), np.get_name() );
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
                 const bool trade_ok = query_yn(
@@ -854,4 +859,38 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
     return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() >= 0;
+}
+
+bool trading_window::npc_can_fit_items( const npc &np ) const
+{
+    std::vector<item> to_store;
+    std::vector<item> avail_pockets;
+    for( const item_pricing &ip : yours ) {
+        if( ip.selected ) {
+            to_store.push_back( *ip.loc );
+        }
+    }
+    for( const item &it : np.worn ) {
+        if( it.is_container() || it.is_holster() ) {
+            avail_pockets.push_back( it );
+        }
+    }
+    if( avail_pockets.empty() ) {
+        return false;
+    }
+    for( item &i : to_store ) {
+        bool item_stored = false;
+        for( item &pkt : avail_pockets ) {
+            const units::volume pvol = pkt.max_containable_volume();
+            if( pkt.can_holster( i ) || ( pkt.can_contain( i ).success() && pvol > i.volume() ) ) {
+                pkt.put_in( i, item_pocket::pocket_type::CONTAINER );
+                item_stored = true;
+                break;
+            }
+        }
+        if( !item_stored ) {
+            return false;
+        }
+    }
+    return true;
 }
