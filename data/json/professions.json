@@ -3749,7 +3749,7 @@
           "nomex_socks",
           "boots_combat",
           "wristwatch",
-          "nomex_gloves",
+          "gloves_tactical",
           { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
           "mil_flight_suit",
           "jacket_army",
