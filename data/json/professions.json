@@ -3759,7 +3759,7 @@
         "entries": [
           { "group": "charged_matches" },
           { "group": "charged_flashlight" },
-          { "item": "handflare","count": 2,"charges":200 },
+          { "item": "handflare", "count": 2, "charges": 200 },
           { "item": "whistle" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
