@@ -1187,6 +1187,22 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             }
         }
     }
+    const std::vector<const item *> this_mods = mods();
+    const std::vector<const item *> that_mods = rhs.mods();
+    if( this_mods.size() != that_mods.size() ) {
+        return false;
+    }
+    for( unsigned i = 0; i < this_mods.size(); i++ ) {
+        if( this_mods[i] == that_mods[i] ) {
+            // Both pointers are null
+            continue;
+        } else if( ( this_mods[i] == nullptr && that_mods[i] != nullptr ) ||
+                   ( this_mods[i] != nullptr && that_mods[i] == nullptr ) ) {
+            return false;
+        } else if( this_mods[i]->typeId() != that_mods[i]->typeId() ) {
+            return false;
+        }
+    }
     return contents.stacks_with( rhs.contents );
 }
 
