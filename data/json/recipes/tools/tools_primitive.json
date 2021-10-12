@@ -34,7 +34,7 @@
       { "id": "HAMMER", "level": 1 },
       { "id": "HAMMER_SOFT", "level": 1 },
       { "id": "PUNCH", "level": 1 },
-      { "id": "CUT", "level": 1 }
+      [{ "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 }]
     ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
     "components": [
@@ -53,7 +53,7 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 }],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
@@ -233,7 +233,7 @@
     "time": "5 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 }],
     "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "splinter", 1 ] ] ]
   },
   {
@@ -284,7 +284,7 @@
     "skill_used": "fabrication",
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {

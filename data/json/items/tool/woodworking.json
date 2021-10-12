@@ -14,7 +14,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ], [ "CUT_PRIMITIVE", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
@@ -33,7 +33,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "red",
-    "qualities": [ [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ], [ "CUT_PRIMITIVE", 1 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
@@ -134,7 +134,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ], [ "CUT_PRIMITIVE", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
@@ -219,7 +219,7 @@
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ], [ "CUT_PRIMITIVE", 1 ] ],
     "flags": [ "SHEATH_AXE" ]
   },
   {
@@ -268,7 +268,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ], [ "CUT_PRIMITIVE", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ]
   },
   {
@@ -286,7 +286,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ], [ "CUT_PRIMITIVE", 1 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {

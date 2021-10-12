@@ -90,7 +90,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 2 ] ],
     "time": "60 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_improvised_shelter"

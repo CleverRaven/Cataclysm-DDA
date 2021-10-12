@@ -13,6 +13,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "CUT_PRIMITIVE",
+    "name": { "str": "primitive cutting" }
+  },
+  {
+    "type": "tool_quality",
     "id": "GLARE",
     "name": { "str": "glare protection" }
   },
