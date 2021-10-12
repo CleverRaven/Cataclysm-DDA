@@ -157,7 +157,7 @@
   {
     "id": "mon_shrapnel_swarm",
     "type": "MONSTER",
-    "name": { "str": " shrapnel swarm" },
+    "name": { "str": "shrapnel swarm" },
     "description": "Uncountable jagged spikes cleaving reality as they fly through its invisible seams.",
     "default_faction": "nether",
     "bodytype": "blob",
