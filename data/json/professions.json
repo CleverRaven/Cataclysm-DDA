@@ -3749,7 +3749,7 @@
           "nomex_socks",
           "boots_combat",
           "wristwatch",
-          "nomex_gloves",
+          "gloves_tactical",
           { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
           "mil_flight_suit",
           "jacket_army",
@@ -3757,6 +3757,10 @@
           "legpouch_large"
         ],
         "entries": [
+          { "group": "charged_matches" },
+          { "group": "charged_flashlight" },
+          { "item": "handflare", "count": 2, "charges": 200 },
+          { "item": "whistle" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },

@@ -226,11 +226,11 @@
     "items": [
       { "item": "jacket_army", "prob": 40 },
       { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
-      { "item": "mil_flight_suit" },
+      { "item": "mil_flight_suit", "prob": 80 },
       { "item": "nomex_gloves" },
       { "item": "webbing_belt" },
-      { "distribution": [ { "item": "socks", "prob": 35 }, { "item": "nomex_socks", "prob": 65 } ] },
-      { "distribution": [ { "item": "gloves_tactical", "prob": 45 }, { "item": "nomex_gloves", "prob": 55 } ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      { "item": "gloves_tactical", "prob": 60 },
       { "item": "boots_combat" },
       {
         "distribution": [
