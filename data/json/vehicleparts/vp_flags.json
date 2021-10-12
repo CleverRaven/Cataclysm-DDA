@@ -316,6 +316,11 @@
     "type": "json_flag"
   },
   {
+    "id": "E_DIESEL_FUEL",
+    "type": "json_flag",
+    "info": "Burns diesel or JP8 fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
+  },
+  {
     "id": "E_HEATER",
     "type": "json_flag"
   },
