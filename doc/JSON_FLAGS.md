@@ -248,6 +248,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
+- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DEAF``` Makes the player deaf.
 - ```MUTE``` Makes the player mute.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.

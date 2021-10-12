@@ -1747,5 +1747,10 @@
     "type": "json_flag",
     "info": "This item fits in items that use heavy batteries.",
     "name": "heavy battery"
+  },
+  {
+    "id": "COMBAT_TOGGLEABLE",
+    "type": "json_flag",
+    "info": "This item is meant to be toggled during combat."
   }
 ]
