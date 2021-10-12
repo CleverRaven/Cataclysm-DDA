@@ -1192,14 +1192,19 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( this_mods.size() != that_mods.size() ) {
         return false;
     }
-    for( unsigned i = 0; i < this_mods.size(); i++ ) {
-        if( this_mods[i] == that_mods[i] ) {
-            // Both pointers are null
-            continue;
-        } else if( ( this_mods[i] == nullptr && that_mods[i] != nullptr ) ||
-                   ( this_mods[i] != nullptr && that_mods[i] == nullptr ) ) {
-            return false;
-        } else if( this_mods[i]->typeId() != that_mods[i]->typeId() ) {
+    for( const item *it1 : this_mods ) {
+        bool match = false;
+        const bool i1_isnull = it1 == nullptr;
+        for( const item *it2 : that_mods ) {
+            const bool i2_isnull = it2 == nullptr;
+            if( i1_isnull != i2_isnull ) {
+                continue;
+            } else if( it1 == it2 || it1->typeId() == it2->typeId() ) {
+                match = true;
+                break;
+            }
+        }
+        if( !match ) {
             return false;
         }
     }
