@@ -3746,22 +3746,18 @@
     "items": {
       "both": {
         "items": [
-          "pants_army",
-          "socks",
-          "undershirt",
+          "nomex_socks",
           "boots_combat",
           "wristwatch",
-          "fancy_sunglasses",
-          "gloves_tactical",
-          "helmet_army",
+          "nomex_gloves",
+          { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
+          "mil_flight_suit",
           "jacket_army",
           "webbing_belt",
           "legpouch_large"
         ],
         "entries": [
-          { "group": "charged_two_way_radio" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }

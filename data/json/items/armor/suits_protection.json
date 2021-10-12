@@ -863,8 +863,38 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
+    "warmth": 15,
+    "material_thickness": 6,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "mil_flight_suit",
+    "type": "ARMOR",
+    "name": { "str": "military flight suit" },
+    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
+    "weight": "1315 g",
+    "volume": "4687 ml",
+    "price": 22065,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "nomex" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 25,
-    "material_thickness": 0.3,
+    "material_thickness": 0.8,
     "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
   }
 ]
