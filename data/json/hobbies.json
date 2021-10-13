@@ -385,9 +385,9 @@
     "id": "marathon_runner",
     "name": "Marathon Runner",
     "description": "You went and ran the Boston Marathon every year.  Now, that training came in handy in avoiding the dead.",
-    "points": 4,
-    "traits": [ "GOODCARDIO" ],
-    "skills": [ { "level": 4, "name": "swimming" } ]
+    "points": 5,
+    "traits": [ "GOODCARDIO", "FLEET" ],
+    "skills": [ { "level": 2, "name": "swimming" } ]
   },
   {
     "type": "profession",
