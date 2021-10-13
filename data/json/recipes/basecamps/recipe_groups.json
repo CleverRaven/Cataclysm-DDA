@@ -452,7 +452,8 @@
       { "id": "brick", "description": " Craft: Brick" },
       { "id": "fire_brick", "description": " Craft: Fire Brick" },
       { "id": "pebble_clay", "description": " Craft: Clay Pellet" },
-      { "id": "clay_canister", "description": " Craft: Clay Canister" }
+      { "id": "clay_canister", "description": " Craft: Clay Canister" },
+      { "id": "clay_hydria", "description": " Craft: Clay Hydria" }
     ]
   },
   {
