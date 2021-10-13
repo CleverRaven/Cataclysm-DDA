@@ -99,10 +99,10 @@
       {
         "id": "buff_barbaran_onblock",
         "name": "Reversing Destreza",
-        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 3 times.",
+        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
-        "max_stacks": 3,
+        "max_stacks": 2,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.95 } ],
         "buff_duration": 3
       }
