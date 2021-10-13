@@ -14,7 +14,7 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "armor_bullet": 6,
-    "delete": { "special_attacks": [ "GRAB", "scratch" ] },
+    "delete": { "special_attacks": [ "GRAB", "scratch" ], "category": [ "CLASSIC" ] },
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "default_zombie_clothes", 100 ], [ "hive", 80 ] ],
@@ -132,7 +132,8 @@
     "name": { "str": "zombie runner" },
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "upgrades": { "half_life": 40, "into": "mon_zombie_hunter" },
-    "copy-from": "mon_zombie_base"
+    "copy-from": "mon_zombie_base",
+    "delete": { "category": [ "CLASSIC" ] },
     "hp": 70,
     "speed": 105,
     "color": "brown_white",
