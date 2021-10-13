@@ -747,7 +747,7 @@
     "time": "1 h",
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]
   },
@@ -936,7 +936,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "rag", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster", 1 ] ] ]
   },
@@ -1614,7 +1614,7 @@
     "time": "2 m",
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "longshirt", 1 ] ] ]
   },

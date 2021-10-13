@@ -159,7 +159,7 @@
     "skill_used": "fabrication",
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
   },
   {

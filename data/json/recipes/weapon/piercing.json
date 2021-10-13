@@ -443,7 +443,7 @@
     "skill_used": "fabrication",
     "time": "48 s",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ] ]
   },
   {
@@ -455,7 +455,7 @@
     "skill_used": "fabrication",
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {

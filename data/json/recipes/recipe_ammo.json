@@ -873,7 +873,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "components": [
       [
         [ "stick", 1 ],
