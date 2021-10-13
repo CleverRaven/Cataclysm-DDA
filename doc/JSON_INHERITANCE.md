@@ -106,7 +106,7 @@ To find out if a type supports copy-from, you need to know if it has implemented
 
 ## Guidelines
 
-Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unwieldy, essentially recreating the level of redundancy we'd like to eliminate. 
+When using copy-from, be aware that it makes the code harder to read.  However, with complex objects that derive values from above, inheritance can make large scale changes much easier.  Consider using comments in JSON to remind editors of the default values that are being inherited.
 
 In general, there are two situations where copy-from should be used in the core game:
 
