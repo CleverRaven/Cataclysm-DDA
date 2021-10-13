@@ -4102,7 +4102,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ],
+    "components": [ [ [ "hickory_nut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4113,7 +4113,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "hazelnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4124,7 +4124,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "chestnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "chestnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4135,7 +4135,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "almond_unshelled", 1 ] ] ],
+    "components": [ [ [ "almond_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4146,7 +4146,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pistachio_unshelled", 1 ] ] ],
+    "components": [ [ [ "pistachio_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4157,7 +4157,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pecan_unshelled", 1 ] ] ],
+    "components": [ [ [ "pecan_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4168,7 +4168,7 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "walnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "walnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4194,7 +4194,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "peanut_unshelled", 1 ] ] ],
+    "components": [ [ [ "peanut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
