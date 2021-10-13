@@ -1,0 +1,47 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "young_yeast",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 4 ],
+    "time": "20 m",
+    "batch_time_factors": [ 90, 1 ],
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "sugar", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_young",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "10 m",
+    "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_split",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "result_mult": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
+  }
+]

@@ -1,0 +1,279 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "irish_coffee",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "7 m",
+    "charges": 1,
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "sugar", 6 ], [ "artificial_sweetener", 6 ] ],
+      [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
+      [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "long_island",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "7 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "cola", 1 ] ],
+      [ [ "vodka", 1 ] ],
+      [ [ "gin", 1 ] ],
+      [ [ "rum", 1 ] ],
+      [ [ "tequila", 1 ] ],
+      [ [ "triple_sec", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_screwdriver",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "oj", 1 ] ], [ [ "vodka", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_wild_apple",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "apple_cider", 1 ] ], [ [ "vodka", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_rumcola",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "rum", 1 ] ], [ [ "cola", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "vodka",
+    "id_suffix": "from_ethanol",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "chem_ethanol", 125 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "mixed_alcohol_strong",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "charges": 1,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [
+      [
+        [ "gin", 1 ],
+        [ "rum", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
+        [ "tequila", 1 ],
+        [ "triple_sec", 1 ],
+        [ "vodka", 1 ],
+        [ "whiskey", 1 ],
+        [ "brandy", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "mixed_alcohol_weak",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "charges": 1,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [
+      [
+        [ "beer", 1 ],
+        [ "belgian_ale", 1 ],
+        [ "drink_beeknees", 1 ],
+        [ "european_pilsner", 1 ],
+        [ "hb_beer", 1 ],
+        [ "india_pale_ale", 1 ],
+        [ "wine_barley", 1 ],
+        [ "pale_ale", 1 ],
+        [ "stout", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_strawberry_surprise",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "7 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 6, "LIST" ] ] ],
+    "components": [ [ [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ] ], [ [ "vodka", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_boozeberry",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "7 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 6, "LIST" ] ] ],
+    "components": [ [ [ "blueberries", 2 ], [ "irradiated_blueberries", 2 ] ], [ [ "vodka", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cola_meth",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "7 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "components": [ [ [ "meth", 4 ] ], [ [ "cola", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "drink_beeknees",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "3 m 30 s",
+    "autolearn": true,
+    "components": [ [ [ "gin", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ], [ [ "lemonade", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "drink_wsour",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "3 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "whiskey", 3 ], [ "single_malt_whiskey", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_martini",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "5 m",
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": true,
+    "components": [ [ [ "gin", 6 ] ], [ [ "wine_vermouth", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_kalimotxo",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "charges": 5,
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ], [ "wine_vermouth", 2 ] ],
+      [ [ "cola", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_hobo",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "4 m",
+    "charges": 15,
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "oj", 1 ], [ "lemonade", 1 ], [ "apple_cider", 1 ], [ "cranberry_juice", 1 ], [ "juice", 1 ] ],
+      [ [ "weak_liquor", 1, "LIST" ] ],
+      [ [ "hard_liquor_chem", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "drink_bloody_mary",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "result_mult": 2,
+    "time": "30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "tomato_juice", 1 ], [ "V8", 1 ] ],
+      [ [ "vodka", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
+      [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
+    ]
+  }
+]

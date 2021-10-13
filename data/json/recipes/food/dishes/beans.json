@@ -1,0 +1,107 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "beans_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 82, 4 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "lentils_cooked",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 82, 4 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "dry_lentils", 1 ], [ "raw_lentils", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "deluxe_beans",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "can_beans", 1 ], [ "beans_cooked", 1 ] ],
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "meat_smoked", 1 ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "can_spam", 2 ],
+        [ "fish", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_salmon", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_salted", 1 ],
+        [ "can_tuna", 1 ],
+        [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
+        [ "bacon", 2 ],
+        [ "powder_eggs", 2 ],
+        [ "eggs_bird", 2, "LIST" ],
+        [ "egg_reptile", 2 ]
+      ],
+      [
+        [ "sugar", 10 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ],
+        [ "molasses", 1 ],
+        [ "honeycomb", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "deluxe_veggy_beans",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "can_beans", 1 ], [ "beans_cooked", 1 ] ],
+      [ [ "veggy_any", 1, "LIST" ] ],
+      [
+        [ "sugar", 10 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ],
+        [ "molasses", 1 ],
+        [ "honeycomb", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ]
+    ]
+  }
+]

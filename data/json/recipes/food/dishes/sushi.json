@@ -1,0 +1,249 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sushi_rice",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 1,
+    "book_learn": [ [ "cookbook_sushi", 2 ] ],
+    "time": "10 m",
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "dry_rice", 1 ] ],
+      [ [ "vinegar", 1 ] ],
+      [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "artificial_sweetener", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "onigiri",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "book_learn": {
+      "cookbook_sushi": { "skill_level": 2 },
+      "cookbook_daintydishes": { "skill_level": 3, "recipe_name": "Sticky Rice Hedgerows" }
+    },
+    "time": "5 m",
+    "charges": 3,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [
+      [ [ "sushi_rice", 1 ] ],
+      [
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "veggy_wild_cooked", 1 ],
+        [ "veggy_cooked", 1 ]
+      ],
+      [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sushi_veggyroll",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "time": "8 m",
+    "charges": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [
+      [ [ "sushi_rice", 1 ] ],
+      [
+        [ "cucumber", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "carrot", 6 ],
+        [ "irradiated_carrot", 6 ],
+        [ "celery", 3 ],
+        [ "tofu", 1 ],
+        [ "irradiated_celery", 3 ],
+        [ "veggy_wild", 3 ],
+        [ "veggy", 3 ],
+        [ "rehydrated_veggy", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
+        [ "corn_kernels", 3 ]
+      ],
+      [
+        [ "lettuce", 2 ],
+        [ "irradiated_lettuce", 2 ],
+        [ "cabbage", 2 ],
+        [ "irradiated_cabbage", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
+        [ "veggy_wild_cooked", 2 ],
+        [ "veggy_cooked", 2 ]
+      ],
+      [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "tofu",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 3 ], [ "cookbook_eatyrway", 4 ] ],
+    "time": "45 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "batch_time_factors": [ 50, 2 ],
+    "components": [ [ [ "soy_milk", 5 ] ], [ [ "water_clean", 1 ] ], [ [ "lemon", 1 ], [ "vinegar", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "tofu_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "book_learn": [ [ "cookbook_sushi", 2 ], [ "cookbook_eatyrway", 3 ] ],
+    "time": "5 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
+    "components": [ [ [ "tofu", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "tofu_stirfry",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "time": "45 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "batch_time_factors": [ 25, 2 ],
+    "components": [
+      [ [ "tofu", 4 ], [ "dry_tofu", 4 ] ],
+      [ [ "dry_rice", 4 ], [ "sushi_rice", 4 ], [ "rice_cooked", 4 ] ],
+      [ [ "cooking_oil", 1 ] ],
+      [
+        [ "beet_syrup", 1 ],
+        [ "syrup", 1 ],
+        [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ],
+        [ "molasses", 1 ],
+        [ "honeycomb", 1 ],
+        [ "honey_bottled", 1 ]
+      ],
+      [ [ "irradiated_broccoli", 2 ], [ "broccoli", 2 ], [ "veggy_wild_cooked", 2 ], [ "veggy_cooked", 2 ] ],
+      [ [ "soysauce", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sushi_fishroll",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "time": "6 m",
+    "charges": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [
+      [ [ "sushi_rice", 1 ] ],
+      [ [ "fish", 2 ] ],
+      [
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "veggy_wild_cooked", 1 ],
+        [ "veggy_cooked", 1 ]
+      ],
+      [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sushi_meatroll",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "time": "6 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [
+      [ [ "sushi_rice", 2 ] ],
+      [ [ "meat_red", 1, "LIST" ] ],
+      [
+        [ "lettuce", 2 ],
+        [ "irradiated_lettuce", 2 ],
+        [ "cabbage", 2 ],
+        [ "irradiated_cabbage", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
+        [ "veggy_wild_cooked", 2 ],
+        [ "veggy_cooked", 2 ]
+      ],
+      [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sashimi",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "book_learn": {
+      "cookbook_sushi": { "skill_level": 4 },
+      "cookbook_foodfashions": { "skill_level": 4, "recipe_name": "Low-Carb Sashimi Donburi" }
+    },
+    "time": "9 m",
+    "charges": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [
+      [ [ "fish", 1 ] ],
+      [
+        [ "cucumber", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "carrot", 6 ],
+        [ "irradiated_carrot", 6 ],
+        [ "celery", 3 ],
+        [ "irradiated_celery", 3 ],
+        [ "veggy_wild", 3 ],
+        [ "veggy", 3 ],
+        [ "rehydrated_veggy", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
+        [ "corn_kernels", 3 ]
+      ],
+      [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  }
+]

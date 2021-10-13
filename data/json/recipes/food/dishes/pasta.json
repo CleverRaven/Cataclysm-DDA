@@ -123,58 +123,6 @@
     ]
   },
   {
-    "result": "noodles_fast",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_PASTA",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "result": "spaghetti_raw",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_PASTA",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "result": "lasagne_raw",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_PASTA",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "result": "macaroni_raw",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_PASTA",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
     "result": "macaroni_helper",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

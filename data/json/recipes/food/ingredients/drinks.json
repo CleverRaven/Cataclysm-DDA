@@ -1,0 +1,70 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "coffee_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "coffee_raw_kentucky",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "delete_flags": [ "HIDDEN_POISON" ],
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "2 h",
+    "//": "2 hours of roasting are required to fully break up the toxins in raw pods",
+    "book_learn": [ [ "survival_book", 1 ] ],
+    "batch_time_factors": [ 90, 1 ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "coffee_pod", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "roasted_coffee_bean",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "coffee_bean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "coffee_syrup",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "12 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "coffee_raw", 3 ] ],
+      [ [ "sugar", 20 ], [ "honeycomb", 2 ], [ "honey_bottled", 6 ], [ "honey_glassed", 2 ], [ "syrup", 6 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  }
+
+]

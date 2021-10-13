@@ -1,0 +1,160 @@
+[
+  {
+    "result": "milkshake",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "syrup", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "cherries", 1 ],
+        [ "irradiated_cherries", 1 ]
+      ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "milkshake_choc",
+    "type": "recipe",
+    "copy-from": "milkshake",
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk_choc", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "cherries", 1 ],
+        [ "irradiated_cherries", 1 ]
+      ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "milkshake_deluxe",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "12 m 30 s",
+    "autolearn": true,
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk_standard", 1, "LIST" ] ],
+      [
+        [ "chocolate", 2 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "syrup", 1 ],
+        [ "candy", 2 ],
+        [ "candy2", 2 ],
+        [ "candy3", 2 ],
+        [ "maple_candy", 2 ],
+        [ "syrup", 2 ],
+        [ "strawberries", 2 ],
+        [ "strawberries_cooked", 2 ],
+        [ "irradiated_strawberries", 2 ],
+        [ "blueberries", 2 ],
+        [ "blueberries_cooked", 2 ],
+        [ "irradiated_blueberries", 2 ],
+        [ "blackberries", 2 ],
+        [ "irradiated_blackberries", 2 ],
+        [ "cherries", 2 ],
+        [ "irradiated_cherries", 2 ]
+      ],
+      [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "milkshake_deluxe_choc",
+    "type": "recipe",
+    "copy-from": "milkshake_deluxe",
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk_choc", 1 ] ],
+      [
+        [ "chocolate", 2 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "syrup", 1 ],
+        [ "candy", 2 ],
+        [ "candy2", 2 ],
+        [ "candy3", 2 ],
+        [ "maple_candy", 2 ],
+        [ "syrup", 2 ],
+        [ "strawberries", 2 ],
+        [ "strawberries_cooked", 2 ],
+        [ "irradiated_strawberries", 2 ],
+        [ "blueberries", 2 ],
+        [ "blueberries_cooked", 2 ],
+        [ "irradiated_blueberries", 2 ],
+        [ "blackberries", 2 ],
+        [ "irradiated_blackberries", 2 ],
+        [ "cherries", 2 ],
+        [ "irradiated_cherries", 2 ]
+      ],
+      [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "frozen_lemonade",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ],
+      [ [ "lemonade", 1 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  }
+]

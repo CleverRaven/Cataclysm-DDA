@@ -1,0 +1,102 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelatin_fresh",
+    "byproducts": [ [ "formic_acid" ], [ "ruined_chunks" ] ],
+    "result_mult": 12,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "120 m",
+    "batch_time_factors": [ 90, 1 ],
+    "charges": 1,
+    "autolearn": true,
+    "tools": [ [ "colander_steel" ] ],
+    "components": [ [ [ "gelatin_extracted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "raw_curing_fatty_meat",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
+    "components": [
+      [
+        [ "salt_water", 1 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
+      ],
+      [ [ "sugar_standard", 1, "LIST" ] ],
+      [ [ "porkbelly", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sausage_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "10 m",
+    "charges": 6,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "components": [
+      [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "meatball_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "10 m",
+    "charges": 6,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook_italian", 2 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 2, "LIST" ] ],
+      [ [ "bread", 1 ] ],
+      [
+        [ "salt", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 2 ],
+        [ "wild_herbs", 2 ],
+        [ "seasoning_salt", 2 ],
+        [ "pepper", 2 ]
+      ]
+    ]
+  }
+]
