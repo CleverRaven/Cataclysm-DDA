@@ -67,7 +67,7 @@
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting or repair of steel items or installation of vehicle parts",
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ]
   },
   {
@@ -183,7 +183,7 @@
     "id": "metal_removal_standard",
     "type": "requirement",
     "//": "Tools for removing metal / rebar",
-    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 }, { "id": "PRY", "level": 3 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 1 }, { "id": "PRY", "level": 3 } ],
     "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
   },
   {

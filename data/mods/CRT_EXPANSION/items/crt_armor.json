@@ -15,7 +15,6 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 10,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
