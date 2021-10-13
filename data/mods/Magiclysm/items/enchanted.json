@@ -27,7 +27,7 @@
     "price": 10000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "MAGIC_FOCUS" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ] } ]
     },
