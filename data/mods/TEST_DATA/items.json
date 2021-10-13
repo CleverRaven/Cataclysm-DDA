@@ -221,6 +221,31 @@
     "qualities": [ [ "SHEAR", 3 ] ]
   },
   {
+    "id": "test_cordless_drill",
+    "type": "TOOL",
+    "name": { "str": "test cordless drill" },
+    "description": "This is a cordless battery-powered drill with a selection of drill bits.",
+    "weight": "2721 g",
+    "volume": "750 ml",
+    "longest_side": "22 cm",
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 5,
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ [ "DRILL", 3 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "test_tool_belt",
     "type": "ARMOR",
     "name": { "str": "tool belt" },
