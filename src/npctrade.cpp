@@ -709,7 +709,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                 // Make sure NPC doesn't go over allowed volume
                 popup( _( "%s can't carry all that." ), np.get_name() );
-            } else if( !npc_can_fit_items( np ) ) {
+            } else if( np.mission != NPC_MISSION_SHOPKEEP && !npc_can_fit_items( np ) ) {
                 popup( _( "%s doesn't have the appropriate pockets to accept that." ), np.get_name() );
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
