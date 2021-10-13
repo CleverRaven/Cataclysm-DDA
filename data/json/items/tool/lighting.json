@@ -380,7 +380,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "WATER_BREAK" ],
+    "flags": [ "BELT_CLIP" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
