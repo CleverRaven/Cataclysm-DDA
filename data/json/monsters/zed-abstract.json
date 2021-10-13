@@ -90,6 +90,7 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 8
       }
@@ -100,7 +101,6 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -124,11 +124,90 @@
 	"copy-from": "mon_zombie_base",
     "hp": 100,
     "speed": 85,
-    "color": "light_red",
     "melee_dice": 3,
     "melee_cut": 1,
     "dodge": 1,
     "armor_bash": 2,
     "armor_cut": 1,
     "armor_bullet": 1,
+    "delete": { "special_attacks": [ { "type": "bite" } ] },
+    "extend": { "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 } ] }
+  },
+  {
+    "id": "mon_zombie_bodyarmor_base",
+    "type": "MONSTER",
+    "name": { "str": "body armor zombie base" },
+    "description": "Inherited basic stat set for all zombies wearing some sort of basic body armour.  If you're seeing this monster, it's probably a bug.",
+	"copy-from": "mon_zombie_base",
+    "melee_skill": 6,
+    "melee_dice_sides": 4,
+    "armor_bash": 6,
+    "armor_cut": 6,
+    "armor_bullet": 6,
+    "armor_stab": 6,
+    "extend": {
+        "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
+      },
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": 1,
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 10,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      }
+    ] },
+    "delete": { "weakpoints": [ "name": "the head" ], "special_attacks": [ { "type": "bite" } ] }, }
+  },
 	
