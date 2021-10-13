@@ -131,25 +131,16 @@
     "type": "MONSTER",
     "name": { "str": "zombie runner" },
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
-    "default_faction": "zombie",
-    "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "upgrades": { "half_life": 40, "into": "mon_zombie_hunter" },
+    "copy-from": "mon_zombie_base"
     "hp": 70,
     "speed": 105,
-    "material": [ "flesh" ],
-    "symbol": "Z",
     "color": "brown_white",
-    "aggression": 100,
-    "morale": 100,
     "melee_skill": 4,
     "melee_dice": 4,
-    "melee_dice_sides": 3,
     "melee_cut": 1,
+    "//": "Inherited values: melee_dice_sides 3",
     "dodge": 1,
-    "vision_night": 3,
-    "harvest": "zombie",
     "path_settings": { "max_dist": 4 },
     "special_attacks": [
       [ "scratch", 10 ],
@@ -158,11 +149,7 @@
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
-    ],
-    "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 20, "into": "mon_zombie_hunter" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    ]
   },
   {
     "id": "mon_zombie_resort_dancer",
