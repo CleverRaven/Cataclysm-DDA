@@ -208,6 +208,6 @@
         ]
       }
     ] },
-    "delete": { "weakpoints": [ "name": "the head" ], "special_attacks": [ { "type": "bite" } ] }, }
+    "delete": { "weakpoints": [ { "name": "the head" } ], "special_attacks": [ { "type": "bite" } ] }, }
   },
 	
