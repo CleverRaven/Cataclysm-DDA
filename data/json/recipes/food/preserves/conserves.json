@@ -28,6 +28,5 @@
     "result_mult": 12,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "sweet_fruit", 8, "LIST" ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "hard_liquor", 5, "LIST" ] ] ]
-  },
-
+  }
 ]
