@@ -1453,7 +1453,7 @@
     "time": "2 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "CUT_PRIMITIVE", "level": 1 } ] ],
     "components": [
       [
         [ "bone_sturdy", 1, "LIST" ],
