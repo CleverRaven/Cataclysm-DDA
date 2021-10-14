@@ -2,49 +2,47 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ANT",
-    "default": "mon_ant_small",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_ant_larva", "freq": 40, "cost_multiplier": 0 },
       { "monster": "mon_ant_soldier", "freq": 90, "cost_multiplier": 5 },
-      { "monster": "mon_ant_queen", "freq": 0, "cost_multiplier": 0 }
+      { "monster": "mon_ant_queen", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_ant_small", "freq": 870, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ANT_SURFACE",
-    "default": "mon_ant_small",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_ant_soldier", "freq": 90, "cost_multiplier": 5 },
       { "monster": "mon_aphid", "freq": 40, "pack_size": [ 3, 10 ], "cost_multiplier": 0 },
       { "monster": "mon_lady_bug_giant", "freq": 10, "pack_size": [ 1, 3 ], "cost_multiplier": 10 },
       { "monster": "mon_antlion_larva", "freq": 5, "cost_multiplier": 10 },
-      { "monster": "mon_antlion_giant", "freq": 3, "cost_multiplier": 10 }
+      { "monster": "mon_antlion_giant", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_ant_small", "freq": 852, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ANT_ACID",
-    "default": "mon_ant_acid_small",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_ant_acid_larva", "freq": 35, "cost_multiplier": 0 },
       { "monster": "mon_ant_acid_soldier", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_ant_acid_queen", "freq": 0, "cost_multiplier": 0 }
+      { "monster": "mon_ant_acid_queen", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_ant_acid_small", "freq": 865, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BEE",
-    "default": "mon_bee_small",
-    "monsters": [  ]
+    "monsters": [ { "monster": "mon_bee_small", "cost_multiplier": 0 } ]
   },
   {
     "name": "GROUP_DERMATIK",
     "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_dermatik", "freq": 1000 } ]
+    "monsters": [ { "monster": "mon_dermatik" } ]
   },
   {
     "name": "GROUP_DERMATIK_INCUB",
@@ -52,16 +50,16 @@
     "default": "mon_dermatik_incubator_deer",
     "monsters": [
       { "monster": "mon_dermatik_incubator_spider", "freq": 500 },
-      { "monster": "mon_dermatik_incubator_dog", "freq": 100 }
+      { "monster": "mon_dermatik_incubator_dog", "freq": 100 },
+      { "monster": "mon_dermatik_incubator_deer", "freq": 400 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ROACH",
-    "default": "mon_large_cockroach",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_large_cockroach", "freq": 40, "cost_multiplier": 0 },
+      { "monster": "mon_large_cockroach", "freq": 975, "cost_multiplier": 0 },
       { "monster": "mon_pregnant_giant_cockroach", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_giant_cockroach_nymph", "freq": 20, "cost_multiplier": 0 }
     ]
@@ -69,10 +67,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PLAGUE_ROACH",
-    "default": "mon_skittering_plague",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_skittering_plague", "freq": 40, "cost_multiplier": 0 },
+      { "monster": "mon_skittering_plague", "freq": 975, "cost_multiplier": 0 },
       { "monster": "mon_plague_vector", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_plague_nymph", "freq": 20, "cost_multiplier": 0 }
     ]
@@ -80,13 +77,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SPIDER",
-    "default": "mon_spider_web_small",
-    "monsters": [  ]
+    "monsters": [ { "monster": "mon_spider_web_small", "cost_multiplier": 0 } ]
   },
   {
     "name": "GROUP_WASP_NEST",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
       { "monster": "mon_wasp_small", "freq": 500, "ends": "180 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
@@ -144,7 +139,6 @@
   {
     "name": "GROUP_WASP_FORAGER",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
       { "monster": "mon_wasp_small", "freq": 1000, "ends": "180 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
@@ -174,7 +168,6 @@
   {
     "name": "GROUP_WASP_GUARD",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
       { "monster": "mon_wasp_small_guard", "freq": 1000, "ends": "180 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
@@ -204,7 +197,6 @@
   {
     "name": "GROUP_WASP_QUEEN",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
       { "monster": "mon_wasp_queen", "freq": 1000, "cost_multiplier": 50, "ends": "30 days" },
       { "monster": "mon_wasp_mega", "freq": 1000, "cost_multiplier": 50, "starts": "15 days" }
@@ -214,16 +206,20 @@
     "name": "GROUP_WASP_PUPA",
     "type": "monstergroup",
     "default": "mon_wasp",
-    "monsters": [ { "monster": "mon_dermatik", "freq": 50 }, { "monster": "mon_wasp_guard", "freq": 500 } ]
+    "monsters": [
+      { "monster": "mon_dermatik", "freq": 50 },
+      { "monster": "mon_wasp_guard", "freq": 500 },
+      { "monster": "mon_wasp", "freq": 450 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_WORM",
-    "default": "mon_worm_small",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_graboid", "freq": 30, "cost_multiplier": 20 },
-      { "monster": "mon_halfworm", "freq": 0, "cost_multiplier": 0 }
+      { "monster": "mon_halfworm", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_worm_small", "freq": 970, "cost_multiplier": 0 }
     ]
   }
 ]

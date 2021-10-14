@@ -2,9 +2,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_UPGRADE",
-    "default": "mon_zombie_tough",
     "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
+      { "monster": "mon_zombie_tough", "freq": 110 },
       { "monster": "mon_zombie_grabber", "freq": 30 },
       { "monster": "mon_zombie_grappler", "freq": 90 },
       { "monster": "mon_zombie_hunter", "freq": 60 },
@@ -34,15 +34,18 @@
     "name": "GROUP_ZOMBIE_CRAWLER_UPGRADE",
     "default": "mon_zombie_crawler",
     "//": "crawling zombie upgrades",
-    "monsters": [ { "monster": "mon_zombie_crawler_pupa", "freq": 500 }, { "monster": "mon_zombie_crawler_pupa_decoy", "freq": 500 } ]
+    "monsters": [
+      { "monster": "mon_zombie_crawler" },
+      { "monster": "mon_zombie_crawler_pupa", "freq": 500 },
+      { "monster": "mon_zombie_crawler_pupa_decoy", "freq": 500 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRAINLESS_UPGRADE",
-    "default": "mon_zombie_brainless",
     "//": "No bionics or fungal",
     "monsters": [
-      { "monster": "mon_zombie_brainless", "freq": 45 },
+      { "monster": "mon_zombie_brainless", "freq": 715 },
       { "monster": "mon_zombie_ears", "freq": 245 },
       { "monster": "mon_afs_headless_horror", "freq": 40 }
     ]
@@ -78,7 +81,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MEDICAL_UPGRADE",
-    "default": "mon_zombie_medical_regenerating",
     "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_medical_brute", "freq": 200 },
@@ -104,6 +106,7 @@
     "default": "mon_zombie_brute",
     "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
+      { "monster": "mon_zombie_brute" },
       { "monster": "mon_zombie_brute_grappler", "freq": 240 },
       { "monster": "mon_zombie_brute_ninja", "freq": 175 },
       { "monster": "mon_brute_pupa", "freq": 100 },
@@ -129,14 +132,12 @@
   {
     "type": "monstergroup",
     "name": "GROUP_BRUTE_PUPA",
-    "default": "mon_null",
     "//": "this is a sub-group of pupating zombies that can only evolve from pupating zombie brutes.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [ { "monster": "mon_hulk_pupa", "freq": 500 }, { "monster": "mon_hulk_pupa_decoy", "freq": 500 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_ELECTRIC_UPGRADE",
-    "default": "mon_null",
     "//": "Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_nullfield", "freq": 400 },
@@ -150,9 +151,10 @@
     "default": "mon_spawn_raptor",
     "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_spawn_raptor_shady", "freq": 330 },
-      { "monster": "mon_spawn_raptor_electric", "freq": 330 },
-      { "monster": "mon_spawn_raptor_unstable", "freq": 330 }
+      { "monster": "mon_spawn_raptor" },
+      { "monster": "mon_spawn_raptor_shady", "freq": 333 },
+      { "monster": "mon_spawn_raptor_electric", "freq": 333 },
+      { "monster": "mon_spawn_raptor_unstable", "freq": 333 }
     ]
   },
   {
@@ -161,6 +163,7 @@
     "default": "mon_zombie_shady",
     "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
+      { "monster": "mon_zombie_shady" },
       { "monster": "mon_zombie_brute_ninja", "freq": 500 },
       { "monster": "mon_zombie_pupa_decoy_shady", "freq": 250 },
       { "monster": "mon_zombie_pupa_shady", "freq": 250 }
@@ -172,11 +175,12 @@
     "default": "mon_boomer",
     "//": "Boomer upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_boomer_glutton", "freq": 235 },
-      { "monster": "mon_boomer_huge", "freq": 300 },
-      { "monster": "mon_zombie_necro_boomer", "freq": 15 },
-      { "monster": "mon_gas_zombie", "freq": 100 },
-      { "monster": "mon_zombie_gasbag", "freq": 300 }
+      { "monster": "mon_boomer" },
+      { "monster": "mon_boomer_glutton", "freq": 245 },
+      { "monster": "mon_boomer_huge", "freq": 310 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 25 },
+      { "monster": "mon_gas_zombie", "freq": 110 },
+      { "monster": "mon_zombie_gasbag", "freq": 310 }
     ]
   }
 ]

@@ -4,6 +4,7 @@
     "name": "GROUP_ZOMBIE_MID",
     "default": "mon_zombie_tough",
     "monsters": [
+      { "monster": "mon_zombie_tough", "freq": 117 },
       { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 10, "pack_size": [ 25, 30 ] },
       { "monster": "mon_zombie_fat", "freq": 75 },
       { "monster": "mon_zombie_fat", "freq": 3, "cost_multiplier": 3, "pack_size": [ 3, 5 ] },

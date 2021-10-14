@@ -6,6 +6,7 @@
     "monsters": [
       { "monster": "mon_triffid_young", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_fungal_fighter", "freq": 100 },
+      { "monster": "mon_triffid", "freq": 80 },
       { "monster": "mon_triffid", "freq": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
       { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
       { "monster": "mon_triffid_queen", "freq": 60, "cost_multiplier": 20 },
@@ -19,6 +20,7 @@
     "default": "mon_triffid",
     "monsters": [
       { "monster": "mon_triffid_young", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_triffid", "freq": 205 },
       { "monster": "mon_triffid", "freq": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
       { "monster": "mon_fungal_fighter", "freq": 160, "cost_multiplier": 0 },
       { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
@@ -31,6 +33,7 @@
     "name": "GROUP_TRIFFID_HEARTGUARDS",
     "default": "mon_triffid",
     "monsters": [
+      { "monster": "mon_triffid", "freq": 280, "cost_multiplier": 0 },
       { "monster": "mon_triffid", "freq": 300, "cost_multiplier": 0, "pack_size": [ 4, 6 ] },
       { "monster": "mon_vinebeast", "freq": 260, "cost_multiplier": 2 },
       { "monster": "mon_triffid_queen", "freq": 160, "cost_multiplier": 5 }
@@ -39,6 +42,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_TRIFFID_HEART",
-    "default": "mon_triffid_heart"
+    "monsters": [ { "monster": "mon_triffid_heart" } ]
   }
 ]

@@ -4,6 +4,7 @@
     "name": "GROUP_FUNGI",
     "default": "mon_spore",
     "monsters": [
+      { "monster": "mon_spore", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid", "freq": 400, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_shambler", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_young", "freq": 200, "cost_multiplier": 0 },
@@ -17,7 +18,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_FUNGALOID",
-    "default": "mon_fungaloid",
     "monsters": [
       { "monster": "mon_fungaloid", "freq": 500, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_shambler", "freq": 250, "cost_multiplier": 0 },
@@ -27,8 +27,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_TOWER",
-    "default": "mon_fungal_tendril",
     "monsters": [
+      { "monster": "mon_fungal_tendril", "freq": 755, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_shambler", "freq": 30, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_young", "freq": 30, "cost_multiplier": 0 },
@@ -42,8 +42,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_FLOWERS",
-    "default": "mon_fungal_blossom",
     "monsters": [
+      { "monster": "mon_fungal_blossom", "freq": 680, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_shambler", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_young", "freq": 50, "cost_multiplier": 0 },

@@ -364,7 +364,6 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     if( !extending || jo.has_string( "default" ) ) {
         g.defaultMonster = mtype_id( jo.get_string( "default", "mon_null" ) );
     }
-    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) );
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
         for( JsonObject mon : jo.get_array( "monsters" ) ) {
@@ -425,8 +424,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
-    g.freq_total += freq_total;
-    //g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) + freq_total );
+    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) + freq_total );
     if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
         int total = 0;
         for( MonsterGroupEntry &mon : g.monsters ) {

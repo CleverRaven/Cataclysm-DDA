@@ -3,13 +3,13 @@
     "type": "monstergroup",
     "name": "GROUP_NULL",
     "is_safe": true,
-    "default": "mon_null"
+    "monsters": [ { "monster": "mon_null" } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BLACK_ROAD",
-    "default": "mon_zombie",
     "monsters": [
+      { "monster": "mon_zombie", "freq": 407 },
       { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
       { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
@@ -47,8 +47,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_CHUD",
-    "default": "mon_chud",
     "monsters": [
+      { "monster": "mon_chud", "freq": 875, "cost_multiplier": 0 },
       { "monster": "mon_one_eye", "freq": 90, "cost_multiplier": 0 },
       { "monster": "mon_crawler", "freq": 35, "cost_multiplier": 0 }
     ]
@@ -96,6 +96,7 @@
     "//": "Normal subway, extra spawns underneath a city",
     "default": "mon_chud",
     "monsters": [
+      { "monster": "mon_chud", "freq": 90 },
       { "monster": "mon_chud", "freq": 400, "pack_size": [ 2, 3 ] },
       { "monster": "mon_one_eye", "freq": 10 },
       {
@@ -123,6 +124,7 @@
     "default": "mon_kreck",
     "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
     "monsters": [
+      { "monster": "mon_kreck", "freq": 200 },
       { "monster": "mon_unseen_hunter", "freq": 200, "starts": "42 hours", "ends": "15 days" },
       { "monster": "mon_unseen_hunter", "freq": 200, "pack_size": [ 1, 2 ], "starts": "15 days" },
       { "monster": "mon_mutant_experimental", "freq": 200, "ends": "180 hours" },
@@ -196,9 +198,9 @@
     "type": "monstergroup",
     "name": "GROUP_SAFE",
     "is_safe": true,
-    "default": "mon_null",
     "is_animal": true,
     "monsters": [
+      { "monster": "mon_null", "freq": 669 },
       { "monster": "mon_bat", "freq": 10 },
       { "monster": "mon_bobcat", "freq": 10 },
       { "monster": "mon_chicken", "freq": 10 },
@@ -257,8 +259,8 @@
   {
     "type": "monstergroup",
     "name": "DUMP_ANIMALS",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 378 },
       { "monster": "mon_fly", "freq": 100 },
       { "monster": "mon_crow", "freq": 75 },
       { "monster": "mon_raven", "freq": 75 },
@@ -279,9 +281,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PEST",
-    "default": "mon_crow",
     "is_animal": true,
     "monsters": [
+      { "monster": "mon_crow", "freq": 760 },
       {
         "monster": "mon_bat",
         "freq": 20,
@@ -302,9 +304,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER",
-    "default": "mon_null",
     "//": "Freqs sum to 555 since there's no way to define spawn chance for map extras",
     "monsters": [
+      { "monster": "mon_null", "freq": 370, "cost_multiplier": 0 },
       { "monster": "mon_sewer_fish", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_snake", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "freq": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
@@ -321,8 +323,8 @@
     "name": "GROUP_VETS",
     "type": "monstergroup",
     "//": "for veterinarian",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 948 },
       { "monster": "mon_zombie_dog", "freq": 15 },
       { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
       { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },

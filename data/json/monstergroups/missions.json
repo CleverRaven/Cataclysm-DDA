@@ -4,6 +4,10 @@
     "name": "GROUP_REFUGEE_BOSS_ZOMBIE",
     "default": "mon_zombie_tough",
     "//": "The refugee center mission 1 enemy is chosen from here",
-    "monsters": [ { "monster": "mon_zombie_acidic", "freq": 333 }, { "monster": "mon_zombie_electric", "freq": 333 } ]
+    "monsters": [
+      { "monster": "mon_zombie_tough", "freq": 333 },
+      { "monster": "mon_zombie_acidic", "freq": 333 },
+      { "monster": "mon_zombie_electric", "freq": 333 }
+    ]
   }
 ]

@@ -2,30 +2,30 @@
   {
     "type": "monstergroup",
     "name": "GROUP_BREATHER",
-    "default": "mon_breather",
-    "monsters": [ { "monster": "mon_breather", "freq": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] } ]
+    "monsters": [
+      { "monster": "mon_breather", "freq": 990 },
+      { "monster": "mon_breather", "freq": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BREATHER_HUB",
-    "default": "mon_breather_hub"
+    "monsters": [ { "monster": "mon_breather_hub" } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_CHURCH_BLANK",
-    "default": "mon_blank",
-    "monsters": [ { "monster": "mon_blank", "freq": 50, "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_blank", "cost_multiplier": 0 } ]
   },
   {
     "name": "GROUP_DARK_WYRM",
     "type": "monstergroup",
-    "default": "mon_dark_wyrm",
-    "monsters": [ { "monster": "mon_dark_wyrm", "freq": 40 } ]
+    "monsters": [ { "monster": "mon_dark_wyrm" } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_DOG_THING",
-    "default": "mon_dog_thing"
+    "monsters": [ { "monster": "mon_dog_thing" } ]
   },
   {
     "type": "monstergroup",
@@ -50,6 +50,7 @@
     "name": "GROUP_NETHER",
     "default": "mon_blank",
     "monsters": [
+      { "monster": "mon_blank", "freq": 135, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "freq": 25, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "freq": 240, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "freq": 50, "cost_multiplier": 0, "starts": "30 days" },
@@ -89,8 +90,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SPIRAL",
-    "default": "mon_human_snail",
     "monsters": [
+      { "monster": "mon_human_snail", "freq": 740, "cost_multiplier": 0 },
       { "monster": "mon_twisted_body", "freq": 180, "cost_multiplier": 0 },
       { "monster": "mon_vortex", "freq": 80, "cost_multiplier": 0 }
     ]
@@ -98,6 +99,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_TINDALOS",
-    "default": "mon_hound_tindalos"
+    "monsters": [ { "monster": "mon_hound_tindalos" } ]
   }
 ]
