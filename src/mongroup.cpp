@@ -379,10 +379,12 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             time_duration starts = 0_turns;
             time_duration ends = 0_turns;
             if( mon.has_member( "starts" ) ) {
-                starts = tdfactor * mon.get_int( "starts" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
+                assign( mon, "starts", starts, false, tdfactor );
+                starts *= mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
             }
             if( mon.has_member( "ends" ) ) {
-                ends = tdfactor * mon.get_int( "ends" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
+                assign( mon, "ends", ends, false, tdfactor );
+                ends *= mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
             }
             spawn_data data;
             if( mon.has_object( "spawn_data" ) ) {
