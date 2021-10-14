@@ -4114,11 +4114,11 @@
     "items": {
       "both": {
         "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "UPS_off" }, { "item": "hm12" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "UPS_off", "ammo-item": "heavy_battery_cell", "charges": 1250 }, { "item": "hm12" } ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ],
+      "female": [ "bra", "panties" ]
+    },
 "flags": [ "SCEN_ONLY" ]
-    }
   }
 ]
