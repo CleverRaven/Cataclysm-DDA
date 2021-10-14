@@ -314,7 +314,7 @@
     "cutting": 12,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "bone" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT_PRIMITIVE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
     "weapon_category": [ "KNIVES" ]
   },
