@@ -1802,35 +1802,39 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
 
     if( diag_mode == "mode4" ) {
         if( ( keysym.mod & KMOD_SHIFT ) || ( keysym.mod & KMOD_CTRL ) ) {
-            const Uint8 *s = SDL_GetKeyboardState(NULL);
+            const Uint8 *s = SDL_GetKeyboardState( nullptr );
             const int count = s[SDL_SCANCODE_LEFT] + s[SDL_SCANCODE_RIGHT] + s[SDL_SCANCODE_UP] + s[SDL_SCANCODE_DOWN];
             if( count == 2 ) {
                 switch( keysym.sym ) {
                     case SDLK_LEFT:
                         if( s[SDL_SCANCODE_UP] ) {
                             return inp_mngr.get_first_char_for_action( "LEFTUP" );
-                        } else if( s[SDL_SCANCODE_DOWN] ) {
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
                             return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
                         }
                         return 0;
                     case SDLK_RIGHT:
                         if( s[SDL_SCANCODE_UP] ) {
                             return inp_mngr.get_first_char_for_action( "RIGHTUP" );
-                        } else if( s[SDL_SCANCODE_DOWN] ) {
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
                             return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
                         }
                         return 0;
                     case SDLK_UP:
                         if( s[SDL_SCANCODE_LEFT] ) {
                             return inp_mngr.get_first_char_for_action( "LEFTUP" );
-                        } else if( s[SDL_SCANCODE_RIGHT] ) {
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
                             return inp_mngr.get_first_char_for_action( "RIGHTUP" );
                         }
                         return 0;
                     case SDLK_DOWN:
                         if( s[SDL_SCANCODE_LEFT] ) {
                             return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
-                        } else if( s[SDL_SCANCODE_RIGHT] ) {
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
                             return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
                         }
                         return 0;
