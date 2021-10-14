@@ -20,7 +20,7 @@
     "name": "GROUP_DARK_WYRM",
     "type": "monstergroup",
     "default": "mon_dark_wyrm",
-    "monsters": [ { "monster": "mon_dark_wyrm", "freq": 40, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_dark_wyrm", "freq": 40 } ]
   },
   {
     "type": "monstergroup",

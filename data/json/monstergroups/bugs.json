@@ -44,15 +44,15 @@
     "name": "GROUP_DERMATIK",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_dermatik", "freq": 1000, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_dermatik", "freq": 1000 } ]
   },
   {
     "name": "GROUP_DERMATIK_INCUB",
     "type": "monstergroup",
     "default": "mon_dermatik_incubator_deer",
     "monsters": [
-      { "monster": "mon_dermatik_incubator_spider", "freq": 500, "cost_multiplier": 1 },
-      { "monster": "mon_dermatik_incubator_dog", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_dermatik_incubator_spider", "freq": 500 },
+      { "monster": "mon_dermatik_incubator_dog", "freq": 100 }
     ]
   },
   {
@@ -245,10 +245,7 @@
     "name": "GROUP_WASP_PUPA",
     "type": "monstergroup",
     "default": "mon_wasp",
-    "monsters": [
-      { "monster": "mon_dermatik", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_wasp_guard", "freq": 500, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_dermatik", "freq": 50 }, { "monster": "mon_wasp_guard", "freq": 500 } ]
   },
   {
     "type": "monstergroup",

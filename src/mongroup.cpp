@@ -367,7 +367,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
 
             int freq = mon.get_int( "freq" );
-            int cost = mon.get_int( "cost_multiplier" );
+            int cost = mon.get_int( "cost_multiplier", 1 );
             int pack_min = 1;
             int pack_max = 1;
             if( mon.has_member( "pack_size" ) ) {

@@ -21,7 +21,7 @@
     "name": "GROUP_HAZMATBOT",
     "type": "monstergroup",
     "default": "mon_hazmatbot",
-    "monsters": [ { "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_hazmatbot", "freq": 40 } ]
   },
   {
     "type": "monstergroup",
