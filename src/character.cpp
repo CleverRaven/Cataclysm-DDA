@@ -6898,9 +6898,27 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     }
 
     int sum_cover = 0;
+    bool dealt_melee = false;
+    bool dealt_ranged = false;
+    for( const damage_unit &du : d ) {
+        // Assume that ranged == getting shot
+        if( du.type == damage_type::BULLET ) {
+            dealt_ranged = true;
+        } else if( du.type == damage_type::BASH ||
+                   du.type == damage_type::CUT ||
+                   du.type == damage_type::STAB ) {
+            dealt_melee = true;
+        }
+    }
     for( const item &i : worn ) {
         if( i.covers( bp ) && i.is_filthy() ) {
-            sum_cover += i.get_coverage( bp );
+            if( dealt_melee ) {
+                sum_cover += i.get_coverage( bp, item::cover_type::COVER_MELEE );
+            } else if( dealt_ranged ) {
+                sum_cover += i.get_coverage( bp, item::cover_type::COVER_RANGED );
+            } else {
+                sum_cover += i.get_coverage( bp );
+            }
         }
     }
 
