@@ -108,7 +108,7 @@
     "warmth": 50,
     "material_thickness": 8,
     "environmental_protection": 6,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -374,7 +374,7 @@
     "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -398,7 +398,7 @@
     "power_armor": true,
     "material_thickness": 16,
     "environmental_protection": 16,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -422,7 +422,6 @@
     "power_armor": true,
     "material_thickness": 8,
     "environmental_protection": 16,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES" ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },

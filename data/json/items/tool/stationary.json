@@ -63,7 +63,8 @@
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "pen",
@@ -215,6 +216,7 @@
           "weeks_old_newspaper",
           "necropolis_leaflet",
           "death_note",
+          "note_mutant_alpha_boss",
           "evac_pamphlet"
         ]
       }

@@ -38,7 +38,7 @@
     "copy-from": "mmask",
     "environmental_protection": 6,
     "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM" ],
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]
     },

@@ -512,7 +512,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.weapon.wetness > 0 );
+                CHECK( guy.get_wielded_item().wetness > 0 );
             }
         }
 
@@ -529,7 +529,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -548,7 +548,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -569,7 +569,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -590,7 +590,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -606,7 +606,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should be wet for around 8664 seconds" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.weapon.wetness == Approx( 8664 ).margin( 20 ) );
+                CHECK( guy.get_wielded_item().wetness == Approx( 8664 ).margin( 20 ) );
             }
         }
 
@@ -625,7 +625,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
                 AND_THEN( "should be wet for around 43320 seconds" ) {
-                    CHECK( guy.weapon.wetness == Approx( 43320 ).margin( 100 ) );
+                    CHECK( guy.get_wielded_item().wetness == Approx( 43320 ).margin( 100 ) );
                 }
             }
         }

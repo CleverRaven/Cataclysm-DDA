@@ -63,7 +63,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_tiny",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_small",
@@ -93,7 +93,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_medium",
@@ -123,7 +123,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_large",
@@ -153,7 +153,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fish_large",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_huge",
@@ -183,7 +183,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_large",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_trout",
@@ -502,7 +502,7 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_fish_crayfish",
@@ -531,7 +531,7 @@
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "upgrades": { "half_life": 14, "into": "mon_crayfish_small" },
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_fish_blinky",
@@ -557,7 +557,7 @@
     "luminance": 5,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_eel",
@@ -583,12 +583,12 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_crayfish_small",
     "type": "MONSTER",
-    "name": { "str_sp": "huge crayfish" },
+    "name": { "str_sp": "crayfish" },
     "description": "A mutant crayfish the size of a dog with a brown carapace, claws, and long antennae.",
     "copy-from": "mon_giant_crayfish",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -705,7 +705,7 @@
     "harvest": "mutant_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_mutant_salmon",
@@ -733,7 +733,7 @@
     "harvest": "mutant_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
     "baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_sewer_fish",
@@ -763,6 +763,6 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },
-    "flags": [ "SEES", "SMELLS", "WARM", "AQUATIC" ]
+    "flags": [ "SEES", "SMELLS", "AQUATIC" ]
   }
 ]

@@ -40,11 +40,27 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "COMPONENT_ID";
         case condition_type::VAR:
             return "VAR";
+        case condition_type::SNIPPET_ID:
+            return "SNIPPET_ID";
         case condition_type::num_condition_types:
             break;
     }
-    debugmsg( "Invalid condition_type" );
-    abort();
+    cata_fatal( "Invalid condition_type" );
+}
+
+template<>
+std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
+{
+    switch( data ) {
+        case itype_variant_kind::gun:
+            return "gun";
+        case itype_variant_kind::generic:
+            return "generic";
+        case itype_variant_kind::last:
+            debugmsg( "Invalid variant type!" );
+            return "";
+    }
+    return "";
 }
 } // namespace io
 
@@ -116,7 +132,11 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos )
     if( !has_use() ) {
         return 0;
     }
-    return invoke( p, it, pos, use_methods.begin()->first );
+    if( use_methods.find( "transform" ) != use_methods.end() ) {
+        return  invoke( p, it, pos, "transform" );
+    } else {
+        return invoke( p, it, pos, use_methods.begin()->first );
+    }
 }
 
 cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,

@@ -42,6 +42,190 @@
     "components": [ [ [ "sheet_metal", 3 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wheel_slick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_slick", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wheel_motorbike",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_motorbike", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wheel_motorbike_or",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_motorbike_or", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wheel_wide",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_wide", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wheel_wide_or",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_wide_or", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wheel_bicycle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_bicycle", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wheel_bicycle_or",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "deflated_wheel_bicycle_or", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "deflated_wheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": true,
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_medium", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "deflated_wheel_slick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": true,
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_medium_slick", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "deflated_wheel_motorbike",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "10 m",
+    "autolearn": true,
+    "reversible": true,
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_motorbike", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "deflated_wheel_motorbike_or",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "10 m",
+    "autolearn": true,
+    "reversible": true,
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_motorbike_or", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "deflated_wheel_wide",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": true,
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_wide", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "deflated_wheel_wide_or",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": true,
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_wide_or", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "deflated_wheel_bicycle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": true,
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "tire_bicycle", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "deflated_wheel_bicycle_or",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": true,
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "tire_bicycle_or", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+  },
+  {
     "result": "reins_tackle",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -274,6 +458,21 @@
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
+  },
+  {
+    "result": "mountable_heater_small",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 2 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 15 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "small_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "result": "mountable_cooler",
@@ -708,7 +907,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "steel_standard", 20 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
@@ -726,7 +925,7 @@
     "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
     "using": [ [ "steel_standard", 100 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
@@ -816,7 +1015,6 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -833,7 +1031,7 @@
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
   },
@@ -851,7 +1049,7 @@
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
   },
@@ -868,7 +1066,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
   },
@@ -886,7 +1084,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 24 ] ] ]
   },

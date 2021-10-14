@@ -21,7 +21,14 @@ scoped_weather_override::scoped_weather_override( const weather_type_id &weather
     get_weather().weather_override = weather;
 }
 
+void scoped_weather_override::with_windspeed( const int windspeed_override )
+{
+    get_weather().windspeed_override = windspeed_override;
+}
+
 scoped_weather_override::~scoped_weather_override()
 {
-    get_weather().weather_override = WEATHER_NULL;
+    weather_manager &weather = get_weather();
+    weather.weather_override = WEATHER_NULL;
+    weather.windspeed_override.reset();
 }

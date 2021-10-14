@@ -205,7 +205,8 @@
       {
         "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
         "order": 8500
-      }
+      },
+      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
     ]
   }
 ]

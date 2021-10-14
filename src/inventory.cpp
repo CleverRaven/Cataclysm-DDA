@@ -482,7 +482,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( "TREE" ) ) {
+        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_id( "butchery_tree_pseudo" ), 0 );
         }
         const furn_t &f = m.furn( p ).obj();
@@ -645,6 +645,15 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
 }
 
 void inventory::dump( std::vector<item *> &dest )
+{
+    for( auto &elem : items ) {
+        for( auto &elem_stack_iter : elem ) {
+            dest.push_back( &elem_stack_iter );
+        }
+    }
+}
+
+void inventory::dump( std::vector<const item *> &dest ) const
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {

@@ -41,6 +41,7 @@ void start_trade( npc & );
 void sort_loot( npc & );
 void do_construction( npc & );
 void do_mining( npc & );
+void do_mopping( npc & );
 void do_read( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
@@ -59,6 +60,7 @@ void stop_guard( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );
+void drop_items_in_place( npc &p );
 void follow( npc & );                // p becomes a member of your_followers
 void follow_only( npc & );           // p starts following you
 void deny_follow( npc & );           // p gets "asked_to_follow"
@@ -68,7 +70,6 @@ void deny_train( npc & );            // p gets "asked_to_train"
 void deny_personal_info( npc & );    // p gets "asked_personal_info"
 void hostile( npc & );               // p turns hostile to u
 void flee( npc & );
-void lightning( npc &p );
 void leave( npc & );                 // p becomes indifferent
 void stop_following( npc & );
 void stranger_neutral( npc & );      // p is now neutral towards you
@@ -94,6 +95,7 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
+void do_disassembly( npc &p );
 } // namespace talk_function
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );

@@ -74,7 +74,6 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -102,7 +101,7 @@ class faction : public faction_template
         faction() = default;
         explicit faction( const faction_template &templ );
 
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 

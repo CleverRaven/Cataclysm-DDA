@@ -271,6 +271,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "sling-ready_grenade",
+    "name": "sling-ready grenades",
+    "default": "sling-ready_molotov"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gasoline",
     "name": "gasoline",
     "default": "gasoline"
@@ -465,7 +471,7 @@
     "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
-    "default": "rebar_rail"
+    "default": "steel_rail"
   },
   {
     "type": "ammunition_type",
@@ -724,5 +730,47 @@
     "id": "green_pen_ink",
     "name": "green pen ink",
     "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "currency",
+    "name": "currency",
+    "default": "coin_penny"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_penny",
+    "name": "pennies",
+    "default": "coin_penny"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_nickel",
+    "name": "nickels",
+    "default": "coin_nickel"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_dime",
+    "name": "dimes",
+    "default": "coin_dime"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_quarter",
+    "name": "quarters",
+    "default": "coin_quarter"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_half_dollar",
+    "name": "half-dollars",
+    "default": "coin_half_dollar"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_dollar",
+    "name": "dollar coins",
+    "default": "coin_dollar"
   }
 ]

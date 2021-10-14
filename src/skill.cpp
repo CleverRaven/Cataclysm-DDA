@@ -277,6 +277,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
+    practice();
 }
 
 
@@ -322,6 +323,11 @@ bool SkillLevel::isRusty() const
 
 bool SkillLevel::rust( int rust_resist )
 {
+    if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
+        // don't rust within the grace period
+        return false;
+    }
+
     if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
@@ -501,16 +507,39 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
 bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 {
     // Regardless of your current practical skill, do you know the theory of how to make this thing?
-    int knowhow = rec.skill_used ? get_knowledge_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
-        knowhow = std::min( knowhow, elem.second );
+    if( rec.skill_used && get_knowledge_level( rec.skill_used ) < rec.difficulty ) {
+        return false;
     }
-    return ( knowhow > 0 );
+    for( const std::pair<const skill_id, int> &elem : rec.required_skills ) {
+        if( get_knowledge_level( elem.first ) < elem.second ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
     return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
+}
+
+bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
+{
+    if( this->size() != other.size() ) {
+        return false;
+    }
+    for( const auto &entry : *this ) {
+        const SkillLevel &this_level = entry.second;
+        if( other.count( entry.first ) == 0 ) {
+            return false;
+        }
+        const SkillLevel &other_level = other.get_skill_level_object( entry.first );
+        if( this_level.level() != other_level.level() ||
+            this_level.knowledgeLevel() != other_level.knowledgeLevel() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // Actually take the difference in social skill between the two parties involved

@@ -1,0 +1,173 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_chloe",
+    "name_unique": "Chloe Taylor King",
+    "gender": "female",
+    "name_suffix": "member",
+    "class": "NC_godco_chloe",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_Chloe_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_chloe",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -3, -2 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, -2 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "GODCO_chloe_worn",
+    "carry_override": "GODCO_chloe_carried",
+    "weapon_override": "GODCO_chloe_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Skin_Any" }, { "trait": "hair_black_long" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "melee", "bonus": 1 },
+      { "skill": "stabbing", "bonus": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sports_bra" },
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "tshirt_text" },
+      { "item": "skirt" },
+      { "item": "sneakers" },
+      { "item": "gloves_light" },
+      { "item": "knit_scarf" },
+      { "item": "holy_symbol_wood" },
+      { "item": "hat_knit", "prob": 50 },
+      { "item": "coat_rain" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "portable_game" }, { "item": "lemonlime" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_combat" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Chloe_2",
+      "TALK_GODCO_Chloe_Story",
+      "TALK_GODCO_Chloe_Mood",
+      "TALK_GODCO_Chloe_Help",
+      "TALK_GODCO_Chloe_Sonia",
+      "TALK_GODCO_Chloe_Knife"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Chloe_Story" },
+      { "text": "What's your take on the situation here?", "topic": "TALK_GODCO_Chloe_Mood" },
+      { "text": "Who takes care of you here?", "topic": "TALK_GODCO_Chloe_Help" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_chloe",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "Aw hey, it's you again.",
+      "no": "Oh… hi.  I don't know you.  My name's Chloe."
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, kid.  What's up?",
+        "effect": { "u_add_var": "u_met_godco_chloe", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_chloe", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Chloe_2"
+      },
+      {
+        "text": "Hello, Chloe.  What's up?",
+        "topic": "TALK_GODCO_Chloe_2",
+        "condition": { "u_has_var": "u_met_godco_chloe", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hi, Chloe.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_2",
+    "dynamic_line": "Things suck right now, but you know that anyway.  I don't even know why you bother asking these stupid questions.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_Story",
+    "dynamic_line": "You're creepy.  I'm sorry for your lack of friends but, like, I'm literally a kid.  Everyone on Earth turned into a zombie, we're running out of toilet paper and everything, and my parents are gone.  I know they're still alive and they're looking for me.  I miss them.  Is that enough personal stuff for you?",
+    "responses": [
+      { "text": "I'm sorry for your loss.  What were you saying before?", "topic": "TALK_GODCO_Chloe_Loss" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_GODCO_Chloe_Loss" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_Loss",
+    "dynamic_line": "They are not dead.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_Mood",
+    "dynamic_line": "I told you already: it sucks.  Nobody's happy here, everyone's hungry, Sonia's songs are getting repetitive, and turns out, the boogeyman is friggin' real.  We can hear it screaming every night.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_Help",
+    "dynamic_line": "I'm not a baby, you know?  I don't need a babysitter.  Sonia looks out for me though.  She's not so weird, I guess.  She promised to give me guitar lessons and she even signed me an autograph.  I know she's only nice to me because I saved her, but that's okay; we're equal now.",
+    "responses": [
+      {
+        "text": "Saving Sonia sounds like an interesting story; can you tell me what happened?",
+        "topic": "TALK_GODCO_Chloe_Sonia"
+      },
+      { "text": "Aren't you a bit too young to be carrying a knife?", "topic": "TALK_GODCO_Chloe_Knife" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_Sonia",
+    "dynamic_line": "I was home alone during the ongoing riots.  My parents chose the worst possible time to reconnect, which sucks, but I'm also kinda happy for them.  Anyway, they were part of the NECC people, so they knew about this place and their plans and all.  Thing is, it was, like, really far away.  I kinda didn't want to go alone but I also didn't want the rioters to eat me, so I asked Sonia - my neighbor - to evacuate with me, I guess.  So that was fun; escaping my hometown, walking down the country road, waiting for a horror to ambush us.  Spoiler alert: we were attacked.  So this zombie shambles in front of us and Sonia whacks it real hard with her guitar!  Its brain splatters all over the pavement, and it was super cool, but I also vomited because it was really disgusting.  We got here soon after that.  My parents weren't here, obviously.  Oh man, they must worry about me so much…",
+    "responses": [
+      { "text": "Aren't you a bit too young to be carrying a knife?", "topic": "TALK_GODCO_Chloe_Knife" },
+      { "text": "Thanks for telling me that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thanks for telling me that.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Chloe_Knife",
+    "dynamic_line": "Aren't you a bit too old not to realize how dangerous the world is for a kid like me?  I know how to handle one without hurting myself!  My dad taught me everything, he's a real pro.",
+    "responses": [
+      {
+        "text": "Saving Sonia sounds like an interesting story; can you tell me what happened?",
+        "topic": "TALK_GODCO_Chloe_Sonia"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

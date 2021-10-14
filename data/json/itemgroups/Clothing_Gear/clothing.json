@@ -104,6 +104,7 @@
       { "item": "boots_winter", "prob": 50 },
       { "item": "boots_hiking", "prob": 50 },
       { "item": "boots_steel", "prob": 25 },
+      { "item": "sneakers_steel", "prob": 18 },
       { "item": "fishing_waders", "prob": 25 }
     ]
   },
@@ -223,21 +224,20 @@
     "subtype": "collection",
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
-      { "group": "clothing_soldier_shirt" },
-      { "item": "jacket_army" },
-      { "item": "pants_army" },
+      { "item": "jacket_army", "prob": 40 },
+      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "nomex_gloves" },
       { "item": "webbing_belt" },
-      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
-      { "item": "boots_combat" },
-      { "item": "helmet_army", "prob": 80 },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
       { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
       },
-      { "distribution": [ { "item": "fancy_sunglasses", "prob": 95 }, { "item": "glasses_bal", "prob": 5 } ] },
       { "group": "clothing_watch", "prob": 85 },
       { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
     ]
@@ -396,7 +396,12 @@
     "type": "item_group",
     "//": "Sturdy boots often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [ { "item": "boots", "prob": 60 }, { "item": "boots_hiking", "prob": 10 }, { "item": "boots_steel", "prob": 30 } ]
+    "entries": [
+      { "item": "boots", "prob": 60 },
+      { "item": "boots_hiking", "prob": 10 },
+      { "item": "boots_steel", "prob": 30 },
+      { "item": "sneakers_steel", "prob": 21 }
+    ]
   },
   {
     "id": "clothing_work_glasses",
@@ -492,6 +497,7 @@
     "//2": "Not intended to be a set of clothing for NPCs or monsters",
     "items": [
       [ "boots_steel", 40 ],
+      [ "sneakers_steel", 28 ],
       [ "hat_hard", 40 ],
       [ "mask_dust", 30 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
@@ -525,6 +531,7 @@
       [ "boots_rubber", 20 ],
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
+      [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
       [ "jumpsuit", 20 ],
       [ "apron_leather", 20 ],
@@ -1217,8 +1224,10 @@
       [ "duct_tape", 60 ],
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
-      [ "wolfsuit", 4 ],
-      [ "dinosuit", 4 ],
+      [ "wolfsuit", 3 ],
+      [ "dinosuit", 2 ],
+      [ "felinesuit", 3 ],
+      [ "dragonsuit", 2 ],
       [ "zentai", 5 ],
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
@@ -1275,10 +1284,6 @@
     "id": "shoes",
     "items": [
       [ "sneakers", 80 ],
-      [ "socks", 70 ],
-      [ "socks_ankle", 50 ],
-      [ "tights", 20 ],
-      [ "stockings", 20 ],
       [ "knee_high_boots", 20 ],
       [ "thigh_high_boots", 20 ],
       [ "boots", 70 ],
@@ -1864,7 +1869,14 @@
   {
     "type": "item_group",
     "id": "lab_shoes",
-    "items": [ [ "sneakers", 80 ], [ "boots", 70 ], [ "boots_steel", 50 ], [ "boots_hiking", 40 ], [ "dress_shoes", 50 ] ]
+    "items": [
+      [ "sneakers", 80 ],
+      [ "boots", 70 ],
+      [ "boots_steel", 50 ],
+      [ "sneakers_steel", 35 ],
+      [ "boots_hiking", 40 ],
+      [ "dress_shoes", 50 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2058,6 +2070,7 @@
     "id": "survival_armor",
     "items": [
       [ "boots_steel", 50 ],
+      [ "sneakers_steel", 35 ],
       [ "boots_combat", 50 ],
       [ "boots_hiking", 50 ],
       [ "bootsheath", 8 ],
@@ -2135,6 +2148,7 @@
     "entries": [
       { "item": "boots", "prob": 70 },
       { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
       { "item": "jumpsuit", "prob": 20 },
       { "item": "gloves_rubber", "prob": 20 },
@@ -2174,6 +2188,7 @@
     "items": [
       [ "boots_bunker", 70 ],
       [ "boots_steel", 20 ],
+      [ "sneakers_steel", 15 ],
       [ "boots_combat", 5 ],
       [ "boots_rubber", 10 ],
       [ "boots_hiking", 5 ],
@@ -2267,6 +2282,7 @@
       [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
       [ "armor_scrapsuit", 12 ],
+      [ "armor_tiresuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
@@ -2301,6 +2317,7 @@
       [ "vest_leather", 22 ],
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
+      [ "tireplate", 10 ],
       [ "ballistic_vest_empty", 2 ],
       [ "ballistic_vest_esapi", 4 ],
       [ "dragonskin", 1 ],
@@ -2309,7 +2326,8 @@
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
-      [ "cuirass_scrap", 12 ]
+      [ "cuirass_scrap", 12 ],
+      [ "cuirass_tire", 12 ]
     ]
   },
   {
@@ -2324,7 +2342,8 @@
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
       [ "chaps_leather", 10 ],
-      [ "legguard_scrap", 12 ]
+      [ "legguard_scrap", 12 ],
+      [ "legguard_tire", 12 ]
     ]
   },
   {
@@ -2346,6 +2365,7 @@
       [ "vambrace_larmor", 6 ],
       [ "armguard_chitin", 1 ],
       [ "armguard_scrap", 12 ],
+      [ "armguard_tire", 12 ],
       [ "gloves_fur", 4 ],
       [ "gloves_leather", 22 ],
       [ "gloves_work", 22 ],
@@ -2366,6 +2386,7 @@
       [ "boots", 20 ],
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
+      [ "sneakers_steel", 20 ],
       [ "boots_hiking", 24 ],
       [ "boots_combat", 12 ],
       [ "boots_larmor", 14 ],
@@ -3093,7 +3114,9 @@
       { "item": "motorbike_armor", "prob": 15 },
       { "item": "suit", "prob": 70 },
       { "item": "touring_suit", "prob": 20 },
-      { "item": "wolfsuit", "prob": 5 },
+      { "item": "wolfsuit", "prob": 3 },
+      { "item": "felinesuit", "prob": 3 },
+      { "item": "dragonsuit", "prob": 1 },
       { "item": "wool_suit", "prob": 40 },
       { "item": "unitard", "prob": 60 },
       { "item": "zentai", "prob": 5 },
@@ -3215,6 +3238,7 @@
           { "item": "boots", "prob": 80 },
           { "item": "boots_hiking", "prob": 50 },
           { "item": "boots_steel", "prob": 50 },
+          { "item": "sneakers_steel", "prob": 35 },
           { "item": "boots_combat", "prob": 45 },
           { "item": "boots_fur", "prob": 10 },
           { "item": "boots_western", "prob": 40 },

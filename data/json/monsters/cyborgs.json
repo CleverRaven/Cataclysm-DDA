@@ -115,9 +115,10 @@
     "vision_night": 10,
     "revert_to_itype": "e_scrap",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_exodii_quad",
@@ -147,11 +148,17 @@
     "armor_fire": 8,
     "vision_day": 50,
     "vision_night": 20,
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "e_scrap",
     "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "exodii_weapon_pod", "min_level": 3 }, "cooldown": 200 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "exodii_weapon_pod", "min_level": 1 },
+        "cooldown": 200,
+        "monster_message": "The Exodii quadruped fires its weapon pod!"
+      },
       {
         "type": "gun",
         "cooldown": 1,
@@ -160,7 +167,7 @@
         "ammo_type": "123ln",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 41, "DEFAULT" ] ],
+        "ranges": [ [ 4, 41, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
@@ -171,7 +178,7 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_zomborg",

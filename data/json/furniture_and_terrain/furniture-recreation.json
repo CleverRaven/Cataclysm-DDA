@@ -10,6 +10,7 @@
     "coverage": 35,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_exercise_machine",
     "examine_action": "workout",
     "deconstruct": {
       "items": [
@@ -263,6 +264,7 @@
     "required_str": 8,
     "looks_like": "f_ergometer",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_ARMS", "WORKOUT_LEGS" ],
+    "crafting_pseudo_item": "pseudo_ergometer_mechanical",
     "deconstruct": {
       "items": [
         { "item": "foot_crank", "count": [ 1, 1 ] },
@@ -341,6 +343,7 @@
     "required_str": 12,
     "looks_like": "f_treadmill",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_LEGS" ],
+    "crafting_pseudo_item": "pseudo_treadmill_mechanical",
     "deconstruct": {
       "items": [
         { "item": "plastic_chunk", "count": [ 10, 14 ] },
@@ -375,7 +378,8 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 10,
-    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_punching_bag",
     "examine_action": "workout",
     "bash": {
       "str_min": 15,

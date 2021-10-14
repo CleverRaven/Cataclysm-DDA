@@ -88,6 +88,11 @@
       ]
     },
     "max_volume": "875 L",
+    "prying": {
+      "result": "f_coffin_o",
+      "message": "You wedge open the coffin.",
+      "prying_data": { "difficulty": 5, "prying_level": 2, "noisy": true, "failure": "You pry, but the coffin remains closed." }
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -159,6 +164,11 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": { "difficulty": 6, "prying_level": 1, "noisy": true, "failure": "You pry, but can't pop open the crate." }
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -205,17 +215,7 @@
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE_ASH",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "EASY_DECONSTRUCT",
-      "BASHABLE",
-      "HIDE_PLACE",
-      "NO_SIGHT",
-      "CONTAINER"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
@@ -520,6 +520,11 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "hacksaw": {
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {
@@ -1082,7 +1087,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
     "keg_capacity": 1200,
@@ -1280,6 +1285,12 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "prying": {
+      "result": "f_metal_crate_o",
+      "message": "You wrench open the metal crate.",
+      "byproducts": [ { "item": "sheet_metal", "count": 1 } ],
+      "prying_data": { "difficulty": 4, "prying_level": 1, "noisy": true, "failure": "The lid is sealed more tightly than you thought." }
+    },
     "bash": {
       "str_min": 30,
       "str_max": 150,

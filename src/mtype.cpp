@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -54,6 +55,7 @@ mtype::mtype()
 
     burn_into = mtype_id::NULL_ID();
     sp_defense = nullptr;
+    melee_training_cap = MAX_SKILL;
     harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;

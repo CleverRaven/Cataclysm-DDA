@@ -118,7 +118,9 @@ void JsonObject::report_unvisited() const
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
-                    throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
+                    throw_error(
+                        string_format( "Invalid or misplaced field name \"%s\" in JSON data, or value in unexpected format.",
+                                       name ), name );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -210,7 +212,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( const std::string &err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name, int offset ) const
 {
     mark_visited( name );
     if( !jsin ) {
@@ -220,10 +222,10 @@ void JsonObject::throw_error( const std::string &err, const std::string &name ) 
     if( pos ) {
         jsin->seek( pos );
     }
-    jsin->error( err );
+    jsin->error( err, offset );
 }
 
-void JsonArray::throw_error( const std::string &err )
+void JsonArray::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -231,7 +233,7 @@ void JsonArray::throw_error( const std::string &err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( const std::string &err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -586,6 +588,13 @@ JsonObject JsonArray::next_object()
     verify_index( index );
     jsin->seek( positions[index++] );
     return jsin->get_object();
+}
+
+JsonValue JsonArray::next_value()
+{
+    verify_index( index );
+    jsin->seek( positions[ index++ ] );
+    return jsin->get_value();
 }
 
 void JsonArray::skip_value()
@@ -1428,6 +1437,10 @@ JsonObject JsonIn::get_object()
 JsonArray JsonIn::get_array()
 {
     return JsonArray( *this );
+}
+JsonValue JsonIn::get_value()
+{
+    return JsonValue( *this, tell() );
 }
 
 void JsonIn::start_array()

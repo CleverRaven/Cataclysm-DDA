@@ -208,7 +208,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             // Just move the NPC back into the bounds of new_overmap, as close
             // as possible to where they were supposed to be.
             debugmsg( "NPC %s is out of bounds at %s, on non-generated overmap %s",
-                      np.name, npc_omt_pos.to_string(), loc.to_string() );
+                      np.get_name(), npc_omt_pos.to_string(), loc.to_string() );
             // bounding box for new_overmap in omt coords
             const half_open_rectangle<point_abs_omt> om_bounds( project_to<coords::omt>( loc ),
                     project_to<coords::omt>( loc + point( 1, 1 ) ) ); // NOLINT(cata-use-named-point-constants)
@@ -749,6 +749,18 @@ cata::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs
     return om_loc.om->mapgen_args( om_loc.local );
 }
 
+std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p.first );
+    return om_loc.om->join_used_at( { om_loc.local, p.second } );
+}
+
+std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->predecessors( om_loc.local );
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );
@@ -1234,10 +1246,7 @@ shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
-    const tripoint_abs_sm plpos = get_player_character().global_sm_location();
-    // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
-    const int zpos = get_map().has_zlevels() ? INT_MIN : plpos.z();
-    return get_npcs_near( tripoint_abs_sm( plpos.xy(), zpos ), radius );
+    return get_npcs_near( get_player_character().global_sm_location(), radius );
 }
 
 std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &location,
@@ -1287,7 +1296,6 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs( int
     return available;
 }
 
-// If z == INT_MIN, allow all z-levels
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_abs_sm &p,
                                int radius )
 {
@@ -1296,9 +1304,6 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_a
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
             const tripoint_abs_sm pos = guy.global_sm_location();
-            if( p.z() != INT_MIN && pos.z() != p.z() ) {
-                return false;
-            }
             return square_dist( p.xy(), pos.xy() ) <= radius;
         } );
         result.insert( result.end(), temp.begin(), temp.end() );
@@ -1306,7 +1311,6 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_a
     return result;
 }
 
-// If z == INT_MIN, allow all z-levels
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_omt( const tripoint_abs_omt &p,
                                int radius )
 {
@@ -1315,9 +1319,6 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_omt( const tripoi
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
             tripoint_abs_omt pos = guy.global_omt_location();
-            if( p.z() != INT_MIN && pos.z() != p.z() ) {
-                return false;
-            }
             return square_dist( p.xy(), pos.xy() ) <= radius;
         } );
         result.insert( result.end(), temp.begin(), temp.end() );
@@ -1509,30 +1510,17 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 
 void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
 {
-    // Create a copy, so we can reuse x and y later
-    point_abs_sm abs_sm = p.xy();
-    point_om_sm sm;
     point_abs_om omp;
-    std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
+    tripoint_om_sm current_submap_loc;
+    std::tie( omp, current_submap_loc ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    const tripoint_om_sm current_submap_loc( sm, p.z() );
     auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
     std::for_each( monster_bucket.first, monster_bucket.second,
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
-        // The absolute position in map squares, (x,y) is already global, but it's a
-        // submap coordinate, so translate it and add the exact monster position on
-        // the submap. modulo because the zombies position might be negative, as it
-        // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the submap to put it.
-        point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
-        cata_assert( ms.x >= 0 && ms.x < SEEX );
-        cata_assert( ms.y >= 0 && ms.y < SEEX );
-        // TODO: fix point types
-        ms += project_to<coords::ms>( p.xy() ).raw();
         const map &here = get_map();
+        const tripoint local = here.getlocal( this_monster.get_location().raw() );
         // The monster position must be local to the main map when added to the game
-        const tripoint local = tripoint( here.getlocal( ms ), p.z() );
         cata_assert( here.inbounds( local ) );
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
                                 local, 0, true );
@@ -1545,20 +1533,16 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
 
 void overmapbuffer::despawn_monster( const monster &critter )
 {
-    // Get absolute coordinates of the monster in map squares, translate to submap position
-    // TODO: fix point types
-    tripoint_abs_sm abs_sm( ms_to_sm_copy( get_map().getabs( critter.pos() ) ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     point_abs_om omp;
     tripoint_om_sm sm;
-    std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
+    std::tie( omp, sm ) = project_remain<coords::om>( critter.global_sm_location() );
     overmap &om = get( omp );
     // Store the monster using coordinates local to the overmap
 
     if( critter.is_nemesis() ) {
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
-        tripoint_abs_omt abs_omt( ms_to_omt_copy( get_map().getabs( critter.pos() ) ) );
-        om.place_nemesis( abs_omt );
+        om.place_nemesis( critter.global_omt_location() );
     } else {
         om.monster_map.insert( std::make_pair( sm, critter ) );
     }
@@ -1627,13 +1611,12 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
     return true;
 }
 
-bool overmapbuffer::place_special(
-    const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
-    const bool must_be_unexplored, const bool force )
+cata::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
+            const overmap_special &special, const tripoint_abs_omt &origin, om_direction::type dir,
+            const bool must_be_unexplored, const bool force )
 {
-    const overmap_with_local_coords om_loc = get_om_global( p );
+    const overmap_with_local_coords om_loc = get_om_global( origin );
 
-    bool placed = false;
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
@@ -1645,11 +1628,14 @@ bool overmapbuffer::place_special(
         // the single overmap. If future generation is hoisted up to the
         // buffer to spawn overmaps, then this can also be changed accordingly.
         const city c = om_loc.om->get_nearest_city( om_loc.local );
-        om_loc.om->place_special( special, om_loc.local, dir, c,
-                                  must_be_unexplored, force );
-        placed = true;
+        std::vector<tripoint_abs_omt> result;
+        for( const tripoint_om_omt &p : om_loc.om->place_special(
+                 special, om_loc.local, dir, c, must_be_unexplored, force ) ) {
+            result.push_back( project_combine( om_loc.om->pos(), p ) );
+        }
+        return result;
     }
-    return placed;
+    return cata::nullopt;
 }
 
 bool overmapbuffer::place_special( const overmap_special_id &special_id,
@@ -1670,32 +1656,10 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
     }
 
     // Force our special to occur just once when we're spawning it here.
-    special.occurrences.min = 1;
-    special.occurrences.max = 1;
+    special.force_one_occurrence();
 
-    // Figure out the longest side of the special for purposes of determining our sector size
-    // when attempting placements.
-    const auto calculate_longest_side = [&special]() {
-        auto min_max_x = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.x < rhs.p.x;
-        } );
-
-        auto min_max_y = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.y < rhs.p.y;
-        } );
-
-        const int special_longest_side = std::max( min_max_x.second->p.x - min_max_x.first->p.x,
-                                         min_max_y.second->p.y - min_max_y.first->p.y ) + 1;
-
-        // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
-        return std::min( special_longest_side, OMSPEC_FREQ );
-    };
-
-    const int longest_side = calculate_longest_side();
+    // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
+    const int longest_side = std::min( special.longest_side(), OMSPEC_FREQ );
 
     // Predefine our sectors to search in.
     om_special_sectors sectors = get_sectors( longest_side );

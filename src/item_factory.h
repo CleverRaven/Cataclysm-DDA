@@ -57,7 +57,7 @@ class migration
                 int count = 0;
 
                 bool operator==( const content & ) const;
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jsobj );
         };
         std::vector<content> contents;
         bool sealed = true;
@@ -324,7 +324,7 @@ class Item_factory
                             const std::string &iuse_id );
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-                                        std::map<std::string, use_function> &use_methods );
+                                        std::map<std::string, use_function> &use_methods, std::map<std::string, float> &ammo_scale );
 
         use_function usage_from_string( const std::string &type ) const;
 

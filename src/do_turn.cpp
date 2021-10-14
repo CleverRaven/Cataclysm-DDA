@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
@@ -36,7 +37,6 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_sleep( "sleep" );
@@ -45,7 +45,6 @@ static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 
-static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
@@ -242,7 +241,7 @@ bool cleanup_at_end()
                    c_light_gray,
                    sTemp );
 
-        sTemp = u.name;
+        sTemp = u.get_name();
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
                    sTemp );
 
@@ -267,10 +266,10 @@ bool cleanup_at_end()
         g->move_save_to_graveyard();
         g->write_memorial_file( sLastWords );
         get_memorial().clear();
-        std::vector<std::string> characters = g->list_active_characters();
+        std::vector<std::string> characters = g->list_active_saves();
         // remove current player from the active characters list, as they are dead
         std::vector<std::string>::iterator curchar = std::find( characters.begin(),
-                characters.end(), u.name );
+                characters.end(), u.get_save_id() );
         if( curchar != characters.end() ) {
             characters.erase( curchar );
         }
@@ -352,219 +351,6 @@ bool cleanup_at_end()
     return true;
 }
 
-// TODO: abstract out the location checking code
-// TODO: refactor so zombies can follow up and down stairs instead of this mess
-void update_stair_monsters()
-{
-    // Search for the stairs closest to the player.
-    std::vector<int> stairx;
-    std::vector<int> stairy;
-    std::vector<int> stairdist;
-
-    map &m = get_map();
-    const bool from_below = g->monstairz < m.get_abs_sub().z;
-
-    if( g->coming_to_stairs.empty() ) {
-        return;
-    }
-
-    if( m.has_zlevels() ) {
-        debugmsg( "%d monsters coming to stairs on a map with z-levels",
-                  g->coming_to_stairs.size() );
-        g->coming_to_stairs.clear();
-    }
-
-    avatar &u = get_avatar();
-    for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
-        if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
-            ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
-            stairx.push_back( dest.x );
-            stairy.push_back( dest.y );
-            stairdist.push_back( rl_dist( dest, u.pos() ) );
-        }
-    }
-    if( stairdist.empty() ) {
-        return;         // Found no stairs?
-    }
-
-    // Find closest stairs.
-    size_t si = 0;
-    for( size_t i = 0; i < stairdist.size(); i++ ) {
-        if( stairdist[i] < stairdist[si] ) {
-            si = i;
-        }
-    }
-
-    // Find up to 4 stairs for distance stairdist[si] +1
-    std::vector<int> nearest;
-    nearest.push_back( si );
-    for( size_t i = 0; i < stairdist.size() && nearest.size() < 4; i++ ) {
-        if( ( i != si ) && ( stairdist[i] <= stairdist[si] + 1 ) ) {
-            nearest.push_back( i );
-        }
-    }
-    // Randomize the stair choice
-    si = random_entry_ref( nearest );
-
-    // Attempt to spawn zombies.
-    for( size_t i = 0; i < g->coming_to_stairs.size(); i++ ) {
-        point mpos( stairx[si], stairy[si] );
-        monster &critter = g->coming_to_stairs[i];
-        const tripoint dest {
-            mpos, get_map().get_abs_sub().z
-        };
-
-        // We might be not be visible.
-        if( ( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
-              critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
-              critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
-              critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) ) {
-            continue;
-        }
-
-        critter.staircount -= 4;
-        // Let the player know zombies are trying to come.
-        if( u.sees( dest ) ) {
-            std::string dump;
-            if( critter.staircount > 4 ) {
-                dump += string_format( _( "You see a %s on the stairs" ), critter.name() );
-            } else {
-                if( critter.staircount > 0 ) {
-                    dump += ( from_below ?
-                              //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
-                              string_format( _( "The %1$s is almost at the top of the %2$s!" ),
-                                             critter.name(),
-                                             m.tername( dest ) ) :
-                              string_format( _( "The %1$s is almost at the bottom of the %2$s!" ),
-                                             critter.name(),
-                                             m.tername( dest ) ) );
-                }
-            }
-
-            add_msg( m_warning, dump );
-        } else {
-            sounds::sound( dest, 5, sounds::sound_t::movement,
-                           _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
-        }
-
-        if( critter.staircount > 0 ) {
-            continue;
-        }
-
-        if( g->is_empty( dest ) ) {
-            critter.spawn( dest );
-            critter.staircount = 0;
-            g->place_critter_at( make_shared_fast<monster>( critter ), dest );
-            if( u.sees( dest ) ) {
-                if( !from_below ) {
-                    add_msg( m_warning, _( "The %1$s comes down the %2$s!" ),
-                             critter.name(),
-                             m.tername( dest ) );
-                } else {
-                    add_msg( m_warning, _( "The %1$s comes up the %2$s!" ),
-                             critter.name(),
-                             m.tername( dest ) );
-                }
-            }
-            g->coming_to_stairs.erase( g->coming_to_stairs.begin() + i );
-            continue;
-        } else if( u.pos() == dest ) {
-            // Monster attempts to push player of stairs
-            point push( point_north_west );
-            int tries = 0;
-
-            // the critter is now right on top of you and will attack unless
-            // it can find a square to push you into with one of his tries.
-            const int creature_push_attempts = 9;
-            const int player_throw_resist_chance = 3;
-
-            critter.spawn( dest );
-            while( tries < creature_push_attempts ) {
-                tries++;
-                push.x = rng( -1, 1 );
-                push.y = rng( -1, 1 );
-                point ipos( mpos + push );
-                tripoint pos( ipos, m.get_abs_sub().z );
-                if( ( push.x != 0 || push.y != 0 ) && !g->critter_at( pos ) &&
-                    critter.can_move_to( pos ) ) {
-                    bool resiststhrow = ( u.is_throw_immune() ) ||
-                                        ( u.has_trait( trait_LEG_TENT_BRACE ) );
-                    if( resiststhrow && one_in( player_throw_resist_chance ) ) {
-                        u.moves -= 25; // small charge for avoiding the push altogether
-                        add_msg( _( "The %s fails to push you back!" ),
-                                 critter.name() );
-                        return; //judo or leg brace prevent you from getting pushed at all
-                    }
-                    // Not accounting for tentacles latching on, so..
-                    // Something is about to happen, lets charge half a move
-                    u.moves -= 50;
-                    if( resiststhrow && ( u.is_throw_immune() ) ) {
-                        //we have a judoka who isn't getting pushed but counterattacking now.
-                        mattack::thrown_by_judo( &critter );
-                        return;
-                    }
-                    std::string msg;
-                    ///\EFFECT_DODGE reduces chance of being downed when pushed off the stairs
-                    if( !( resiststhrow ) && ( u.get_dodge() + rng( 0, 3 ) < 12 ) ) {
-                        // dodge 12 - never get downed
-                        // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
-                        u.add_effect( effect_downed, 2_turns );
-                        msg = _( "The %s pushed you back hard!" );
-                    } else {
-                        msg = _( "The %s pushed you back!" );
-                    }
-                    add_msg( m_warning, msg.c_str(), critter.name() );
-                    u.setx( u.posx() + push.x );
-                    u.sety( u.posy() + push.y );
-                    return;
-                }
-            }
-            add_msg( m_warning,
-                     _( "The %s tried to push you back but failed!  It attacks you!" ),
-                     critter.name() );
-            critter.melee_attack( u );
-            u.moves -= 50;
-            return;
-        } else if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-            // Monster attempts to displace a monster from the stairs
-            monster &other = *mon_ptr;
-            critter.spawn( dest );
-
-            // the critter is now right on top of another and will push it
-            // if it can find a square to push it into inside of his tries.
-            const int creature_push_attempts = 9;
-            const int creature_throw_resist = 4;
-
-            int tries = 0;
-            point push2;
-            while( tries < creature_push_attempts ) {
-                tries++;
-                push2.x = rng( -1, 1 );
-                push2.y = rng( -1, 1 );
-                point ipos2( mpos + push2 );
-                tripoint pos( ipos2, m.get_abs_sub().z );
-                if( ( push2.x == 0 && push2.y == 0 ) || ( ( ipos2.x == u.posx() ) && ( ipos2.y == u.posy() ) ) ) {
-                    continue;
-                }
-                if( !g->critter_at( pos ) && other.can_move_to( pos ) ) {
-                    other.setpos( tripoint( ipos2, m.get_abs_sub().z ) );
-                    other.moves -= 50;
-                    std::string msg;
-                    if( one_in( creature_throw_resist ) ) {
-                        other.add_effect( effect_downed, 2_turns );
-                        msg = _( "The %1$s pushed the %2$s hard." );
-                    } else {
-                        msg = _( "The %1$s pushed the %2$s." );
-                    }
-                    add_msg( m_neutral, msg, critter.name(), other.name() );
-                    return;
-                }
-            }
-            return;
-        }
-    }
-}
-
 } // namespace turn_handler
 
 void handle_key_blocking_activity()
@@ -581,11 +367,11 @@ void handle_key_blocking_activity()
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            if( u.activity.interruptable_with_kb ) {
+            if( u.activity.is_interruptible_with_kb() ) {
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
-            u.disp_info();
+            u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
         } else if( action == "help" ) {
@@ -716,7 +502,7 @@ void monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.name );
+                          guy.get_name() );
                 debug_mode = true;
                 // make sure the filter is active
                 if( std::find(
@@ -730,7 +516,7 @@ void monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.name );
+            add_msg( _( "%s faints!" ), guy.get_name() );
             guy.reboot();
         }
 
@@ -821,8 +607,8 @@ bool do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<Character &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
     // If riding a horse - chance to spook
@@ -892,6 +678,11 @@ bool do_turn()
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
+                }
+
+                if( g->queue_screenshot ) {
+                    g->take_screenshot();
+                    g->queue_screenshot = false;
                 }
 
                 if( g->handle_action() ) {
@@ -995,14 +786,12 @@ bool do_turn()
             }
         }
     }
-    turn_handler::update_stair_monsters();
     g->mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         ui_manager::redraw();
         refresh_display();
     }
-    effect_on_conditions::process_effect_on_conditions();
 
     if( levz >= 0 && !u.is_underwater() ) {
         handle_weather_effects( weather.weather_id );

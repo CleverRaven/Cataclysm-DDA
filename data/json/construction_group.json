@@ -1168,5 +1168,95 @@
     "type": "construction_group",
     "id": "remove_gravel",
     "name": "Remove Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_empty_window",
+    "name": "Remove an empty window frame"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_linoleum_tiles",
+    "name": "Remove linoleum tiles"
+  },
+  {
+    "type": "construction_group",
+    "id": "advanced_object_deconstruction",
+    "name": "Advanced Object Deconstruction"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_reinforced_concrete_floor",
+    "name": "Remove a reinforced concrete floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_floor",
+    "name": "Remove a concrete floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_floor",
+    "name": "Remove a wooden floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_wall",
+    "name": "Remove a concrete wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_brick_wall",
+    "name": "Remove a brick wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wooden_wall",
+    "name": "Remove a wooden wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wall",
+    "name": "Remove a wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rock_wall",
+    "name": "Remove a rock wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_roadway",
+    "name": "Remove a segment of the road/sidewalk"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_metal_door",
+    "name": "Remove metal door"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_column",
+    "name": "Remove concrete column"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_reinforced_concrete_wall",
+    "name": "Remove reinforced concrete wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rebar_cage",
+    "name": "Remove rebar cage"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_glass_wall",
+    "name": "Remove glass wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_glass_door",
+    "name": "Remove glass door"
   }
 ]

@@ -59,6 +59,25 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "sleepingpillhead",
+    "name": "Sleeping Pill Reliance",
+    "description": "You had difficulties falling asleep, so you started taking those sleeping pills.  Problem is, now you can not fall asleep without them anymore and the Cataclysm does complicate the matter.",
+    "points": -1,
+    "addictions": [ { "intensity": 10, "type": "sleeping pill" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "caffeine_junkie",
+    "name": "Caffeine Junkie",
+    "description": "Coffee was your day-to-day companion in surviving your job, but getting caffeine into your body will be much harder now.",
+    "points": -1,
+    "traits": [ "STIMBOOST" ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "cosplay",
     "name": "Cosplay",
     "description": "You liked to make your own costumes and wore them to various conventions.  Now that everyone is dead or dying, maybe this will be useful for something else.",
@@ -99,6 +118,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "bushcraft",
+    "name": "Bushcraft",
+    "description": "You take camping to a whole new level.  You have spent nights and weekends surviving in the wild with just a knife to aid you.  Maybe this can keep you safe away from people.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers", "prof_leatherworking_basic", "prof_fibers_rope", "prof_traps", "prof_knapping", "prof_carving" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "hobby_heli_pilot",
     "name": "Helicopter Pilot",
     "description": "You got your pilot's license, and earned a living ferrying businessmen and tourists around.",
@@ -111,7 +140,7 @@
     "subtype": "hobby",
     "id": "loves_books",
     "name": "Loves Books",
-    "description": "You love reading, you just never seemed to have enough time.  Maybe the cataclysm is a blessing in disguise.",
+    "description": "You love reading, you just never seemed to have enough time.  Maybe the Cataclysm is a blessing in disguise.",
     "points": 1,
     "traits": [ "LOVES_BOOKS" ]
   },
@@ -353,6 +382,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "marathon_runner",
+    "name": "Marathon Runner",
+    "description": "You went and ran the Boston Marathon every year.  Now, that training came in handy in avoiding the dead.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "hates_books",
     "name": "Book hater",
     "description": "Reading is for nerds!  You've managed to make hatred of the written word a central part of your identity.  Or, perhaps, you have a barrier that makes books additionally challenging and frustrating for you.  Whatever the reason, boring books are more boring, and you can't have fun by reading books.",
@@ -413,8 +451,9 @@
     "id": "meatarian",
     "name": "Meatarian",
     "description": "You absolutely love meat, and dislike eating fruits and vegetables.  It's not just a taste thing, it's a lifestyle.  You spend a lot of time online telling vegans they are wrong.",
-    "points": -2,
-    "traits": [ "ANTIFRUIT", "MEATARIAN" ]
+    "points": -3,
+    "traits": [ "ANTIFRUIT", "MEATARIAN" ],
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" }, { "level": 1, "name": "speech" } ]
   },
   {
     "type": "profession",
@@ -423,7 +462,8 @@
     "name": "Vegetarian",
     "description": "You have been a vegetarian so long, eating meat makes you sick.  You spend a lot of time online telling carnists they are wrong.",
     "points": -1,
-    "traits": [ "VEGETARIAN" ]
+    "traits": [ "VEGETARIAN" ],
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "speech" } ]
   },
   {
     "type": "profession",
@@ -434,6 +474,24 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" } ],
     "traits": [ "PROF_SKATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "arts_and_crafts",
+    "name": "Arts and Crafts",
+    "description": "You loved doing crafts at home.  Hopefully this can aid you in surviving now that the world has gone to hell.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "car_rebuilding",
+    "name": "Car Rebuilding",
+    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pasttime.  You never finished the car, but at least you learned a little over the years.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "mechanics" } ]
   },
   {
     "type": "profession",
@@ -488,6 +546,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "ham_radio_operator",
+    "name": "Ham Radio Operator",
+    "description": "You whiled your nights away using, building and repairing old Ham Radios.  Now you have no one to talk to.  But you won't give up hope and maybe your electronics knowledge can help you somehow.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "electronics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "golfing",
     "name": "Golfing",
     "points": 1,
@@ -506,11 +573,39 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "shooter",
+    "name": "Gun Range Shooter",
+    "description": "You liked going to the local gun store and doing some target shooting.  Sometimes even cans off of fence posts.  Maybe if you just imagine targets on those dead things, this could help.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "gun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "name": "Red Cross Certified",
     "id": "redcross",
     "description": "The medical professionals aren't coming, but you'll live regardless.",
     "points": 1,
     "skills": [ { "level": 2, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "trap_shooting",
+    "name": "Trap Shooting",
+    "description": "Nothing like the smell of gunsmoke and blowing ceramic orange discs out of the sky.  Time to shoot at things a little fleshier than clay pigeons.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "shotgun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "back_yard_grilling",
+    "name": "Back Yard Grilling",
+    "description": "You enjoyed inviting the neighborhood to a backyard get together most weekends.  You, of course, were the grill master.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills" ]
   },
   {
     "type": "profession",
@@ -614,6 +709,74 @@
     "points": 1,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "tailor" } ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "backpacking",
+    "name": "Backpacking",
+    "description": "You enjoyed trekking on long trails in nature with all your necessities strapped to your back.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN", "GOODCARDIO", "NOMAD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "trivia",
+    "name": "Trivia",
+    "description": "You love learning and spouting random bits of trivial knowledge.",
+    "points": 3,
+    "skills": [ { "level": 1, "name": "speech" } ],
+    "traits": [ "GOODMEMORY" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "scrapart",
+    "name": "Scrap Art",
+    "description": "You spent hours welding discarded scrap into large and intricate designs.  Some say you just welded junk into bigger junk.  You call it art.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" } ],
+    "proficiencies": [ "prof_welding_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "moshing",
+    "name": "Moshing",
+    "description": "You went to loud concerts and spent your time in the mosh pits.  Now that the world's gone to hell, the whole world is your mosh pit.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "unarmed" } ],
+    "traits": [ "BADHEARING", "MASOCHIST", "PAINRESIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fireperformance",
+    "name": "Fire Performance",
+    "description": "Whether you twirled, spun, juggled, or ate it, fire was how you grabbed attention.",
+    "points": 2,
+    "traits": [ "PYROMANIA", "ADRENALINE", "DEFT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socialdance",
+    "name": "Social Dancing",
+    "description": "You love meeting new people on the dance floor.  Zombies aren't terribly friendly, but they're ready to tango!",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
+    "traits": [ "LIGHTSTEP" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "meditation",
+    "name": "Meditation",
+    "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
+    "points": 2,
+    "traits": [ "SELFAWARE", "SPIRITUAL" ]
   },
   {
     "type": "profession",

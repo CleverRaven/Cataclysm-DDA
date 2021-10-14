@@ -349,6 +349,26 @@
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "improvised_legguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
+    "description": "Leg guards made of thick chunks of tire held together with duct tape.",
+    "weight": "4800 g",
+    "volume": "4000 ml",
+    "price": 2300,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "legguard_scrap",
     "type": "ARMOR",
     "category": "armor",
@@ -380,77 +400,33 @@
     "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
-    "id": "lsurvivor_pants",
+    "id": "legguard_tire",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "light survivor cargo pants" },
-    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
-    "weight": "920 g",
-    "volume": "3500 ml",
-    "price": 40000,
-    "price_postapoc": 1500,
-    "material": [ "kevlar_layered", "cotton" ],
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "5 L",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "rubber" ],
     "symbol": "[",
-    "looks_like": "pants_survivor",
-    "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "21 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "21 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
-      }
-    ],
-    "warmth": 12,
-    "material_thickness": 3,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "looks_like": "legguard_metal",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "xl_lsurvivor_pants",
+    "id": "xl_legguard_tire",
     "type": "ARMOR",
-    "copy-from": "lsurvivor_pants",
-    "name": { "str_sp": "XL light survivor cargo pants" },
-    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof and sized for larger than average.",
+    "copy-from": "legguard_tire",
+    "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE" ]
   },
   {
     "id": "motorbike_pants",
@@ -471,94 +447,6 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
-    "id": "pants_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "survivor cargo pants" },
-    "description": "A pair of Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
-    "weight": "2100 g",
-    "volume": "3 L",
-    "price": 38000,
-    "price_postapoc": 2000,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "pants_army",
-    "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "21 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "21 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
-      }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ],
-    "armor": [ { "encumbrance": [ 10, 20 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
-    "id": "xl_pants_survivor",
-    "type": "ARMOR",
-    "copy-from": "pants_survivor",
-    "name": { "str_sp": "XL survivor cargo pants" },
-    "description": "A pair of oversized Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "trousers_eod",

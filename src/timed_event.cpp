@@ -86,12 +86,14 @@ void timed_event::actualize()
             get_memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
-            int num_wyrms = rng( 1, 4 );
-            for( int i = 0; i < num_wyrms; i++ ) {
-                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, player_character.pos(), 2 ) ) {
-                    here.ter_set( mon->pos(), t_rock_floor );
+
+            // 50% chance to spawn a dark wyrm near every orifice on the level.
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
+
             // You could drop the flag, you know.
             if( player_character.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( player_character.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false,
@@ -102,11 +104,7 @@ void timed_event::actualize()
                     player_character.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
-            // They just keep coming!
-            if( !one_in( 25 ) ) {
-                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
-                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
-            }
+
         }
         break;
 
