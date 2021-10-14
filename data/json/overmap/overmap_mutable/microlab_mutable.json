@@ -195,7 +195,7 @@
             { "overmap": "microlab_rock_border", "pos": [ 1, 1, 0 ] },
             { "overmap": "microlab_rock_border", "pos": [ 2, 1, 0 ] },
             { "overmap": "microlab_rock_border", "pos": [ -1, 1, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ -2, 1, 0 ] }      
+            { "overmap": "microlab_rock_border", "pos": [ -2, 1, 0 ] }
           ],
           "max": 1
         }
@@ -206,7 +206,7 @@
       [ { "overmap": "microlab", "max": 20 } ],
       [ { "overmap": "microlab_edge", "weight": 1 } ],
       [ { "overmap": "dmicrolab", "max": 6 } ],
-      [ { "overmap": "dmicrolab_edge", "weight": 100000 }, { "overmap": "rock_divisor", "weight": 1 } ]      
+      [ { "overmap": "dmicrolab_edge", "weight": 100000 }, { "overmap": "rock_divisor", "weight": 1 } ]
     ]
   }
 ]
