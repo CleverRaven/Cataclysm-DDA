@@ -1656,6 +1656,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d, int intensity )
+{
+    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, height_3d, intensity, "" );
+}
+
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                      const std::string &subcategory, const tripoint &pos,
+                                      int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d )
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
@@ -1867,26 +1876,27 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         return false;
     }
 
-
-    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category, variant );
     const tile_type *tt = nullptr;
     cata::optional<tile_lookup_res> res;
+
+
 
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
     if( intensity_level > 0 ) {
-        res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category );
+        res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
+        if( res ) {
+            tt = &( res -> tile() );
+        }
+    }
+    // if a tile with intensity hasn't already been found then fall back to a base tile
+    if( !res ) {
+        res = find_tile_looks_like( id, category, variant );
         if( res ) {
             tt = &( res -> tile() );
         }
     }
 
-    if( !tt ) {
-        res = find_tile_looks_like( id, category );
-        if( res ) {
-            tt = &( res -> tile() );
-        }
-    }
     const std::string &found_id = res ? ( res->id() ) : id;
 
     if( !tt ) {
@@ -2948,7 +2958,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             const bool nv = it_overridden ? false : nv_goggles_activated;
 
             ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
-                                                  0, lit, nv, height_3d, variant );
+                                                  0, lit, nv, height_3d, 0, variant );
             if( ret_draw_items && hilite ) {
                 draw_item_highlight( p );
             }
