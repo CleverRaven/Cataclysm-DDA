@@ -4,10 +4,10 @@
     "type": "monstergroup",
     "default": "mon_irradiated_wanderer_3",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_2", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_4", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_charred_nightmare", "freq": 20, "cost_multiplier": 1 }
+      { "monster": "mon_irradiated_wanderer_2", "freq": 30 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 50 },
+      { "monster": "mon_irradiated_wanderer_4", "freq": 30 },
+      { "monster": "mon_charred_nightmare", "freq": 20 }
     ]
   },
   {

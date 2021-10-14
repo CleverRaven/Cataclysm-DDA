@@ -142,15 +142,15 @@
     "name": "GROUP_EGG_WASP",
     "type": "monstergroup",
     "default": "mon_wasp_larva",
-    "monsters": [ { "monster": "mon_wasp_larva", "freq": 1000, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+    "monsters": [ { "monster": "mon_wasp_larva", "freq": 1000, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
   },
   {
     "name": "GROUP_EGG_DRAGONFLY",
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_dragonfly_naiad", "freq": 500, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_dragonfly_naiad", "freq": 500, "cost_multiplier": 1, "conditions": [ "SUMMER" ] }
+      { "monster": "mon_dragonfly_naiad", "freq": 500, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_dragonfly_naiad", "freq": 500, "conditions": [ "SUMMER" ] }
     ]
   },
   {

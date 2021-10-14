@@ -26,9 +26,9 @@
     "//": "Basic mi-go base defenders.",
     "default": "mon_mi_go_guard",
     "monsters": [
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go", "freq": 100, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_mi_go_guard", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "freq": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mi_go_guard", "freq": 30, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
       {
         "monster": "mon_mi_go_slaver",
@@ -46,7 +46,7 @@
     "//": "Mi-go base defenders for rooms where captives are being held.",
     "default": "mon_mi_go_guard",
     "monsters": [
-      { "monster": "mon_mi_go_guard", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "freq": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mi_go_guard", "freq": 50, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi_go_surgeon", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_surgeon", "freq": 100, "cost_multiplier": 4, "pack_size": [ 1, 2 ] }

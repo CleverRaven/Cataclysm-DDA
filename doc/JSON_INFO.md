@@ -930,11 +930,10 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | Identifier  | Description
 |---          |---
 | `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
-| `default`   | Default monster, automatically fills in any remaining spawn chances.
+| `default`   | (_optional_) Default monster, used to represent the monster group. (default: The monster with the highest `freq` in the group)
 | `monsters`  | To choose a monster for spawning, the game creates `freq_total` entries (default 1000) and picks one. Each monster will have a number of entries equal to its `freq` and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
 | `is_safe`   | (bool) Check to not trigger safe-mode warning, currently inconsequential.
 | `is_animal` | (bool) Check if that group has only normal animals, currently inconsequential.
-| `freq_total`| (int) Determines the number of entries created for the monster roll, default 1000. If the total eligible `freq`s of a group exceed `freq_total` the entries after the monster that exceeded it **won't be included** in the roll - i.e., if the first two monsters out of a group of ten each have `freq: 500` the rest of the group won't have a chance to spawn at all!
 | `replace_monster_group` | (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superseded by monster evolution.
 | `new_monster_group_id` | (string) The id of the monster group that should replace this one.
 | `replacement_time` | (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
@@ -944,12 +943,12 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | Identifier        | Description
 |---                |---
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
-| `freq`            | Chance of occurrence, x/`freq_total` (default x/1000).
-| `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
+| `freq`            | Chance of occurrence (`freq` / total `freq` in group)
+| `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
-| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
-| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
+| `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
+| `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
 
 ```C++

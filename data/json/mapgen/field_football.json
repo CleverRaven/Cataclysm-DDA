@@ -40,9 +40,9 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_tough", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 6 ] }
+      { "monster": "mon_zombie_tough", "freq": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_runner", "freq": 150, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_zombie_fat", "freq": 100, "pack_size": [ 4, 6 ] }
     ]
   },
   {
