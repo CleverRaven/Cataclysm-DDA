@@ -33,7 +33,7 @@
       { "monster": "mon_zombie_flamer", "freq": 100, "cost_multiplier": 30 },
       { "monster": "mon_zombie_military_pilot", "freq": 5 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
+      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": "60 days" },
       { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 }
     ]
   },
@@ -78,7 +78,7 @@
       { "monster": "mon_zombie_swimmer", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_static", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "freq": 50 },
@@ -109,7 +109,7 @@
       { "monster": "mon_zombie_swimmer", "freq": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_static", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_zombie_scorched", "freq": 25 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "freq": 50 },

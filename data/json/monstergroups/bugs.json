@@ -92,15 +92,15 @@
         "monster": "mon_wasp_small",
         "freq": 500,
         "cost_multiplier": 1,
-        "ends": 180,
+        "ends": "180 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_small",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -108,15 +108,15 @@
         "monster": "mon_wasp_small_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "ends": 180,
+        "ends": "180 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_small_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -124,15 +124,15 @@
         "monster": "mon_wasp",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 540,
+        "starts": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -140,15 +140,15 @@
         "monster": "mon_wasp_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 540,
+        "starts": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
@@ -163,15 +163,15 @@
         "monster": "mon_wasp_small",
         "freq": 1000,
         "cost_multiplier": 1,
-        "ends": 180,
+        "ends": "180 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_small",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -179,15 +179,15 @@
         "monster": "mon_wasp",
         "freq": 1000,
         "cost_multiplier": 1,
-        "starts": 360,
-        "ends": 720,
+        "starts": "15 days",
+        "ends": "30 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp",
         "freq": 1000,
         "cost_multiplier": 1,
-        "starts": 720,
+        "starts": "30 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
@@ -202,15 +202,15 @@
         "monster": "mon_wasp_small_guard",
         "freq": 1000,
         "cost_multiplier": 1,
-        "ends": 180,
+        "ends": "180 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_small_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -218,15 +218,15 @@
         "monster": "mon_wasp_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 180,
-        "ends": 540,
+        "starts": "180 hours",
+        "ends": "540 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_guard",
         "freq": 500,
         "cost_multiplier": 1,
-        "starts": 540,
+        "starts": "540 hours",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
@@ -237,8 +237,8 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_wasp_queen", "freq": 1000, "cost_multiplier": 50, "ends": 720 },
-      { "monster": "mon_wasp_mega", "freq": 1000, "cost_multiplier": 50, "starts": 360 }
+      { "monster": "mon_wasp_queen", "freq": 1000, "cost_multiplier": 50, "ends": "30 days" },
+      { "monster": "mon_wasp_mega", "freq": 1000, "cost_multiplier": 50, "starts": "15 days" }
     ]
   },
   {
