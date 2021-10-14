@@ -368,7 +368,7 @@
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
-    "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Using this flashlight will turn it on and provide light even underwater, assuming it is charged with batteries.",
     "weight": "450 g",
     "volume": "470 ml",
     "longest_side": "37 cm",
