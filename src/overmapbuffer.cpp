@@ -554,7 +554,7 @@ void overmapbuffer::do_tick( bool has_nemesis )
     const tripoint_abs_sm center = get_player_character().global_sm_location();
     for( overmap *om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
-        om->update_nodes();
+        om->update_zones_of_influence();
     }
     if( !has_nemesis ) {
         return;
@@ -575,24 +575,24 @@ void overmapbuffer::remove_nemesis()
     }
 }
 
-overmap_node *overmapbuffer::nearby_node( const tripoint_abs_omt &p )
+zone_of_influence *overmapbuffer::nearby_zone( const tripoint_abs_omt &p )
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 20;
-    // TODO: Make this return a list of all the nodes in range.
-    overmap_node *nearest_node = nullptr;
-    int nearest_node_distance = radius * 2;
+    // TODO: Make this return a list of all the zones_of_influence in range.
+    zone_of_influence *nearest_zone = nullptr;
+    int nearest_zone_distance = radius * 2;
     tripoint_abs_sm sm_p = project_to<coords::sm>( p );
     for( overmap *om : get_overmaps_near( sm_p, radius ) ) {
-        for( overmap_node &node : om->nodes ) {
-            int distance = rl_dist( node.origin, p );
-            if( distance < nearest_node_distance && distance < node.radius() ) {
-                nearest_node = &node;
-                nearest_node_distance = distance;
+        for( zone_of_influence &zone : om->zones_of_influence ) {
+            int distance = rl_dist( zone.origin, p );
+            if( distance < nearest_zone_distance && distance < zone.radius() ) {
+                nearest_zone = &zone;
+                nearest_zone_distance = distance;
             }
         }
     }
-    return nearest_node;
+    return nearest_zone;
 }
 
 std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )

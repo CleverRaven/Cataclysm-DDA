@@ -618,15 +618,15 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
 
-    if( jo.has_member( "node" ) ) {
-        overmap_node_type node;
-        JsonObject node_jo = jo.get_object( "node" );
-        JsonObject spread_jo = node_jo.get_object( "spread" );
-        assign( spread_jo, "rate", node.spread_rate, strict );
-        assign( spread_jo, "terrain_type", node.spread_terrain_type, strict );
-        assign( spread_jo, "overmap_terrain", node.spread_overmap_type, strict );
-        node.parent = id;
-        node_type = node;
+    if( jo.has_member( "zone" ) ) {
+        zone_of_influence_type zone;
+        JsonObject zone_jo = jo.get_object( "zone" );
+        JsonObject spread_jo = zone_jo.get_object( "spread" );
+        assign( spread_jo, "rate", zone.spread_rate, strict );
+        assign( spread_jo, "terrain_type", zone.spread_terrain_type, strict );
+        assign( spread_jo, "overmap_terrain", zone.spread_overmap_type, strict );
+        zone.parent = id;
+        zone_type = zone;
     }
 
     if( jo.has_member( "looks_like" ) ) {
@@ -2820,10 +2820,11 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
     return extra_locations;
 }
 
-void overmap::add_node( const tripoint_om_omt &p, const overmap_node_type &node_type )
+void overmap::add_zone_of_influence( const tripoint_om_omt &p,
+                                     const zone_of_influence_type &zone_type )
 {
-    tripoint_abs_omt node_origin( project_combine( pos(), p ) );
-    nodes.emplace_back( node_origin, &node_type );
+    tripoint_abs_omt zone_origin( project_combine( pos(), p ) );
+    zones_of_influence.emplace_back( zone_origin, &zone_type );
 }
 
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
@@ -3636,40 +3637,40 @@ static int point_rng( point p, int lo, int hi )
     return rng_int_dist( gen, std::uniform_int_distribution<>::param_type( lo, hi ) );
 }
 
-bool overmap_node::can_grow_on_tile( const tripoint_abs_ms &abs_location,
-                                     ter_id target_terrain_type )
+bool zone_of_influence::can_grow_on_tile( const tripoint_abs_ms &abs_location,
+        ter_id target_terrain_type )
 {
     if( type->spread_terrain_type == target_terrain_type ) {
         return false;
     }
-    tripoint_abs_ms node_origin = project_to<coords::ms>( origin ) + point( SEEX, SEEY );
-    float distance = rl_dist_exact( node_origin.raw(), abs_location.raw() );
+    tripoint_abs_ms zone_origin = project_to<coords::ms>( origin ) + point( SEEX, SEEY );
+    float distance = rl_dist_exact( zone_origin.raw(), abs_location.raw() );
     // The hash function applies some noise to the outer edge of the area.
     int point_percentage = point_rng( abs_location.xy().raw(), 1, 100 );
-    float node_radius = radius();
+    float zone_radius = radius();
     // TODO: Make this continuous instead of piecewise.
-    return ( point_percentage <= 10 && distance <= node_radius * sqrt( 1.5 ) ) ||
-           ( point_percentage <= 30 && distance <= node_radius * sqrt( 1.3 ) ) ||
-           ( point_percentage <= 50 && distance <= node_radius * sqrt( 1.1 ) ) ||
-           ( point_percentage <= 70 && distance <= node_radius * sqrt( 0.9 ) ) ||
-           ( point_percentage <= 90 && distance <= node_radius * sqrt( 0.7 ) ) ||
-           distance <= node_radius * sqrt( 0.5 );
+    return ( point_percentage <= 10 && distance <= zone_radius * sqrt( 1.5 ) ) ||
+           ( point_percentage <= 30 && distance <= zone_radius * sqrt( 1.3 ) ) ||
+           ( point_percentage <= 50 && distance <= zone_radius * sqrt( 1.1 ) ) ||
+           ( point_percentage <= 70 && distance <= zone_radius * sqrt( 0.9 ) ) ||
+           ( point_percentage <= 90 && distance <= zone_radius * sqrt( 0.7 ) ) ||
+           distance <= zone_radius * sqrt( 0.5 );
 }
 
-void overmap::update_nodes()
+void overmap::update_zones_of_influence()
 {
     map &m = get_map();
-    for( overmap_node &node : nodes ) {
-        int num_ticks = ( calendar::turn - node.last_spread ) / node.type->spread_rate;
+    for( zone_of_influence &zone : zones_of_influence ) {
+        int num_ticks = ( calendar::turn - zone.last_spread ) / zone.type->spread_rate;
         unsigned int growth = num_ticks;
         if( num_ticks > 0 ) {
-            node.last_spread += node.type->spread_rate * num_ticks;
+            zone.last_spread += zone.type->spread_rate * num_ticks;
         }
         // This performs https://en.wikipedia.org/wiki/Reservoir_sampling to select
         // up to growth elements from the lost_coverage set.
         std::vector<tripoint_abs_omt> selected_points;
         int global_index = 0;
-        for( std::pair<const tripoint_abs_omt, int> &local_lost_coverage : node.lost_coverage ) {
+        for( std::pair<const tripoint_abs_omt, int> &local_lost_coverage : zone.lost_coverage ) {
             int index = 0;
             for( ; index < local_lost_coverage.second &&
                  selected_points.size() <= growth; ++index, ++global_index ) {
@@ -3687,21 +3688,21 @@ void overmap::update_nodes()
         // capacity reserved for a particular OMT.
         for( const tripoint_abs_omt &selected_point : selected_points ) {
             growth--;
-            node.omt_regrowth[selected_point]++;
-            auto loss = node.lost_coverage.find( selected_point );
-            if( loss->second == node.omt_regrowth[ selected_point ] ) {
-                node.lost_coverage.erase( loss );
-                node.omt_regrowth.erase( selected_point );
+            zone.omt_regrowth[selected_point]++;
+            auto loss = zone.lost_coverage.find( selected_point );
+            if( loss->second == zone.omt_regrowth[ selected_point ] ) {
+                zone.lost_coverage.erase( loss );
+                zone.omt_regrowth.erase( selected_point );
             }
         }
-        node.area += growth;
-        tripoint_abs_ms ms_origin = project_to<coords::ms>( node.origin ) + point( SEEX, SEEY );
-        int node_radius = node.radius();
-        tripoint_abs_ms ms_min = ms_origin + point( -node_radius, -node_radius );
-        tripoint_abs_ms ms_max = ms_origin + point( node_radius, node_radius );
-        cuboid<tripoint_abs_ms> node_bounds( ms_min, ms_max );
-        if( m.overlaps( node_bounds ) ) {
-            m.apply_node_update( node );
+        zone.area += growth;
+        tripoint_abs_ms ms_origin = project_to<coords::ms>( zone.origin ) + point( SEEX, SEEY );
+        int zone_radius = zone.radius();
+        tripoint_abs_ms ms_min = ms_origin + point( -zone_radius, -zone_radius );
+        tripoint_abs_ms ms_max = ms_origin + point( zone_radius, zone_radius );
+        cuboid<tripoint_abs_ms> zone_bounds( ms_min, ms_max );
+        if( m.overlaps( zone_bounds ) ) {
+            m.apply_zone_update( zone );
         }
     }
 }
@@ -5601,8 +5602,8 @@ static std::vector<tripoint_om_omt> place_fixed_overmap_special(
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         om.ter_set( location, tid );
-        if( tid->get_node() ) {
-            om.add_node( location, *tid->get_node() );
+        if( tid->get_zone_of_influence() ) {
+            om.add_zone_of_influence( location, *tid->get_zone_of_influence() );
         }
 
         if( blob ) {

@@ -437,9 +437,9 @@ class overmapbuffer
          */
         void remove_nemesis();
         /**
-         * Return the nearest node that overlaps the current location, if any.
+         * Return the nearest zone of influence that overlaps the current location, if any.
          */
-        overmap_node *nearby_node( const tripoint_abs_omt &p );
+        zone_of_influence *nearby_zone( const tripoint_abs_omt &p );
         // hordes -- this uses overmap terrain coordinates!
         std::vector<mongroup *> monsters_at( const tripoint_abs_omt &p );
         /**

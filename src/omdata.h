@@ -166,7 +166,7 @@ struct overmap_static_spawns : public overmap_spawns {
 };
 
 // Defines an area on the overmap that can grow and adjust terrain autonomously.
-struct overmap_node_type {
+struct zone_of_influence_type {
     // How often the area grows, this occurs independently of player presence.
     time_duration spread_rate;
     // Map from existing terrain to a terrain type to transform them into,
@@ -180,11 +180,11 @@ struct overmap_node_type {
 };
 
 // Holds the instance data for the above autonomously growing zone.
-struct overmap_node {
-    overmap_node( const tripoint_abs_omt &p, const overmap_node_type *new_type ) :
+struct zone_of_influence {
+    zone_of_influence( const tripoint_abs_omt &p, const zone_of_influence_type *new_type ) :
         origin( p ), type( new_type ), last_spread( calendar::start_of_cataclysm ), area( 0 ) {}
     const tripoint_abs_omt origin;
-    const overmap_node_type *type;
+    const zone_of_influence_type *type;
     time_point last_spread;
     // The number of tiles worth of terrain adjustments that have been accumulated.
     // Terrain alterations only occur when the player approaches.
@@ -305,15 +305,15 @@ struct oter_type_t {
             return has_connections() && connect_group == other->connect_group;
         }
 
-        const cata::optional<overmap_node_type> &get_node() const {
-            return node_type;
+        const cata::optional<zone_of_influence_type> &get_zone_of_influence() const {
+            return zone_type;
         }
 
     private:
         enum_bitset<oter_flags> flags;
         std::vector<oter_id> directional_peers;
         std::string connect_group; // Group for connection when rendering overmap tiles
-        cata::optional<overmap_node_type> node_type;
+        cata::optional<zone_of_influence_type> zone_type;
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
@@ -435,8 +435,8 @@ struct oter_t {
             return type->has_flag( oter_flags::ravine_edge );
         }
 
-        const cata::optional<overmap_node_type> &get_node() const {
-            return type->get_node();
+        const cata::optional<zone_of_influence_type> &get_zone_of_influence() const {
+            return type->get_zone_of_influence();
         }
 
     private:

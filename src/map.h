@@ -65,7 +65,7 @@ class vehicle;
 class zone_data;
 struct fragment_cloud;
 struct maptile;
-struct overmap_node;
+struct zone_of_influence;
 struct partial_con;
 struct spawn_data;
 struct trap;
@@ -543,14 +543,15 @@ class map
         void vertical_shift( int newz );
 
         /**
-         * Updates the designated map area to catch up with new state from the overmap node.
+         * Updates the designated map area to catch up with new state from the
+         * overmap zone of influence.
          */
-        void apply_node_update( overmap_node &node );
+        void apply_zone_update( zone_of_influence &zone );
     private:
         /**
-         * Updates the specified node with information from the map.
+         * Updates the specified zone with information from the map.
          */
-        void update_node( overmap_node &node, const tripoint_abs_omt &grid_abs_omt );
+        void update_zone( zone_of_influence &zone, const tripoint_abs_omt &grid_abs_omt );
     public:
         void clear_spawns();
         void clear_traps();
