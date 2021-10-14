@@ -3616,15 +3616,15 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
 
 // function object that initializes with a point as its input
 struct point_hash_generator {
-    typedef unsigned int result_type;
+    using result_type = unsigned int;
     point p;
     unsigned int operator()() const {
         return mixed_hash( std::hash<point> {}( p ) );
     }
-    unsigned int min() {
+    static constexpr unsigned int min() {
         return std::numeric_limits<unsigned int>::min();
     }
-    unsigned int max() {
+    static constexpr unsigned int max() {
         return std::numeric_limits<unsigned int>::max();
     }
 };

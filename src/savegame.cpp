@@ -495,7 +495,7 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
     }
 }
 
-// Define a specialized template instnce that can decode a tripoint_abs_omt.
+// Define a specialized template instance that can decode a tripoint_abs_omt.
 // TODO: generalize for all the coordinate types?
 template<>
 struct key_from_json_string<tripoint_abs_omt, void> {
@@ -776,10 +776,10 @@ void overmap::unserialize( std::istream &fin )
                 overmap_node node( origin, type );
                 node.last_spread = last_spread;
                 node.area = area;
-                node.omt_coverage = omt_coverage;
-                node.lost_coverage = lost_coverage;
-                node.omt_regrowth = omt_regrowth;
-                nodes.push_back( node );
+                node.omt_coverage = std::move( omt_coverage );
+                node.lost_coverage = std::move( lost_coverage );
+                node.omt_regrowth = std::move( omt_regrowth );
+                nodes.push_back( std::move( node ) );
             }
         } else if( name == "mapgen_arg_storage" ) {
             jsin.read( mapgen_arg_storage, true );
