@@ -11,7 +11,7 @@
     "show_in_info": true
   },
   {
-    "id": "mon_zombie_base",
+    "abstract": "mon_zombie_base",
     "type": "MONSTER",
     "name": { "str": "zombie" },
     "description": "Inherited basic stat set for all zombies.  If you're seeing this monster, it's probably a bug.",
@@ -132,7 +132,7 @@
     ]
   },
   {
-    "id": "mon_zombie_tough_base",
+    "abstract": "mon_zombie_tough_base",
     "type": "MONSTER",
     "name": { "str": "tough zombie base" },
     "description": "Inherited basic stat set for all 'physically fit' zombies.  If you're seeing this monster, it's probably a bug.",
@@ -149,7 +149,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 7 ], [ "scratch", 20 ] ]
   },
   {
-    "id": "mon_zombie_crawling_base",
+    "abstract": "mon_zombie_crawling_base",
     "type": "MONSTER",
     "name": { "str": "crawling zombie base" },
     "description": "Inherited basic stat set for all legless zombies.  If you're seeing this monster, it's probably a bug.",
@@ -214,7 +214,7 @@
     }
   },
   {
-    "id": "mon_zombie_bodyarmor_base",
+    "abstract": "mon_zombie_bodyarmor_base",
     "type": "MONSTER",
     "name": { "str": "body armor zombie base" },
     "description": "Inherited basic stat set for all zombies wearing some sort of basic body armour.  If you're seeing this monster, it's probably a bug.",
@@ -309,7 +309,7 @@
     }
   },
   {
-    "id": "mon_zombie_enclosed_base",
+    "abstract": "mon_zombie_enclosed_base",
     "type": "MONSTER",
     "name": { "str": "enclosed zombie base" },
     "description": "Inherited basic stat set for zombies in a head-to-toe body suit of some kind.  If you're seeing this monster, it's probably a bug.",
