@@ -2,8 +2,8 @@
   {
     "type": "monstergroup",
     "name": "DKS_GROUP_STRAY_UPGRADE",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 75 },
       { "monster": "dks_mon_stray_heavy", "freq": 250, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_big", "freq": 175, "cost_multiplier": 5 },
       { "monster": "dks_mon_stray_fast", "freq": 175, "cost_multiplier": 5 },
@@ -15,8 +15,8 @@
   {
     "type": "monstergroup",
     "name": "DKS_WRETCH_UPGRADE",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 400 },
       { "monster": "dks_mon_stray_wretch_tendrils", "freq": 200, "cost_multiplier": 10 },
       { "monster": "dks_mon_stray_wretch_elec", "freq": 100, "cost_multiplier": 12 },
       { "monster": "dks_mon_stray_wretch_tough", "freq": 150, "cost_multiplier": 10 },
@@ -26,8 +26,8 @@
   {
     "type": "monstergroup",
     "name": "MON_CRYSTAL_UPGRADE",
-    "default": "dks_mon_crystal_wall",
     "monsters": [
+      { "monster": "dks_mon_crystal_wall", "freq": 510 },
       { "monster": "dks_mon_crystal_shriek", "freq": 125, "cost_multiplier": 5 },
       { "monster": "dks_mon_crystal_whip", "freq": 125, "cost_multiplier": 5 },
       { "monster": "dks_mon_crystal_zap", "freq": 125, "cost_multiplier": 7 },
@@ -37,41 +37,37 @@
   {
     "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "dks_mon_stray", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "dks_mon_stray_child", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray", "freq": 100, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray_child", "freq": 100, "pack_size": [ 2, 3 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "dks_mon_stray_big", "freq": 50, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 25, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
+      { "monster": "dks_mon_stray_big", "freq": 50, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 25, "pack_size": [ 2, 3 ] }
     ]
   },
   {
     "name": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "dks_mon_stray_child", "freq": 295, "cost_multiplier": 1, "pack_size": [ 5, 12 ] },
+      { "monster": "dks_mon_stray_child", "freq": 295, "pack_size": [ 5, 12 ] },
       { "monster": "dks_mon_stray", "freq": 100, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 25, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 25, "pack_size": [ 2, 3 ] }
     ]
   },
   {
     "name": "GROUP_PARK_DOG",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "dks_mon_stray", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray", "freq": 125, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 125, "pack_size": [ 2, 3 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "dks_mon_stray_big", "freq": 50, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
+      { "monster": "dks_mon_stray_big", "freq": 50, "pack_size": [ 2, 3 ] }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "dks_mon_stray", "freq": 1, "cost_multiplier": 13, "pack_size": [ 15, 50 ] },
@@ -80,7 +76,7 @@
       { "monster": "dks_mon_stray_big", "freq": 75, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_big", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 75 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 16, "pack_size": [ 5, 8 ] },
@@ -102,7 +98,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_VANILLA",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 266, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_child", "freq": 100, "cost_multiplier": 0 },
@@ -114,10 +109,9 @@
     "type": "monstergroup",
     "name": "GROUP_POLICE",
     "//": "+30% cops",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "dks_mon_stray_child", "freq": 40, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 40 },
       { "monster": "dks_mon_stray_heavy", "freq": 40, "cost_multiplier": 3 },
       { "monster": "dks_mon_stray_cop", "freq": 280, "cost_multiplier": 3 },
       { "monster": "dks_mon_stray_cop", "freq": 140, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
@@ -135,7 +129,6 @@
     "type": "monstergroup",
     "name": "GROUP_HOUSE",
     "//": "+15% child",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 130, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_heavy", "freq": 50, "cost_multiplier": 3 },
@@ -155,7 +148,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PREPPER_HOUSE",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_heavy", "freq": 180, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_soldier", "freq": 10, "cost_multiplier": 3 },
@@ -169,11 +161,10 @@
     "type": "monstergroup",
     "name": "GROUP_PHARM",
     "//": "+13% fast",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 130, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_heavy", "freq": 130, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 50 },
       { "monster": "dks_mon_stray_cop", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_cop", "freq": 5, "cost_multiplier": 4, "pack_size": [ 2, 3 ] },
       { "monster": "dks_mon_stray_fireman", "freq": 10, "cost_multiplier": 2 },
@@ -189,11 +180,10 @@
     "type": "monstergroup",
     "name": "GROUP_ELECTRO",
     "//": "+15% electric",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 130, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_heavy", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 50 },
       { "monster": "dks_mon_stray_cop", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_cop", "freq": 5, "cost_multiplier": 4, "pack_size": [ 2, 3 ] },
       { "monster": "dks_mon_stray_fireman", "freq": 10, "cost_multiplier": 2 },
@@ -210,11 +200,10 @@
     "type": "monstergroup",
     "name": "GROUP_GROCERY",
     "//": "+15% fat",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 280, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_heavy", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 50 },
       { "monster": "dks_mon_stray_cop", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_cop", "freq": 5, "cost_multiplier": 4, "pack_size": [ 2, 3 ] },
       { "monster": "dks_mon_stray_fireman", "freq": 10, "cost_multiplier": 2 },
@@ -230,11 +219,10 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PUBLICWORKERS",
-    "default": "dks_mon_stray_heavy",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 100, "cost_multiplier": 5 },
       { "monster": "dks_mon_stray_big", "freq": 26, "cost_multiplier": 5 },
-      { "monster": "dks_mon_stray_child", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 10 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 10, "cost_multiplier": 5 },
       { "monster": "dks_mon_stray_crackle", "freq": 200, "cost_multiplier": 5 }
     ]
@@ -243,7 +231,6 @@
     "type": "monstergroup",
     "name": "GROUP_MAYBE_ZOMBIE",
     "//": "10% chance of a zombie",
-    "default": "mon_null",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 40, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "dks_mon_stray_big", "freq": 18, "cost_multiplier": 2, "pack_size": [ 1, 5 ] },
@@ -255,13 +242,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_FAT_BASE",
-    "default": "dks_mon_stray_big",
     "monsters": [ { "monster": "dks_mon_stray_big", "freq": 40, "cost_multiplier": 2 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_FAT",
-    "default": "dks_mon_stray_big",
     "monsters": [
       { "monster": "dks_mon_stray_eater", "freq": 20, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_big", "freq": 480, "cost_multiplier": 2 }
@@ -270,8 +255,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_GRAB",
-    "default": "dks_mon_stray",
     "monsters": [
+      { "monster": "dks_mon_stray", "freq": 40, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_wretch", "freq": 40, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_wretch_tendrils", "freq": 40, "cost_multiplier": 2 }
     ]
@@ -279,13 +264,12 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SCHOOL",
-    "default": "dks_mon_stray_child",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "dks_mon_stray_child", "freq": 650, "cost_multiplier": 1 },
-      { "monster": "dks_mon_stray_big", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "dks_mon_stray_heavy", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "dks_mon_stray", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 650 },
+      { "monster": "dks_mon_stray_big", "freq": 50 },
+      { "monster": "dks_mon_stray_heavy", "freq": 50 },
+      { "monster": "dks_mon_stray", "freq": 150 },
       { "monster": "dks_mon_crystal_mite", "freq": 10, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "dks_mon_crystal_hive", "freq": 5, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "dks_mon_crystal_mite", "freq": 15, "cost_multiplier": 25, "pack_size": [ 2, 5 ], "starts": 2160 }
@@ -294,7 +278,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SMALL_STATION",
-    "default": "dks_mon_stray_heavy",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 55, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 50, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
@@ -304,7 +287,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_LARGE_STATION",
-    "default": "mon_zombie_technician",
     "monsters": [
       { "monster": "dks_mon_stray_heavy", "freq": 55, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
       { "monster": "dks_mon_stray", "freq": 50, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
@@ -314,7 +296,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_CHURCH_ZOMBIE",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 10 ] },
       { "monster": "dks_mon_stray", "freq": 1, "cost_multiplier": 13, "pack_size": [ 15, 20 ] },
@@ -322,7 +303,7 @@
       { "monster": "dks_mon_stray_big", "freq": 75, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_big", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 75 },
       { "monster": "dks_mon_crystal_mite", "freq": 10, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "dks_mon_crystal_hive", "freq": 5, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "dks_mon_crystal_mite", "freq": 15, "cost_multiplier": 25, "pack_size": [ 2, 5 ], "starts": 2160 }
@@ -331,7 +312,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_PRISON",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 350, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_crackle", "freq": 10, "cost_multiplier": 0 }
@@ -340,7 +320,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_COP",
-    "default": "dks_mon_stray_cop",
     "monsters": [
       { "monster": "dks_mon_stray_cop", "freq": 100, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_cop", "freq": 50, "cost_multiplier": 4, "pack_size": [ 2, 3 ] },
@@ -350,7 +329,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_HOSPITAL",
-    "default": "mon_null",
     "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs.",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -360,7 +338,7 @@
       { "monster": "dks_mon_stray_big", "freq": 75, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_big", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 75 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 16, "pack_size": [ 5, 8 ] },
@@ -382,7 +360,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_STEEL_MILL",
-    "default": "mon_null",
     "//": "Steel mill monster spawns.",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -392,7 +369,7 @@
       { "monster": "dks_mon_stray_big", "freq": 75, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_big", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_heavy", "freq": 75, "cost_multiplier": 3 },
-      { "monster": "dks_mon_stray_child", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 75 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 16, "pack_size": [ 5, 8 ] },
@@ -414,15 +391,14 @@
   {
     "name": "GROUP_MALL",
     "type": "monstergroup",
-    "default": "dks_mon_stray",
     "monsters": [
-      { "monster": "dks_mon_stray", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "dks_mon_stray_big", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray", "freq": 100 },
+      { "monster": "dks_mon_stray_big", "freq": 30 },
       { "monster": "dks_mon_stray_fireman", "freq": 10, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_fireman", "freq": 8, "cost_multiplier": 3, "pack_size": [ 1, 4 ] },
       { "monster": "dks_mon_stray_cop", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_cop", "freq": 5, "cost_multiplier": 6, "pack_size": [ 2, 4 ] },
-      { "monster": "dks_mon_stray_child", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_child", "freq": 20 },
       { "monster": "dks_mon_crystal_mite", "freq": 30, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "dks_mon_crystal_hive", "freq": 30, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "dks_mon_crystal_mite", "freq": 30, "cost_multiplier": 25, "pack_size": [ 2, 5 ], "starts": 2160 }
@@ -431,48 +407,42 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_SEXSHOP_A",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_cop", "freq": 250, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_cop", "freq": 125, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
-      { "monster": "dks_mon_stray", "freq": 150, "cost_multiplier": 1 }
+      { "monster": "dks_mon_stray", "freq": 150 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_SEXSHOP_B",
-    "default": "dks_mon_stray",
     "monsters": [ { "monster": "dks_mon_stray_big", "freq": 500, "cost_multiplier": 2 } ]
   },
   {
     "name": "GROUP_FIRE",
     "type": "monstergroup",
-    "default": "dks_mon_stray_heavy",
     "monsters": [
       { "monster": "dks_mon_stray_cop", "freq": 100, "cost_multiplier": 2, "pack_size": [ 3, 5 ] },
-      { "monster": "dks_mon_stray", "freq": 40, "cost_multiplier": 1 }
+      { "monster": "dks_mon_stray", "freq": 40 }
     ]
   },
   {
     "name": "GROUP_PLAIN",
     "type": "monstergroup",
-    "default": "dks_mon_stray",
-    "monsters": [ { "monster": "dks_mon_stray", "freq": 40, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "dks_mon_stray", "freq": 40 } ]
   },
   {
     "name": "GROUP_HOTEL_POOL",
     "type": "monstergroup",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray", "freq": 100, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
-      { "monster": "dks_mon_stray_child", "freq": 35, "cost_multiplier": 1 }
+      { "monster": "dks_mon_stray_child", "freq": 35 }
     ]
   },
   {
     "name": "GROUP_HOTEL_GYM",
     "type": "monstergroup",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_big", "freq": 30, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_big", "freq": 15, "cost_multiplier": 8, "pack_size": [ 2, 6 ] },
@@ -482,7 +452,6 @@
   {
     "name": "GROUP_POOL_NOKIDS",
     "type": "monstergroup",
-    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_heavy", "freq": 100, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] }

@@ -2,8 +2,8 @@
   {
     "name": "GROUP_COLLAPSED_TOWER",
     "type": "monstergroup",
-    "default": "mon_zombie",
     "monsters": [
+      { "monster": "mon_zombie", "freq": 600 },
       { "monster": "mon_zombie_gasbag_immobile", "freq": 150, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_gasbag_crawler", "freq": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_scissorlimbs", "freq": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
@@ -13,8 +13,8 @@
   {
     "name": "GROUP_COLLAPSED_TOWER_BASEMENT",
     "type": "monstergroup",
-    "default": "mon_zombie_gasbag_immobile",
     "monsters": [
+      { "monster": "mon_zombie_gasbag_immobile", "freq": 650 },
       { "monster": "mon_zombie_hanging_innards", "freq": 50 },
       { "monster": "mon_zombie_giant_heart", "freq": 50 },
       { "monster": "mon_zombie_gasbag_crawler", "freq": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },

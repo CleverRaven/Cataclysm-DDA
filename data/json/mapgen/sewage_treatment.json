@@ -144,11 +144,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWAGE_TREATMENT",
-    "default": "mon_sewer_rat",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_sewer_fish", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
       { "monster": "mon_sewer_snake", "freq": 240, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "freq": 310, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_albino_penguin", "freq": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
       { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },

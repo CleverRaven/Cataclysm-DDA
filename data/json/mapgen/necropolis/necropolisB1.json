@@ -2,9 +2,8 @@
   {
     "name": "GROUP_NECROPOLIS_SEWERS",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_1",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_1", "freq": 90 },
+      { "monster": "mon_irradiated_wanderer_1", "freq": 848 },
       { "monster": "mon_irradiated_wanderer_2", "freq": 40 },
       { "monster": "mon_irradiated_wanderer_3", "freq": 10 },
       { "monster": "mon_irradiated_wanderer_4", "freq": 1 },
@@ -15,10 +14,9 @@
   {
     "name": "GROUP_NECROPOLIS_VAULT",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_2",
     "monsters": [
       { "monster": "mon_irradiated_wanderer_1", "freq": 40 },
-      { "monster": "mon_irradiated_wanderer_2", "freq": 50 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 910 },
       { "monster": "mon_irradiated_wanderer_3", "freq": 40 },
       { "monster": "mon_irradiated_wanderer_4", "freq": 5 },
       { "monster": "mon_charred_nightmare", "freq": 5 }
@@ -27,8 +25,7 @@
   {
     "name": "GROUP_NECROPOLIS_SWIMMING",
     "type": "monstergroup",
-    "default": "mon_sewer_fish",
-    "monsters": [ { "monster": "mon_irradiated_wanderer_2", "freq": 5 } ]
+    "monsters": [ { "monster": "mon_sewer_fish", "freq": 995 }, { "monster": "mon_irradiated_wanderer_2", "freq": 5 } ]
   },
   {
     "id": "vault_survival",

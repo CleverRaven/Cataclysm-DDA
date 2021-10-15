@@ -23,8 +23,7 @@
   {
     "name": "GROUP_STANDING_STONES",
     "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_darkman", "freq": 100, "conditions": [ "NIGHT" ] } ]
+    "monsters": [ { "monster": "mon_null", "freq": 900 }, { "monster": "mon_darkman", "freq": 100, "conditions": [ "NIGHT" ] } ]
   },
   {
     "type": "mapgen",

@@ -79,8 +79,8 @@
   {
     "name": "GROUP_ANIMALSHELTER_CATS",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 500 },
       { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_cat_kitten", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_tabby", "freq": 100, "cost_multiplier": 0 },
@@ -108,7 +108,6 @@
   {
     "name": "GROUP_ANIMALSHELTER_DOGS",
     "type": "monstergroup",
-    "default": "mon_zombie_dog",
     "monsters": [
       { "monster": "mon_zombie_dog", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 0 },
@@ -143,8 +142,8 @@
   {
     "name": "GROUP_ANIMALSHELTER_OTHER",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 500 },
       { "monster": "mon_chicken", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_rabbit", "freq": 300, "cost_multiplier": 0 }
     ]

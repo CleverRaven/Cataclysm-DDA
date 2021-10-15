@@ -2,7 +2,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_TOWER",
-    "default": "mon_fungal_tendril",
     "monsters": [
       { "monster": "mon_zilophosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zeratosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
@@ -46,7 +45,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_FLOWERS",
-    "default": "mon_fungal_blossom",
     "monsters": [
       { "monster": "mon_zilophosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zeratosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },

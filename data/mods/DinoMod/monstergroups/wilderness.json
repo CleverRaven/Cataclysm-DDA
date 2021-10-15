@@ -2,7 +2,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FOREST",
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 230.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
@@ -231,7 +230,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_RIVER",
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 255.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
@@ -463,7 +461,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SWAMP",
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 104.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
@@ -709,7 +706,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PARK_ANIMAL",
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 50.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
@@ -732,7 +728,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_POND_BIRD",
-    "default": "mon_null",
     "//": "Current count is 50.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
@@ -740,7 +735,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_CAVE",
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 550.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
@@ -886,7 +880,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ROOF_ANIMAL",
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 75.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [

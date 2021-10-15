@@ -4,6 +4,7 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 100 },
       { "monster": "mon_zombie", "freq": 600, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie", "freq": 200 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 3 },

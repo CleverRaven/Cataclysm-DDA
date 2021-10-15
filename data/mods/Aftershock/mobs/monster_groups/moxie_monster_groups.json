@@ -2,8 +2,8 @@
   {
     "type": "monstergroup",
     "name": "AFS_GROUP_MOXIE_LOW_RISK",
-    "default": "mon_moxie_scavenger",
     "monsters": [
+      { "monster": "mon_moxie_scavenger", "freq": 350, "cost_multiplier": 0 },
       { "monster": "mon_moxie_scavenger", "freq": 250, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
       { "monster": "mon_moxie_regenerator", "freq": 200, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_moxie_grabby", "freq": 100, "cost_multiplier": 0 },

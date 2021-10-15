@@ -2,8 +2,8 @@
   {
     "name": "GROUP_ANIMALPOUND_CATS",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 580 },
       { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_cat_tabby", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_cat_longhair", "freq": 100, "cost_multiplier": 0 },
@@ -15,10 +15,9 @@
   {
     "name": "GROUP_ANIMALPOUND_DOGS",
     "type": "monstergroup",
-    "default": "mon_dog_zombie_rot",
     "monsters": [
       { "monster": "mon_zombie_dog", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_rot", "freq": 175, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "freq": 375, "cost_multiplier": 0 },
       { "monster": "mon_dog", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_dog_bull", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_dog_pitbullmix", "freq": 100, "cost_multiplier": 0 },

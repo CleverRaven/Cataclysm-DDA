@@ -2,12 +2,11 @@
   {
     "name": "GROUP_NECROPOLIS",
     "type": "monstergroup",
-    "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_1", "freq": 90, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_2", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 1, "cost_multiplier": 1 }
+      { "monster": "mon_zombie", "freq": 10 },
+      { "monster": "mon_irradiated_wanderer_1", "freq": 90 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 10 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 1 }
     ]
   },
   {

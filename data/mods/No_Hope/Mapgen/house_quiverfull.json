@@ -2,8 +2,10 @@
   {
     "name": "GROUP_QUIVERFULL",
     "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0, "pack_size": [ 6, 10 ] } ]
+    "monsters": [
+      { "monster": "mon_null", "freq": 900 },
+      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0, "pack_size": [ 6, 10 ] }
+    ]
   },
   {
     "type": "item_group",

@@ -142,7 +142,6 @@
     "type": "monstergroup",
     "name": "GROUP_SAFE",
     "is_safe": true,
-    "default": "mon_null",
     "//": "Current SPRING first DAY count is 140.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
@@ -154,28 +153,25 @@
   {
     "type": "monstergroup",
     "name": "DUMP_ANIMALS",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_eoraptor", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_dimorphodon", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_compsognathus", "freq": 100 },
+      { "monster": "mon_eoraptor", "freq": 100 },
+      { "monster": "mon_dimorphodon", "freq": 100 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_PEST",
-    "default": "mon_crow",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_compsognathus", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_eoraptor", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_compsognathus", "freq": 50 },
+      { "monster": "mon_eoraptor", "freq": 50 },
+      { "monster": "mon_dimorphodon", "freq": 50 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER",
-    "default": "mon_sewer_rat",
     "//": "Current SPRING first DAY count is 550.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
@@ -266,7 +262,6 @@
     "name": "GROUP_VETS",
     "type": "monstergroup",
     "//": "for veterinarian",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_scutellosaurus", "freq": 15, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_scutellosaurus", "freq": 15 } ]
   }
 ]

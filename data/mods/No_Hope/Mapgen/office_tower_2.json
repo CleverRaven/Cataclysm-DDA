@@ -2,10 +2,9 @@
   {
     "name": "GROUP_OFFICE_TOWER_2",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 600, "cost_multiplier": 1, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_zombie", "freq": 600, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie", "freq": 200 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 6 }

@@ -2,8 +2,8 @@
   {
     "name": "GROUP_DOGS",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "freq": 730 },
       { "monster": "mon_zombie_dog", "freq": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
       { "monster": "mon_dog_zombie_rot", "freq": 135, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
     ]

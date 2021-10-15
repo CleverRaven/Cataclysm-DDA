@@ -2,9 +2,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_SEWER",
-    "default": "mon_zombie_technician",
     "monsters": [
-      { "monster": "mon_zombie_technician", "freq": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_technician", "freq": 850, "cost_multiplier": 3 },
       { "monster": "mon_zombie_electric", "freq": 150, "cost_multiplier": 5 }
     ]
   },

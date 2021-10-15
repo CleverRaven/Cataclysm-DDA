@@ -2,8 +2,7 @@
   {
     "name": "GROUP_COFFEE_SHOP_ZOMBIE",
     "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie", "freq": 65, "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_null", "freq": 935 }, { "monster": "mon_zombie", "freq": 65, "cost_multiplier": 5 } ]
   },
   {
     "type": "mapgen",

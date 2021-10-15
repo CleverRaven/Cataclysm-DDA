@@ -8,10 +8,9 @@
   {
     "name": "GROUP_ZOMBIE_POOL",
     "type": "monstergroup",
-    "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie_swimmer", "freq": 500, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_child", "freq": 150, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_child", "freq": 150 }
     ]
   },
   {
