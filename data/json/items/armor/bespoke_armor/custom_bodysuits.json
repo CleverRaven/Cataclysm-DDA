@@ -40,39 +40,20 @@
   {
     "id": "armor_nomad_light",
     "type": "ARMOR",
-    "name": { "str": "light nomad gear" },
-    "description": "A light makeshift outfit made from pre-Cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
-    "weight": "3200 g",
-    "volume": "6500 ml",
+    "name": { "str": "light nomad jumpsuit" },
+    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.",
+    "copy-from": "armor_nomad",
     "price": 29500,
     "price_postapoc": 1250,
-    "to_hit": -4,
     "material": [ "cotton" ],
-    "looks_like": "armor_nomad",
-    "symbol": "[",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] }
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 6, 8 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "encumbrance": [ 5, 6 ] }
     ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
+    "delete": { "flags": [ "STURDY" ] }
   },
   {
     "id": "armor_scavenger",

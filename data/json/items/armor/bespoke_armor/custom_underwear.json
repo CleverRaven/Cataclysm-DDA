@@ -29,34 +29,7 @@
     "name": { "str": "nomad bodymesh" },
     "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from both impact and electricity, and has been reinforced with a loose mesh of advanced polymer threads.",
     "copy-from": "nomad_bodyglove_1",
-    "material_thickness": 2
-  },
-  {
-    "id": "nomad_bodyglove_3",
-    "type": "ARMOR",
-    "name": { "str": "nomad cybermesh" },
-    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet, precisely placed rubberized pads to protect critical points from both impact and electricity, and a reinforcing mesh of advanced polymer threads.  It can use an internal bionic power grid to warm up.",
-    "copy-from": "nomad_bodyglove_2",
-    "charges_per_use": 1,
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate your %s.",
-      "target": "nomad_bodyglove_3_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "Your internal batteries are depleted."
-    },
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY", "USES_BIONIC_POWER" ]
-  },
-  {
-    "id": "nomad_bodyglove_3_on",
-    "type": "ARMOR",
-    "name": { "str": "nomad cybermesh (active)" },
-    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet, precisely placed rubberized pads to protect critical points from both impact and electricity, and a reinforcing mesh of advanced polymer threads.  It is drawing power from your internal batteries to warm you up.",
-    "copy-from": "nomad_bodyglove_3",
-    "warmth": 60,
-    "power_draw": 100000,
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "nomad_bodyglove_3" },
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY", "TRADER_AVOID", "USES_BIONIC_POWER" ]
+    "extend": { "material": [ "kevlar" ] },
+    "material_thickness": 3
   }
 ]
