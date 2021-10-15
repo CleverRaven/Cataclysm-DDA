@@ -490,44 +490,9 @@
     "type": "technique",
     "id": "tec_dragon_claw",
     "name": "Dragon Claw",
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
     "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_blockcounter",
-    "name": "Dragon Vortex Block",
-    "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-    "unarmed_allowed": true,
-    "required_buffs_all": [ "buff_dragon_onhit" ],
-    "block_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_dodgecounter",
-    "name": "Dragon Wing Dodge",
-    "messages": [ "You dodge the attack and leave %s off balance", "<npcname> dodges and leaves %s off balance" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-    "unarmed_allowed": true,
-    "required_buffs_all": [ "buff_dragon_onhit" ],
-    "dodge_counter": true,
-    "stun_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
   },
   {
     "type": "technique",
@@ -537,9 +502,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stunned_target": true,
-    "down_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
   },
   {
     "type": "technique",
@@ -551,7 +515,7 @@
     "crit_tec": true,
     "downed_target": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
