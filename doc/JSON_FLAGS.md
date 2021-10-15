@@ -1172,6 +1172,13 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+- ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs
+  neighbour checks, the directions will be treated as absolute, rather than
+  rotated to account for the rotation of the mapgen itself.  Probably only
+  useful for hardcoded mapgen.
+- ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it
+  will update the mapgen from the terrain it replaced.  This allows the
+  corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.

@@ -51,7 +51,7 @@
       { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 1.5 }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -96,7 +96,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
@@ -290,7 +290,7 @@
       }
     ],
     "using": [ [ "forging_standard", 4 ], [ "plastic_molding", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "steel_lump", 2 ] ] ]
   },
@@ -311,7 +311,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -341,7 +341,7 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -374,7 +374,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_plasticworking" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
@@ -470,7 +470,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
@@ -521,7 +521,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -568,7 +568,7 @@
     "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 },
+      { "id": "GRIND", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 2 },
       { "id": "SAW_M", "level": 2 }
@@ -714,7 +714,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ]
+    "qualities": [ { "id": "GRIND", "level": 2 } ]
   },
   {
     "result": "makeshift_crowbar",
@@ -1197,7 +1197,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {

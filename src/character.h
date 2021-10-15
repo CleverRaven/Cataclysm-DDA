@@ -273,7 +273,6 @@ enum edible_rating {
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
-        bool recurring = false;
         time_point time;
 };
 
@@ -946,15 +945,20 @@ class Character : public Creature, public visitable
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
-        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                                float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -1018,9 +1022,9 @@ class Character : public Creature, public visitable
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
         /** The character's skill in hitting a weakpoint */
-        float melee_weakpoint_skill( const item &weapon );
-        float ranged_weakpoint_skill( const item &weapon );
-        float throw_weakpoint_skill();
+        float melee_weakpoint_skill( const item &weapon ) const;
+        float ranged_weakpoint_skill( const item &weapon ) const;
+        float throw_weakpoint_skill() const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -3127,6 +3131,9 @@ class Character : public Creature, public visitable
              * is reset to @ref mutation_branch::cooldown.
              */
             int charge = 0;
+
+            bool show_sprite = true;
+
             void serialize( JsonOut &json ) const;
             void deserialize( const JsonObject &data );
         };

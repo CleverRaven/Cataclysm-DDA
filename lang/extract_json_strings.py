@@ -222,6 +222,21 @@ all_genders = ["f", "m", "n"]
 def gender_options(subject):
     return [subject + ":" + g for g in all_genders]
 
+
+def get_singular_name(name):
+    if type(name) is dict:
+        if "str_sp" in name:
+            return name["str_sp"]
+        elif "str" in name:
+            return name["str"]
+        else:
+            raise Exception("Cannot find singular name in {}".format(name))
+    elif type(name) is str:
+        return name
+    else:
+        raise Exception("Cannot find singular name in {}".format(name))
+
+
 #
 #  SPECIALIZED EXTRACTION FUNCTIONS
 #
@@ -797,8 +812,9 @@ def extract_missiondef(item):
     if item_name is None:
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
     writestr(outfile, item_name)
+    singular_name = get_singular_name(item_name)
     if "description" in item:
-        comment = "Description for mission '{}'".format(item_name)
+        comment = "Description for mission '{}'".format(singular_name)
         writestr(outfile, item["description"], comment=comment)
     if "dialogue" in item:
         dialogue = item.get("dialogue")
@@ -1304,10 +1320,7 @@ def extract(item, infilename):
         else:
             writestr(outfile, name, **kwargs)
         wrote = True
-        if type(name) is dict and "str" in name:
-            singular_name = name["str"]
-        else:
-            singular_name = name
+        singular_name = get_singular_name(name)
 
     def do_extract(item):
         wrote = False
@@ -1327,7 +1340,7 @@ def extract(item, infilename):
         if "conditional_names" in item:
             for cname in item["conditional_names"]:
                 c = "Conditional name for {} when {} matches {}".format(
-                    name, cname["type"], cname["condition"])
+                    singular_name, cname["type"], cname["condition"])
                 writestr(outfile, cname["name"], comment=c,
                          format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True

@@ -102,7 +102,19 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
+            "Name",
+            "Encumber (fit)",
+            "Warmth",
+            "Weight",
+            "Coverage",
+            "Coverage (M)",
+            "Coverage (R)",
+            "Coverage (V)",
+            "Bash",
+            "Cut",
+            "Bullet",
+            "Acid",
+            "Fire"
         };
         const bodypart_id bp_null( "bp_null" );
         bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
@@ -112,7 +124,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_encumber( get_player_character(),  bp ) ) );
             r.push_back( std::to_string( obj.get_warmth() ) );
             r.push_back( std::to_string( to_gram( obj.weight() ) ) );
-            r.push_back( std::to_string( obj.get_coverage( bp ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_DEFAULT ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
             r.push_back( std::to_string( obj.bash_resist() ) );
             r.push_back( std::to_string( obj.cut_resist() ) );
             r.push_back( std::to_string( obj.bullet_resist() ) );

@@ -755,6 +755,12 @@ std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube
     return om_loc.om->join_used_at( { om_loc.local, p.second } );
 }
 
+std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->predecessors( om_loc.local );
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );
