@@ -1680,6 +1680,21 @@
     "burn_products": [ [ "tin", 1 ] ]
   },
   {
+  "type": "material".
+  "id": "fiberglass_cloth"
+  "name": "fiberglass cloth"
+  "density": 0,
+  "specific_heat_liquid": 0,
+  "specific_heat_solid": 0,
+  "latent_heat": 0,
+  "bash_resist": 0,
+  "cut_resist": 0,
+  "bullet_resist": 0,
+  "acid_resist": 0,
+  "fire_resist": 0,
+  "elec_resist": 0,
+  "chip_resist": 0,
+  {
     "type": "material",
     "id": "veggy",
     "name": "Vegetable Matter",
