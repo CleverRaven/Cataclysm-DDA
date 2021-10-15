@@ -116,15 +116,15 @@
     "difficulty": 4,
     "time": "3 h 40 m",
     "book_learn": [ [ "bp_nomad_bodyglove", 3 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "fastener_large", 2 ], [ "tailoring_lycra_patchwork", 1 ], [ "tailoring_cotton_patchwork", 1 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
+    "using": [
+      [ "sewing_standard", 90 ],
+      [ "fastener_large", 2 ],
+      [ "tailoring_lycra_patchwork", 1 ],
+      [ "tailoring_cotton_patchwork", 1 ]
     ],
-    "components": [
-      [ [ "chunk_rubber", 2 ] ],
-      [ [ "superglue", 2 ] ]
-    ]
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "superglue", 2 ] ] ]
   },
   {
     "result": "nomad_bodyglove_2",
@@ -136,16 +136,14 @@
     "difficulty": 5,
     "time": "5 h",
     "book_learn": [ [ "bp_nomad_bodyglove", 4 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "fastener_large", 2 ], [ "tailoring_lycra_patchwork", 1 ], [ "tailoring_cotton_patchwork", 1 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_polymerworking" }
+    "using": [
+      [ "sewing_standard", 90 ],
+      [ "fastener_large", 2 ],
+      [ "tailoring_lycra_patchwork", 1 ],
+      [ "tailoring_cotton_patchwork", 1 ]
     ],
-    "components": [
-      [ [ "chunk_rubber", 2 ] ],
-      [ [ "thread_kevlar", 20 ] ],
-      [ [ "superglue", 2 ] ]
-    ]
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "superglue", 2 ] ] ]
   }
 ]
