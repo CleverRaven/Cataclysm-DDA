@@ -2,7 +2,7 @@
   {
     "id": "prac_throw_beg",
     "type": "practice",
-    "//": "Really, this recipe works with any small, throwable object, but that would be tedious and bloat the recipe",
+    "//": "Really, this recipe should work with any small, throwable object, but that would be tedious and bloat the recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
