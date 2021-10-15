@@ -909,8 +909,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     }
 
-    return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
-                          topic );
+    debugmsg( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic );
+    return "";
 }
 
 void dialogue::apply_speaker_effects( const talk_topic &the_topic )
