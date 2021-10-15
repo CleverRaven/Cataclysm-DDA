@@ -8011,7 +8011,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
                     return *i;
                 }
             }
-        } else if( has_charges( i->typeId(), quantity ) ) {
+        } else if( i->ammo_sufficient( this, quantity ) ) {
             return *i;
         }
     }
@@ -8090,7 +8090,7 @@ void Character::use_fire( const int quantity )
         mod_power_level( -quantity * 5_kJ );
         return;
     }
-    if( firestarter.typeId()->can_have_charges() ) {
+    if( firestarter.ammo_sufficient( this, quantity ) ) {
         use_charges( firestarter.typeId(), quantity );
         return;
     }
