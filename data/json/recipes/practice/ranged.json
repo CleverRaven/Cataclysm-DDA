@@ -2,6 +2,7 @@
   {
     "id": "prac_throw_beg",
     "type": "practice",
+    "//": "Really, this recipe works with any small, throwable object, but that would be tedious and bloat the recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
@@ -12,6 +13,19 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "throw", 1 ] ],
     "book_learn": [ [ "mag_throwing", 0 ], [ "manual_throw", 0 ] ],
-    "tools": [ [ "basketball", "indoor_volleyball", "beach_volleyball", "baseball" ] ]
+    "tools": [
+      [
+        "basketball",
+        "indoor_volleyball",
+        "beach_volleyball",
+        "baseball",
+        "marble",
+        "metal_RPG_die",
+        "RPG_die",
+        "rock",
+        "sharp_rock",
+        "bearing"
+      ]
+    ]
   }
 ]
