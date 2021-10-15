@@ -22,7 +22,7 @@
     "type": "scenario",
     "copy-from": "lab_chal",
     "id": "lab_chal",
-    "extend": { "professions": [ "broken_cyborg" ] }
+    "extend": { "professions": [ "broken_cyborg", "cyborg_rescue" ] }
   },
   {
     "type": "scenario",
