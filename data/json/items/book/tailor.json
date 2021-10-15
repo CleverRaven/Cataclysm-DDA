@@ -203,6 +203,7 @@
   },
   {
     "abstract": "exodii_blueprint",
+    "name": "exodii blueprint abstract",
     "type": "BOOK",
     "weight": "100 g",
     "volume": "200 ml",
@@ -236,7 +237,7 @@
     "color": "blue",
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
-      { "proficiency": "prof_leatherworking", "fail_factor": 0.05}
+      { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
     ]
   },
   {
