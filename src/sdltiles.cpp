@@ -1803,7 +1803,8 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
     if( diag_mode == "mode4" ) {
         if( ( keysym.mod & KMOD_SHIFT ) || ( keysym.mod & KMOD_CTRL ) ) {
             const Uint8 *s = SDL_GetKeyboardState( nullptr );
-            const int count = s[SDL_SCANCODE_LEFT] + s[SDL_SCANCODE_RIGHT] + s[SDL_SCANCODE_UP] + s[SDL_SCANCODE_DOWN];
+            const int count = s[SDL_SCANCODE_LEFT] + s[SDL_SCANCODE_RIGHT] + s[SDL_SCANCODE_UP] +
+                              s[SDL_SCANCODE_DOWN];
             if( count == 2 ) {
                 switch( keysym.sym ) {
                     case SDLK_LEFT:
