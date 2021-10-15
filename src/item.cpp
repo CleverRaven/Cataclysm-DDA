@@ -9785,22 +9785,17 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
-                if( ( e->is_magazine() || e->magazine_current() != nullptr )
-                    && e->ammo_current() != itype_id::NULL_ID() ) {
-                    int n = std::min( e->ammo_remaining(), qty );
-                    qty -= n;
+                int n;
+                if( carrier ) {
+                    n = e->ammo_consume( qty, pos, carrier );
+                } else {
+                    n = e->ammo_consume( qty, pos, nullptr );
+                }
+
+                if( n > 0 ) {
                     item temp( *e );
-                    temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
-                    e->ammo_consume( n, pos, nullptr );
-                } else if( carrier && e->has_flag( flag_USES_BIONIC_POWER ) ) {
-                    // TODO: Generalize previous block to avoid code duplication?
-                    int n = std::min( e->ammo_remaining( carrier ), qty );
                     qty -= n;
-                    item temp( *e );
-                    temp.ammo_set( e->ammo_current(), n );
-                    used.push_back( temp );
-                    e->ammo_consume( n, pos, carrier );
                 }
             }
             return VisitResponse::SKIP;
