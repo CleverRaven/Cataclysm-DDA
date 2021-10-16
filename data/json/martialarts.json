@@ -75,7 +75,7 @@
     "id": "style_bojutsu",
     "name": { "str": "Bōjutsu" },
     "description": "Bōjutsu, \"The Way of the Staff\", is the Japanese martial art of fighting with a staff. Bōjutsu focuses on maintaining a good stance to effectivity block and counterattack.",
-    "initiate": [ "You position yourself into a agile stance.", "%s enters a agile stance." ],
+    "initiate": [ "You position yourself into an agile stance.", "%s enters an agile stance." ],
     "learn_difficulty": 5,
     "primary_skill": "bashing",
     "strictly_melee": true,
