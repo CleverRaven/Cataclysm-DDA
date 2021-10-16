@@ -15,7 +15,7 @@
           "type": "dialogue",
           "context": "foodperson",
           "value": "yes",
-          "no": "So you're back… Explain yourself!",
+          "no": "So you're back… explain yourself!",
           "yes": "Greetings friend, it's nice to see you."
         }
       },
@@ -177,7 +177,7 @@
     "dynamic_line": "A common mistake, but I can assure you that I'm very real!",
     "responses": [
       { "text": "Sure, whatever.", "topic": "TALK_DONE" },
-      { "text": "Ok…  I believe you.", "topic": "TALK_FOODPERSON_MAIN" }
+      { "text": "Ok… I believe you.", "topic": "TALK_FOODPERSON_MAIN" }
     ]
   },
   {
@@ -452,7 +452,7 @@
         "text": "I need to think about it.",
         "topic": "TALK_FOODPERSON_MAIN"
       },
-      { "condition": { "not": "has_assigned_mission" }, "text": "Huh… No thanks.", "topic": "TALK_DONE" },
+      { "condition": { "not": "has_assigned_mission" }, "text": "Huh… no thanks.", "topic": "TALK_DONE" },
       {
         "condition": "has_assigned_mission",
         "text": "There's other things I'd like to discuss.",
@@ -483,7 +483,7 @@
   {
     "id": "TALK_FOODPERSON_MULTIVERSE",
     "type": "talk_topic",
-    "dynamic_line": "Wha… But.  But… How?",
+    "dynamic_line": "Wha… but.  But… how?",
     "responses": [
       {
         "text": "No time to explain, the world is at an end and we must join forces to save it!",

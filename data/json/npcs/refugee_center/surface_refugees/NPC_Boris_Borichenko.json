@@ -300,7 +300,7 @@
       "type": "mission",
       "context": "flag",
       "value": "yes",
-      "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw… If… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
+      "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw… if… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
       "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
     },
     "responses": [
@@ -415,7 +415,7 @@
       "advice": "Those of us here in the back have too many bad memories, but perhaps someone who didn't come with the original refugee groups would be less burdened.",
       "inquire": "Greetings, my friend.  Have you found anyone?",
       "success": "This has great promise.  Perhaps something to keep me busy will help.  Here, I found some small money to thank you.",
-      "success_lie": "I see… Well I shall get things in order!",
+      "success_lie": "I see….  Well I shall get things in order!",
       "failure": "No worries.  Let me know if you want to try again."
     },
     "end": {

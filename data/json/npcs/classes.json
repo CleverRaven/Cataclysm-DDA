@@ -324,7 +324,7 @@
     "type": "npc_class",
     "id": "NC_HALLU",
     "name": { "str": "Real Person" },
-    "job_description": "I'm just wandering, like a totally real and normal NP… Person!",
+    "job_description": "I'm just wandering, like a totally real and normal NP… person!",
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
     "common": false,
     "skills": [

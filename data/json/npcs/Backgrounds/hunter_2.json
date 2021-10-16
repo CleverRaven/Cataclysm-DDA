@@ -11,7 +11,7 @@
   {
     "id": "BGSS_HUNTER_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "We watched the eyeball just blast one of the Apache choppers with some kind of ray.  The chopper fired back, but it went down.  It was coming right for us…  I veered, got out of the way, but a chunk of the chopper smacked into the bed and our truck did a crazy backflip right off the road.  The impact knocked me out cold.  My brother… he wasn't so lucky.",
+    "dynamic_line": "We watched the eyeball just blast one of the Apache choppers with some kind of ray.  The chopper fired back, but it went down.  It was coming right for us… I veered, got out of the way, but a chunk of the chopper smacked into the bed and our truck did a crazy backflip right off the road.  The impact knocked me out cold.  My brother… he wasn't so lucky.",
     "responses": [
       { "text": "Oh, no.", "topic": "BGSS_HUNTER_2_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
