@@ -29,7 +29,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
@@ -318,7 +318,7 @@
     "followup": "MISSION_ISHERWOOD_JACK_2",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": { "u_buy_item": "veggy_pickled", "container": "jar_3l_glass_sealed", "count": 12 }
+      "effect": { "u_spawn_item": "veggy_pickled", "container": "jar_3l_glass_sealed", "count": 12 }
     },
     "dialogue": {
       "describe": "I could use some help scavenging.",
@@ -344,9 +344,9 @@
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_buy_item": "tomato", "count": 25 },
-        { "u_buy_item": "onion", "count": 25 },
-        { "u_buy_item": "cucumber", "count": 25 },
+        { "u_spawn_item": "tomato", "count": 25 },
+        { "u_spawn_item": "onion", "count": 25 },
+        { "u_spawn_item": "cucumber", "count": 25 },
         { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     },

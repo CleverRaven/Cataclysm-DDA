@@ -160,13 +160,7 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ]
   },
   {
@@ -299,12 +293,29 @@
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
-    "description": "These are long, metal tongs.  They are commonly used for cooking or in metalworking fabrication recipes.",
+    "description": "These are long, metal tongs.  They are commonly used for cooking.",
     "weight": "540 g",
     "volume": "500 ml",
     "price": 1600,
     "price_postapoc": 10,
     "bashing": 3,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "metalworking_tongs",
+    "type": "TOOL",
+    "name": { "str": "pair of flatjaw tongs", "str_pl": "pairs of flatjaw tongs" },
+    "description": "These are a pair of flatjaw tongs.  They are commonly used for metalworking, fabrication or forging recipes.",
+    "weight": "750 g",
+    "volume": "500 ml",
+    "price": 1600,
+    "price_postapoc": 10,
+    "bashing": 6,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -354,5 +365,72 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan"
+  },
+  {
+    "id": "casting_mold",
+    "type": "TOOL",
+    "name": { "str": "sand casting mold" },
+    "description": "A mold for casting molten metals into different shapes",
+    "weight": "540 g",
+    "volume": "400 ml",
+    "longest_side": "100 cm",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "clay", "wood" ],
+    "symbol": ";",
+    "color": "brown"
+  },
+  {
+    "id": "stone_polishing",
+    "type": "TOOL",
+    "name": { "str": "polishing stone" },
+    "description": "A large, natural stone with a flat surface to grind against.",
+    "weight": "8000 g",
+    "volume": "3 L",
+    "price": 400,
+    "price_postapoc": 15,
+    "to_hit": -2,
+    "bashing": 25,
+    "material": [ "stone" ],
+    "color": "dark_gray",
+    "symbol": ";",
+    "qualities": [ [ "GRIND", 2 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "pedal_grindstone",
+    "type": "TOOL",
+    "name": { "str": "pedal powered grindstone" },
+    "description": "A round, pedal-powered grindstone, useful for grinding metal.",
+    "weight": "15000g",
+    "volume": "4 L",
+    "price": 1500,
+    "price_postapoc": 35,
+    "to_hit": -5,
+    "bashing": 30,
+    "material": [ "stone", "wood", "steel" ],
+    "color": "dark_gray",
+    "symbol": ";",
+    "qualities": [ [ "GRIND", 2 ] ]
+  },
+  {
+    "id": "scraper_steel",
+    "type": "TOOL",
+    "name": { "str": "steel scraper" },
+    "description": "A hardened steel tool similar to a drawknife, but for metal.",
+    "weight": "500g",
+    "volume": "500 ml",
+    "price": 1200,
+    "price_postapoc": 20,
+    "to_hit": -1,
+    "bashing": 3,
+    "cutting": 4,
+    "material": [ "wood", "steel" ],
+    "color": "brown",
+    "symbol": ";",
+    "qualities": [ [ "GRIND", 2 ] ],
+    "flags": [ "DURABLE_MELEE" ]
   }
 ]

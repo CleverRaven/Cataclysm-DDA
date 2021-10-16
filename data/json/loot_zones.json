@@ -120,6 +120,18 @@
     "description": "Destination for other miscellaneous items."
   },
   {
+    "id": "LOOT_MAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Maps",
+    "description": "Destination for maps."
+  },
+  {
+    "id": "LOOT_CURRENCY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Currency",
+    "description": "Destination for currency."
+  },
+  {
     "id": "LOOT_FUEL",
     "type": "LOOT_ZONE",
     "name": "Loot: Fuel",
@@ -190,5 +202,35 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Ignore Favorites",
     "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
+  },
+  {
+    "id": "NO_AUTO_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No Auto Pickup",
+    "description": "You won't auto-pickup items inside the zone."
+  },
+  {
+    "id": "NO_NPC_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No NPC Pickup",
+    "description": "Friendly NPCs don't pickup items inside the zone."
+  },
+  {
+    "id": "NPC_RETREAT",
+    "type": "LOOT_ZONE",
+    "name": "NPC Retreat",
+    "description": "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles."
+  },
+  {
+    "id": "NPC_NO_INVESTIGATE",
+    "type": "LOOT_ZONE",
+    "name": "NPC Ignore Sounds",
+    "description": "Friendly NPCs won't investigate unseen sounds coming from this zone."
+  },
+  {
+    "id": "NPC_INVESTIGATE_ONLY",
+    "type": "LOOT_ZONE",
+    "name": "NPC Investigation Area",
+    "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
   }
 ]

@@ -21,6 +21,23 @@
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
+    "onblock_buffs": [
+      {
+        "id": "buff_biojutsu_onblock",
+        "name": "Binary Hardening",
+        "description": "player@CDDA:/root$ sudo apt install improved-armor\nplayer@CDDA:/root$ sudo apt update\n\n+3 Bash, Cut, and Stab Armor.\nLasts 3 turns.  Stacks 3 times.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "buff_duration": 4,
+        "max_stacks": 3,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 3.0 },
+          { "stat": "armor", "type": "cut", "scale": 3.0 },
+          { "stat": "armor", "type": "stab", "scale": 3.0 }
+        ]
+      }
+    ],
     "onkill_buffs": [
       {
         "id": "buff_biojutsu_onkill",
@@ -31,16 +48,16 @@
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "buff_duration": 3,
         "max_stacks": 3,
-        "flat_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "damage", "type": "stab", "scale": 2.0 },
-          { "stat": "hit", "scale": 1.0 }
+        "persists": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
         ]
       }
     ],
     "techniques": [
-      "tec_biojutsu_counter",
       "tec_biojutsu_disarm",
       "tec_biojutsu_strike_unarmed",
       "tec_biojutsu_strike_melee",
@@ -75,11 +92,15 @@
       {
         "id": "buff_centipede_oncrit",
         "name": "Centipede's Venom",
-        "description": "Your venom burns your opponents at the worst of times.\n\n+2 bashing damage.\nLasts 2 turns.",
+        "description": "Your venom burns your opponents at the worst of times.\n\n+15% damage.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
       }
     ],
     "techniques": [ "tec_centipede_rapid", "tec_centipede_break", "tec_centipede_bite", "tec_centipede_disarm" ]
@@ -138,9 +159,13 @@
       {
         "id": "buff_scorpion_static",
         "name": "Scorpion's Venom",
-        "description": "Your venom is a constant threat that nothing can escape from.\n\n+2 bashing damage.",
+        "description": "Your venom is a constant threat that nothing can escape from.\n\n+15% damage.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
       }
     ],
     "onattack_buffs": [
@@ -202,6 +227,7 @@
         "unarmed_allowed": true,
         "buff_duration": 6,
         "max_stacks": 6,
+        "persists": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scale": -1.0 },
           { "stat": "armor", "type": "cut", "scale": -1.0 },
@@ -290,17 +316,6 @@
     "starting_trait": false,
     "initial_ma_styles": [ "style_centipede", "style_venom_snake", "style_scorpion", "style_lizard", "style_toad" ],
     "valid": false
-  },
-  {
-    "type": "technique",
-    "id": "tec_biojutsu_counter",
-    "name": "Biojutsu Counter",
-    "messages": [ "You block and counter-attack %s", "<npcname> blocks and counter-attacks %s" ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true
   },
   {
     "type": "technique",
@@ -458,7 +473,7 @@
     "messages": [ "You lash out at %s with a Viper Bite", "<npcname> lash out at %s with a Viper Bite" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_venom_snake_ondodge1" ],
+    "required_buffs_all": [ "buff_venom_snake_ondodge1" ],
     "crit_tec": true,
     "stun_dur": 2,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
@@ -514,7 +529,7 @@
     "messages": [ "You stun %s with your Pincer Fist", "<npcname> jabs %s with a Pincer Fist" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "req_buffs": [ "buff_scorpion_onmove" ],
+    "required_buffs_all": [ "buff_scorpion_onmove" ],
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
@@ -527,7 +542,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -539,7 +554,7 @@
     "block_counter": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",

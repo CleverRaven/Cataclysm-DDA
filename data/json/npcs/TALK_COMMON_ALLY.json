@@ -170,6 +170,12 @@
         "effect": "find_mount"
       },
       {
+        "text": "Drop off any items you're not using.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
         "text": "Get off your mount, please.",
         "condition": "npc_is_riding",
         "topic": "TALK_DONE",
@@ -821,6 +827,12 @@
         "effect": "do_mining"
       },
       {
+        "text": "Please go mop the area.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_mopping"
+      },
+      {
         "text": "Please study from a book.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
@@ -867,6 +879,12 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_farming"
+      },
+      {
+        "text": "Please disassemble anything in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_disassembly"
       }
     ]
   },

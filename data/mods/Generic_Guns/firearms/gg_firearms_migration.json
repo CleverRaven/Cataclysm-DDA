@@ -295,7 +295,7 @@
     "replace": "rifle_sporter"
   },
   {
-    "id": [ "pamd68", "pamd71z" ],
+    "id": [ "pamd68", "pamd71z", "pamd68rubik" ],
     "type": "MIGRATION",
     "replace": "rifle_assault_foreign"
   },
@@ -349,15 +349,5 @@
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
-  },
-  {
-    "id": "slamfire_shotgun",
-    "type": "MIGRATION",
-    "replace": "slamfire_shotgun"
-  },
-  {
-    "id": "slamfire_shotgun_d",
-    "type": "MIGRATION",
-    "replace": "slamfire_shotgun_d"
   }
 ]

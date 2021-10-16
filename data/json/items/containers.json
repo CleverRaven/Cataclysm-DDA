@@ -452,6 +452,22 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
+    "id": "case_cigar",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "cigar case" },
+    "looks_like": "box_small",
+    "description": "A small handmade wood and leather case meant to hold one or two cigars.",
+    "weight": "95 g",
+    "volume": "323 ml",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "wood", "leather" ],
+    "symbol": "u",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
+  },
+  {
     "id": "box_small",
     "type": "GENERIC",
     "category": "container",
@@ -474,6 +490,30 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
+    "description": "A small wooden box a few inches on each side, just about right for holding a few small items.",
+    "weight": "400 g",
+    "volume": "2010 ml",
+    "longest_side": "181 mm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1350 ml",
+        "max_contains_weight": "4536 g",
+        "max_item_length": "167 mm"
+      }
+    ],
+    "price": 2000,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "symbol": "[",
     "color": "brown"
   },
   {
@@ -610,7 +650,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "carton_sealed",
@@ -636,6 +677,32 @@
         "max_contains_weight": "5 kg",
         "//": "Calculated to keep shelf stable milk fresh for 304 days when sealed",
         "sealed_data": { "spoil_multiplier": 0.023 }
+      }
+    ]
+  },
+  {
+    "id": "carton_milk",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "milk carton" },
+    "looks_like": "box_small",
+    "description": "A half-gallon carton constructed of thick, waterproof paper.  It has a threaded cap to keep the contents from leaking out.",
+    "weight": "28 g",
+    "volume": "2003 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
   },
@@ -714,7 +781,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "can_medium",
@@ -736,6 +804,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
+    "qualities": [ [ "BOIL", 1 ] ],
     "volume": "503 ml"
   },
   {
@@ -1655,7 +1724,8 @@
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "survival_kit_box",
@@ -1719,7 +1789,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
-    "looks_like": "1st_aid",
+    "looks_like": "ifak_pouch",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
     "volume": "2650 ml",
@@ -1727,6 +1797,7 @@
     "price_postapoc": 0,
     "to_hit": -2,
     "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1744,7 +1815,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
-    "looks_like": "1st_aid",
+    "looks_like": "1st_aid_box",
     "description": "A fabric pouch that used to contain an IFAK.",
     "weight": "5 g",
     "volume": "1250 ml",
@@ -1752,6 +1823,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1866,6 +1938,7 @@
       }
     ],
     "material": [ "plastic", "aluminum" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "light_gray"
   },

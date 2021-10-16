@@ -35,9 +35,8 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "rock",
         "no_ammo_sound": "",
-        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
-        "fake_dex": 6,
-        "fake_per": 6,
+        "fake_skills": [ [ "throw", 4 ] ],
+        "fake_str": 7,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -122,7 +121,7 @@
     "melee_cut": 2,
     "dodge": 1,
     "harvest": "human",
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "vision_day": 50,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
@@ -137,7 +136,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO",
       "CBM_SCI"
     ]
@@ -171,7 +170,7 @@
     "harvest": "human",
     "vision_day": 50,
     "vision_night": 4,
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "diff": 5,
     "starting_ammo": { "9mm": 5 },
     "special_attacks": [
@@ -181,7 +180,7 @@
         "move_cost": 150,
         "gun_type": "m9",
         "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 1 ], [ "handgun", 2 ] ],
+        "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 0, 14, "DEFAULT" ] ],
@@ -203,7 +202,7 @@
       "CAN_OPEN_DOORS",
       "CLIMBS",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
   },

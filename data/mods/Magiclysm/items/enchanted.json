@@ -136,6 +136,31 @@
     "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "magic_knife_bag",
+    "type": "TOOL_ARMOR",
+    "looks_like": "holster",
+    "name": { "str": "Bag of Infinite Throwing Knives", "str_pl": "Bags of Infinite Throwing Knives" },
+    "description": "This bag conjures a magical throwing knife on activation.  Only refills when worn.",
+    "price": 800000,
+    "price_postapoc": "1800 USD",
+    "volume": "100 ml",
+    "weight": "160 g",
+    "material": [ "black_dragon_hide" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "charges_per_use": 1,
+    "armor_data": {
+      "sided": true,
+      "material_thickness": 1,
+      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    },
+    "environmental_protection": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 8 } } ],
+    "flags": [ "OVERSIZE", "NO_REPAIR", "STURDY", "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
+    "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true } },
+    "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true }
+  },
+  {
     "id": "wolfshead_cufflinks",
     "copy-from": "ruby_silver_cufflinks",
     "type": "ARMOR",

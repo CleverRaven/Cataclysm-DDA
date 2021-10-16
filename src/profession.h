@@ -17,7 +17,7 @@
 class JsonObject;
 class avatar;
 class item;
-class player;
+class Character;
 template<typename T>
 class generic_factory;
 
@@ -126,7 +126,7 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick( const player &u, int points ) const;
+        bool can_pick( const Character &you, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;

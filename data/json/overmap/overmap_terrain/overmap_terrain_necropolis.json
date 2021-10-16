@@ -356,6 +356,7 @@
     ],
     "copy-from": "generic_necropolis_underground",
     "name": "solid earth",
+    "looks_like": "solid_earth",
     "sym": "#",
     "color": "brown"
   },
@@ -374,6 +375,7 @@
     ],
     "copy-from": "generic_necropolis_underground",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray"
   },

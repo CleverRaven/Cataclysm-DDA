@@ -342,9 +342,16 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_halligan_no_nails",
+    "copy-from": "test_halligan",
+    "name": "TEST Halligan bar no nail prying",
+    "qualities": [ [ "PRY", 999999 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ]
   },
   {
     "id": "test_fire_ax",
@@ -563,6 +570,29 @@
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
+    "type": "TOOL",
+    "id": "test_mp3",
+    "name": { "str": "test mp3 player" },
+    "description": "Test mp3 player",
+    "weight": "140 g",
+    "volume": "50 ml",
+    "symbol": ";",
+    "ammo": [ "battery" ],
+    "use_action": [ "MP3" ],
+    "charges_per_use": 1,
+    "flags": [ "WATER_BREAK_ACTIVE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
     "id": "test_socks",
     "type": "ARMOR",
     "name": { "str": "TEST pair of socks", "str_pl": "TEST pairs of socks" },
@@ -692,7 +722,6 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
@@ -987,6 +1016,34 @@
     ],
     "color": "dark_gray",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "test_duffelbag",
+    "type": "ARMOR",
+    "name": { "str": "test duffel bag" },
+    "description": "A huge test duffel bag.  Provides plenty of storage, but is severely encumbering.",
+    "weight": "933 g",
+    "volume": "6 L",
+    "price": 12000,
+    "price_postapoc": 500,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 35 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "test_backpack",
@@ -1360,6 +1417,42 @@
     ]
   },
   {
+    "type": "MAGAZINE",
+    "id": "test_weldtank",
+    "name": { "str": "welding tank" },
+    "description": "A test welding tank full of oxyacetylene.",
+    "weight": "6 kg",
+    "volume": "3 L",
+    "symbol": "#",
+    "ammo_type": [ "weldgas" ],
+    "capacity": 240,
+    "count": 240,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 240 }, "watertight": true } ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_oxytorch",
+    "name": { "str": "test acetylene torch", "str_pl": "test acetylene torches" },
+    "description": "An acetylene torch.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";",
+    "ammo": [ "weldgas" ],
+    "qualities": [ [ "WELD", 10 ] ],
+    "charges_per_use": 4,
+    "use_action": [ "OXYTORCH" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_weldtank" ]
+      }
+    ]
+  },
+  {
     "id": "test_rod_14cm",
     "type": "GENERIC",
     "name": "test 14 cm rod",
@@ -1439,6 +1532,36 @@
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_hacksaw",
+    "name": { "str": "test hacksaw" },
+    "description": "Test hacksaw.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";",
+    "qualities": [ [ "SAW_M", 10 ] ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_hacksaw_elec",
+    "copy-from": "test_hacksaw",
+    "name": { "str": "test electric hacksaw" },
+    "description": "Test hacksaw which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "use_action": [ [ "HACKSAW", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
   },
   {
     "type": "COMESTIBLE",

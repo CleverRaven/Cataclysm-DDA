@@ -607,84 +607,6 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
   },
   {
-    "id": "duster_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor duster" },
-    "description": "A Kevlar armored custom full-length duster, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "2592 g",
-    "volume": "9500 ml",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "duster_leather",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
-  },
-  {
-    "id": "xl_duster_survivor",
-    "type": "ARMOR",
-    "name": { "str": "XL survivor duster" },
-    "copy-from": "duster_survivor",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
-  },
-  {
     "id": "greatcoat",
     "type": "ARMOR",
     "name": { "str": "greatcoat" },
@@ -1400,6 +1322,35 @@
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "leather_police_jacket",
+    "type": "ARMOR",
+    "name": { "str": "leather police jacket" },
+    "description": "A thick and heavy leather jacket emblazoned with the insignia of the local police force.",
+    "repairs_like": "jacket_leather",
+    "weight": "1450 g",
+    "volume": "4500 ml",
+    "price": 17900,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "motorbike_armor",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
+    "warmth": 30,
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
     "id": "peacoat",
     "type": "ARMOR",
     "name": { "str": "peacoat" },
@@ -1811,40 +1762,6 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
-    "id": "sleeveless_duster_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "sleeveless survivor duster" },
-    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "description": "A custom Kevlar armored full-length duster without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "2203 g",
-    "volume": "8 L",
-    "price": 34000,
-    "price_postapoc": 4500,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "duster_survivor",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
-  },
-  {
     "id": "sleeveless_trenchcoat",
     "type": "ARMOR",
     "name": { "str": "sleeveless trenchcoat" },
@@ -1942,37 +1859,6 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [ { "encumbrance": [ 8, 17 ], "coverage": 90, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "sleeveless_trenchcoat_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "sleeveless survivor trenchcoat" },
-    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "1632 g",
-    "volume": "6 L",
-    "price": 34000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "sleeveless_duster_survivor",
-    "color": "brown",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ],
-    "armor": [ { "encumbrance": [ 7, 15 ], "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "sleeveless_tunic",
@@ -2117,75 +2003,6 @@
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
-  },
-  {
-    "id": "trenchcoat_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor trenchcoat" },
-    "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "1920 g",
-    "volume": "7 L",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "trenchcoat",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "tunic",

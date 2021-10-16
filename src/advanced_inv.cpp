@@ -44,7 +44,6 @@
 #include "output.h"
 #include "panels.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -66,6 +65,42 @@
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<aim_exit>( const aim_exit v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case aim_exit::none: return "none";
+        case aim_exit::okay: return "okay";
+        case aim_exit::re_entry: return "re_entry";
+        // *INDENT-ON*
+        case aim_exit::last:
+            break;
+    }
+    cata_fatal( "Invalid aim_exit" );
+}
+
+template<>
+std::string enum_to_string<aim_entry>( const aim_entry v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case aim_entry::START: return "START";
+        case aim_entry::VEHICLE: return "VEHICLE";
+        case aim_entry::MAP: return "MAP";
+        case aim_entry::RESET: return "RESET";
+        // *INDENT-ON*
+        case aim_entry::last:
+            break;
+    }
+    cata_fatal( "Invalid aim_entry" );
+}
+
+} // namespace io
 
 void create_advanced_inv()
 {
@@ -1181,7 +1216,8 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
     if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
+            spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( dpane.get_area() == changeSquare ) {
                 spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
@@ -1347,7 +1383,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 
     } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
         // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
-        int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx ) + 1;
+        int idx = srcarea == AIM_INVENTORY ? sitem->idx : Character::worn_position_to_index(
+                      sitem->idx ) + 1;
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();

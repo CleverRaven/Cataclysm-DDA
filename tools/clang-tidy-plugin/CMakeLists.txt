@@ -12,9 +12,11 @@ add_library(CataAnalyzerPlugin MODULE
         DeterminismCheck.cpp
         HeaderGuardCheck.cpp
         JsonTranslationInputCheck.cpp
+        LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticGettextCheck.cpp
         PointInitializationCheck.cpp
+        SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp
         StaticIntIdConstantsCheck.cpp

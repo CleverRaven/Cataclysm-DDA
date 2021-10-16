@@ -61,7 +61,7 @@
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "9 h",
+    "time": "7 h 30 m",
     "using": [ [ "cordage", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "chitin_piece", 96 ] ] ]
@@ -92,7 +92,7 @@
     "result": "xl_armor_acidchitin",
     "type": "recipe",
     "copy-from": "armor_acidchitin",
-    "time": "11 h",
+    "time": "9 h 20m",
     "using": [ [ "cordage", 3 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "acidchitin_piece", 96 ] ] ]
@@ -116,7 +116,7 @@
     "result": "xl_armor_farmor",
     "type": "recipe",
     "copy-from": "armor_farmor",
-    "time": "10 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 96 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "fur", 72 ], [ "tanned_pelt", 12 ] ] ]
@@ -140,7 +140,7 @@
     "result": "xl_armor_larmor",
     "type": "recipe",
     "copy-from": "armor_larmor",
-    "time": "11 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 76 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ] ]
@@ -172,7 +172,7 @@
     "result": "xl_armor_lightplate",
     "type": "recipe",
     "copy-from": "armor_lightplate",
-    "time": "14 h",
+    "time": "10 h 30 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "steel_standard", 32 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -245,7 +245,7 @@
     "result": "xl_armor_lorica",
     "type": "recipe",
     "copy-from": "armor_lorica",
-    "time": "10 h",
+    "time": "8 h 30 m",
     "using": [ [ "forging_standard", 7 ], [ "steel_standard", 7 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
@@ -324,7 +324,7 @@
     "result": "xl_armor_plarmor",
     "type": "recipe",
     "copy-from": "armor_plarmor",
-    "time": "3 h",
+    "time": "2 h 15 m",
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "xl_armor_larmor", 1 ] ], [ [ "xl_armguard_larmor", 1 ] ] ]
   },
@@ -355,7 +355,7 @@
     "result": "xl_armor_plate",
     "type": "recipe",
     "copy-from": "armor_plate",
-    "time": "13 h",
+    "time": "11 h 15 m",
     "using": [ [ "blacksmithing_standard", 160 ], [ "steel_standard", 45 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -447,6 +447,42 @@
     "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
   },
   {
+    "result": "armor_tiresuit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "cuirass_tire", 1 ] ], [ [ "armguard_tire", 1 ] ], [ [ "legguard_tire", 1 ] ] ]
+  },
+  {
+    "result": "armor_tiresuit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
+    "using": [ [ "cordage", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 24 ] ] ]
+  },
+  {
     "result": "chainmail_hauberk",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -465,7 +501,7 @@
     "result": "xl_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
-    "time": "2 h 15 m",
+    "time": "1h 45m",
     "components": [
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
@@ -498,7 +534,7 @@
     "result": "xl_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "time": "2 h 15 m",
+    "time": "1h 50m",
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_vest", 1 ] ],
@@ -535,7 +571,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "10 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -661,7 +697,7 @@
     "result": "xl_entry_suit",
     "type": "recipe",
     "copy-from": "entry_suit",
-    "time": "10 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
     "components": [
@@ -713,7 +749,7 @@
     "result": "xl_fsurvivor_suit",
     "type": "recipe",
     "copy-from": "fsurvivor_suit",
-    "time": "18 h",
+    "time": "13 h 50 m",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
     "components": [
@@ -871,12 +907,34 @@
     "components": [ [ [ "rag", 26 ] ] ]
   },
   {
+    "result": "k_gambeson",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "time": "6 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+  },
+  {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
-    "time": "10 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "rag", 62 ] ] ]
+  },
+  {
+    "result": "xl_k_gambeson",
+    "type": "recipe",
+    "copy-from": "k_gambeson",
+    "time": "6 h 45 m",
+    "using": [ [ "sewing_standard", 45 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 85 ] ] ]
   },
   {
     "result": "h20survivor_suit",
@@ -978,7 +1036,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "1 h 26 m",
+    "time": "54 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 40 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
@@ -1050,7 +1108,7 @@
     "result": "xl_lsurvivor_suit",
     "type": "recipe",
     "copy-from": "lsurvivor_suit",
-    "time": "12 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 150 ] ],
     "tools": [ [ [ "welder", 36 ], [ "welder_crude", 58 ], [ "soldering_iron", 58 ], [ "toolset", 58 ] ] ],
     "components": [
@@ -1093,7 +1151,7 @@
     "result": "xl_nomex_suit",
     "copy-from": "nomex_suit",
     "type": "recipe",
-    "time": "10 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "nomex", 36 ] ] ]
   },
@@ -1322,7 +1380,7 @@
   {
     "result": "xl_wsurvivor_suit",
     "copy-from": "wsurvivor_suit",
-    "time": "18 h",
+    "time": "13 h 30 m",
     "type": "recipe",
     "using": [ [ "sewing_standard", 300 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
@@ -1356,7 +1414,7 @@
     "skill_used": "tailor",
     "difficulty": 8,
     "skills_required": [ "fabrication", 8 ],
-    "time": "15 h",
+    "time": "22 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
@@ -1399,7 +1457,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 6 ],
-    "time": "13 h",
+    "time": "10 h 10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],

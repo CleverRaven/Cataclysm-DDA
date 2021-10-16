@@ -9,7 +9,7 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class item;
@@ -27,7 +27,7 @@ class character_martial_arts
             : ma_styles( styles ), style_selected( style_selected ), keep_hands_free( keep_hands_free ) {}
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         void reset_style();
         // checks that style selected is one that is known, otherwise resets it
@@ -53,6 +53,8 @@ class character_martial_arts
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 
+        /** Removes all martial arts events */
+        void clear_all_effects( Character &owner );
         /** Fires all non-triggered martial arts events */
         void ma_static_effects( Character &owner );
         /** Fires all move-triggered martial arts events */
