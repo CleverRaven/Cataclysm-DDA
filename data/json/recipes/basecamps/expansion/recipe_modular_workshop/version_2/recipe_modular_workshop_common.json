@@ -70,7 +70,7 @@
     "blueprint_requires": [ { "id": "fbmw_2_smithy_2" }, { "id": "fbmw_2_common_smithy_1" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_2" }, { "id": "fbmw_2_blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_2" } ],
-    "blueprint_resources": [ "fake_char_kiln", "fake_char_kiln", "crucible" ],
+    "blueprint_resources": [ "char_kiln", "char_kiln", "crucible" ],
     "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",

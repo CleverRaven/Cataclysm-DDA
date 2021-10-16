@@ -93,5 +93,28 @@
     "update_mapgen_id": "fbmw_2_smithy_3_migo_resin",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_3_migo_resin" ], "x": 8, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_glassblower_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwvwvw",
+        "w....w",
+        "w....+",
+        "w....w",
+        "wwvw+w",
+        "      "
+      ],
+      "palettes": [ "fbmw_2_2_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_glassblower_migo_resin",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_glassblower_migo_resin" ], "x": 0, "y": 7 } ] }
   }
 ]
