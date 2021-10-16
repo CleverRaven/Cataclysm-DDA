@@ -14,7 +14,10 @@
   {
     "type": "monstergroup",
     "name": "GROUP_TURRET",
-    "monsters": [ { "monster": "mon_turret_rifle", "weight": 950 }, { "monster": "mon_turret_bmg", "weight": 50, "cost_multiplier": 2 } ]
+    "monsters": [
+      { "monster": "mon_turret_rifle", "weight": 950 },
+      { "monster": "mon_turret_bmg", "weight": 50, "cost_multiplier": 2 }
+    ]
   },
   {
     "name": "GROUP_HAZMATBOT",

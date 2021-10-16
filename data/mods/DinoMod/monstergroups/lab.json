@@ -22,9 +22,27 @@
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": 2160 },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_deino_bio_op", "weight": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ], "ends": 672 },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 72,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 168,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 672,
+        "pack_size": [ 2, 3 ]
+      },
       {
         "monster": "mon_zeinonychus_bio_op",
         "weight": 25,
@@ -73,9 +91,27 @@
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": 2160 },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_deino_bio_op", "weight": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ], "ends": 672 },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 72,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 168,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 672,
+        "pack_size": [ 2, 3 ]
+      },
       {
         "monster": "mon_zeinonychus_bio_op",
         "weight": 25,
@@ -124,9 +160,27 @@
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": 2160 },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_deino_bio_op", "weight": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ], "ends": 672 },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 72,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 168,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 672,
+        "pack_size": [ 2, 3 ]
+      },
       {
         "monster": "mon_zeinonychus_bio_op",
         "weight": 25,
@@ -175,9 +229,27 @@
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": 2160 },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_deino_bio_op", "weight": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ], "ends": 672 },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 72,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 168,
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": 672,
+        "pack_size": [ 2, 3 ]
+      },
       {
         "monster": "mon_zeinonychus_bio_op",
         "weight": 25,

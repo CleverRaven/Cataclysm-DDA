@@ -169,7 +169,12 @@
     "name": "GROUP_WASP_GUARD",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_wasp_small_guard", "weight": 1000, "ends": "180 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_wasp_small_guard",
+        "weight": 1000,
+        "ends": "180 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       {
         "monster": "mon_wasp_small_guard",
         "weight": 500,

@@ -34,7 +34,13 @@
       { "monster": "mon_zarasaurolophus", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zorythosaurus", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zedmontosaurus", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zachycephalosaurus", "weight": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_zachycephalosaurus",
+        "weight": 200,
+        "cost_multiplier": 10,
+        "starts": 72,
+        "pack_size": [ 1, 2 ]
+      },
       { "monster": "mon_zachyrhinosaurus", "weight": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zentaceratops", "weight": 10, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zosmoceratops", "weight": 3, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 9 ] },

@@ -98,7 +98,10 @@
     "name": "GROUP_MEDICAL_CRAWLER_UPGRADE",
     "default": "mon_zombie_medical_pupa",
     "//": "crawling medical zombie upgrades",
-    "monsters": [ { "monster": "mon_zombie_medical_pupa", "weight": 500 }, { "monster": "mon_zombie_pupa_medical_decoy", "weight": 500 } ]
+    "monsters": [
+      { "monster": "mon_zombie_medical_pupa", "weight": 500 },
+      { "monster": "mon_zombie_pupa_medical_decoy", "weight": 500 }
+    ]
   },
   {
     "type": "monstergroup",

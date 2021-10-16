@@ -264,7 +264,11 @@
       { "monster": "mon_fly", "weight": 100 },
       { "monster": "mon_crow", "weight": 75 },
       { "monster": "mon_raven", "weight": 75 },
-      { "monster": "mon_pigeon", "weight": 100, "conditions": [ "DAWN", "DUSK", "DAY", "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_pigeon",
+        "weight": 100,
+        "conditions": [ "DAWN", "DUSK", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_pigeon", "weight": 50, "conditions": [ "DAWN", "DUSK", "DAY", "WINTER" ] },
       { "monster": "mon_fox_gray", "weight": 15 },
       { "monster": "mon_fox_red", "weight": 15 },
