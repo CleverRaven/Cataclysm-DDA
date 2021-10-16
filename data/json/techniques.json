@@ -792,17 +792,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_karate_counter",
-    "name": "Karate Counter",
-    "messages": [ "You counterattack %s", "<npcname> counterattacks %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
-  },
-  {
-    "type": "technique",
     "id": "tec_karate_precise",
     "name": "Knifehand Strike",
     "messages": [ "You hit %s with a knifehand strike", "<npcname> hits %s with a knifehand strike" ],
@@ -810,7 +799,7 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
   },
   {
     "type": "technique",
@@ -833,6 +822,26 @@
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_staff",
+    "name": "Staff Strike",
+    "messages": [ "You strike %s with your staff", "<npcname> strikes %s with your staff" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_staff_crit",
+    "name": "Heavy Staff Strike",
+    "messages": [ "You swing your staff hard at %s", "<npcname> swings their staff hard at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
   },
   {
     "type": "technique",
