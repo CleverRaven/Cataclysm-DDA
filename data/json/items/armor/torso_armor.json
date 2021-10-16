@@ -99,7 +99,7 @@
     "looks_like": "armor_lorica",
     "color": "brown",
     "warmth": 18,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
       { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] },

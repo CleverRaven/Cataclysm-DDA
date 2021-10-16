@@ -219,7 +219,7 @@
   {
     "id": "bp_nomad_cowl",
     "type": "BOOK",
-    "name": { "str": "nomad cowl", "str_pl": "copies of nomad cowl blueprints" },
+    "name": { "str": "nomad cowl blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a well-designed and comfortable cowl offering protection from the elements and physical injury.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
     "color": "dark_gray",
@@ -231,7 +231,7 @@
   {
     "id": "bp_nomad_bodyglove",
     "type": "BOOK",
-    "name": { "str": "nomad bodyglove blueprint", "str_pl": "copies of nomad bodyglove blueprints" },
+    "name": { "str": "nomad bodyglove blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a tight-fitting but protective bodysuit, with options to reinforce it with kevlar threads.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
     "color": "blue",
@@ -243,7 +243,7 @@
   {
     "id": "bp_nomad_jumpsuit",
     "type": "BOOK",
-    "name": { "str": "nomad jumpsuit blueprint", "str_pl": "copies of nomad jumpsuit blueprints" },
+    "name": { "str": "nomad jumpsuit blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland, with a lot of storage capacity.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.  There seems to be room within the directions to make a simpler, lighter version, or a leather-reinforced version.",
     "copy-from": "exodii_blueprint",
     "color": "green",
