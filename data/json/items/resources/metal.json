@@ -52,7 +52,7 @@
     "bashing": 2,
     "cutting": 6,
     "flags": [ "STAB" ],
-    "qualities": [ [ "BUTCHER", -42 ] ],
+    "qualities": [ [ "BUTCHER", -42 ], [ "CUT_PRIMITIVE", 1 ] ],
     "price_postapoc": 10
   },
   {
