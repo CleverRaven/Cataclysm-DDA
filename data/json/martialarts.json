@@ -115,7 +115,7 @@
       "tec_bojutsu_feint",
       "tec_bojutsu_disarm"
     ],
-    "weapons": [ "stick_long", "l-stick", "long_pole", "q_staff", "i_staff", "shock_staff" ]
+    "weapons": [ "stick_long", "l-stick", "long_pole", "q_staff", "i_staff", "shock_staff", "broom", "mop" ]
   },
   {
     "type": "martial_art",
