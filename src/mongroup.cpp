@@ -67,7 +67,7 @@ float mongroup::avg_speed() const
     float avg_speed = 0.0f;
     if( monsters.empty() ) {
         const MonsterGroup &g = type.obj();
-        int remaining_frequency = 1000;
+        int remaining_frequency = g.freq_total;
         for( const MonsterGroupEntry &elem : g.monsters ) {
             avg_speed += elem.frequency * elem.name.obj().speed;
             remaining_frequency -= elem.frequency;
@@ -75,7 +75,7 @@ float mongroup::avg_speed() const
         if( remaining_frequency > 0 ) {
             avg_speed += g.defaultMonster.obj().speed * remaining_frequency;
         }
-        avg_speed /= 1000;
+        avg_speed /= g.freq_total;
     } else {
         for( const monster &it : monsters ) {
             avg_speed += it.type->speed;
@@ -206,9 +206,6 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
 bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
 {
-    if( defaultMonster == mtypeid ) {
-        return true;
-    }
     for( const MonsterGroupEntry &m : monsters ) {
         if( m.name == mtypeid ) {
             return true;
@@ -237,8 +234,6 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
     const MonsterGroup &g = group.obj();
 
     std::vector<mtype_id> monsters;
-
-    monsters.push_back( g.defaultMonster );
 
     for( const MonsterGroupEntry &elem : g.monsters ) {
         monsters.push_back( elem.name );
@@ -475,7 +470,7 @@ void MonsterGroupManager::check_group_definitions()
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
     const auto &group = group_name.obj();
-    int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
+    int spawn_chance = rng( 1, group.freq_total );
     for( const auto &monster_type : group.monsters ) {
         if( monster_type.frequency >= spawn_chance ) {
             return monster_type.name;
