@@ -146,13 +146,13 @@
     "name": "GROUP_SEWAGE_TREATMENT",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_sewer_fish", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_sewer_snake", "freq": 240, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "freq": 310, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_albino_penguin", "freq": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
-      { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_frog_mother", "freq": 5, "cost_multiplier": 3 }
+      { "monster": "mon_sewer_fish", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_sewer_snake", "weight": 240, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "weight": 310, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_albino_penguin", "weight": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
+      { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3 }
     ]
   },
   {

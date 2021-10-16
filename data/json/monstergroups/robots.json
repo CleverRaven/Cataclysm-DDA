@@ -3,18 +3,18 @@
     "type": "monstergroup",
     "name": "GROUP_ROBOT",
     "monsters": [
-      { "monster": "mon_manhack", "freq": 515, "cost_multiplier": 0 },
-      { "monster": "mon_skitterbot", "freq": 220, "cost_multiplier": 0 },
-      { "monster": "mon_secubot", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_talon_m202a1", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_copbot", "freq": 0, "cost_multiplier": 0 },
-      { "monster": "mon_molebot", "freq": 40, "cost_multiplier": 0 }
+      { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
+      { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
+      { "monster": "mon_secubot", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_talon_m202a1", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_copbot", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_molebot", "weight": 40, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TURRET",
-    "monsters": [ { "monster": "mon_turret_rifle", "freq": 950 }, { "monster": "mon_turret_bmg", "freq": 50, "cost_multiplier": 2 } ]
+    "monsters": [ { "monster": "mon_turret_rifle", "weight": 950 }, { "monster": "mon_turret_bmg", "weight": 50, "cost_multiplier": 2 } ]
   },
   {
     "name": "GROUP_HAZMATBOT",

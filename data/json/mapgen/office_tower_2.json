@@ -4,12 +4,12 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_null", "freq": 100 },
-      { "monster": "mon_zombie", "freq": 600, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie", "freq": 200 },
-      { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 6 }
+      { "monster": "mon_null", "weight": 100 },
+      { "monster": "mon_zombie", "weight": 600, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie", "weight": 200 },
+      { "monster": "mon_zombie_tough", "weight": 50, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_fat", "weight": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 6 }
     ]
   },
   {

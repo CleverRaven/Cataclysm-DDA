@@ -3,22 +3,22 @@
     "name": "GROUP_COLLAPSED_TOWER",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_gasbag_immobile", "freq": 150, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_gasbag_crawler", "freq": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_scissorlimbs", "freq": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_gasbag_impaler", "freq": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
+      { "monster": "mon_zombie_gasbag_immobile", "weight": 150, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_gasbag_crawler", "weight": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_scissorlimbs", "weight": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_gasbag_impaler", "weight": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "name": "GROUP_COLLAPSED_TOWER_BASEMENT",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_gasbag_immobile", "freq": 750 },
-      { "monster": "mon_zombie_hanging_innards", "freq": 50 },
-      { "monster": "mon_zombie_giant_heart", "freq": 50 },
-      { "monster": "mon_zombie_gasbag_crawler", "freq": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_scissorlimbs", "freq": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_gasbag_impaler", "freq": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
+      { "monster": "mon_zombie_gasbag_immobile", "weight": 750 },
+      { "monster": "mon_zombie_hanging_innards", "weight": 50 },
+      { "monster": "mon_zombie_giant_heart", "weight": 50 },
+      { "monster": "mon_zombie_gasbag_crawler", "weight": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_scissorlimbs", "weight": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_gasbag_impaler", "weight": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
     ]
   },
   {

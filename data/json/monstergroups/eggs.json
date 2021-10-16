@@ -4,18 +4,18 @@
     "type": "monstergroup",
     "default": "mon_grouse_chick",
     "monsters": [
-      { "monster": "mon_grouse_chick", "freq": 50 },
-      { "monster": "mon_chicken_chick", "freq": 100 },
-      { "monster": "mon_turkey_chick", "freq": 250 },
-      { "monster": "mon_pheasant_chick", "freq": 250 },
-      { "monster": "mon_duck_chick", "freq": 150 },
-      { "monster": "mon_crow_chick", "freq": 40 },
-      { "monster": "mon_raven_chick", "freq": 40 },
-      { "monster": "mon_bluejay_chick", "freq": 15 },
-      { "monster": "mon_cardinal_chick", "freq": 15 },
-      { "monster": "mon_sparrow_chick", "freq": 15 },
-      { "monster": "mon_goose_canadian_chick", "freq": 100 },
-      { "monster": "mon_rattlesnake", "freq": 65 }
+      { "monster": "mon_grouse_chick", "weight": 50 },
+      { "monster": "mon_chicken_chick", "weight": 100 },
+      { "monster": "mon_turkey_chick", "weight": 250 },
+      { "monster": "mon_pheasant_chick", "weight": 250 },
+      { "monster": "mon_duck_chick", "weight": 150 },
+      { "monster": "mon_crow_chick", "weight": 40 },
+      { "monster": "mon_raven_chick", "weight": 40 },
+      { "monster": "mon_bluejay_chick", "weight": 15 },
+      { "monster": "mon_cardinal_chick", "weight": 15 },
+      { "monster": "mon_sparrow_chick", "weight": 15 },
+      { "monster": "mon_goose_canadian_chick", "weight": 100 },
+      { "monster": "mon_rattlesnake", "weight": 65 }
     ]
   },
   {
@@ -122,16 +122,16 @@
     "name": "GROUP_EGG_WASP",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_wasp_larva", "freq": 0 },
-      { "monster": "mon_wasp_larva", "freq": 1000, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
+      { "monster": "mon_wasp_larva", "weight": 0 },
+      { "monster": "mon_wasp_larva", "weight": 1000, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {
     "name": "GROUP_EGG_DRAGONFLY",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_dragonfly_naiad", "freq": 500, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_dragonfly_naiad", "freq": 500, "conditions": [ "SUMMER" ] }
+      { "monster": "mon_dragonfly_naiad", "weight": 500, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_dragonfly_naiad", "weight": 500, "conditions": [ "SUMMER" ] }
     ]
   },
   {

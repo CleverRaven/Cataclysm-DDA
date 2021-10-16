@@ -2,7 +2,7 @@
   {
     "name": "GROUP_ARCADE",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "freq": 400 }, { "monster": "mon_zombie_child", "freq": 600, "pack_size": [ 2, 5 ] } ]
+    "monsters": [ { "monster": "mon_null", "weight": 400 }, { "monster": "mon_zombie_child", "weight": 600, "pack_size": [ 2, 5 ] } ]
   },
   {
     "type": "mapgen",

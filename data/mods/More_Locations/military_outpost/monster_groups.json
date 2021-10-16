@@ -3,25 +3,25 @@
     "type": "monstergroup",
     "name": "GROUP_MIL_OUTPOST_ZOM",
     "monsters": [
-      { "monster": "mon_zombie_soldier", "freq": 900, "cost_multiplier": 5 },
-      { "monster": "mon_dispatch", "freq": 10, "cost_multiplier": 50 },
-      { "monster": "mon_dispatch_military", "freq": 5, "cost_multiplier": 80 },
-      { "monster": "mon_zombie_smoker", "freq": 10, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_spitter", "freq": 10, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_acidic", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 5, "pack_size": [ 2, 8 ] },
-      { "monster": "mon_zombie_bio_op", "freq": 20, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_soldier", "weight": 900, "cost_multiplier": 5 },
+      { "monster": "mon_dispatch", "weight": 10, "cost_multiplier": 50 },
+      { "monster": "mon_dispatch_military", "weight": 5, "cost_multiplier": 80 },
+      { "monster": "mon_zombie_smoker", "weight": 10, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_gasbag", "weight": 20, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_spitter", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_acidic", "weight": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 5, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_zombie_bio_op", "weight": 20, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_armored", "weight": 5, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MIL_OUTPOST_BOT",
     "monsters": [
-      { "monster": "mon_secubot", "freq": 15, "cost_multiplier": 80, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_manhack", "freq": 50 },
-      { "monster": "mon_skitterbot", "freq": 935, "cost_multiplier": 5 }
+      { "monster": "mon_secubot", "weight": 15, "cost_multiplier": 80, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_manhack", "weight": 50 },
+      { "monster": "mon_skitterbot", "weight": 935, "cost_multiplier": 5 }
     ]
   }
 ]

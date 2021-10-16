@@ -4,10 +4,10 @@
     "name": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
     "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 200 },
-      { "monster": "mon_zombie_cop", "freq": 500, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier", "freq": 150 },
-      { "monster": "mon_zombie_survivor", "freq": 150 }
+      { "monster": "mon_zombie", "weight": 200 },
+      { "monster": "mon_zombie_cop", "weight": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier", "weight": 150 },
+      { "monster": "mon_zombie_survivor", "weight": 150 }
     ]
   },
   {

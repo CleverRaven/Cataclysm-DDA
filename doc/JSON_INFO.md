@@ -930,8 +930,8 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | Identifier  | Description
 |---          |---
 | `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
-| `default`   | (_optional_) Default monster, used to represent the monster group. (default: The monster with the highest `freq` in the group)
-| `monsters`  | To choose a monster for spawning, the game creates entries equal to the sum of all `freq` and picks one. Each monster will have a number of entries equal to its `freq`. See the table below for how to build the single monster definitions.
+| `default`   | (_optional_) Default monster, used to represent the monster group. (default: The monster with the highest `weight` in the group)
+| `monsters`  | To choose a monster for spawning, the game creates entries equal to the sum of all `weight` and picks one. Each monster will have a number of entries equal to its `weight`. See the table below for how to build the single monster definitions.
 | `is_safe`   | (_optional_) (bool) Check to not trigger safe-mode warning, currently inconsequential.
 | `is_animal` | (_optional_) (bool) Check if that group has only normal animals, currently inconsequential.
 | `replace_monster_group` | (_optional_) (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superseded by monster evolution.
@@ -943,7 +943,7 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | Identifier        | Description
 |---                |---
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
-| `freq`            | (_optional_) Chance of occurrence (`freq` / total `freq` in group) (default: 1)
+| `weight`          | (_optional_) Chance of occurrence (`weight` / total `weight` in group) (default: 1)
 | `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
@@ -956,11 +956,11 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
     "name" : "GROUP_ANT",
     "default" : "mon_ant",
     "monsters" : [
-        { "monster" : "mon_ant", "freq" : 870, "cost_multiplier" : 0 },
-        { "monster" : "mon_ant_larva", "freq" : 40, "cost_multiplier" : 0 },
-        { "monster" : "mon_ant_soldier", "freq" : 90, "cost_multiplier" : 5 },
-        { "monster" : "mon_ant_queen", "freq" : 0, "cost_multiplier" : 0 },
-        { "monster" : "mon_thing", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+        { "monster" : "mon_ant", "weight" : 870, "cost_multiplier" : 0 },
+        { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
+        { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
+        { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
+        { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
     ]
 }
 ```

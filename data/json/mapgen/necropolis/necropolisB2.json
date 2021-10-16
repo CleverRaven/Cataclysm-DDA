@@ -3,10 +3,10 @@
     "name": "GROUP_NECROPOLIS_VAULT2",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_2", "freq": 30 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 920 },
-      { "monster": "mon_irradiated_wanderer_4", "freq": 30 },
-      { "monster": "mon_charred_nightmare", "freq": 20 }
+      { "monster": "mon_irradiated_wanderer_2", "weight": 30 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 920 },
+      { "monster": "mon_irradiated_wanderer_4", "weight": 30 },
+      { "monster": "mon_charred_nightmare", "weight": 20 }
     ]
   },
   {

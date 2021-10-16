@@ -39,10 +39,10 @@
     "name": "GROUP_FOOTBALL",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_null", "freq": 600 },
-      { "monster": "mon_zombie_tough", "freq": 150, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_runner", "freq": 150, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_fat", "freq": 100, "pack_size": [ 4, 6 ] }
+      { "monster": "mon_null", "weight": 600 },
+      { "monster": "mon_zombie_tough", "weight": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_runner", "weight": 150, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_zombie_fat", "weight": 100, "pack_size": [ 4, 6 ] }
     ]
   },
   {

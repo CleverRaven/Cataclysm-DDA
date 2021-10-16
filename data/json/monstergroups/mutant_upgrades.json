@@ -3,32 +3,32 @@
     "type": "monstergroup",
     "name": "GROUP_CROW_MUTANT",
     "monsters": [
-      { "monster": "mon_crow_mutant_small", "freq": 650 },
-      { "monster": "mon_crow_mutant", "freq": 350, "cost_multiplier": 2 }
+      { "monster": "mon_crow_mutant_small", "weight": 650 },
+      { "monster": "mon_crow_mutant", "weight": 350, "cost_multiplier": 2 }
     ]
   },
   {
     "name": "GROUP_CENTIPEDE_ADULT",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_centipede_giant", "freq": 900 }, { "monster": "mon_centipede_mom", "freq": 100 } ]
+    "monsters": [ { "monster": "mon_centipede_giant", "weight": 900 }, { "monster": "mon_centipede_mom", "weight": 100 } ]
   },
   {
     "name": "GROUP_CENTIPEDE_GIANT",
     "type": "monstergroup",
     "default": "mon_centipede_mom",
     "monsters": [
-      { "monster": "mon_centipede_mom", "freq": 450 },
-      { "monster": "mon_centipede_giant", "freq": 500 },
-      { "monster": "mon_centipede_mega", "freq": 50 }
+      { "monster": "mon_centipede_mom", "weight": 450 },
+      { "monster": "mon_centipede_giant", "weight": 500 },
+      { "monster": "mon_centipede_mega", "weight": 50 }
     ]
   },
   {
     "name": "GROUP_CENTIPEDE_MOM",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_centipede_giant", "freq": 650 },
-      { "monster": "mon_centipede_mom", "freq": 250 },
-      { "monster": "mon_centipede_mega", "freq": 100 }
+      { "monster": "mon_centipede_giant", "weight": 650 },
+      { "monster": "mon_centipede_mom", "weight": 250 },
+      { "monster": "mon_centipede_mega", "weight": 100 }
     ]
   },
   {
@@ -37,12 +37,12 @@
     "default": "mon_mutant_evolved",
     "monsters": [
       { "monster": "mon_mutant_evolved" },
-      { "monster": "mon_mutant_antler", "freq": 450 },
-      { "monster": "mon_mutant_mollusk", "freq": 220 },
-      { "monster": "mon_mutant_arthropod", "freq": 180 },
-      { "monster": "mon_mutant_evolved", "freq": 80 },
-      { "monster": "mon_mutant_camouflaged", "freq": 60 },
-      { "monster": "mon_mutant_alpha", "freq": 10 }
+      { "monster": "mon_mutant_antler", "weight": 450 },
+      { "monster": "mon_mutant_mollusk", "weight": 220 },
+      { "monster": "mon_mutant_arthropod", "weight": 180 },
+      { "monster": "mon_mutant_evolved", "weight": 80 },
+      { "monster": "mon_mutant_camouflaged", "weight": 60 },
+      { "monster": "mon_mutant_alpha", "weight": 10 }
     ]
   }
 ]

@@ -3,10 +3,10 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BUNKER",
     "monsters": [
-      { "monster": "mon_zombie_survivor", "freq": 600, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_dog", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_survivor", "weight": 600, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "weight": 150, "cost_multiplier": 0 }
     ]
   },
   {

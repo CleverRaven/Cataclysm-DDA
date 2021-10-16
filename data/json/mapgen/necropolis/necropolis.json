@@ -3,10 +3,10 @@
     "name": "GROUP_NECROPOLIS",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 899 },
-      { "monster": "mon_irradiated_wanderer_1", "freq": 90 },
-      { "monster": "mon_irradiated_wanderer_2", "freq": 10 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 1 }
+      { "monster": "mon_zombie", "weight": 899 },
+      { "monster": "mon_irradiated_wanderer_1", "weight": 90 },
+      { "monster": "mon_irradiated_wanderer_2", "weight": 10 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 1 }
     ]
   },
   {

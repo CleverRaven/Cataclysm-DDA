@@ -369,7 +369,10 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
         for( JsonObject mon : jo.get_array( "monsters" ) ) {
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
 
-            int freq = mon.get_int( "freq", 1 );
+            int freq = mon.get_int( "weight", 1 );
+            if( mon.has_int( "freq" ) ) {
+                freq = mon.get_int( "freq" );
+            }
             if( freq > max_freq.second ) {
                 max_freq = { name, freq };
             }
