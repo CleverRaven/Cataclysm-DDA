@@ -133,7 +133,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 7 ], [ "flour_wheat_free", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "spaghetti_raw",
@@ -146,7 +146,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ], [ "flour_wheat_free", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "lasagne_raw",
@@ -159,7 +159,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ], [ "flour_wheat_free", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "macaroni_raw",
@@ -172,7 +172,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ], [ "flour_wheat_free", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "macaroni_helper",

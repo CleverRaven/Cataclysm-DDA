@@ -526,6 +526,6 @@
     "material": [ "nut" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "volume": "250 ml",
-    "milling": { "into": "flour", "conversion_rate": 7.5 }
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 }
   }
 ]

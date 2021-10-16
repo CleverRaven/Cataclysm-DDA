@@ -49,7 +49,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 4 ] ],
+      [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ],
       [ [ "yeast", 2 ] ],
       [ [ "apple_cider", 2 ], [ "apple", 2 ], [ "irradiated_apple", 2 ] ],
       [ [ "pumpkin", 2 ], [ "irradiated_pumpkin", 2 ] ],
