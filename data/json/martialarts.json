@@ -657,7 +657,7 @@
     "type": "martial_art",
     "id": "style_leopard",
     "name": { "str": "Leopard Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength.  Moving increases dodge skill and accuracy further; attacking after moving increases damage.",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength and also increases your critical hit chance.",
     "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
     "learn_difficulty": 10,
     "static_buffs": [
@@ -673,39 +673,24 @@
       },
       {
         "id": "buff_leopard_static2",
-        "name": "Leopard's Agility",
-        "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodge skill.",
-        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "name": "Leopard's Ambush",
+        "description": "Go for the throat and take out your foes immediately!\n\nCritical Hit Chance increased by 100% of Dexterity.",
         "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "dex", "scale": 1.0 } ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_leopard_oncrit",
+        "name": "Leopard's Agility",
+        "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodging skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "buff_duration": 2,
         "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
-    "onmove_buffs": [
-      {
-        "id": "buff_leopard_onmove1",
-        "name": "Leopard's Stalk",
-        "description": "You proudly stalk the shadows and preparing to pounce with unrelenting fury.\n\n+2 Accuracy.\nEnables \"Leopard's Pounce\" buff.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
-        "unarmed_allowed": true,
-        "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
-      },
-      {
-        "id": "buff_leopard_onmove2",
-        "name": "Leopard's Pounce",
-        "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "unarmed_allowed": true,
-        "required_buffs_all": [ "buff_leopard_onmove1" ],
-        "buff_duration": 1,
-        "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 1.25 },
-          { "stat": "damage", "type": "cut", "scale": 1.25 },
-          { "stat": "damage", "type": "stab", "scale": 1.25 }
-        ]
-      }
-    ],
-    "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_counter", "tec_leopard_precise" ]
+    "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_claw", "tec_leopard_precise", "tec_leopard_pounce" ]
   },
   {
     "type": "martial_art",
