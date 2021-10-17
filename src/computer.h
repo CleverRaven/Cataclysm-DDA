@@ -4,9 +4,11 @@
 
 #include <iosfwd>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "calendar.h"
+#include "point.h"
 
 class JsonObject;
 class JsonOut;
@@ -113,7 +115,8 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &new_name, int new_security );
+        computer( const std::string &new_name, int new_security, tripoint new_loc,
+                  std::vector<std::string> new_chat_topics );
 
         // Initialization
         void set_security( int Security );
@@ -129,7 +132,7 @@ class computer
         void deserialize( const JsonValue &jv );
 
         friend class computer_session;
-    private:
+        tripoint loc;
         // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         std::string name;
         // Linked to a mission?
@@ -148,6 +151,13 @@ class computer
         // Can be customized to for example warn the player of potentially lethal
         // consequences like secubots spawning.
         std::string access_denied;
+        std::vector<std::string> chat_topics; // What it has to say.
+        // Miscellaneous key/value pairs.
+        std::unordered_map<std::string, std::string> values;
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
 
         void remove_option( computer_action action );
 };

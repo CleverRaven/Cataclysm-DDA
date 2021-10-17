@@ -1509,7 +1509,8 @@ class map
 
         // Computers
         computer *computer_at( const tripoint &p );
-        computer *add_computer( const tripoint &p, const std::string &name, int security );
+        computer *add_computer( const tripoint &p, const std::string &name, int security,
+                                std::vector<std::string> chat_topics = std::vector<std::string>() );
 
         // Camps
         void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name );

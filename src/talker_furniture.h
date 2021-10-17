@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_TALKER_ITEM_H
-#define CATA_SRC_TALKER_ITEM_H
+#ifndef CATA_SRC_TALKER_FURNITURE_H
+#define CATA_SRC_TALKER_FURNITURE_H
 
 #include <functional>
 #include <iosfwd>
@@ -12,27 +12,19 @@
 #include "talker.h"
 #include "type_id.h"
 
-class item;
-
+class computer;
 struct tripoint;
 
 /*
- * Talker wrapper class for item.
+ * Talker wrapper class for furniture
  */
-class talker_item: public talker
+class talker_furniture: public talker
 {
     public:
-        explicit talker_item( item_location *new_me ): me_it( new_me ) {
+        explicit talker_furniture( computer *new_me ): me_comp( new_me ) {
         }
-        ~talker_item() override = default;
+        ~talker_furniture() override = default;
 
-        // underlying element accessor functions
-        item_location *get_item() override {
-            return me_it;
-        }
-        item_location *get_item() const override {
-            return me_it;
-        }
         // identity and location
         std::string disp_name() const override;
         int posx() const override;
@@ -49,7 +41,7 @@ class talker_item: public talker
         bool will_talk_to_u( const Character &you, bool force ) override;
 
     protected:
-        talker_item() = default;
-        item_location *me_it;
+        talker_furniture() = default;
+        computer *me_comp;
 };
-#endif // CATA_SRC_TALKER_ITEM_H
+#endif // CATA_SRC_TALKER_FURNITURE_H

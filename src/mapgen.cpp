@@ -2511,10 +2511,12 @@ class jmapgen_computer : public jmapgen_piece
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
+        std::vector<std::string> chat_topics;
         bool target;
         jmapgen_computer( const JsonObject &jsi, const std::string &/*context*/ ) {
             jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
+            jsi.read( "chat_topics", chat_topics );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
             if( jsi.has_array( "options" ) ) {
@@ -6222,7 +6224,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     return veh;
 }
 
-computer *map::add_computer( const tripoint &p, const std::string &name, int security )
+computer *map::add_computer( const tripoint &p, const std::string &name, int security,
+                             std::vector<std::string> chat_topics )
 {
     // TODO: Turn this off?
     furn_set( p, furn_str_id( "f_console" ) );
@@ -6230,10 +6233,10 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x, l.y );
-        static computer null_computer = computer( name, security );
+        static computer null_computer = computer( name, security, p, chat_topics );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security ) );
+    place_on_submap->set_computer( l, computer( name, security, p, chat_topics ) );
     return place_on_submap->get_computer( l );
 }
 
