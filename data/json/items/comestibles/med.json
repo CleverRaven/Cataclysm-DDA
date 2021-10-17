@@ -9,9 +9,11 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 1000,
+    "charges": 10,
     "stack_size": 30,
     "symbol": "!",
     "color": "yellow",
+    "container": "bottle_plastic_pill_suppliment",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -33,6 +35,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_red",
+    "container": "bottle_plastic_pill_prescription",
     "stim": 24,
     "fun": 10,
     "addiction_potential": 10,
@@ -92,6 +95,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "use_action": [ "ANTIBIOTIC" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
@@ -110,6 +114,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "use_action": [ "ANTIFUNGAL" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
@@ -128,6 +133,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -5,
     "use_action": [ "ANTIPARASITIC" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
@@ -147,6 +153,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
@@ -257,6 +264,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "cyan",
+    "container": "bottle_plastic_pill_suppliment",
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "stim": 12,
     "addiction_potential": 3,
@@ -380,6 +388,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "cyan",
+    "container": "bottle_plastic_pill_painkiller",
     "stim": -2,
     "fun": 10,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
@@ -572,6 +581,7 @@
     "stack_size": 100,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -8,
     "healthy": -1,
     "fun": 8,
@@ -1111,6 +1121,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_suppliment",
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1332,6 +1343,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_green",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -1,
     "stim": -4,
     "fun": 18,
@@ -1359,6 +1371,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "light_red",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -8,
     "fun": 5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
@@ -1478,6 +1491,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_green",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 5,
@@ -1500,6 +1514,7 @@
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "blue",
+    "container": "bottle_plastic_pill_suppliment",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some Prussian blue.",
@@ -1557,6 +1572,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_red",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -30,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": [ "THORAZINE" ]
@@ -1625,6 +1641,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "yellow",
+    "container": "bottle_plastic_pill_prescription",
     "fun": 6,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 6,
@@ -1665,6 +1682,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "magenta",
+    "container": "bottle_plastic_pill_suppliment",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1687,6 +1705,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
+    "container": "bottle_plastic_pill_suppliment",
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 75 ] ] }
   },
   {
@@ -1737,6 +1756,7 @@
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "price_postapoc": 1000,
     "fun": 4,
+    "container": "null",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "charges": 10,
     "stack_size": 10
@@ -1756,6 +1776,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_suppliment",
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
     "snippet_category": [
@@ -1875,6 +1896,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "cyan",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -4,
     "healthy": -2,
     "fun": 20,
@@ -1945,6 +1967,7 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -2,
     "use_action": [ "WEAK_ANTIBIOTIC" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
@@ -1985,6 +2008,7 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "red",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": 25,
     "use_action": {
       "type": "consume_drug",
@@ -2032,6 +2056,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -10,
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "STRONG_ANTIBIOTIC" }
