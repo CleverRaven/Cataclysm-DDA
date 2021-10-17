@@ -27,28 +27,11 @@
 
 
 
-//namespace {
-    diary_page::diary_page() {
 
-    }
-//}
-//diary_page::diary_page(std::string date, std::string text)
-//{
-//    m_date = date;
-//    m_text = text;
-//}
+diary_page::diary_page() {
 
+}
 
-
-//void diary::load_test() {
-//    for (int i = 0; i <= 5; i++) {
-//        diary::pages.push_back(new diary_page(std::to_string(i), std::to_string(i) + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu f"));
-//    }
-//    
-//    
-//    
-//
-//}
 
 std::vector<std::string> diary::get_pages_list() {
     std::vector<std::string> result;
@@ -93,11 +76,6 @@ void diary::add_to_change_list(std::string entry, std::string desc) {
     if(desc != "") desc_map[change_list.size()] = desc;
     change_list.push_back(entry);
 }
-//void diary::example_changes(std::vector<std::string>* result, diary_page* currpage, diary_page* prevpage) {
-//    if (prevpage == nullptr) {}
-//    else {}
-//} <color_red>text</color>
-// colorize
 
 
 
@@ -246,7 +224,6 @@ void diary::bionic_changes() {
             }
             if (!flag) add_to_change_list(" ");
         }
-        
     }
 }
 
@@ -330,10 +307,7 @@ void diary::kill_changes() {
                     
                 }
                 if (!flag) add_to_change_list(" ");
-           
-        }        
-        
-        
+        } 
     }
 }
 
@@ -364,7 +338,7 @@ void diary::skill_changes() {
         
         bool flag = true;
         for (auto elem : currpage->skillsL) {
-            if (prevpage->skillsL.find(elem.first) != prevpage->skillsL.end() ) {//.count(elem.first) > 0
+            if (prevpage->skillsL.find(elem.first) != prevpage->skillsL.end() ) {
                 if (prevpage->skillsL[elem.first] != elem.second) {
                     if (flag) {
                         add_to_change_list(_("Skills: "));
@@ -518,20 +492,14 @@ void diary::prof_changes() {
                 const auto p = elem.obj();
                 add_to_change_list(p.name(), p.description());
             }
-            
         }
         if (!flag) add_to_change_list(" ");
-        
-        
     }
 }
 
 std::vector<std::string> diary::get_change_list() {
     if (!change_list.empty()) return change_list;
     if (!pages.empty()) {
-        
-        
-
         stat_changes();
         skill_changes();
         prof_changes();
@@ -539,8 +507,7 @@ std::vector<std::string> diary::get_change_list() {
         bionic_changes();
         spell_changes();
         mission_changes();
-        kill_changes();        
-        
+        kill_changes();
     }
     return change_list;
 }
@@ -553,7 +520,6 @@ std::map<int, std::string> diary::get_desc_map() {
         get_change_list();
         return desc_map;
     }
-    
 }
 
 
@@ -569,13 +535,8 @@ std::string diary::get_head_text() {
        
     if (!pages.empty()) {
         
-        /*const int year = to_turns<int>(pages[position]->turn - calendar::turn_zero) / to_turns<int>
-            (calendar::year_length()) + 1;*/
         const time_point prev_turn = (opend_page != 0) ? get_page_ptr(-1)->turn : calendar::turn_zero;
         const time_duration turn_diff = get_page_ptr()->turn - prev_turn;
-            /*const std::string time = to_string_time_of_day();
-            const int day = to_days<int>(time_past_new_year(pages[position]->turn));
-            const int prevday = (position != 0)? to_days<int>(time_past_new_year(pages[position-1]->turn)): to_days<int>(time_past_new_year(calendar::turn_zero));*/
         const int days = to_days<int>(turn_diff);
         const int hours = to_hours<int>(turn_diff)%24;
         const int minutes= to_minutes<int>(turn_diff)%60;
@@ -609,68 +570,34 @@ void diary::set_page_text( std::string text) {
  
 void diary::new_page() {
     diary_page* page = new diary_page();
-    
     page -> m_text = " ";
-    //page -> m_date = to_string(calendar::turn);
     page -> turn = calendar::turn;
-    //
-    ////game stats
-    
-    
     page -> kills = g.get()->get_kill_tracker().kills;
     page -> npc_kills = g.get()->get_kill_tracker().npc_kills;
-    
-    ////pimpl<stats_tracker> stats_tracker;
-    //pimpl<achievements_tracker> achivement_tracker;
-    ////player Stats
     avatar* u = &get_avatar();
     page -> mission_completed = mission::to_uid_vector(u->get_completed_missions());
     page -> mission_active = mission::to_uid_vector(u->get_active_missions());
     page -> mission_faild = mission::to_uid_vector(u->get_failed_missions());
-    
-    
-    
-    
     page -> male = u->male;
     page->strength = u->get_str_base();
     page->dexterity = u->get_dex_base();
     page->intelligence = u->get_int_base();
     page->perception = u->get_per_base();
-    //page->addictions = u->addictions;
-    
-    //page -> follower_ids = u->follower_ids; 
-    
     page->traits = u->get_mutations(false);
-    
-    
     const auto spells = u->magic->get_spells();
     for (const auto spell : spells) {
         const auto id = spell->id();
         const auto lvl = spell->get_level();
-        
         page-> known_spells[id] = lvl;
-        
-        
     }
-    
-   
-    //auto martial_arts_data = u->martial
-    
     page-> bionics = u->get_bionics();
-    
-    
-    
-
     for (auto elem : Skill::skills) {
         
         int level = u->get_skill_level_object(elem.ident()).level();
         page->skillsL.insert({ elem.ident(), level });
     }
-    
     page -> known_profs = u->_proficiencies->known_profs();
     page -> learning_profs = u->_proficiencies->learning_profs();
-    
-    
     page->max_power_level = u->get_max_power_level();
     diary::pages.push_back(page);
 }
@@ -679,7 +606,6 @@ void diary::delete_page() {
     if (opend_page < pages.size()) {
         pages.erase(pages.begin() + opend_page );
     }
-    
 }
 
 void diary::export_to_txt(bool lastexport) {
@@ -721,13 +647,11 @@ void diary::serialize(std::ostream& fout) {
 }
 
 void diary::serialize(JsonOut& jsout){
-    //jsout.start_object();
     jsout.member("owner", owner);
     jsout.member("pages");
     jsout.start_array();
     for (auto n : pages) {
         jsout.start_object();
-        //jsout.member("date", n->m_date);
         jsout.member("text", n->m_text);
         jsout.member("turn", n->turn);
         jsout.member("completed", n->mission_completed);
@@ -736,24 +660,20 @@ void diary::serialize(JsonOut& jsout){
         jsout.member("kills", n->kills);
         jsout.member("npc_kills", n->npc_kills);
         jsout.member("male", n->male);
-        //jsout.member("addictions", n->addictions);
         jsout.member("str", n->strength);
         jsout.member("dex", n->dexterity);
         jsout.member("int", n->intelligence);
         jsout.member("per", n->perception);
-        //jsout.member("follower_ids", n->follower_ids);
         jsout.member("traits", n->traits);
         jsout.member("bionics", n->bionics);
         jsout.member("spells", n->known_spells);
         jsout.member("skillsL", n->skillsL);
-
         jsout.member("known_profs", n->known_profs);
         jsout.member("learning_profs", n->learning_profs);
         jsout.member("max_power_level", n->max_power_level);
         jsout.end_object();
     }
     jsout.end_array();
-    //jsout.end_object();
 }
 
 
@@ -781,7 +701,6 @@ void diary::deserialize(JsonIn& jsin) {
         pages.clear();
         for (JsonObject elem : data.get_array("pages")) {
             diary_page* page = new diary_page();
-            //page->m_date = elem.get_string("date");
             page->m_text = elem.get_string("text");
             elem.read("turn", page->turn);
             elem.read("active", page->mission_active);
@@ -790,34 +709,26 @@ void diary::deserialize(JsonIn& jsin) {
             elem.read("kills", page->kills);
             elem.read("npc_kills", page->npc_kills);
             elem.read("male", page->male);
-            //elem.read("addictions", page->addictions);
             elem.read("str", page->strength);
             elem.read("dex", page->dexterity);
             elem.read("int", page->intelligence);
             elem.read("per", page->perception);
-            //elem.read("follower_ids", page->follower_ids);
             elem.read("traits", page->traits);
             elem.read("bionics", page->bionics);
             elem.read("spells", page->known_spells);
             elem.read("skillsL", page->skillsL);
-
-
             elem.read("known_profs", page->known_profs);
             elem.read("learning_profs", page->learning_profs);
             elem.read("max_power_level", page->max_power_level);
-
             pages.push_back(page);
         }
     }
     catch (const JsonError& e) {
-        //debugmsg("error loading %s: %s", SAVE_MASTER, e.c_str());
+        
     }
 }
 
 
 
-/**methode, die eine zwei pages bekommt und einen vector string zurück gibt mit den änderungen*/
-
-/**methode für jede subkathegorie an informationen */
 
 
