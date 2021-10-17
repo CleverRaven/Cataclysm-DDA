@@ -165,7 +165,7 @@
     "volume": "1350 ml",
     "weight": "2 kg",
     "color": "dark_gray",
-    "hp": 10000,
+    "hp": 1000,
     "material": [ "steel" ],
     "emit_fields": [ { "emit_id": "emit_plasma", "delay": "1 s" } ],
     "symbol": ":",
