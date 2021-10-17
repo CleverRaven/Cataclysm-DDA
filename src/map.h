@@ -1510,6 +1510,7 @@ class map
         // Computers
         computer *computer_at( const tripoint &p );
         computer *add_computer( const tripoint &p, const std::string &name, int security,
+                                std::vector<effect_on_condition_id> eocs = std::vector<effect_on_condition_id>(),
                                 std::vector<std::string> chat_topics = std::vector<std::string>() );
 
         // Camps

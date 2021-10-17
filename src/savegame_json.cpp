@@ -4725,14 +4725,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 point loc;
                 jsin.read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100, tripoint( 0, 0, 0 ),
-                                                      std::vector<std::string>() ) ).first;
+                                                      std::vector<effect_on_condition_id>(), std::vector<std::string>() ) ).first;
                 jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
             legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint( 0, 0, 0 ),
-                              std::vector<std::string>() );
+                              std::vector<effect_on_condition_id>(), std::vector<std::string>() );
             jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {

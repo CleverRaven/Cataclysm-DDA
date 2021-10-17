@@ -2512,11 +2512,13 @@ class jmapgen_computer : public jmapgen_piece
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         std::vector<std::string> chat_topics;
+        std::vector<effect_on_condition_id> eocs;
         bool target;
         jmapgen_computer( const JsonObject &jsi, const std::string &/*context*/ ) {
             jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
             jsi.read( "chat_topics", chat_topics );
+            jsi.read( "eocs", eocs );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
             if( jsi.has_array( "options" ) ) {
@@ -2535,7 +2537,7 @@ class jmapgen_computer : public jmapgen_piece
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, furn_str_id( "f_console" ) );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
-                                                security );
+                                                security, eocs, chat_topics );
             for( const auto &opt : options ) {
                 cpu->add_option( opt );
             }
@@ -6225,7 +6227,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 }
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security,
-                             std::vector<std::string> chat_topics )
+                             std::vector<effect_on_condition_id> eocs, std::vector<std::string> chat_topics )
 {
     // TODO: Turn this off?
     furn_set( p, furn_str_id( "f_console" ) );
@@ -6233,10 +6235,10 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x, l.y );
-        static computer null_computer = computer( name, security, p, chat_topics );
+        static computer null_computer = computer( name, security, p, eocs, chat_topics );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security, p, chat_topics ) );
+    place_on_submap->set_computer( l, computer( name, security, p, eocs, chat_topics ) );
     return place_on_submap->get_computer( l );
 }
 

@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "point.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonOut;
@@ -116,7 +117,7 @@ class computer
 {
     public:
         computer( const std::string &new_name, int new_security, tripoint new_loc,
-                  std::vector<std::string> new_chat_topics );
+                  std::vector<effect_on_condition_id> new_eocs, std::vector<std::string> new_chat_topics );
 
         // Initialization
         void set_security( int Security );
@@ -152,6 +153,7 @@ class computer
         // consequences like secubots spawning.
         std::string access_denied;
         std::vector<std::string> chat_topics; // What it has to say.
+        std::vector<effect_on_condition_id> eocs; // Effect on conditions to run when accessed.
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
         // Methods for setting/getting misc key/value pairs.

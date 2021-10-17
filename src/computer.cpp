@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "computer.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
@@ -58,12 +59,13 @@ void computer_failure::deserialize( const JsonObject &jo )
 }
 
 computer::computer( const std::string &new_name, int new_security, tripoint new_loc,
-                    std::vector<std::string> new_chat_topics )
+                    std::vector<effect_on_condition_id> new_eocs, std::vector<std::string> new_chat_topics )
     : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       next_attempt( calendar::before_time_starts ),
       access_denied( _( "ERROR!  Access denied!" ) )
 {
     loc = new_loc;
+    eocs = new_eocs;
     chat_topics = new_chat_topics;
 }
 
