@@ -595,10 +595,38 @@
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "kevlar gambeson" },
+    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.",
+    "weight": "2880 g",
+    "volume": "2520 ml",
+    "price": 20000,
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar gambeson" },
+    "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
@@ -863,8 +891,38 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
+    "warmth": 15,
+    "material_thickness": 6,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "mil_flight_suit",
+    "type": "ARMOR",
+    "name": { "str": "military flight suit" },
+    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
+    "weight": "1315 g",
+    "volume": "4687 ml",
+    "price": 22065,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "nomex" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 25,
-    "material_thickness": 0.3,
+    "material_thickness": 0.8,
     "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
   }
 ]

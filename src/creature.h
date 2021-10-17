@@ -401,6 +401,10 @@ class Creature : public viewer
         void knock_back_from( const tripoint &p );
         virtual void knock_back_to( const tripoint &to ) = 0;
 
+        // Converts the "cover_vitals" protection on the specified body part into
+        // a modifier (between 0 and 1) that would be applied to incoming critical damage
+        float get_crit_factor( const bodypart_id &bp ) const;
+
         int size_melee_penalty() const;
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -420,7 +424,8 @@ class Creature : public viewer
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                      damage_instance dam, dealt_damage_instance &dealt_dam,
-                                     const weakpoint_attack &attack = weakpoint_attack() );
+                                     const weakpoint_attack &attack = weakpoint_attack(),
+                                     const bodypart_id *bp = nullptr );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.

@@ -907,12 +907,34 @@
     "components": [ [ [ "rag", 26 ] ] ]
   },
   {
+    "result": "k_gambeson",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "time": "6 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+  },
+  {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "rag", 62 ] ] ]
+  },
+  {
+    "result": "xl_k_gambeson",
+    "type": "recipe",
+    "copy-from": "k_gambeson",
+    "time": "6 h 45 m",
+    "using": [ [ "sewing_standard", 45 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 85 ] ] ]
   },
   {
     "result": "h20survivor_suit",

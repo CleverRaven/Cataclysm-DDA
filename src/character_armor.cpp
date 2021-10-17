@@ -441,7 +441,15 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( rng( 1, 100 ) > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
 

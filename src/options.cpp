@@ -1218,9 +1218,16 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
+    add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MOPPING" ).setPrerequisite( "AUTO_FEATURES" );
+
     add( "AUTO_FORAGING", "general", to_translation( "Auto foraging" ),
-         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
+         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Crops: Only forage crops.  - Everything: Forage bushes, trees, crops, and everything else including flowers, cattails etc." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "crops", to_translation( "Crops" ) }, { "all", to_translation( "Everything" ) } },
     "off"
        );
 

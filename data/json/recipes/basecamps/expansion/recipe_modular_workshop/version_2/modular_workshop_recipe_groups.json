@@ -3,7 +3,13 @@
     "type": "recipe_group",
     "id": "fbmw_2_potter_recipes_1",
     "building_type": "SMITH",
-    "recipes": [ { "id": "crucible_clay", "description": " Craft: Crucible, Clay" } ]
+    "recipes": [
+      { "id": "brick", "description": " Craft: Brick" },
+      { "id": "clay_canister", "description": " Craft: Canister, Clay" },
+      { "id": "crucible_clay", "description": " Craft: Crucible, Clay" },
+      { "id": "fire_brick", "description": " Craft: Brick, Fire" },
+      { "id": "pebble_clay", "description": " Craft: Pellet, Clay" }
+    ]
   },
   {
     "type": "recipe_group",
@@ -115,6 +121,19 @@
       { "id": "wire_npc_drop", "description": " Craft: Wire, Drop Hammer" },
       { "id": "pipe_npc_drop", "description": " Craft: Pipe, Drop Hammer" },
       { "id": "rebar_npc_drop", "description": " Craft: Rebar, Drop Hammer" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmw_2_glassblower_recipes_1",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "bottle_glass", "description": " Craft: Bottle, Glass" },
+      { "id": "flask_glass", "description": " Craft: Flask, Glass" },
+      { "id": "glass_sheet", "description": " Craft: Sheet, Glass" },
+      { "id": "jar_3l_glass_sealed", "description": " Craft: 3L Jar, Glass" },
+      { "id": "jar_glass_sealed", "description": " Craft: Jar, Glass" },
+      { "id": "tempered_glass_sheet", "description": " Craft: Tempered Sheet, Glass" }
     ]
   }
 ]

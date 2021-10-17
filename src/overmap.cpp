@@ -867,7 +867,7 @@ void overmap_terrains::load( const JsonObject &jo, const std::string &src )
 
 void overmap_terrains::check_consistency()
 {
-    for( const auto &elem : terrain_types.get_all() ) {
+    for( const oter_type_t &elem : terrain_types.get_all() ) {
         elem.check();
         if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
             debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(),
@@ -875,7 +875,7 @@ void overmap_terrains::check_consistency()
         }
     }
 
-    for( const auto &elem : terrains.get_all() ) {
+    for( const oter_t &elem : terrains.get_all() ) {
         const std::string mid = elem.get_mapgen_id();
 
         if( mid.empty() ) {
@@ -889,6 +889,7 @@ void overmap_terrains::check_consistency()
                 debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
                           mid.c_str() );
             }
+            check_mapgen_consistent_with( mid, elem );
         } else if( !exists_hardcoded ) {
             debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
         }
@@ -2494,7 +2495,11 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         return;
     }
 
-    layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = id;
+    oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
+    if( id->has_flag( oter_flags::requires_predecessor ) ) {
+        predecessors_[p].push_back( val );
+    }
+    val = id;
 }
 
 const oter_id &overmap::ter( const tripoint_om_omt &p ) const
@@ -2523,6 +2528,15 @@ std::string *overmap::join_used_at( const om_pos_dir &p )
         return nullptr;
     }
     return &it->second;
+}
+
+std::vector<oter_id> overmap::predecessors( const tripoint_om_omt &p )
+{
+    auto it = predecessors_.find( p );
+    if( it == predecessors_.end() ) {
+        return {};
+    }
+    return it->second;
 }
 
 bool &overmap::seen( const tripoint_om_omt &p )
@@ -5963,7 +5977,6 @@ void overmap::add_mon_group( const mongroup &group )
     const int rad = std::max<int>( 0, group.radius );
     const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
     const double pop = std::max<int>( 0, group.population );
-    int xpop = 0;
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
             const int dist = group.diffuse ? square_dist( point( x, y ), point_zero ) : trig_dist( point( x,
@@ -6013,7 +6026,6 @@ void overmap::add_mon_group( const mongroup &group )
             // To avoid this, the overmapbuffer checks the monster groups when loading
             // an overmap and moves groups with out-of-bounds position to another overmap.
             add_mon_group( tmp );
-            xpop += tmp.population;
         }
     }
 }

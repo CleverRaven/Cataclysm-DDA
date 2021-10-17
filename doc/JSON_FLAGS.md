@@ -1176,6 +1176,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   neighbour checks, the directions will be treated as absolute, rather than
   rotated to account for the rotation of the mapgen itself.  Probably only
   useful for hardcoded mapgen.
+- ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it
+  will update the mapgen from the terrain it replaced.  This allows the
+  corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.

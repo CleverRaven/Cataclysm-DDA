@@ -288,16 +288,33 @@ std::vector<std::string> clothing_properties(
 
     const std::string space = "  ";
 
-    const int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
-                         worn_item.get_coverage( bp );
-    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
-                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
+
+    int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
+                   worn_item.get_coverage( bp );
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_MELEE ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_MELEE );
+    props.push_back( name_and_value( space + _( "Coverage (Melee):" ),
+                                     string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_RANGED ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_RANGED );
+    props.push_back( name_and_value( space + _( "Coverage (Ranged):" ),
+                                     string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_VITALS ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_VITALS );
+    props.push_back( name_and_value( space + _( "Coverage (Vitals):" ),
+                                     string_format( "%3d", coverage ), width ) );
+
+    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
+                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", encumbrance ),
-                                     width ) );
+                                     string_format( "%3d", encumbrance ), width ) );
+
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
     return props;
