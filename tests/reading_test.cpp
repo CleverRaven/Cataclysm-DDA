@@ -189,6 +189,11 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 {
     avatar dummy;
+    //Give eyes to our dummy
+    dummy.set_body();
+    REQUIRE(dummy.has_part(bodypart_id("eyes")));
+    REQUIRE(dummy.vision_score() != 0);
+
     dummy.worn.emplace_back( "backpack" );
 
     // Easy, medium, and hard books
