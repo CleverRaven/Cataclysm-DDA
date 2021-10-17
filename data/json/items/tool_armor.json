@@ -1115,6 +1115,7 @@
     "environmental_protection": 80,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",
