@@ -9,7 +9,6 @@
     "difficulty": 3,
     "skills_required": [ "fabrication", 1 ],
     "time": "30 m",
-    "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "plastic_molding", 20 ] ],
@@ -17,8 +16,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 4 ] ],
-      [ [ "lead", 5000 ] ],
-      [ [ "chem_sulphuric_acid", 4 ], [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ]
+      [ [ "lead", 3200 ] ],
+      [ [ "chem_sulphuric_acid", 13 ] ]
     ]
   },
   {
@@ -31,7 +30,6 @@
     "difficulty": 3,
     "skills_required": [ "fabrication", 1 ],
     "time": "30 m",
-    "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 4 ] ],
@@ -39,8 +37,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
-      [ [ "lead", 1000 ] ],
-      [ [ "chem_sulphuric_acid", 2 ], [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ]
+      [ [ "lead", 720 ] ],
+      [ [ "chem_sulphuric_acid", 3 ] ]
     ]
   },
   {
