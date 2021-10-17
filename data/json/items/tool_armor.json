@@ -3370,7 +3370,7 @@
     "name": { "str": "powered utility exoskeleton (on)", "str_pl": "powered utility exoskeletons (on)" },
     "description": "  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [ "USE_UPS", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
-    "power_draw": 4000000,
+    "power_draw": 12,
     "revert_to": "utility_exoskeleton",
     "use_action": {
       "type": "transform",
