@@ -3352,7 +3352,7 @@
     "environmental_protection": 0,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
-    "flags": [ "STURDY", "ELECTRIC_IMMUNE" ],
+    "flags": [ "STURDY", "ELECTRIC_IMMUNE", "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 40,
@@ -3369,7 +3369,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "powered utility exoskeleton (on)", "str_pl": "powered utility exoskeletons (on)" },
     "description": "  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "STURDY", "BELTED", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
     "power_draw": 12,
     "revert_to": "utility_exoskeleton",
     "use_action": {
