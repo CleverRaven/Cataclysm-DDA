@@ -3341,7 +3341,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "rigid": true,
-        "max_contains_volume": "6.25 L",
+        "max_contains_volume": "6250 ml",
         "max_contains_weight": "35 kg",
         "flag_restriction": [ "MEDIUM_STORAGE_BATTERY" ],
         "default_magazine": "medium_storage_battery"
