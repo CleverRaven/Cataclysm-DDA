@@ -14,11 +14,7 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "plastic_molding", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "scrap", 4 ] ],
-      [ [ "lead", 3200 ] ],
-      [ [ "chem_sulphuric_acid", 13 ] ]
-    ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "lead", 3200 ] ], [ [ "chem_sulphuric_acid", 13 ] ] ]
   },
   {
     "result": "battery_motorbike",
@@ -35,11 +31,7 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "scrap", 1 ] ],
-      [ [ "lead", 720 ] ],
-      [ [ "chem_sulphuric_acid", 3 ] ]
-    ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "lead", 720 ] ], [ [ "chem_sulphuric_acid", 3 ] ] ]
   },
   {
     "type": "recipe",
