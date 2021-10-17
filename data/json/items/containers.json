@@ -437,7 +437,7 @@
     "color": "white"
   },
   {
-    "id": "bottle_plastic_pill_suppliment",
+    "id": "bottle_plastic_pill_supplement",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic suppliment bottle" },

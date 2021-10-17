@@ -13,7 +13,7 @@
     "stack_size": 30,
     "symbol": "!",
     "color": "yellow",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -264,7 +264,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "cyan",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "stim": 12,
     "addiction_potential": 3,
@@ -1121,7 +1121,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1514,7 +1514,7 @@
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "blue",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some Prussian blue.",
@@ -1682,7 +1682,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "magenta",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1705,7 +1705,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 75 ] ] }
   },
   {
@@ -1776,7 +1776,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "white",
-    "container": "bottle_plastic_pill_suppliment",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
     "snippet_category": [
