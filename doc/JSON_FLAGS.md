@@ -1562,6 +1562,7 @@ Gun fault flags:
 - ```FEATHER_FALL``` You are immune to fall damage.
 - ```INVISIBLE``` You can't be seen.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.
+- ```PORTAL_PROOF``` You are immune to personal portal storm effects.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```THERMOMETER``` You always know what temperature it is.

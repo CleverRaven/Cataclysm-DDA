@@ -2389,14 +2389,18 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
 
 void talk_effect_fun_t::set_lightning()
 {
-    if( get_player_character().posz() >= 0 ) {
-        get_weather().lightning_active = true;
-    }
+    function = []( const dialogue & ) {
+        if( get_player_character().posz() >= 0 ) {
+            get_weather().lightning_active = true;
+        }
+    };
 }
 
 void talk_effect_fun_t::set_next_weather()
 {
-    get_weather().set_nextweather( calendar::turn );
+    function = []( const dialogue & ) {
+        get_weather().set_nextweather( calendar::turn );
+    };
 }
 
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
