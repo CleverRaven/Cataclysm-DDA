@@ -412,55 +412,19 @@
   {
     "id": "bottle_plastic_pill_painkiller",
     "type": "GENERIC",
-    "category": "container",
+	"copy-from": "bottle_plastic_pill_prescription",
     "name": { "str": "plastic painkiller bottle" },
     "looks_like": "aspirin",
     "description": "A small white pill bottle with a screw top.",
-    "weight": "7 g",
-    "volume": "251 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "max_contains_volume": "250 ml",
-        "max_item_volume": "17 ml",
-        "max_contains_weight": "1 kg",
-        "moves": 400
-      }
-    ],
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "material": [ "plastic" ],
-    "symbol": ")",
     "color": "white"
   },
   {
     "id": "bottle_plastic_pill_supplement",
     "type": "GENERIC",
-    "category": "container",
+	"copy-from": "bottle_plastic_pill_prescription",
     "name": { "str": "plastic suppliment bottle" },
     "looks_like": "vitamins",
     "description": "A small green pill bottle with a screw top.",
-    "weight": "7 g",
-    "volume": "251 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "max_contains_volume": "250 ml",
-        "max_item_volume": "17 ml",
-        "max_contains_weight": "1 kg",
-        "moves": 400
-      }
-    ],
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "material": [ "plastic" ],
-    "symbol": ")",
     "color": "green"
   },
   {
