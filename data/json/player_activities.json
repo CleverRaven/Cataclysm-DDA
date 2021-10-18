@@ -597,7 +597,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "welding",
-    "based_on": "speed"
+    "based_on": "time"
   },
   {
     "id": "ACT_CRACKING",
