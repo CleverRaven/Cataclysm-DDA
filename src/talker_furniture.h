@@ -25,6 +25,12 @@ class talker_furniture: public talker
         }
         ~talker_furniture() override = default;
 
+        computer *get_computer() override {
+            return me_comp;
+        }
+        computer *get_computer() const override {
+            return me_comp;
+        }
         // identity and location
         std::string disp_name() const override;
         int posx() const override;

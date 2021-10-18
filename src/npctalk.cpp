@@ -24,6 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -2629,6 +2630,8 @@ void talk_effect_fun_t::set_open_dialogue()
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
         } else if( d.actor( true )->get_item() != nullptr ) {
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        } else if( d.actor( true )->get_computer() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ) );
         }
     };
 }

@@ -4220,8 +4220,14 @@ void game::use_computer( const tripoint &p )
         }
         return;
     }
-
-    computer_session( *used ).use();
+    if( used->eocs.empty() ) {
+        computer_session( *used ).use();
+    } else {
+        dialogue d( get_talker_for( get_avatar() ), get_talker_for( used ) );
+        for( const effect_on_condition_id &eoc : used->eocs ) {
+            eoc->activate( d );
+        }
+    }
 }
 
 template<typename T>

@@ -9,6 +9,7 @@
 #include "enum_conversions.h"
 #include "json.h"
 #include "output.h"
+#include "talker_furniture.h"
 #include "translations.h"
 
 template <typename E> struct enum_traits;
@@ -58,15 +59,12 @@ void computer_failure::deserialize( const JsonObject &jo )
     type = jo.get_enum_value<computer_failure_type>( "action" );
 }
 
-computer::computer( const std::string &new_name, int new_security, tripoint new_loc,
-                    std::vector<effect_on_condition_id> new_eocs, std::vector<std::string> new_chat_topics )
+computer::computer( const std::string &new_name, int new_security, tripoint new_loc )
     : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       next_attempt( calendar::before_time_starts ),
       access_denied( _( "ERROR!  Access denied!" ) )
 {
     loc = new_loc;
-    eocs = new_eocs;
-    chat_topics = new_chat_topics;
 }
 
 void computer::set_security( int Security )
@@ -77,6 +75,16 @@ void computer::set_security( int Security )
 void computer::add_option( const computer_option &opt )
 {
     options.emplace_back( opt );
+}
+
+void computer::add_eoc( const effect_on_condition_id &eoc )
+{
+    eocs.emplace_back( eoc );
+}
+
+void computer::add_chat_topic( const std::string &topic )
+{
+    chat_topics.emplace_back( topic );
 }
 
 void computer::add_option( const std::string &opt_name, computer_action action,
@@ -188,6 +196,8 @@ void computer::serialize( JsonOut &jout ) const
     jout.member( "options", options );
     jout.member( "failures", failures );
     jout.member( "access_denied", access_denied );
+    jout.member( "eocs", eocs );
+    jout.member( "chat_topics", chat_topics );
     jout.end_object();
 }
 
@@ -205,6 +215,8 @@ void computer::deserialize( const JsonValue &jv )
         jo.read( "options", options );
         jo.read( "failures", failures );
         jo.read( "access_denied", access_denied );
+        jo.read( "eocs", eocs );
+        jo.read( "chat_topics", chat_topics );
     }
 }
 
@@ -412,4 +424,13 @@ computer_failure computer_failure::from_json( const JsonObject &jo )
 {
     const computer_failure_type type = jo.get_enum_value<computer_failure_type>( "action" );
     return computer_failure( type );
+}
+
+std::unique_ptr<talker> get_talker_for( computer &me )
+{
+    return std::make_unique<talker_furniture>( &me );
+}
+std::unique_ptr<talker> get_talker_for( computer *me )
+{
+    return std::make_unique<talker_furniture>( me );
 }

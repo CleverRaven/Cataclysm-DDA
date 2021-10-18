@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "point.h"
+#include "talker.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -116,12 +117,13 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &new_name, int new_security, tripoint new_loc,
-                  std::vector<effect_on_condition_id> new_eocs, std::vector<std::string> new_chat_topics );
+        computer( const std::string &new_name, int new_security, tripoint new_loc );
 
         // Initialization
         void set_security( int Security );
         void add_option( const computer_option &opt );
+        void add_eoc( const effect_on_condition_id &eoc );
+        void add_chat_topic( const std::string &topic );
         void add_option( const std::string &opt_name, computer_action action, int security );
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
@@ -163,5 +165,7 @@ class computer
 
         void remove_option( computer_action action );
 };
+std::unique_ptr<talker> get_talker_for( computer &me );
+std::unique_ptr<talker> get_talker_for( computer *me );
 
 #endif // CATA_SRC_COMPUTER_H
