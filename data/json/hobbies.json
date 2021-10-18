@@ -581,7 +581,7 @@
     "name": "Basketball",
     "description": "Your ability to play point or post will beat the undead in overtime.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" } ]
+    "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
   },
   {
     "type": "profession",
