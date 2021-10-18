@@ -412,7 +412,7 @@
   {
     "id": "bottle_plastic_pill_painkiller",
     "type": "GENERIC",
-	"copy-from": "bottle_plastic_pill_prescription",
+    "copy-from": "bottle_plastic_pill_prescription",
     "name": { "str": "plastic painkiller bottle" },
     "looks_like": "aspirin",
     "description": "A small white pill bottle with a screw top.",
@@ -421,7 +421,7 @@
   {
     "id": "bottle_plastic_pill_supplement",
     "type": "GENERIC",
-	"copy-from": "bottle_plastic_pill_prescription",
+    "copy-from": "bottle_plastic_pill_prescription",
     "name": { "str": "plastic suppliment bottle" },
     "looks_like": "vitamins",
     "description": "A small green pill bottle with a screw top.",
