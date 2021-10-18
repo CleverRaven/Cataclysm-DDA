@@ -1078,6 +1078,10 @@
     "type": "json_flag"
   },
   {
+    "id": "PORTAL_PROOF",
+    "type": "json_flag"
+  },
+  {
     "id": "DISABLE_SIGHTS",
     "type": "json_flag"
   },

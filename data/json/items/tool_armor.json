@@ -1027,7 +1027,7 @@
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF" ]
   },
   {
     "id": "broken_dimensional_anchor",
@@ -1082,6 +1082,7 @@
     "material_thickness": 2,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",
@@ -1114,6 +1115,7 @@
     "environmental_protection": 80,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",

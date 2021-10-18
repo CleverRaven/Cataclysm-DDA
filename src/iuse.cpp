@@ -4844,7 +4844,7 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
     static const quality_id GLARE( "GLARE" );
-    if( !p->has_quality( GLARE, 2 ) ) {
+    if( !p->has_quality( GLARE, 1 ) ) {
         p->add_msg_if_player( m_info, _( "You need welding goggles to do that." ) );
         return cata::nullopt;
     }

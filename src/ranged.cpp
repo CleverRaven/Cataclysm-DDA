@@ -1486,7 +1486,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
                     return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
                                           config.label.c_str() ), config.color, chance );
                 }, enumeration_conjunction::none );
-                confidence_s.append( string_format( ", Miss: <color_light_gray>%3d%%</color>",
+                confidence_s.append( string_format( _( ", Miss: <color_light_gray>%3d%%</color>" ),
                                                     ( 100 - last_chance ) ) );
                 line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                     c_dark_gray, confidence_s );
