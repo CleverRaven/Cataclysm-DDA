@@ -5025,7 +5025,7 @@
     "components": [
       [
         [ "buckwheat", 1 ],
-        [ "acorns_cooked", 2 ],
+        [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
         [ "chestnut_roasted", 12 ]
@@ -7554,7 +7554,7 @@
     "components": [
       [
         [ "buckwheat", 1 ],
-        [ "acorns_cooked", 2 ],
+        [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
         [ "chestnut_roasted", 12 ]
@@ -7860,7 +7860,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "buckwheat", 1 ], [ "acorns_cooked", 2 ], [ "dry_rice", 5 ], [ "chestnut_roasted", 12 ] ] ]
+    "components": [ [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "dry_rice", 5 ], [ "chestnut_roasted", 12 ] ] ]
   },
   {
     "type": "recipe",
