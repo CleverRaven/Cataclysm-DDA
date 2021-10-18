@@ -137,10 +137,9 @@ units::volume map_stack::max_volume() const
 
 // Map class methods.
 
-map::map( int mapsize, bool zlev )
+map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 {
-    my_MAPSIZE = mapsize;
-    zlevels = zlev;
+
     if( zlevels ) {
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
     } else {
@@ -2868,6 +2867,50 @@ bool map::has_nearby_ter( const tripoint &p, const ter_id &type, int radius )
     return false;
 }
 
+bool map::terrain_moppable( const tripoint &p )
+{
+    // Moppable items ( spills )
+    if( !has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+        map_stack items = i_at( p );
+        auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.made_of( phase_id::LIQUID );
+        } );
+
+        if( found != items.end() ) {
+            return true;
+        }
+    }
+
+    // Moppable fields ( blood )
+    for( const std::pair<const field_type_id, field_entry> &pr : field_at( p ) ) {
+        if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
+            return true;
+        }
+    }
+
+    // Moppable vehicles ( blood splatter )
+    if( const optional_vpart_position vp = veh_at( p ) ) {
+        vehicle *const veh = &vp->vehicle();
+        std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
+        for( int elem : parts_here ) {
+            if( veh->part( elem ).blood > 0 ) {
+                return true;
+            }
+
+            vehicle_stack items = veh->get_items( elem );
+            auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.made_of( phase_id::LIQUID );
+            } );
+
+            if( found != items.end() ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool map::mop_spills( const tripoint &p )
 {
     bool retval = false;
@@ -4205,9 +4248,10 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     for( size_t i = 1; i < quantity; i++ ) {
         spawn_item( p, type_id, 1, charges, birthday, damlevel, flags );
     }
-    // spawn the item
-    item new_item( type_id, birthday );
-    new_item.set_gun_variant( variant );
+    // migrate and spawn the item
+    itype_id mig_type_id = item_controller->migrate_id( type_id );
+    item new_item( mig_type_id, birthday );
+    new_item.set_itype_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }
@@ -7138,6 +7182,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     item sap( "maple_sap", calendar::turn );
 
     sap.set_item_temperature( temp_to_kelvin( get_temperature( p ) ) );
+    sap.charges = new_charges;
 
     // Is there a proper container?
     map_stack items = i_at( p );
@@ -7145,11 +7190,10 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
         if( it.will_spill() || it.is_watertight_container() ) {
             const int capacity = it.get_remaining_capacity_for_liquid( sap, true );
             if( capacity > 0 ) {
-                new_charges = std::min( new_charges, capacity );
+                sap.charges = std::min( sap.charges, capacity );
 
                 // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
                 sap.poison = one_in( 10 ) ? 1 : 0;
-                sap.charges = new_charges;
 
                 it.put_in( sap, item_pocket::pocket_type::CONTAINER );
             }
@@ -7638,8 +7682,7 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                    const int fake_map_z )
+fake_map::fake_map( const ter_id &ter_type )
 {
     const tripoint tripoint_below_zero( 0, 0, fake_map_z );
 
@@ -7649,8 +7692,8 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );
-            sm->set_all_furn( fur_type );
-            sm->set_all_traps( trap_type );
+            sm->set_all_furn( f_null );
+            sm->set_all_traps( tr_null );
 
             setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );
 
@@ -8167,11 +8210,6 @@ size_t map::get_nonant( const tripoint &gridp ) const
     } else {
         return gridp.x + gridp.y * my_MAPSIZE;
     }
-}
-
-tinymap::tinymap( int mapsize, bool zlevels )
-    : map( mapsize, zlevels )
-{
 }
 
 void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )

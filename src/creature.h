@@ -24,6 +24,7 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
+#include "weakpoint.h"
 
 class monster;
 class translation;
@@ -267,6 +268,7 @@ class Creature : public viewer
         virtual const monster *as_monster() const {
             return nullptr;
         }
+        virtual mfaction_id get_monster_faction() const = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -392,11 +394,16 @@ class Creature : public viewer
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
-        virtual std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) = 0;
+        virtual const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                             damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
         virtual void knock_back_to( const tripoint &to ) = 0;
+
+        // Converts the "cover_vitals" protection on the specified body part into
+        // a modifier (between 0 and 1) that would be applied to incoming critical damage
+        float get_crit_factor( const bodypart_id &bp ) const;
 
         int size_melee_penalty() const;
         // begins a melee attack against the creature
@@ -416,12 +423,14 @@ class Creature : public viewer
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                                     damage_instance dam, dealt_damage_instance &dealt_dam );
+                                     damage_instance dam, dealt_damage_instance &dealt_dam,
+                                     const weakpoint_attack &attack = weakpoint_attack(),
+                                     const bodypart_id *bp = nullptr );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                             bool print_messages = true );
+                                             bool print_messages = true, const weakpoint_attack &wp_attack = weakpoint_attack() );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
@@ -436,7 +445,7 @@ class Creature : public viewer
          * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                const damage_instance &dam );
+                const damage_instance &dam, const weakpoint_attack &attack = weakpoint_attack() );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
@@ -1259,5 +1268,6 @@ class Creature : public viewer
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

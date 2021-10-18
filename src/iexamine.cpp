@@ -152,7 +152,6 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
-static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
@@ -224,6 +223,13 @@ void iexamine::none( Character &/*p*/, const tripoint &examp )
 
 bool iexamine::always_false( const tripoint &/*examp*/ )
 {
+    return false;
+}
+
+bool iexamine::false_and_debugmsg( const tripoint &examp )
+{
+    debugmsg( "Called false_and_debugmsg on %s - was a terrain with an actor configured incorrectly?",
+              get_map().tername( examp ) );
     return false;
 }
 
@@ -678,7 +684,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( n_gettext(
                     "Deposit how much?  Max: %d cent.  (0 to cancel) ",
                     "Deposit how much?  Max: %d cents.  (0 to cancel) ", money ), money );
 
@@ -707,7 +713,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( n_gettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
                     "Withdraw how much?  Max: %d cents.  (0 to cancel) ", you.cash ), you.cash );
 
@@ -1570,13 +1576,10 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
  */
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
-    auto prying_items = you.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );
+    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
 
     map &here = get_map();
-    if( prying_items.empty() ) {
+    if( best_prying.is_null() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
@@ -1588,19 +1591,11 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         return;
     }
 
-    // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
-    } );
-
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
     you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), prying_items[0]->tname() );
+                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
 
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    item temporary_item( prying_items[0]->type );
-    iuse::crowbar( &you, &temporary_item, false, examp );
+    iuse::crowbar( &you, &best_prying, false, examp );
 }
 
 /**
@@ -1684,16 +1679,6 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     } else {
         you.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
     }
-}
-
-/**
- * Display popup with reference to "The Enigma of Amigara Fault."
- */
-void iexamine::fault( Character &, const tripoint & )
-{
-    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
-              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
-              "shape, but with long, twisted, distended limbs." ) );
 }
 
 /**
@@ -1969,7 +1954,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
-        add_msg( m_bad, _( "You fall asleep…" ) );
+        add_msg( m_bad, _( "The flower's fragrance makes you extremely drowsy…" ) );
         you.fall_asleep( 2_hours );
         add_msg( m_bad, _( "Your legs are covered in the poppy's roots!" ) );
         you.apply_damage( nullptr, bodypart_id( "leg_l" ), 4 );
@@ -2092,7 +2077,7 @@ void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp )
 void iexamine::harvest_furn( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       get_option<std::string>( "AUTO_FORAGING" ) == "all";
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
@@ -2102,7 +2087,7 @@ void iexamine::harvest_furn( Character &you, const tripoint &examp )
 void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( !auto_forage && !query_pick( you, examp ) ) {
@@ -2114,7 +2099,7 @@ void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
 void iexamine::harvest_ter( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
@@ -2378,6 +2363,13 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     }
 
     return result;
+}
+
+void iexamine::harvest_plant( Character &you, const tripoint &examp )
+{
+    if( get_map().has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
+        harvest_plant( you, examp, false );
+    }
 }
 
 /**
@@ -2685,9 +2677,9 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
-                               "It will finish burning in about %d hours.",
-                               hours ), hours );
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
@@ -2814,9 +2806,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
-                               "It will finish burning in about %d hours.",
-                               hours ), hours );
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
@@ -3229,9 +3221,9 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
-                add_msg( ngettext( "It will finish brewing in about %d hour.",
-                                   "It will finish brewing in about %d hours.",
-                                   hours ), hours );
+                add_msg( n_gettext( "It will finish brewing in about %d hour.",
+                                    "It will finish brewing in about %d hours.",
+                                    hours ), hours );
             }
             return;
         }
@@ -3423,7 +3415,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !you.can_consume( drink ) ) {
+                if( !you.can_consume_as_is( drink ) ) {
                     return; // They didn't actually drink
                 }
                 you.assign_activity( player_activity( consume_activity_actor( drink ) ) );
@@ -3538,7 +3530,7 @@ static void pick_plant( Character &you, const tripoint &examp,
 void iexamine::tree_hickory( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
 
     bool digging_up = false;
@@ -3633,7 +3625,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = &it;
 
             it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
-                if( it->typeId() == itype_maple_syrup ) {
+                if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
                     return VisitResponse::ABORT;
@@ -4562,11 +4554,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 2: {
-            if( !here.has_zlevels() ) {
-                // No climbing down in 2D mode
-                return;
-            }
-
             if( !here.valid_move( you.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;
@@ -4589,9 +4576,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             const bool has_grapnel = you.has_amount( itype_grapnel, 1 );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
-            const char *query_str = ngettext( "Looks like %d story.  Jump down?",
-                                              "Looks like %d stories.  Jump down?",
-                                              height );
+            const char *query_str = n_gettext( "Looks like %d story.  Jump down?",
+                                               "Looks like %d stories.  Jump down?",
+                                               height );
 
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
@@ -4871,7 +4858,6 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
     bool needs_anesthesia = true;
     std::vector<tool_comp> anesth_kit;
-    int drug_count = 0;
 
     if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
         amenu.ret > 1 ) {
@@ -4884,7 +4870,6 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
-                drug_count += anesthesia_item->ammo_remaining();
             }
         }
     }
@@ -5959,9 +5944,9 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                 pop += colorize( _( "There's a smoking rack here.  It is lit and smoking." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish smoking in about %d hour.",
-                                                        "It will finish smoking in about %d hours.",
-                                                        hours_left ), hours_left ) + "\n\n";
+                        pop += string_format( n_gettext( "It will finish smoking in about %d hour.",
+                                                         "It will finish smoking in about %d hours.",
+                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
                         pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {
@@ -6227,6 +6212,11 @@ void iexamine::workout( Character &you, const tripoint &examp )
     you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
 }
 
+void iexamine::invalid( Character &/*you*/, const tripoint &examp )
+{
+    debugmsg( "Called invalid iexamine function on %s!", get_map().tername( examp ) );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6261,7 +6251,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
-            { "fault", &iexamine::fault },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },
             { "pedestal_temple", &iexamine::pedestal_temple },
             { "door_peephole", &iexamine::door_peephole },
@@ -6283,6 +6272,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "harvest_furn", &iexamine::harvest_furn },
             { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
             { "harvest_ter", &iexamine::harvest_ter },
+            { "harvest_plant", &iexamine::harvest_plant },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
             { "translocator", &iexamine::translocator },
@@ -6313,7 +6303,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
-            { "workout", &iexamine::workout }
+            { "workout", &iexamine::workout },
+            { "invalid", &iexamine::invalid },
         }
     };
 
@@ -6322,7 +6313,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         "harvest_furn",
         "harvest_ter_nectar",
         "harvest_ter",
-        "tree_hickory",
+        "harvest_plant",
     };
 
     auto iter = function_map.find( function_name );
@@ -6330,6 +6321,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         iexamine_examine_function func = iter->second;
         if( function_name == "none" ) {
             return iexamine_functions{&iexamine::always_false, func};
+        } else if( function_name == "invalid" ) {
+            return iexamine_functions{&iexamine::false_and_debugmsg, func};
         } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
             return iexamine_functions{&iexamine::harvestable_now, func};
         } else {

@@ -3,6 +3,7 @@
     "type": "COMESTIBLE",
     "id": "testcomest",
     "name": { "str": "diet pill" },
+    "flags": [ "EDIBLE_FROZEN" ],
     "weight": "100 g",
     "color": "red",
     "spoils_in": "4 days 4 hours",
@@ -454,6 +455,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "soybean",
     "name": { "str_sp": "soybeans" },
     "volume": "250 ml",
@@ -474,6 +476,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "raw_edamame",
     "name": { "str": "raw edamame" },
     "volume": "250 ml",

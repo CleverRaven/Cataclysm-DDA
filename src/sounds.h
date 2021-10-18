@@ -118,6 +118,7 @@ enum class channel : int {
     exterior_engine_sound,
     interior_engine_sound,
     radio,
+    outdoors_portal_storm_env,
     MAX_CHANNEL                 //the last reserved channel
 };
 

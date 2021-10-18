@@ -7,6 +7,7 @@
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
+#include "weakpoint.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const efftype_id effect_onfire( "onfire" );
@@ -328,7 +329,8 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
-std::string Character::absorb_hit( Creature *, const bodypart_id &bp, damage_instance &dam )
+const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
+                                        damage_instance &dam )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
@@ -433,13 +435,21 @@ std::string Character::absorb_hit( Creature *, const bodypart_id &bp, damage_ins
     if( armor_destroyed ) {
         drop_invalid_inventory();
     }
-    return {};
+    return nullptr;
 }
 
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( rng( 1, 100 ) > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
 

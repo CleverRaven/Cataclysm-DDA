@@ -309,6 +309,46 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "meat_mutant_tainted",
+    "copy-from": "mutant_meat",
+    "name": { "str": "chunk of tainted mutant meat", "str_pl": "chunks of tainted mutant meat" },
+    "color": "magenta",
+    "snippet_category": "tainted_mutant_meat_desc",
+    "looks_like": "meat",
+    "cooks_like": "meat_mutant_tainted_cooked",
+    "spoils_in": "4 hours",
+    "use_action": [ "POISON" ],
+    "price": 0,
+    "price_postapoc": 5,
+    "fun": -15,
+    "flags": [ "TRADER_AVOID", "SMOKABLE", "BAD_TASTE", "RAW" ],
+    "smoking_result": "meat_mutant_tainted_smoked"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meat_mutant_tainted_cooked",
+    "copy-from": "meat_mutant_tainted",
+    "name": { "str": "cooked tainted mutant meat" },
+    "snippet_category": "cooked_tainted_mutant_meat_desc",
+    "looks_like": "meat_cooked",
+    "parasites": 0,
+    "proportional": { "price_postapoc": 1.5, "fun": 0.7 },
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meat_mutant_tainted_smoked",
+    "copy-from": "meat_mutant_tainted_cooked",
+    "name": { "str": "smoked tainted mutant meat" },
+    "description": "Rotten mutant meat that has been heavily smoked for preservation.",
+    "spoils_in": "24 days",
+    "quench": -1,
+    "proportional": { "price_postapoc": 1.8, "fun": 0.7 },
+    "extend": { "flags": [ "EATEN_HOT", "SMOKED" ] }
+  },
+  {
+    "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "id": "ruined_chunks",
     "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
@@ -827,6 +867,7 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
+    "longest_side": "40 cm",
     "vitamins": [ [ "calcium", 96 ] ]
   },
   {
@@ -1387,5 +1428,39 @@
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": [ "flesh" ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_human",
+    "name": { "str": "human skull" },
+    "description": "The skull of a human being.  Carrying this around probably isn't going to win you any friends.",
+    "flags": [ "CANNIBALISM", "TRADER_AVOID" ],
+    "category": "spare_parts",
+    "weight": "1 kg",
+    "volume": "1400 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "bone" ]
+  },
+  {
+    "id": "meat_fried",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "fried meat" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fried fool" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
+    ],
+    "description": "Delicious oil-fried meat.",
+    "color": "brown",
+    "price_postapoc": 200,
+    "quench": -1,
+    "fun": 6,
+    "healthy": -1,
+    "weight": "298 g",
+    "flags": [ "EATEN_HOT" ]
   }
 ]

@@ -1279,8 +1279,8 @@ void Character::hardcoded_effects( effect &it )
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
-                //Remove the effect, since it's done all it needs to do to the target.
-                remove_effect( effect_tindrift );
+                // Queue the effect for removal, since it's done all it needs to do to the target.
+                it.set_duration( 0_turns );
             }
         }
     } else if( id == effect_asthma ) {
@@ -1605,7 +1605,7 @@ void Character::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_drop( *get_wielded_item() ).success() ) {
+                        if( is_armed() && can_drop( get_wielded_item() ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );

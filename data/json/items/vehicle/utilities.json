@@ -67,6 +67,18 @@
   },
   {
     "type": "GENERIC",
+    "copy-from": "mountable_heater",
+    "id": "mountable_heater_small",
+    "name": { "str": "small vehicle heater" },
+    "description": "A small vehicle-mounted area heater.",
+    "weight": "6000 g",
+    "bashing": 3,
+    "volume": "3750 ml",
+    "price": 10000,
+    "price_postapoc": 750
+  },
+  {
+    "type": "GENERIC",
     "id": "towel_hanger",
     "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",

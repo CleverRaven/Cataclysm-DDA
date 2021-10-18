@@ -485,6 +485,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.member( "key", key );
     json.member( "charge", charge );
     json.member( "powered", powered );
+    json.member( "show_sprite", show_sprite );
     json.end_object();
 }
 
@@ -494,6 +495,7 @@ void Character::trait_data::deserialize( const JsonObject &data )
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
+    data.read( "show_sprite", show_sprite );
 }
 
 void consumption_event::serialize( JsonOut &json ) const
@@ -672,6 +674,24 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
+    // stats through kills
+    data.read( "kill_xp", kill_xp );
+    if( !data.read( "spent_upgrade_points", spent_upgrade_points ) ) {
+        // TEMPORARY until 0.G, remove migration logic after
+        int str_upgrade = 0;
+        int dex_upgrade = 0;
+        int int_upgrade = 0;
+        int per_upgrade = 0;
+        if( data.read( "str_upgrade", str_upgrade ) && data.read( "dex_upgrade", dex_upgrade ) &&
+            data.read( "int_upgrade", int_upgrade ) && data.read( "per_upgrade", per_upgrade ) ) {
+            str_max += str_upgrade;
+            dex_max += dex_upgrade;
+            int_max += int_upgrade;
+            per_max += per_upgrade;
+            spent_upgrade_points = str_upgrade + dex_upgrade + int_upgrade + per_upgrade;
+        }
+    }
+
     data.read( "magic", magic );
 
     data.read( "underwater", underwater );
@@ -712,7 +732,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
-
+    data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
     }
@@ -1026,15 +1046,6 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        temp.recurring = elem.get_bool( "recurring" );
-        queued_effect_on_conditions.push( temp );
-    }
-    //load inactive queued_eocs
-    for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
-        queued_eoc temp;
-        temp.time = time_point( elem.get_int( "time" ) );
-        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        temp.recurring = elem.get_bool( "recurring" );
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1112,6 +1123,10 @@ void Character::store( JsonOut &json ) const
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+
+    // stats through kills
+    json.member( "kill_xp", kill_xp );
+    json.member( "spent_upgrade_points", spent_upgrade_points );
 
     // breathing
     json.member( "underwater", underwater );
@@ -1196,7 +1211,7 @@ void Character::store( JsonOut &json ) const
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-
+    json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv->json_save_items( json );
@@ -1250,7 +1265,6 @@ void Character::store( JsonOut &json ) const
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
-        json.member( "recurring", temp_queued.top().recurring );
         json.end_object();
         temp_queued.pop();
     }
@@ -1305,12 +1319,6 @@ void avatar::store( JsonOut &json ) const
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
 
-    // stats through kills
-    json.member( "str_upgrade", std::abs( str_upgrade ) );
-    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
-    json.member( "int_upgrade", std::abs( int_upgrade ) );
-    json.member( "per_upgrade", std::abs( per_upgrade ) );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1361,6 +1369,11 @@ void avatar::load( const JsonObject &data )
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
     }
 
+    // TEMPORARY until 0.G
+    if( !data.has_member( "kill_xp" ) ) {
+        kill_xp = g->get_kill_tracker().legacy_kill_xp();
+    }
+
     // Remove after 0.F
     // Exists to prevent failed to visit member errors
     if( data.has_member( "reactor_plut" ) ) {
@@ -1408,20 +1421,6 @@ void avatar::load( const JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
-
-    // stats through kills
-    data.read( "str_upgrade", str_upgrade );
-    data.read( "dex_upgrade", dex_upgrade );
-    data.read( "int_upgrade", int_upgrade );
-    data.read( "per_upgrade", per_upgrade );
-
-    // this is so we don't need to call get_option in a draw function
-    if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
-        str_upgrade = -str_upgrade;
-        dex_upgrade = -dex_upgrade;
-        int_upgrade = -int_upgrade;
-        per_upgrade = -per_upgrade;
-    }
 
     data.read( "magic", magic );
 
@@ -2182,6 +2181,7 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
+    data.read( "nickname", nickname );
     data.read( "goal", goal );
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
@@ -2279,7 +2279,6 @@ void monster::load( const JsonObject &data )
     data.read( "anger", anger );
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
-    data.read( "stairscount", staircount ); // really?
     data.read( "fish_population", fish_population );
     data.read( "summon_time_limit", summon_time_limit );
 
@@ -2329,6 +2328,7 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
+    json.member( "nickname", nickname );
     json.member( "goal", goal );
     json.member( "wander_pos", wander_pos );
     json.member( "wandf", wandf );
@@ -2349,7 +2349,6 @@ void monster::store( JsonOut &json ) const
     json.member( "anger", anger );
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
-    json.member( "stairscount", staircount );
     if( tied_item ) {
         json.member( "tied_item", *tied_item );
     }
@@ -2551,13 +2550,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
-    const auto gvload = [this]( const std::string & variant ) {
-        set_gun_variant( variant );
+    const auto ivload = [this]( const std::string & variant ) {
+        set_itype_variant( variant );
     };
-    const auto gvsave = []( const gun_variant_data * gv ) {
-        return gv->id;
+    const auto ivsave = []( const itype_variant_data * iv ) {
+        return iv->id;
     };
-    archive.io( "variant", _gun_variant, gvload, gvsave, false );
+    archive.io( "variant", _itype_variant, ivload, ivsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2750,11 +2749,11 @@ void item::deserialize( const JsonObject &data )
         }
     }
 
-    if( !has_gun_variant( false ) && can_have_gun_variant() ) {
-        if( possible_gun_variant( typeId().str() ) ) {
-            set_gun_variant( typeId().str() );
+    if( !has_itype_variant( false ) && can_have_itype_variant() ) {
+        if( possible_itype_variant( typeId().str() ) ) {
+            set_itype_variant( typeId().str() );
         } else {
-            select_gun_variant();
+            select_itype_variant();
         }
     }
 }

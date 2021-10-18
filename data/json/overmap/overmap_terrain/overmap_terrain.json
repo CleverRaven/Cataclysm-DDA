@@ -36,6 +36,7 @@
     "id": "deep_rock",
     "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
@@ -43,7 +44,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": [
+      "park",
+      "park_2",
+      "park_3",
+      "park_4",
+      "park_5",
+      "park_6",
+      "park_7",
+      "playground",
+      "playground_1",
+      "dog_park",
+      "volleyball_court",
+      "tennis_court",
+      "baskeball_court"
+    ],
     "name": "park",
     "sym": "O",
     "color": "green",
@@ -326,6 +341,20 @@
     "sym": "w",
     "color": "red",
     "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater",
+    "name": "crater",
+    "sym": "O",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater_core",
+    "copy-from": "crater"
   },
   {
     "type": "overmap_terrain",
@@ -681,6 +710,7 @@
     "type": "overmap_terrain",
     "id": "airliner_2c_-1",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5

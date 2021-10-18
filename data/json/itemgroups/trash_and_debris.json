@@ -17,6 +17,23 @@
   },
   {
     "type": "item_group",
+    "id": "metal_wreckage",
+    "items": [
+      [ "chain", 20 ],
+      [ "steel_chunk", 30 ],
+      [ "spring", 50 ],
+      [ "steel_lump", 30 ],
+      [ "pipe", 30 ],
+      [ "frame", 20 ],
+      [ "hdframe", 20 ],
+      [ "cu_pipe", 25 ],
+      [ "scrap_copper", 62 ],
+      { "item": "sheet_metal", "prob": 5 },
+      { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "trash_forest",
     "items": [
       [ "rock", 80 ],

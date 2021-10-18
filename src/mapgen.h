@@ -44,6 +44,10 @@ class mapgen_function
         virtual void setup() { } // throws
         virtual void finalize_parameters() { }
         virtual void check() const { }
+        virtual void check_consistent_with( const oter_t & ) const { }
+        virtual bool expects_predecessor() const {
+            return false;
+        }
         virtual void generate( mapgendata & ) = 0;
         virtual mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const {
             return {};
@@ -400,7 +404,6 @@ class mapgen_function_json_base
 
     private:
         json_source_location jsrcloc;
-        std::string context_;
     protected:
         mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
         virtual ~mapgen_function_json_base();
@@ -417,6 +420,7 @@ class mapgen_function_json_base
 
         mapgen_arguments get_args( const mapgendata &md, mapgen_parameter_scope ) const;
 
+        std::string context_;
         bool is_ready;
 
         point mapgensize;
@@ -435,6 +439,8 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void setup() override;
         void finalize_parameters() override;
         void check() const override;
+        void check_consistent_with( const oter_t & ) const override;
+        bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
@@ -449,6 +455,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 
     private:
         jmapgen_int rotation;
+        oter_str_id fallback_predecessor_mapgen_;
 };
 
 class update_mapgen_function_json : public mapgen_function_json_base
@@ -462,7 +469,8 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void finalize_parameters();
         void check() const;
         bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-                         mission *miss, bool verify = false ) const;
+                         mission *miss, bool verify = false,
+                         bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 ) const;
         bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 
@@ -486,6 +494,32 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 
     private:
         jmapgen_int rotation;
+};
+
+class nested_mapgen
+{
+    public:
+        const weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> &funcs() const {
+            return funcs_;
+        }
+        void add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight ) {
+            funcs_.add( p, weight );
+        }
+    private:
+        weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> funcs_;
+};
+
+class update_mapgen
+{
+    public:
+        const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs() const {
+            return funcs_;
+        }
+        void add( std::unique_ptr<update_mapgen_function_json> &&p ) {
+            funcs_.push_back( std::move( p ) );
+        }
+    private:
+        std::vector<std::unique_ptr<update_mapgen_function_json>> funcs_;
 };
 
 /////////////////////////////////////////////////////////
@@ -513,9 +547,13 @@ int register_mapgen_function( const std::string &key );
  */
 bool has_mapgen_for( const std::string &key );
 /**
+ * Verify that the properties of a particular mapgen match the properties of
+ * its overmap_terrain */
+void check_mapgen_consistent_with( const std::string &key, const oter_t & );
+/**
  * Check whether @p key is a valid update_mapgen id.
  */
-bool has_update_mapgen_for( const std::string &key );
+bool has_update_mapgen_for( const update_mapgen_id & );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -546,7 +584,6 @@ enum room_type {
 
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
@@ -563,9 +600,7 @@ void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
-extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
-extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
-        update_mapgen;
+extern std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
+extern std::map<update_mapgen_id, update_mapgen> update_mapgens;
 
 #endif // CATA_SRC_MAPGEN_H

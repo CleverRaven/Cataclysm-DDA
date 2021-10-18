@@ -25,6 +25,7 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "value_ptr.h"
+#include "weakpoint.h"
 
 class Character;
 class JsonObject;
@@ -103,6 +104,9 @@ class monster : public Creature
             return this;
         }
 
+        mfaction_id get_monster_faction() const override {
+            return faction.id();
+        }
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
@@ -325,13 +329,18 @@ class monster : public Creature
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
-        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
+        const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                     damage_instance &dam ) override;
+        // The monster's skill in hitting a weakpoint
+        float weakpoint_skill() const;
+
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                     bool print_messages = true ) override;
+                                     bool print_messages = true,
+                                     const weakpoint_attack &wp_attack = weakpoint_attack() ) override;
         void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
                                       int &damage, int &pain ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
@@ -508,6 +517,8 @@ class monster : public Creature
         bool is_nemesis() const;
         // If we're unique
         std::string unique_name;
+        // Player given nickname
+        std::string nickname;
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;

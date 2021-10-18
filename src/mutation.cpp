@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -34,6 +35,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 
@@ -64,6 +66,7 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -271,48 +274,8 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
 
 bool reflex_activation_data::is_trigger_true( const Character &guy ) const
 {
-    bool activate = false;
-
-    int var = 0;
-    switch( trigger ) {
-        case PAIN:
-            var = guy.get_pain();
-            break;
-        case HUNGER:
-            var = guy.get_hunger();
-            break;
-        case THRIST:
-            var = guy.get_thirst();
-            break;
-        case MOOD:
-            var = guy.get_morale_level();
-            break;
-        case STAMINA:
-            var = guy.get_stamina();
-            break;
-        case MOON:
-            var = static_cast<int>( get_moon_phase( calendar::turn ) );
-            break;
-        case TIME:
-            var = to_hours<int>( time_past_midnight( calendar::turn ) );
-            break;
-        default:
-            debugmsg( "Invalid trigger" );
-            return false;
-    }
-
-    if( threshold_low < threshold_high ) {
-        if( var < threshold_high &&
-            var > threshold_low ) {
-            activate = true;
-        }
-    } else {
-        if( var < threshold_high ||
-            var > threshold_low ) {
-            activate = true;
-        }
-    }
-    return activate;
+    dialogue d( get_talker_for( guy ), nullptr );
+    return trigger( d );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -684,6 +647,9 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_SNAIL_TRAIL ) {
+        get_map().add_field( pos(), fd_sludge, 1 );
+        add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
@@ -700,17 +666,8 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
         slime->friendly = -1;
-        if( one_in( 3 ) ) {
-            add_msg_if_player( m_good,
-                               //~ Usual enthusiastic slimespring small voices! :D
-                               _( "wow!  you look just like me!  we should look out for each other!" ) );
-        } else if( one_in( 2 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
-        } else {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "we're a team, we've got this!" ) );
-        }
+        add_msg_if_player( m_good, SNIPPET.random_from_category( "slime_generate" ).value_or(
+                               translation() ).translated() );
         tdata.powered = false;
         return;
     } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {

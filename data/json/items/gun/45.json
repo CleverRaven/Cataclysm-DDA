@@ -11,6 +11,7 @@
     ],
     "name": { "str": "Glock SMG" },
     "description": "This is a submachine gun chambered in .45 ACP, accepting Glock magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "TDI",
@@ -68,6 +69,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "UMP45 SMG" },
     "description": "This is a submachine gun, chambered in .45 ACP, and accepting UMP45 magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "hk_ump45",
@@ -127,6 +129,7 @@
     "type": "GUN",
     "name": { "str": "M1911 pistol" },
     "description": "This is a semi-automatic pistol, chambered in .45 ACP and accepting M1991 magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m1911",
@@ -157,6 +160,7 @@
     "durability": 7,
     "min_cycle_recoil": 450,
     "blackpowder_tolerance": 48,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -175,6 +179,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "MAC-10 SMG" },
     "description": "This is a submachine gun chambered in .45 ACP, and accepting MAC-10 magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "mac_10",
@@ -350,6 +355,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "Thompson SMG" },
     "description": "This is a submachine gun chambered in .45 ACP, and accepting Thompson magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "tommygun",
@@ -407,6 +413,7 @@
     "type": "GUN",
     "name": { "str": "USP pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP, and accepting USP magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "usp_45",
@@ -428,6 +435,7 @@
     "price_postapoc": 2500,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -446,6 +454,7 @@
     "type": "GUN",
     "name": { "str": "PPQ pistol" },
     "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting PPQ magazines",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "walther_ppq_45",
@@ -466,6 +475,7 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "240 ml",
@@ -484,6 +494,7 @@
     "type": "GUN",
     "name": { "str": "Hi-Point pistol" },
     "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting Hi-Point magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "hptjhp",
@@ -505,6 +516,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "353 ml",
@@ -523,6 +535,7 @@
     "type": "GUN",
     "name": { "str": "Glock pistol" },
     "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting Glock magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_21",

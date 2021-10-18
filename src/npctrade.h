@@ -76,8 +76,11 @@ class trading_window
         units::volume volume_left;
         units::mass weight_left;
 
+        void item_selection( npc &np, std::vector<item_pricing> &target_list,
+                             item_pricing &ip, bool max = false );
         int get_var_trade( const item &it, int total_count );
         bool npc_will_accept_trade( const npc &np ) const;
+        bool npc_can_fit_items( const npc &np ) const;
         int calc_npc_owes_you( const npc &np ) const;
 };
 

@@ -222,81 +222,6 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "armor_nomad",
-    "type": "ARMOR",
-    "name": { "str": "nomad gear" },
-    "description": "A makeshift outfit made from pre-Cataclysm clothing designed for long travels.  It has a lot of storage space.",
-    "weight": "5830 g",
-    "volume": "7500 ml",
-    "price": 35000,
-    "price_postapoc": 1750,
-    "to_hit": -3,
-    "material": [ "cotton", "leather" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 16 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 10, 14 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 13 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 40,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
-  },
-  {
-    "id": "armor_nomad_light",
-    "type": "ARMOR",
-    "name": { "str": "light nomad gear" },
-    "description": "A light makeshift outfit made from pre-Cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
-    "weight": "3200 g",
-    "volume": "6500 ml",
-    "price": 29500,
-    "price_postapoc": 1250,
-    "to_hit": -4,
-    "material": [ "cotton" ],
-    "looks_like": "armor_nomad",
-    "symbol": "[",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
-  },
-  {
     "id": "armor_plarmor",
     "type": "ARMOR",
     "category": "armor",
@@ -395,21 +320,24 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor" },
-    "description": "Black body armor used by riot police officers, back when they were just riots.  The word POLICE is emblazoned across the front.",
-    "weight": "4000 g",
+    "description": "Black plastic body armor plates used by riot police officers, back when they were just riots.  The word POLICE is emblazoned across the front.",
+    "weight": "1000 g",
     "volume": "7500 ml",
     "price": 35000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "bashing": 6,
-    "material": [ "plastic", "cotton" ],
+    "material": [ "thermo_resin", "plastic" ],
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 6,
+    "material_thickness": 2.5,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [
+      { "encumbrance": 7, "coverage": 60, "covers": [ "torso" ] },
+      { "encumbrance": 7, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
+      { "encumbrance": 7, "coverage": 60, "covers": [ "arm_l", "arm_r" ] }
+    ]
   },
   {
     "id": "armor_samurai",
@@ -430,39 +358,6 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
-  },
-  {
-    "id": "armor_scavenger",
-    "type": "ARMOR",
-    "name": { "str": "scavenger gear" },
-    "description": "A sturdy scavenger's outfit made from refitted pre-Cataclysm protective gear.  It has a lot of storage space.",
-    "weight": "7915 g",
-    "volume": "7500 ml",
-    "price": 180000,
-    "price_postapoc": 2000,
-    "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
-    "symbol": "[",
-    "looks_like": "armor_nomad",
-    "color": "green",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 26 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 15, 19 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 }
-    ],
-    "warmth": 40,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "armor_scrapsuit",
@@ -680,73 +575,6 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "fsurvivor_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor firesuit" },
-    "description": "Heavy, hand-built combination armor made from a cut-down bulletproof vest and a reinforced flame-resistant Nomex jumpsuit.  Protects the wearer from fire and the elements.",
-    "weight": "6800 g",
-    "volume": "11500 ml",
-    "price": 200000,
-    "price_postapoc": 5000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "nomex" ],
-    "symbol": "[",
-    "looks_like": "survivor_suit",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 26 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
-  },
-  {
-    "id": "xl_fsurvivor_suit",
-    "type": "ARMOR",
-    "name": { "str": "XL survivor firesuit" },
-    "copy-from": "fsurvivor_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "wsurvivor_suit_nofur",
-    "type": "ARMOR",
-    "name": { "str": "winter survivor suit" },
-    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "copy-from": "wsurvivor_suit",
-    "material": [ "kevlar_layered", "faux_fur" ],
-    "symbol": "[",
-    "warmth": 65,
-    "looks_like": "survivor_suit",
-    "color": "pink"
-  },
-  {
-    "id": "xl_wsurvivor_suit_nofur",
-    "type": "ARMOR",
-    "name": { "str": "XL winter survivor suit" },
-    "copy-from": "wsurvivor_suit",
-    "material": [ "kevlar_layered", "faux_fur" ],
-    "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "color": "pink",
-    "warmth": 65,
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
-  },
-  {
     "id": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson" },
@@ -767,10 +595,38 @@
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "kevlar gambeson" },
+    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.",
+    "weight": "2880 g",
+    "volume": "2520 ml",
+    "price": 20000,
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar gambeson" },
+    "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
@@ -799,76 +655,6 @@
         "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
-  },
-  {
-    "id": "hsurvivor_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "heavy survivor suit" },
-    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "15500 g",
-    "volume": "12 L",
-    "price": 200000,
-    "price_postapoc": 7000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "steel", "leather" ],
-    "symbol": "[",
-    "looks_like": "survivor_suit",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 31 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 21 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 6,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
-  },
-  {
-    "id": "lsurvivor_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "light survivor suit" },
-    "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced fabric jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "5100 g",
-    "volume": "10500 ml",
-    "price": 110000,
-    "price_postapoc": 5000,
-    "material": [ "kevlar_layered", "cotton" ],
-    "symbol": "[",
-    "looks_like": "survivor_suit",
-    "color": "green",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
-  },
-  {
-    "id": "xl_lsurvivor_suit",
-    "type": "ARMOR",
-    "name": { "str": "XL light survivor suit" },
-    "copy-from": "lsurvivor_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "nomex_suit",
@@ -986,58 +772,26 @@
     "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
   },
   {
-    "id": "survivor_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor suit" },
-    "description": "A hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "6800 g",
-    "volume": "11500 ml",
-    "price": 150000,
-    "price_postapoc": 5000,
-    "material": [ "kevlar_layered", "leather" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 20 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 17 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
-  },
-  {
     "id": "swat_armor",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "SWAT armor" },
     "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
-    "description": "A suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.",
-    "weight": "7800 g",
-    "volume": "13 L",
+    "description": "A suit of black armour plating covering the vital parts of the chest, arms, and legs.  The word SWAT is emblazoned across the back.",
+    "weight": "2200 g",
+    "volume": "9 L",
     "price": 285000,
-    "price_postapoc": 2000,
+    "price_postapoc": 2500,
     "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar_layered", "thermo_resin", "plastic" ],
     "symbol": "[",
-    "looks_like": "touring_suit",
+    "looks_like": "armor_riot",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 12, 19 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 12, 16 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 12 ] }
+      { "covers": [ "torso" ], "coverage": 65, "encumbrance": [ 10, 17 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 65, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 60, "encumbrance": [ 12, 12 ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -1045,11 +799,10 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
     ],
-    "warmth": 35,
-    "material_thickness": 11,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 4,
-    "flags": [ "POCKETS", "STURDY" ]
+    "warmth": 12,
+    "material_thickness": 5,
+    "environmental_protection": 1,
+    "flags": [ "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "touring_suit",
@@ -1080,107 +833,63 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF" ]
   },
   {
-    "id": "wsurvivor_suit",
+    "id": "mil_flight_suit",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "winter survivor suit" },
-    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and an insulated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "7800 g",
-    "volume": "14 L",
-    "price": 200000,
-    "price_postapoc": 5000,
+    "name": { "str": "military flight suit" },
+    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
+    "weight": "1315 g",
+    "volume": "4687 ml",
+    "price": 22065,
+    "price_postapoc": 500,
     "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "fur" ],
+    "material": [ "nomex" ],
     "symbol": "[",
-    "looks_like": "survivor_suit",
-    "color": "light_gray",
+    "looks_like": "touring_suit",
+    "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 28 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 25 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
-    "warmth": 75,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "warmth": 25,
+    "material_thickness": 0.8,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
-    "id": "xl_wsurvivor_suit",
+    "id": "officer_uniform",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "XL winter survivor suit" },
-    "copy-from": "wsurvivor_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "xlsurvivor_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "XL survivor suit" },
-    "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "12400 g",
-    "volume": "18 L",
-    "price": 150000,
-    "price_postapoc": 4000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "leather" ],
+    "name": { "str": "dress uniform" },
+    "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons.  Just looking at it gives you an air of authority.  Perhaps not the most practical military wear, but a very stylish option.",
+    "weight": "1653 g",
+    "volume": "4750 ml",
+    "price": 22400,
+    "price_postapoc": 550,
+    "to_hit": -5,
+    "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "survivor_suit",
-    "color": "brown",
+    "looks_like": "suit",
+    "color": "black",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 30 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 22 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 7, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
-  },
-  {
-    "id": "xlhsurvivor_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "XL heavy survivor suit" },
-    "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "20500 g",
-    "volume": "18750 ml",
-    "price": 200000,
-    "price_postapoc": 5000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "steel", "leather" ],
-    "symbol": "[",
-    "looks_like": "hsurvivor_suit",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 22, 39 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 22, 28 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 22, 22 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 15,
     "material_thickness": 6,
@@ -1214,6 +923,6 @@
     ],
     "warmth": 25,
     "material_thickness": 0.8,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
   }
 ]

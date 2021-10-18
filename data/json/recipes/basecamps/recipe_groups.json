@@ -4,25 +4,21 @@
     "id": "all_faction_base_types",
     "building_type": "NONE",
     "recipes": [
-      { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
-      {
-        "id": "faction_base_firestation_0",
-        "description": "Side Bunkroom Firestation Base",
-        "om_terrains": [ "fire_station" ]
-      },
+      { "id": "faction_base_modular_hub_field_0", "description": "Modular Field Camp version 1", "om_terrains": [ "field" ] },
+      { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
       {
         "id": "faction_base_shelter_0",
-        "description": "Open Center Evac Shelter Base",
+        "description": "Evac Shelter Base",
         "om_terrains": [ "shelter", "shelter_vandal" ]
       },
       {
         "id": "faction_base_shelter_1_0",
-        "description": "Corner Stairs Evac Shelter Base",
+        "description": "Evac Shelter Base",
         "om_terrains": [ "shelter_1", "shelter_1_vandal" ]
       },
       {
         "id": "faction_base_shelter_2_0",
-        "description": "Central Stairs Evac Shelter Base",
+        "description": "Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
       {
@@ -99,13 +95,67 @@
     "id": "all_faction_base_expansions",
     "building_type": "NONE",
     "recipes": [
-      { "id": "faction_base_farm_0", "description": "Farm", "om_terrains": [ "field" ] },
-      { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
-      { "id": "faction_base_canteen_0", "description": "Canteen", "om_terrains": [ "field" ] },
-      { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
-      { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_canteen_0",
+        "description": "Canteen version 1.  Provides cooking recipes, stoves, well, cellar",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_canteen_2_0",
+        "description": "Canteen version 2.  Version 1 plus still, windmill, and more planters",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_farm_0",
+        "description": "Farm version 1.  Shed, plots, some farming recipes",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_farm_2_0",
+        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), no recipes",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_garage_0",
+        "description": "Garage version 1.  Fits reasonably sized vehicles, free space around it",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_garage_2_0",
+        "description": "Garage version 2.  Maximum width, two lane size, three different lengths",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_livestock_0",
+        "description": "Livestock Area version 1.  Layout with plenty of free space",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_livestock_2_0",
+        "description": "Livestock Area version 2.  More stalls than version 1, less free space",
+        "om_terrains": [ "field" ]
+      },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
-      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_storehouse_0",
+        "description": "Central Storage Building version 1.  Nice building with free space",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_storehouse_2_0",
+        "description": "Central Storage Building version 2.  Focus on storage.  Place in N, E, S, W only",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_workshop_0",
+        "description": "Fabrication Workshop version 1.  Nice workshop cottage",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_workshop_2_0",
+        "description": "Fabrication Workshop version 2.  More detailed recipe progression",
+        "om_terrains": [ "field" ]
+      },
       {
         "id": "faction_base_lightindustry_workshop_0",
         "description": "Light Industry Workshop",

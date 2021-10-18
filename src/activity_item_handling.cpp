@@ -77,6 +77,7 @@ static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -84,6 +85,7 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
@@ -96,6 +98,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_mop( "mop" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -115,6 +118,7 @@ static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_MINING( "MINING" );
+static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
@@ -228,16 +232,16 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         switch( reason ) {
             case item_drop_reason::deliberate:
                 c.add_msg_player_or_npc(
-                    ngettext( "You put your %1$s in the %2$s's %3$s.",
-                              "You put your %1$s in the %2$s's %3$s.", dropcount ),
-                    ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
-                              "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
+                    n_gettext( "You put your %1$s in the %2$s's %3$s.",
+                               "You put your %1$s in the %2$s's %3$s.", dropcount ),
+                    n_gettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
+                               "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_large:
                 c.add_msg_if_player(
-                    ngettext(
+                    n_gettext(
                         "There's no room in your inventory for the %s, so you drop it into the %s's %s.",
                         "There's no room in your inventory for the %s, so you drop them into the %s's %s.",
                         dropcount ),
@@ -246,16 +250,16 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 break;
             case item_drop_reason::too_heavy:
                 c.add_msg_if_player(
-                    ngettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
-                              "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
+                    n_gettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
+                               "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::tumbling:
                 c.add_msg_if_player(
                     m_bad,
-                    ngettext( "Your %s tumbles into the %s's %s.",
-                              "Your %s tumble into the %s's %s.", dropcount ),
+                    n_gettext( "Your %s tumbles into the %s's %s.",
+                               "Your %s tumble into the %s's %s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
@@ -284,15 +288,15 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         if( into_vehicle_count > 0 ) {
             c.add_msg_if_player(
                 m_warning,
-                ngettext( "The %s is full, so something fell to the %s.",
-                          "The %s is full, so some items fell to the %s.", fallen_count ),
+                n_gettext( "The %s is full, so something fell to the %s.",
+                           "The %s is full, so some items fell to the %s.", fallen_count ),
                 part_name, ter_name
             );
         } else {
             c.add_msg_if_player(
                 m_warning,
-                ngettext( "The %s is full, so it fell to the %s.",
-                          "The %s is full, so they fell to the %s.", fallen_count ),
+                n_gettext( "The %s is full, so it fell to the %s.",
+                           "The %s is full, so they fell to the %s.", fallen_count ),
                 part_name, ter_name
             );
         }
@@ -319,41 +323,41 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
             case item_drop_reason::deliberate:
                 if( can_move_there ) {
                     you.add_msg_player_or_npc(
-                        ngettext( "You drop your %1$s on the %2$s.",
-                                  "You drop your %1$s on the %2$s.", dropcount ),
-                        ngettext( "<npcname> drops their %1$s on the %2$s.",
-                                  "<npcname> drops their %1$s on the %2$s.", dropcount ),
+                        n_gettext( "You drop your %1$s on the %2$s.",
+                                   "You drop your %1$s on the %2$s.", dropcount ),
+                        n_gettext( "<npcname> drops their %1$s on the %2$s.",
+                                   "<npcname> drops their %1$s on the %2$s.", dropcount ),
                         it_name, ter_name
                     );
                 } else {
                     you.add_msg_player_or_npc(
-                        ngettext( "You put your %1$s in the %2$s.",
-                                  "You put your %1$s in the %2$s.", dropcount ),
-                        ngettext( "<npcname> puts their %1$s in the %2$s.",
-                                  "<npcname> puts their %1$s in the %2$s.", dropcount ),
+                        n_gettext( "You put your %1$s in the %2$s.",
+                                   "You put your %1$s in the %2$s.", dropcount ),
+                        n_gettext( "<npcname> puts their %1$s in the %2$s.",
+                                   "<npcname> puts their %1$s in the %2$s.", dropcount ),
                         it_name, ter_name
                     );
                 }
                 break;
             case item_drop_reason::too_large:
                 you.add_msg_if_player(
-                    ngettext( "There's no room in your inventory for the %s, so you drop it.",
-                              "There's no room in your inventory for the %s, so you drop them.", dropcount ),
+                    n_gettext( "There's no room in your inventory for the %s, so you drop it.",
+                               "There's no room in your inventory for the %s, so you drop them.", dropcount ),
                     it_name
                 );
                 break;
             case item_drop_reason::too_heavy:
                 you.add_msg_if_player(
-                    ngettext( "The %s is too heavy to carry, so you drop it.",
-                              "The %s is too heavy to carry, so you drop them.", dropcount ),
+                    n_gettext( "The %s is too heavy to carry, so you drop it.",
+                               "The %s is too heavy to carry, so you drop them.", dropcount ),
                     it_name
                 );
                 break;
             case item_drop_reason::tumbling:
                 you.add_msg_if_player(
                     m_bad,
-                    ngettext( "Your %1$s tumbles to the %2$s.",
-                              "Your %1$s tumble to the %2$s.", dropcount ),
+                    n_gettext( "Your %1$s tumbles to the %2$s.",
+                               "Your %1$s tumble to the %2$s.", dropcount ),
                     it_name, ter_name
                 );
                 break;
@@ -983,7 +987,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                id == ACT_VEHICLE_REPAIR ||
                id == ACT_MULTIPLE_CHOP_TREES ||
                id == ACT_MULTIPLE_FISH ||
-               id == ACT_MULTIPLE_MINE;
+               id == ACT_MULTIPLE_MINE ||
+               id == ACT_MULTIPLE_MOP;
     };
     const bool check_weight = check_weight_if( activity_to_restore ) || ( !you.backlog.empty() &&
                               check_weight_if( you.backlog.front().id() ) );
@@ -1212,6 +1217,19 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
         } else {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
+        }
+    }
+    if( act == ACT_MULTIPLE_MOP ) {
+        if( !here.terrain_moppable( src_loc ) ) {
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+        }
+
+        if( you.has_item_with( []( const item & itm ) {
+        return itm.typeId() == itype_mop;
+        } ) ) {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
+        } else {
+            return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );
         }
     }
     if( act == ACT_MULTIPLE_FISH ) {
@@ -1444,8 +1462,16 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
             std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
                     here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
             for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
+                tripoint here_local = here.getlocal( elem );
+
+                // Check that a coordinate is not already in the combined list, otherwise actions
+                // like construction may erroneously count materials twice if an object is both
+                // in the camp zone and in a loot zone.
+                if( std::find( combined_spots.begin(), combined_spots.end(),
+                               here_local ) == combined_spots.end() ) {
+                    loot_zone_spots.push_back( here_local );
+                    combined_spots.push_back( here_local );
+                }
             }
         }
     }
@@ -1879,7 +1905,8 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
                                                      you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
+                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                                                     you.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
                         add_msg_if_player_sees( you, "%1s failed to fetch tools", you.name );
                         continue;
@@ -2284,6 +2311,15 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
 
 }
 
+// Not really an activity like the others; relies on zone activity alerting on enemies
+static bool mop_activity( Character &you, const tripoint &src_loc )
+{
+    // iuse::mop costs 15 moves per use
+    you.assign_activity( ACT_MOP, 15 );
+    you.activity.placement = get_map().getabs( src_loc );
+    return true;
+}
+
 static bool chop_tree_activity( Character &you, const tripoint &src_loc )
 {
     item *best_qual = you.best_quality_item( qual_AXE );
@@ -2348,6 +2384,9 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     }
     if( act_id == ACT_MULTIPLE_MINE ) {
         ret = zone_type_MINING;
+    }
+    if( act_id == ACT_MULTIPLE_MOP ) {
+        ret = zone_type_MOPPING;
     }
     if( act_id == ACT_MULTIPLE_DIS ) {
         ret = zone_type_id( "zone_disassemble" );
@@ -2796,6 +2835,11 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
+    } else if( reason == do_activity_reason::NEEDS_MOP ) {
+        if( mop_activity( you, src_loc ) ) {
+            you.backlog.push_front( player_activity( act_id ) );
+            return false;
+        }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
             you.backlog.push_front( player_activity( act_id ) );
@@ -3091,7 +3135,7 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // not good eatings.
                 continue;
             }
-            if( !you.can_consume( comest ) ) {
+            if( !you.can_consume_as_is( comest ) ) {
                 continue;
             }
             if( food && you.compute_effective_nutrients( comest ).kcal() < 50 ) {

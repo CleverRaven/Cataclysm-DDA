@@ -52,6 +52,7 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "visitable.h"
+#include "weakpoint.h"
 #include "weighted_list.h"
 
 class Character;
@@ -272,7 +273,6 @@ enum edible_rating {
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
-        bool recurring = false;
         time_point time;
 };
 
@@ -423,6 +423,10 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        int kill_xp = 0;
+        // Level-up points spent on Stats through Kills
+        int spent_upgrade_points = 0;
+
         const profession *prof;
         std::set<const profession *> hobbies;
 
@@ -440,87 +444,87 @@ class Character : public Creature, public visitable
         // utility upwards out of the player class, as many of these as possible should
         // be eliminated to allow for proper code separation. (Note: Not "all", many").
         /** Getters for stats exclusive to characters */
-        virtual int get_str() const;
-        virtual int get_dex() const;
-        virtual int get_per() const;
-        virtual int get_int() const;
+        int get_str() const;
+        int get_dex() const;
+        int get_per() const;
+        int get_int() const;
 
-        virtual int get_str_base() const;
-        virtual int get_dex_base() const;
-        virtual int get_per_base() const;
-        virtual int get_int_base() const;
+        int get_str_base() const;
+        int get_dex_base() const;
+        int get_per_base() const;
+        int get_int_base() const;
 
-        virtual int get_str_bonus() const;
-        virtual int get_dex_bonus() const;
-        virtual int get_per_bonus() const;
-        virtual int get_int_bonus() const;
+        int get_str_bonus() const;
+        int get_dex_bonus() const;
+        int get_per_bonus() const;
+        int get_int_bonus() const;
 
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
         int get_eff_per() const override;
 
         // Penalty modifiers applied for ranged attacks due to low stats
-        virtual int ranged_dex_mod() const;
-        virtual int ranged_per_mod() const;
+        int ranged_dex_mod() const;
+        int ranged_per_mod() const;
 
         /** Setters for stats exclusive to characters */
-        virtual void set_str_bonus( int nstr );
-        virtual void set_dex_bonus( int ndex );
-        virtual void set_per_bonus( int nper );
-        virtual void set_int_bonus( int nint );
-        virtual void mod_str_bonus( int nstr );
-        virtual void mod_dex_bonus( int ndex );
-        virtual void mod_per_bonus( int nper );
-        virtual void mod_int_bonus( int nint );
+        void set_str_bonus( int nstr );
+        void set_dex_bonus( int ndex );
+        void set_per_bonus( int nper );
+        void set_int_bonus( int nint );
+        void mod_str_bonus( int nstr );
+        void mod_dex_bonus( int ndex );
+        void mod_per_bonus( int nper );
+        void mod_int_bonus( int nint );
 
         // Prints message(s) about current health
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
+        int get_healthy() const;
+        int get_healthy_mod() const;
 
         /** Modifiers for health values exclusive to characters */
-        virtual void mod_healthy( int nhealthy );
-        virtual void mod_healthy_mod( int nhealthy_mod, int cap );
+        void mod_healthy( int nhealthy );
+        void mod_healthy_mod( int nhealthy_mod, int cap );
 
         /** Setters for health values exclusive to characters */
-        virtual void set_healthy( int nhealthy );
-        virtual void set_healthy_mod( int nhealthy_mod );
+        void set_healthy( int nhealthy );
+        void set_healthy_mod( int nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
-        virtual int get_stored_kcal() const;
-        virtual int get_healthy_kcal() const;
-        virtual float get_kcal_percent() const;
+        int get_stored_kcal() const;
+        int get_healthy_kcal() const;
+        float get_kcal_percent() const;
         int kcal_speed_penalty() const;
-        virtual int get_hunger() const;
-        virtual int get_starvation() const;
+        int get_hunger() const;
+        int get_starvation() const;
         virtual int get_thirst() const;
 
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 
         /** Modifiers for need values exclusive to characters */
-        virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
-        virtual void mod_stored_nutr( int nnutr );
-        virtual void mod_hunger( int nhunger );
-        virtual void mod_thirst( int nthirst );
-        virtual void mod_fatigue( int nfatigue );
-        virtual void mod_sleep_deprivation( int nsleep_deprivation );
+        void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
+        void mod_stored_nutr( int nnutr );
+        void mod_hunger( int nhunger );
+        void mod_thirst( int nthirst );
+        void mod_fatigue( int nfatigue );
+        void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
-        virtual void set_stored_kcal( int kcal );
-        virtual void set_hunger( int nhunger );
-        virtual void set_thirst( int nthirst );
-        virtual void set_fatigue( int nfatigue );
-        virtual void set_fatigue( fatigue_levels nfatigue );
-        virtual void set_sleep_deprivation( int nsleep_deprivation );
+        void set_stored_kcal( int kcal );
+        void set_hunger( int nhunger );
+        void set_thirst( int nthirst );
+        void set_fatigue( int nfatigue );
+        void set_fatigue( fatigue_levels nfatigue );
+        void set_sleep_deprivation( int nsleep_deprivation );
 
     protected:
 
         // These accept values in calories, 1/1000s of kcals (or Calories)
-        virtual void mod_stored_calories( int ncal, bool ignore_weariness = false );
-        virtual void set_stored_calories( int cal );
+        void mod_stored_calories( int ncal, bool ignore_weariness = false );
+        void set_stored_calories( int cal );
 
     public:
 
@@ -941,15 +945,20 @@ class Character : public Creature, public visitable
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
-        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                                float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -996,7 +1005,8 @@ class Character : public Creature, public visitable
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                                           const damage_instance &d ) override;
+                                           const damage_instance &d,
+                                           const weakpoint_attack &attack = weakpoint_attack() ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 
@@ -1009,7 +1019,12 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
+        const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                     damage_instance &dam ) override;
+        /** The character's skill in hitting a weakpoint */
+        float melee_weakpoint_skill( const item &weapon ) const;
+        float ranged_weakpoint_skill( const item &weapon ) const;
+        float throw_weakpoint_skill() const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -1835,7 +1850,7 @@ class Character : public Creature, public visitable
 
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
-
+        std::vector<const item *> inv_dump() const;
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
@@ -1871,6 +1886,16 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::volume free_space() const;
+        /**
+         * Returns the total volume of all worn holsters.
+        */
+        units::volume holster_volume() const;
+        int empty_holsters() const;
+        /**
+         * Returns the total volume of all pockets less than or equal to the volume passed in
+         * @param volume threshold for pockets to be considered
+        */
+        units::volume small_pocket_volume( const units::volume &threshold = 1000_ml ) const;
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
@@ -2212,7 +2237,7 @@ class Character : public Creature, public visitable
         bool male = false;
 
         bool is_dead = false;
-
+        std::vector<effect_on_condition_id> death_eocs;
         std::list<item> worn;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
@@ -2232,7 +2257,7 @@ class Character : public Creature, public visitable
         item weapon;
     public:
         const item &get_wielded_item() const;
-        item *get_wielded_item();
+        item &get_wielded_item();
         void set_wielded_item( const item &to_wield );
 
         int scent = 0;
@@ -2325,7 +2350,7 @@ class Character : public Creature, public visitable
         * @param qty Number of charges (kJ)
         * @return amount of UPS consumed which will be between 0 and qty
         */
-        int consume_ups( int qty, int radius = -1 );
+        int consume_ups( int64_t qty, int radius = -1 );
 
         /**
         * Use charges in character inventory.
@@ -2503,6 +2528,8 @@ class Character : public Creature, public visitable
         void on_item_takeoff( const item &it );
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
+        /** Called when an item is acquired (picked up, worn, or wielded) */
+        void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
                                    const bodypart_id &bp = bodypart_id( "bp_null" ) ) override;
@@ -2711,8 +2738,6 @@ class Character : public Creature, public visitable
         bool consume_effects( item &food );
         /** Check whether the character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
-        /** Check whether the character can consume this item or any of its contents */
-        bool can_consume( const item &it ) const;
         /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
         /**
@@ -2968,8 +2993,13 @@ class Character : public Creature, public visitable
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
 
-        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
+        /**
+         * Handles the enjoyability value for a comestible.
+         *
+         * If `ignore_already_ate`, fun isn't affected by past consumption.
+         * Return First value is enjoyability, second is cap.
+         */
+        std::pair<int, int> fun_for( const item &comest, bool ignore_already_ate = false ) const;
 
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
@@ -3101,6 +3131,9 @@ class Character : public Creature, public visitable
              * is reset to @ref mutation_branch::cooldown.
              */
             int charge = 0;
+
+            bool show_sprite = true;
+
             void serialize( JsonOut &json ) const;
             void deserialize( const JsonObject &data );
         };

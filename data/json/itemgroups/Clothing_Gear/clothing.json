@@ -224,21 +224,20 @@
     "subtype": "collection",
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
-      { "group": "clothing_soldier_shirt" },
-      { "item": "jacket_army" },
-      { "item": "pants_army" },
+      { "item": "jacket_army", "prob": 40 },
+      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "nomex_gloves" },
       { "item": "webbing_belt" },
-      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
-      { "item": "boots_combat" },
-      { "item": "helmet_army", "prob": 80 },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
       { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
       },
-      { "distribution": [ { "item": "fancy_sunglasses", "prob": 95 }, { "item": "glasses_bal", "prob": 5 } ] },
       { "group": "clothing_watch", "prob": 85 },
       { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
     ]
@@ -1285,10 +1284,6 @@
     "id": "shoes",
     "items": [
       [ "sneakers", 80 ],
-      [ "socks", 70 ],
-      [ "socks_ankle", 50 ],
-      [ "tights", 20 ],
-      [ "stockings", 20 ],
       [ "knee_high_boots", 20 ],
       [ "thigh_high_boots", 20 ],
       [ "boots", 70 ],

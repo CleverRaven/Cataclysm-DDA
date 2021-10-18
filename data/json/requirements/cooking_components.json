@@ -181,6 +181,7 @@
         [ "wine_cabernet", 1 ],
         [ "wine_noir", 1 ],
         [ "wine_vermouth", 1 ],
+        [ "wine_marsala", 1 ],
         [ "sherry", 1 ],
         [ "bristol_sherry", 1 ],
         [ "madeira", 1 ]
@@ -313,7 +314,8 @@
         [ "dry_meat", 1 ],
         [ "jerky", 1 ],
         [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ]
+        [ "meat_salted", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },
@@ -355,7 +357,8 @@
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ]
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },

@@ -326,6 +326,7 @@
     "weight": "1 g",
     "//": "Typically sold in larger quantities, but that's handled in the charge count.",
     "color": "pink",
+    "flags": [ "EDIBLE_FROZEN" ],
     "use_action": [ "FUNGICIDE" ],
     "stim": -7,
     "container": "bag_plastic",
@@ -352,7 +353,7 @@
     "color": "pink",
     "looks_like": "fungicide",
     "use_action": [ "BLECH" ],
-    "flags": [ "CORROSIVE" ],
+    "flags": [ "CORROSIVE", "EDIBLE_FROZEN" ],
     "stim": -7,
     "container": "bag_plastic",
     "comestible_type": "FOOD",
@@ -1744,5 +1745,26 @@
     "price": 100,
     "price_postapoc": 5,
     "count": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "liquid_soap",
+    "name": { "str_sp": "liquid soap" },
+    "weight": "260 g",
+    "color": "light_cyan",
+    "container": "bottle_bathroom",
+    "sealed": false,
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": -90,
+    "healthy": -20,
+    "description": "Liquid soap.",
+    "price": 0,
+    "price_postapoc": 0,
+    "volume": "250 ml",
+    "phase": "liquid",
+    "category": "chems",
+    "freezing_point": -2,
+    "fun": -50
   }
 ]

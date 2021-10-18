@@ -11,6 +11,7 @@
     "max_duration": "1 h",
     "max_intensity": 10,
     "int_decay_tick": 2,
+    "int_decay_remove": true,
     "base_mods": {
       "str_mod": [ 1 ],
       "dex_mod": [ 2 ],

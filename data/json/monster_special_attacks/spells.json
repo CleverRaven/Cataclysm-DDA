@@ -308,5 +308,109 @@
     "field_chance": 2,
     "min_field_intensity": 2,
     "max_field_intensity": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "wraith_attack",
+    "name": { "str": "Wraith Attack" },
+    "description": "Drains some of your essence.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 1,
+    "max_range": 1,
+    "min_damage": -25,
+    "max_damage": -50,
+    "damage_increment": -10.0,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_wraith_attack"
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_hurt_self",
+    "name": { "str": "Hurt Self" },
+    "description": "Touching/perceiving you is bad for the other side as well.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "damage_type": "cut",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_wraith_attack",
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_wraith_fatigue", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "+",
+          { "const": 20 }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_wraith_stamina", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "+",
+          { "const": 50 }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "u_val": "fatigue" },
+          "+=",
+          { "global_val": "var", "var_name": "ps_wraith_fatigue", "type": "weather", "context": "ps" }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "u_val": "stamina" },
+          "+=",
+          { "global_val": "var", "var_name": "ps_wraith_stamina", "type": "weather", "context": "ps" }
+        ]
+      },
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "impossible_shape_attack",
+    "name": { "str": "Impossible Shape Attack" },
+    "description": "Hurts you mentally.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 6,
+    "max_range": 6,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_impossible_shape_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_impossible_shape_attack",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_add_effect": "nightmares", "duration": "18 hours" },
+      { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
+      {
+        "u_add_morale": "morale_impossible_shape",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] }
+    ]
   }
 ]

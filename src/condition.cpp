@@ -22,6 +22,7 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
@@ -304,7 +305,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
 
     condition = [category_id, count, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        const auto items_with = actor->items_with( [category_id]( const item & it ) {
+        const auto items_with = actor->const_items_with( [category_id]( const item & it ) {
             return it.get_category_shallow().get_id() == category_id;
         } );
         return items_with.size() >= count;
@@ -806,7 +807,15 @@ template<class T>
 void conditional_t<T>::set_is_outside( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
-        return is_creature_outside( *d.actor( is_npc )->get_character() );
+        return is_creature_outside( *d.actor( is_npc )->get_creature() );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_underwater( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return get_map().is_divable( d.actor( is_npc )->pos() );
     };
 }
 
@@ -816,6 +825,22 @@ void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::strin
     int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
         return one_in( iov.evaluate( d.actor( false ) ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_query( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    std::string message = jo.get_string( member );
+    bool default_val = jo.get_bool( "default" );
+    condition = [message, default_val, is_npc]( const T & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( actor->get_character() && actor->get_character()->is_avatar() ) {
+            std::string translated_message = _( message );
+            return query_yn( translated_message );
+        } else {
+            return default_val;
+        }
     };
 }
 
@@ -951,9 +976,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return get_weather().weather_precise->pressure;
             };
         }
-    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ) {
+    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
+               jo.has_member( "global_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
-        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
+        const bool is_global = jo.has_member( "global_val" );
+        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) :
+                                          ( is_global ? jo.get_string( "global_val" ) : jo.get_string( "u_val" ) );
         if( checked_value == "strength" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->str_cur();
@@ -987,14 +1015,13 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_per_max();
             };
         } else if( checked_value == "var" ) {
-            bool global;
-            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, global]( const T & d ) {
+            return [is_npc, var_name, is_global]( const T & d ) {
                 int stored_value = 0;
                 std::string var;
-                if( global ) {
-                    var = get_talker_for( get_player_character() )->get_value( var_name );
+                if( is_global ) {
+                    global_variables &globvars = get_globals();
+                    var = globvars.get_global_value( var_name );
                 } else {
                     var = d.actor( is_npc )->get_value( var_name );
                 }
@@ -1083,7 +1110,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 if( power_max == 0 ) {
                     return 0; //Default value if character does not have power, avoids division with 0.
                 } else {
-                    return ( d.actor( is_npc )->power_cur().value() * 100 ) / power_max;
+                    return static_cast<int>( d.actor( is_npc )->power_cur().value() * 100 ) / power_max;
                 }
             };
         } else if( checked_value == "morale" ) {
@@ -1135,11 +1162,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                                  d.actor( is_npc )->get_amount( item_id ) );
             };
         } else if( checked_value == "exp" ) {
-            if( is_npc ) {
-                jo.throw_error( "exp not currently supported for npcs.  In " + jo.str() );
-            }
-            return []( const T & ) {
-                return g->get_kill_tracker().kill_xp();
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_kill_xp();
             };
         } else if( checked_value == "stim" ) {
             return [is_npc]( const T & d ) {
@@ -1176,6 +1200,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "friendly" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_friendly();
+            };
+        } else if( checked_value == "moon" ) {
+            return []( const T & ) {
+                return static_cast<int>( get_moon_phase( calendar::turn ) );
+            };
+        } else if( checked_value == "hour" ) {
+            return []( const T & ) {
+                return to_hours<int>( time_past_midnight( calendar::turn ) );
             };
         }
     }
@@ -1451,6 +1483,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_need( jo, "u_need" );
     } else if( jo.has_string( "npc_need" ) ) {
         set_need( jo, "npc_need", is_npc );
+    } else if( jo.has_member( "u_query" ) ) {
+        set_query( jo, "u_query" );
+    } else if( jo.has_member( "npc_query" ) ) {
+        set_query( jo, "npc_query", is_npc );
     } else if( jo.has_string( "u_at_om_location" ) ) {
         set_at_om_location( jo, "u_at_om_location" );
     } else if( jo.has_string( "npc_at_om_location" ) ) {
@@ -1610,6 +1646,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_outside();
     } else if( type == "is_outside" || type == "npc_is_outside" ) {
         set_is_outside( is_npc );
+    } else if( type == "u_is_underwater" ) {
+        set_is_underwater();
+    } else if( type == "npc_is_underwater" ) {
+        set_is_underwater( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {

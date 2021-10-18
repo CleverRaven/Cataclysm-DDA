@@ -282,6 +282,10 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_int( "height" ) ) {
         guy.set_base_height( jsobj.get_int( "height" ) );
     }
+    for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
+        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -376,6 +380,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
+    death_eocs = tguy.death_eocs;
 }
 
 npc::~npc() = default;
@@ -659,16 +664,16 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
     res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
-    const item *weapon = who.get_wielded_item();
-    if( weapon->is_gun() ) {
+    const item &weapon = who.get_wielded_item();
+    if( weapon.is_gun() ) {
         item ammo;
-        if( !weapon->magazine_default().is_null() ) {
-            item mag( weapon->magazine_default() );
+        if( !weapon.magazine_default().is_null() ) {
+            item mag( weapon.magazine_default() );
             mag.ammo_set( mag.ammo_default() );
             ammo = item( mag.ammo_default() );
             res.push_back( mag );
-        } else if( !weapon->ammo_default().is_null() ) {
-            ammo = item( weapon->ammo_default() );
+        } else if( !weapon.ammo_default().is_null() ) {
+            ammo = item( weapon.ammo_default() );
             // TODO: Move to npc_class
             // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
             int qty = 1 + ( type == NC_COWBOY ||
@@ -874,35 +879,35 @@ void npc::starting_weapon( const npc_class_id &type )
     } else if( best == skill_rifle ) {
         set_wielded_item( random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) ) );
     }
-    item *weapon = get_wielded_item();
-    if( weapon->is_gun() ) {
-        if( !weapon->magazine_default().is_null() ) {
-            weapon->ammo_set( weapon->magazine_default()->magazine->default_ammo );
-        } else if( !weapon->ammo_default().is_null() ) {
-            weapon->ammo_set( weapon->ammo_default() );
+    item &weapon = get_wielded_item();
+    if( weapon.is_gun() ) {
+        if( !weapon.magazine_default().is_null() ) {
+            weapon.ammo_set( weapon.magazine_default()->magazine->default_ammo );
+        } else if( !weapon.ammo_default().is_null() ) {
+            weapon.ammo_set( weapon.ammo_default() );
         } else {
-            debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon->typeId().c_str() );
+            debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
         }
         //You should be able to wield your starting weapon
-        if( !meets_stat_requirements( *weapon ) ) {
-            if( weapon->get_min_str() > get_str() ) {
-                str_max = weapon->get_min_str();
+        if( !meets_stat_requirements( weapon ) ) {
+            if( weapon.get_min_str() > get_str() ) {
+                str_max = weapon.get_min_str();
             }
-            if( weapon->type->min_dex > get_dex() ) {
-                dex_max = weapon->type->min_dex;
+            if( weapon.type->min_dex > get_dex() ) {
+                dex_max = weapon.type->min_dex;
             }
-            if( weapon->type->min_int > get_int() ) {
-                int_max = weapon->type->min_int;
+            if( weapon.type->min_int > get_int() ) {
+                int_max = weapon.type->min_int;
             }
-            if( weapon->type->min_per > get_per() ) {
-                per_max = weapon->type->min_per;
+            if( weapon.type->min_per > get_per() ) {
+                per_max = weapon.type->min_per;
             }
         }
     }
 
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
-    weapon->set_owner( get_faction()->id );
+    weapon.set_owner( get_faction()->id );
 }
 
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
@@ -1115,28 +1120,28 @@ bool npc::wield( item &it )
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    item *weapon = get_wielded_item();
+    item &weapon = get_wielded_item();
     if( has_wield_conflicts( to_wield ) ) {
-        stow_item( *weapon );
+        stow_item( weapon );
     }
 
     if( to_wield.is_null() ) {
         set_wielded_item( item() );
-        get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
     moves -= 15;
-    if( to_wield.can_combine( *weapon ) ) {
-        weapon->combine( to_wield );
+    if( to_wield.can_combine( weapon ) ) {
+        weapon.combine( to_wield );
     } else {
         set_wielded_item( to_wield );
     }
 
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( get_player_view().sees( pos() ) ) {
-        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
+        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     }
     invalidate_range_cache();
     return true;
@@ -1153,11 +1158,11 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 
 void npc::invalidate_range_cache()
 {
-    const item *weapon = get_wielded_item();
-    if( weapon->is_gun() ) {
-        confident_range_cache = confident_shoot_range( *weapon, get_most_accurate_sight( *weapon ) );
+    const item &weapon = get_wielded_item();
+    if( weapon.is_gun() ) {
+        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
     } else {
-        confident_range_cache = weapon->reach_range( *this );
+        confident_range_cache = weapon.reach_range( *this );
     }
 }
 
@@ -1471,18 +1476,18 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
 
 void npc::decide_needs()
 {
-    const item *weapon = get_wielded_item();
+    const item &weapon = get_wielded_item();
     double needrank[num_needs];
     for( auto &elem : needrank ) {
         elem = 20;
     }
-    if( weapon->is_gun() ) {
-        int ups_drain = weapon->get_gun_ups_drain();
+    if( weapon.is_gun() ) {
+        int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
             int ups_charges = available_ups();
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            const ammotype ammo_type = weapon->ammo_type();
+            const ammotype ammo_type = weapon.ammo_type();
             if( ammo_type != ammotype::NULL_ID() ) {
                 needrank[need_ammo] = get_ammo( ammo_type ).size();
             }
@@ -1493,7 +1498,7 @@ void npc::decide_needs()
         needrank[need_safety] = 1;
     }
 
-    needrank[need_weapon] = weapon_value( *weapon );
+    needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
     const auto inv_food = items_with( []( const item & itm ) {
@@ -2177,7 +2182,7 @@ void npc::npc_dismount()
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
         !mounted_creature->type->mech_weapon.is_empty() ) {
-        remove_item( *get_wielded_item() );
+        remove_item( get_wielded_item() );
     }
     mounted_creature->remove_effect( effect_ridden );
     mounted_creature->add_effect( effect_controlled, 5_turns );
@@ -2204,7 +2209,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return static_cast<float>( melee_value( *get_wielded_item() ) );
+    return static_cast<float>( melee_value( get_wielded_item() ) );
 }
 
 bool npc::bravery_check( int diff )

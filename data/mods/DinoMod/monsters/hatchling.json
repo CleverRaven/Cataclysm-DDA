@@ -58,6 +58,14 @@
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
+    "id": "mon_gorgosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "gorgosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_gorgosaurus_juvenile" }
+  },
+  {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -141,6 +149,13 @@
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
   },
   {
+    "id": "mon_nothronychus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
+  },
+  {
     "id": "mon_deinonychus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -165,13 +180,6 @@
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "extend": { "flags": [ "DOGFOOD", "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
-  },
-  {
-    "id": "mon_nothronychus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
-    "name": "green and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",

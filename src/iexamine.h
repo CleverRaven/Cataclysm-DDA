@@ -46,6 +46,7 @@ void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &mo
 void none( Character &you, const tripoint &examp );
 
 bool always_false( const tripoint &examp );
+bool false_and_debugmsg( const tripoint &examp );
 bool always_true( const tripoint &examp );
 bool harvestable_now( const tripoint &examp );
 
@@ -80,7 +81,6 @@ void harvested_plant( Character &you, const tripoint &examp );
 void locked_object( Character &you, const tripoint &examp );
 void locked_object_pickable( Character &you, const tripoint &examp );
 void bulletin_board( Character &you, const tripoint &examp );
-void fault( Character &you, const tripoint &examp );
 void pedestal_wyrm( Character &you, const tripoint &examp );
 void pedestal_temple( Character &you, const tripoint &examp );
 void door_peephole( Character &you, const tripoint &examp );
@@ -134,6 +134,7 @@ void workbench( Character &you, const tripoint &examp );
 void workbench_internal( Character &you, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
 void workout( Character &you, const tripoint &examp );
+void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
@@ -150,7 +151,8 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id );
-void harvest_plant( Character &you, const tripoint &examp, bool from_activity = false );
+void harvest_plant( Character &you, const tripoint &examp );
+void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
 ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );

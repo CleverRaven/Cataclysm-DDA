@@ -222,6 +222,21 @@ all_genders = ["f", "m", "n"]
 def gender_options(subject):
     return [subject + ":" + g for g in all_genders]
 
+
+def get_singular_name(name):
+    if type(name) is dict:
+        if "str_sp" in name:
+            return name["str_sp"]
+        elif "str" in name:
+            return name["str"]
+        else:
+            raise Exception("Cannot find singular name in {}".format(name))
+    elif type(name) is str:
+        return name
+    else:
+        raise Exception("Cannot find singular name in {}".format(name))
+
+
 #
 #  SPECIALIZED EXTRACTION FUNCTIONS
 #
@@ -681,19 +696,19 @@ def extract_recipe_group(item):
             writestr(outfile, i.get("description"))
 
 
-def extract_gendered_dynamic_line_optional(line, outfile):
+def extract_gendered_dynamic_line_optional(line, outfile, comment=None):
     if "gendered_line" in line:
         msg = line["gendered_line"]
         subjects = line["relevant_genders"]
         options = [gender_options(subject) for subject in subjects]
         for context_list in itertools.product(*options):
             context = " ".join(context_list)
-            writestr(outfile, msg, context=context)
+            writestr(outfile, msg, context=context, comment=comment)
 
 
-def extract_dynamic_line_optional(line, member, outfile):
+def extract_dynamic_line_optional(line, member, outfile, comment=None):
     if member in line:
-        extract_dynamic_line(line[member], outfile)
+        extract_dynamic_line(line[member], outfile, comment=comment)
 
 
 dynamic_line_string_keys = [
@@ -714,16 +729,16 @@ dynamic_line_string_keys = [
 ]
 
 
-def extract_dynamic_line(line, outfile):
+def extract_dynamic_line(line, outfile, comment=None):
     if type(line) == list:
         for l in line:
-            extract_dynamic_line(l, outfile)
+            extract_dynamic_line(l, outfile, comment)
     elif type(line) == dict:
-        extract_gendered_dynamic_line_optional(line, outfile)
+        extract_gendered_dynamic_line_optional(line, outfile, comment=comment)
         for key in dynamic_line_string_keys:
-            extract_dynamic_line_optional(line, key, outfile)
+            extract_dynamic_line_optional(line, key, outfile, comment=comment)
     elif type(line) == str:
-        writestr(outfile, line)
+        writestr(outfile, line, comment=comment)
 
 
 def extract_talk_effects(effects, outfile):
@@ -763,7 +778,10 @@ def extract_talk_response(response, outfile):
 def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
     if "dynamic_line" in item:
-        extract_dynamic_line(item["dynamic_line"], outfile)
+        comment = None
+        if "//~" in item:
+            comment = item["//~"]
+        extract_dynamic_line(item["dynamic_line"], outfile, comment)
     if "responses" in item:
         for r in item["responses"]:
             extract_talk_response(r, outfile)
@@ -794,8 +812,9 @@ def extract_missiondef(item):
     if item_name is None:
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
     writestr(outfile, item_name)
+    singular_name = get_singular_name(item_name)
     if "description" in item:
-        comment = "Description for mission '{}'".format(item_name)
+        comment = "Description for mission '{}'".format(singular_name)
         writestr(outfile, item["description"], comment=comment)
     if "dialogue" in item:
         dialogue = item.get("dialogue")
@@ -1301,10 +1320,7 @@ def extract(item, infilename):
         else:
             writestr(outfile, name, **kwargs)
         wrote = True
-        if type(name) is dict and "str" in name:
-            singular_name = name["str"]
-        else:
-            singular_name = name
+        singular_name = get_singular_name(name)
 
     def do_extract(item):
         wrote = False
@@ -1324,7 +1340,7 @@ def extract(item, infilename):
         if "conditional_names" in item:
             for cname in item["conditional_names"]:
                 c = "Conditional name for {} when {} matches {}".format(
-                    name, cname["type"], cname["condition"])
+                    singular_name, cname["type"], cname["condition"])
                 writestr(outfile, cname["name"], comment=c,
                          format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True

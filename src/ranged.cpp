@@ -74,6 +74,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -717,7 +718,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, *get_wielded_item() );
+    return fire_gun( target, shots, get_wielded_item() );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
@@ -746,8 +747,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     map &here = get_map();
-    // usage of any attached bipod is dependent upon terrain
-    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() );
+    // usage of any attached bipod is dependent upon terrain or on being prone
+    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() ) || is_prone();
     if( !bipod ) {
         if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
@@ -786,8 +787,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        weakpoint_attack wp_attack;
+        wp_attack.weapon = &gun;
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
-                                       dispersion, this, in_veh );
+                                       dispersion, this, in_veh, wp_attack );
         curshot++;
         if( shot.hit_critter ) {
             hits++;
@@ -1161,8 +1164,11 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    weakpoint_attack wp_attack;
+    wp_attack.weapon = &to_throw;
+    wp_attack.is_thrown = true;
     dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this );
+                                           this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
@@ -1480,7 +1486,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
                     return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
                                           config.label.c_str() ), config.color, chance );
                 }, enumeration_conjunction::none );
-                confidence_s.append( string_format( ", Miss: <color_light_gray>%3d%%</color>",
+                confidence_s.append( string_format( _( ", Miss: <color_light_gray>%3d%%</color>" ),
                                                     ( 100 - last_chance ) ) );
                 line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                     c_dark_gray, confidence_s );
@@ -2050,7 +2056,7 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
-    allow_zlevel_shift = here.has_zlevels() && get_option<bool>( "FOV_3D" );
+    allow_zlevel_shift = get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -3296,9 +3302,9 @@ void target_ui::panel_cursor_info( int &text_y )
 {
     std::string label_range;
     if( src == dst ) {
-        label_range = string_format( "Range: %d", range );
+        label_range = string_format( _( "Range: %d" ), range );
     } else {
-        label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
+        label_range = string_format( _( "Range: %d/%d" ), dist_fn( dst ), range );
     }
     if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
         // Since each turret has its own range, highlighting cursor

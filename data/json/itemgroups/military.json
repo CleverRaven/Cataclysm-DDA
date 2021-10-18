@@ -262,6 +262,8 @@
       { "item": "tac_helmet", "prob": 10 },
       { "item": "tac_fullhelmet", "prob": 5 },
       { "item": "helmet_lobster", "prob": 5 },
+      { "item": "flight_helmet", "prob": 5 },
+      { "item": "mil_flight_suit", "prob": 5 },
       { "item": "gum", "prob": 90 },
       { "item": "caff_gum", "prob": 10 },
       { "item": "nic_gum", "prob": 1 },
@@ -312,6 +314,10 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jumpsuit", "prob": 40 },
+      { "item": "officer_uniform", "prob": 20 },
+      { "item": "flight_helmet", "prob": 5, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
+      { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "jacket_army", "prob": 70 },
       { "item": "socks", "prob": 40 },
@@ -440,6 +446,7 @@
     "entries": [
       { "item": "mil_mess_kit", "prob": 10, "count": 32 },
       { "item": "voltmeter", "prob": 10, "count": 32 },
+      { "item": "multimeter", "prob": 10, "count": 32 },
       { "item": "drivebelt", "prob": 10, "count": 64 },
       { "item": "grapnel", "prob": 10, "count": 32 },
       { "item": "string_floss", "prob": 5, "count": 128 },
@@ -527,6 +534,8 @@
       { "item": "motor_small", "prob": 1 },
       { "item": "hose", "prob": 15 },
       { "item": "pants_army", "prob": 30 },
+      { "item": "flight_helmet", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
       { "item": "jacket_army", "prob": 30 },
       { "item": "winter_pants_army", "prob": 10 },
       { "item": "winter_jacket_army", "prob": 10 },
@@ -536,6 +545,8 @@
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "jumpsuit", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
+      { "item": "officer_uniform", "prob": 5 },
+      { "item": "combo_cover", "prob": 5 },
       { "item": "ballistic_vest_esapi", "prob": 40 },
       { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
@@ -578,7 +589,9 @@
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
       { "item": "robot_controls", "prob": 3 },
-      { "item": "solarpack", "prob": 1 }
+      { "item": "solarpack", "prob": 1 },
+      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 20 }
     ]
   }
 ]

@@ -1218,9 +1218,16 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
+    add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MOPPING" ).setPrerequisite( "AUTO_FEATURES" );
+
     add( "AUTO_FORAGING", "general", to_translation( "Auto foraging" ),
-         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
+         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Crops: Only forage crops.  - Everything: Forage bushes, trees, crops, and everything else including flowers, cattails etc." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "crops", to_translation( "Crops" ) }, { "all", to_translation( "Everything" ) } },
     "off"
        );
 
@@ -2837,9 +2844,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_width = projected_window_width();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
-                                      "%s #%s -- The window will be %d pixels wide with the selected value.",
-                                      new_window_width ),
+                            n_gettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
+                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
+                                       new_window_width ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_width );
@@ -2852,9 +2859,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_height = projected_window_height();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
-                                      "%s #%s -- The window will be %d pixels tall with the selected value.",
-                                      new_window_height ),
+                            n_gettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
+                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
+                                       new_window_height ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_height );
@@ -3025,7 +3032,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {
