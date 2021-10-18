@@ -131,7 +131,7 @@
   {
     "id": "leverpostej",
     "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
+    "comestible_type": "FOOD",
     "name": { "str_sp": "leverpostej" },
     "symbol": "%",
     "looks_like": "peanutbutter",

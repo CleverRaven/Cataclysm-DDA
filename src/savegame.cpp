@@ -89,6 +89,10 @@ void game::serialize( std::ostream &fout )
     json.member( "levz", pos_sm.z );
     json.member( "om_x", pos_om.x );
     json.member( "om_y", pos_om.y );
+    // view offset
+    json.member( "view_offset_x", u.view_offset.x );
+    json.member( "view_offset_y", u.view_offset.y );
+    json.member( "view_offset_z", u.view_offset.z );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -118,7 +122,6 @@ void game::serialize( std::ostream &fout )
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
-        json.member( "recurring", temp_queued.top().recurring );
         json.end_object();
         temp_queued.pop();
     }
@@ -203,6 +206,10 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
+        data.read( "view_offset_x", u.view_offset.x );
+        data.read( "view_offset_y", u.view_offset.y );
+        data.read( "view_offset_z", u.view_offset.z );
+
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
 
@@ -244,7 +251,6 @@ void game::unserialize( std::istream &fin, const std::string &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            temp.recurring = elem.get_bool( "recurring" );
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );
@@ -736,6 +742,12 @@ void overmap::unserialize( std::istream &fin )
             for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
                 joins_used.insert( p );
             }
+        } else if( name == "predecessors" ) {
+            std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
+            jsin.read( flattened_predecessors, true );
+            for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
+                predecessors_.insert( std::move( p ) );
+            }
         }
     }
 }
@@ -1154,6 +1166,11 @@ void overmap::serialize( std::ostream &fout ) const
     std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
+    fout << std::endl;
+
+    std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors(
+        predecessors_.begin(), predecessors_.end() );
+    json.member( "predecessors", flattened_predecessors );
     fout << std::endl;
 
     json.end_object();

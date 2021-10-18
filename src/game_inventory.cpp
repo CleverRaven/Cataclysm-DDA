@@ -323,7 +323,7 @@ class armor_inventory_preset: public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 const int storage_ml = to_milliliter( loc->get_total_capacity() );
                 return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
-            }, string_format( "STORAGE (%s)", volume_units_abbr() ) );
+            }, string_format( _( "STORAGE (%s)" ), volume_units_abbr() ) );
         }
 
     protected:

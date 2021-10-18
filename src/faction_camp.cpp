@@ -2217,7 +2217,7 @@ void basecamp::start_fortifications( std::string &bldg_exp )
         bool change_x = ( start.x() != stop.x() );
         bool change_y = ( start.y() != stop.y() );
         if( change_x && change_y ) {
-            popup( "Construction line must be straight!" );
+            popup( _( "Construction line must be straight!" ) );
             return;
         }
         if( bldg_exp == "faction_wall_level_N_1" ) {

@@ -201,7 +201,7 @@
       }
     ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "electrohack",

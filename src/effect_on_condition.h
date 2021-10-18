@@ -67,11 +67,13 @@ void load_existing_character( Character &you );
 /** Loads an inline eoc */
 effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
 /** queue an eoc to happen in the future */
-void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc );
+void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
+                                Character &you );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */
 void process_reactivate( Character &you );
+void process_reactivate();
 /** clear all queued and inactive eocs */
 void clear( Character &you );
 /** write out all queued eocs and inactive eocs to a file for testing */

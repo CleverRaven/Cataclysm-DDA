@@ -69,6 +69,7 @@ static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -789,6 +790,20 @@ void emp_blast( const tripoint &p )
         }
     }
     // TODO: Drain NPC energy reserves
+}
+
+void nuke( const tripoint_abs_omt &p )
+{
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
+
+    tinymap tmpmap;
+    tmpmap.load( pos_sm, false );
+
+    item mininuke( itype_mininuke_act );
+    mininuke.set_flag( flag_id( "ACTIVATE_ON_PLACE" ) );
+    tmpmap.add_item( { SEEX - 1, SEEY - 1, 0 }, mininuke );
+
+    tmpmap.save();
 }
 
 void resonance_cascade( const tripoint &p )

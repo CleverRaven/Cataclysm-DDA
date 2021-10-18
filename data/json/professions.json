@@ -3746,22 +3746,22 @@
     "items": {
       "both": {
         "items": [
-          "pants_army",
-          "socks",
-          "undershirt",
+          "nomex_socks",
           "boots_combat",
           "wristwatch",
-          "fancy_sunglasses",
           "gloves_tactical",
-          "helmet_army",
+          { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
+          "mil_flight_suit",
           "jacket_army",
           "webbing_belt",
           "legpouch_large"
         ],
         "entries": [
-          { "group": "charged_two_way_radio" },
+          { "group": "charged_matches" },
+          { "group": "charged_flashlight" },
+          { "item": "handflare", "count": 2, "charges": 200 },
+          { "item": "whistle" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
@@ -4043,12 +4043,13 @@
           "dress_shoes",
           "gold_watch",
           "diamond_ring",
-          "cigar",
+          "cigar_cutter",
           "gold_bracelet",
           "knuckle_brass"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "item": "cigar", "container-item": "case_cigar", "charges": 2 },
           { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
         ]
@@ -4057,5 +4058,50 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "paranormal_investigator",
+    "name": "Paranormal Investigator",
+    "description": "You were dismissed from your position as a parapsychology professor at the local university and started your own business as a paranormal investigator.  Your former colleagues didn't approve of your research, but it looks like it's paying off now.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
+    "traits": [ "SPIRITUAL" ],
+    "proficiencies": [ "prof_electromagnetics" ],
+    "items": {
+      "both": {
+        "items": [ "pants", "technician_shirt_gray", "cleansuit", "socks", "gloves_rubber", "tool_belt", "glasses_safety", "camera_bag" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_flashlight" },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 50,
+            "container-item": "rad_monitor"
+          },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "birder",
+    "name": "Bird Watcher",
+    "description": "You were at your favorite park looking at the robins when the Cataclysm struck.  Now all you have are your binoculars and a lot of trivia about local birds to share with any survivors you may find.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "binoculars" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]
