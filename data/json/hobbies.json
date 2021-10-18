@@ -384,7 +384,7 @@
     "subtype": "hobby",
     "id": "gourmand",
     "name": "Fine Dining",
-    "description": "Everyone eats to live, but you live to eat. Tasty food will raise your morale more, and you aren't as upset by gross food. You also eat faster, and can overeat with less chance of getting sick.",
+    "description": "Everyone eats to live, but you live to eat.  Tasty food will raise your morale more, and you aren't as upset by gross food.  You also eat faster, and can overeat with less chance of getting sick.",
     "points": 2,
     "traits": [ "GOURMAND" ],
     "skills": [ { "level": 1, "name": "cooking" } ]
