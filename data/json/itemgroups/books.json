@@ -303,6 +303,7 @@
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_canning", "prob": 30 },
       { "item": "manual_sealing", "prob": 40 },
+      { "item": "vacuum_sealing", "prob": 20 },
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 }
@@ -341,6 +342,7 @@
       { "item": "winemaking_beginner", "prob": 14 },
       { "item": "manual_canning", "prob": 18 },
       { "item": "manual_sealing", "prob": 9 },
+      { "item": "vacuum_sealing", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 },
       { "item": "theater_props", "prob": 5 }
@@ -386,6 +388,7 @@
       { "item": "winemaking_beginner", "prob": 10 },
       { "item": "manual_canning", "prob": 8 },
       { "item": "manual_sealing", "prob": 9 },
+      { "item": "vacuum_sealing", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 }
     ]
@@ -539,6 +542,7 @@
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_canning", "prob": 80 },
       { "item": "manual_sealing", "prob": 190 },
+      { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 }
     ]
   },

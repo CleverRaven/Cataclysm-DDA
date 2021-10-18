@@ -377,6 +377,15 @@
     "copy-from": "mag_cooking"
   },
   {
+    "id": "vacuum_sealing",
+    "type": "BOOK",
+    "name": { "str": "Vacuum Sealer Instructions", "str_pl": "copies of Vacuum Sealer Instructions" },
+    "description": "This dry guide to a home-use vacuum sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
+    "price_postapoc": 1500,
+    "proficiencies": [ { "proficiency": "prof_preservation", "time_factor": 0.05, "fail_factor": 0.1 } ],
+    "copy-from": "mag_cooking"
+  },
+  {
     "id": "baking_book",
     "type": "BOOK",
     "name": { "str": "The Baker's Companion", "str_pl": "copies of The Baker's Companion" },

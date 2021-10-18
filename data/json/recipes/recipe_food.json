@@ -4819,6 +4819,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
@@ -4841,6 +4842,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ], [ [ "fish", 5 ] ], [ [ "salt_preservation", 5, "LIST" ] ] ]
@@ -4859,6 +4861,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
@@ -4881,6 +4884,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
     "components": [
