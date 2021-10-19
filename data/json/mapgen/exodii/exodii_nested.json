@@ -17,11 +17,31 @@
       "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
       "monster": { "T": { "monster": "mon_exodii_turret" } },
       "mapping": {
-        "1": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_NomadGear_Tier0", "chance": 100 } ] },
-        "2": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Guns_Tier0", "chance": 100 } ] },
-        "3": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_OldArmour", "chance": 100 }, "repeat": [ 1, 2 ] ] },
-        "4": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_NomadGear_Tier0", "chance": 100 } ] },
-        "5": { "terrain": "t_metal_floor", "furniture": "f_locker", "items": [ { "item": "EXODII_Shop_Guns_Tier0", "chance": 100 } ] },
+        "1": {
+          "terrain": "t_metal_floor",
+          "furniture": "f_locker",
+          "items": [ { "item": "EXODII_Shop_NomadGear_Tier0", "chance": 100 } ]
+        },
+        "2": {
+          "terrain": "t_metal_floor",
+          "furniture": "f_locker",
+          "items": [ { "item": "EXODII_Shop_Guns_Tier0", "chance": 100 } ]
+        },
+        "3": {
+          "terrain": "t_metal_floor",
+          "furniture": "f_locker",
+          "items": [ { "item": "EXODII_Shop_OldArmour", "chance": 100, "repeat": [ 1, 2 ] } ]
+        },
+        "4": {
+          "terrain": "t_metal_floor",
+          "furniture": "f_locker",
+          "items": [ { "item": "EXODII_Shop_NomadGear_Tier0", "chance": 100 } ]
+        },
+        "5": {
+          "terrain": "t_metal_floor",
+          "furniture": "f_locker",
+          "items": [ { "item": "EXODII_Shop_Guns_Tier0", "chance": 100 } ]
+        },
         "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
         "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
       }
