@@ -14,9 +14,9 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 8, 10 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 10, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "encumbrance": [ 6, 7 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 6, 7 ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
@@ -48,9 +48,9 @@
     "material": [ "cotton" ],
     "color": "light_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 6, 8 ] },
+      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 6, 8 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 8, 10 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "encumbrance": [ 5, 6 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 5, 6 ] }
     ],
     "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
     "delete": { "flags": [ "STURDY" ] }
