@@ -269,7 +269,7 @@
     "type": "furniture",
     "id": "f_everfrost_crystal",
     "name": "everfrost crystal",
-    "description": "This massive mana crystal juts from the ground as if it had sprouted up like a weed.  It pulses with a angry white light, occasionally flickering brighter.  The air around it is ",
+    "description": "This massive mana crystal juts from the ground as if it had sprouted up like a weed.  It pulses with a angry white light, occasionally flickering brighter.",
     "symbol": "]",
     "color": "light_blue",
     "move_cost_mod": -1,
@@ -284,9 +284,7 @@
       "str_max": 35,
       "sound": "glass shattering!",
       "sound_fail": "mana crackling!",
-      "items": [
-        { "item": "mana_dust", "charges": [ 0, 4 ] }
-      ]
+      "items": [ { "item": "mana_dust", "charges": [ 0, 4 ] } ]
     }
   }
 ]
