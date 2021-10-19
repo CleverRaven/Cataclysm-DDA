@@ -2399,8 +2399,8 @@
         "miss_msg_npc": "The %s flicks its horns at <npcname>, but they dodge!"
       }
     ],
-    "upgrades": { "age_grow": 28, "into": "mon_stag_beetle_mega" },
-    "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 20 },
+    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_mega" },
+    "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 32 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "flags": [
       "SEES",
