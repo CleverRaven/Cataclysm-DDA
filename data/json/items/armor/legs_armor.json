@@ -158,7 +158,8 @@
       {
         "encumbrance": 17,
         "coverage": 93,
-        "cover_ranged": 98,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ]
       }
