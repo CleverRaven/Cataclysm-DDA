@@ -249,7 +249,7 @@
     "description": "Food just tastes better when you make it yourself.  The grocery stores are closed for good, so you might need to start getting creative with your recipes.",
     "points": 2,
     "proficiencies": [ "prof_baking", "prof_baking_bread", "prof_baking_desserts_1", "prof_food_prep", "prof_knife_skills" ],
-    "skills": [ { "level": 3, "name": "cooking" }, { "level": 1, "name": "survival" } ]
+    "skills": [ { "level": 3, "name": "cooking" } ]
   },
   {
     "type": "profession",
@@ -413,7 +413,7 @@
     "subtype": "hobby",
     "id": "hoarder",
     "name": "Stockpiling",
-    "description": "You always knew that stockpiling as much useful stuff as possible would save you when it all collapsed.  They called your completely reasonable preparations a 'mental health condition', said you needed 'help'.  Then they all died, and you lived.  Who's got the 'condition' now?",
+    "description": "You always knew that stockpiling as much stuff as possible would save you when it all collapsed.  You are very efficient at retrieving things from pockets and bags, but suffer a morale penalty when carrying less than your maximum capacity of volume.  The latter can be alleviated with prescription sedatives.",
     "points": -1,
     "traits": [ "HOARDER", "PACKMULE" ]
   },
