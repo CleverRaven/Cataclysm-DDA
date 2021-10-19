@@ -56,6 +56,8 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -1617,8 +1619,7 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
     inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
                                          /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
-    insert_menu.add_map_items( you.pos() );
-    insert_menu.add_vehicle_items( you.pos() );
+    insert_menu.add_nearby_items( 1 );
     insert_menu.set_display_stats( false );
 
     insert_menu.set_title( title );
@@ -1644,6 +1645,86 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             player_activity(
                 insert_item_activity_actor( holster, holstered_list ) ) );
     }
+}
+
+static bool valid_unload_container( const item_location &container )
+{
+    // Item must be a container.
+    if( !container->is_container() ) {
+        return false;
+    }
+
+    // Container must contain at least one item
+    if( container->empty_container() ) {
+        return false;
+    }
+
+    // This item must not be a liquid, relies on containers
+    // only being able to store one liquid at a time
+    if( container->num_item_stacks() == 1 && container->only_item().made_of( phase_id::LIQUID ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+// Due to current item_location limitations, these won't work.
+// When item_location gets updated to get items inside containers outside the player inventory
+// uncomment this
+// static item_location unload_container_item( drop_location &droplc, item *it, avatar &you )
+// {
+//     switch( droplc.first.where() ) {
+//         case item_location::type::invalid:
+//             return item_location();
+//         case item_location::type::character:
+//             return item_location( you, it );
+//         case item_location::type::map:
+//             return item_location( map_cursor( droplc.first.position() ), it );
+//         case item_location::type::vehicle: {
+//             const cata::optional<vpart_reference> vp =
+//                 get_map().veh_at( droplc.first.position() ).part_with_feature( "CARGO", true );
+//             if( !vp ) {
+//                 return item_location();
+//             }
+//             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
+//         }
+//         case item_location::type::container:
+//             return item_location( droplc.first, it );
+//         default:
+//             return item_location();
+//     }
+// }
+
+drop_locations game_menus::inv::unload_container( avatar &you )
+{
+    inventory_filter_preset unload_preset( valid_unload_container );
+
+    inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
+                                         /*warn_liquid=*/false );
+    insert_menu.add_character_items( you );
+    // When item_location gets updated to get items inside containers outside the player inventory
+    // uncomment this
+    //insert_menu.add_nearby_items( 1 );
+    insert_menu.set_display_stats( false );
+
+    insert_menu.set_title( _( "Select containers to unload" ) );
+
+    drop_locations dropped;
+    for( drop_location &droplc : insert_menu.execute() ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            // no liquids
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                dropped.emplace_back( item_location( droplc.first, it ), it->count() );
+                // When item_location gets updated to get items inside containers outside the player inventory
+                // uncomment this
+                // item_location iloc = unload_container_item( droplc, it, you );
+                // if( iloc ) {
+                //     dropped.emplace_back( iloc, it->count() );
+                // }
+            }
+        }
+    }
+    return dropped;
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset

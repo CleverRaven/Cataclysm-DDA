@@ -2091,7 +2091,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
-    ctxt.register_action( "drop" );
+    ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
@@ -7771,16 +7771,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-void game::drop()
+void game::unload_container()
 {
-    u.drop( game_menus::inv::multidrop( u ), u.pos() );
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
+        u.drop( game_menus::inv::unload_container( u ), *pnt );
+    }
 }
 
-void game::drop_in_direction()
+void game::drop_in_direction( const tripoint &pnt )
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.drop( game_menus::inv::multidrop( u ), *pnt );
-    }
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
