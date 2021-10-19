@@ -2095,6 +2095,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Drop Item",
+    "category": "DEFAULTMODE",
+    "id": "drop"
+  },
+  {
+    "type": "keybinding",
     "name": "Unload container",
     "category": "DEFAULTMODE",
     "id": "unload_container",

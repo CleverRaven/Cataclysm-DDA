@@ -2187,6 +2187,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             // You CAN drop things to your own tile while in the shell.
             unload_container();
             break;
+
+        case ACTION_DROP:
+            drop_in_direction( player_character.pos() );
+            break;
         case ACTION_DIR_DROP:
             if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
                 if( *pnt != player_character.pos() &&
