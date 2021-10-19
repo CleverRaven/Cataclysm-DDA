@@ -102,8 +102,15 @@
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
-      { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] },
-      { "encumbrance": 17, "coverage": 90, "covers": [ "arm_l", "arm_r" ] }
+      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
+      {
+        "encumbrance": 17,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ]
+      }
     ]
   },
   {
