@@ -518,13 +518,13 @@
   },
   {
     "type": "start_location",
-    "ident": "sloc_mansion_entrance",
+    "id": "sloc_mansion_entrance",
     "name": "Mansion Entrance",
     "terrain": [ "mansion_e1", "mansion_e2" ]
   },
   {
     "type": "start_location",
-    "ident": "sloc_mansion",
+    "id": "sloc_mansion",
     "name": "Mansion",
     "terrain": [ "mansion_+", "mansion_+2" ]
   }
