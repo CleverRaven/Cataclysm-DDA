@@ -56,12 +56,11 @@
     "items": [
       { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 0 },
-      { "item": "glock_20", "variant": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_21", "prob": 8, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_29", "prob": 2, "charges-min": 0, "charges-max": 0 },
-      { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "px4", "prob": 24, "charges-min": 0, "charges-max": 0 },
