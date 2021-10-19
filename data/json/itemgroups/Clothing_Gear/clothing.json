@@ -193,6 +193,32 @@
     ]
   },
   {
+    "id": "clothing_soldier_heavy_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Set of clothes and combat gear worn by heavier soldiers and paramilitary forces including IOTV armor.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "ballistic_vest_iotv_full", "prob": 90 },
+      { "item": "molle_pack", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
     "id": "clothing_soldier_winter_set",
     "type": "item_group",
     "subtype": "collection",

@@ -128,7 +128,7 @@
     "id": "ballistic_vest_light",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "Light ballistic vest" },
+    "name": { "str": "light ballistic vest" },
     "description": "A lightweight simple plate carrier with ESAPI ceramic armor plates.",
     "weight": "700 g",
     "volume": "4 L",
