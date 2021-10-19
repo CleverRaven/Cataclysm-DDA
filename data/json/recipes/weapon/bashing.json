@@ -227,7 +227,10 @@
       { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 },
       { "proficiency": "prof_carving", "fail_multiplier": 1 }
     ],
-     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [
+      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "type": "recipe",
