@@ -109,7 +109,7 @@
     "id": "ballistic_vest_slick",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "Slick plate carrier" },
+    "name": { "str": "slick plate carrier" },
     "description": "A lightweight balistic armor vest without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "9 kg",
     "volume": "4 L",
