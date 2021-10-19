@@ -555,6 +555,30 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
   },
   {
+    "result": "battery_car",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 13 ] ], [ [ "lead", 2247 ] ], [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "battery_motorbike",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 3 ] ], [ [ "lead", 499 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "battery_motorbike_small",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "lead", 187 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
     "result": "bindle",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
