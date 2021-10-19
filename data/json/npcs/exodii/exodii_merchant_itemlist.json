@@ -5,10 +5,6 @@
     "//": "This stuff should be available in the exodii store from the start.",
     "subtype": "collection",
     "items": [
-      { "group": "EXODII_Shop_NomadGear_Tier0", "prob": 100 },
-      { "group": "EXODII_Shop_NomadGear_Tier0", "prob": 50 },
-      { "group": "EXODII_Shop_Guns_Tier0", "prob": 100 },
-      { "group": "EXODII_Shop_OldArmour", "prob": 100 },
       { "item": "thread", "prob": 75, "count": [ 10, 20 ] },
       [ "vac_mold", 10 ],
       [ "box_medium", 75 ],
@@ -32,7 +28,7 @@
     "type": "item_group",
     "id": "EXODII_Shop_NomadGear_Tier0",
     "//": "This stuff should be available in the exodii store from the start.  This group includes common items used to craft nomad gear, which the exodii are happy to offer, as well as blueprints for them.",
-    "subtype": "collection",
+    "subtype": "distribution",
     "items": [
       {
         "collection": [
@@ -83,10 +79,15 @@
     "//": "This stuff should be available in the exodii store from the start.  This group includes guns and ammo the exodii are happy to sell to noobs.",
     "subtype": "collection",
     "items": [
-      { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "exodiiminimag", "prob": 60, "charges": 0, "count": [ 1, 2 ] },
-      { "item": "exodiiBRmag", "prob": 10, "charges": 0, "count": [ 1, 2 ] },
+      {
+        "distribution": [ { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] }, { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] } ]
+      },
+      {
+        "distribution": [
+          { "item": "exodiiminimag", "prob": 60, "charges": 0, "count": [ 1, 2 ] },
+          { "item": "exodiiBRmag", "prob": 10, "charges": 0, "count": [ 1, 2 ] }
+        ]
+      },
       { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true }
     ]
   },
@@ -94,10 +95,16 @@
     "type": "item_group",
     "id": "EXODII_Shop_OldArmour",
     "//": "This stuff should be available in the exodii store from the start.  Old Thessalonian armour the exodii brought with them.",
+    "//2": "Ideally, the spear should be sold as a spearhead and the player crafts it by getting their own pole.",
     "subtype": "collection",
     "items": [
-      { "item": "armor_thessalonian", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "leggings_thessalonian", "prob": 60, "count": [ 1, 2 ] }
+      { "item": "gambeson", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "armor_lorica", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "helmet_corinthian", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "armor_thessalonian", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "leggings_thessalonian", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "sword_xiphos", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
   {
