@@ -241,7 +241,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "IOTV groin protector" },
-    "description": "Front and back panels for groin and butt protection. Designed to be attached to US military body armor.",
+    "description": "Front and back panels for groin and butt protection.  Designed to be attached to US military body armor.",
     "weight": "1500 g",
     "volume": "1000 ml",
     "price": 60000,
