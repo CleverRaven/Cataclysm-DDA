@@ -223,6 +223,34 @@
     "color": "dark_gray"
   },
   {
+    "id": "iotv_shoulder_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "IOTV shoulder protector" },
+    "description": "Reinforced piece of shoulder armor designed to be attached to US military body armor.",
+    "weight": "1000 g",
+    "volume": "600 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "nylon", "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray"
+  },
+  {
+    "id": "iotv_groin_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "IOTV groin protector" },
+    "description": "Front and back panels for groin and butt protection. Designed to be attached to US military body armor.",
+    "weight": "1500 g",
+    "volume": "1000 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "nylon", "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray"
+  },
+  {
     "id": "ugl_buttstock",
     "type": "GENERIC",
     "symbol": ",",
