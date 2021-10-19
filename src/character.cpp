@@ -5015,7 +5015,7 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
 bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||
-             has_flag( json_flag_BLIND ) );
+             has_flag( json_flag_BLIND ) || vision_score() <= 0 );
 }
 
 bool Character::is_invisible() const
