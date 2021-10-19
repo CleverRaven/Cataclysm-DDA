@@ -25,7 +25,7 @@
 
 
 namespace {
-    /**print list scrollable, printed std::vector<std::string> as list with scroll*/
+    /**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
     void print_list_scrollable(catacurses::window* win, std::vector<std::string> list, int* selection, int entries_per_page, int xoffset, int width, bool active, bool border) {
         if (*selection < 0 && !list.empty()) {
             *selection = list.size() - 1;
@@ -209,7 +209,7 @@ void diary::show_diary_ui(diary * c_diary)
         if (currwin == window_mode::CHANGE_WIN|| currwin ==window_mode::TEXT_WIN) {
             fold_and_print(w_info, point(1, 1), getmaxx(w_info) - 2, c_white, string_format("%s", c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]]));
         }
-        bool debug = true;
+        bool debug = false;
         if (debug) {
             if (currwin == window_mode::TEXT_WIN) {
                 auto text = c_diary->get_page_text();

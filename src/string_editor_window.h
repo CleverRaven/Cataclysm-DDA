@@ -50,9 +50,6 @@ class string_editor_window
 
         std::unique_ptr<input_context> ctxt_ptr;
         input_context* ctxt = nullptr;
-
-        bool _canceled = false;
-        bool _confirmed = false;
         bool _handled = false;
 
         std::map<long, std::function<bool()>> callbacks;
@@ -61,22 +58,14 @@ class string_editor_window
 
         /*returns line and position in folded text for position in text*/
         std::pair<int, int> get_line_and_position(std::string text, std::vector<std::string> foldedtext, int position); 
-        /*returns position in text for line and position in foldedtext*/
-        int get_position(int y, int x);
-
+        
         /*print the editor*/
         void print_editor();
-
-
-        bool canceled() const;
-
-        bool confirmed() const;
 
         bool handled() const;
 
         void create_context();
 
-        
         /*move the coursour*/
         void coursour_left(int n = 1);
         void coursour_right(int n = 1);
@@ -85,7 +74,5 @@ class string_editor_window
 
         /*loop, user imput is handelt. returns the moditided string*/
         const std::string& query_string(const bool loop);
-    
-
 };
 #endif
