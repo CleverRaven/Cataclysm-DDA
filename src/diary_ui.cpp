@@ -75,7 +75,7 @@ namespace {
         const int maxx = getmaxx(*win) - 1;
         const int maxy = getmaxy(*win) - 1;
         
-        const int midx = maxx % 2 == 0 ? maxx / 2 : maxx / 2 - 1;
+        const int midx = maxx / 2;
         for (int i = 4; i <= maxy - 4; i++) {
             mvwprintw(*win, point(0, i), "||||");
             mvwprintw(*win, point(maxx - 3, i), "||||");
@@ -159,14 +159,16 @@ void diary::show_diary_ui(diary * c_diary)
         int maxy = getmaxy(w_diary);
         int begx = getbegx(w_diary);
         int begy = getbegy(w_diary);
+        
+        int midx = maxx / 2;
 
-        w_pages = catacurses::newwin(maxy +5, maxx * 3 / 10, point(begx-5 - maxx * 3 / 10, begy -2));
-        w_changes = catacurses::newwin(maxy-3, maxx * 5 / 10 -1, point(begx  , begy+3));
-        w_text = catacurses::newwin(maxy-3, maxx * 5 / 10, point(begx + maxx * 5 / 10 , begy+3));
-        w_border = catacurses::newwin(maxy + 5, maxx +8, point(begx -4, begy - 2));
-        w_desc = catacurses::newwin(3, maxx * 3 / 10+ maxx+9, point(begx - 5 - maxx * 3 / 10, begy -6));
-        w_head = catacurses::newwin(3, maxx , point(begx, begy));
-        w_info = catacurses::newwin((maxy/2 - 4 > 7)?7: maxy/2 - 4, maxx + 8, point(begx - 4,begy+maxy+4));
+        w_pages = catacurses::newwin(maxy + 5, maxx * 3 / 10, point(begx - 5 - maxx * 3 / 10, begy - 2));
+        w_changes = catacurses::newwin(maxy - 3, midx - 1, point(begx  , begy + 3));
+        w_text = catacurses::newwin(maxy - 3, midx - 2, point(begx + midx + 2, begy + 3));
+        w_border = catacurses::newwin(maxy + 5, maxx + 9, point(begx - 4, begy - 2));
+        w_desc = catacurses::newwin(3, maxx * 3 / 10 + maxx + 10, point(begx - 5 - maxx * 3 / 10, begy - 6));
+        w_head = catacurses::newwin(1, maxx, point(begx, begy + 1));
+        w_info = catacurses::newwin((maxy / 2 - 4 > 7)? 7 : maxy / 2 - 4, maxx + 9, point(begx - 4, begy + maxy + 4));
         
         
         ui.position_from_window( w_diary );
