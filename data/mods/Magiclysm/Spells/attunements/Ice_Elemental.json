@@ -65,5 +65,27 @@
     "min_duration": 6000,
     "max_duration": 60000,
     "duration_increment": 1550
+  },
+  {
+    "id": "iceelemental_frostcrystal",
+    "type": "SPELL",
+    "name": "Form Everfrost",
+    "description": "Drawing upon the cold in your own blood and the power of your magic you form a large piece of never-thawing ice.",
+    "valid_targets": [ "ground" ],
+    "effect": "ter_transform",
+    "effect_str": "icelemental_crystal",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "LOUD", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "spell_class": "ICE_ELEMENTAL",
+    "energy_source": "MANA",
+    "difficulty": 5,
+    "base_casting_time": 30000,
+    "final_casting_time": 300,
+    "casting_time_increment": -850,
+    "base_energy_cost": 1500,
+    "max_level": 35,
+    "min_range": 3,
+    "max_range": 10,
+    "range_increment": 0.2
   }
 ]

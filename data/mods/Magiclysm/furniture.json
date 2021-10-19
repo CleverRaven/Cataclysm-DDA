@@ -264,5 +264,29 @@
       "str_max": 40,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everfrost_crystal",
+    "name": "everfrost crystal",
+    "description": "This massive mana crystal juts from the ground as if it had sprouted up like a weed.  It pulses with a angry white light, occasionally flickering brighter.  The air around it is ",
+    "symbol": "]",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "looks_like": "f_boulder_large",
+    "flags": [ "TRANSPARENT" ],
+    "emissions": [ "emit_cooler_vehicle" ],
+    "light_emitted": 20,
+    "bash": {
+      "str_min": 25,
+      "str_max": 35,
+      "sound": "glass shattering!",
+      "sound_fail": "mana crackling!",
+      "items": [
+        { "item": "mana_dust", "charges": [ 0, 4 ] }
+      ]
+    }
   }
 ]
