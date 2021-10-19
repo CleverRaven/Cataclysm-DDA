@@ -513,7 +513,7 @@
     "id": "cuirass_chitin",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chitinous cuirass" },
+    "name": { "str": "chitinous cuirass", "str_pl": "chitnous cuirasses },
     "description": "A hard cuirass made from the exoskeletons of insects.",
     "weight": "1740 g",
     "volume": "12000 ml",
@@ -533,7 +533,7 @@
   {
     "id": "xl_cuirass_chitin",
     "type": "ARMOR",
-    "name": { "str": "XL chitinous cuirass" },
+    "name": { "str": "XL chitinous cuirass", "str_pl": "XL chitinous cuirasses" },
     "copy-from": "cuirass_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "STURDY", "OVERSIZE" ]
@@ -543,7 +543,7 @@
     "copy-from": "cuirass_chitin",
     "looks_like": "armor_chitin",
     "type": "ARMOR",
-    "name": { "str": "biosilicified chitin cuirass" },
+    "name": { "str": "biosilicified chitin cuirass", "str_pl": "biosilicified chitin cuirasses" },
     "description": "A hard cuirass crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "material_thickness": 5,
@@ -556,7 +556,7 @@
   {
     "id": "xl_cuirass_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "XL biosilicified chitin cuirass" },
+    "name": { "str": "XL biosilicified chitin cuirass", "str_pl": "XL biosilicified chitin cuirasses" },
     "copy-from": "cuirass_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "STURDY", "OVERSIZE" ]
