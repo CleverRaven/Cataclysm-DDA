@@ -13,10 +13,10 @@
     "looks_like": "union_suit",
     "color": "white",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 98, "encumbrance": 1 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 1 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 1 },
-      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 1 }
+      { "covers": [ "torso" ], "coverage": 98, "cover_melee": 90, "encumbrance": 1 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 98, "cover_melee": 90, "encumbrance": 1 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "cover_melee": 90, "encumbrance": 1 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "cover_melee": 90, "encumbrance": 1 }
     ],
     "warmth": 1,
     "material_thickness": 2,
