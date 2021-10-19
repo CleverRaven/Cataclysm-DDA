@@ -1510,7 +1510,7 @@
       {
         "id": "debug_miss_buff",
         "name": "Getting Angry",
-        "description": "When I get my hands on you…  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "description": "When I get my hands on you… +2 bash damage for 2 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 5,
