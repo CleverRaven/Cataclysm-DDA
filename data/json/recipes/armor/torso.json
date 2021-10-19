@@ -501,7 +501,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_slick", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 16 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_slick", 1 ],
+        [ "ballistic_vest_empty", 1 ],
+        [ "sheet_kevlar_layered", 16 ]
+      ],
       [ [ "rag", 19 ] ],
       [
         [ "tacvest", 1 ],
@@ -793,7 +798,13 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 150 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_slick", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_slick", 1 ],
+        [ "ballistic_vest_empty", 1 ],
+        [ "swat_armor", 1 ],
+        [ "kevlar_plate", 16 ]
+      ]
     ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -847,7 +858,13 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ], [ [ "iotv_shoulder_plate", 2 ] ], [ [ "iotv_groin_plate", 1 ] ] ],
+    "components": [
+      [ [ "ballistic_vest_empty", 1 ] ],
+      [ [ "esapi_plate", 2 ] ],
+      [ [ "esbi_plate", 2 ] ],
+      [ [ "iotv_shoulder_plate", 2 ] ],
+      [ [ "iotv_groin_plate", 1 ] ]
+    ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -861,7 +878,12 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ], [ [ "iotv_shoulder_plate", 2 ] ] ],
+    "components": [
+      [ [ "ballistic_vest_empty", 1 ] ],
+      [ [ "esapi_plate", 2 ] ],
+      [ [ "esbi_plate", 2 ] ],
+      [ [ "iotv_shoulder_plate", 2 ] ]
+    ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -1141,7 +1163,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_slick", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 13 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_slick", 1 ],
+        [ "ballistic_vest_empty", 1 ],
+        [ "sheet_kevlar_layered", 13 ]
+      ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
@@ -1323,7 +1350,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_slick", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 10 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_slick", 1 ],
+        [ "ballistic_vest_empty", 1 ],
+        [ "sheet_kevlar_layered", 10 ]
+      ],
       [ [ "rag", 11 ] ],
       [
         [ "tacvest", 1 ],
@@ -1625,7 +1657,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_slick", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 12 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_slick", 1 ],
+        [ "ballistic_vest_empty", 1 ],
+        [ "sheet_kevlar_layered", 12 ]
+      ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
