@@ -406,7 +406,7 @@
     "type": "MONSTER_FACTION",
     "name": "stag_beetle_larva",
     "base_faction": "stag_beetle",
-    "neutral": [ "ant", "acid_ant" ]
+    "neutral": [ "ant", "acid_ant", "aphid" ]
   },
   {
     "type": "MONSTER_FACTION",
