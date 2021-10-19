@@ -943,16 +943,23 @@
   },
   {
     "type": "technique",
-    "id": "tec_leopard_counter",
-    "name": "Leopard Foresight",
-    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "id": "tec_leopard_claw",
+    "name": "Leopard Swipe",
+    "messages": [ "You savagely claw at %s", "<npcname> savagely claws at %s" ],
     "unarmed_allowed": true,
-    "crit_ok": true,
-    "dodge_counter": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
+    "crit_tec": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_pounce",
+    "name": "Leopard Pounce",
+    "messages": [ "You leap and pounce on %s", "<npcname> leaps and pounces on %s" ],
+    "unarmed_allowed": true,
+    "required_buffs_all": [ "buff_leopard_oncrit" ],
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",
