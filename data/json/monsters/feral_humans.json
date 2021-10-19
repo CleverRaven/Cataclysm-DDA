@@ -293,7 +293,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_maid_broom",
     "name": { "str": "well dressed feral" },
-    "description": "Wearing fancy clothes and with a crossbow in hand, this maniac was once a socialite.  Its hands seem to wander trough the crossbow as if touching a loved one.",
+    "description": "Wearing fancy clothes and with a crossbow in hand, this maniac was once a socialite.  Its hands seem to wander the crossbow as if touching a loved one.",
     "starting_ammo": { "bolt_cf": 6 },
     "special_attacks": [
       {
