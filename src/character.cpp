@@ -9018,6 +9018,32 @@ void Character::process_effects()
         }
     }
 
+    // Apply new effects from effect->effect chains
+    while( !scheduled_effects.empty() ) {
+        const auto &effect = scheduled_effects.front();
+
+        add_effect( effect_source::empty(),
+                    effect.eff_id,
+                    effect.dur,
+                    effect.bp,
+                    effect.permanent,
+                    effect.intensity,
+                    effect.force,
+                    effect.deferred );
+
+        scheduled_effects.pop();
+    }
+
+    // Perform immediate effect removals
+    while( !terminating_effects.empty() ) {
+
+        const auto &effect = terminating_effects.front();
+
+        remove_effect( effect.eff_id, effect.bp );
+
+        terminating_effects.pop();
+    }
+
     Creature::process_effects();
 }
 
