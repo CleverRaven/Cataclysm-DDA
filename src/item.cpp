@@ -8222,7 +8222,15 @@ const material_type &item::get_random_material() const
 const material_type &item::get_base_material() const
 {
     const std::map<material_id, int> &mats = made_of();
-    return mats.empty() ? material_id::NULL_ID().obj() : mats.begin()->first.obj();
+    const material_type *m = &material_id::NULL_ID().obj();
+    int portion = 0;
+    for( const std::pair<material_id, int> mat : mats ) {
+        if( mat.second > portion ) {
+            portion = mat.second;
+            m = &mat.first.obj();
+        }
+    }
+    return *m;
 }
 
 bool item::operator<( const item &other ) const
