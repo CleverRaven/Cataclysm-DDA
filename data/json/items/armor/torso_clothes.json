@@ -103,7 +103,7 @@
     "volume": "3 L",
     "price": 6400,
     "price_postapoc": 750,
-    "material": [ "nylon", "cotton", "plastic" ],
+    "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "jacket_army",
     "color": "green",

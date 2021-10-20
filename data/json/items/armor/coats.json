@@ -861,7 +861,7 @@
       }
     ],
     "warmth": 20,
-    "material_thickness": 0.3,
+    "material_thickness": 0.4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
