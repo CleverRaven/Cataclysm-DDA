@@ -438,8 +438,8 @@
     "type": "recipe",
     "copy-from": "tacvest",
     "time": "11 h 15 m",
-    "using": [ [ "tailoring_cotton", 7 ], [ "plastic_molding", 3 ] ],
-    "components": [ [ [ "tailoring_nylon", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
+    "using": [ [ "tailoring_nylon", 7 ], [ "plastic_molding", 3 ] ],
+    "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
     "result": "duffelbag",
