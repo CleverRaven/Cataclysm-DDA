@@ -293,7 +293,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_maid_broom",
     "name": { "str": "well dressed feral" },
-    "description": "Wearing fancy clothes and with a crossbow in hand, this maniac was once a socialite.  Its hands seem to wander trough the crossbow as if touching a loved one.",
+    "description": "Wearing fancy clothes and with a crossbow in hand, this maniac was once a socialite.  Its hands seem to caress the crossbow as if touching a loved one.",
     "starting_ammo": { "bolt_cf": 6 },
     "special_attacks": [
       {
@@ -307,7 +307,7 @@
         "fake_per": 6,
         "require_targeting_player": false,
         "ranges": [ [ 0, 7, "DEFAULT" ] ],
-        "description": "The feral human shots its crossbow!"
+        "description": "The feral human shoots its crossbow!"
       }
     ],
     "death_drops": "feral_fancy_death_drops_crossbow"
