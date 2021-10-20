@@ -134,7 +134,7 @@ static void cut_up_yields( const std::string &target )
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
-    for( const std::pair<material_id, int> &mater : target_materials ) {
+    for( const auto &mater : target_materials ) {
         if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
             units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
             smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );

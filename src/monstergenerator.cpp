@@ -1273,7 +1273,7 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }
-        for( const std::pair<material_id, int> &m : mon.mat ) {
+        for( const auto &m : mon.mat ) {
             if( m.first.str() == "null" || !m.first.is_valid() ) {
                 debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.first.c_str() );
             }

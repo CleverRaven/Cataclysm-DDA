@@ -1397,7 +1397,7 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
 // Helper to visit instances of all the sub-materials of an item.
 static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
 {
-    for( const std::pair<material_id, int> &material : it.made_of() ) {
+    for( const auto &material : it.made_of() ) {
         if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
             item exemplar( *id );
             func( exemplar );

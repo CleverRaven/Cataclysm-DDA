@@ -102,7 +102,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
     }
     const units::mass by_weight = burned_mass;
     const float mat_total = fuel.type->mat_portion_total == 0 ? 1 : fuel.type->mat_portion_total;
-    for( const std::pair<material_id, int> &mat : all_mats ) {
+    for( const auto &mat : all_mats ) {
         for( const auto &bp : mat.first->burn_products() ) {
             itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless

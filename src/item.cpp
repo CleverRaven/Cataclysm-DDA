@@ -6870,7 +6870,7 @@ float item::bash_resist( bool to_self ) const
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
-        for( const std::pair<material_id, int> &m : mats ) {
+        for( const auto &m : mats ) {
             resist += m.first->bash_resist() * m.second;
         }
         // Average based portion of materials
@@ -6899,7 +6899,7 @@ float item::cut_resist( bool to_self ) const
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
-        for( const std::pair<material_id, int> &m : mats ) {
+        for( const auto &m : mats ) {
             resist += m.first->cut_resist() * m.second;
         }
         // Average based portion of materials
@@ -6938,7 +6938,7 @@ float item::bullet_resist( bool to_self ) const
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
-        for( const std::pair<material_id, int> &m : mats ) {
+        for( const auto &m : mats ) {
             resist += m.first->bullet_resist() * m.second;
         }
         // Average based portion of materials
@@ -6966,7 +6966,7 @@ float item::acid_resist( bool to_self, int base_env_resist ) const
     if( !mats.empty() ) {
         // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
         // but such is the way of the code.
-        for( const std::pair<material_id, int> &m : mats ) {
+        for( const auto &m : mats ) {
             resist += m.first->acid_resist() * m.second;
         }
         // Average based portion of materials
@@ -6998,7 +6998,7 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
     const std::map<material_id, int> mats = made_of();
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     if( !mats.empty() ) {
-        for( const std::pair<material_id, int> &m : mats ) {
+        for( const auto &m : mats ) {
             resist += m.first->fire_resist() * m.second;
         }
         // Average based portion of materials
@@ -7252,9 +7252,10 @@ const std::map<quality_id, int> &item::quality_of() const
 std::vector<const material_type *> item::made_of_types() const
 {
     std::vector<const material_type *> material_types_composed_of;
-    for( const std::pair<material_id, int> &mat_id : made_of() ) {
+    for( const auto &mat_id : made_of() ) {
         material_types_composed_of.push_back( &mat_id.first.obj() );
     }
+    std::reverse( material_types_composed_of.begin(), material_types_composed_of.end() );
     return material_types_composed_of;
 }
 
@@ -8213,6 +8214,7 @@ const material_type &item::get_random_material() const
 {
     std::vector<material_id> matlist;
     const std::map<material_id, int> &mats = made_of();
+    matlist.reserve( mats.size() );
     for( auto mat : mats ) {
         matlist.emplace_back( mat.first );
     }
@@ -9319,7 +9321,7 @@ float item::simulate_burn( fire_data &frd ) const
     float burn_added = 0.0f;
     const units::volume vol = base_volume();
     const int effective_intensity = frd.contained ? 3 : frd.fire_intensity;
-    for( const std::pair<material_id, int> &m : mats ) {
+    for( const auto &m : mats ) {
         const mat_burn_data &bd = m.first->burn_data( effective_intensity );
         if( bd.immune ) {
             // Made to protect from fire
