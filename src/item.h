@@ -1031,7 +1031,7 @@ class item : public visitable
          * This may return an empty vector.
          * The returned vector does not contain the null id.
          */
-        const std::vector<material_id> &made_of() const;
+        const std::map<material_id, int> &made_of() const;
         /**
         * The ids of all the qualities this contains.
         */

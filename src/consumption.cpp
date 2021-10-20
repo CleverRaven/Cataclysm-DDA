@@ -672,7 +672,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
-            if( !elem->edible() ) {
+            if( !elem.first->edible() ) {
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }

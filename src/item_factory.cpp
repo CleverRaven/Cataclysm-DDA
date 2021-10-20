@@ -272,8 +272,8 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         const auto &mats = obj.materials;
-        if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
-            std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
+        if( mats.find( material_id( "hydrocarbons" ) ) == mats.end() &&
+            mats.find( material_id( "oil" ) ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
@@ -475,15 +475,19 @@ void Item_factory::finalize_pre( itype &obj )
             auto mat = obj.materials;
 
             // TODO: migrate inedible comestibles to appropriate alternative types.
-            mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-                return !m.obj().edible();
-            } ), mat.end() );
+            for( auto m = mat.begin(); m != mat.end(); ) {
+                if( !m->first->edible() ) {
+                    m = mat.erase( m );
+                } else {
+                    m++;
+                }
+            }
 
             // For comestibles composed of multiple edible materials we calculate the average.
             for( const auto &v : vitamin::all() ) {
                 if( !vitamins.count( v.first ) ) {
                     for( const auto &m : mat ) {
-                        double amount = m->vitamin( v.first ) * healthy / mat.size();
+                        double amount = m.first->vitamin( v.first ) * healthy / mat.size();
                         vitamins[v.first] += std::ceil( amount );
                     }
                 }
@@ -579,8 +583,9 @@ void Item_factory::finalize_post( itype &obj )
 
             // tool has a possible repair action, check if the materials are compatible
             const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
-            if( std::any_of( obj.materials.begin(), obj.materials.end(), [&opts]( const material_id & m ) {
-            return opts.count( m ) > 0;
+            if( std::any_of( obj.materials.begin(),
+            obj.materials.end(), [&opts]( const std::pair<material_id, int> &m ) {
+            return opts.count( m.first ) > 0;
             } ) ) {
                 obj.repair.insert( tool );
             }
@@ -1299,9 +1304,9 @@ void Item_factory::check_definitions() const
             msg += "empty description\n";
         }
 
-        for( const material_id &mat_id : type->materials ) {
-            if( mat_id.str() == "null" || !mat_id.is_valid() ) {
-                msg += string_format( "invalid material %s\n", mat_id.c_str() );
+        for( const std::pair<const material_id, int> &mat_id : type->materials ) {
+            if( mat_id.first.str() == "null" || !mat_id.first.is_valid() ) {
+                msg += string_format( "invalid material %s\n", mat_id.first.c_str() );
             }
         }
 
@@ -2225,37 +2230,44 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
                                     jsobj.get_int( "probability" ) );
     }
 
+    bool is_not_boring = false;
     if( jo.has_member( "primary_material" ) ) {
         std::string mat = jo.get_string( "primary_material" );
         slot.specific_heat_solid = material_id( mat )->specific_heat_solid();
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
+        is_not_boring = is_not_boring || mat == "junk";
     } else if( jo.has_member( "material" ) ) {
         float specific_heat_solid = 0.0f;
         float specific_heat_liquid = 0.0f;
         float latent_heat = 0.0f;
+        int mat_total = 0;
 
-        for( const std::string &m : jo.get_tags( "material" ) ) {
-            specific_heat_solid += material_id( m )->specific_heat_solid();
-            specific_heat_liquid += material_id( m )->specific_heat_liquid();
-            latent_heat += material_id( m )->latent_heat();
+        auto add_spi = [&]( const material_id & m, int portion ) {
+            specific_heat_solid += m->specific_heat_solid() * portion;
+            specific_heat_liquid += m->specific_heat_liquid() * portion;
+            latent_heat += m->latent_heat() * portion;
+            mat_total += portion;
+            is_not_boring = is_not_boring || m == material_id( "junk" );
+        };
+
+        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
+            for( JsonObject m : jo.get_array( "material" ) ) {
+                const material_id mat_id( m.get_string( "type" ) );
+                int portion = m.get_int( "portion", 1 );
+                add_spi( mat_id, portion );
+            }
+        } else {
+            for( const std::string &m : jo.get_tags( "material" ) ) {
+                add_spi( material_id( m ), 1 );
+            }
         }
         // Average based on number of materials.
-        slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
-        slot.specific_heat_solid = specific_heat_solid / jo.get_tags( "material" ).size();
-        slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
+        slot.specific_heat_liquid = specific_heat_liquid / mat_total;
+        slot.specific_heat_solid = specific_heat_solid / mat_total;
+        slot.latent_heat = latent_heat / mat_total;
     }
 
-    bool is_not_boring = false;
-    if( jo.has_member( "primary_material" ) ) {
-        std::string mat = jo.get_string( "primary_material" );
-        is_not_boring = is_not_boring || mat == "junk";
-    }
-    if( jo.has_member( "material" ) ) {
-        for( const std::string &m : jo.get_tags( "material" ) ) {
-            is_not_boring = is_not_boring || m == "junk";
-        }
-    }
     // Junk food never gets old by default, but this can still be overridden.
     if( is_not_boring ) {
         slot.monotony_penalty = 0;
@@ -2535,7 +2547,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
 
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
-        if( std::find( mats.begin(), mats.end(), pr.first ) != mats.end() ) {
+        if( mats.find( pr.first ) != mats.end() ) {
             item_template.item_tags.insert( pr.second );
         }
     }
@@ -2547,11 +2559,19 @@ void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
     const size_t old_size = mats.size();
-    mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
+    int ports = 0;
+    for( auto mat = mats.begin(); mat != mats.end(); ) {
+        if( mat->first == material_id( "hflesh" ) ) {
+            ports += mat->second;
+            mat = mats.erase( mat );
+        } else {
+            mat++;
+        }
+    }
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
-        mats.emplace_back( "flesh" );
+        mats.find( material_id( "flesh" ) ) == mats.end() ) {
+        mats.emplace( "flesh", ports );
     }
 }
 
@@ -2973,8 +2993,18 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( const std::string &m : jo.get_tags( "material" ) ) {
-            def.materials.emplace_back( m );
+        auto add_mat = [&def]( const material_id & m, int portion ) {
+            def.materials.emplace( m, portion );
+            def.mat_portion_total += portion;
+        };
+        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
+            for( JsonObject mat : jo.get_array( "material" ) ) {
+                add_mat( material_id( mat.get_string( "type" ) ), mat.get_int( "portion", 1 ) );
+            }
+        } else {
+            for( const std::string &mat : jo.get_tags( "material" ) ) {
+                add_mat( material_id( mat ), 1 );
+            }
         }
     }
 
