@@ -635,6 +635,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     const std::string magazines_str = enumerate_as_string( mags,
                     []( const itype_id & mag ) {
                         return string_format(
+                                   // NOLINTNEXTLINE(cata-translate-string-literal)
                                    "%s (taking %s)", mag.str(),
                                    enumerate_as_string( mag->magazine->type,
                         []( const ammotype & a ) {

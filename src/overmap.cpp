@@ -1805,6 +1805,7 @@ struct mutable_overmap_phase_remainder {
             const mutable_overmap_placement_rule_remainder &rule = *picked->rule;
             picked->description =
                 string_format(
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     "At %s chose '%s' rot %d with neighbours N:%s E:%s S:%s W:%s and constraints "
                     "%s",
                     pos.to_string(), rule.description(), static_cast<int>( dir ),
@@ -1824,6 +1825,7 @@ struct mutable_overmap_phase_remainder {
             } );
             std::string message =
                 string_format(
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     "At %s FAILED to match on terrain %s with neighbours N:%s E:%s S:%s W:%s and "
                     "constraints %s from amongst rules %s",
                     pos.to_string(), om.ter( pos ).id().str(),
@@ -2051,6 +2053,7 @@ struct mutable_overmap_special_data {
                     break;
                 }
                 descriptions.push_back(
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     string_format( "## Entering phase %td", current_phase - phases.begin() ) );
                 phase_remaining = current_phase->realise();
                 unresolved.restore_postponed();
@@ -2066,6 +2069,7 @@ struct mutable_overmap_special_data {
             const oter_id &current_terrain = om.ter( p );
             std::string joins = enumerate_as_string( unresolved.all_unresolved_at( p ),
             []( const joins_tracker::join * dir_join ) {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 return string_format( "%s: %s", io::enum_to_string( dir_join->where.dir ),
                                       dir_join->join->id );
             } );
@@ -2077,6 +2081,7 @@ struct mutable_overmap_special_data {
 
             om.add_note(
                 p, string_format(
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     "U:R;DEBUG: unresolved joins %s at %s placing %s",
                     joins, p.to_string(), parent_id.str() ) );
         }
