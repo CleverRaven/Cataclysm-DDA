@@ -294,7 +294,7 @@ void diary::show_diary_ui(diary * c_diary)
         
     }
 }
-//TODO: redo this, so it can be used like a Editor. 
+//isn´t needed anymore, because of string_editor_window edition
 void diary::edit_page_ui() {
     std::string title = _("Text:");
     static constexpr int max_note_length = 20000;
