@@ -7257,8 +7257,8 @@ std::vector<const material_type *> item::made_of_types() const
             material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     } else {
-        for( const material_type *mat_id : type->mats_ordered ) {
-            material_types_composed_of.push_back( mat_id );
+        for( const material_id &mat_id : type->mats_ordered ) {
+            material_types_composed_of.push_back( &mat_id.obj() );
         }
     }
     return material_types_composed_of;

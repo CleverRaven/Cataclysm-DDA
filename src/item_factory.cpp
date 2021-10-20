@@ -2996,7 +2996,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         auto add_mat = [&def]( const material_id & m, int portion ) {
             const auto res = def.materials.emplace( m, portion );
             if( res.second ) {
-                def.mats_ordered.emplace_back( &res.first->first.obj() );
+                def.mats_ordered.emplace_back( m );
                 def.mat_portion_total += portion;
             }
         };

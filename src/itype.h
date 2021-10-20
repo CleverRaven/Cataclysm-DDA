@@ -938,7 +938,7 @@ struct itype {
         std::map<material_id, int> materials;
         // Since the material list was converted to a map, keep track of the material insert order
         // Do not use this for materials. Use the materials map above.
-        std::vector<const material_type *> mats_ordered;
+        std::vector<material_id> mats_ordered;
         // Total of item's material portions (materials->second)
         int mat_portion_total = 0;
 
