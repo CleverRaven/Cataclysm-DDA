@@ -9328,25 +9328,26 @@ float item::simulate_burn( fire_data &frd ) const
 
         // If fire is contained, burn rate is independent of volume
         if( frd.contained || bd.volume_per_turn == 0_ml ) {
-            time_added += bd.fuel;
-            smoke_added += bd.smoke;
-            burn_added += bd.burn;
+            time_added += bd.fuel * m.second;
+            smoke_added += bd.smoke * m.second;
+            burn_added += bd.burn * m.second;
         } else {
             double volume_burn_rate = to_liter( bd.volume_per_turn ) / to_liter( vol );
-            time_added += bd.fuel * volume_burn_rate;
-            smoke_added += bd.smoke * volume_burn_rate;
-            burn_added += bd.burn * volume_burn_rate;
+            time_added += bd.fuel * volume_burn_rate * m.second;
+            smoke_added += bd.smoke * volume_burn_rate * m.second;
+            burn_added += bd.burn * volume_burn_rate * m.second;
         }
     }
+    const int mat_total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
 
     // Liquids that don't burn well smother fire well instead
     if( made_of( phase_id::LIQUID ) && time_added < 200 ) {
         time_added -= rng( 400.0 * to_liter( vol ), 1200.0 * to_liter( vol ) );
     } else if( mats.size() > 1 ) {
         // Average the materials
-        time_added /= mats.size();
-        smoke_added /= mats.size();
-        burn_added /= mats.size();
+        time_added /= mat_total;
+        smoke_added /= mat_total;
+        burn_added /= mat_total;
     } else if( mats.empty() ) {
         // Non-liquid items with no specified materials will burn at moderate speed
         burn_added = 1;

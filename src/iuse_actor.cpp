@@ -1571,7 +1571,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         }
         //items count by charges should be even smaller than base materials
         if( !temp.is_salvageable() || temp.count_by_charges() ) {
-            const float mat_total = temp.type->mat_portion_total;
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
             for( const auto &type : temp.made_of() ) {
                 mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
@@ -1607,7 +1607,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         // No crafting recipe available
         if( iter == recipe_dict.end() ) {
             // Check disassemble recipe too
-            const float mat_total = temp.type->mat_portion_total;
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
             if( un_craft.is_null() ) {
                 // No recipes found, count weight and go next

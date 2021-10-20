@@ -131,7 +131,8 @@ static void cut_up_yields( const std::string &target )
     item cut_up_target{ target };
     item tool{ "knife_butcher" };
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
-    const float mat_total = cut_up_target.type->mat_portion_total;
+    const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
+                            cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
     for( const std::pair<material_id, int> &mater : target_materials ) {
         if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
