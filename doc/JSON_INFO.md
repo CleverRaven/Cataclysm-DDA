@@ -614,7 +614,7 @@ For information about tools with option to export ASCII art in format ready to b
 | main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | base_hp           | (_mandatory_) The amount of hp this part has before any modification.
-| opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
+| opposite_part     | (_mandatory_) What is the opposite part of this one in case of a pair.
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
@@ -694,7 +694,7 @@ For information about tools with option to export ASCII art in format ready to b
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
-| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments's id or an inline definition of the enchantment.
+| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantment's id or an inline definition of the enchantment.
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
 | learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
@@ -702,7 +702,7 @@ For information about tools with option to export ASCII art in format ready to b
 | dupes_allowed               | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
 | cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`) 
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
-| dispersion_mod              | (_optional_) Modifier to change firearm disperation.
+| dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
 
 ```C++
 {
@@ -900,7 +900,7 @@ Note that the above example gives floats, not integers, for the vitamins values.
 
 #### Fuel data
 
-Every material can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+Every material can have fuel data that determines how much horse power it produces per unit consumed. Currently, gases and plasmas cannot really be fuels.
 
 If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
 
@@ -2045,7 +2045,7 @@ Values are checked from highest first, the order they're defined in doesn't matt
     "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
     "benign": true,
     "always_invisible": true,
-    "funnel_radius": 200,  // milimiters?
+    "funnel_radius": 200,  // millimeters?
     "comfort": 4,
     "floor_bedding_warmth": -500,
     "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
@@ -3637,7 +3637,7 @@ oxytorch: {
         "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
         "difficulty": 0, // (optional, default 0) base difficulty of prying action
         "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
-        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "noisy": false, // (optional, default false) makes noise when successfully prying
         "alarm": false, // (optional) has an alarm, on success will trigger the police
         "breakable": false, // (optional) has a chance to trigger the break action on failure
         "failure": "You try to pry the window but fail." // (optional) failure message
@@ -3822,7 +3822,7 @@ oxytorch: {
 ```
 
 ### `prying`
-(Optional) Data for using with pyring tools
+(Optional) Data for using with prying tools
 ```cpp
 "prying": {
     "result": "terrain_id", // terrain it will become when done
@@ -3842,7 +3842,7 @@ oxytorch: {
         "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
         "difficulty": 0, // (optional, default 0) base difficulty of prying action
         "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
-        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "noisy": false, // (optional, default false) makes noise when successfully prying
         "alarm": false, // (optional) has an alarm, on success will trigger the police
         "breakable": false, // (optional) has a chance to trigger the break action on failure
         "failure": "You try to pry the window but fail." // (optional) failure message
@@ -4202,7 +4202,7 @@ If the start date of the scenario is before the date of cataclysm defined by map
  Identifier            | Description
 ---                    | ---
 `hour`                 | (optional, integer) Hour of the day for initial date. Default 8. -1 randomizes 0-23.
-`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season lenght.
+`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season length.
 `season`               | (optional, integer) Season for initial date. Default `SPRING`.
 `year`                 | (optional, integer) Year for initial date. Default 1. -1 randomizes 1-11.
 
