@@ -210,8 +210,8 @@ class jmapgen_piece
                                             const std::string &/*outer_context*/ ) const {}
 
         /** Place something on the map from mapgendata &dat, at (x,y). */
-        virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                          ) const = 0;
+        virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                            const std::string &context ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
         virtual bool has_vehicle_collision( const mapgendata &, const point &/*offset*/ ) const {
@@ -383,8 +383,9 @@ struct jmapgen_objects {
 
         void merge_parameters_into( mapgen_parameters &, const std::string &outer_context ) const;
 
-        void apply( const mapgendata &dat, mapgen_phase ) const;
-        void apply( const mapgendata &dat, mapgen_phase, const point &offset ) const;
+        void apply( const mapgendata &dat, mapgen_phase, const std::string &context ) const;
+        void apply( const mapgendata &dat, mapgen_phase, const point &offset,
+                    const std::string &context ) const;
 
         /**
          * checks if applying these objects to data would cause cause a collision with vehicles
