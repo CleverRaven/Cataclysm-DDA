@@ -952,7 +952,7 @@ static bool eat( item &food, Character &you, bool force )
 
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
-    if( food.poison > 0 && !you.has_trait( trait_EATPOISON ) &&
+    if( food.poison > 0 &&
         !you.has_trait( trait_EATDEAD ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
             you.add_effect( effect_poison, food.poison * 10_minutes );
