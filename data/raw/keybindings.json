@@ -2097,7 +2097,8 @@
     "type": "keybinding",
     "name": "Drop Item",
     "category": "DEFAULTMODE",
-    "id": "drop"
+    "id": "drop",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
   },
   {
     "type": "keybinding",
