@@ -6867,13 +6867,14 @@ float item::bash_resist( bool to_self ) const
     const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const float eff_thickness = std::max( 0.1f, get_thickness() - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->bash_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const std::pair<material_id, int> &m : mats ) {
+            resist += m.first->bash_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     return ( resist * eff_thickness ) + mod;
@@ -6895,13 +6896,14 @@ float item::cut_resist( bool to_self ) const
     const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->cut_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const std::pair<material_id, int> &m : mats ) {
+            resist += m.first->cut_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     return ( resist * eff_thickness ) + mod;
@@ -6933,13 +6935,14 @@ float item::bullet_resist( bool to_self ) const
     const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->bullet_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const std::pair<material_id, int> &m : mats ) {
+            resist += m.first->bullet_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     return ( resist * eff_thickness ) + mod;
@@ -6958,16 +6961,16 @@ float item::acid_resist( bool to_self, int base_env_resist ) const
         return 0.0f;
     }
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
         // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
         // but such is the way of the code.
-
-        for( const material_type *mat : mat_types ) {
-            resist += mat->acid_resist();
+        for( const std::pair<material_id, int> &m : mats ) {
+            resist += m.first->acid_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     const int env = get_env_resist( base_env_resist );
@@ -6992,13 +6995,14 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
         return 0.0f;
     }
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->fire_resist();
+    const std::map<material_id, int> mats = made_of();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    if( !mats.empty() ) {
+        for( const std::pair<material_id, int> &m : mats ) {
+            resist += m.first->fire_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     const int env = get_env_resist( base_env_resist );
@@ -7013,8 +7017,9 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
 int item::chip_resistance( bool worst ) const
 {
     int res = worst ? INT_MAX : INT_MIN;
-    for( const material_type *mat : made_of_types() ) {
-        const int val = mat->chip_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    for( const std::pair<material_id, int> mat : made_of() ) {
+        const int val = ( mat.first->chip_resist() * mat.second ) / total;
         res = worst ? std::min( res, val ) : std::max( res, val );
     }
 
@@ -9394,7 +9399,7 @@ bool item::burn( fire_data &frd )
 
 bool item::flammable( int threshold ) const
 {
-    const std::vector<const material_type *> &mats = made_of_types();
+    const std::map<material_id, int> &mats = made_of();
     if( mats.empty() ) {
         // Don't know how to burn down something made of nothing.
         return false;
@@ -9402,22 +9407,24 @@ bool item::flammable( int threshold ) const
 
     int flammability = 0;
     units::volume volume_per_turn = 0_ml;
-    for( const material_type *m : mats ) {
-        const mat_burn_data &bd = m->burn_data( 1 );
+    for( const std::pair<material_id, int> m : mats ) {
+        const mat_burn_data &bd = m.first->burn_data( 1 );
         if( bd.immune ) {
             // Made to protect from fire
             return false;
         }
 
-        flammability += bd.fuel;
-        volume_per_turn += bd.volume_per_turn;
+        flammability += bd.fuel * m.second;
+        volume_per_turn += bd.volume_per_turn * m.second;
     }
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    flammability /= total;
+    volume_per_turn /= total;
 
     if( threshold == 0 || flammability <= 0 ) {
         return flammability > 0;
     }
 
-    volume_per_turn /= mats.size();
     units::volume vol = base_volume();
     if( volume_per_turn > 0_ml && volume_per_turn < vol ) {
         flammability = flammability * volume_per_turn / vol;
