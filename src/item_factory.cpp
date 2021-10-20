@@ -2994,8 +2994,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
         auto add_mat = [&def]( const material_id & m, int portion ) {
-            def.materials.emplace( m, portion );
-            def.mat_portion_total += portion;
+            const auto res = def.materials.emplace( m, portion );
+            if( res.second ) {
+                def.mats_ordered.emplace_back( &res.first->first.obj() );
+                def.mat_portion_total += portion;
+            }
         };
         if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
             for( JsonObject mat : jo.get_array( "material" ) ) {

@@ -7252,10 +7252,15 @@ const std::map<quality_id, int> &item::quality_of() const
 std::vector<const material_type *> item::made_of_types() const
 {
     std::vector<const material_type *> material_types_composed_of;
-    for( const auto &mat_id : made_of() ) {
-        material_types_composed_of.push_back( &mat_id.first.obj() );
+    if( is_corpse() ) {
+        for( const auto &mat_id : made_of() ) {
+            material_types_composed_of.push_back( &mat_id.first.obj() );
+        }
+    } else {
+        for( const material_type *mat_id : type->mats_ordered ) {
+            material_types_composed_of.push_back( mat_id );
+        }
     }
-    std::reverse( material_types_composed_of.begin(), material_types_composed_of.end() );
     return material_types_composed_of;
 }
 
@@ -8231,6 +8236,10 @@ const material_type &item::get_base_material() const
             portion = mat.second;
             m = &mat.first.obj();
         }
+    }
+    // Material portions all equal / not specified. Select first material.
+    if( portion == 1 ) {
+        return *type->mats_ordered[0];
     }
     return *m;
 }
