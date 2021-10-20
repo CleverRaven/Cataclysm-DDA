@@ -6,7 +6,6 @@
 #include <string>
 #include <list>
 #include <vector>
-#include <ui.h>
 
 #include "kill_tracker.h"
 #include "stats_tracker.h"
@@ -14,6 +13,7 @@
 #include "character.h"
 #include "units.h"
 #include "skill.h"
+#include "ui.h"
 
 /// <summary>
 /// diary page, to save current charakter progression 
@@ -141,4 +141,4 @@ private:
         /*method for adding changes to the changelist. with the possibility to connect a desciption*/
         void add_to_change_list(std::string entry, std::string desc = "");
 };
-#endif //CATA_SCR_DIARY_H
+#endif //CATA_SRC_DIARY_H

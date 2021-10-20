@@ -4,7 +4,6 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <ncurses_def.cpp>
 
 
 #include "color.h"
@@ -90,7 +89,7 @@ namespace {
             }
         }
         //top left corner
-        mvwprintw(*win, point(0, 0), "    ");
+        mvwprintw(*win, point_zero, "    ");
         mvwprintw(*win, point(0, 1), ".-/|");
         mvwprintw(*win, point(0, 2), "||||");
         mvwprintw(*win, point(0, 3), "||||");
@@ -192,7 +191,7 @@ void diary::show_diary_ui(diary * c_diary)
         draw_diary_border(&w_border);
         
         
-        center_print(w_desc, 0, c_light_gray, string_format(_("%s´s Diary"), c_diary->owner));
+        center_print(w_desc, 0, c_light_gray, string_format(_("%sÂ´s Diary"), c_diary->owner));
         center_print(w_info, 0, c_light_gray, string_format(_("Info")));
 
         std::string desc = string_format(_("%s, %s, %s, %s"),
@@ -294,7 +293,7 @@ void diary::show_diary_ui(diary * c_diary)
         
     }
 }
-//isn´t needed anymore, because of string_editor_window edition
+//isnÂ´t needed anymore, because of string_editor_window edition
 void diary::edit_page_ui() {
     std::string title = _("Text:");
     static constexpr int max_note_length = 20000;
