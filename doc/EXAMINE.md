@@ -20,6 +20,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```gaspump``` Use the gas-pump.
+- ```harvest_plant_ex``` Harvest a harvestable plant. Works on field crops and planters. (corn, wheat, etc.)
 - ```locked_object``` Locked, but can be pried open. Adding 'PICKABLE' flag allows opening with a lockpick as well. Prying/lockpicking results are hardcoded.
 - ```locked_object_pickable``` Locked, but can be opened with a lockpick. Requires 'PICKABLE' flag, lockpicking results are hardcoded.
 - ```none``` None
