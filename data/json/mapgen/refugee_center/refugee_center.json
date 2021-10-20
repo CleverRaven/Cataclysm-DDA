@@ -314,7 +314,7 @@
         { "class": "arsonist", "x": 38, "y": 19 },
         { "class": "old_guard_rep", "x": 47, "y": 10 },
         { "class": "guard", "x": 46, "y": 3 },
-        { "class": "evac_merchant", "x": 71, "y": 0 },
+        { "class": "free_merchants_merchant", "x": 71, "y": 0 },
         { "class": "science_rep", "x": 48, "y": 0 },
         { "class": "refugee_beggar1", "x": 53, "y": 0 },
         { "class": "refugee_beggar2", "x": 55, "y": 2 },
