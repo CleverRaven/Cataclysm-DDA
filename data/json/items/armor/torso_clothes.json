@@ -94,6 +94,44 @@
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   },
   {
+    "id": "combat_shirt",
+    "repairs_like": "jacket_army_modern",
+    "type": "ARMOR",
+    "name": { "str_sp": "combat shirt" },
+    "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camoflage pattern and have two shoulder pockets. It has a pocket for your pen!",
+    "weight": "450 g",
+    "volume": "3 L",
+    "price": 6400,
+    "price_postapoc": 750,
+    "material": [ "nylon", "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "jacket_army",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
     "id": "dress",
     "repairs_like": "jeans",
     "type": "ARMOR",

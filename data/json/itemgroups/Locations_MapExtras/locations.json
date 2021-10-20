@@ -2398,7 +2398,10 @@
     "subtype": "collection",
     "items": [
       { "group": "clothing_soldier_shirt" },
-      { "item": "jacket_army", "prob": 50 },
+      {
+        "distribution": [ { "item": "combat_shirt", "prob": 50 }, { "item": "jacket_army_modern", "prob": 50 } ],
+        "prob": 50
+      },
       { "item": "elbow_pads", "prob": 10 },
       { "item": "pants_army", "prob": 75 },
       { "item": "webbing_belt", "prob": 50 },
@@ -2461,7 +2464,11 @@
         "prob": 80
       },
       {
-        "distribution": [ { "item": "jacket_army", "prob": 80 }, { "item": "winter_jacket_army", "prob": 20 } ],
+        "distribution": [
+          { "item": "combat_shirt", "prob": 40 },
+          { "item": "jacket_army_modern", "prob": 40 },
+          { "item": "winter_jacket_army", "prob": 20 }
+        ],
         "prob": 100
       }
     ]
