@@ -158,11 +158,12 @@ static void process_new_eocs( std::priority_queue<queued_eoc, std::vector<queued
     }
     eoc_queue = temp_queued_eocs;
     for( auto eoc = eoc_vector.begin();
-         eoc != eoc_vector.end(); eoc++ ) {
+         eoc != eoc_vector.end(); ) {
         if( !eoc->is_valid() ) {
             eoc = eoc_vector.erase( eoc );
         } else {
             new_eocs[*eoc] = false;
+            eoc++;
         }
     }
 }
