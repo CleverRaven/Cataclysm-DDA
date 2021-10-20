@@ -592,7 +592,10 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 30, "encumbrance": 5 }
+    ]
   },
   {
     "id": "k_gambeson",
@@ -612,7 +615,10 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 30, "encumbrance": 5 }
+    ]
   },
   {
     "id": "xl_gambeson",
