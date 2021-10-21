@@ -765,7 +765,17 @@
     ],
     "items": {
       "both": {
-        "items": [ "pants_army", "undershirt", "jacket_army_modern", "gloves_liner", "socks", "boots", "beret", "wristwatch", "binoculars" ],
+        "items": [
+          "pants_army",
+          "undershirt",
+          "jacket_army_modern",
+          "gloves_liner",
+          "socks",
+          "boots",
+          "beret",
+          "wristwatch",
+          "binoculars"
+        ],
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
