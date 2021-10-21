@@ -409,7 +409,9 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 freq = mon.get_int( "freq" );
             }
             if( freq > max_freq.second ) {
-                max_freq = { name, freq };
+                if( !isgroup ) {
+                    max_freq = { mtype_id( id_name ), freq };
+                }
             }
             freq_total += freq;
             int cost = mon.get_int( "cost_multiplier", 1 );
