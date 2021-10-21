@@ -851,7 +851,7 @@
     "weather": {
       "base_temperature": 5.5,
       "base_humidity": 50.0,
-      "base_pressure": 815.0,
+      "base_pressure": 1015.0,
       "base_wind": 4.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
