@@ -1440,7 +1440,7 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
         case mapgen_parameter_scope::last:
             break;
     }
-    debugmsg( "unknown debug_menu::debug_menu_index %d", static_cast<int>( v ) );
+    debugmsg( "unknown mapgen_parameter_scope %d", static_cast<int>( v ) );
     return "";
 }
 
