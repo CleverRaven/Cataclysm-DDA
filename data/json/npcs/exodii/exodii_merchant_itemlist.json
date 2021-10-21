@@ -52,7 +52,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier2",
-    "//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after at least 2 weeks.",
     "items": [
       [ "bio_tools", 10 ],
       [ "bio_ethanol", 10 ],
@@ -80,7 +80,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier3",
-    "//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after at least 4 weeks.",
     "items": [
       [ "bio_blood_filter", 10 ],
       [ "bio_purifier", 10 ],
@@ -103,7 +103,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier4",
-    "//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after at least 8 weeks.",
     "items": [
       [ "bio_faraday", 10 ],
       [ "bio_metabolics", 10 ],

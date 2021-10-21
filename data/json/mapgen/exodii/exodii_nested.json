@@ -30,12 +30,72 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "tier1_CBM_shop_update",
-    "//": "Fill lockers with CBMs from Tier1.",
+    "update_mapgen_id": "CBM_shop_initial",
+    "//": "Fill lockers with CBMs from Tier1 and one bonus tier2 item.",
     "object": {
       "place_items": [
         { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 100, "repeat": [ 2, 4 ] },
-        { "item": "EXODII_CBM_Store_Tier1", "x": [ 19, 22 ], "y": 23, "chance": 90, "repeat": [ 3, 8 ] }
+        { "item": "EXODII_CBM_Store_Tier1", "x": [ 19, 21 ], "y": 23, "chance": 100, "repeat": [ 4, 6 ] },
+        { "item": "EXODII_CBM_Store_Tier2", "x": 22, "y": 23, "chance": 100 }
+      ],
+      "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "tier1_CBM_shop_update",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back.",
+    "object": {
+      "place_items": [
+        { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "EXODII_CBM_Store_Tier1", "x": [ 19, 20 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "EXODII_Shop_Tier0", "x": [ 21, 22 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "tier2_CBM_shop_update",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back. Add some tier 2 stuff now.",
+    "object": {
+      "place_items": [
+        { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "EXODII_CBM_Store_Tier2", "x": [ 19, 20 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "EXODII_Shop_Tier0", "x": [ 21, 22 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "tier3_CBM_shop_update",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back. Add some tier 3 stuff now.",
+    "object": {
+      "place_items": [
+        { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 25 },
+        { "item": "EXODII_CBM_Store_Tier3", "x": 19, "y": 21, "chance": 50 },
+        { "item": "EXODII_CBM_Store_Tier2", "x": [ 19, 20 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "EXODII_Shop_Tier0", "x": [ 21, 22 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "tier4_CBM_shop_update",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back. Add all the good stuff now.",
+    "object": {
+      "place_items": [
+        { "item": "EXODII_CBM_Store_Tier1", "x": 19, "y": 21, "chance": 25 },
+        { "item": "EXODII_CBM_Store_Tier3", "x": 19, "y": 21, "chance": 50 },
+        { "item": "EXODII_CBM_Store_Tier2", "x": 19, "y": 23, "chance": 40 },
+        { "item": "EXODII_CBM_Store_Tier4", "x": 20, "y": 23, "chance": 25 },
+        { "item": "EXODII_Shop_Tier0", "x": [ 21, 22 ], "y": 23, "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "faction_owner": [ { "id": "exodii", "x": 19, "y": 21 }, { "id": "exodii", "x": [ 19, 22 ], "y": 23 } ]
     }

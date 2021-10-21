@@ -151,10 +151,56 @@
       {
         "//": "Every week, add some stuff to the shop based on your current trust.",
         "condition": {
-          { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 5 }
+          "and": [
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 1 },
+            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+            { "u_has_trait": "CBM_Interface" }
+          ]
+        },
+        "effect": [
+          { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" }
+        ]
+      },
+      {
+        "//": "Every week, add some stuff to the shop based on your current trust.",
+        "condition": {
+          "and": [
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 10 },
+            { "u_compare_time_since_var": "u_met_Rubik", "type": "timer", "context": "first_meeting", "op": ">=", "time": "14 d" },
+            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+            { "u_has_trait": "CBM_Interface" }
+          ]
         },
         "effect": [
           { "mapgen_update": "tier2_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" }
+        ]
+      },
+      {
+        "//": "Every week, add some stuff to the shop based on your current trust.",
+        "condition": {
+          "and": [
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 15 },
+            { "u_compare_time_since_var": "u_met_Rubik", "type": "timer", "context": "first_meeting", "op": ">=", "time": "21 d" },
+            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+            { "u_has_trait": "CBM_Interface" }
+          ]
+        },
+        "effect": [
+          { "mapgen_update": "tier3_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" }
+        ]
+      },
+      {
+        "//": "Every week, add some stuff to the shop based on your current trust.",
+        "condition": {
+          "and": [
+            { "u_compare_var": "exodii_trust", "type": "counter", "context": "exodii", "op": ">=", "value": 25 },
+            { "u_compare_time_since_var": "u_met_Rubik", "type": "timer", "context": "first_meeting", "op": ">=", "time": "56 d" },
+            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+            { "u_has_trait": "CBM_Interface" }
+          ]
+        },
+        "effect": [
+          { "mapgen_update": "tier4_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" }
         ]
       }
     ],
