@@ -19,7 +19,7 @@
       {
         "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
         "condition": { "u_has_intelligence": 9 },
-        "topic": "TALK_EXODII_MERCHANT_Exodii"
+        "topic": "TALK_EXODII_MERCHANT_Exodus"
       },
       {
         "text": "What are you doing here?",
@@ -132,7 +132,7 @@
         "sentinel": "first_meeting_effects",
         "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
         "effect": [
-          { "u_add_var": "rubik_met", "type": "timer", "context": "first_meeting", "time": true }
+          { "u_add_var": "u_met_Rubik", "type": "timer", "context": "first_meeting", "time": true }
         ]
       },
       {
