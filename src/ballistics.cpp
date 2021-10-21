@@ -338,23 +338,23 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         tp = trajectory[i];
 
         if (tp.z != prev_point.z){
-			tripoint floor1 = prev_point;
-			tripoint floor2 = tp;
-			if (floor1.z < floor2.z){
-				floor1.z++;
-			} else {
-				floor2.z++;
-			}
+            tripoint floor1 = prev_point;
+            tripoint floor2 = tp;
+            if (floor1.z < floor2.z){
+                floor1.z++;
+            } else {
+                floor2.z++;
+            }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops. 
-			if( here.has_floor(floor1) && here.has_floor(floor2)){
-			    // Currently strictly no shooting through floor
-            	// TODO: Bash the floor
-            	tp = prev_point;
-            	traj_len = --i;
-            	break;
-			}
-		}
+            if( here.has_floor(floor1) && here.has_floor(floor2)){
+                // Currently strictly no shooting through floor
+                // TODO: Bash the floor
+                tp = prev_point;
+                traj_len = --i;
+                break;
+            }
+        }
         // Drawing the bullet uses player g->u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if( do_animation && !do_draw_line ) {
