@@ -205,6 +205,12 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
+void sub_part::deserialize(const JsonObject& jo)
+{
+    optional(jo, false, "name", name);
+    optional(jo, false, "hit_size", hit_size, 1);
+}
+
 void body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -289,6 +295,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "vision_score", vision_score );
 
     mandatory( jo, was_loaded, "side", part_side );
+
+    optional(jo, was_loaded, "sub_parts", sub_parts);
 }
 
 void body_part_type::reset()
@@ -303,6 +311,10 @@ void body_part_type::finalize_all()
 
 void body_part_type::finalize()
 {
+    sub_parts_size_sum = 0;
+    for ( sub_part sp : sub_parts ) {
+        sub_parts_size_sum += sp.hit_size;
+    }
 }
 
 void body_part_type::check_consistency()

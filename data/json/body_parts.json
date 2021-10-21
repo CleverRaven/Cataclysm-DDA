@@ -26,7 +26,20 @@
     "base_hp": 60,
     "drench_capacity": 40,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
-    "bionic_slots": 80
+    "bionic_slots": 80,
+    "sub_parts": [
+      {"name": "neck", "hit_size": 1},
+      {"name": "thorax", "hit_size": 3},
+      {"name": "stomach", "hit_size": 2},
+      {"name": "right side", "hit_size": 2},
+      {"name": "left side", "hit_size": 2},
+      {"name": "groin", "hit_size": 2},
+      {"name": "buttocks", "hit_size": 0.66},
+      {"name": "right armpit ", "hit_size": 0.66},
+      {"name": "left armpit", "hit_size": 0.66},
+      {"name": "uppder back", "hit_size": 1},
+      {"name": "lower back", "hit_size": 0.66}
+    ]
   },
   {
     "id": "head",
@@ -147,7 +160,16 @@
     "base_hp": 60,
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
-    "bionic_slots": 20
+    "bionic_slots": 20,
+    "sub_parts": [
+      {"name": "left shoulder", "hit_size": 2},
+      {"name": "left upper arm", "hit_size": 3},
+      {"name": "back of the left upper arm", "hit_size": 1},
+      {"name": "left elbow", "hit_size": 2},
+      {"name": "back of the left elbow", "hit_size": 0.66},
+      {"name": "left forearm", "hit_size": 3},
+      {"name": "back of the left forearm", "hit_size": 1}
+    ]
   },
   {
     "id": "arm_r",
@@ -182,7 +204,16 @@
     "base_hp": 60,
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
-    "bionic_slots": 20
+    "bionic_slots": 20,
+    "sub_parts": [
+      {"name": "right shoulder", "hit_size": 2},
+      {"name": "right upper arm", "hit_size": 3},
+      {"name": "back of the right upper arm", "hit_size": 1},
+      {"name": "right elbow", "hit_size": 2},
+      {"name": "back of the right elbow", "hit_size": 0.66},
+      {"name": "right forearm", "hit_size": 3},
+      {"name": "back of the right forearm", "hit_size": 1}
+    ]
   },
   {
     "id": "hand_l",
@@ -279,7 +310,15 @@
     "base_hp": 60,
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "bionic_slots": 30
+    "bionic_slots": 30,
+    "sub_parts": [
+      {"name": "left thigh", "hit_size": 3},
+      {"name": "back of the left thigh", "hit_size": 1},
+      {"name": "left knee", "hit_size": 1},
+      {"name": "back of the left knee", "hit_size": 0.33},
+      {"name": "left shin", "hit_size": 2},
+      {"name": "left calve", "hit_size": 0.66}
+    ]
   },
   {
     "id": "leg_r",
@@ -314,7 +353,15 @@
     "base_hp": 60,
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "bionic_slots": 30
+    "bionic_slots": 30,
+    "sub_parts": [
+      {"name": "right thigh", "hit_size": 3},
+      {"name": "back of the right thigh", "hit_size": 1},
+      {"name": "right knee", "hit_size": 1},
+      {"name": "back of the right knee", "hit_size": 0.33},
+      {"name": "right shin", "hit_size": 2},
+      {"name": "right calve", "hit_size": 0.66}
+    ]
   },
   {
     "id": "foot_l",
@@ -404,5 +451,11 @@
     "accusative": { "ctxt": "bodypart_accusative", "str": "debug tail" },
     "hp_bar_ui_text": "DBG TAIL",
     "base_hp": 20
+  },
+  {
+    "id": "thorax",
+    "type": "sub_body_part",
+    "name": "thorax",
+    "hit_size": 3
   }
 ]

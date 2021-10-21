@@ -38,6 +38,11 @@ extern const bodypart_str_id body_part_foot_l;
 extern const bodypart_str_id body_part_leg_r;
 extern const bodypart_str_id body_part_foot_r;
 
+//list of all the sub body parts
+enum sub_body_part : int {
+
+};
+
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
     bp_torso = 0,
@@ -105,6 +110,15 @@ struct stat_hp_mods {
     void deserialize( const JsonObject &jo );
 };
 
+struct sub_part {
+    //name of the sub part
+    translation name;
+
+    float hit_size = 0.0f;
+
+    void deserialize(const JsonObject& jo);
+};
+
 struct body_part_type {
     public:
         /**
@@ -159,6 +173,15 @@ struct body_part_type {
         float hit_size = 0.0f;
         /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
         std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
+
+        /** Sub-location of the body part used for encumberance, coverage and determining protection 
+         *  Max Size is set to 11 the Max number of parts any limb has
+         */
+        std::vector<sub_part> sub_parts;
+
+        /** Cumulative size of all sub parts. Needed to select one at random */
+        float sub_parts_size_sum;
+
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
          * Higher number means good hits will veer towards this part,
@@ -237,6 +260,8 @@ struct body_part_type {
     private:
         int bionic_slots_ = 0;
 };
+
+
 
 template<>
 struct enum_traits<body_part_type::type> {
