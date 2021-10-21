@@ -809,9 +809,10 @@ static void smash()
             if( player_character.get_skill_level( skill_melee ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.made_of( material_id( "glass" ) ) &&
-                rng( 0, vol + 3 ) < vol ) {
+            const int glass_portion = weapon.made_of( material_id( "glass" ) );
+            const float glass_fraction = glass_portion / static_cast<float>( weapon.type->mat_portion_total );
+            const int vol = weapon.volume() * glass_fraction / units::legacy_volume_factor;
+            if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( player_character.pos() );
                 sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",

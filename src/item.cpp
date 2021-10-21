@@ -7290,10 +7290,14 @@ bool item::only_made_of( const std::set<material_id> &mat_idents ) const
     } );
 }
 
-bool item::made_of( const material_id &mat_ident ) const
+int item::made_of( const material_id &mat_ident ) const
 {
     const std::map<material_id, int> &materials = made_of();
-    return materials.find( mat_ident ) != materials.end();
+    auto mat = materials.find( mat_ident );
+    if( mat == materials.end() ) {
+        return 0;
+    }
+    return mat->second;
 }
 
 bool item::made_of( phase_id phase ) const

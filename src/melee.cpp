@@ -2037,9 +2037,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
     if( tec != tec_none && !is_dead_state() ) {
+        int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( weapon.made_of( material_id( "glass" ) ) ) {
+        } else if( weapon.made_of( material_id( "glass" ) ) > twenty_percent ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -2128,11 +2129,14 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    const int vol = weap.volume() / 250_ml;
     // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    int glass_portion = weap.made_of( material_id( "glass" ) );
+    float glass_fraction = glass_portion / static_cast<float>( weap.type->mat_portion_total );
+    // only consider portion of weapon made of glass
+    const int vol = weap.volume() * glass_fraction / 250_ml;
+    if( glass_portion &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
-        rng( 0, vol + 8 ) < vol + str_cur ) {
+        rng_float( 0.0f, vol + 8 ) < vol + str_cur ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
