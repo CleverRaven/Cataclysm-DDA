@@ -46,7 +46,6 @@
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "vision_day": 50,
-    "vision_night": 20,
     "path_settings": { "max_dist": 50, "avoid_traps": true },
     "flags": [
       "PATH_AVOID_DANGER_1",

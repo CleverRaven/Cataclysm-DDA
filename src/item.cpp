@@ -635,6 +635,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     const std::string magazines_str = enumerate_as_string( mags,
                     []( const itype_id & mag ) {
                         return string_format(
+                                   // NOLINTNEXTLINE(cata-translate-string-literal)
                                    "%s (taking %s)", mag.str(),
                                    enumerate_as_string( mag->magazine->type,
                         []( const ammotype & a ) {
@@ -1157,7 +1158,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             clipped_time( get_shelf_life() - rot );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
             clipped_time( rhs.get_shelf_life() - rhs.rot );
-        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+        if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
+            my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
         }
         if( rotten() != rhs.rotten() ) {
@@ -1184,6 +1186,27 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             if( get_uncraft_components() != rhs.get_uncraft_components() ) {
                 return false;
             }
+        }
+    }
+    const std::vector<const item *> this_mods = mods();
+    const std::vector<const item *> that_mods = rhs.mods();
+    if( this_mods.size() != that_mods.size() ) {
+        return false;
+    }
+    for( const item *it1 : this_mods ) {
+        bool match = false;
+        const bool i1_isnull = it1 == nullptr;
+        for( const item *it2 : that_mods ) {
+            const bool i2_isnull = it2 == nullptr;
+            if( i1_isnull != i2_isnull ) {
+                continue;
+            } else if( it1 == it2 || it1->typeId() == it2->typeId() ) {
+                match = true;
+                break;
+            }
+        }
+        if( !match ) {
+            return false;
         }
     }
     return contents.stacks_with( rhs.contents );
@@ -1660,10 +1683,11 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
     const bool crit, const Character & guy, Creature & mon ) {
+        bodypart_id bp = bodypart_id( "torso" );
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this );
+        guy.roll_all_damage( crit, base_damage, true, *this, &mon, bp );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
@@ -1675,7 +1699,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
             int total_pain = 0;
-            temp_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
+            temp_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp,
                                                cur_damage, total_pain );
             if( cur_damage > 0 ) {
                 dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type )] += cur_damage;
@@ -1688,7 +1712,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this );
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -1702,7 +1726,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
                 int total_pain = 0;
-                temp_rs_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
+                temp_rs_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp,
                                                       cur_damage, total_pain );
                 if( cur_damage > 0 ) {
                     rs_dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type ) ] += cur_damage;
@@ -2893,11 +2917,17 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 int encumber = 0;
                 int max_encumber = 0;
                 int coverage = 0;
+                int cover_melee = 0;
+                int cover_ranged = 0;
+                int cover_vitals = 0;
 
                 bool operator==( const armor_portion_type &other ) {
                     return encumber == other.encumber
                            && max_encumber == other.max_encumber
-                           && coverage == other.coverage;
+                           && coverage == other.coverage
+                           && cover_melee == other.cover_melee
+                           && cover_ranged == other.cover_ranged
+                           && cover_vitals == other.cover_vitals;
                 }
             };
             struct body_part_display_info {
@@ -2915,7 +2945,7 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                             to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                     std::max( 0, get_encumber( player_character, covering_id ) - reduce_encumbrance_by ),
                                     std::max( 0, get_encumber( player_character, covering_id, encumber_flags::assume_full ) - reduce_encumbrance_by ),
-                                    piece.coverage
+                                    piece.coverage, piece.cover_melee, piece.cover_ranged, piece.cover_vitals
                                 }, true
                             };
                         }
@@ -2937,7 +2967,6 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 }
             }
             const std::string when_full_message = space + _( "When full:" ) + space;
-            const std::string coverage_message = space + _( "Coverage:" ) + space;
             for( auto &piece : to_display_data ) {
                 if( t->sided ) {
                     const bodypart_str_id &covering_id = piece.first;
@@ -2946,30 +2975,52 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                     }
                 }
                 if( piece.second.active ) {
+                    const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
                     info.emplace_back( "ARMOR",
                                        string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
-                                       iteminfo::no_newline | iteminfo::lower_is_better,
+                                       ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
                                        piece.second.portion.encumber );
 
-                    if( piece.second.portion.encumber != piece.second.portion.max_encumber ) {
+                    if( has_max ) {
                         info.emplace_back( "ARMOR", when_full_message, "",
-                                           iteminfo::no_newline | iteminfo::lower_is_better,
+                                           iteminfo::no_flags | iteminfo::lower_is_better,
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", coverage_message, "",
-                                       iteminfo::no_flags,
+                    info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
+                                       iteminfo::no_newline,
                                        piece.second.portion.coverage );
+                    //~ (M)elee coverage
+                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(M):" ), space ), "",
+                                       iteminfo::no_newline,
+                                       piece.second.portion.cover_melee );
+                    //~ (R)anged coverage
+                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(R):" ), space ), "",
+                                       iteminfo::no_newline,
+                                       piece.second.portion.cover_ranged );
+                    //~ (V)itals coverage
+                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(V):" ), space ), "",
+                                       iteminfo::no_flags,
+                                       piece.second.portion.cover_vitals );
                 }
             }
         }
     } else if( is_gun() && has_flag( flag_IS_ARMOR ) ) {
         //right now all eligible gunmods (shoulder_strap, belt_clip) have the is_armor flag and use the torso
         info.emplace_back( "ARMOR", _( "Torso:" ) + space, "",
-                           iteminfo::no_newline | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
+                           iteminfo::no_flags | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
 
-        info.emplace_back( "ARMOR", space + _( "Coverage:" ) + space, "",
-                           iteminfo::no_flags, get_coverage( body_part_torso.id() ) );
+        info.emplace_back( "ARMOR", _( "Coverage:" ) + space, "",
+                           iteminfo::no_newline, get_coverage( body_part_torso.id() ) );
+        //~ (M)elee coverage
+        info.emplace_back( "ARMOR", space + _( "(M):" ) + space, "",
+                           iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_MELEE ) );
+        //~ (R)anged coverage
+        info.emplace_back( "ARMOR", space + _( "(R):" ) + space, "",
+                           iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_RANGED ) );
+        //~ (V)itals coverage
+        info.emplace_back( "ARMOR", space + _( "(V):" ) + space, "",
+                           iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_VITALS ) );
     }
 }
 
@@ -4234,10 +4285,11 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
     if( ( player_character.get_skill_level( skill_melee ) > 2 &&
           ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
+        bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this );
+        player_character.roll_all_damage( false, non_crit, true, *this, nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this );
+        player_character.roll_all_damage( true, crit, true, *this, nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -4815,6 +4867,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
+    } else if( is_relic() ) {
+        ret = c_pink;
     } else if( is_bionic() ) {
         if( !player_character.has_bionic( type->bionic->id ) || type->bionic->id->dupes_allowed ) {
             ret = player_character.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
@@ -6605,7 +6659,7 @@ layer_level item::get_layer() const
     }
 }
 
-int item::get_avg_coverage() const
+int item::get_avg_coverage( const cover_type &type ) const
 {
     const islot_armor *t = find_armor_data();
     if( !t ) {
@@ -6616,7 +6670,7 @@ int item::get_avg_coverage() const
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
             for( const bodypart_str_id &limb : entry.covers.value() ) {
-                int coverage = get_coverage( limb );
+                int coverage = get_coverage( limb, type );
                 if( coverage ) {
                     avg_coverage += coverage;
                     ++avg_ctr;
@@ -6632,10 +6686,19 @@ int item::get_avg_coverage() const
     }
 }
 
-int item::get_coverage( const bodypart_id &bodypart ) const
+int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) const
 {
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
-        return portion_data->coverage;
+        switch( type ) {
+            case cover_type::COVER_DEFAULT:
+                return portion_data->coverage;
+            case cover_type::COVER_MELEE:
+                return portion_data->cover_melee;
+            case cover_type::COVER_RANGED:
+                return portion_data->cover_ranged;
+            case cover_type::COVER_VITALS:
+                return portion_data->cover_vitals;
+        }
     }
     return 0;
 }

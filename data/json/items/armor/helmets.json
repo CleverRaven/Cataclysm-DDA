@@ -512,7 +512,6 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {

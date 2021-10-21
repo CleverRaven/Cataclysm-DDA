@@ -991,7 +991,7 @@
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
     "remove_memorial_log": "Recovered from an infection… this time.",
-    "apply_message": "Your bite wound feels infected.",
+    "apply_message": "Your wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
@@ -2477,13 +2477,14 @@
   },
   {
     "type": "effect_type",
-    "id": "nightmares"
+    "id": "nightmares",
+    "max_duration": "72 hours"
   },
   {
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if composed of mist." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ]
   },
   {
     "type": "effect_type",

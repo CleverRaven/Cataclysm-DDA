@@ -97,6 +97,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -1136,7 +1137,8 @@ static void loot()
         Multirepairvehicle = 2048,
         MultiButchery = 4096,
         MultiMining = 8192,
-        MultiDis = 16384
+        MultiDis = 16384,
+        MultiMopping = 32768
     };
 
     Character &player_character = get_player_character();
@@ -1171,6 +1173,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "MINING" ), player_character.pos() ) ? MultiMining : 0;
     flags |= g->check_near_zone( zone_type_id( "zone_disassemble" ),
                                  player_character.pos() ) ? MultiDis : 0;
+    flags |= g->check_near_zone( zone_type_id( "MOPPING" ), player_character.pos() ) ? MultiMopping : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1231,6 +1234,9 @@ static void loot()
                             _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) );
 
     }
+    if( flags & MultiMopping ) {
+        menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1271,6 +1277,9 @@ static void loot()
             break;
         case MultiDis:
             player_character.assign_activity( ACT_MULTIPLE_DIS );
+            break;
+        case MultiMopping:
+            player_character.assign_activity( ACT_MULTIPLE_MOP );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1847,6 +1856,29 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.clear_destination();
                 }
+
+                if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
+                    player_character.used_weapon().typeId() == STATIC( itype_id( "mop" ) ) ) {
+                    map &here = get_map();
+                    const bool is_blind = player_character.is_blind();
+                    for( const tripoint &point : here.points_in_radius( player_character.pos(), 1 ) ) {
+                        bool did_mop = false;
+                        if( is_blind ) {
+                            // blind character have a 1/3 chance of actually mopping
+                            if( one_in( 3 ) ) {
+                                did_mop = here.mop_spills( point );
+                            } else {
+                                did_mop = here.terrain_moppable( point );
+                            }
+                        } else {
+                            did_mop = here.mop_spills( point );
+                        }
+                        // iuse::mop costs 15 moves per use
+                        if( did_mop ) {
+                            player_character.mod_moves( -15 );
+                        }
+                    }
+                }
             }
             break;
         case ACTION_MOVE_DOWN:
@@ -2151,16 +2183,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
-        case ACTION_DROP:
+        case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
-            drop();
+            unload_container();
             break;
-
         case ACTION_DIR_DROP:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
-                add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
-            } else {
-                drop_in_direction();
+            if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+                if( *pnt != player_character.pos() &&
+                    player_character.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
+                } else {
+                    drop_in_direction( *pnt );
+                }
             }
             break;
         case ACTION_BIONICS:

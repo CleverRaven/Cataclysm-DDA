@@ -140,7 +140,7 @@
         "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
         "qualities": [
           [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "GLARE", "level": 1 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_W", "level": 2 } ]
         ],

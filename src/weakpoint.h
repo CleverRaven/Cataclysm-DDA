@@ -3,33 +3,53 @@
 #define CATA_SRC_WEAKPOINT_H
 
 #include <array>
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "damage.h"
+#include "optional.h"
 #include "type_id.h"
 
+class Character;
 class Creature;
 class JsonArray;
 class JsonObject;
+class JsonValue;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
+    enum class attack_type : int {
+        NONE, // Unusual damage instances, such as falls, spells, and effects.
+        MELEE_BASH, // Melee bludgeoning attacks
+        MELEE_CUT, // Melee slashing attacks
+        MELEE_STAB, // Melee piercing attacks
+        PROJECTILE, // Ranged projectile attacks, including throwing weapons and guns
+
+        NUM,
+    };
+
     // The source of the attack.
     const Creature *source;
     // The target of the attack.
     const Creature *target;
     // The weapon used to make the attack.
     const item *weapon;
-    // Weather the attack is a melee attack.
-    bool is_melee;
+    // The type of the attack.
+    attack_type type;
+    // Whether the attack from a thrown object.
+    bool is_thrown;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
     float wp_skill;
 
     weakpoint_attack();
+    // Returns the attack type of a melee attack.
+    static attack_type type_of_melee_attack( const damage_instance &damage );
+    // Compute and set the value of `wp_skill`.
+    void compute_wp_skill();
 };
 
 // An effect that a weakpoint can cause.
@@ -55,6 +75,44 @@ struct weakpoint_effect {
     void load( const JsonObject &jo );
 };
 
+struct weakpoint_difficulty {
+    std::array<float, static_cast<int>( weakpoint_attack::attack_type::NUM )> difficulty;
+
+    explicit weakpoint_difficulty( float default_value );
+    float of( const weakpoint_attack &attack ) const;
+    void load( const JsonObject &jo );
+};
+
+struct weakpoint_family {
+    // ID of the family. Equal to the proficiency, if not provided.
+    std::string id;
+    // Name of proficiency corresponding to the family.
+    proficiency_id proficiency;
+    // The skill bonus for having the proficiency.
+    cata::optional<float> bonus;
+    // The skill penalty for not having the proficiency.
+    cata::optional<float> penalty;
+
+    float modifier( const Character &attacker ) const;
+    void load( const JsonValue &jsin );
+};
+
+struct weakpoint_families {
+    // List of weakpoint families
+    std::vector<weakpoint_family> families;
+
+    // Practice all weak point families for the given duration. Returns true if a proficiency was practiced.
+    bool practice( Character &learner, const time_duration &amount ) const;
+    bool practice_hit( Character &learner ) const;
+    bool practice_kill( Character &learner ) const;
+    bool practice_dissect( Character &learner ) const;
+    float modifier( const Character &attacker ) const;
+
+    void clear();
+    void load( const JsonArray &ja );
+    void remove( const JsonArray &ja );
+};
+
 struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
     std::string id;
@@ -70,12 +128,14 @@ struct weakpoint {
     std::array<float, static_cast<int>( damage_type::NUM )> damage_mult;
     // Critical damage multiplers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
-    // Difficulty to hit the weak point.
-    float difficulty = -10.0f;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
+    // Constant coverage multipliers, depending on the attack type.
+    weakpoint_difficulty coverage_mult;
+    // Difficulty gates, varying by the attack type.
+    weakpoint_difficulty difficulty;
 
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.

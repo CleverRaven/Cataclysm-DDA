@@ -230,6 +230,7 @@ static bool SetupRenderTarget()
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     std::string version = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Common flags used for fulscreen and for windowed
@@ -548,11 +549,10 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
@@ -941,6 +941,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
+                        // NOLINTNEXTLINE(cata-translate-string-literal)
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
@@ -1797,6 +1798,52 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
                     return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
                 case SDLK_RIGHT:
                     return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
+
+    if( diag_mode == "mode4" ) {
+        if( ( keysym.mod & KMOD_SHIFT ) || ( keysym.mod & KMOD_CTRL ) ) {
+            const Uint8 *s = SDL_GetKeyboardState( nullptr );
+            const int count = s[SDL_SCANCODE_LEFT] + s[SDL_SCANCODE_RIGHT] + s[SDL_SCANCODE_UP] +
+                              s[SDL_SCANCODE_DOWN];
+            if( count == 2 ) {
+                switch( keysym.sym ) {
+                    case SDLK_LEFT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_RIGHT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_UP:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        return 0;
+                    case SDLK_DOWN:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                }
+            } else if( count > 0 ) {
+                return 0;
             }
         }
     }

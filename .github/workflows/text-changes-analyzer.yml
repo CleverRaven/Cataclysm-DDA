@@ -1,0 +1,53 @@
+name: Text Changes Analyzer
+
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/text-changes-analyzer.yml'
+      - 'tools/pot_diff.py'
+      - 'src/*.h'
+      - 'src/*.cpp'
+      - '**.json'
+
+
+jobs:
+  analyze-text-changes:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3-pip gettext
+          sudo pip3 install polib
+      - name: "Checkout test merge commit"
+        uses: actions/checkout@v2
+      - name: "Compute base commit and test merge commit"
+        id: get-commit-hash
+        run: |
+          echo "::set-output name=test_merge_commit::$(git rev-parse HEAD)"
+          echo "::set-output name=head_commit::$(git log -1 --format='%B' | grep -o -E -e 'Merge\s([0-9a-f]{40})\sinto' | grep -o -E -e '[0-9a-f]{40}')"
+          echo "::set-output name=base_commit::$(git log -1 --format='%B' | grep -o -E -e 'into\s([0-9a-f]{40})$' | grep -o -E -e '[0-9a-f]{40}')"
+      - name: "Generate translation template on test merge commit"
+        run: |
+          rm -f lang/po/cataclysm-dda.pot
+          ./lang/update_pot.sh
+          cp lang/po/cataclysm-dda.pot ~/merge.pot
+      - name: "Checkout base commit"
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.get-commit-hash.outputs.base_commit }}
+      - name: "Generate translation template on base commit"
+        run: |
+          rm -f lang/po/cataclysm-dda.pot
+          ./lang/update_pot.sh
+          cp lang/po/cataclysm-dda.pot ~/base.pot
+      - name: "Checkout test merge commit"
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.get-commit-hash.outputs.test_merge_commit }}
+      - name: "List text changes"
+        run: |
+          python3 ./tools/pot_diff.py ~/base.pot ~/merge.pot

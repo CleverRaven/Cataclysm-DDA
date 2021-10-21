@@ -116,6 +116,8 @@
       [ "switchblade", 4 ],
       [ "gold_watch", 5 ],
       [ "silver_watch", 2 ],
+      [ "cigar_cutter", 8 ],
+      [ "cigar_punch", 6 ],
       [ "pocketwatch", 2 ],
       [ "gold_dental_grill", 2 ],
       [ "diamond_dental_grill", 1 ],
