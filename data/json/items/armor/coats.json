@@ -807,7 +807,6 @@
   },
   {
     "id": "jacket_army_modern",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "combat blouse" },
     "description": "A sleek blouse in a camoflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
@@ -815,7 +814,7 @@
     "volume": "3 L",
     "price": 6400,
     "price_postapoc": 750,
-    "material": [ "nylon", "cotton", "plastic" ],
+    "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "jacket_army",
     "color": "green",

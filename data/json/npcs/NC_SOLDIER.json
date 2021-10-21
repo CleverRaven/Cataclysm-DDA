@@ -31,7 +31,7 @@
     "type": "item_group",
     "id": "NC_SOLDIER_coat",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 20 }, { "item": "jacket_army", "prob": 50 }, { "item": "winter_jacket_army", "prob": 50 } ]
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "jacket_army_modern", "prob": 50 }, { "item": "winter_jacket_army", "prob": 50 } ]
   },
   {
     "type": "item_group",
