@@ -35,6 +35,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 
@@ -665,17 +666,8 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
         slime->friendly = -1;
-        if( one_in( 3 ) ) {
-            add_msg_if_player( m_good,
-                               //~ Usual enthusiastic slimespring small voices! :D
-                               _( "wow!  you look just like me!  we should look out for each other!" ) );
-        } else if( one_in( 2 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
-        } else {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "we're a team, we've got this!" ) );
-        }
+        add_msg_if_player( m_good, SNIPPET.random_from_category( "slime_generate" ).value_or(
+                               translation() ).translated() );
         tdata.powered = false;
         return;
     } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {
@@ -746,7 +738,7 @@ void Character::activate_mutation( const trait_id &mut )
         int npower;
         if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
             mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            add_msg_if_player( m_good, _( "Bionic power increased by %dmJ." ), npower );
             tdata.powered = false;
         }
         return;

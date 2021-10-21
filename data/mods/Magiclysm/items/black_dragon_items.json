@@ -153,7 +153,6 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {

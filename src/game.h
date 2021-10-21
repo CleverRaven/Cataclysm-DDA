@@ -640,6 +640,11 @@ class game
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
         bool take_screenshot( const std::string &file_path ) const;
+        /** Saves a screenshot of the current viewport, as a PNG file. Filesystem location is derived from the current world and character.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
+        bool take_screenshot() const;
 
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
@@ -807,8 +812,8 @@ class game
         void pickup( const tripoint &p );
         void pickup_feet(); // Pick items at player position ',', min 1
 
-        void drop(); // Drop an item  'd'
-        void drop_in_direction(); // Drop w/ direction  'D'
+        void unload_container(); // Unload a container w/ direction  'd'
+        void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
 
@@ -1042,6 +1047,7 @@ class game
         bool fullscreen = false; // NOLINT(cata-serialize)
         bool was_fullscreen = false; // NOLINT(cata-serialize)
         bool auto_travel_mode = false;
+        bool queue_screenshot = false; // NOLINT(cata-serialize)
         safe_mode_type safe_mode;
 
         // tracks time since last monster seen to allow automatically

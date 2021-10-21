@@ -1137,7 +1137,7 @@ Rotates the generated map after all the other mapgen stuff has been done. The va
 Values are 90° steps.
 
 
-## Pre-load a base mapgen with "predecessor_mapgen"
+## Pre-load a base mapgen with `"predecessor_mapgen"`
 
 Specifying an overmap terrain id here will run the entire mapgen for that overmap terrain type first, before applying
 the rest of the mapgen defined here. The primary use case for this is when our mapgen for a location takes place in a
@@ -1147,6 +1147,26 @@ the cabin fit in) which leads to them being out of sync when the generation of t
 `predecessor_mapgen`, you can instead focus on the things that are added to the existing location type.
 
 Example: `"predecessor_mapgen": "forest"`
+
+
+## Dynamically use base mapgen with `"fallback_predecessor_mapgen"`
+
+If your map could exist in a variety of surroundings, you might want to
+automatically take advantage of the mapgen for whatever terrain was assumed to
+be here before this one was set.  For example, overmap specials are always
+placed over existing terrain like fields and forests.
+
+Defining `"fallback_predecessor_mapgen"` allows your map to opt-in to
+requesting that whatever that previous terrain was, it should be generated
+first, before your mapgen is applied on top.  This works the same as for
+`"predecessor_mapgen"` above, except that it will pick the correct terrain for
+the context automatically.
+
+However, to support savegame migration across changes to mapgen definitions,
+you must provide a fallback value which will be used in the event that the game
+doesn't know what the previous terrain was.
+
+Example: `"predecessor_mapgen": "field"`
 
 
 # Palettes

@@ -31,6 +31,7 @@
       },
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
       { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 7, 10 ] } },
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },

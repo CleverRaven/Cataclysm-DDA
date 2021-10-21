@@ -314,7 +314,8 @@
         [ "dry_meat", 1 ],
         [ "jerky", 1 ],
         [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ]
+        [ "meat_salted", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },
@@ -356,7 +357,8 @@
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ]
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },

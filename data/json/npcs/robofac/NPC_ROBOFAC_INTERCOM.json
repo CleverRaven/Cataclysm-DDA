@@ -188,7 +188,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the alien robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.",
+    "description": "Disable and retrieve the alien robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "goal_condition": { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
@@ -432,7 +432,7 @@
       "Make it quick.",
       "Don't loiter.",
       "Don't do anything stupid.",
-      "Ugh I hate intercom duty…  Wait is the speaker still on?",
+      "Ugh I hate intercom duty… wait is the speaker still on?",
       "Please don't bother us senselessly.",
       "What's up with the interference in this thing?",
       "Speak slowly and clearly.  Please.",
@@ -538,7 +538,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
     "type": "talk_topic",
-    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went…  Shame about what happened, with the evisceration and all…",
+    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went….  Shame about what happened, with the evisceration and all…",
     "speaker_effect": {
       "effect": { "npc_add_var": "told_about_prototype", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "told_about_prototype"

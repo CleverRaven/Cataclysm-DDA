@@ -291,7 +291,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 3,
-    "qualities": [ [ "GLARE", 3 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -316,7 +316,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 2,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -972,7 +972,7 @@
     "revert_to": "rm13_armor",
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 5,
     "armor": [
       {
@@ -1027,7 +1027,7 @@
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF" ]
   },
   {
     "id": "broken_dimensional_anchor",
@@ -1082,6 +1082,7 @@
     "material_thickness": 2,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",
@@ -1114,6 +1115,7 @@
     "environmental_protection": 80,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",
@@ -1325,7 +1327,7 @@
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
@@ -1353,7 +1355,7 @@
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
@@ -1388,7 +1390,7 @@
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3
   },
   {
@@ -1416,7 +1418,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1444,7 +1445,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1472,7 +1472,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1500,7 +1499,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1552,7 +1550,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1580,7 +1577,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -3245,8 +3241,11 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
         "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
     ]
@@ -3257,7 +3256,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "military flight helmet (on)", "str_pl": "military flight helmets (on)" },
-    "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "description": "A military flight helmet with various LED's devices blinking periodically.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": 50000,
@@ -3285,8 +3284,11 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
         "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
     ]

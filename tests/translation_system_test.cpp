@@ -1,3 +1,4 @@
+#include <cstring>
 #include "cata_catch.h"
 #include "filesystem.h"
 #include "string_formatter.h"
@@ -36,6 +37,33 @@ TEST_CASE( "TranslationDocument loads all core MO", "[translations]" )
         CAPTURE( path );
         REQUIRE( file_exist( path ) );
         REQUIRE_NOTHROW( LoadMODocument( path.c_str() ) );
+    }
+}
+
+TEST_CASE( "No string buffer overlap in TranslationDocument", "[translations]" )
+{
+    const std::unordered_set<std::string> languages =
+        TranslationManager::GetInstance().GetAvailableLanguages();
+    for( const std::string &lang : languages ) {
+        const std::string path = string_format( "./lang/mo/%s/LC_MESSAGES/cataclysm-dda.mo", lang );
+        CAPTURE( path );
+        REQUIRE( file_exist( path ) );
+        TranslationDocument document( path );
+        // The following code walks through every string contained in the MO document
+        // So AddressSanitizer can also detect memory access violation if there is any
+        const std::size_t n = document.Count();
+        const char *last_ending = nullptr;
+        for( std::size_t i = 0; i < n; i++ ) {
+            const char *str = document.GetOriginalString( i );
+            CHECK( last_ending < str );
+            last_ending = str + std::strlen( str );
+        }
+        last_ending = nullptr;
+        for( std::size_t i = 0; i < n; i++ ) {
+            const char *str = document.GetTranslatedString( i );
+            CHECK( last_ending < str );
+            last_ending = str + std::strlen( str );
+        }
     }
 }
 

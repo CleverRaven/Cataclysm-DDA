@@ -18,6 +18,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "rng.h"
+#include "translations.h"
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
@@ -27,12 +28,12 @@ static const skill_id skill_unarmed( "unarmed" );
 class JsonArray;
 class JsonObject;
 
-float monster::weakpoint_skill()
+float monster::weakpoint_skill() const
 {
     return type->melee_skill;
 }
 
-float Character::melee_weakpoint_skill( const item &weapon )
+float Character::melee_weakpoint_skill( const item &weapon ) const
 {
     skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
     float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
@@ -40,18 +41,170 @@ float Character::melee_weakpoint_skill( const item &weapon )
     return skill + stat;
 }
 
-float Character::ranged_weakpoint_skill( const item &weapon )
+float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
     float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
 }
 
-float Character::throw_weakpoint_skill()
+float Character::throw_weakpoint_skill() const
 {
     float skill = get_skill_level( skill_throw );
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     return skill + stat;
+}
+
+float weakpoint_family::modifier( const Character &attacker ) const
+{
+    return attacker.has_proficiency( proficiency )
+           ? bonus.value_or( proficiency.obj().default_weakpoint_bonus() )
+           : penalty.value_or( proficiency.obj().default_weakpoint_penalty() );
+}
+
+void weakpoint_family::load( const JsonValue &jsin )
+{
+    if( jsin.test_string() ) {
+        id = jsin.get_string();
+        proficiency = proficiency_id( id );
+    } else {
+        JsonObject jo = jsin.get_object();
+        assign( jo, "id", id );
+        assign( jo, "proficiency", proficiency );
+        assign( jo, "bonus", bonus );
+        assign( jo, "penalty", penalty );
+        if( !jo.has_string( "id" ) ) {
+            id = static_cast<std::string>( proficiency );
+        }
+    }
+}
+
+bool weakpoint_families::practice( Character &learner, const time_duration &amount ) const
+{
+    bool learned = false;
+    for( const weakpoint_family &family : families ) {
+        float before = learner.get_proficiency_practice( family.proficiency );
+        learner.practice_proficiency( family.proficiency, amount );
+        float after = learner.get_proficiency_practice( family.proficiency );
+        if( before < after ) {
+            learned = true;
+        }
+    }
+    return learned;
+}
+
+bool weakpoint_families::practice_hit( Character &learner ) const
+{
+    return practice( learner, time_duration::from_seconds( 2 ) );
+}
+
+bool weakpoint_families::practice_kill( Character &learner ) const
+{
+    return practice( learner, time_duration::from_minutes( 1 ) );
+}
+
+bool weakpoint_families::practice_dissect( Character &learner ) const
+{
+    // Proficiency experience is capped at 1000 seconds (~16 minutes), so we split it into two
+    // instances. This should be refactored when butchering becomes an `activity_actor`.
+    bool p1 = practice( learner, time_duration::from_minutes( 15 ) );
+    bool p2 = practice( learner, time_duration::from_minutes( 15 ) );
+    bool learned = p1 || p2;
+    if( learned ) {
+        learner.add_msg_if_player(
+            m_good, _( "You carefully record the creature's vulnerabilities." ) );
+    }
+    return learned;
+}
+
+float weakpoint_families::modifier( const Character &attacker ) const
+{
+    float total = 0.0f;
+    for( const weakpoint_family &family : families ) {
+        total += family.modifier( attacker );
+    }
+    return total;
+}
+
+void weakpoint_families::clear()
+{
+    families.clear();
+}
+
+void weakpoint_families::load( const JsonArray &ja )
+{
+    for( const JsonValue jsin : ja ) {
+        weakpoint_family tmp;
+        tmp.load( jsin );
+
+        auto it = std::find_if( families.begin(), families.end(),
+        [&]( const weakpoint_family & wf ) {
+            return wf.id == tmp.id;
+        } );
+        if( it != families.end() ) {
+            families.erase( it );
+        }
+
+        families.push_back( std::move( tmp ) );
+    }
+}
+
+void weakpoint_families::remove( const JsonArray &ja )
+{
+    for( const JsonValue jsin : ja ) {
+        weakpoint_family tmp;
+        tmp.load( jsin );
+
+        auto it = std::find_if( families.begin(), families.end(),
+        [&]( const weakpoint_family & wf ) {
+            return wf.id == tmp.id;
+        } );
+        if( it != families.end() ) {
+            families.erase( it );
+        }
+    }
+}
+
+weakpoint_difficulty::weakpoint_difficulty( float default_value )
+{
+    difficulty.fill( default_value );
+}
+
+float weakpoint_difficulty::of( const weakpoint_attack &attack ) const
+{
+    return difficulty[static_cast<int>( attack.type )];
+}
+
+void weakpoint_difficulty::load( const JsonObject &jo )
+{
+    using attack_type = weakpoint_attack::attack_type;
+    float default_value = difficulty[static_cast<int>( attack_type::NONE )];
+    float all = jo.get_float( "all", default_value );
+    // Determine default values
+    float bash = all;
+    float cut = all;
+    float stab = all;
+    float ranged = all;
+    // Support either "melee" shorthand or "broad"/"point" shorthand.
+    if( jo.has_float( "melee" ) ) {
+        float melee = jo.get_float( "melee", all );
+        bash = melee;
+        cut = melee;
+        stab = melee;
+    } else {
+        float broad = jo.get_float( "broad", all );
+        float point = jo.get_float( "point", all );
+        bash = broad;
+        cut = broad;
+        stab = point;
+        ranged = point;
+    }
+    // Load the values
+    difficulty[static_cast<int>( attack_type::NONE )] = all;
+    difficulty[static_cast<int>( attack_type::MELEE_BASH )] = jo.get_float( "bash", bash );
+    difficulty[static_cast<int>( attack_type::MELEE_CUT )] = jo.get_float( "cut", cut );
+    difficulty[static_cast<int>( attack_type::MELEE_STAB )] = jo.get_float( "stab", stab );
+    difficulty[static_cast<int>( attack_type::PROJECTILE )] = jo.get_float( "ranged", ranged );
 }
 
 weakpoint_effect::weakpoint_effect()  :
@@ -110,18 +263,87 @@ void weakpoint_effect::load( const JsonObject &jo )
     } else if( jo.has_array( "intensity" ) ) {
         assign( jo, "intensity", intensity );
     }
+    if( jo.has_float( "damage_required" ) ) {
+        float f = jo.get_float( "damage_required", 0.0f );
+        damage_required = {f, f};
+    } else if( jo.has_array( "damage_required" ) ) {
+        assign( jo, "damage_required", damage_required );
+    }
 }
 
 weakpoint_attack::weakpoint_attack()  :
     source( nullptr ),
     target( nullptr ),
     weapon( &null_item_reference() ),
-    is_melee( false ),
+    type( attack_type::NONE ),
+    is_thrown( false ),
     is_crit( false ),
     wp_skill( 0.0f ) {}
 
+weakpoint_attack::attack_type
+weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
+{
+    damage_type primary = damage_type::NONE;
+    int primary_amount = 0;
+    for( const auto &du : damage.damage_units ) {
+        if( du.amount > primary_amount ) {
+            primary = du.type;
+            primary_amount = du.amount;
+        }
+    }
+    switch( primary ) {
+        case damage_type::BASH:
+            return attack_type::MELEE_BASH;
+        case damage_type::CUT:
+            return attack_type::MELEE_CUT;
+        case damage_type::STAB:
+            return attack_type::MELEE_STAB;
+        default:
+            return attack_type::NONE;
+    }
+}
 
-weakpoint::weakpoint()
+void weakpoint_attack::compute_wp_skill()
+{
+    // Check if there's no source.
+    if( source == nullptr ) {
+        wp_skill = 0.0f;
+        return;
+    }
+    // Compute the base attacker skill.
+    float attacker_skill = 0.0f;
+    const monster *mon_att = source->as_monster();
+    const Character *chr_att = source->as_character();
+    if( mon_att != nullptr ) {
+        attacker_skill = mon_att->weakpoint_skill();
+    } else if( chr_att != nullptr ) {
+        switch( type ) {
+            case attack_type::MELEE_BASH:
+            case attack_type::MELEE_CUT:
+            case attack_type::MELEE_STAB:
+                attacker_skill = chr_att->melee_weakpoint_skill( *weapon );
+                break;
+            case attack_type::PROJECTILE:
+                attacker_skill = is_thrown
+                                 ? chr_att->throw_weakpoint_skill()
+                                 : chr_att->ranged_weakpoint_skill( *weapon );
+                break;
+            default:
+                attacker_skill = 0.0f;
+                break;
+        }
+    }
+    // Compute the proficiency skill.
+    float proficiency_skill = 0.0f;
+    const monster *mon_tar = target->as_monster();
+    if( chr_att != nullptr && mon_tar != nullptr ) {
+        proficiency_skill = mon_tar->type->families.modifier( *chr_att );
+    }
+    // Combine attacker skill and proficiency boni.
+    wp_skill = attacker_skill + proficiency_skill;
+}
+
+weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
 {
     // arrays must be filled manually to avoid UB.
     armor_mult.fill( 1.0f );
@@ -160,9 +382,15 @@ void weakpoint::load( const JsonObject &jo )
             effects.push_back( std::move( effect ) );
         }
     }
+    if( jo.has_object( "coverage_mult" ) ) {
+        coverage_mult.load( jo.get_object( "coverage_mult" ) );
+    }
+    if( jo.has_object( "difficulty" ) ) {
+        difficulty.load( jo.get_object( "difficulty" ) );
+    }
 
     // Set the ID to the name, if not provided.
-    if( id.empty() ) {
+    if( !jo.has_string( "id" ) ) {
         id = name;
     }
 }
@@ -193,12 +421,20 @@ void weakpoint::apply_effects( Creature &target, int total_damage,
 
 float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
+    // Check for required effects
     for( const auto &effect : required_effects ) {
         if( !attack.target->has_effect( effect ) ) {
             return 0.0f;
         }
     }
-    return coverage;
+    // Retrieve multipliers.
+    float constant_mult = coverage_mult.of( attack );
+    // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
+    // exceeding the difficulty.
+    float diff = attack.wp_skill - difficulty.of( attack );
+    float difficulty_mult = 0.5f * ( 1.0f + erf( diff / ( 2.0f * sqrt( 2.0f ) ) ) );
+    // Compute the total value
+    return constant_mult * difficulty_mult * coverage;
 }
 
 // Reweighs the probability distribution of hitting a weakpoint.

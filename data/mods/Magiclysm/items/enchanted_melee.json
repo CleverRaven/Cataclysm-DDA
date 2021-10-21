@@ -721,6 +721,7 @@
   },
   {
     "id": "rune_technomancer_weapon",
+    "looks_like": "halligan",
     "type": "GENERIC",
     "name": { "str": "Technomancer toolbar" },
     "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
@@ -740,6 +741,7 @@
   },
   {
     "id": "rune_technomancer_weapon_adept",
+    "looks_like": "halligan",
     "type": "TOOL",
     "name": { "str": "Technomancer mana-toolbar" },
     "//": "Pretty much the same as the other, but now with a cool touchscreen that casts mirror image and does some minor things",
@@ -802,6 +804,7 @@
   },
   {
     "id": "rune_kelvinist_weapon",
+    "looks_like": "longsword",
     "type": "GENERIC",
     "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
@@ -823,6 +826,7 @@
   },
   {
     "id": "rune_kelvinist_ice_adept_weapon",
+    "looks_like": "scimitar",
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",

@@ -4,6 +4,7 @@
     "method": "json",
     "om_terrain": "anthill",
     "object": {
+      "fallback_predecessor_mapgen": "field",
       "rows": [
         "                        ",
         "                        ",
@@ -30,12 +31,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ [ "t_region_groundcover_barren", 5 ], [ "t_region_groundcover", 3 ], [ "t_region_shrub", 1 ] ],
-        "<": "t_slope_down",
-        "+": "t_dirtmound",
-        "-": [ "t_dirtmound", "t_region_groundcover_barren" ]
-      }
+      "terrain": { "<": "t_slope_down", "+": "t_dirtmound", "-": [ "t_dirtmound", "t_region_groundcover_barren" ] }
     }
   },
   {
