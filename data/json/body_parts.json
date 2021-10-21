@@ -27,19 +27,8 @@
     "drench_capacity": 40,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80,
-    "sub_parts": [
-      {"name": "neck", "hit_size": 1},
-      {"name": "thorax", "hit_size": 3},
-      {"name": "stomach", "hit_size": 2},
-      {"name": "right side", "hit_size": 2},
-      {"name": "left side", "hit_size": 2},
-      {"name": "groin", "hit_size": 2},
-      {"name": "buttocks", "hit_size": 0.66},
-      {"name": "right armpit ", "hit_size": 0.66},
-      {"name": "left armpit", "hit_size": 0.66},
-      {"name": "uppder back", "hit_size": 1},
-      {"name": "lower back", "hit_size": 0.66}
-    ]
+    "sub_parts": ["thorax", "neck", "stomach", "side_r", "side_l", "groin", "buttocks", "armpit_r", "armpit_l", "upper_back", "lower_back"],
+    "part_weight": 14.32
   },
   {
     "id": "head",
@@ -69,7 +58,8 @@
     "drench_capacity": 7,
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 18
+    "bionic_slots": 18,
+    "part_weight": 0
   },
   {
     "id": "eyes",
@@ -95,7 +85,8 @@
     "flags": [ "IGNORE_TEMP" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4
+    "bionic_slots": 4,
+    "part_weight": 0
   },
   {
     "id": "mouth",
@@ -124,7 +115,8 @@
     "drench_capacity": 1,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4
+    "bionic_slots": 4,
+    "part_weight": 0
   },
   {
     "id": "arm_l",
@@ -161,15 +153,8 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [
-      {"name": "left shoulder", "hit_size": 2},
-      {"name": "left upper arm", "hit_size": 3},
-      {"name": "back of the left upper arm", "hit_size": 1},
-      {"name": "left elbow", "hit_size": 2},
-      {"name": "back of the left elbow", "hit_size": 0.66},
-      {"name": "left forearm", "hit_size": 3},
-      {"name": "back of the left forearm", "hit_size": 1}
-    ]
+    "sub_parts": ["shoulder_l", "upper_arm_l", "upper_arm_l_back", "elbow_l", "elbow_l_back", "forearm_l", "forearm_l_back"],
+    "part_weight": 7.65
   },
   {
     "id": "arm_r",
@@ -205,15 +190,8 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [
-      {"name": "right shoulder", "hit_size": 2},
-      {"name": "right upper arm", "hit_size": 3},
-      {"name": "back of the right upper arm", "hit_size": 1},
-      {"name": "right elbow", "hit_size": 2},
-      {"name": "back of the right elbow", "hit_size": 0.66},
-      {"name": "right forearm", "hit_size": 3},
-      {"name": "back of the right forearm", "hit_size": 1}
-    ]
+    "sub_parts": ["shoulder_r", "upper_arm_r", "upper_arm_r_back", "elbow_r", "elbow_r_back", "forearm_r", "forearm_r_back"],
+    "part_weight": 7.65
   },
   {
     "id": "hand_l",
@@ -244,7 +222,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5
+    "bionic_slots": 5,
+    "part_weight": 0.0
   },
   {
     "id": "hand_r",
@@ -275,7 +254,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5
+    "bionic_slots": 5,
+    "part_weight": 0.0
   },
   {
     "id": "leg_l",
@@ -311,14 +291,8 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [
-      {"name": "left thigh", "hit_size": 3},
-      {"name": "back of the left thigh", "hit_size": 1},
-      {"name": "left knee", "hit_size": 1},
-      {"name": "back of the left knee", "hit_size": 0.33},
-      {"name": "left shin", "hit_size": 2},
-      {"name": "left calve", "hit_size": 0.66}
-    ]
+    "sub_parts": ["thigh_l", "thigh_l_back", "knee_l", "knee_l_back", "shin_l", "shin_l_back"],
+    "part_weight": 7.99
   },
   {
     "id": "leg_r",
@@ -354,14 +328,8 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [
-      {"name": "right thigh", "hit_size": 3},
-      {"name": "back of the right thigh", "hit_size": 1},
-      {"name": "right knee", "hit_size": 1},
-      {"name": "back of the right knee", "hit_size": 0.33},
-      {"name": "right shin", "hit_size": 2},
-      {"name": "right calve", "hit_size": 0.66}
-    ]
+    "sub_parts": ["thigh_r", "thigh_r_back", "knee_r", "knee_r_back", "shin_r", "shin_r_back"],
+    "part_weight": 7.99
   },
   {
     "id": "foot_l",
@@ -393,7 +361,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7
+    "bionic_slots": 7,
+    "part_weight": 0.0
   },
   {
     "id": "foot_r",
@@ -425,7 +394,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7
+    "bionic_slots": 7,
+    "part_weight": 0.0
   },
   {
     "id": "debug_tail",
@@ -450,12 +420,229 @@
     "connected_to": "torso",
     "accusative": { "ctxt": "bodypart_accusative", "str": "debug tail" },
     "hp_bar_ui_text": "DBG TAIL",
-    "base_hp": 20
+    "base_hp": 20,
+    "part_weight": 0.0
   },
   {
     "id": "thorax",
     "type": "sub_body_part",
     "name": "thorax",
     "hit_size": 3
+  },
+  {
+    "id": "neck",
+    "type": "sub_body_part",
+    "name": "neck",
+    "hit_size": 1
+  },
+  {
+    "id": "stomach",
+    "type": "sub_body_part",
+    "name": "stomach",
+    "hit_size": 2
+  },
+  {
+    "id": "side_r",
+    "type": "sub_body_part",
+    "name": "right side",
+    "hit_size": 2
+  },
+  {
+    "id": "side_l",
+    "type": "sub_body_part",
+    "name": "left side",
+    "hit_size": 2
+  },
+  {
+    "id": "groin",
+    "type": "sub_body_part",
+    "name": "groin",
+    "hit_size": 2
+  },
+  {
+    "id": "buttocks",
+    "type": "sub_body_part",
+    "name": "buttocks",
+    "hit_size": 0.66
+  },
+  {
+    "id": "armpit_r",
+    "type": "sub_body_part",
+    "name": "right armpit",
+    "hit_size": 1
+  },
+  {
+    "id": "armpit_l",
+    "type": "sub_body_part",
+    "name": "left armpit",
+    "hit_size": 1
+  },
+  {
+    "id": "upper_back",
+    "type": "sub_body_part",
+    "name": "upper back",
+    "hit_size": 1
+  },
+  {
+    "id": "lower_back",
+    "type": "sub_body_part",
+    "name": "lower back",
+    "hit_size": 0.66
+  },
+  {
+    "id": "shoulder_r",
+    "type": "sub_body_part",
+    "name": "right shoulder",
+    "hit_size": 1
+  },
+  {
+    "id": "upper_arm_r",
+    "type": "sub_body_part",
+    "name": "right upper arm",
+    "hit_size": 2
+  },
+  {
+    "id": "upper_arm_r_back",
+    "type": "sub_body_part",
+    "name": "back of the right upper arm",
+    "hit_size": 0.66
+  },
+  {
+    "id": "elbow_r",
+    "type": "sub_body_part",
+    "name": "right elbow",
+    "hit_size": 1
+  },
+  {
+    "id": "elbow_r_back",
+    "type": "sub_body_part",
+    "name": "back of the right elbow",
+    "hit_size": 0.33
+  },
+  {
+    "id": "forearm_r",
+    "type": "sub_body_part",
+    "name": "right forearm",
+    "hit_size": 2
+  },
+  {
+    "id": "forearm_r_back",
+    "type": "sub_body_part",
+    "name": "back of the right forearm",
+    "hit_size": 0.66
+  },
+  {
+    "id": "shoulder_l",
+    "type": "sub_body_part",
+    "name": "left shoulder",
+    "hit_size": 1
+  },
+  {
+    "id": "upper_arm_l",
+    "type": "sub_body_part",
+    "name": "left upper arm",
+    "hit_size": 2
+  },
+  {
+    "id": "upper_arm_l_back",
+    "type": "sub_body_part",
+    "name": "back of the left upper arm",
+    "hit_size": 0.66
+  },
+  {
+    "id": "elbow_l",
+    "type": "sub_body_part",
+    "name": "left elbow",
+    "hit_size": 1
+  },
+  {
+    "id": "elbow_l_back",
+    "type": "sub_body_part",
+    "name": "back of the left elbow",
+    "hit_size": 0.33
+  },
+  {
+    "id": "forearm_l",
+    "type": "sub_body_part",
+    "name": "left forearm",
+    "hit_size": 2
+  },
+  {
+    "id": "forearm_l_back",
+    "type": "sub_body_part",
+    "name": "back of the left forearm",
+    "hit_size": 0.66
+  },
+  {
+    "id": "thigh_l",
+    "type": "sub_body_part",
+    "name": "left thigh",
+    "hit_size": 3
+  },
+  {
+    "id": "thigh_l_back",
+    "type": "sub_body_part",
+    "name": "back of the left thigh",
+    "hit_size": 1
+  },
+  {
+    "id": "knee_l",
+    "type": "sub_body_part",
+    "name": "left knee",
+    "hit_size": 1
+  },
+  {
+    "id": "knee_l_back",
+    "type": "sub_body_part",
+    "name": "back of the left knee",
+    "hit_size": 0.33
+  },
+  {
+    "id": "shin_l",
+    "type": "sub_body_part",
+    "name": "left shin",
+    "hit_size": 2
+  },
+  {
+    "id": "shin_l_back",
+    "type": "sub_body_part",
+    "name": "back of the left shin",
+    "hit_size": 0.66
+  },
+  {
+    "id": "thigh_r",
+    "type": "sub_body_part",
+    "name": "right thigh",
+    "hit_size": 3
+  },
+  {
+    "id": "thigh_r_back",
+    "type": "sub_body_part",
+    "name": "back of the right thigh",
+    "hit_size": 1
+  },
+  {
+    "id": "knee_r",
+    "type": "sub_body_part",
+    "name": "right knee",
+    "hit_size": 1
+  },
+  {
+    "id": "knee_r_back",
+    "type": "sub_body_part",
+    "name": "back of the right knee",
+    "hit_size": 0.33
+  },
+  {
+    "id": "shin_r",
+    "type": "sub_body_part",
+    "name": "right shin",
+    "hit_size": 2
+  },
+  {
+    "id": "shin_r_back",
+    "type": "sub_body_part",
+    "name": "back of the right shin",
+    "hit_size": 0.66
   }
 ]

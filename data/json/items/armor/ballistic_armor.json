@@ -36,7 +36,8 @@
     "warmth": 15,
     "material_thickness": 16,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ],
+    "specific_armor": [ { "covers": [ "thorax", "stomach", "upper_back", "lower_back", "side_l", "side_r" ], "coverage": 100 } ]
   },
   {
     "id": "dragonskin",

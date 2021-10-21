@@ -12,6 +12,8 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "type_id.h"
+#include "rng.h"
+
 
 const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_eyes( "eyes" );
@@ -89,6 +91,7 @@ std::string enum_to_string<body_part_type::type>( body_part_type::type data )
 namespace
 {
 
+generic_factory<sub_body_part_type> sub_body_part_factory("sub body part");
 generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
@@ -165,6 +168,54 @@ bodypart_id string_id<body_part_type>::id() const
 template<>
 int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
+//additional templates for sub parts
+
+/**@relates string_id*/
+template<>
+bool string_id<sub_body_part_type>::is_valid() const
+{
+    return sub_body_part_factory.is_valid(*this);
+}
+
+/** @relates int_id */
+template<>
+bool int_id<sub_body_part_type>::is_valid() const
+{
+    return sub_body_part_factory.is_valid(*this);
+}
+
+/**@relates string_id*/
+template<>
+const sub_body_part_type& string_id<sub_body_part_type>::obj() const
+{
+    return sub_body_part_factory.obj(*this);
+}
+
+/** @relates int_id */
+template<>
+const sub_body_part_type& int_id<sub_body_part_type>::obj() const
+{
+    return sub_body_part_factory.obj(*this);
+}
+
+/** @relates int_id */
+template<>
+const sub_bodypart_str_id& int_id<sub_body_part_type>::id() const
+{
+    return sub_body_part_factory.convert(*this);
+}
+
+/**@relates string_id*/
+template<>
+sub_bodypart_id string_id<sub_body_part_type>::id() const
+{
+    return sub_body_part_factory.convert(*this, sub_bodypart_id(0));
+}
+
+/** @relates int_id */
+template<>
+int_id<sub_body_part_type>::int_id(const string_id<sub_body_part_type>& id) : _id(id.id()) {}
+
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
@@ -195,6 +246,11 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
+void sub_body_part_type::load_bp(const JsonObject& jo, const std::string& src)
+{
+    sub_body_part_factory.load(jo, src);
+}
+
 bool body_part_type::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) > 0;
@@ -205,10 +261,11 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-void sub_part::deserialize(const JsonObject& jo)
+void sub_body_part_type::load(const JsonObject& jo, const std::string&)
 {
-    optional(jo, false, "name", name);
-    optional(jo, false, "hit_size", hit_size, 1);
+    mandatory(jo, was_loaded, "id", id);
+    mandatory(jo, was_loaded, "name", name);
+    mandatory(jo, was_loaded, "hit_size", hit_size);
 }
 
 void body_part_type::load( const JsonObject &jo, const std::string & )
@@ -297,6 +354,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "side", part_side );
 
     optional(jo, was_loaded, "sub_parts", sub_parts);
+
+    mandatory(jo, was_loaded, "part_weight", sub_parts_size_sum);
 }
 
 void body_part_type::reset()
@@ -304,17 +363,29 @@ void body_part_type::reset()
     body_part_factory.reset();
 }
 
+void sub_body_part_type::reset()
+{
+    sub_body_part_factory.reset();
+}
+
 void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
 }
 
+void sub_body_part_type::finalize_all()
+{
+    sub_body_part_factory.finalize();
+}
+
 void body_part_type::finalize()
 {
-    sub_parts_size_sum = 0;
-    for ( sub_part sp : sub_parts ) {
-        sub_parts_size_sum += sp.hit_size;
-    }
+
+}
+
+void sub_body_part_type::finalize()
+{
+
 }
 
 void body_part_type::check_consistency()
@@ -371,6 +442,25 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+// TODO: get_function_with_better_name
+sub_bodypart_str_id body_part_type::get_part_with_cumulative_hit_size(float size) const
+{
+
+    for (const sub_bodypart_id& part : sub_parts) {
+        size -= part->hit_size;
+        if (size <= 0.0f) {
+            return part.id();
+        }
+    }
+
+    return sub_bodypart_str_id::NULL_ID();
+}
+
+sub_bodypart_id body_part_type::random_body_sub_part() const
+{
+    return get_part_with_cumulative_hit_size(rng_float(0.0f, sub_parts_size_sum)).id();
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )

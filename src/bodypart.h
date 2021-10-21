@@ -20,10 +20,14 @@ class JsonObject;
 class JsonOut;
 class JsonValue;
 struct body_part_type;
+struct sub_body_part_type;
 template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
+
+using sub_bodypart_str_id = string_id<sub_body_part_type>;
+using sub_bodypart_id = int_id<sub_body_part_type>;
 
 extern const bodypart_str_id body_part_head;
 extern const bodypart_str_id body_part_eyes;
@@ -37,11 +41,6 @@ extern const bodypart_str_id body_part_leg_l;
 extern const bodypart_str_id body_part_foot_l;
 extern const bodypart_str_id body_part_leg_r;
 extern const bodypart_str_id body_part_foot_r;
-
-//list of all the sub body parts
-enum sub_body_part : int {
-
-};
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -110,13 +109,26 @@ struct stat_hp_mods {
     void deserialize( const JsonObject &jo );
 };
 
-struct sub_part {
+struct sub_body_part_type {
+
+    sub_bodypart_str_id id;
+    bool was_loaded = false;
+
     //name of the sub part
     translation name;
 
     float hit_size = 0.0f;
 
-    void deserialize(const JsonObject& jo);
+    static void load_bp(const JsonObject& jo, const std::string& src);
+
+    void load(const JsonObject& jo, const std::string& src);
+
+    // Clears all bps
+    static void reset();
+    // Post-load finalization
+    static void finalize_all();
+
+    static void finalize();
 };
 
 struct body_part_type {
@@ -175,12 +187,11 @@ struct body_part_type {
         std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
 
         /** Sub-location of the body part used for encumberance, coverage and determining protection 
-         *  Max Size is set to 11 the Max number of parts any limb has
          */
-        std::vector<sub_part> sub_parts;
+        std::vector<sub_bodypart_str_id> sub_parts;
 
         /** Cumulative size of all sub parts. Needed to select one at random */
-        float sub_parts_size_sum;
+        float sub_parts_size_sum = 0.0f;
 
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
@@ -253,6 +264,10 @@ struct body_part_type {
         static void finalize_all();
         // Verifies that body parts make sense
         static void check_consistency();
+
+        sub_bodypart_str_id get_part_with_cumulative_hit_size(float size) const;
+        sub_bodypart_id random_body_sub_part() const;
+
 
         int bionic_slots() const {
             return bionic_slots_;

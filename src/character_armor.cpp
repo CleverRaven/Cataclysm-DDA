@@ -397,6 +397,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         // Generate a sublocation for the attack which we can test for absorbtion
 
+        // Generate a specific location
+        add_msg_if_player(_("you are struck in the %s: total rollable is: %s"), bp->random_body_sub_part()->name, bp->sub_parts_size_sum);
+
         // Only the outermost armor can be set on fire
         bool outermost = true;
         // The worn vector has the innermost item first, so
