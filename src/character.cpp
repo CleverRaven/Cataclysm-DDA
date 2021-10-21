@@ -437,6 +437,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
