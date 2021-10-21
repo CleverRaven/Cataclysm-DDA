@@ -810,7 +810,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "combat blouse" },
-    "description": "A sleek blouse in a camoflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
+    "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
     "weight": "650 g",
     "volume": "3 L",
     "price": 6400,
