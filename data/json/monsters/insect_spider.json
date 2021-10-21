@@ -814,12 +814,12 @@
     "melee_dice_sides": 4,
     "melee_cut": 1,
     "dodge": 8,
-    "vision_day": 5,
-    "vision_night": 5,
+    "vision_day": 12,
+    "vision_night": 12,
     "harvest": "arachnid_flying",
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_mosquito_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_mosquito_mega",
