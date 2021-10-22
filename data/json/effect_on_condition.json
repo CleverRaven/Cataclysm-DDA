@@ -32,6 +32,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_paralyzepoison",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "paralyzepoison", "intensity": 4, "duration": "20 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence_min": 1,
     "recurrence_max": 1,

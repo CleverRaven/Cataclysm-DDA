@@ -410,9 +410,10 @@
       { "monster": "mon_feral_maid_broom", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_feral_maid_candlestick", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_feral_maid_knife", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_feral_fancy_rapier", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_fancy_rapier", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_feral_fancy_rapier_fake", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_feral_fancy_crossbow", "freq": 5, "cost_multiplier": 1 }
+      { "monster": "mon_feral_fancy_crossbow", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_armored_mace", "freq": 1, "cost_multiplier": 10 }
     ]
   },
   {

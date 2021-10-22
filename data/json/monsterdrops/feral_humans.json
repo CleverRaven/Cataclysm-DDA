@@ -117,7 +117,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_fancy_death_drops_crossbow",
-    "entries": [ { "item": "crossbow", "prob": 100, "damage": [ 1, 3 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+    "entries": [ { "item": "rep_crossbow", "prob": 100, "damage": [ 1, 3 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_armored_death_drops_mace",
+    "entries": [ { "item": "mace", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -260,6 +266,95 @@
               }
             ]
           }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an armored (medieval) feral",
+    "id": "default_armored_clothes",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "male_underwear", "prob": 45, "damage": [ 1, 4 ] },
+          { "group": "female_underwear", "prob": 45, "damage": [ 1, 4 ] },
+          { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "armor_plarmor", "damage": [ 1, 4 ] },
+          { "item": "armor_blarmor", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "chainmail_suit", "prob": 50, "damage": [ 1, 4 ] },
+              {
+                "collection": [
+                  { "item": "chainmail_hood", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "chainmail_hauberk", "prob": 80, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "item": "chainmail_hood", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "chainmail_vest", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "chainmail_arms", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "chainmail_legs", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "gambeson", "prob": 60, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "armor_plate", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "armor_lorica", "prob": 40, "damage": [ 1, 4 ] },
+          { "item": "armor_samurai", "prob": 30, "damage": [ 1, 4 ] },
+          { "item": "armor_cuirass", "prob": 30, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "armor_lightplate", "prob": 50, "damage": [ 1, 4 ] },
+              {
+                "collection": [
+                  { "item": "cuirass_lightplate", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "armguard_lightplate", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "legguard_lightplate", "prob": 60, "damage": [ 1, 4 ] }
+                ]
+              }
+            ],
+            "prob": 45
+          }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "helmet_plate", "prob": 60, "damage": [ 1, 4 ] },
+          { "item": "helmet_nasal", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "helmet_barbute", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "helmet_corinthian", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "helmet_galea", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "helmet_armet", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "helmet_sallet", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "helmet_kettle", "prob": 30, "damage": [ 1, 4 ] },
+          { "item": "helmet_kabuto", "prob": 30, "damage": [ 1, 4 ] },
+          { "item": "helmet_conical", "prob": 30, "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "boots_plate", "prob": 60, "damage": [ 1, 4 ] },
+          { "item": "chainmail_feet", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "boots_larmor", "prob": 40, "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "gloves_plate", "prob": 60, "damage": [ 1, 4 ] },
+          { "item": "chainmail_hands", "prob": 40, "damage": [ 1, 4 ] }
         ]
       }
     ]
