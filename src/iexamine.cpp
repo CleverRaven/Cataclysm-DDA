@@ -2365,9 +2365,24 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
-void iexamine::harvest_plant( Character &you, const tripoint &examp )
+// Only harvest, used for autoforaging
+void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
 {
-    if( get_map().has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
+    map &here = get_map();
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = here.i_at( examp );
+    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.is_seed();
+    } );
+
+    if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
+        here.i_clear( examp );
+        here.furn_set( examp, f_null );
+        return;
+    }
+
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         harvest_plant( you, examp, false );
     }
 }
@@ -2558,7 +2573,7 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 
     if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
         query_yn( _( "Harvest the %s?" ), pname ) ) {
-        harvest_plant( you, examp );
+        harvest_plant( you, examp, false );
     } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
@@ -4858,7 +4873,6 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
     bool needs_anesthesia = true;
     std::vector<tool_comp> anesth_kit;
-    int drug_count = 0;
 
     if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
         amenu.ret > 1 ) {
@@ -4871,7 +4885,6 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
-                drug_count += anesthesia_item->ammo_remaining();
             }
         }
     }
@@ -6274,7 +6287,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "harvest_furn", &iexamine::harvest_furn },
             { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
             { "harvest_ter", &iexamine::harvest_ter },
-            { "harvest_plant", &iexamine::harvest_plant },
+            { "harvest_plant_ex", &iexamine::harvest_plant_ex },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
             { "translocator", &iexamine::translocator },

@@ -26,7 +26,6 @@
       [
         [ "flatbread", 1 ],
         [ "bread", 1 ],
-        [ "cornbread", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
         [ "biscuit", 1 ],
@@ -34,6 +33,12 @@
         [ "crackers", 1 ]
       ]
     ]
+  },
+  {
+    "id": "bread_sandwich_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for sandwiches.",
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
   },
   {
     "id": "any_peanutbutter",
@@ -324,24 +329,28 @@
     "components": [ [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ] ]
   },
   {
-    "id": "meat_nofish",
-    "type": "requirement",
-    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
-    "components": [
-      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
-    ]
-  },
-  {
     "id": "any_cracklins",
     "type": "requirement",
     "//": "multifarious cracklins",
     "components": [
-      [
-        [ "cracklins", 1 ],
+      [ [ "cracklins", 1 ],
         [ "human_cracklins", 1 ],
         [ "mutant_cracklins", 1 ],
         [ "mutant_human_cracklins", 1 ],
         [ "demihuman_cracklins", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_nofish",
+    "type": "requirement",
+    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
+    "components": [
+      [ [ "meat_red", 1, "LIST" ], 
+        [ "meat_offal", 1, "LIST" ], 
+        [ "can_spam", 2 ], 
+        [ "lunchmeat", 2 ], 
+        [ "can_chicken", 1 ] 
       ]
     ]
   },
@@ -387,7 +396,8 @@
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
         [ "sausage_wasteland", 1 ],
-        [ "bratwurst_sausage", 1 ]
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },

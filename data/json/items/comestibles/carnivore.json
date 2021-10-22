@@ -867,6 +867,7 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
+    "longest_side": "40 cm",
     "vitamins": [ [ "calcium", 96 ] ]
   },
   {
@@ -1442,5 +1443,24 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "bone" ]
+  },
+  {
+    "id": "meat_fried",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "fried meat" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fried fool" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
+    ],
+    "description": "Delicious oil-fried meat.",
+    "color": "brown",
+    "price_postapoc": 200,
+    "quench": -1,
+    "fun": 6,
+    "healthy": -1,
+    "weight": "298 g",
+    "flags": [ "EATEN_HOT" ]
   }
 ]

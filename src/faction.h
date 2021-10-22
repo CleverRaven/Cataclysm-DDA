@@ -74,7 +74,6 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();

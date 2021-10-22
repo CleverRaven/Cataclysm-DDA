@@ -2,13 +2,12 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
-    "default": "mon_zombie_technician",
     "monsters": [
-      { "monster": "mon_zombie_technician", "freq": 200, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_hazmat", "freq": 250, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_electric", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_technician", "weight": 450, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_hazmat", "weight": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_cop", "weight": 100, "cost_multiplier": 5 }
     ]
   },
   {

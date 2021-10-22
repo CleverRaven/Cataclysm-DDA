@@ -291,7 +291,7 @@
     "name": { "str": "pair of XL fur gloves", "str_pl": "pairs of XL fur gloves" },
     "copy-from": "gloves_fur",
     "proportional": { "weight": 1.6, "volume": 1.6 },
-    "flags": [ "WATERPROOF" ]
+    "flags": [ "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "glove_jackson",

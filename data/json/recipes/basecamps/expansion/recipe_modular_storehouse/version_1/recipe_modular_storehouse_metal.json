@@ -18,7 +18,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 360 ], [ "welder", 1800 ], [ "welder_crude", 2700 ], [ "toolset", 2700 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ] ],
         "components": [ [ [ "steel_plate", 72 ] ] ]
       }
     }
@@ -42,7 +42,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 360 ], [ "welder", 1800 ], [ "welder_crude", 2700 ], [ "toolset", 2700 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ] ],
         "components": [ [ [ "steel_plate", 72 ] ] ]
       }
     }
@@ -66,7 +66,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
@@ -90,7 +90,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
@@ -114,7 +114,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
@@ -138,7 +138,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
@@ -162,7 +162,7 @@
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "glass_sheet", 2 ] ],
@@ -194,7 +194,7 @@
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "glass_sheet", 2 ] ],
@@ -226,7 +226,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 600 ], [ "welder", 3000 ], [ "welder_crude", 4500 ], [ "toolset", 4500 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ] ],
         "components": [ [ [ "steel_plate", 120 ] ] ]
       }
     }

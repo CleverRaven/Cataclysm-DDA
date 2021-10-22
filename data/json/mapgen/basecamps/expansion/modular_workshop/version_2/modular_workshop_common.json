@@ -34,11 +34,11 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
         "                        ",
         "     ;                  ",
         "                ;;;;    ",
@@ -168,6 +168,26 @@
         { "point": "furniture", "id": "f_rack", "x": 1, "y": 19 },
         { "point": "furniture", "id": "f_rack", "x": 1, "y": 20 },
         { "point": "furniture", "id": "f_rack", "x": 1, "y": 21 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_glassblower",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 8 },
+        { "point": "furniture", "id": "f_forge_rock", "x": 3, "y": 8 },
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 9 },
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 10 },
+        { "point": "furniture", "id": "f_armchair", "x": 2, "y": 10 },
+        { "point": "furniture", "id": "f_workbench", "x": 3, "y": 10 }
+      ],
+      "place_loot": [
+        { "item": "tongs", "x": 3, "y": 10, "chance": 100 },
+        { "item": "chisel", "x": 3, "y": 10, "chance": 100 },
+        { "item": "crucible", "x": 3, "y": 10, "chance": 100 }
       ]
     }
   },

@@ -93,5 +93,28 @@
     "update_mapgen_id": "fbmw_2_smithy_3_metal",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_3_metal" ], "x": 8, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_glassblower_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwvwvw",
+        "w....w",
+        "w....+",
+        "w....w",
+        "wwvw+w",
+        "      "
+      ],
+      "palettes": [ "fbmw_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_glassblower_metal",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_glassblower_metal" ], "x": 0, "y": 7 } ] }
   }
 ]

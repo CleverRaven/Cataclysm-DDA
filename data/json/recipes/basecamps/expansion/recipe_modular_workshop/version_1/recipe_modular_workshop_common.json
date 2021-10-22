@@ -70,7 +70,7 @@
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 30 ], [ "toolset", 225 ], [ "welder", 150 ], [ "welder_crude", 225 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
         "components": [
           [ [ "2x4", 6 ] ],
           [ [ "nail", 40 ] ],

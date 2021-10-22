@@ -2195,7 +2195,8 @@
     "changes_to": [ "HOLLOW_BONES" ],
     "movecost_modifier": 0.9,
     "attackcost_modifier": 0.9,
-    "weight_capacity_modifier": 0.8
+    "weight_capacity_modifier": 0.8,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -5508,7 +5509,8 @@
     "category": [ "BIRD", "SLIME", "ELFA" ],
     "movecost_modifier": 0.8,
     "attackcost_modifier": 0.8,
-    "weight_capacity_modifier": 0.6
+    "weight_capacity_modifier": 0.6,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",

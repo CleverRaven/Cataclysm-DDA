@@ -74,7 +74,7 @@
     "price_postapoc": 400,
     "material": [ "veggy" ],
     "volume": "500 ml",
-    "milling": { "into": "flour", "conversion_rate": 15 },
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 15 },
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "charges": 2,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
@@ -953,5 +953,28 @@
     "smoking_result": "dry_veggy",
     "fun": -5,
     "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "flour_wheat_free",
+    "name": { "str_sp": "wheat-free flour" },
+    "weight": "13 g",
+    "color": "white",
+    "spoils_in": "360 days",
+    "container": "box_small",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 48,
+    "description": "This wheat-free white flour is useful for baking items that those with grain intolerances can eat.",
+    "price": 450,
+    "price_postapoc": 100,
+    "material": [ "veggy", "powder" ],
+    "volume": "250 ml",
+    "//": "240 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.",
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "charges": 10,
+    "vitamins": [ [ "iron", 3 ] ],
+    "fun": -5
   }
 ]
