@@ -67,9 +67,7 @@
     "type": "monstergroup",
     "name": "GROUP_MANSION_ARMORED",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_feral_armored_mace", "freq": 100, "cost_multiplier": 10 }
-    ]
+    "monsters": [ { "monster": "mon_feral_armored_mace", "freq": 100, "cost_multiplier": 10 } ]
   },
   {
     "type": "monstergroup",
