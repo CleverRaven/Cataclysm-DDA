@@ -1022,6 +1022,22 @@ class npc : public Character
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
+        /*
+         * Item management functions. These are meant for during and after combat/danger.
+         */
+        void activate_combat_items();
+        void deactivate_combat_items();
+
+        /*
+         * Prepare for combat, such as enabling combat items or CBMs.
+         */
+        void prepare_for_combat();
+
+        /*
+         * Perform any cleanup upon no more present danger, such as disabling combat CBMs or items.
+         */
+        void cleanup_on_no_danger();
+
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints

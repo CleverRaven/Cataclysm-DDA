@@ -2091,6 +2091,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
+    ctxt.register_action( "drop" );
     ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
@@ -9336,19 +9337,20 @@ point game::place_player( const tripoint &dest_loc )
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
                 const bool forage_crops = forage_everything || forage_type == "crops";
-                if( !xter_t.can_examine( pos ) ) {
+                if( !xter_t.can_examine( pos ) && !xfurn_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::tree_marloss ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::harvest_ter ) ) ||
-                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) )
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
+                           ( forage_crops && xter_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xter_t.examine( u, pos );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
                            ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
-                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant ) )
+                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xfurn_t.examine( u, pos );
                 }

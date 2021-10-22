@@ -720,6 +720,13 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
   },
   {
+    "id": "xedra_enviro_suit",
+    "copy-from": "robofac_enviro_suit",
+    "type": "ARMOR",
+    "name": { "str": "activity suit" },
+    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles."
+  },
+  {
     "id": "stillsuit",
     "type": "ARMOR",
     "name": { "str": "WS-47G moisture retention suit" },

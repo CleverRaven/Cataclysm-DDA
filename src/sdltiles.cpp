@@ -230,6 +230,7 @@ static bool SetupRenderTarget()
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     std::string version = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Common flags used for fulscreen and for windowed
@@ -940,6 +941,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
+                        // NOLINTNEXTLINE(cata-translate-string-literal)
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
