@@ -14,7 +14,7 @@
     "charges": 12,
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
     "components": [
-      [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ],
+      [ [ "flour", 16 ], [ "flour_wheat_free", 16 ] ],
       [ [ "salt", 2 ] ],
       [ [ "sugar_standard", 2, "LIST" ] ],
       [ [ "chocolate", 3 ] ],
@@ -5825,7 +5825,7 @@
     "autolearn": true,
     "components": [
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
+      [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ] ],
       [ [ "any_peanutbutter", 1, "LIST" ] ]
     ]
   },
