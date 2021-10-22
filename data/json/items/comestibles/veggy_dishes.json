@@ -322,7 +322,7 @@
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "milling": { "into": "flour", "conversion_rate": 3 },
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 3 },
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,

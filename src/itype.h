@@ -229,6 +229,9 @@ struct armor_portion_data {
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
     int coverage = 0;
+    int cover_melee = 0;
+    int cover_ranged = 0;
+    int cover_vitals = 0;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;

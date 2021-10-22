@@ -1123,7 +1123,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
                 { 'c', _( "plank" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
-                { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
+                { 's', _( "food handling" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },

@@ -2,31 +2,31 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_UPGRADE",
-    "default": "mon_zombie_tough",
     "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_grabber", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_grappler", "freq": 90, "cost_multiplier": 7 },
-      { "monster": "mon_zombie_hunter", "freq": 60, "cost_multiplier": 5 },
-      { "monster": "mon_skeleton", "freq": 80, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_smoker", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_shady", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_gasbag", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_biter", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_shrieker", "freq": 90, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_acidic", "freq": 80, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_necro_boomer", "freq": 12, "cost_multiplier": 27 },
-      { "monster": "mon_boomer", "freq": 90, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brute", "freq": 45, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_master", "freq": 3, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_hollow", "freq": 5, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_thorny", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_winged", "freq": 60, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_regenerating", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_pupa", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_pupa_decoy", "freq": 10, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_tough", "weight": 110 },
+      { "monster": "mon_zombie_grabber", "weight": 30 },
+      { "monster": "mon_zombie_grappler", "weight": 90 },
+      { "monster": "mon_zombie_hunter", "weight": 60 },
+      { "monster": "mon_skeleton", "weight": 80 },
+      { "monster": "mon_zombie_smoker", "weight": 30 },
+      { "monster": "mon_zombie_shady", "weight": 30 },
+      { "monster": "mon_zombie_gasbag", "weight": 30 },
+      { "monster": "mon_zombie_biter", "weight": 30 },
+      { "monster": "mon_zombie_shrieker", "weight": 90 },
+      { "monster": "mon_zombie_acidic", "weight": 80 },
+      { "monster": "mon_zombie_necro", "weight": 15 },
+      { "monster": "mon_zombie_necro_boomer", "weight": 12 },
+      { "monster": "mon_boomer", "weight": 90 },
+      { "monster": "mon_zombie_brute", "weight": 45 },
+      { "monster": "mon_zombie_master", "weight": 3 },
+      { "monster": "mon_zombie_hollow", "weight": 5 },
+      { "monster": "mon_zombie_thorny", "weight": 30 },
+      { "monster": "mon_zombie_static", "weight": 50 },
+      { "monster": "mon_zombie_winged", "weight": 60 },
+      { "monster": "mon_zombie_regenerating", "weight": 10 },
+      { "monster": "mon_zombie_pupa", "weight": 10 },
+      { "monster": "mon_zombie_pupa_decoy", "weight": 10 }
     ]
   },
   {
@@ -35,19 +35,19 @@
     "default": "mon_zombie_crawler",
     "//": "crawling zombie upgrades",
     "monsters": [
-      { "monster": "mon_zombie_crawler_pupa", "freq": 500, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_crawler_pupa_decoy", "freq": 500, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_crawler" },
+      { "monster": "mon_zombie_crawler_pupa", "weight": 500 },
+      { "monster": "mon_zombie_crawler_pupa_decoy", "weight": 500 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRAINLESS_UPGRADE",
-    "default": "mon_zombie_brainless",
     "//": "No bionics or fungal",
     "monsters": [
-      { "monster": "mon_zombie_brainless", "freq": 45, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_ears", "freq": 245, "cost_multiplier": 2 },
-      { "monster": "mon_afs_headless_horror", "freq": 40, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brainless", "weight": 715 },
+      { "monster": "mon_zombie_ears", "weight": 245 },
+      { "monster": "mon_afs_headless_horror", "weight": 40 }
     ]
   },
   {
@@ -56,11 +56,11 @@
     "default": "mon_zombie_gasbag",
     "//": "fat zombie upgrades",
     "monsters": [
-      { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_boomer", "freq": 480, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_pupa", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_pupa_decoy", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_necro_boomer", "freq": 1, "cost_multiplier": 27 }
+      { "monster": "mon_zombie_gasbag", "weight": 20 },
+      { "monster": "mon_boomer", "weight": 480 },
+      { "monster": "mon_zombie_pupa", "weight": 150 },
+      { "monster": "mon_zombie_pupa_decoy", "weight": 150 },
+      { "monster": "mon_zombie_necro_boomer", "weight": 1 }
     ]
   },
   {
@@ -79,29 +79,28 @@
     "default": "mon_zombie_kevlar_1",
     "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_soldier_blackops_1", "freq": 250, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_1", "freq": 200, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_2", "freq": 250, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_kevlar_1", "freq": 200, "cost_multiplier": 2 },
-      { "monster": "mon_boomer", "freq": 25, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_hollow", "freq": 25, "cost_multiplier": 1 },
-      { "monster": "mon_skeleton", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_soldier_blackops_1", "weight": 250 },
+      { "monster": "mon_zombie_soldier_acid_1", "weight": 200 },
+      { "monster": "mon_zombie_soldier_acid_2", "weight": 250 },
+      { "monster": "mon_zombie_kevlar_1", "weight": 200 },
+      { "monster": "mon_boomer", "weight": 25 },
+      { "monster": "mon_zombie_hollow", "weight": 25 },
+      { "monster": "mon_skeleton", "weight": 50 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MEDICAL_UPGRADE",
-    "default": "mon_zombie_medical_regenerating",
     "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_medical_brute", "freq": 200, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_medical_regenerating", "freq": 300, "cost_multiplier": 2 },
-      { "monster": "mon_boomer", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_hollow", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_skeleton_medical", "freq": 200, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_medical_acidic", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_medical_pupa", "freq": 50, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_pupa_medical_decoy", "freq": 50, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_medical_brute", "weight": 200 },
+      { "monster": "mon_zombie_medical_regenerating", "weight": 300 },
+      { "monster": "mon_boomer", "weight": 50 },
+      { "monster": "mon_zombie_hollow", "weight": 50 },
+      { "monster": "mon_skeleton_medical", "weight": 200 },
+      { "monster": "mon_zombie_medical_acidic", "weight": 100 },
+      { "monster": "mon_zombie_medical_pupa", "weight": 50 },
+      { "monster": "mon_zombie_pupa_medical_decoy", "weight": 50 }
     ]
   },
   {
@@ -110,8 +109,8 @@
     "default": "mon_zombie_medical_pupa",
     "//": "crawling medical zombie upgrades",
     "monsters": [
-      { "monster": "mon_zombie_medical_pupa", "freq": 500, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_pupa_medical_decoy", "freq": 500, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_medical_pupa", "weight": 500 },
+      { "monster": "mon_zombie_pupa_medical_decoy", "weight": 500 }
     ]
   },
   {
@@ -120,12 +119,13 @@
     "default": "mon_zombie_brute",
     "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_brute_grappler", "freq": 240, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_brute_ninja", "freq": 175, "cost_multiplier": 10 },
-      { "monster": "mon_brute_pupa", "freq": 100, "cost_multiplier": 10 },
-      { "monster": "mon_brute_pupa_decoy", "freq": 100, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_hulk", "freq": 245, "cost_multiplier": 50 },
-      { "monster": "mon_gas_zombie", "freq": 140, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_brute" },
+      { "monster": "mon_zombie_brute_grappler", "weight": 240 },
+      { "monster": "mon_zombie_brute_ninja", "weight": 175 },
+      { "monster": "mon_brute_pupa", "weight": 100 },
+      { "monster": "mon_brute_pupa_decoy", "weight": 100 },
+      { "monster": "mon_zombie_hulk", "weight": 245 },
+      { "monster": "mon_gas_zombie", "weight": 140 }
     ]
   },
   {
@@ -134,33 +134,28 @@
     "default": "mon_zombie_shriekling",
     "//": "this is a sub-group of mutated zombie types that can only evolve from zombified human children.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_anklebiter", "freq": 50, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_sproglodyte", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_shriekling", "freq": 300, "cost_multiplier": 7 },
-      { "monster": "mon_zombie_creepy", "freq": 50, "cost_multiplier": 7 },
-      { "monster": "mon_zombie_snotgobbler", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_waif", "freq": 200, "cost_multiplier": 7 }
+      { "monster": "mon_zombie_anklebiter", "weight": 50 },
+      { "monster": "mon_zombie_sproglodyte", "weight": 100 },
+      { "monster": "mon_zombie_shriekling", "weight": 300 },
+      { "monster": "mon_zombie_creepy", "weight": 50 },
+      { "monster": "mon_zombie_snotgobbler", "weight": 300 },
+      { "monster": "mon_zombie_waif", "weight": 200 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BRUTE_PUPA",
-    "default": "mon_null",
     "//": "this is a sub-group of pupating zombies that can only evolve from pupating zombie brutes.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
-    "monsters": [
-      { "monster": "mon_hulk_pupa", "freq": 500, "cost_multiplier": 50 },
-      { "monster": "mon_hulk_pupa_decoy", "freq": 500, "cost_multiplier": 50 }
-    ]
+    "monsters": [ { "monster": "mon_hulk_pupa", "weight": 500 }, { "monster": "mon_hulk_pupa_decoy", "weight": 500 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_ELECTRIC_UPGRADE",
-    "default": "mon_null",
     "//": "Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_nullfield", "freq": 400, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 300, "cost_multiplier": 2 },
-      { "monster": "mon_skeleton_electric", "freq": 300, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_nullfield", "weight": 400 },
+      { "monster": "mon_zombie_brute_shocker", "weight": 300 },
+      { "monster": "mon_skeleton_electric", "weight": 300 }
     ]
   },
   {
@@ -169,9 +164,10 @@
     "default": "mon_spawn_raptor",
     "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_spawn_raptor_shady", "freq": 330, "cost_multiplier": 10 },
-      { "monster": "mon_spawn_raptor_electric", "freq": 330, "cost_multiplier": 10 },
-      { "monster": "mon_spawn_raptor_unstable", "freq": 330, "cost_multiplier": 10 }
+      { "monster": "mon_spawn_raptor" },
+      { "monster": "mon_spawn_raptor_shady", "weight": 333 },
+      { "monster": "mon_spawn_raptor_electric", "weight": 333 },
+      { "monster": "mon_spawn_raptor_unstable", "weight": 333 }
     ]
   },
   {
@@ -180,9 +176,10 @@
     "default": "mon_zombie_shady",
     "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_brute_ninja", "freq": 500, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_pupa_decoy_shady", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_pupa_shady", "freq": 250, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_shady" },
+      { "monster": "mon_zombie_brute_ninja", "weight": 500 },
+      { "monster": "mon_zombie_pupa_decoy_shady", "weight": 250 },
+      { "monster": "mon_zombie_pupa_shady", "weight": 250 }
     ]
   },
   {
@@ -201,11 +198,12 @@
     "default": "mon_boomer",
     "//": "Boomer upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_boomer_glutton", "freq": 235, "cost_multiplier": 5 },
-      { "monster": "mon_boomer_huge", "freq": 300, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_necro_boomer", "freq": 15, "cost_multiplier": 27 },
-      { "monster": "mon_gas_zombie", "freq": 100, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_gasbag", "freq": 300, "cost_multiplier": 2 }
+      { "monster": "mon_boomer" },
+      { "monster": "mon_boomer_glutton", "weight": 245 },
+      { "monster": "mon_boomer_huge", "weight": 310 },
+      { "monster": "mon_zombie_necro_boomer", "weight": 25 },
+      { "monster": "mon_gas_zombie", "weight": 110 },
+      { "monster": "mon_zombie_gasbag", "weight": 310 }
     ]
   }
 ]

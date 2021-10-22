@@ -490,44 +490,9 @@
     "type": "technique",
     "id": "tec_dragon_claw",
     "name": "Dragon Claw",
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
     "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_blockcounter",
-    "name": "Dragon Vortex Block",
-    "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-    "unarmed_allowed": true,
-    "required_buffs_all": [ "buff_dragon_onhit" ],
-    "block_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_dodgecounter",
-    "name": "Dragon Wing Dodge",
-    "messages": [ "You dodge the attack and leave %s off balance", "<npcname> dodges and leaves %s off balance" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-    "unarmed_allowed": true,
-    "required_buffs_all": [ "buff_dragon_onhit" ],
-    "dodge_counter": true,
-    "stun_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
   },
   {
     "type": "technique",
@@ -537,9 +502,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stunned_target": true,
-    "down_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
   },
   {
     "type": "technique",
@@ -551,7 +515,7 @@
     "crit_tec": true,
     "downed_target": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
@@ -828,17 +792,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_karate_counter",
-    "name": "Karate Counter",
-    "messages": [ "You counterattack %s", "<npcname> counterattacks %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
-  },
-  {
-    "type": "technique",
     "id": "tec_karate_precise",
     "name": "Knifehand Strike",
     "messages": [ "You hit %s with a knifehand strike", "<npcname> hits %s with a knifehand strike" ],
@@ -846,7 +799,7 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
   },
   {
     "type": "technique",
@@ -869,6 +822,26 @@
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_staff",
+    "name": "Staff Strike",
+    "messages": [ "You strike %s with your staff", "<npcname> strikes %s with your staff" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_staff_crit",
+    "name": "Heavy Staff Strike",
+    "messages": [ "You swing your staff hard at %s", "<npcname> swings their staff hard at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
   },
   {
     "type": "technique",
@@ -970,16 +943,23 @@
   },
   {
     "type": "technique",
-    "id": "tec_leopard_counter",
-    "name": "Leopard Foresight",
-    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "id": "tec_leopard_claw",
+    "name": "Leopard Swipe",
+    "messages": [ "You savagely claw at %s", "<npcname> savagely claws at %s" ],
     "unarmed_allowed": true,
-    "crit_ok": true,
-    "dodge_counter": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
+    "crit_tec": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_pounce",
+    "name": "Leopard Pounce",
+    "messages": [ "You leap and pounce on %s", "<npcname> leaps and pounces on %s" ],
+    "unarmed_allowed": true,
+    "required_buffs_all": [ "buff_leopard_oncrit" ],
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",

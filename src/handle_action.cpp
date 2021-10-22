@@ -2183,16 +2183,22 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
-        case ACTION_DROP:
+        case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
-            drop();
+            unload_container();
             break;
 
+        case ACTION_DROP:
+            drop_in_direction( player_character.pos() );
+            break;
         case ACTION_DIR_DROP:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
-                add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
-            } else {
-                drop_in_direction();
+            if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+                if( *pnt != player_character.pos() &&
+                    player_character.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
+                } else {
+                    drop_in_direction( *pnt );
+                }
             }
             break;
         case ACTION_BIONICS:

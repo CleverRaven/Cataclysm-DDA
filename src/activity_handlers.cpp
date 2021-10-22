@@ -1685,6 +1685,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     here.maybe_trigger_trap( bush_pos, *you, true );
 }
 
+// Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
 {
@@ -1695,11 +1696,21 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
             bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
-                add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                if( you->is_avatar() ) {
+                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                }
                 return;
             }
         }
-        //1 points/min, almost 2 hours to fill
+        if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
+            float mod = ( std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f );
+            morale_bonus = std::ceil( morale_bonus * mod );
+            // half mult for max bonus
+            mod = 1.f + ( mod - 1.f ) * 0.5f;
+            morale_max_bonus *= mod;
+        }
+        // Playing alone - 1 points/min, almost 2 hours to fill
         you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
     }
 }
@@ -1714,6 +1725,12 @@ void activity_handlers::generic_game_finish( player_activity *act, Character *yo
         for( int i = act->index; i > 0; i-- ) {
             mod += acc;
             acc *= acc;
+        }
+        if( !act->values.empty() && act->values[0] == you->getID().get_value() ) {
+            // A winner is you! Feel more happy!
+            mod *= 1.5f;
+            you->add_msg_if_player( m_good, _( "You won!" ) );
+            you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
         }
         you->add_morale( MORALE_GAME, 4 * mod );
     }
