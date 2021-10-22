@@ -333,7 +333,8 @@
     "type": "requirement",
     "//": "multifarious cracklins",
     "components": [
-      [ [ "cracklins", 1 ],
+      [
+        [ "cracklins", 1 ],
         [ "human_cracklins", 1 ],
         [ "mutant_cracklins", 1 ],
         [ "mutant_human_cracklins", 1 ],
@@ -346,12 +347,7 @@
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [ [ "meat_red", 1, "LIST" ], 
-        [ "meat_offal", 1, "LIST" ], 
-        [ "can_spam", 2 ], 
-        [ "lunchmeat", 2 ], 
-        [ "can_chicken", 1 ] 
-      ]
+      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
     ]
   },
   {
