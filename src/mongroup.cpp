@@ -360,10 +360,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-            if( c->is_group() ) {
-                continue;
-            }
-            if( MonsterGroupManager::monster_is_blacklisted( c->name ) ) {
+            if( !c->is_group() && MonsterGroupManager::monster_is_blacklisted( c->name ) ) {
                 c = mg.monsters.erase( c );
             } else {
                 ++c;

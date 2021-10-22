@@ -35,7 +35,7 @@ Use the `Home` key to return to the top.
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
-      - [Monster definition](#monster-definition)
+      - [Monster/Subgroup definition](#monstersubgroup-definition)
     - [Monster Factions](#monster-factions)
     - [Monsters](#monsters)
     - [Mutation Categories](#mutation-categories)
