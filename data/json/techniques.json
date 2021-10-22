@@ -1025,7 +1025,7 @@
     "melee_allowed": true,
     "defensive": true,
     "grab_break": true
-  },  
+  },
   {
     "type": "technique",
     "id": "tec_ninjutsu_swift",

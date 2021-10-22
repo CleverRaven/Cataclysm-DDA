@@ -847,7 +847,7 @@
       {
         "id": "buff_ninjutsu_static2",
         "name": "Sneak Attack",
-        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+25% critical hit chance.  Enables \"Assassinate\" and \"Ninjutsu Takedown\" techniques.",
+        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+25% critical hit chance.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
@@ -858,7 +858,7 @@
       {
         "id": "buff_ninjutsu_onattack",
         "name": "Loss of Surprise",
-        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\nDisables \"Sneak Attack\" buff.  Enables \"Swift Strike (crit)\" technique.\nLast 3 turns, persists after switching styles.",
+        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\nDisables \"Sneak Attack\" buff and \"Assassinate\" and \"Ninjutsu Takedown\" techniques.  Enables \"Swift Strike (crit)\" technique.\nLast 3 turns, persists after switching styles.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
