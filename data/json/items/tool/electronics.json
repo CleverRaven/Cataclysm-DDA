@@ -152,6 +152,7 @@
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
+      "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD",
       {
