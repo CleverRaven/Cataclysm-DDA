@@ -107,6 +107,12 @@ static int topic_category( const talk_topic &the_topic );
 
 static const talk_topic &special_talk( const std::string &action );
 
+static bool friendly_teacher( const Character &student, const Character &teacher )
+{
+    return ( student.is_npc() && teacher.is_avatar() ) ||
+           ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
+}
+
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
@@ -141,8 +147,7 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
 int calc_skill_training_cost_char( const Character &teacher, const Character &student,
                                    const skill_id &skill )
 {
-    if( ( student.is_npc() && teacher.is_avatar() ) ||
-        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
     int skill_level = student.get_knowledge_level( skill );
@@ -164,8 +169,7 @@ time_duration calc_proficiency_training_time( const Character &, const Character
 int calc_proficiency_training_cost( const Character &teacher, const Character &student,
                                     const proficiency_id &proficiency )
 {
-    if( ( student.is_npc() && teacher.is_avatar() ) ||
-        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
     return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
@@ -199,8 +203,7 @@ int calc_ma_style_training_cost( const npc &p, const matype_id &id )
 int calc_ma_style_training_cost( const Character &teacher, const Character &student,
                                  const matype_id & )
 {
-    if( ( student.is_npc() && teacher.is_avatar() ) ||
-        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
     return 800;
@@ -234,8 +237,7 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
 int calc_spell_training_cost( const Character &teacher, const Character &student,
                               const spell_id &id )
 {
-    if( ( student.is_npc() && teacher.is_avatar() ) ||
-        ( teacher.is_npc() && static_cast<const npc &>( teacher ).is_player_ally() ) ) {
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
     const spell &temp_spell = teacher.magic->get_spell( id );
