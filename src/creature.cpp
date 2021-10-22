@@ -1242,8 +1242,8 @@ void Creature::longpull( const std::string name, const tripoint &p )
     const Character *ch = as_character();
     const monster *mon = as_monster();
     const int str = ch != nullptr ? ch->get_str() : mon != nullptr ? mon->get_grab_strength() : 10;
-    const int odds = units::to_kilogram( c->get_weight() ) / ( str * 4 );
-    if( one_in( clamp<int>( odds * odds, 1, 100 ) ) ) {
+    const int odds = units::to_kilogram( c->get_weight() ) / ( str * 3 );
+    if( one_in( clamp<int>( odds * odds, 1, 1000 ) ) ) {
         add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
                            name );
         if( c->is_avatar() ) {
