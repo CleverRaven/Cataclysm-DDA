@@ -83,7 +83,7 @@
           { "item": "dimensional_anchor", "count": 1, "prob": 1 }
         ]
       },
-      { "group": "hazmat_full", "damage": [ 1, 4 ] }
+      { "item": "xedra_enviro_suit", "damage": [ 1, 4 ] }
     ]
   }
 ]

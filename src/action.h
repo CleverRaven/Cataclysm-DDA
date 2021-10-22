@@ -181,6 +181,8 @@ enum action_id : int {
     ACTION_CAST_SPELL,
     /** Unload container in a given direction */
     ACTION_UNLOAD_CONTAINER,
+    /** Open the drop-item menu */
+    ACTION_DROP,
     /** Drop items in a given direction */
     ACTION_DIR_DROP,
     /** Open the bionics menu */

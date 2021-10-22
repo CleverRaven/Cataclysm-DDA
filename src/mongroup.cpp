@@ -28,6 +28,8 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitel
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_species_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_species_whitelist;
 
+static const mtype_id mon_null( "mon_null" );
+
 static bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
@@ -65,7 +67,7 @@ float mongroup::avg_speed() const
     float avg_speed = 0.0f;
     if( monsters.empty() ) {
         const MonsterGroup &g = type.obj();
-        int remaining_frequency = 1000;
+        int remaining_frequency = g.freq_total;
         for( const MonsterGroupEntry &elem : g.monsters ) {
             avg_speed += elem.frequency * elem.name.obj().speed;
             remaining_frequency -= elem.frequency;
@@ -73,7 +75,7 @@ float mongroup::avg_speed() const
         if( remaining_frequency > 0 ) {
             avg_speed += g.defaultMonster.obj().speed * remaining_frequency;
         }
-        avg_speed /= 1000;
+        avg_speed /= g.freq_total;
     } else {
         for( const monster &it : monsters ) {
             avg_speed += it.type->speed;
@@ -204,9 +206,6 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
 bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
 {
-    if( defaultMonster == mtypeid ) {
-        return true;
-    }
     for( const MonsterGroupEntry &m : monsters ) {
         if( m.name == mtypeid ) {
             return true;
@@ -235,8 +234,6 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
     const MonsterGroup &g = group.obj();
 
     std::vector<mtype_id> monsters;
-
-    monsters.push_back( g.defaultMonster );
 
     for( const MonsterGroupEntry &elem : g.monsters ) {
         monsters.push_back( elem.name );
@@ -350,6 +347,8 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
 
     MonsterGroup g;
+    int freq_total = 0;
+    std::pair<mtype_id, int> max_freq( { mon_null, 0 } );
 
     g.name = mongroup_id( jo.get_string( "name" ) );
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
@@ -357,17 +356,23 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
         g = monsterGroupMap[g.name];
         extending = true;
     }
-    if( !extending
-        || jo.has_string( "default" ) ) { //Not mandatory to specify default if extending existing group
-        g.defaultMonster = mtype_id( jo.get_string( "default" ) );
+    if( !extending || jo.has_string( "default" ) ) {
+        g.defaultMonster = mtype_id( jo.get_string( "default", "mon_null" ) );
     }
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
         for( JsonObject mon : jo.get_array( "monsters" ) ) {
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
 
-            int freq = mon.get_int( "freq" );
-            int cost = mon.get_int( "cost_multiplier" );
+            int freq = mon.get_int( "weight", 1 );
+            if( mon.has_int( "freq" ) ) {
+                freq = mon.get_int( "freq" );
+            }
+            if( freq > max_freq.second ) {
+                max_freq = { name, freq };
+            }
+            freq_total += freq;
+            int cost = mon.get_int( "cost_multiplier", 1 );
             int pack_min = 1;
             int pack_max = 1;
             if( mon.has_member( "pack_size" ) ) {
@@ -379,10 +384,12 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             time_duration starts = 0_turns;
             time_duration ends = 0_turns;
             if( mon.has_member( "starts" ) ) {
-                starts = tdfactor * mon.get_int( "starts" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
+                assign( mon, "starts", starts, false, tdfactor );
+                starts *= mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
             }
             if( mon.has_member( "ends" ) ) {
-                ends = tdfactor * mon.get_int( "ends" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
+                assign( mon, "ends", ends, false, tdfactor );
+                ends *= mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
             }
             spawn_data data;
             if( mon.has_object( "spawn_data" ) ) {
@@ -404,6 +411,10 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 
             g.monsters.push_back( new_mon_group );
         }
+        // If no default monster specified, use the highest frequency spawn as the default
+        if( g.defaultMonster == mon_null ) {
+            g.defaultMonster = max_freq.first;
+        }
     }
     g.replace_monster_group = jo.get_bool( "replace_monster_group", false );
     g.new_monster_group = mongroup_id( jo.get_string( "new_monster_group_id",
@@ -411,7 +422,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
-    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 1000 ) );
+    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) + freq_total );
     if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
         int total = 0;
         for( MonsterGroupEntry &mon : g.monsters ) {
@@ -459,7 +470,7 @@ void MonsterGroupManager::check_group_definitions()
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
     const auto &group = group_name.obj();
-    int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
+    int spawn_chance = rng( 1, group.freq_total );
     for( const auto &monster_type : group.monsters ) {
         if( monster_type.frequency >= spawn_chance ) {
             return monster_type.name;

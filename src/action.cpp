@@ -245,6 +245,8 @@ std::string action_ident( action_id act )
             return "select_fire_mode";
         case ACTION_UNLOAD_CONTAINER:
             return "unload_container";
+        case ACTION_DROP:
+            return "drop";
         case ACTION_DIR_DROP:
             return "drop_adj";
         case ACTION_BIONICS:
@@ -852,6 +854,7 @@ action_id handle_action_menu()
             // the inventory screen, so it's sorted to the
             // end of the list.
             REGISTER_ACTION( ACTION_UNLOAD_CONTAINER );
+            REGISTER_ACTION( ACTION_DROP );
             REGISTER_ACTION( ACTION_COMPARE );
             REGISTER_ACTION( ACTION_ORGANIZE );
             REGISTER_ACTION( ACTION_USE );

@@ -391,6 +391,7 @@ class mapgen_factory
                 return mapgen_parameters();
             }
             return iter->second.get_mapgen_params( mapgen_parameter_scope::overmap_special,
+                                                   // NOLINTNEXTLINE(cata-translate-string-literal)
                                                    string_format( "map special %s", key ) );
         }
 };
@@ -658,6 +659,7 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
 void mapgen_function_json_base::merge_non_nest_parameters_into(
     mapgen_parameters &params, const std::string &outer_context ) const
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string context = string_format( "%s within %s", context_, outer_context );
     params.check_and_merge( parameters, context, mapgen_parameter_scope::nest );
 }
@@ -1468,6 +1470,7 @@ void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
             const std::string &name = p.first;
             const mapgen_parameter &this_param = insert_result.first->second;
             this_param.check_consistent_with(
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 other_param, string_format( "parameter %s in %s", name, context ) );
         }
     }
@@ -3145,6 +3148,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
                 continue;
             }
             auto &vect = format_placings[ key ];
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             std::string this_context = string_format( "%s in mapping in %s", member_name, context );
             ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect, this_context );
         }
@@ -3156,6 +3160,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         const map_key key( member );
         auto &vect = format_placings[ key ];
         std::string this_context =
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             string_format( "%s %s in %s", member_name, member.name(), context );
         ::load_place_mapings<PieceType>( member, vect, this_context );
     }
