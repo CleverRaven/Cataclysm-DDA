@@ -29,24 +29,12 @@
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier1",
     "//": "These CBMs should be available in the exodii store from the start.",
+    "subtype": "collection",
     "items": [
-      [ "bio_watch", 10 ],
-      [ "bio_syringe", 10 ],
-      [ "bio_power_storage", 30 ],
-      [ "bio_flashlight", 10 ],
-      [ "bio_lighter", 10 ],
-      [ "bio_magnet", 5 ],
-      [ "bio_alarm", 10 ],
-      [ "bio_batteries", 10 ],
-      [ "bio_sunglasses", 10 ],
-      [ "bio_cable", 5 ],
-      [ "bio_tattoo_led", 10 ],
-      [ "bio_meteorologist", 10 ],
-      [ "bio_soporific", 3 ],
-      [ "bio_fingerhack", 2 ],
-      [ "bio_geiger", 5 ],
-      [ "bio_nostril", 1 ],
-      [ "bio_voice", 10 ]
+      { "group": "EXODII_CBM_tier1_utility", "prob": 100 },
+      { "group": "EXODII_CBM_tier1_tools", "prob": 80 },
+      { "group": "EXODII_CBM_tier1_power", "prob": 50 },
+      { "group": "EXODII_CBM_tier1_fun", "prob": 100 }
     ]
   },
   {
@@ -120,6 +108,33 @@
       [ "bio_water_extractor", 10 ],
       [ "bio_synaptic_regen", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_tier1_utility",
+    "items": [ [ "bio_watch", 10 ], [ "bio_alarm", 10 ], [ "bio_sunglasses", 10 ], [ "bio_meteorologist", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_tier1_power",
+    "items": [ [ "bio_power_storage", 30 ], [ "bio_batteries", 1 ], [ "bio_cable", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_tier1_tool",
+    "items": [
+      [ "bio_syringe", 10 ],
+      [ "bio_flashlight", 10 ],
+      [ "bio_lighter", 10 ],
+      [ "bio_magnet", 5 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_geiger", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_tier1_fun",
+    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ] ]
   },
   {
     "type": "item_group",
