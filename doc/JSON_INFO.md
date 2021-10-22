@@ -938,30 +938,46 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | `new_monster_group_id` | (_optional_) (string) The id of the monster group that should replace this one.
 | `replacement_time` | (_optional_) (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
 
-#### Monster definition
+#### Monster/Subgroup definition
+
+In monster groups, within the `"monsters"` array, you can define `"group"` objects as well as `"monster"` objects. Groups use the same fields as monsters, but they are processed differently. When the game looks for possible spawns from a monster group, it will recursively check subgroups if they exist. The weight of the subgroup is defined just like monster objects, so spawn chances only matter for top-level objects.
 
 | Identifier        | Description
 |---                |---
-| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
+| `monster`         | The monster's unique ID, eg. `"mon_zombie"`. Indicates that this entry is a "monster".
+| `group`           | The sub-group's unique ID eg. `"GROUP_ZOMBIE"`. Indicates that this entry is a "monstergroup".
 | `weight`          | (_optional_) Chance of occurrence (`weight` / total `weight` in group) (default: 1)
 | `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
 | `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
-| `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
+| `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
 
 ```C++
+// Example of a monstergroup containing only "monster" entries:
 {
-    "name" : "GROUP_ANT",
-    "default" : "mon_ant",
-    "monsters" : [
-        { "monster" : "mon_ant", "weight" : 870, "cost_multiplier" : 0 },
-        { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
-        { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
-        { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
-        { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
-    ]
+  "name" : "GROUP_ANT",
+  "default" : "mon_ant",
+  "monsters" : [
+    { "monster" : "mon_ant", "weight" : 870, "cost_multiplier" : 0 },
+    { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
+    { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
+    { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
+    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+  ]
+},
+// Example of a monstergroup containing subgroups:
+{
+  "type": "monstergroup",
+  "name": "GROUP_MIGO_RAID",
+  "//": "Meta-group for mi-gos on-the-go.",
+  "monsters": [
+    { "group": "GROUP_MI-GO_BASE_CAPTORS", "weight": 150, "cost_multiplier": 6, "pack_size": [ 1, 2 ] },
+    { "group": "GROUP_MI-GO_SCOUT_TOWER", "weight": 100, "cost_multiplier": 4, "pack_size": [ 0, 2 ] },
+    { "monster": "mon_mi_go_guard", "weight": 200, "cost_multiplier": 4 },
+    { "monster": "mon_mi_go", "weight": 500, "cost_multiplier": 2, "pack_size": [ 3, 4 ] }
+  ]
 }
 ```
 
