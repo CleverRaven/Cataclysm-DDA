@@ -5086,8 +5086,10 @@ void map::draw_lab( mapgendata &dat )
                         ter_set( p, t_thconc_floor );
                     }, center->xy(), 4 );
                     furn_set( center->xy(), f_null );
-                    trap_set( *center, tr_portal );
-                    create_anomaly( *center, random_entry( valid_props ), false );
+                    if( !is_open_air( *center ) ) {
+                        trap_set( *center, tr_portal );
+                        create_anomaly( *center, random_entry( valid_props ), false );
+                    }
                     break;
                 }
                 // radioactive accident.

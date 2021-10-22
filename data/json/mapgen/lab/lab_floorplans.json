@@ -778,7 +778,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_thconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
       "mapping": {
         "X": {
