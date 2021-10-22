@@ -2380,7 +2380,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DIARY:
-            diary::show_diary_ui(u.get_avatar_diary());
+            diary::show_diary_ui( u.get_avatar_diary() );
             break;
 
         case ACTION_SCORES:

@@ -2155,7 +2155,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
-    ctxt.register_action("diary");
+    ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2433,7 +2433,7 @@ bool game::load( const save_t &name )
     }
 
     u.load_map_memory();
-    u.get_avatar_diary()->deserialize();
+    u.get_avatar_diary()->load();
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
@@ -2646,7 +2646,7 @@ bool game::save_player_data()
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
-    const bool saved_diary = u.get_avatar_diary()->serialize();
+    const bool saved_diary = u.get_avatar_diary()->store();
     return saved_data && saved_map_memory && saved_log && saved_diary
 #if defined(__ANDROID__)
            && saved_shortcuts

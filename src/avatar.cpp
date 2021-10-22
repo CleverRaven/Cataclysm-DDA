@@ -336,8 +336,9 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-diary* avatar::get_avatar_diary() {
-    if (a_diary == nullptr) {
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
         a_diary = new diary();
     }
     return a_diary;

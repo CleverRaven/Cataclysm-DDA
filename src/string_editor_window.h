@@ -15,23 +15,22 @@
 #include "wcwidth.h"
 
 /// <summary>
-/// Editor, to let the player edit text. 
-/// 
+/// Editor, to let the player edit text.
+///
 /// Example:
 /// string_editor_window ed = string_editor_window(win, text);
 /// new_text = ed.query_string(true);
-/// 
+///
 /// </summary>
 class string_editor_window
 {
 
-    
+
     private:
         /*window it is schown in*/
         catacurses::window _win;
         /*max X and Y size*/
-        int _maxx;
-        int _maxy;
+        point _max;
         /*current text*/
         utf8_wrapper _utext;
         /*foldedtext for display*/
@@ -49,16 +48,17 @@ class string_editor_window
         int _yposition = 0;
 
         std::unique_ptr<input_context> ctxt_ptr;
-        input_context* ctxt = nullptr;
+        input_context *ctxt = nullptr;
         bool _handled = false;
 
         std::map<long, std::function<bool()>> callbacks;
     public:
-        string_editor_window(catacurses::window& win, std::string text);
-
-        /*returns line and position in folded text for position in text*/
-        std::pair<int, int> get_line_and_position(std::string text, std::vector<std::string> foldedtext, int position); 
+        string_editor_window( catacurses::window &win, std::string text );
         
+        /*returns line and position in folded text for position in text*/
+        std::pair<int, int> get_line_and_position( std::vector<std::string> foldedtext,
+                int position );
+
         /*print the editor*/
         void print_editor();
 
@@ -67,12 +67,12 @@ class string_editor_window
         void create_context();
 
         /*move the coursour*/
-        void coursour_left(int n = 1);
-        void coursour_right(int n = 1);
-        void coursour_up(int n = 1);
-        void coursour_down(int n = 1);
+        void coursour_left( int n = 1 );
+        void coursour_right( int n = 1 );
+        void coursour_up( int n = 1 );
+        void coursour_down( int n = 1 );
 
         /*loop, user imput is handelt. returns the moditided string*/
-        const std::string& query_string(const bool loop);
+        const std::string &query_string( const bool loop );
 };
-#endif
+#endif // CATA_SRC_STRING_EDITOR_WINDOW_H

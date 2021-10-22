@@ -16,10 +16,9 @@
 #include "ui.h"
 
 /// <summary>
-/// diary page, to save current charakter progression 
+/// diary page, to save current charakter progression
 /// </summary>
-struct diary_page
-{
+struct diary_page {
     diary_page();
     /*the text the player added to the page*/
     std::string m_text;
@@ -60,12 +59,12 @@ struct diary_page
 /// <summary>
 /// diary is connectet to the player avatar.
 /// the player is able to add new pages every page saves the current charakter progression and shows the improvements compated to the previus pages
-/// The player is also able to add a Text in every page. 
+/// The player is also able to add a Text in every page.
 /// </summary>
-class diary 
+class diary
 {
-    //attribute
-private:
+        //attribute
+    private:
         /*charakter name who ownes the diary*/
         std::string owner;
         /*list of all pages added to the diary*/
@@ -77,37 +76,38 @@ private:
         /*list of chages from opend page to previus page*/
         std::vector<std::string> change_list;
         /*maps discription to position in change list*/
-        std::map<int,std::string> desc_map;
-        
+        std::map<int, std::string> desc_map;
 
-    //methoden
+
+        //methoden
     public:
-        diary();    
+        diary();
+        virtual ~diary() = default;
         /*static methode to open a diary ui*/
-        static void show_diary_ui(diary* c_diary);
+        static void show_diary_ui( diary *c_diary );
         /*last entry in the diary, will be called after charakter death */
         void death_entry();
 
         /*serialize and deserialize*/
-        bool serialize();
-        void deserialize();
-        void serialize(std::ostream& fout);
-        void deserialize(std::istream& fin);
-        void deserialize(JsonIn& jsin);
-        void serialize(JsonOut& jsout);
+        bool store();
+        void load();
+        void serialize( std::ostream &fout );
+        void deserialize( std::istream &fin );
+        void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &jsout );
 
     private:
-        /*uses string_popup_window to edit the text on a page. Is not optimal, 
+        /*uses string_popup_window to edit the text on a page. Is not optimal,
         because its just one line*/
         void edit_page_ui();
         /*Uses editor window class to edit the text.*/
-        void edit_page_ui(catacurses::window& win);
+        void edit_page_ui( catacurses::window &win );
         /*set page to be be shown in ui*/
-        int set_opend_page(int i);
+        int set_opend_page( int pagenum );
         /*create a new page and adds current charakter progression*/
         void new_page();
         /*set page text*/
-        void set_page_text(std::string text);
+        void set_page_text( std::string text );
         /*delite current page*/
         void delete_page();
 
@@ -121,7 +121,7 @@ private:
         std::map<int, std::string> get_desc_map();
 
         /*returns pointer to current page*/
-        diary_page* get_page_ptr(int offset = 0);
+        diary_page *get_page_ptr( int offset = 0 );
         /*returns the text of opend page*/
         std::string get_page_text();
         /*returns text for head of page*/
@@ -137,8 +137,8 @@ private:
         void spell_changes();
 
         /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
-        void export_to_txt(bool lastexport = false);
+        void export_to_txt( bool lastexport = false );
         /*method for adding changes to the changelist. with the possibility to connect a desciption*/
-        void add_to_change_list(std::string entry, std::string desc = "");
+        void add_to_change_list( std::string entry, std::string desc = "" );
 };
-#endif //CATA_SRC_DIARY_H
+#endif // CATA_SRC_DIARY_H

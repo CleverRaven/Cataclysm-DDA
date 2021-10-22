@@ -181,7 +181,7 @@ class avatar : public Character
         void on_mission_finished( mission &cur_mission );
 
         //return avatar diary
-        diary* get_avatar_diary();
+        diary *get_avatar_diary();
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
@@ -363,7 +363,7 @@ class avatar : public Character
         /**
         * diary to track player progression and to write the players stroy
         */
-        diary* a_diary;
+        diary *a_diary;
         /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
