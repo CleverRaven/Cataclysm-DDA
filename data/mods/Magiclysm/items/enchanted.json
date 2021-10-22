@@ -170,7 +170,7 @@
     "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.  There is an inscription, 'When the moon shines.  I become alive.'",
     "charges_per_use": 1,
     "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "144 h", "regenerate_ammo": true },
+      "charge_info": { "recharge_type": "periodic", "time": "7 day", "regenerate_ammo": true },
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
     },
     "use_action": { "type": "cast_spell", "spell_id": "lupercalia", "no_fail": true, "level": 1, "need_worn": true },
