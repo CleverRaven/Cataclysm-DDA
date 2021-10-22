@@ -3778,7 +3778,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         auto &keys_with_terrain = palette.keys_with_terrain;
         auto &format_placings = palette.format_placings;
 
-        if( palette.keys_with_terrain.empty() ) {
+        if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
             return false;
         }
 
