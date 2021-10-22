@@ -59,7 +59,7 @@
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
     "bionic_slots": 18,
-    "part_weight": 0
+    "part_weight": 0.0
   },
   {
     "id": "eyes",
@@ -86,7 +86,7 @@
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
-    "part_weight": 0
+    "part_weight": 0.0
   },
   {
     "id": "mouth",
@@ -116,7 +116,7 @@
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
-    "part_weight": 0
+    "part_weight": 0.0
   },
   {
     "id": "arm_l",

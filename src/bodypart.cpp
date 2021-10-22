@@ -355,7 +355,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional(jo, was_loaded, "sub_parts", sub_parts);
 
-    mandatory(jo, was_loaded, "part_weight", sub_parts_size_sum);
+    optional(jo, was_loaded, "part_weight", sub_parts_size_sum);
 }
 
 void body_part_type::reset()
