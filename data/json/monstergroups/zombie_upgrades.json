@@ -66,11 +66,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_GRAB",
-    "//": "grabber zombie upgrades",
-    "default": "mon_zombie_grappler",
     "monsters": [
-      { "monster": "mon_zombie_grappler", "freq": 40, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_biter", "freq": 40, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_grappler", "weight": 960, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_biter", "weight": 40, "cost_multiplier": 2 }
     ]
   },
   {
@@ -185,11 +183,11 @@
   {
     "name": "GROUP_FERROUS_UPGRADE",
     "type": "monstergroup",
-    "default": "mon_zombie_rust",
     "monsters": [
-      { "monster": "mon_zombie_plated", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_urchin", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_hammer_hands", "freq": 100, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_rust", "weight": 700 },
+      { "monster": "mon_zombie_plated", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_urchin", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hammer_hands", "weight": 100, "cost_multiplier": 2 }
     ]
   },
   {
