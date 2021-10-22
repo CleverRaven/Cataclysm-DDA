@@ -810,7 +810,10 @@ static void smash()
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int glass_portion = weapon.made_of( material_id( "glass" ) );
-            const float glass_fraction = glass_portion / static_cast<float>( weapon.type->mat_portion_total );
+            float glass_fraction = glass_portion / static_cast<float>( weapon.type->mat_portion_total );
+            if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
+                glass_fraction = 0.f;
+            }
             const int vol = weapon.volume() * glass_fraction / units::legacy_volume_factor;
             if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );

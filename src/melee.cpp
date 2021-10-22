@@ -2130,8 +2130,11 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     // Glass weapons shatter sometimes
-    int glass_portion = weap.made_of( material_id( "glass" ) );
+    const int glass_portion = weap.made_of( material_id( "glass" ) );
     float glass_fraction = glass_portion / static_cast<float>( weap.type->mat_portion_total );
+    if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
+        glass_fraction = 0.f;
+    }
     // only consider portion of weapon made of glass
     const int vol = weap.volume() * glass_fraction / 250_ml;
     if( glass_portion &&
