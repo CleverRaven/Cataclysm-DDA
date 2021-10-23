@@ -67,6 +67,7 @@
           "PATCHSKIN1",
           "PATCHSKIN2",
           "PLANTSKIN",
+		      "RABBIT_FUR",
           "SCALES",
           "SKIN_ROUGH",
           "SLEEK_SCALES",
@@ -75,8 +76,7 @@
           "TROGLO2",
           "TROGLO3",
           "URSINE_FUR",
-          "VISCOUS",
-		      "RABBIT_FUR"
+          "VISCOUS"
         ],
         "order": 1500
       },
@@ -170,19 +170,19 @@
           "TAIL_CLUB",
           "TAIL_FIN",
           "TAIL_LONG",
+		      "TAIL_RABBIT",
           "TAIL_RAPTOR",
           "TAIL_RAT",
           "TAIL_STING",
           "TAIL_STUB",
-          "TAIL_THICK",
-		      "TAIL_RABBIT"
+          "TAIL_THICK"
         ],
         "order": 3500
       },
       { "id": [ "LEG_TENTACLES" ], "order": 4000 },
       { "id": [ "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS" ], "order": 4500 },
       { "id": [ "FLOWERS" ], "order": 5000 },
-      { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "RABBIT_EARS" ], "order": 5500 },
+      { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "RABBIT_EARS", "URSINE_EARS" ], "order": 5500 },
       { "id": [ "ANTENNAE", "ANTLERS", "CURVED_HORNS", "HORNS", "POINTED_HORNS" ], "order": 6000 },
       { "id": [ "COMPOUND_EYES", "ELFAEYES", "FEL_EYE", "LIZ_EYE" ], "order": 6500 },
       {
@@ -195,11 +195,11 @@
           "MUZZLE_LONG",
           "MUZZLE_RAT",
           "MINOTAUR",
+		      "RABBIT_NOSE",
           "SLIT_NOSTRILS",
           "SNOUT",
           "WHISKERS",
-          "WHISKERS_RAT",
-		      "RABBIT_NOSE"
+          "WHISKERS_RAT"
         ],
         "order": 7000
       },
