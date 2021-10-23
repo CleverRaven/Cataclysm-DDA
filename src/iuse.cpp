@@ -1935,7 +1935,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
                     //lets say it is a 5% chance per fish to catch
                     if( one_in( 20 ) ) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
+                                    GROUP_FISH, true );
                         const mtype_id &fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
@@ -9346,7 +9346,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
 cata::optional<int> iuse::break_stick( Character *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

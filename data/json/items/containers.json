@@ -1689,7 +1689,15 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "26 cm"
+      }
+    ],
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {

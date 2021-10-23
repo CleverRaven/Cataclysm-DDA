@@ -6342,7 +6342,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon ) {
+            if( mon && u.sees( *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );

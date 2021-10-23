@@ -2859,7 +2859,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    mongroup_id( "GROUP_FISH" ) );
+                    mongroup_id( "GROUP_FISH" ), true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
         here.add_item_or_charges( you->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
