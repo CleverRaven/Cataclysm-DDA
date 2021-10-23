@@ -476,6 +476,17 @@
     "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
+    "id": "mutant_bug_organs_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_bug_organs",
+    "name": { "str_sp": "cooked mutant bug organs" },
+    "snippet_category": "cooked_bug_organs_desc",
+    "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
+    "looks_like": "offal_cooked",
+    "healthy": -2,
+    "delete": { "flags": [ "RAW" ] }
+  },
+  {
     "id": "offal_pickled",
     "copy-from": "offal",
     "type": "COMESTIBLE",

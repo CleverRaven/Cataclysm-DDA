@@ -89,6 +89,16 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "brain_cooked",
+    "result": "mutant_bug_organs_cooked",
+    "time": "35 m",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "mutant_bug_organs", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "foie_gras",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
