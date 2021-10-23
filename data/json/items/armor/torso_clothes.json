@@ -98,7 +98,7 @@
     "repairs_like": "jacket_army_modern",
     "type": "ARMOR",
     "name": { "str_sp": "combat shirt" },
-    "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets. It has a pocket for your pen!",
+    "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
     "weight": "450 g",
     "volume": "3 L",
     "price": 6400,
