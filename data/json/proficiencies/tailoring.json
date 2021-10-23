@@ -87,7 +87,7 @@
   {
     "type": "proficiency",
     "id": "prof_knitting",
-    "name": { "str": "Knitting" },
+    "name": { "str": "Standard Knitting" },
     "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
@@ -119,7 +119,7 @@
   {
     "type": "proficiency",
     "id": "prof_leatherworking",
-    "name": { "str": "Leatherworking" },
+    "name": { "str": "Skilled Leatherworking" },
     "description": "Working with leather requires a specific set of skills and tools… a set you are familiar with.",
     "can_learn": true,
     "default_time_multiplier": 2,
