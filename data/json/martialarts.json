@@ -819,7 +819,7 @@
     "type": "martial_art",
     "id": "style_ninjutsu",
     "name": { "str": "Ninjutsu" },
-    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage on the first attack.  It also provides small combat bonuses every time you move.",
+    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and you have a higher chance to critically hit on your first attack.  It also provides small combat bonuses every time you move.",
     "initiate": [ "You perform a kuji-in mantra with your hands.  Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
     "learn_difficulty": 6,
     "arm_block": 3,
@@ -836,30 +836,22 @@
       {
         "id": "buff_ninjutsu_static2",
         "name": "Sneak Attack",
-        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+50% all damage.",
+        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+25% critical hit chance.",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 1.5 },
-          { "stat": "damage", "type": "cut", "scale": 1.5 },
-          { "stat": "damage", "type": "stab", "scale": 1.5 }
-        ]
+        "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 25.0 } ]
       }
     ],
     "onattack_buffs": [
       {
         "id": "buff_ninjutsu_onattack",
         "name": "Loss of Surprise",
-        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\n-50% all damage.\nLast 3 turns.",
+        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\nDisables \"Sneak Attack\" buff and \"Assassinate\" and \"Ninjutsu Takedown\" techniques.  Enables \"Swift Strike (crit)\" technique.\nLast 3 turns, persists after switching styles.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
-        "persists": true,
-        "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 0.67 },
-          { "stat": "damage", "type": "cut", "scale": 0.67 },
-          { "stat": "damage", "type": "stab", "scale": 0.67 }
-        ]
+        "persists": true
       }
     ],
     "onmove_buffs": [
@@ -878,16 +870,17 @@
       {
         "id": "buff_ninjutsu_onkill",
         "name": "Escape Plan",
-        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns.",
+        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns, persists after switching styles.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
+        "persists": true,
         "bonus_dodges": 2,
         "flat_bonuses": [ { "stat": "speed", "scale": 10.0 } ]
       }
     ],
-    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_swift_crit", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
     "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS" ]
   },
   {
