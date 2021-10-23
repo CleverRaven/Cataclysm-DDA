@@ -410,25 +410,26 @@
       { "monster": "mon_feral_fancy_rapier", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 10 },
       { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_armored_mace", "weight": 1, "cost_multiplier": 10 }
+      { "monster": "mon_feral_armored_mace", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_feral_armored_battleaxe", "weight": 1, "cost_multiplier": 10 }
     ]
   },
   {
     "name": "GROUP_PANICROOM",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_child", "weight": 845 },
+      { "monster": "mon_zombie_child", "weight": 445 },
       { "monster": "mon_zombie_crawler", "weight": 30 },
       { "monster": "mon_zombie", "weight": 20 },
       { "monster": "mon_zombie_tough", "weight": 50 },
       { "monster": "mon_skeleton", "weight": 30 },
       { "monster": "mon_zombie_static", "weight": 15 },
       { "monster": "mon_zombie_fat", "weight": 10 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 100 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 80 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 80 },
-      { "monster": "mon_dog_rottweiler", "weight": 50 },
-      { "monster": "mon_dog_gpyrenees", "weight": 50 }
+      { "monster": "mon_feral_fancy_rapier", "weight": 200 },
+      { "monster": "mon_feral_fancy_rapier_fake", "weight": 180 },
+      { "monster": "mon_feral_fancy_crossbow", "weight": 200 },
+      { "monster": "mon_dog_rottweiler", "weight": 100 },
+      { "monster": "mon_dog_gpyrenees", "weight": 100 }
     ]
   },
   {

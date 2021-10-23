@@ -322,10 +322,19 @@
     "melee_dice": 3,
     "melee_dice_sides": 7,
     "melee_cut": 0,
-    "armor_bash": 14,
-    "armor_cut": 14,
-    "armor_bullet": 7,
-    "armor_stab": 8,
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 12,
+    "armor_stab": 15,
     "death_drops": "feral_armored_death_drops_mace"
+  },
+  {
+    "id": "mon_feral_armored_battleaxe",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_armored_mace",
+    "name": { "str": "armored feral" },
+    "description": "Clad in ancient armor and with a battle axe in hand, this maniac walks around in search of its next prey.  You can see stains of dry blood all around its axe.",
+    "melee_cut": 15,
+    "death_drops": "feral_armored_death_drops_battleaxe"
   }
 ]
