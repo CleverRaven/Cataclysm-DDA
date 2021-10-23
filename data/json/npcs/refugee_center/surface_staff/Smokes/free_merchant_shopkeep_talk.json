@@ -221,57 +221,6 @@
     ]
   },
   {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
-    "type": "talk_topic",
-    "dynamic_line": "Well, we had an odd group come by maybe two days after the power grid went off.  Two armed guards wearing brown uniforms, and what looked like a government doctor, had a hazmat suit on.  Everyone had masks they never took off.  They looked organized… maybe a military remnant from somewhere close by.",
-    "responses": [
-      { "text": "What were they here for?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Quest" },
-      { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
-    ]
-  },
-  {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Quest",
-    "type": "talk_topic",
-    "dynamic_line": "The doctor paid us in advance to get some old FEMA info from our computers here, and told us to deliver the data to an isolated building afterwards.  We still haven't done that.  I'm half worried it might have been some kind of trap, or trick.",
-    "responses": [
-      { "text": "Where's that building at, exactly?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Quest1" },
-      { "text": "You seem right to be suspicious.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
-    ]
-  },
-  {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Quest1",
-    "type": "talk_topic",
-    "dynamic_line": "I could share the dropoff location if you want to bring the drive there for us, but whatever's there, I'm not sure it's worth all the trouble.  I'll reward you for your trouble.",
-    "responses": [
-      {
-        "text": "That seems fine to me.  I'll take your drive for you.",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Quest_Start",
-        "effect": [
-          { "add_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" },
-          {
-            "u_add_var": "u_hub01_breadcrumb_accepted",
-            "type": "general",
-            "context": "free_merchants",
-            "value": "yes"
-          }
-        ]
-      },
-      {
-        "text": "Actually, I can see why you haven't done it yet.  Hold that thought for now.",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk"
-      }
-    ]
-  },
-  {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Quest_Start",
-    "type": "talk_topic",
-    "dynamic_line": "I was hoping you'd say that.  It's an old isolated building not too far from here; you should probably just leave the drive to whoever's there and be on your way.  And like I said, be careful approaching the place.  I wouldn't like leading you straight into your death.",
-    "responses": [
-      { "text": "Don't worry, I'll be careful.  I'll let you know when it's done.", "topic": "TALK_DONE" },
-      { "text": "I'm sure I'll manage.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware",
     "type": "talk_topic",
     "dynamic_line": "Tools, to be precise.  The basement and the storage rooms had way more than we need, and a lot of people brought their own when they were evacuating.  There's more than we could ever use, so we'll be happy to sell them at a very fair price.",
