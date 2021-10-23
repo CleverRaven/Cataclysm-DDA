@@ -1353,7 +1353,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
     if( valid.empty() ) {
         debugmsg( "Couldn't find a valid monster group for defense!" );
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ), true );
     }
 
     return ret;

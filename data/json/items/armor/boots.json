@@ -1163,7 +1163,7 @@
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "socks",

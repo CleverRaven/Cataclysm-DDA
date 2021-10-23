@@ -1935,7 +1935,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
                     //lets say it is a 5% chance per fish to catch
                     if( one_in( 20 ) ) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
+                                    GROUP_FISH, true );
                         const mtype_id &fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
@@ -3644,12 +3644,13 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
 cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
-    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
@@ -4282,6 +4283,14 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         return cata::nullopt;
     } else {
         std::string loaded_software = "robot_finds_kitten";
+        // number of nearby friends with gaming devices
+        std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
+            return n.is_player_ally() && p->sees( n ) &&
+                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+            n.has_item_with( [&it]( const item & i ) {
+                return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+            } );
+        } );
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
@@ -4290,9 +4299,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
-        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        if( friends_w_game.empty() ) {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        } else {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play something with friends" ) );
+            as_m.entries.emplace_back( 7, true, '7', _( "Play something alone" ) );
+        }
         as_m.query();
 
+        bool w_friends = false;
         switch( as_m.ret ) {
             case 1:
                 loaded_software = "robot_finds_kitten";
@@ -4311,7 +4326,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
                 break;
             case 6:
                 loaded_software = "null";
+                w_friends = !friends_w_game.empty();
                 break;
+            case 7: {
+                if( friends_w_game.empty() ) {
+                    return cata::nullopt;
+                }
+                loaded_software = "null";
+            }
+            break;
             default:
                 //Cancel
                 return cata::nullopt;
@@ -4319,11 +4342,38 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         //Play in 15-minute chunks
         const int moves = to_moves<int>( 15_minutes );
+        size_t num_friends = w_friends ? friends_w_game.size() : 0;
+        int winner = rng( 0, num_friends );
+        if( winner == 0 ) {
+            winner = get_player_character().getID().get_value();
+        } else {
+            winner = friends_w_game[winner - 1]->getID().get_value();
+        }
+        player_activity game_act( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), num_friends,
+                                  p->get_item_position( it ), w_friends ? "gaming with friends" : "gaming" );
+        game_act.values.emplace_back( winner );
 
-        p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( w_friends ) {
+            std::string it_name = it->type_name( num_friends + 1 );
+            if( num_friends > 1 ) {
+                p->add_msg_if_player( _( "You and your %1$u friends play on your %2$s for a while." ), num_friends,
+                                      it_name );
+            } else {
+                p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
+            }
+            for( npc *n : friends_w_game ) {
+                std::vector<item *> nit = n->items_with( [&it]( const item & i ) {
+                    return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+                } );
+                n->assign_activity( game_act );
+                n->activity.targets.emplace_back( *n, nit.front() );
+                n->activity.position = n->get_item_position( nit.front() );
+            }
+        } else {
+            p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        }
         if( loaded_software == "null" ) {
-            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                p->get_item_position( it ), "gaming" );
+            p->assign_activity( game_act );
             p->activity.targets.emplace_back( *p, it );
             return 0;
         }
@@ -4843,7 +4893,7 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
     static const quality_id GLARE( "GLARE" );
-    if( !p->has_quality( GLARE, 2 ) ) {
+    if( !p->has_quality( GLARE, 1 ) ) {
         p->add_msg_if_player( m_info, _( "You need welding goggles to do that." ) );
         return cata::nullopt;
     }
@@ -4975,37 +5025,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        if( !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pnt ) ) {
-            map_stack items = here.i_at( pnt );
-            auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.made_of( phase_id::LIQUID );
-            } );
-            if( found != items.end() ) {
-                return true;
-            }
-        }
-        for( const auto &pr : here.field_at( pnt ) ) {
-            if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
-                return true;
-            }
-        }
-        if( const optional_vpart_position vp = here.veh_at( pnt ) ) {
-            vehicle *const veh = &vp->vehicle();
-            std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
-            for( int elem : parts_here ) {
-                if( veh->part( elem ).blood > 0 ) {
-                    return true;
-                }
-                vehicle_stack items = veh->get_items( elem );
-                auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                    return it.made_of( phase_id::LIQUID );
-                } );
-                if( found != items.end() ) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return here.terrain_moppable( pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -9326,7 +9346,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
 cata::optional<int> iuse::break_stick( Character *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

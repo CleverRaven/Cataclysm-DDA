@@ -67,6 +67,7 @@ enum class do_activity_reason : int {
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
+    NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
@@ -165,6 +166,7 @@ void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
+void multiple_mop_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_dis_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
@@ -205,6 +207,7 @@ void fish_finish( player_activity *act, Character *you );
 void forage_finish( player_activity *act, Character *you );
 void longsalvage_finish( player_activity *act, Character *you );
 void pulp_finish( player_activity *act, Character *you );
+void mopping_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );

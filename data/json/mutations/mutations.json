@@ -232,7 +232,7 @@
     "id": "GOODCARDIO",
     "name": { "str": "Indefatigable" },
     "points": 2,
-    "description": "Whether due to exercise and good diet, or due to a natural abundance of physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
+    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is higher than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADCARDIO" ],
@@ -245,7 +245,7 @@
     "id": "GOODCARDIO2",
     "name": { "str": "Hyperactive" },
     "points": 4,
-    "description": "Your body's efficiency is like that of a tiny furnace, increasing your maximum stamina by 40%.",
+    "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your maximum stamina",
     "valid": false,
     "prereqs": [ "GOODCARDIO" ],
     "cancels": [ "BADCARDIO" ],
@@ -1013,7 +1013,7 @@
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
     "points": -2,
-    "description": "Whether due to lack of exercise and poor diet, or due to a natural lack of physical endurance, you tire from physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
+    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is lower than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "GOODCARDIO" ],
@@ -2195,7 +2195,8 @@
     "changes_to": [ "HOLLOW_BONES" ],
     "movecost_modifier": 0.9,
     "attackcost_modifier": 0.9,
-    "weight_capacity_modifier": 0.8
+    "weight_capacity_modifier": 0.8,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -5508,7 +5509,8 @@
     "category": [ "BIRD", "SLIME", "ELFA" ],
     "movecost_modifier": 0.8,
     "attackcost_modifier": 0.8,
-    "weight_capacity_modifier": 0.6
+    "weight_capacity_modifier": 0.6,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",

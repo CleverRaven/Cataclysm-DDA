@@ -144,10 +144,12 @@ static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
@@ -234,6 +236,7 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
+    { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
@@ -294,6 +297,7 @@ activity_handlers::finish_functions = {
     { ACT_FORAGE, forage_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
+    { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
@@ -1681,6 +1685,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     here.maybe_trigger_trap( bush_pos, *you, true );
 }
 
+// Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
 {
@@ -1691,11 +1696,21 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
             bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
-                add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                if( you->is_avatar() ) {
+                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                }
                 return;
             }
         }
-        //1 points/min, almost 2 hours to fill
+        if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
+            float mod = ( std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f );
+            morale_bonus = std::ceil( morale_bonus * mod );
+            // half mult for max bonus
+            mod = 1.f + ( mod - 1.f ) * 0.5f;
+            morale_max_bonus *= mod;
+        }
+        // Playing alone - 1 points/min, almost 2 hours to fill
         you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
     }
 }
@@ -1710,6 +1725,12 @@ void activity_handlers::generic_game_finish( player_activity *act, Character *yo
         for( int i = act->index; i > 0; i-- ) {
             mod += acc;
             acc *= acc;
+        }
+        if( !act->values.empty() && act->values[0] == you->getID().get_value() ) {
+            // A winner is you! Feel more happy!
+            mod *= 1.5f;
+            you->add_msg_if_player( m_good, _( "You won!" ) );
+            you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
         }
         you->add_morale( MORALE_GAME, 4 * mod );
     }
@@ -1757,6 +1778,17 @@ void activity_handlers::longsalvage_finish( player_activity *act, Character *you
 
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
+}
+
+void activity_handlers::mopping_finish( player_activity *act, Character *you )
+{
+    // blind character have a 1/3 chance of actually mopping
+    const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
+    if( will_mop ) {
+        map &here = get_map();
+        here.mop_spills( here.getlocal( act->placement ) );
+    }
+    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
@@ -2827,7 +2859,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    mongroup_id( "GROUP_FISH" ) );
+                    mongroup_id( "GROUP_FISH" ), true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
         here.add_item_or_charges( you->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
@@ -3320,6 +3352,11 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, Cha
 }
 
 void activity_handlers::multiple_mine_do_turn( player_activity *act, Character *you )
+{
+    generic_multi_activity_handler( *act, *you );
+}
+
+void activity_handlers::multiple_mop_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
 }

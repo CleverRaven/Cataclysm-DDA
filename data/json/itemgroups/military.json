@@ -262,6 +262,8 @@
       { "item": "tac_helmet", "prob": 10 },
       { "item": "tac_fullhelmet", "prob": 5 },
       { "item": "helmet_lobster", "prob": 5 },
+      { "item": "flight_helmet", "prob": 5 },
+      { "item": "mil_flight_suit", "prob": 5 },
       { "item": "gum", "prob": 90 },
       { "item": "caff_gum", "prob": 10 },
       { "item": "nic_gum", "prob": 1 },
@@ -313,6 +315,8 @@
     "entries": [
       { "item": "jumpsuit", "prob": 40 },
       { "item": "officer_uniform", "prob": 20 },
+      { "item": "flight_helmet", "prob": 5, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
       { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "jacket_army", "prob": 70 },
@@ -530,6 +534,8 @@
       { "item": "motor_small", "prob": 1 },
       { "item": "hose", "prob": 15 },
       { "item": "pants_army", "prob": 30 },
+      { "item": "flight_helmet", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
       { "item": "jacket_army", "prob": 30 },
       { "item": "winter_pants_army", "prob": 10 },
       { "item": "winter_jacket_army", "prob": 10 },
@@ -583,7 +589,9 @@
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
       { "item": "robot_controls", "prob": 3 },
-      { "item": "solarpack", "prob": 1 }
+      { "item": "solarpack", "prob": 1 },
+      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 20 }
     ]
   }
 ]

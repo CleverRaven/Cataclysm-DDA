@@ -285,6 +285,11 @@ class mapgen_basic_container
                 mapgen_function_ptr.obj->check();
             }
         }
+        void check_consistency_with( const oter_t &ter ) const {
+            for( auto &mapgen_function_ptr : weights_ ) {
+                mapgen_function_ptr.obj->check_consistent_with( ter );
+            }
+        }
 
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope scope,
                                              const std::string &context ) const {
@@ -359,6 +364,14 @@ class mapgen_factory
         bool has( const std::string &key ) const {
             return mapgens_.count( key ) != 0;
         }
+        const mapgen_basic_container *find( const std::string &key ) const {
+            auto it = mapgens_.find( key );
+            if( it == mapgens_.end() ) {
+                return nullptr;
+            } else {
+                return &it->second;
+            }
+        }
         /// @see mapgen_basic_container::add
         int add( const std::string &key, const std::shared_ptr<mapgen_function> &ptr ) {
             return mapgens_[key].add( ptr );
@@ -378,6 +391,7 @@ class mapgen_factory
                 return mapgen_parameters();
             }
             return iter->second.get_mapgen_params( mapgen_parameter_scope::overmap_special,
+                                                   // NOLINTNEXTLINE(cata-translate-string-literal)
                                                    string_format( "map special %s", key ) );
         }
 };
@@ -645,6 +659,7 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
 void mapgen_function_json_base::merge_non_nest_parameters_into(
     mapgen_parameters &params, const std::string &outer_context ) const
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string context = string_format( "%s within %s", context_, outer_context );
     params.check_and_merge( parameters, context, mapgen_parameter_scope::nest );
 }
@@ -674,6 +689,7 @@ mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc,
     , mapgen_function_json_base( jsrcloc, context )
     , fill_ter( t_null )
     , rotation( 0 )
+    , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
     m_offset.x = grid_offset.x * mapgensize.x;
     m_offset.y = grid_offset.y * mapgensize.y;
@@ -1454,6 +1470,7 @@ void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
             const std::string &name = p.first;
             const mapgen_parameter &this_param = insert_result.first->second;
             this_param.check_consistent_with(
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 other_param, string_format( "parameter %s in %s", name, context ) );
         }
     }
@@ -3131,6 +3148,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
                 continue;
             }
             auto &vect = format_placings[ key ];
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             std::string this_context = string_format( "%s in mapping in %s", member_name, context );
             ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect, this_context );
         }
@@ -3142,6 +3160,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         const map_key key( member );
         auto &vect = format_placings[ key ];
         std::string this_context =
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             string_format( "%s %s in %s", member_name, member.name(), context );
         ::load_place_mapings<PieceType>( member, vect, this_context );
     }
@@ -3344,8 +3363,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings, c );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings, c );
@@ -3397,7 +3414,10 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
         predecessor_mapgen = oter_str_id::NULL_ID();
     }
 
-    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID();
+    jo.read( "fallback_predecessor_mapgen", fallback_predecessor_mapgen_ );
+
+    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
+           fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
 bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
@@ -3619,6 +3639,20 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 void mapgen_function_json::check() const
 {
     check_common();
+
+    if( predecessor_mapgen != oter_str_id::NULL_ID() && expects_predecessor() ) {
+        debugmsg( "%s uses both predecessor_mapgen and expects_predecessor; these features are "
+                  "incompatible", context_ );
+    }
+}
+
+void mapgen_function_json::check_consistent_with( const oter_t &ter ) const
+{
+    bool requires_predecessor = ter.has_flag( oter_flags::requires_predecessor );
+    if( expects_predecessor() && !requires_predecessor ) {
+        debugmsg( "mapgen for oter_t %s expects a predecessor terrain but oter_type_t %s lacks the "
+                  "REQUIRES_PREDECESSOR flag", ter.id.str(), ter.get_type_id().str() );
+    }
 }
 
 void mapgen_function_json_nested::check() const
@@ -3860,9 +3894,8 @@ void mapgen_function_json::generate( mapgendata &md )
     }
     const oter_t &ter = *md.terrain_type();
 
-    if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
-        mapgendata predecessor_mapgen_dat( md, predecessor_mapgen );
-        run_mapgen_func( predecessor_mapgen.id().str(), predecessor_mapgen_dat );
+    auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
+        run_mapgen_func( predecessor_md.terrain_type().id().str(), predecessor_md );
 
         // Now we have to do some rotation shenanigans. We need to ensure that
         // our predecessor is not rotated out of alignment as part of rotating this location,
@@ -3876,6 +3909,20 @@ void mapgen_function_json::generate( mapgendata &md )
 
         if( ter.is_rotatable() || ter.is_linear() ) {
             m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
+        }
+    };
+
+    if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
+        mapgendata predecessor_md( md, predecessor_mapgen );
+        do_predecessor_mapgen( predecessor_md );
+    } else if( expects_predecessor() ) {
+        if( md.has_predecessor() ) {
+            mapgendata predecessor_md( md, md.last_predecessor() );
+            predecessor_md.pop_last_predecessor();
+            do_predecessor_mapgen( predecessor_md );
+        } else {
+            mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );
+            do_predecessor_mapgen( predecessor_md );
         }
     }
 
@@ -3894,6 +3941,11 @@ void mapgen_function_json::generate( mapgendata &md )
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ter.get_rotation() );
     }
+}
+
+bool mapgen_function_json::expects_predecessor() const
+{
+    return fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
 mapgen_parameters mapgen_function_json::get_mapgen_params( mapgen_parameter_scope scope ) const
@@ -3982,8 +4034,6 @@ void map::draw_map( mapgendata &dat )
         if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
             is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
-        } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
-            draw_spider_pit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -5515,29 +5565,6 @@ void map::draw_mine( mapgendata &dat )
     }
 }
 
-void map::draw_spider_pit( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "spider_pit_under" ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( ( i >= 3 && i <= SEEX * 2 - 4 && j >= 3 && j <= SEEY * 2 - 4 ) ||
-                    one_in( 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                    if( !one_in( 3 ) ) {
-                        add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
-                    }
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-        ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_up );
-        place_items( item_group_id( "spider" ), 85, point_zero, point( EAST_EDGE, SOUTH_EDGE ),
-                     false, calendar::start_of_cataclysm );
-    }
-}
-
 void map::draw_slimepit( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -6964,6 +6991,13 @@ update_mapgen_function_json::update_mapgen_function_json(
 void update_mapgen_function_json::check() const
 {
     check_common();
+}
+
+void check_mapgen_consistent_with( const std::string &key, const oter_t &ter )
+{
+    if( const mapgen_basic_container *container = oter_mapgen.find( key ) ) {
+        container->check_consistency_with( ter );
+    }
 }
 
 bool update_mapgen_function_json::setup_update( const JsonObject &jo )

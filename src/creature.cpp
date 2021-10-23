@@ -124,6 +124,10 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+
+std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
+std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
+
 tripoint Creature::pos() const
 {
     return get_map().getlocal( location );
@@ -638,6 +642,24 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
 }
 
+float Creature::get_crit_factor( const bodypart_id &bp ) const
+{
+    float crit_mod = 1.f;
+    const Character *c = as_character();
+    if( c != nullptr ) {
+        int total_v_cover = 0;
+        for( const item &it : c->worn ) {
+            if( it.covers( bp ) ) {
+                total_v_cover += it.get_coverage( bp, item::cover_type::COVER_VITALS );
+            }
+        }
+        total_v_cover = clamp<int>( total_v_cover, 0, 100 );
+        crit_mod = 1.f - total_v_cover / 100.f;
+    }
+    // TODO: as_monster()
+    return crit_mod;
+}
+
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     const float dodge = dodge_roll();
@@ -660,7 +682,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                damage_instance dam, dealt_damage_instance &dealt_dam,
-                               const weakpoint_attack &attack )
+                               const weakpoint_attack &attack, const bodypart_id *bp )
 {
     if( source == nullptr || source->is_hallucination() ) {
         dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
@@ -682,7 +704,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit =  select_body_part( source, hit_spread );
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( source, hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -883,30 +905,33 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
             ret.bp_hit = bodypart_id( "arm_r" );
         }
     }
+    float crit_mod = get_crit_factor( ret.bp_hit );
 
     const float crit_multiplier = proj.critical_multiplier;
+    const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
     if( magic ) {
         ret.damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
-        ret.gmtSCTcolor = m_headshot;
-        ret.damage_mult *= rng_float( 0.95, 1.05 );
-        ret.damage_mult *= crit_multiplier;
         ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
+        crit_mod = get_crit_factor( ret.bp_hit );
+        ret.gmtSCTcolor = m_headshot;
+        ret.damage_mult *= rng_float( 0.5 + 0.45 * crit_mod, 0.75 + 0.3 * crit_mod ); // ( 0.95, 1.05 )
+        ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_critical &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
-        ret.damage_mult *= rng_float( 0.75, 1.0 );
-        ret.damage_mult *= crit_multiplier;
+        ret.damage_mult *= rng_float( 0.5 + 0.25 * crit_mod, 0.75 + 0.25 * crit_mod ); // ( 0.75, 1.0 )
+        ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_goodhit ) {
         ret.message = _( "Good hit!" );
         ret.gmtSCTcolor = m_good;
         ret.damage_mult *= rng_float( 0.5, 0.75 );
-        ret.damage_mult *= std::sqrt( 2.0 * crit_multiplier );
+        ret.damage_mult *= std_hit_mult;
     } else if( goodhit < accuracy_standard ) {
         ret.damage_mult *= rng_float( 0.5, 1 );
 
@@ -1342,6 +1367,28 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     add_effect( source, eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity, force,
                 deferred );
 }
+
+void Creature::schedule_effect( const effect &eff, bool force, bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff.get_id(), eff.get_duration(), eff.get_bp(),
+                            eff.is_permanent(), eff.get_intensity(), force,
+                            deferred} );
+}
+void Creature::schedule_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                                bool permanent, int intensity, bool force, bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bp,
+                            permanent, intensity, force,
+                            deferred} );
+}
+void Creature::schedule_effect( const efftype_id &eff_id,
+                                const time_duration &dur, bool permanent, int intensity, bool force,
+                                bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bodypart_str_id::NULL_ID(),
+                            permanent, intensity, force, deferred} );
+}
+
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
@@ -1410,6 +1457,15 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 bool Creature::remove_effect( const efftype_id &eff_id )
 {
     return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart_id &bp )
+{
+    terminating_effects.push( terminating_effect{eff_id, bp} );
+}
+void Creature::schedule_effect_removal( const efftype_id &eff_id )
+{
+    return schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
@@ -2347,7 +2403,7 @@ void Creature::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "moves" ) {
         mod_moves( modifier );
     } else {
-        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+        debugmsg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
 

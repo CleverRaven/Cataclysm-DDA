@@ -3376,8 +3376,9 @@ std::string npc::describe_mission() const
         case NPC_MISSION_NULL:
             return myclass.obj().get_job_description();
         default:
-            return string_format( "ERROR: Someone forgot to code an npc_mission text for "
-                                  "mission: %d.", static_cast<int>( mission ) );
+            debugmsg( "ERROR: Someone forgot to code an npc_mission text for mission: %d.",
+                      static_cast<int>( mission ) );
+            return "";
     } // switch (mission)
 }
 

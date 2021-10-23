@@ -35,7 +35,7 @@ Use the `Home` key to return to the top.
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
-      - [Monster definition](#monster-definition)
+      - [Monster/Subgroup definition](#monstersubgroup-definition)
     - [Monster Factions](#monster-factions)
     - [Monsters](#monsters)
     - [Mutation Categories](#mutation-categories)
@@ -614,7 +614,7 @@ For information about tools with option to export ASCII art in format ready to b
 | main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | base_hp           | (_mandatory_) The amount of hp this part has before any modification.
-| opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
+| opposite_part     | (_mandatory_) What is the opposite part of this one in case of a pair.
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
@@ -694,7 +694,7 @@ For information about tools with option to export ASCII art in format ready to b
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
-| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments's id or an inline definition of the enchantment.
+| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantment's id or an inline definition of the enchantment.
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
 | learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
@@ -702,7 +702,7 @@ For information about tools with option to export ASCII art in format ready to b
 | dupes_allowed               | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
 | cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`) 
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
-| dispersion_mod              | (_optional_) Modifier to change firearm disperation.
+| dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
 
 ```C++
 {
@@ -900,7 +900,7 @@ Note that the above example gives floats, not integers, for the vitamins values.
 
 #### Fuel data
 
-Every material can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+Every material can have fuel data that determines how much horse power it produces per unit consumed. Currently, gases and plasmas cannot really be fuels.
 
 If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
 
@@ -930,38 +930,54 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | Identifier  | Description
 |---          |---
 | `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
-| `default`   | Default monster, automatically fills in any remaining spawn chances.
-| `monsters`  | To choose a monster for spawning, the game creates `freq_total` entries (default 1000) and picks one. Each monster will have a number of entries equal to its `freq` and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
-| `is_safe`   | (bool) Check to not trigger safe-mode warning, currently inconsequential.
-| `is_animal` | (bool) Check if that group has only normal animals, currently inconsequential.
-| `freq_total`| (int) Determines the number of entries created for the monster roll, default 1000. If the total eligible `freq`s of a group exceed `freq_total` the entries after the monster that exceeded it **won't be included** in the roll - i.e., if the first two monsters out of a group of ten each have `freq: 500` the rest of the group won't have a chance to spawn at all!
-| `replace_monster_group` | (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superseded by monster evolution.
-| `new_monster_group_id` | (string) The id of the monster group that should replace this one.
-| `replacement_time` | (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
+| `default`   | (_optional_) Default monster, used to represent the monster group. (default: The monster with the highest `weight` in the group)
+| `monsters`  | To choose a monster for spawning, the game creates entries equal to the sum of all `weight` and picks one. Each monster will have a number of entries equal to its `weight`. See the table below for how to build the single monster definitions.
+| `is_safe`   | (_optional_) (bool) Check to not trigger safe-mode warning, currently inconsequential.
+| `is_animal` | (_optional_) (bool) Check if that group has only normal animals, currently inconsequential.
+| `replace_monster_group` | (_optional_) (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superseded by monster evolution.
+| `new_monster_group_id` | (_optional_) (string) The id of the monster group that should replace this one.
+| `replacement_time` | (_optional_) (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
 
-#### Monster definition
+#### Monster/Subgroup definition
+
+In monster groups, within the `"monsters"` array, you can define `"group"` objects as well as `"monster"` objects. Groups use the same fields as monsters, but they are processed differently. When the game looks for possible spawns from a monster group, it will recursively check subgroups if they exist. The weight of the subgroup is defined just like monster objects, so spawn chances only matter for top-level objects.
 
 | Identifier        | Description
 |---                |---
-| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
-| `freq`            | Chance of occurrence, x/`freq_total` (default x/1000).
-| `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
+| `monster`         | The monster's unique ID, eg. `"mon_zombie"`. Indicates that this entry is a "monster".
+| `group`           | The sub-group's unique ID eg. `"GROUP_ZOMBIE"`. Indicates that this entry is a "monstergroup".
+| `weight`          | (_optional_) Chance of occurrence (`weight` / total `weight` in group) (default: 1)
+| `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
-| `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
-| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
-| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
-| `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
+| `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
+| `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
+| `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
+| `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
 
 ```C++
+// Example of a monstergroup containing only "monster" entries:
 {
-    "name" : "GROUP_ANT",
-    "default" : "mon_ant",
-    "monsters" : [
-        { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },
-        { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 },
-        { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 },
-        { "monster" : "mon_thing", "freq" : 100, "multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
-    ]
+  "name" : "GROUP_ANT",
+  "default" : "mon_ant",
+  "monsters" : [
+    { "monster" : "mon_ant", "weight" : 870, "cost_multiplier" : 0 },
+    { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
+    { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
+    { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
+    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+  ]
+},
+// Example of a monstergroup containing subgroups:
+{
+  "type": "monstergroup",
+  "name": "GROUP_MIGO_RAID",
+  "//": "Meta-group for mi-gos on-the-go.",
+  "monsters": [
+    { "group": "GROUP_MI-GO_BASE_CAPTORS", "weight": 150, "cost_multiplier": 6, "pack_size": [ 1, 2 ] },
+    { "group": "GROUP_MI-GO_SCOUT_TOWER", "weight": 100, "cost_multiplier": 4, "pack_size": [ 0, 2 ] },
+    { "monster": "mon_mi_go_guard", "weight": 200, "cost_multiplier": 4 },
+    { "monster": "mon_mi_go", "weight": 500, "cost_multiplier": 2, "pack_size": [ 3, 4 ] }
+  ]
 }
 ```
 
@@ -2045,7 +2061,7 @@ Values are checked from highest first, the order they're defined in doesn't matt
     "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
     "benign": true,
     "always_invisible": true,
-    "funnel_radius": 200,  // milimiters?
+    "funnel_radius": 200,  // millimeters?
     "comfort": 4,
     "floor_bedding_warmth": -500,
     "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
@@ -2461,20 +2477,23 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 Armor can be defined like this:
 
 ```C++
-"type" : "ARMOR",     // Defines this as armor
-...                   // same entries as above for the generic item.
-                      // additional some armor specific entries:
+"type" : "ARMOR",                   // Defines this as armor
+...                                 // same entries as above for the generic item.
+                                    // additional some armor specific entries:
 "covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json  Also note that LEG_EITHER ARM_EITHER HAND_EITHER and FOOT_EITHER are allowed.
-"warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
-"environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
-"encumbrance" : 0,    // Base encumbrance (unfitted value)
-"max_encumbrance" : 0,    // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
-"weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
-"weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
-"coverage" : 80,      // What percentage of body part
-"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
-"power_armor" : false, // If this is a power armor item (those are special).
-"valid_mods" : ["steel_padded"], // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
+"warmth" : 10,                      //  (Optional, default = 0) How much warmth clothing provides
+"environmental_protection" : 0,     //  (Optional, default = 0) How much environmental protection it affords
+"encumbrance" : 0,                  // Base encumbrance (unfitted value)
+"max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
+"weight_capacity_bonus": "20 kg",   // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
+"weight_capacity_modifier": 1.5,    // (Optional, default = 1) Factor modifying base weight carrying capacity.
+"coverage": 80,                     // What percentage of body part is covered (in general)
+"cover_melee": 60,                  // What percentage of body part is covered (against melee)
+"cover_ranged": 45,                 // What percentage of body part is covered (against ranged)
+"cover_vitals": 10,                 // What percentage of critical hit damage is mitigated
+"material_thickness" : 1,           // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
+"power_armor" : false,              // If this is a power armor item (those are special).
+"valid_mods" : ["steel_padded"],    // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 "armor": [ ... ]
 ```
 
@@ -2486,11 +2505,17 @@ Encumbrance and coverage can be defined on a piece of armor as such:
   {
     "encumbrance": [ 2, 8 ],
     "coverage": 95,
+    "cover_melee": 95,
+    "cover_ranged": 50,
+    "cover_vitals": 5,
     "covers": [ "torso" ]
   },
   {
     "encumbrance": 2,
     "coverage": 80,
+    "cover_melee": 80,
+    "cover_ranged": 70,
+    "cover_vitals": 5,
     "covers": [ "arm_r", "arm_l" ]
   }
 ]
@@ -2504,6 +2529,10 @@ When specified as an array, the second value is the max encumbrance - when the p
 ##### Coverage
 (integer)
 What percentage of time this piece of armor will be hit (and thus used as armor) when an attack hits the body parts in `covers`.
+
+`cover_melee` and `cover_ranged` represent the percentage of time this piece of armor will be hit by melee and ranged attacks respectively. Usually these would be the same as `coverage`.
+
+`cover_vitals` represents the percentage of critical hit damage is absorbed. Only the excess damage on top of normal damage is mitigated, so a vital coverage value of 100 means that critical hits would do the same amount as normal hits.
 
 ##### Covers
 (array of strings)
@@ -3624,7 +3653,7 @@ oxytorch: {
         "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
         "difficulty": 0, // (optional, default 0) base difficulty of prying action
         "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
-        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "noisy": false, // (optional, default false) makes noise when successfully prying
         "alarm": false, // (optional) has an alarm, on success will trigger the police
         "breakable": false, // (optional) has a chance to trigger the break action on failure
         "failure": "You try to pry the window but fail." // (optional) failure message
@@ -3809,7 +3838,7 @@ oxytorch: {
 ```
 
 ### `prying`
-(Optional) Data for using with pyring tools
+(Optional) Data for using with prying tools
 ```cpp
 "prying": {
     "result": "terrain_id", // terrain it will become when done
@@ -3829,7 +3858,7 @@ oxytorch: {
         "prying_nails": false, // (optional, default false) if set to true, ALL fields below are ignored
         "difficulty": 0, // (optional, default 0) base difficulty of prying action
         "prying_level": 0, // (optional, default 0) minimum prying level tool needs to have
-        "noisy": false, // (optional, defaul false) makes noise when successfully prying
+        "noisy": false, // (optional, default false) makes noise when successfully prying
         "alarm": false, // (optional) has an alarm, on success will trigger the police
         "breakable": false, // (optional) has a chance to trigger the break action on failure
         "failure": "You try to pry the window but fail." // (optional) failure message
@@ -4189,7 +4218,7 @@ If the start date of the scenario is before the date of cataclysm defined by map
  Identifier            | Description
 ---                    | ---
 `hour`                 | (optional, integer) Hour of the day for initial date. Default 8. -1 randomizes 0-23.
-`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season lenght.
+`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season length.
 `season`               | (optional, integer) Season for initial date. Default `SPRING`.
 `year`                 | (optional, integer) Year for initial date. Default 1. -1 randomizes 1-11.
 

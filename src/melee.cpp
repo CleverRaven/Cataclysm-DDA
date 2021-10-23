@@ -376,12 +376,16 @@ std::string Character::get_miss_reason()
 }
 
 void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+                                 const item &weap, const Creature *target, const bodypart_id &bp ) const
 {
-    roll_bash_damage( crit, di, average, weap );
-    roll_cut_damage( crit, di, average, weap );
-    roll_stab_damage( crit, di, average, weap );
-    roll_other_damage( crit, di, average, weap );
+    float crit_mod = 1.f;
+    if( target != nullptr ) {
+        crit_mod = target->get_crit_factor( bp );
+    }
+    roll_bash_damage( crit, di, average, weap, crit_mod );
+    roll_cut_damage( crit, di, average, weap, crit_mod );
+    roll_stab_damage( crit, di, average, weap, crit_mod );
+    roll_other_damage( crit, di, average, weap, crit_mod );
 }
 
 static void melee_train( Character &you, int lo, int hi, const item &weap )
@@ -655,8 +659,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( critical_hit ) {
             melee::melee_stats.actual_crit_count += 1;
         }
+        // select target body part
+        const bodypart_id &target_bp = t.select_body_part( this, hit_spread );
         damage_instance d;
-        roll_all_damage( critical_hit, d, false, *cur_weapon );
+        roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
 
         const bool has_force_technique = !force_technique.str().empty();
 
@@ -722,7 +728,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
             weakpoint_attack attack;
             attack.weapon = cur_weapon;
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack );
+            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack, &target_bp );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
                 dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
@@ -1100,7 +1106,7 @@ float Character::bonus_damage( bool random ) const
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap ) const
+                                  const item &weap, float crit_mod ) const
 {
     float bash_dam = 0.0f;
 
@@ -1205,16 +1211,16 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     // Finally, extra critical effects
     if( crit ) {
-        bash_mul *= 1.5f;
+        bash_mul *= 1.f + 0.5f * crit_mod;
         // 50% armor penetration
-        armor_mult = 0.5f;
+        armor_mult = 0.5f * crit_mod;
     }
 
     di.add_damage( damage_type::BASH, bash_dam, arpen, armor_mult, bash_mul );
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+                                 const item &weap, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
@@ -1280,16 +1286,16 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 
     cut_mul *= mabuff_damage_mult( damage_type::CUT );
     if( crit ) {
-        cut_mul *= 1.25f;
-        arpen += 5;
-        armor_mult = 0.75f; //25% armor penetration
+        cut_mul *= 1.f + 0.25f * crit_mod;
+        arpen += static_cast<int>( 5.f * crit_mod );
+        armor_mult = 1.f - 0.25f * crit_mod; //25% armor penetration
     }
 
     di.add_damage( damage_type::CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
 void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
-                                  const item &weap ) const
+                                  const item &weap, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
 
@@ -1345,16 +1351,16 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     int arpen = mabuff_arpen_bonus( damage_type::STAB );
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
-        stab_mul *= 1.0 + ( skill / 10.0 );
+        stab_mul *= 1.0 + ( skill / 10.0 ) * crit_mod;
         // Stab criticals have extra %arpen
-        armor_mult = 0.66f;
+        armor_mult = 1.f - 0.34f * crit_mod;
     }
 
     di.add_damage( damage_type::STAB, cut_dam, arpen, armor_mult, stab_mul );
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
-                                   const item &weap ) const
+                                   const item &weap, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
 

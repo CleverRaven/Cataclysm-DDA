@@ -126,6 +126,7 @@ void edit_json( SAVEOBJ &it )
                 deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 popup( "Error on deserialization: %s", err.what() );
             }
             std::string save2 = serialize( it );
@@ -1502,14 +1503,17 @@ void editmap::edit_itm()
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it.birthday() ) );
                                 break;
                             case imenu_damage:
                                 it.set_damage( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                                 break;
                             case imenu_burnt:
                                 it.burnt = retval;
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
                                 break;
                             case imenu_tags:

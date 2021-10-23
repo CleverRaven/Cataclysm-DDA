@@ -945,15 +945,20 @@ class Character : public Creature, public visitable
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
-        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                                float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -2482,6 +2487,13 @@ class Character : public Creature, public visitable
         /** Regenerates stamina */
         void update_stamina( int turns );
 
+        int get_cardiofit() const;
+
+        int get_cardio_acc() const;
+        void set_cardio_acc( int ncardio_acc );
+        void reset_cardio_acc();
+        virtual void update_cardio_acc() = 0;
+
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
 
@@ -3286,6 +3298,8 @@ class Character : public Creature, public visitable
         int hunger;
         int thirst;
         int stamina;
+
+        int cardio_acc;
 
         int fatigue;
         int sleep_deprivation;

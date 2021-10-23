@@ -235,6 +235,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
         reqs.clear();
         // Construct a requirement to capture "components", "qualities", and
         // "tools" that might be listed.
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
         reqs.emplace_back( req_id, 1 );

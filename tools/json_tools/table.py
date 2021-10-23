@@ -60,7 +60,7 @@ I18N_DICT_KEYS_SET = set(I18N_DICT_KEYS)
 TILESET_TYPES = [
     "AMMO", "ARMOR", "BATTERY", "BIONIC_ITEM", "bionic", "BOOK", "COMESTIBLE",
     "ENGINE", "field_type", "furniture", "gate", "GENERIC", "GUN", "GUNMOD",
-    "MAGAZINE", "MONSTER", "mutation", "PET_ARMOR", "terrain", "TOOL",
+    "MAGAZINE", "MONSTER", "mutation", "PET_ARMOR", "SPELL", "terrain", "TOOL",
     "TOOL_ARMOR", "TOOLMOD", "trap", "vehicle_part", "WHEEL"]
 
 

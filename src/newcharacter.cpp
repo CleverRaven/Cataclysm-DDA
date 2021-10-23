@@ -498,6 +498,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         randomize_cosmetic_trait( type_facial_hair );
     }
 
+    // Restart cardio accumulator
+    reset_cardio_acc();
 }
 
 void avatar::add_profession_items()
@@ -804,6 +806,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
+
+    // Restart cardio accumulator
+    reset_cardio_acc();
 
     return true;
 }

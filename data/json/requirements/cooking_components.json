@@ -26,7 +26,6 @@
       [
         [ "flatbread", 1 ],
         [ "bread", 1 ],
-        [ "cornbread", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
         [ "biscuit", 1 ],
@@ -34,6 +33,12 @@
         [ "crackers", 1 ]
       ]
     ]
+  },
+  {
+    "id": "bread_sandwich_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for sandwiches.",
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
   },
   {
     "id": "any_peanutbutter",
@@ -314,7 +319,8 @@
         [ "dry_meat", 1 ],
         [ "jerky", 1 ],
         [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ]
+        [ "meat_salted", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },
@@ -356,7 +362,8 @@
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ]
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
       ]
     ]
   },

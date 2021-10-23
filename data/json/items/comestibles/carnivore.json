@@ -867,6 +867,7 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
+    "longest_side": "40 cm",
     "vitamins": [ [ "calcium", 96 ] ]
   },
   {
@@ -1427,5 +1428,39 @@
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": [ "flesh" ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_human",
+    "name": { "str": "human skull" },
+    "description": "The skull of a human being.  Carrying this around probably isn't going to win you any friends.",
+    "flags": [ "CANNIBALISM", "TRADER_AVOID" ],
+    "category": "spare_parts",
+    "weight": "1 kg",
+    "volume": "1400 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "bone" ]
+  },
+  {
+    "id": "meat_fried",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "fried meat" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fried fool" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
+    ],
+    "description": "Delicious oil-fried meat.",
+    "color": "brown",
+    "price_postapoc": 200,
+    "quench": -1,
+    "fun": 6,
+    "healthy": -1,
+    "weight": "298 g",
+    "flags": [ "EATEN_HOT" ]
   }
 ]

@@ -174,6 +174,7 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "IGNORE_ROTATION_FOR_ADJACENCY", oter_flags::ignore_rotation_for_adjacency },
     { "LINEAR", oter_flags::line_drawing },
     { "SUBWAY", oter_flags::subway_connection },
+    { "REQUIRES_PREDECESSOR", oter_flags::requires_predecessor },
     { "LAKE", oter_flags::lake },
     { "LAKE_SHORE", oter_flags::lake_shore },
     { "RAVINE", oter_flags::ravine },
@@ -280,6 +281,7 @@ class overmap
         const oter_id &ter( const tripoint_om_omt &p ) const;
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
+        std::vector<oter_id> predecessors( const tripoint_om_omt & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -406,6 +408,10 @@ class overmap
         // Records location where mongroups are not allowed to spawn during worldgen.
         // Reconstructed on load, so need not be serialized.
         std::unordered_set<tripoint_om_omt> safe_at_worldgen; // NOLINT(cata-serialize)
+
+        // For oter_ts with the requires_predecessor flag, we need to store the
+        // predecessor terrains so they can be used for mapgen later
+        std::unordered_map<tripoint_om_omt, std::vector<oter_id>> predecessors_;
 
         // Records mapgen parameters required at the overmap special level
         // These are lazily evaluated; empty optional means that they have yet
