@@ -1934,6 +1934,7 @@ class item : public visitable
 
         /**
          * Returns true if an item has a given layer level on a specific part.
+         * matches to any layer within the vector input.
          */
         bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
 

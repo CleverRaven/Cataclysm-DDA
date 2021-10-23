@@ -761,6 +761,45 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
+void outfit::adv_inv_move_all_items( Character &player_character, advanced_inventory_pane &spane,
+                                     drop_locations &dropped, drop_locations &dropped_favorite )
+{
+    if( spane.get_area() == AIM_INVENTORY ) {
+        //add all solid top level items
+        for( item &cloth : worn ) {
+            for( item *it : cloth.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                if( !it->made_of_from_type( phase_id::SOLID ) ) {
+                    continue;
+                }
+                if( !spane.is_filtered( *it ) ) {
+                    if( it->is_favorite ) {
+                        dropped_favorite.emplace_back( item_location( item_location( player_character, &cloth ), it ),
+                                                       it->count() );
+                    } else {
+                        dropped.emplace_back( item_location( item_location( player_character, &cloth ), it ), it->count() );
+                    }
+                }
+            }
+
+        }
+    } else if( spane.get_area() == AIM_WORN ) {
+        // do this in reverse, to account for vector item removal messing with future indices
+        auto iter = worn.rbegin();
+        for( size_t idx = 0; idx < player_character.worn.size(); ++idx, ++iter ) {
+            item &it = *iter;
+
+            if( !spane.is_filtered( it ) ) {
+                item_location loc( player_character, &it );
+                if( it.is_favorite ) {
+                    dropped_favorite.emplace_back( loc, it.count() );
+                } else {
+                    dropped.emplace_back( loc, it.count() );
+                }
+            }
+        }
+    }
+}
+
 bool advanced_inventory::move_all_items()
 {
     advanced_inventory_pane &spane = panes[src];
@@ -912,40 +951,8 @@ bool advanced_inventory::move_all_items()
         // keep a list of favorites separated, only drop non-fav first if they exist
         drop_locations dropped_favorite;
 
-        if( spane.get_area() == AIM_INVENTORY ) {
-            //add all solid top level items
-            for( item &cloth :  player_character.worn ) {
-                for( item *it : cloth.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                    if( !it->made_of_from_type( phase_id::SOLID ) ) {
-                        continue;
-                    }
-                    if( !spane.is_filtered( *it ) ) {
-                        if( it->is_favorite ) {
-                            dropped_favorite.emplace_back( item_location( item_location( player_character, &cloth ), it ),
-                                                           it->count() );
-                        } else {
-                            dropped.emplace_back( item_location( item_location( player_character, &cloth ), it ), it->count() );
-                        }
-                    }
-                }
+        player_character.worn.adv_inv_move_all_items( player_character, spane, dropped, dropped_favorite );
 
-            }
-        } else if( spane.get_area() == AIM_WORN ) {
-            // do this in reverse, to account for vector item removal messing with future indices
-            auto iter = player_character.worn.rbegin();
-            for( size_t idx = 0; idx < player_character.worn.size(); ++idx, ++iter ) {
-                item &it = *iter;
-
-                if( !spane.is_filtered( it ) ) {
-                    item_location loc( player_character, &it );
-                    if( it.is_favorite ) {
-                        dropped_favorite.emplace_back( loc, it.count() );
-                    } else {
-                        dropped.emplace_back( loc, it.count() );
-                    }
-                }
-            }
-        }
         if( dropped.empty() ) {
             if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
                 return false;

@@ -641,7 +641,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.emplace_back( "backpack" );
+    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -1167,7 +1167,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 55000 );
-    player_character.worn.emplace_back( "backpack" );
+    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );

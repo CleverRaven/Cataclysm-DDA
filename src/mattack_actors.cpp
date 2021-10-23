@@ -377,17 +377,7 @@ bool melee_actor::call( monster &z ) const
         // when you break out of a grab you have a chance to lose some things from your pockets
         // that are hanging off your character
         if( target->is_avatar() ) {
-            std::vector<item_pocket *> pd;
-            for( item &i : target->as_character()->worn ) {
-                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
-                if( i.has_ripoff_pockets() ) {
-                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
-                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
-                            pd.push_back( pocket );
-                        }
-                    }
-                }
-            }
+            std::vector<item_pocket *> pd = target->as_character()->worn.grab_drop_pockets();
             // if we have items that can be pulled off
             if( !pd.empty() ) {
                 // choose an item to be ripped off
@@ -672,7 +662,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
-    tmp.worn.emplace_back( "backpack" );
+    tmp.worn.wear_item( tmp, item( "backpack" ), false, false );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
 

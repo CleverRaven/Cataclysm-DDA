@@ -10,7 +10,6 @@
 #include "weakpoint.h"
 
 static const bionic_id bio_ads( "bio_ads" );
-static const efftype_id effect_onfire( "onfire" );
 
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
@@ -77,16 +76,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
         case damage_type::COLD:
         case damage_type::ELECTRIC: {
-            int ret = 0;
-            for( const item &i : worn ) {
-                if( i.covers( bp ) ) {
-                    ret += i.damage_resist( dt, false, bp );
-                }
-            }
-
-            ret += mutation_armor( bp, dt );
-            ret += bp->damage_resistance( dt );
-            return ret;
+            return worn.damage_resist( dt, bp ) + mutation_armor( bp, dt );
         }
         case damage_type::NONE:
         case damage_type::NUM:
@@ -151,12 +141,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
 
 int Character::get_armor_bash_base( bodypart_id bp ) const
 {
-    float ret = 0;
-    for( const item &i : worn ) {
-        if( i.covers( bp ) ) {
-            ret += i.bash_resist( false, bp );
-        }
-    }
+    float ret = worn.damage_resist( damage_type::BASH, bp );
     for( const bionic_id &bid : get_bionics() ) {
         const auto bash_prot = bid->bash_protec.find( bp.id() );
         if( bash_prot != bid->bash_protec.end() ) {
@@ -171,12 +156,8 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
 
 int Character::get_armor_cut_base( bodypart_id bp ) const
 {
-    float ret = 0;
-    for( const item &i : worn ) {
-        if( i.covers( bp ) ) {
-            ret += i.cut_resist( false, bp );
-        }
-    }
+    float ret = worn.damage_resist( damage_type::CUT, bp );
+
     for( const bionic_id &bid : get_bionics() ) {
         const auto cut_prot = bid->cut_protec.find( bp.id() );
         if( cut_prot != bid->cut_protec.end() ) {
@@ -191,12 +172,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
 
 int Character::get_armor_bullet_base( bodypart_id bp ) const
 {
-    float ret = 0;
-    for( const item &i : worn ) {
-        if( i.covers( bp ) ) {
-            ret += i.bullet_resist( false, bp );
-        }
-    }
+    float ret = worn.damage_resist( damage_type::BULLET, bp );
 
     for( const bionic_id &bid : get_bionics() ) {
         const auto bullet_prot = bid->bullet_protec.find( bp.id() );
@@ -217,13 +193,7 @@ int Character::get_armor_acid( bodypart_id bp ) const
 
 int Character::get_env_resist( bodypart_id bp ) const
 {
-    float ret = bp->env_protection;
-    for( const item &i : worn ) {
-        // Head protection works on eyes too (e.g. baseball cap)
-        if( i.covers( bp ) || ( bp == body_part_eyes && i.covers( body_part_head ) ) ) {
-            ret += i.get_env_resist();
-        }
-    }
+    float ret = worn.get_env_resist( bp );
 
     for( const bionic_id &bid : get_bionics() ) {
         const auto EP = bid->env_protec.find( bp.id() );
@@ -242,42 +212,6 @@ std::map<bodypart_id, int> Character::get_armor_fire( const
         std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
 {
     return get_all_armor_type( damage_type::HEAT, clothing_map );
-}
-
-static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
-{
-    switch( du.type ) {
-        case damage_type::ACID:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
-            break;
-        case damage_type::BASH:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
-            break;
-        case damage_type::BIOLOGICAL:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
-            break;
-        case damage_type::COLD:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
-            break;
-        case damage_type::CUT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
-            break;
-        case damage_type::ELECTRIC:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
-            break;
-        case damage_type::HEAT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
-            break;
-        case damage_type::STAB:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
-            break;
-        case damage_type::BULLET:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
-            break;
-        default:
-            return;
-    }
-    du.amount = std::max( 0.0f, du.amount );
 }
 
 // adjusts damage unit depending on type by enchantments.
@@ -318,7 +252,7 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
     du.amount = std::max( 0.0f, du.amount );
 }
 
-static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
     if( who.is_avatar() ) {
         get_memorial().add(
@@ -332,7 +266,7 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
-static void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
+void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
 {
     switch( du.type ) {
         case damage_type::ACID:
@@ -400,84 +334,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         armor_enchantment_adjust( *this, elem );
 
-        sub_bodypart_id sbp;
-        sub_bodypart_id secondary_sbp;
-        // if this body part has sub part locations roll one
-        if( !bp->sub_parts.empty() ) {
-            sbp = bp->random_sub_part( false );
-            // the torso has a second layer of hanging body parts
-            if( bp == body_part_torso ) {
-                secondary_sbp = bp->random_sub_part( true );
-            }
-        }
-
-        // generate a single roll for determining if hit
-        int roll = rng( 1, 100 );
-
-        // Only the outermost armor can be set on fire
-        bool outermost = true;
-        // The worn vector has the innermost item first, so
-        // iterate reverse to damage the outermost (last in worn vector) first.
-        for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
-            item &armor = *iter;
-
-            if( !armor.covers( bp ) ) {
-                ++iter;
-                continue;
-            }
-
-            const std::string pre_damage_name = armor.tname();
-            bool destroy = false;
-
-            item_armor_enchantment_adjust( *this, elem, armor );
-            // Heat damage can set armor on fire
-            // Even though it doesn't cause direct physical damage to it
-            if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
-                // TODO: Different fire intensity values based on damage
-                fire_data frd{ 2 };
-                destroy = armor.burn( frd );
-                int fuel = roll_remainder( frd.fuel_produced );
-                if( fuel > 0 ) {
-                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,
-                                true );
-                }
-            }
-
-            if( !destroy ) {
-                // if we don't have sub parts data
-                // this is the feet head and hands
-                if( bp->sub_parts.empty() ) {
-                    destroy = armor_absorb( elem, armor, bp, roll );
-                } else {
-                    // if this armor has sublocation data test against it instead of just a generic roll
-                    destroy = armor_absorb( elem, armor, bp, sbp, roll );
-                    // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                    if( bp == body_part_torso ) {
-                        destroy = armor_absorb( elem, armor, bp, secondary_sbp, roll );
-                    }
-                }
-            }
-
-            if( destroy ) {
-                if( get_player_view().sees( *this ) ) {
-                    SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
-                             m_neutral, _( "destroyed" ), m_info );
-                }
-                destroyed_armor_msg( *this, pre_damage_name );
-                armor_destroyed = true;
-                armor.on_takeoff( *this );
-                for( const item *it : armor.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                    worn_remains.push_back( *it );
-                }
-                // decltype is the type name of the iterator, note that reverse_iterator::base returns the
-                // iterator to the next element, not the one the revers_iterator points to.
-                // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype( iter )( worn.erase( --iter.base() ) );
-            } else {
-                ++iter;
-                outermost = false;
-            }
-        }
+        worn.absorb_damage( *this, elem, bp, worn_remains, armor_destroyed );
 
         passive_absorb_hit( bp, elem );
 

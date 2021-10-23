@@ -29,7 +29,7 @@ static void test_encumbrance_on(
         tweak_player( p );
     }
     for( const item &i : clothing ) {
-        p.worn.push_back( i );
+        p.worn.wear_item( p, i, false, false );
     }
     p.calc_encumbrance();
     encumbrance_data enc = p.get_part_encumbrance_data( bodypart_id( body_part ) );

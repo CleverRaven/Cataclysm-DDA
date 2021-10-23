@@ -918,17 +918,6 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, 0 );
-        }
-    }
-    return "-";
-}
-
 // Single-letter move mode (W, R, C, P)
 std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {

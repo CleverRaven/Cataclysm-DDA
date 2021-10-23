@@ -6125,12 +6125,7 @@ bool mattack::dsa_drone_scan( monster *z )
                 weapons_count += 1;
             }
         } else {
-            for( const item &worn_item : target->worn ) {
-                if( worn_item.is_gun() ) {
-                    weapons_count += 1;
-                    break;
-                }
-            }
+            weapons_count += target->worn.worn_guns();
         }
         summon_reinforcements = weapons_count >= 3;
     }

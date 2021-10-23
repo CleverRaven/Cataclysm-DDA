@@ -1725,7 +1725,7 @@ bool npc::recharge_cbm()
     return false;
 }
 
-void npc::activate_combat_items()
+void outfit::activate_combat_items( npc &guy )
 {
     for( item &candidate : worn ) {
         if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
@@ -1737,12 +1737,32 @@ void npc::activate_combat_items()
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && available_ups() == 0 ) {
+            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0 ) {
                 continue;
             }
-            if( transform->can_use( *this, candidate, false, tripoint_zero ).success() ) {
-                transform->use( *this, candidate, false, tripoint_zero );
-                add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
+            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
+                transform->use( guy, candidate, false, tripoint_zero );
+                guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
+            }
+        }
+    }
+}
+
+void npc::activate_combat_items()
+{
+    worn.activate_combat_items( *this );
+}
+
+void outfit::deactivate_combat_items( npc &guy )
+{
+    for( item &candidate : worn ) {
+        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
+            candidate.active ) {
+            const iuse_transform *transform = dynamic_cast<const iuse_transform *>
+                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
+            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
+                transform->use( guy, candidate, false, tripoint_zero );
+                guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }
         }
     }
@@ -1750,17 +1770,7 @@ void npc::activate_combat_items()
 
 void npc::deactivate_combat_items()
 {
-    for( item &candidate : worn ) {
-        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
-            candidate.active ) {
-            const iuse_transform *transform = dynamic_cast<const iuse_transform *>
-                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
-            if( transform->can_use( *this, candidate, false, tripoint_zero ).success() ) {
-                transform->use( *this, candidate, false, tripoint_zero );
-                add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
-            }
-        }
-    }
+    worn.deactivate_combat_items( *this );
 }
 
 void npc::prepare_for_combat()
@@ -4684,9 +4694,15 @@ bool npc::adjust_worn()
     if( !any_broken ) {
         return false;
     }
-    const auto covers_broken = [this]( const item & it, side s ) {
+
+    return worn.adjust_worn( *this );
+}
+
+bool outfit::adjust_worn( npc &guy )
+{
+    const auto covers_broken = [&guy]( const item & it, side s ) {
         const body_part_set covered = it.get_covered_body_parts( s );
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
             if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
                 return true;
             }
@@ -4702,14 +4718,14 @@ bool npc::adjust_worn()
         if( !covers_broken( elem, elem.get_side() ) ) {
             const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
             //create an item_location for takeoff() to handle.
-            item_location loc_for_takeoff = item_location( *this, &elem );
+            item_location loc_for_takeoff = item_location( guy, &elem );
             // Try to change side (if it makes sense), or take off.
-            if( ( needs_change && change_side( elem ) ) || takeoff( loc_for_takeoff ) ) {
+            std::list<item> temp_list;
+            if( ( needs_change && guy.change_side( elem ) ) || takeoff( loc_for_takeoff, &temp_list, guy ) ) {
                 return true;
             }
         }
     }
-
     return false;
 }
 

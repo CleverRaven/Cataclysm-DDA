@@ -1701,13 +1701,8 @@ float Character::get_effective_efficiency( const bionic &bio, float fuel_efficie
         int coverage = 0;
         const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
-            for( const item &i : worn ) {
-                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                    !i.has_flag( flag_SEMITANGIBLE ) &&
-                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage( elem.first.id() );
-                }
-            }
+            coverage += worn.coverage_with_flags_exclude( elem.first.id(),
+            { flag_ALLOWS_NATURAL_ATTACKS, flag_SEMITANGIBLE, flag_PERSONAL, flag_AURA } );
         }
         effective_efficiency = fuel_efficiency * ( 1.0 - ( coverage / ( 100.0 *
                                occupied_bodyparts.size() ) )
@@ -1731,11 +1726,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
     if( power_cost > 0_kJ ) {
         if( info.has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
-            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
-            []( const item & w ) {
-                return w.active && w.is_power_armor();
-            } );
-            if( !powered_armor ) {
+            if( !p.worn.is_wearing_active_power_armor() ) {
                 const units::energy armor_power_cost = 1_kJ;
                 power_cost -= armor_power_cost;
             }

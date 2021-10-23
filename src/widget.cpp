@@ -886,7 +886,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::activity_text_color( ava );
             break;
         case widget_var::bp_armor_outer_text:
-            desc.first = display::colorized_bodypart_outer_armor( ava, only_bp() );
+            desc.first = ava.worn.get_armor_display( only_bp() );
             apply_color = false; // Item name already colorized by tname
             break;
         case widget_var::date_text:

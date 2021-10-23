@@ -466,7 +466,7 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.emplace_back( "backpack" );
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
         // some two items that can be wielded, worn, and picked up
         item tshirt( "tshirt" );
@@ -548,7 +548,7 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     dummy.worn.clear();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     // some stackable item that can be wielded and worn
     item tshirt1( "tshirt" );
@@ -684,7 +684,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.emplace_back( "backpack" );
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
         // some stackable item
         item tshirt1( "tshirt" );

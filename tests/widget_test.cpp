@@ -1194,17 +1194,17 @@ TEST_CASE( "outer armor widget", "[widget][armor]" )
     CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
 
     // Wearing something covering torso
-    ava.worn.emplace_back( "test_zentai" );
+    ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
-    ava.worn.emplace_back( "test_socks" );
+    ava.worn.wear_item( ava, item( "test_socks" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
-    ava.worn.emplace_back( "test_hazmat_suit" );
+    ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
 }
@@ -1221,7 +1221,7 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item &rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.emplace_back( rad_badge );
+    ava.worn.wear_item( ava, rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );

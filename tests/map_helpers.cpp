@@ -179,7 +179,8 @@ void player_add_headlamp()
     item battery( "light_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
-    get_player_character().worn.push_back( headlamp );
+    Character &you = get_player_character();
+    you.worn.wear_item( you, headlamp, false, true );
 }
 
 // Set current time of day, and refresh map and caches for the new light level

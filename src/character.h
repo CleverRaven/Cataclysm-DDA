@@ -27,6 +27,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -762,9 +763,6 @@ class Character : public Creature, public visitable
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
 
-        /** Draws the UI and handles player input for the armor re-ordering window */
-        void sort_armor();
-
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
@@ -1251,15 +1249,6 @@ class Character : public Creature, public visitable
 
         void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
-        /** Return the position in the worn list where new_item would be
-         * put by default */
-        std::list<item>::iterator position_to_wear_new_item( const item &new_item );
-
-        /** Applies encumbrance from items only
-         * If new_item is not null, then calculate under the asumption that it
-         * is added to existing work items. */
-        void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item ) const;
-
     public:
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
@@ -1618,12 +1607,7 @@ class Character : public Creature, public visitable
 
         // checks to see if an item is worn
         bool is_worn( const item &thing ) const {
-            for( const auto &elem : worn ) {
-                if( &thing == &elem ) {
-                    return true;
-                }
-            }
-            return false;
+            return worn.is_worn( thing );
         }
 
         /**
@@ -1926,8 +1910,6 @@ class Character : public Creature, public visitable
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::mass weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                                                 &locations ) const;
-        units::mass get_selected_stack_weight( const item *i,
-                                               const std::map<const item *, int> &without ) const;
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
@@ -2309,7 +2291,7 @@ class Character : public Creature, public visitable
 
         bool is_dead = false;
         std::vector<effect_on_condition_id> death_eocs;
-        std::list<item> worn;
+        outfit worn;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
@@ -2736,9 +2718,6 @@ class Character : public Creature, public visitable
         player_activity get_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
-        /** Returns warmth provided by armor, etc. */
-        std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
-                                           &clothing_map ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
         std::map<bodypart_id, int> bonus_item_warmth() const;
         /** Can the player lie down and cover self with blankets etc. **/
