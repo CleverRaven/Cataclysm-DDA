@@ -463,6 +463,21 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_salad",
+    "name": { "str": "egg salad" },
+    "copy-from": "boiled_egg",
+    "color": "white",
+    "symbol": "o",
+    "quench": 2,
+    "description": "Hard-boiled eggs, mixed into a salad.  Can be made into a sandwich!",
+    "price": 95,
+    "price_postapoc": 50,
+    "material": [ "egg" ],
+    "fun": 4,
+    "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "fried_eggs",
     "name": { "str_sp": "fried eggs" },
     "copy-from": "scrambled_eggs",
