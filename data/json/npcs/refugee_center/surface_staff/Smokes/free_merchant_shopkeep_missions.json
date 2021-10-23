@@ -262,5 +262,48 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup",
+    "dynamic_line": "Hmm…\" Smokes looks thoughtful, tapping his chin. \"Well, most of the people downstairs aren't willing to come up for things like that, and a lot of folks that are up here have a lot of bad memories from that.  You could try asking around some of the people we have upstairs, but it'll be tough.  If you have some Merch you could spare, though, I could get some people off guard duty and into your little crew for some hazard pay.  You might also have luck asking the Old Guard rep in the southwest bay, near the library - I hear they've got some volunteers lately.",
+    "responses": [
+      {
+        "text": "Five Merch for someone sounds fair to me.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
+        "effect": [
+          { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+          { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+          { "u_consume_item": "FMCNote", "count": 5 }
+        ],
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup1"
+      },
+      {
+        "text": "How about ten Merch to do it?",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
+        "effect": [
+          { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+          { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+          { "u_consume_item": "FMCNote", "count": 10 }
+        ],
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup2"
+      },
+      {
+        "text": "Thanks for the advice.  Maybe I'll come back with some more Merch.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk"
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup1",
+    "type": "talk_topic",
+    "dynamic_line": "That's enough to get someone off guard duty, yeah.  Hand it here and I'll set it up.\"  The money exchanges hands.  \"Right.  I haven't updated this list in a while, so some people are still assigned to watch the back bay, which is technically a free shift now.  I'll let one of them know about what's up and they can spend the time helping to clean up back there.  Hope it helps.",
+    "responses": [ { "text": "Thank you!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup2",
+    "type": "talk_topic",
+    "dynamic_line": "Woah, you're really intent, hey?  That's a lot for most people here.\"  The money exchanges hands.  \"That's enough to get two people off guard duty for an afternoon, even with all the ugliness back there.  And you know what?  I'll help out, too, so make that three.  I can appreciate someone who's willing to put their money where their mouth is.",
+    "responses": [ { "text": "Thank you very much!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
   }
 ]

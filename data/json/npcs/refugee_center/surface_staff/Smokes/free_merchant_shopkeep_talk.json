@@ -78,6 +78,18 @@
     "dynamic_line": [ "What's on your mind?", "Lay it on me.", "Alright, shoot.", "Something on your mind?" ],
     "responses": [
       {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
+      },
+      {
         "text": "'Sorry, we're full'?  Do you greet everyone like that?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
         "condition": { "u_has_effect": "u_Gavin_onetime_greeting" },
