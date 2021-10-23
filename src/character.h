@@ -1137,6 +1137,7 @@ class Character : public Creature, public visitable
         float breathing_score() const;
         float swim_score() const;
         float vision_score() const;
+        float nightvision_score() const;
         float movement_speed_score() const;
         float balance_score() const;
         bool has_min_manipulators() const;

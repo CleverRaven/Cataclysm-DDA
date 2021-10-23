@@ -287,7 +287,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "swim_score", swim_score );
 
     optional( jo, was_loaded, "vision_score", vision_score );
-    optional( jo, was_loaded, "nightvision_score", nightvision_score);
+    optional( jo, was_loaded, "nightvision_score", nightvision_score );
 
     mandatory( jo, was_loaded, "side", part_side );
 }
@@ -520,7 +520,7 @@ float bodypart::get_vision_score() const
 
 float bodypart::get_nightvision_score() const
 {
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->nightvision_score));
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->nightvision_score ) );
 }
 
 float bodypart::get_movement_speed_score() const
