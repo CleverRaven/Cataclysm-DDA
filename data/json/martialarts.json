@@ -1133,7 +1133,7 @@
     "type": "martial_art",
     "id": "style_snake",
     "name": { "str": "Snake Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your Accuracy, rather than Dexterity.  Standing still will increases your accuracy and damage of your next attack.",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your accuracy and damage, rather than Dexterity and Strength.  Standing still will increases the accuracy and critical hit chance of your next few attacks.",
     "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -1141,29 +1141,64 @@
       {
         "id": "buff_snake_static",
         "name": "Snake's Sight",
-        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.  Bash damage increased by 75% of Perception but decreased by 75% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "per", "scale": 0.25 }, { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 } ]
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.75 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": -0.75 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_snake_onhit",
+        "name": "Snake Bite",
+        "description": "Each snake bite is more painful than the last.\n\nGain armor penetration equal to 25% of Perceptions.\nLasts 2 turns.  Stacks 4 times",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "buff_duration": 2,
+        "max_stacks": 4,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.25 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_snake_oncrit",
+        "name": "Snake Fang",
+        "description": "You hit a weakpoint!  Your next attack will be extra painful.\n\nGain armor penetration equal to 100% of Perceptions.\nLasts 1 turn.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "buff_duration": 1,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
+        ]
       }
     ],
     "onpause_buffs": [
       {
         "id": "buff_snake_onpause",
         "name": "Snake's Coil",
-        "description": "Every snake wait for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, gain armor penetration equal to 50% of Perceptions.\nLasts 1 turn.  Stacks 3 times.",
+        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, +1 Block Effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 4,
         "max_stacks": 3,
         "flat_bonuses": [
+          { "stat": "block_effectiveness", "scale": 1.0 },
           { "stat": "hit", "scale": 1.0 },
-          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
+          { "stat": "crit_chance", "scale": 5.0 }
         ]
       }
     ],
-    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
+    "techniques": [ "tec_snake_swift", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
   },
   {
     "type": "martial_art",
