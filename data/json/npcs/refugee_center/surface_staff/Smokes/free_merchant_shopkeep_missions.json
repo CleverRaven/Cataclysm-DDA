@@ -317,7 +317,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup",
-    "dynamic_line": "Hmm…\" Smokes looks thoughtful, tapping his chin. \"Well, most of the people downstairs aren't willing to come up for things like that, and a lot of folks that are up here have a lot of bad memories from that.  You could try asking around some of the people we have upstairs, but it'll be tough.  If you have some Merch you could spare, though, I could get some people off guard duty and into your little crew for some hazard pay.  You might also have luck asking the Old Guard rep in the southwest bay, near the library - I hear they've got some volunteers lately.",
+    "dynamic_line": "Hmm.\"  Smokes looks thoughtful, rubbing his chin.  \"Well, most of the people downstairs aren't willing to come up for things like that, and a lot of folks that are up here have a lot of bad memories from that.  You could try asking around some of the people we have upstairs, but it'll be tough.  If you have some Merch you could spare, though, I could get some people off guard duty and into your little crew for some hazard pay.  You might also have luck asking the Old Guard rep in the southwest bay, near the library - I hear they've got some volunteers lately.",
     "responses": [
       {
         "text": "Five Merch for someone sounds fair to me.",
