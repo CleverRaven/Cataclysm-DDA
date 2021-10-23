@@ -2376,7 +2376,10 @@ See also VEHICLE_JSON.md
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
+"material": [                                // Material types, can be as many as you want.  See materials.json for possible options
+  { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
+  { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
+],
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -2768,7 +2771,10 @@ CBMs can be defined like this:
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
-"material": [ "flesh", "wheat" ], // All materials (IDs) this food is made of
+"material": [                     // All materials (IDs) this food is made of
+  { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
+  { "type": "wheat", "portion": 5 }
+],
 "primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
 "rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
 "rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
@@ -2819,7 +2825,10 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 "name": "hatchet",     // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
 "price": 95,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
-"material": ["iron", "wood"], // Material types.  See materials.json for possible options
+"material": [          // Material types.  See materials.json for possible options
+  { "type": "iron", "portion": 2 }, // See Generic Item attributes for type and portion details
+  { "type": "wood", "portion": 3 }
+],
 "weight": 907,         // Weight, measured in grams
 "volume": "1500 ml",   // Volume, volume in ml and L can be used - "50 ml" or "2 L"
 "bashing": 12,         // Bashing damage caused by using it as a melee weapon
@@ -2933,7 +2942,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
-"material": [ "wood" ],   // Material types.  See materials.json for possible options
+"material": [ { "type": "wood", "portion": 1 } ], // Material types.  See materials.json for possible options. Also see Generic Item attributes for type and portion details
 "techniques": [ "FLAMING" ], // Combat techniques used by this tool
 "flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
