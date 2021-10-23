@@ -277,7 +277,7 @@
     "required_str": -1,
     "looks_like": "f_boulder_large",
     "flags": [ "TRANSPARENT" ],
-    "emissions": [ "emit_cooler_vehicle" ],
+    "emissions": [ "emit_everfrost" ],
     "light_emitted": 20,
     "bash": {
       "str_min": 25,
