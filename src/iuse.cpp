@@ -9563,6 +9563,126 @@ cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const trip
     return 0;
 }
 
+cata::optional<int> iuse::electricstorage( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
+        return cata::nullopt;
+    }
+
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "ELECTRICSTORAGE iuse called on item without ebook type pocket" );
+        return cata::nullopt;
+    }
+
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return cata::nullopt;
+    }
+
+    auto filter = []( const item & itm ) {
+        return !itm.is_broken() &&
+               itm.has_flag( flag_MC_USED ) &&
+               itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
+    };
+
+    item_location storage_card = game_menus::inv::titled_filter_menu(
+                                     filter, *p->as_avatar(), _( "Use what storage device?" ),
+                                     _( "You don't have any empty book storage devices." ) );
+
+    if( !storage_card ) {
+        return cata::nullopt;
+    }
+
+    // list of books of from_it that are not in to_it
+    auto book_difference = []( const item & from_it, const item & to_it ) -> std::vector<const item *> {
+        std::set<itype_id> existing_ebooks;
+        for( const item *ebook : to_it.ebooks() )
+        {
+            if( !ebook->is_book() ) {
+                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+                continue;
+            }
+
+            existing_ebooks.insert( ebook->typeId() );
+        }
+
+        std::vector<const item *> ebooks;
+        for( const item *ebook : from_it.ebooks() )
+        {
+            if( !ebook->is_book() ) {
+                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+                continue;
+            }
+
+            if( existing_ebooks.count( ebook->typeId() ) ) {
+                continue;
+            }
+
+            ebooks.emplace_back( ebook );
+        }
+        return ebooks;
+    };
+
+    std::vector<const item *> to_storage = book_difference( *it, *storage_card );
+    std::vector<const item *> to_device = book_difference( *storage_card, *it );
+
+    uilist smenu;
+    smenu.text = _( "What to do with your storage devices:" );
+
+    smenu.addentry( 1, !to_device.empty(), 't', _( "Copy to device from the card" ) );
+    smenu.addentry( 2, !to_storage.empty(), 'f', _( "Copy from device to the card" ) );
+    smenu.addentry( 3, !storage_card->ebooks().empty(), 'v', _( "View books in the card" ) );
+    smenu.query();
+
+    // were any books moved to or from the device
+    int books_moved = 0;
+
+    auto move_books = [&books_moved]( const std::vector<const item *> &fromset, item & toit ) -> void {
+        books_moved = fromset.size();
+        for( const item *ebook : fromset )
+        {
+            toit.put_in( *ebook, item_pocket::pocket_type::EBOOK );
+        }
+    };
+
+    if( smenu.ret == 1 ) {
+        // to device
+        move_books( to_device, *it );
+    } else if( smenu.ret == 2 ) {
+        // from device
+        move_books( to_storage, *storage_card );
+    } else if( smenu.ret == 3 ) {
+        game_menus::inv::ebookread( *p, storage_card );
+        return cata::nullopt;
+    } else {
+        return cata::nullopt;
+    }
+
+    if( books_moved > 0 ) {
+        p->mod_moves( -to_moves<int>( 2_seconds ) );
+        if( smenu.ret == 1 ) {
+            p->add_msg_if_player( m_info,
+                                  n_gettext( "Copied one book to the device.",
+                                             "Copied %1$s books to the device.", books_moved ),
+                                  books_moved );
+        } else if( smenu.ret == 2 ) {
+            p->add_msg_if_player( m_info,
+                                  n_gettext( "Copied one book to the %2$s.",
+                                             "Copied %1$s books to the %2$s.", books_moved ),
+                                  books_moved, storage_card->tname() );
+        }
+    }
+
+    return cata::nullopt;
+}
+
 cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
