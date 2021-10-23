@@ -76,7 +76,7 @@
           "TROGLO3",
           "URSINE_FUR",
           "VISCOUS",
-		  "RABBIT_FUR"
+		      "RABBIT_FUR"
         ],
         "order": 1500
       },
@@ -175,7 +175,7 @@
           "TAIL_STING",
           "TAIL_STUB",
           "TAIL_THICK",
-		  "TAIL_RABBIT"
+		      "TAIL_RABBIT"
         ],
         "order": 3500
       },
@@ -199,7 +199,7 @@
           "SNOUT",
           "WHISKERS",
           "WHISKERS_RAT",
-		  "RABBIT_NOSE"
+		      "RABBIT_NOSE"
         ],
         "order": 7000
       },
