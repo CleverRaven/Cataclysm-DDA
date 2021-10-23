@@ -7724,5 +7724,13 @@
     "description": "Your ability to feel or express emotion has been greatly hampered.",
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOOMING_VOICE",
+    "name": { "str": "Booming Voice" },
+    "points": 0,
+    "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
+    "valid": false
   }
 ]

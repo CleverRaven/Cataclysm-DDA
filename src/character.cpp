@@ -266,6 +266,7 @@ static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_copro
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
+static const trait_id trait_BOOMING_VOICE( "BOOMING_VOICE" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
@@ -6199,6 +6200,9 @@ int Character::get_shout_volume() const
     } else if( has_trait( trait_SHOUT2 ) ) {
         base = 15;
         shout_multiplier = 3;
+    }
+    if( has_trait( trait_BOOMING_VOICE ) ) {
+        base += 10;
     }
 
     // You can't shout without your face
