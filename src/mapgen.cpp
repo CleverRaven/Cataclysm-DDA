@@ -143,7 +143,6 @@ static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_spider_pit_under( "spider_pit_under" );
 static const oter_str_id oter_temple( "temple" );
 static const oter_str_id oter_temple_finale( "temple_finale" );
 static const oter_str_id oter_temple_stairs( "temple_stairs" );
