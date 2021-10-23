@@ -3338,7 +3338,7 @@
     "color": "dark_gray",
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE_WELL",
+        "pocket_type": "MAGAZINE",
         "holster": true,
         "rigid": true,
         "max_contains_volume": "6250 ml",
@@ -3369,7 +3369,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "powered utility exoskeleton (on)", "str_pl": "powered utility exoskeletons (on)" },
     "description": "  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "STURDY", "BELTED", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
     "power_draw": 12,
     "revert_to": "utility_exoskeleton",
     "use_action": {
