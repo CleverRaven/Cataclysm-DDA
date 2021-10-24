@@ -64,7 +64,7 @@
     "name": "magic lamp",
     "description": "A magical light source that will light up a small area.",
     "weight": "1 g",
-	"material": [ "leather", "glass" ],
+    "material": [ "leather", "glass" ],
     "volume": "250 ml",
     "price": 1,
     "to_hit": -2,
