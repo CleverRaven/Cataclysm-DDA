@@ -1,0 +1,24 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "No_Portal_Storms",
+    "name": "No Portal Storms",
+    "authors": [ "Ramza13" ],
+    "description": "Prevents portal storms from happening.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence_min": "10 days",
+    "recurrence_max": "10 days",
+    "global": true,
+    "effect": [  ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "blacklist",
+    "scenarios": [ "strong_portal_storm_base", "strong_portal_storm" ]
+  }
+]
