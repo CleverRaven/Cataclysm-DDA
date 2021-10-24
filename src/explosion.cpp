@@ -424,7 +424,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             dealt_projectile_attack frag;
             frag.proj = proj;
             frag.proj.speed = cloud.velocity;
-            frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
+            frag.proj.impact = damage_instance( damage_type::BULLET, damage );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
             // Need to differentiate target among player, npc, and monster
