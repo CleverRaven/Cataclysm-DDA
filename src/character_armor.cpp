@@ -80,7 +80,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             int ret = 0;
             for( const item &i : worn ) {
                 if( i.covers( bp ) ) {
-                    ret += i.damage_resist( dt );
+                    ret += i.damage_resist( dt, false, bp );
                 }
             }
 
@@ -131,7 +131,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case damage_type::COLD:
             case damage_type::ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
-                    per_bp.second += it->damage_resist( dt );
+                    per_bp.second += it->damage_resist( dt, false, bp );
                 }
 
                 per_bp.second += mutation_armor( bp, dt );
@@ -152,7 +152,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.bash_resist();
+            ret += i.bash_resist( false, bp );
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
@@ -171,7 +171,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.cut_resist();
+            ret += i.cut_resist( false, bp );
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
@@ -190,7 +190,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.bullet_resist();
+            ret += i.bullet_resist( false, bp );
         }
     }
 
@@ -483,7 +483,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const float armors_own_resist = armor.damage_resist( du.type, true );
+    const float armors_own_resist = armor.damage_resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
         // This is some weird type that doesn't damage armors
         return false;

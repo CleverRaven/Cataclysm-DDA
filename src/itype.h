@@ -240,8 +240,10 @@ struct armor_portion_data {
     };
     // Track individual materials per bodypart
     std::vector<part_material> materials;
-    // Total of material portion values for this body part
+    // Total of material portion values for this armour part
     int mat_portion_total = 0;
+    // Average thickness of the materials in this armour part
+    float avg_thickness = 0.0f;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
@@ -259,6 +261,7 @@ struct islot_armor {
     */
     bool sided = false;
     /**
+     * Average thickness based on armour portion data.
      * Material protection stats are multiplied by this number
      * to determine armor protection values.
      */
