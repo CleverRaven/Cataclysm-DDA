@@ -241,6 +241,7 @@ void chop_planks_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void fill_pit_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
+void pull_creature_finish( player_activity *act, Character *you );
 void mind_splicer_finish( player_activity *act, Character *you );
 void spellcasting_finish( player_activity *act, Character *you );
 void study_spell_finish( player_activity *act, Character *you );

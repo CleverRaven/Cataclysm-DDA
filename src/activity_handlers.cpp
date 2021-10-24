@@ -151,6 +151,7 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -332,6 +333,7 @@ activity_handlers::finish_functions = {
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
+    { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
@@ -3816,6 +3818,16 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         you->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     you->practice( skill_computer, 10 );
+}
+
+void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
+{
+    if( you->is_avatar() ) {
+        you->as_avatar()->longpull( act->name );
+    } else {
+        you->longpull( act->name, act->placement );
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )
