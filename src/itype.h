@@ -233,6 +233,16 @@ struct armor_portion_data {
     int cover_ranged = 0;
     int cover_vitals = 0;
 
+    struct part_material {
+        material_id id = material_id::NULL_ID();
+        int portion = 1;
+        float thickness = 0.0f;
+    };
+    // Track individual materials per bodypart
+    std::vector<part_material> materials;
+    // Total of material portion values for this body part
+    int mat_portion_total = 0;
+
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 

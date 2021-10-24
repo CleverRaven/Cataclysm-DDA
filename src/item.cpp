@@ -6726,6 +6726,53 @@ float item::get_thickness() const
     return t->thickness;
 }
 
+float item::get_thickness( const bodypart_id &bp ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
+    }
+
+    // Get the average thickness based on material portions for a specific armour piece body part
+    auto get_thic_from_part = []( const armor_portion_data &d ) {
+        float t = 0.0f;
+        const float total = d.mat_portion_total ? d.mat_portion_total : 1.f;
+        for( const armor_portion_data::part_material &m : d.materials ) {
+            t += m.thickness * ( m.portion / total );
+        }
+        return t;
+    };
+
+    float thic = 0.0f;
+    side s = get_side();
+    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts : left_side_parts;
+    for( const armor_portion_data &data : t->data ) {
+        if( !data.covers.has_value() ) {
+            continue;
+        }
+        if( !t->sided || s == side::BOTH || s == side::num_sides ) {
+            for( const bodypart_str_id &bpid : data.covers.value() ) {
+                if( bp == bpid ) {
+                    thic += get_thic_from_part( data );
+                    break;
+                }
+            }
+            continue;
+        }
+        for( const bodypart_str_id &bpid : data.covers.value() ) {
+            if( std::find( opposite_side_parts.begin(), opposite_side_parts.end(),
+                           bpid ) == opposite_side_parts.end() ) {
+                thic += get_thic_from_part( data );
+                break;
+            }
+        }
+    }
+    if( thic < 0.0f || std::abs( thic ) < std::numeric_limits<float>::epsilon() ) {
+        thic = t->thickness;
+    }
+    return thic;
+}
+
 int item::get_warmth() const
 {
     const islot_armor *t = find_armor_data();

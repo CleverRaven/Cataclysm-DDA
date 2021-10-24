@@ -2002,6 +2002,17 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     } else {
         optional( jo, false, "encumbrance", encumber, 0 );
     }
+
+    if( jo.has_array( "part_materials" ) ) {
+        for( JsonObject m : jo.get_array( "part_materials" ) ) {
+            part_material bp_mat;
+            bp_mat.id = material_id( m.get_string( "type" ) );
+            bp_mat.portion = m.get_int( "portion", 1 );
+            bp_mat.thickness = m.get_float( "thickness", 0.0f );
+            mat_portion_total += bp_mat.portion;
+            materials.emplace_back( bp_mat );
+        }
+    }
 }
 
 void islot_armor::load( const JsonObject &jo )

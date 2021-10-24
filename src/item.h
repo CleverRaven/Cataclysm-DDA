@@ -1700,6 +1700,11 @@ class item : public visitable
          */
         float get_thickness() const;
         /**
+         * Returns the average thickness value for the specified bodypart, or 0 for non-armor. Thickness is a
+         * relative value that affects the items resistance against bash / cutting / bullet damage.
+         */
+        float get_thickness( const bodypart_id &bp ) const;
+        /**
          * Returns clothing layer for item.
          */
         layer_level get_layer() const;
