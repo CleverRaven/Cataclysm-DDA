@@ -95,6 +95,7 @@ Use the `Home` key to return to the top.
         - [Encumbrance](#encumbrance)
         - [Coverage](#coverage)
         - [Covers](#covers)
+        - [Part Materials](#part-materials)
       - [Guidelines for thickness:](#guidelines-for-thickness)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
@@ -2511,7 +2512,11 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 95,
     "cover_ranged": 50,
     "cover_vitals": 5,
-    "covers": [ "torso" ]
+    "covers": [ "torso" ],
+    "part_materials": [
+      { "type": "cotton", "portion": 9, "thickness": 0.2 },
+      { "type": "plastic", "portion": 1, "thickness": 0.8 }
+    ]
   },
   {
     "encumbrance": 2,
@@ -2519,7 +2524,10 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 80,
     "cover_ranged": 70,
     "cover_vitals": 5,
-    "covers": [ "arm_r", "arm_l" ]
+    "covers": [ "arm_r", "arm_l" ],
+    "part_materials": [
+      { "type": "cotton", "portion": 1, "thickness": 0.2 }
+    ]
   }
 ]
 ```
@@ -2559,6 +2567,18 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "power_armor" : false
 }
 ```
+
+##### Part Materials
+(array of objects)
+The type, proportion and thickness of the materials that make up this portion of the armor. See "material" from [Generic Items](#generic-items) for details about type and portion.
+
+- `type` indicates the material ID.
+- `portion` (_optional_) indicates how much of this armor portion is made up of said material. Defaults to 1.
+- `thickness` (_optional_) indicates the thickness of said material for this armor portion. Defaults to 0.0.
+
+The portion and thickness determine how much the material contributes towards the armor's resistances.
+**NOTE:** These material definitions do not replace the standard `"material"` tag. Instead they provide more granularity for controlling different armor resistances.
+
 #### Guidelines for thickness: ####
 According to <https://propercloth.com/reference/fabric-thickness-weight/>, dress shirts and similar fine clothing range from 0.15mm to 0.35mm.
 According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jackets/>:
