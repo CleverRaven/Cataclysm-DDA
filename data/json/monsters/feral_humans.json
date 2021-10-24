@@ -317,7 +317,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_maid_broom",
     "name": { "str": "armored feral" },
-    "description": "Clad in ancient armor and with a mace in hand, this maniac walks around in search of its next prey.  You can see stains of dry blood all around its mace.",
+    "description": "Clad in ancient armor and with a mace in hand, this maniac walks around in search of its next prey.  You can see stains of dried blood all around its mace.",
     "melee_skill": 3,
     "melee_dice": 3,
     "melee_dice_sides": 7,
@@ -425,7 +425,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_armored_mace",
     "name": { "str": "armored feral" },
-    "description": "Clad in ancient armor and with a battle axe in hand, this maniac walks around in search of its next prey.  You can see stains of dry blood all around its axe.",
+    "description": "Clad in ancient armor and with a battle axe in hand, this maniac walks around in search of its next prey.  You can see stains of dried blood all around its axe.",
     "melee_cut": 15,
     "death_drops": "feral_armored_death_drops_battleaxe"
   }
