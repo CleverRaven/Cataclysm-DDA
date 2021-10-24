@@ -160,21 +160,8 @@
         { "chunks": [ [ "lab_wall_chain_5x5", 50 ], [ "null", 50 ] ], "x": 40, "y": 17 }
       ],
       "place_monster": [
-        { "monster": "mon_lab_security_drone_GM", "x": [ 33, 40 ], "y": [ 2, 22 ], "chance": 60, "pack_size": [ 1, 2 ] },
-        {
-          "monster": "mon_lab_security_drone_GM",
-          "x": [ 2, 22 ],
-          "y": [ 6, 22 ],
-          "chance": 40,
-          "pack_size": [ 1, 2 ]
-        },
-        {
-          "monster": "mon_lab_security_drone_GM",
-          "x": [ 25, 40 ],
-          "y": [ 6, 18 ],
-          "chance": 40,
-          "pack_size": [ 1, 2 ]
-        }
+        { "monster": "mon_lab_security_drone_GM", "x": [ 33, 40 ], "y": [ 2, 22 ], "chance": 100 },
+        { "monster": "mon_lab_security_drone_GM", "x": [ 2, 22 ], "y": [ 6, 22 ], "chance": 50 }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart_4seat", "x": 2, "y": 6, "chance": 100, "rotation": 180 },
@@ -235,21 +222,8 @@
         { "chunks": [ [ "lab_wall_chain_5x5", 50 ], [ "null", 50 ] ], "x": 40, "y": 17 }
       ],
       "place_monster": [
-        { "monster": "mon_lab_security_drone_GM", "x": [ 33, 40 ], "y": [ 2, 22 ], "chance": 60, "pack_size": [ 1, 2 ] },
-        {
-          "monster": "mon_lab_security_drone_GM",
-          "x": [ 2, 22 ],
-          "y": [ 2, 18 ],
-          "chance": 60,
-          "pack_size": [ 1, 2 ]
-        },
-        {
-          "monster": "mon_lab_security_drone_GM",
-          "x": [ 25, 40 ],
-          "y": [ 2, 18 ],
-          "chance": 40,
-          "pack_size": [ 1, 2 ]
-        }
+        { "monster": "mon_lab_security_drone_GM", "x": [ 33, 40 ], "y": [ 2, 22 ], "chance": 100 },
+        { "monster": "mon_lab_security_drone_GM", "x": [ 2, 22 ], "y": [ 2, 18 ], "chance": 50 }
       ],
       "place_vehicles": [
         { "vehicle": "truck_trailer", "x": 5, "y": 8, "chance": 30, "rotation": 180 },
@@ -301,7 +275,7 @@
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "terrain": { "¥": "t_card_science_maintenance_green" },
       "place_monster": [
-        { "monster": "mon_lab_security_drone_GM", "x": [ 27, 40 ], "y": [ 2, 22 ], "chance": 60, "pack_size": [ 1, 2 ] },
+        { "monster": "mon_lab_security_drone_GM", "x": [ 27, 40 ], "y": [ 2, 22 ], "chance": 100 },
         { "monster": "mon_skitterbot", "x": 24, "y": 11, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 24, "y": 12, "chance": 100 }
       ],

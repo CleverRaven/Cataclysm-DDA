@@ -154,7 +154,7 @@
     "effect": [ { "mapgen_update": "release_bots_3", "om_terrain": "lab_1x1_RES_8_commons_MAINT" } ]
   },
   {
-    "//": "Opens bot release if you lack a yellow security ID card.",
+    "//": "Opens bot release if you lack a yellow (ochre) security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_3",
     "method": "json",
