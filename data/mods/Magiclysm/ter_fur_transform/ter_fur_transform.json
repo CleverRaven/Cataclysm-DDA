@@ -176,12 +176,10 @@
   {
     "type": "ter_furn_transform",
     "id": "icelemental_crystal",
-    "//": "Furniture alteration has to be able to reasonably check for most intervening furniture and remove it.",
-    "terrain": [ { "valid_flags": [ "FLAT" ] } ],
     "furniture": [
       {
         "result": "f_everfrost_crystal",
-        "valid_flags": [ "TRANSPARENT", "WALL" ],
+        "valid_furniture": [ "f_null" ],
         "message": "There's a rippling in the air and a blast of cold air, then the crystal forms."
       }
     ]

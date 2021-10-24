@@ -75,7 +75,7 @@
     "effect": "ter_transform",
     "effect_str": "icelemental_crystal",
     "shape": "blast",
-    "flags": [ "SOMATIC", "LOUD", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "ICE_ELEMENTAL",
     "energy_source": "MANA",
     "difficulty": 5,
