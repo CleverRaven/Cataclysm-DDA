@@ -593,10 +593,7 @@ void Item_factory::finalize_post( itype &obj )
     }
 
     if( obj.armor ) {
-        int data_count = obj.armor->data.size();
-        if( data_count > 0 ) {
-            obj.armor->thickness = 0.0f;
-        }
+        float total_thickness = 0.0f;
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
         for( armor_portion_data &data : obj.armor->data ) {
@@ -609,11 +606,12 @@ void Item_factory::finalize_post( itype &obj )
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
-            obj.armor->thickness += data.avg_thickness;
+            total_thickness += data.avg_thickness;
         }
         // Use the average thickness from each armour portion to determine global thickness
-        if( data_count > 0 ) {
-            obj.armor->thickness /= data_count;
+        int data_count = obj.armor->data.size();
+        if( data_count > 0 && total_thickness > std::numeric_limits<float>::epsilon() ) {
+            obj.armor->thickness = total_thickness / data_count;
         }
     }
 
