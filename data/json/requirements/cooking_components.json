@@ -995,5 +995,11 @@
         [ "kompot", 1 ]
       ]
     ]
+  },
+  {
+    "id": "small_cans",
+    "type": "requirement",
+    "//": "Small can, 250ml.",
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
   }
 ]
