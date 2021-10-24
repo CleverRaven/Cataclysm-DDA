@@ -3072,6 +3072,12 @@ static void CheckMessages()
                             text_input_active_when_regaining_focus = true;
                             // Stop text input to not intefere with other programs
                             SDL_StopTextInput();
+                            // Clear uncommited IME text. TODO: commit IME text instead.
+                            last_input = input_event();
+                            last_input.type = input_event_t::keyboard_char;
+                            last_input.edit.clear();
+                            last_input.edit_refresh = true;
+                            text_refresh = true;
                         } else {
                             text_input_active_when_regaining_focus = false;
                         }
