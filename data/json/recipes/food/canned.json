@@ -1641,12 +1641,17 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "charges": 2,
+    "charges": 4,
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "sweet_fruit", 2, "LIST" ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "water_clean", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1659,13 +1664,14 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 4,
+    "charges": 4,
     "time": "24 m",
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ] ]
+    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1680,11 +1686,16 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "charges": 12,
+    "charges": 24,
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "sweet_fruit", 12, "LIST" ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "water_clean", 12 ] ]
+    ]
   }
 ]
