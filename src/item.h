@@ -1040,7 +1040,7 @@ class item : public visitable
          * This may return an empty vector.
          * The returned vector does not contain the null id.
          */
-        const std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
+        std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
         /**
         * The ids of all the qualities this contains.
         */

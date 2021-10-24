@@ -7373,11 +7373,11 @@ const std::map<material_id, int> &item::made_of() const
     return type->materials;
 }
 
-const std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) const
+std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) const
 {
     std::vector<const part_material *> matlist;
     const islot_armor *a = find_armor_data();
-    if( a == nullptr || a->data.size() == 0 || !covers( bp ) ) {
+    if( a == nullptr || a->data.empty() || !covers( bp ) ) {
         return matlist;
     }
     for( const armor_portion_data &d : a->data ) {
