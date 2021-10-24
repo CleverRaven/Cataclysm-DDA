@@ -295,7 +295,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
     "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
-    "copy-from": "armguard_scrap",
+    "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE", "NONCONDUCTIVE" ]
   },
