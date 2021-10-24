@@ -6727,6 +6727,9 @@ float item::get_thickness() const
     float thic = 0.0f;
     int thic_count = 0;
     for( const armor_portion_data &data : t->data ) {
+        if( data.materials.empty() ) {
+            continue;
+        }
         thic += data.avg_thickness;
         thic_count++;
     }
