@@ -393,9 +393,9 @@
   {
     "type": "terrain",
     "id": "t_card_science_maintenance_yellow",
-    "name": "Maintenance: ochre zone card reader",
-    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a ochre background.  You could swipe a maintenance employee badge near it to unlock the gates.",
-    "//": "Tier 2 card for a lab.  Medium security access. Reanamed player facing name to ochre.",
+    "name": "Maintenance: ocher zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a ocher background.  You could swipe a maintenance employee badge near it to unlock the gates.",
+    "//": "Tier 2 card for a lab.  Medium security access. Reanamed player facing name to ocher.",
     "symbol": "6",
     "color": "yellow",
     "copy-from": "t_card_science",

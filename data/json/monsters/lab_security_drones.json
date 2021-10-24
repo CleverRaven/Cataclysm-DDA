@@ -70,8 +70,8 @@
   {
     "id": "yellow_maintenance_check",
     "type": "SPELL",
-    "name": { "str": "Ochre Maintenance Badge Trait" },
-    "//": "reanamed player facing name to ochre.",
+    "name": { "str": "ocher Maintenance Badge Trait" },
+    "//": "reanamed player facing name to ocher.",
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
