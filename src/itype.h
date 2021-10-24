@@ -218,6 +218,12 @@ struct islot_brewable {
     void deserialize( const JsonObject &jo );
 };
 
+struct part_material {
+    material_id id = material_id::NULL_ID();
+    int portion = 1;
+    float thickness = 0.0f;
+};
+
 struct armor_portion_data {
 
     // How much this piece encumbers the player.
@@ -233,11 +239,6 @@ struct armor_portion_data {
     int cover_ranged = 0;
     int cover_vitals = 0;
 
-    struct part_material {
-        material_id id = material_id::NULL_ID();
-        int portion = 1;
-        float thickness = 0.0f;
-    };
     // Track individual materials per bodypart
     std::vector<part_material> materials;
     // Total of material portion values for this armour part

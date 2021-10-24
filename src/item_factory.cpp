@@ -1283,6 +1283,11 @@ void Item_factory::check_definitions() const
                         }
                     }
                 }
+                for( const part_material &m : portion.materials ) {
+                    if( m.id.str() == "null" || !m.id.is_valid() ) {
+                        msg += string_format( "invalid material %s defined for armor portion\n", m.id.c_str() );
+                    }
+                }
             }
         }
 
