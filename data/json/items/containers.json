@@ -387,6 +387,51 @@
     "color": "white"
   },
   {
+    "id": "bottle_plastic_pill_prescription",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic prescription bottle" },
+    "looks_like": "antibiotics",
+    "description": "A small orange pill bottle with a white screw top.",
+    "weight": "7 g",
+    "volume": "251 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "bottle_plastic_pill_painkiller",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_pill_prescription",
+    "name": { "str": "plastic painkiller bottle" },
+    "looks_like": "aspirin",
+    "description": "A small white pill bottle with a screw top.",
+    "color": "white"
+  },
+  {
+    "id": "bottle_plastic_pill_supplement",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_pill_prescription",
+    "name": { "str": "plastic suppliment bottle" },
+    "looks_like": "vitamins",
+    "description": "A small green pill bottle with a screw top.",
+    "color": "green"
+  },
+  {
     "id": "bottle_twoliter",
     "type": "GENERIC",
     "category": "container",
@@ -1818,7 +1863,7 @@
     "looks_like": "ifak_pouch",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
-    "volume": "2650 ml",
+    "volume": "2900 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
@@ -1827,7 +1872,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2450 ml",
+        "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
         "moves": 400
