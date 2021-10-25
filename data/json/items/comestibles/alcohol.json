@@ -1428,7 +1428,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_bloody_mary_blood",
-    "name": { "str_sp": "'exalted' bloody mary cocktail" },
+    "name": { "str_sp": "'very' bloody mary cocktail" },
     "weight": "258 g",
     "color": "red",
     "addiction_type": "alcohol",
