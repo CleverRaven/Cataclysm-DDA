@@ -551,7 +551,7 @@
     "type": "profession",
     "name": "Tabletop Gaming",
     "id": "game_mastering",
-    "description": "As the Game Master, you've guided players' journies through dungeons and fortresses.  Now, you're the last member of your party.",
+    "description": "As the Game Master, you've guided players' journeys through dungeons and fortresses.  Now, you're the last member of your party.",
     "points": 2,
     "traits": [ "PROF_DICEMASTER" ],
     "skills": [ { "level": 2, "name": "speech" } ]
