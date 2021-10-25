@@ -32,7 +32,6 @@
         ",###############_______,"
       ],
       "palettes": [ "gun_store_palette" ],
-      "place_monster": [ { "monster": "mon_copbot", "x": 10, "y": 10, "chance": 15 } ],
       "terrain": { "w": "t_pavement", ";": "t_region_groundcover_urban" }
     }
   },

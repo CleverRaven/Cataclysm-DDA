@@ -33,7 +33,7 @@
         ",,WWWWWWWWWWWWWWWW,,,,,,"
       ],
       "palettes": [ "gun_store_palette" ],
-      "place_monster": [ { "monster": "mon_copbot", "x": 10, "y": 8, "chance": 15 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "terrain": { ";": "t_region_groundcover_urban", "w": "t_pavement" }
     }
   },
@@ -199,7 +199,6 @@
       ],
       "palettes": [ "gun_store_palette" ],
       "vendingmachines": { "V": { "item_group": "vending_ammo", "lootable": false } },
-      "place_monster": [ { "monster": "mon_copbot", "x": 10, "y": 10, "chance": 15 } ],
       "terrain": { ";": "t_sidewalk" }
     }
   },
@@ -359,7 +358,6 @@
         ",BWWWWWWWWWWWWWWWWWWW,B."
       ],
       "palettes": [ "gun_store_palette" ],
-      "place_monster": [ { "monster": "mon_copbot", "x": 10, "y": 7, "chance": 15 } ],
       "terrain": { ";": "t_region_groundcover_urban" }
     }
   },
