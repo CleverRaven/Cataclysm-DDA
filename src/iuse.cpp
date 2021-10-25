@@ -8723,13 +8723,16 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const bool solar_pack = initial_state == "solar_pack";
         const bool UPS = initial_state == "UPS";
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
+        bool is_power_cord = it->has_flag( flag_id( "POWER_CORD" ) );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        if( !is_power_cord ) {
+            kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        }
         kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
                         !UPS, -1, _( "Attach loose end to vehicle" ) );
 
-        if( has_bio_cable && loose_ends ) {
+        if( has_bio_cable && loose_ends && !is_power_cord ) {
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );

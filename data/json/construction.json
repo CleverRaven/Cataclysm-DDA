@@ -2810,6 +2810,17 @@
   },
   {
     "type": "construction",
+    "id": "app_fridge",
+    "group": "place_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "constr_pontoon_dp",
     "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",
