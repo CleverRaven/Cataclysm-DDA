@@ -3412,7 +3412,6 @@
     "description": "  It is turned on and continually draining gasoline.  Use it to turn it off.",
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
     "turns_per_charge": 4,
-    "charges_per_use": 1,
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   }
 ]
