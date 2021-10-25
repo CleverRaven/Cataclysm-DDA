@@ -268,6 +268,24 @@ std::vector<string_id<profession>> profession::get_all_hobbies()
     return ret;
 }
 
+std::vector<string_id<profession>> profession::get_all_nonhobbies()
+{
+    std::vector<profession> all = profession::get_all();
+    std::vector<profession_id> ret;
+
+    const auto new_end = std::remove_if( all.begin(),
+    all.end(), [&]( const profession & arg ) {
+        return arg.is_hobby();
+    } );
+    all.erase( new_end, all.end() );
+
+    // convert to string_id's then return
+    for( const profession &p : all ) {
+        ret.emplace( ret.end(), p.ident() );
+    }
+    return ret;
+}
+
 void profession::reset()
 {
     all_profs.reset();

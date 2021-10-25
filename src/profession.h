@@ -89,6 +89,7 @@ class profession
         static const profession *generic(); // points to the generic, default profession
         static const std::vector<profession> &get_all();
         static std::vector<string_id<profession>> get_all_hobbies();
+        static std::vector<string_id<profession>> get_all_nonhobbies();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becomes invalid!
