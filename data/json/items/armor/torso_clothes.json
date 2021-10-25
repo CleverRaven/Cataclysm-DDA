@@ -125,6 +125,13 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "50 g",
+        "max_item_length": "13 cm",
+        "moves": 120
       }
     ],
     "warmth": 5,
