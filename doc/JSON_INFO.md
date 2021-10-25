@@ -625,12 +625,12 @@ For information about tools with option to export ASCII art in format ready to b
 | squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | stat_hp_mods      | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
-| is_limb           | (_optional_) Is this bodypart a limb capable of breaking. (default: `false`)
+| is_limb           | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
 | smash_message     | (_optional_) The message displayed when using that part to smash something.
 | smash_efficiency  | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 # Limb scores
-Limb scores act as the basis of calculating the effect of limb encumberance and damage on the abilities of characters. They are all optional floats.
+Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters. They are all optional floats.
 | manipulator_score    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.
 | manipulator_max      | The upper limit of manipulator score the limb can contribute to.
 | lifting_score        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
