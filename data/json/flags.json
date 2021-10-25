@@ -986,6 +986,10 @@
     "type": "json_flag"
   },
   {
+    "id": "APPLIANCE",
+    "type": "json_flag"
+  },
+  {
     "id": "BIPOD",
     "type": "json_flag"
   },
@@ -1356,6 +1360,10 @@
   },
   {
     "id": "POWERED",
+    "type": "json_flag"
+  },
+  {
+    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {
@@ -1751,5 +1759,10 @@
     "type": "json_flag",
     "info": "This item fits in items that use heavy batteries.",
     "name": "heavy battery"
+  },
+  {
+    "id": "COMBAT_TOGGLEABLE",
+    "type": "json_flag",
+    "info": "This item is meant to be toggled during combat."
   }
 ]

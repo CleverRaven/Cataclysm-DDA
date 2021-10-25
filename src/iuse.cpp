@@ -1935,7 +1935,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
                     //lets say it is a 5% chance per fish to catch
                     if( one_in( 20 ) ) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
+                                    GROUP_FISH, true );
                         const mtype_id &fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
@@ -4283,6 +4283,14 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         return cata::nullopt;
     } else {
         std::string loaded_software = "robot_finds_kitten";
+        // number of nearby friends with gaming devices
+        std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
+            return n.is_player_ally() && p->sees( n ) &&
+                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+            n.has_item_with( [&it]( const item & i ) {
+                return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+            } );
+        } );
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
@@ -4291,9 +4299,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
-        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        if( friends_w_game.empty() ) {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        } else {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play something with friends" ) );
+            as_m.entries.emplace_back( 7, true, '7', _( "Play something alone" ) );
+        }
         as_m.query();
 
+        bool w_friends = false;
         switch( as_m.ret ) {
             case 1:
                 loaded_software = "robot_finds_kitten";
@@ -4312,7 +4326,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
                 break;
             case 6:
                 loaded_software = "null";
+                w_friends = !friends_w_game.empty();
                 break;
+            case 7: {
+                if( friends_w_game.empty() ) {
+                    return cata::nullopt;
+                }
+                loaded_software = "null";
+            }
+            break;
             default:
                 //Cancel
                 return cata::nullopt;
@@ -4320,11 +4342,38 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         //Play in 15-minute chunks
         const int moves = to_moves<int>( 15_minutes );
+        size_t num_friends = w_friends ? friends_w_game.size() : 0;
+        int winner = rng( 0, num_friends );
+        if( winner == 0 ) {
+            winner = get_player_character().getID().get_value();
+        } else {
+            winner = friends_w_game[winner - 1]->getID().get_value();
+        }
+        player_activity game_act( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), num_friends,
+                                  p->get_item_position( it ), w_friends ? "gaming with friends" : "gaming" );
+        game_act.values.emplace_back( winner );
 
-        p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( w_friends ) {
+            std::string it_name = it->type_name( num_friends + 1 );
+            if( num_friends > 1 ) {
+                p->add_msg_if_player( _( "You and your %1$u friends play on your %2$s for a while." ), num_friends,
+                                      it_name );
+            } else {
+                p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
+            }
+            for( npc *n : friends_w_game ) {
+                std::vector<item *> nit = n->items_with( [&it]( const item & i ) {
+                    return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+                } );
+                n->assign_activity( game_act );
+                n->activity.targets.emplace_back( *n, nit.front() );
+                n->activity.position = n->get_item_position( nit.front() );
+            }
+        } else {
+            p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        }
         if( loaded_software == "null" ) {
-            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                p->get_item_position( it ), "gaming" );
+            p->assign_activity( game_act );
             p->activity.targets.emplace_back( *p, it );
             return 0;
         }
@@ -8674,13 +8723,16 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const bool solar_pack = initial_state == "solar_pack";
         const bool UPS = initial_state == "UPS";
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
+        bool is_power_cord = it->has_flag( flag_id( "POWER_CORD" ) );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        if( !is_power_cord ) {
+            kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        }
         kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
                         !UPS, -1, _( "Attach loose end to vehicle" ) );
 
-        if( has_bio_cable && loose_ends ) {
+        if( has_bio_cable && loose_ends && !is_power_cord ) {
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
@@ -9297,7 +9349,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
 cata::optional<int> iuse::break_stick( Character *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

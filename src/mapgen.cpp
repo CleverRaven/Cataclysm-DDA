@@ -3363,8 +3363,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings, c );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings, c );
@@ -4036,8 +4034,6 @@ void map::draw_map( mapgendata &dat )
         if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
             is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
-        } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
-            draw_spider_pit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -5566,29 +5562,6 @@ void map::draw_mine( mapgendata &dat )
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
                         relic_procgen_id( "netherum_tunnels" ) );
-    }
-}
-
-void map::draw_spider_pit( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "spider_pit_under" ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( ( i >= 3 && i <= SEEX * 2 - 4 && j >= 3 && j <= SEEY * 2 - 4 ) ||
-                    one_in( 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                    if( !one_in( 3 ) ) {
-                        add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
-                    }
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-        ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_up );
-        place_items( item_group_id( "spider" ), 85, point_zero, point( EAST_EDGE, SOUTH_EDGE ),
-                     false, calendar::start_of_cataclysm );
     }
 }
 

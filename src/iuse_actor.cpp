@@ -1397,8 +1397,8 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
 // Helper to visit instances of all the sub-materials of an item.
 static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
 {
-    for( const material_id &material : it.made_of() ) {
-        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+    for( const auto &material : it.made_of() ) {
+        if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
             item exemplar( *id );
             func( exemplar );
         }
@@ -1503,7 +1503,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
-    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
+    const std::map<material_id, int> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
     float remaining_weight = 1;
 
@@ -1562,15 +1562,20 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             continue;
         }
         // Discard invalid component
-        if( !temp.made_of_any( std::set<material_id>( cut_material_components.begin(),
-                               cut_material_components.end() ) ) ) {
+        std::set<material_id> mat_set;
+        for( std::pair<material_id, int> mat : cut_material_components ) {
+            mat_set.insert( mat.first );
+        }
+        if( !temp.made_of_any( mat_set ) ) {
             continue;
         }
         //items count by charges should be even smaller than base materials
         if( !temp.is_salvageable() || temp.count_by_charges() ) {
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
             for( const auto &type : temp.made_of() ) {
-                mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                             ( static_cast<float>( type.second ) / mat_total );
             }
             continue;
         }
@@ -1602,11 +1607,13 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         // No crafting recipe available
         if( iter == recipe_dict.end() ) {
             // Check disassemble recipe too
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
             if( un_craft.is_null() ) {
                 // No recipes found, count weight and go next
                 for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                                 ( static_cast<float>( type.second ) / mat_total );
                 }
                 continue;
             }
@@ -1618,7 +1625,8 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             if( weight > temp.weight() ) {
                 // Bad disassemble recipe.  Count weight and go next
                 for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                                 ( static_cast<float>( type.second ) / mat_total );
                 }
                 continue;
             }

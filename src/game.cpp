@@ -1244,6 +1244,24 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
+        if( u.activity.id() == activity_id( "ACT_TRAIN_TEACHER" ) ) {
+            for( npc &n : all_npcs() ) {
+                // Also cancel activities for students
+                for( const int st_id : u.activity.values ) {
+                    if( n.getID().get_value() == st_id ) {
+                        n.cancel_activity();
+                    }
+                }
+            }
+            u.remove_effect( efftype_id( "asked_to_train" ) );
+        } else if( u.activity.id() == activity_id( "ACT_TRAIN" ) ) {
+            for( npc &n : all_npcs() ) {
+                // If the player is the only student, cancel the teacher's activity
+                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
+                    n.cancel_activity();
+                }
+            }
+        }
         u.cancel_activity();
         u.clear_destination();
         u.resume_backlog_activity();
@@ -2091,6 +2109,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
+    ctxt.register_action( "drop" );
     ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
@@ -4748,7 +4767,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            const int glass_portion = it->made_of( material_id( "glass" ) );
+            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
+            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
@@ -6341,7 +6362,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon ) {
+            if( mon && u.sees( *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );

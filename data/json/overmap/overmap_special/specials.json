@@ -1224,10 +1224,13 @@
   {
     "type": "overmap_special",
     "id": "Spider Pit",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "spider_pit" }, { "point": [ 0, 0, -1 ], "overmap": "spider_pit_under" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "spider_pit_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "spider_pit_under_north" }
+    ],
     "locations": [ "forest" ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 100 ],
+    "occurrences": [ 33, 100 ],
     "rotate": false,
     "flags": [ "WILDERNESS", "UNIQUE" ]
   },
@@ -4680,7 +4683,7 @@
       { "point": [ 0, 1, -2 ], "overmap": "microlab_generic_edge" },
       { "point": [ 1, 1, -2 ], "overmap": "microlab_generic" },
       { "point": [ 2, 1, -2 ], "overmap": "microlab_generic" },
-      { "point": [ 3, 1, -2 ], "overmap": "microlab_generic_hallway_end_south" },
+      { "point": [ 3, 1, -2 ], "overmap": "microlab_generic_hallway_end_north" },
       { "point": [ 4, 1, -2 ], "overmap": "microlab_generic" },
       { "point": [ 5, 1, -2 ], "overmap": "microlab_generic_edge" },
       { "point": [ 6, 1, -2 ], "overmap": "microlab_rock_border" },
@@ -4729,7 +4732,7 @@
       { "point": [ 0, 1, -4 ], "overmap": "microlab_generic_edge_room_connector_west" },
       { "point": [ 1, 1, -4 ], "overmap": "microlab_generic" },
       { "point": [ 2, 1, -4 ], "overmap": "microlab_generic" },
-      { "point": [ 3, 1, -4 ], "overmap": "microlab_generic_hallway_end_south" },
+      { "point": [ 3, 1, -4 ], "overmap": "microlab_generic_hallway_end_north" },
       { "point": [ 4, 1, -4 ], "overmap": "microlab_generic" },
       { "point": [ 5, 1, -4 ], "overmap": "microlab_generic_edge" },
       { "point": [ 6, 1, -4 ], "overmap": "microlab_rock_border" },

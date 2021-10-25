@@ -179,43 +179,10 @@ std::string getSystemLanguageOrEnglish()
 void set_language()
 {
     const std::string system_lang = getSystemLanguageOrEnglish();
-    // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
     DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
     TranslationManager::GetInstance().SetLanguage( lang_opt );
-    if( !lang_opt.empty() ) {
-        // Not 'System Language'
-        // Overwrite all system locale settings. Use CDDA settings. User wants this.
-        // LANGUAGE is ignored if LANG is set to C or unset
-        // in this case we need to set LANG to something other than C to activate localization
-        // Reference: https://www.gnu.org/software/gettext/manual/html_node/The-LANGUAGE-variable.html#The-LANGUAGE-variable
-        const char *env_lang = getenv( "LANG" );
-        if( env_lang == nullptr || strcmp( env_lang, "C" ) == 0 ) {
-#if defined(_WIN32)
-            if( _putenv( ( std::string( "LANG=" ) + lang_opt ).c_str() ) != 0 ) {
-#else
-            if( setenv( "LANG", lang_opt.c_str(), true ) != 0 ) {
-#endif
-                DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANG' environment variable";
-            }
-        }
-#if defined(_WIN32)
-        if( _putenv( ( std::string( "LANGUAGE=" ) + lang_opt ).c_str() ) != 0 ) {
-#else
-        if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
-#endif
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
-        } else {
-            const char *env = getenv( "LANGUAGE" );
-            if( env != nullptr ) {
-                DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
-            } else {
-                DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
-            }
-        }
-    }
-
 #if defined(_WIN32)
     // Use the ANSI code page 1252 to work around some language output bugs. (#8665)
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {

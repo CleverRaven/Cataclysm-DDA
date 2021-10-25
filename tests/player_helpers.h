@@ -17,6 +17,8 @@ void clear_avatar();
 void process_activity( Character &dummy );
 
 npc &spawn_npc( const point &, const std::string &npc_class );
+
+void set_single_trait( Character &dummy, const std::string &trait_name );
 void give_and_activate_bionic( Character &, bionic_id const & );
 
 item tool_with_ammo( const std::string &tool, int qty );

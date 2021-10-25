@@ -2743,6 +2743,37 @@ void android_vibrate()
 }
 #endif
 
+#if !defined(__ANDROID__)
+static bool window_focus = false;
+static bool text_input_active_when_regaining_focus = false;
+#endif
+
+void StartTextInput()
+{
+#if defined(__ANDROID__)
+    SDL_StartTextInput();
+#else
+    if( window_focus ) {
+        SDL_StartTextInput();
+    } else {
+        text_input_active_when_regaining_focus = true;
+    }
+#endif
+}
+
+void StopTextInput()
+{
+#if defined(__ANDROID__)
+    SDL_StopTextInput();
+#else
+    if( window_focus ) {
+        SDL_StopTextInput();
+    } else {
+        text_input_active_when_regaining_focus = false;
+    }
+#endif
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 static void CheckMessages()
 {
@@ -2764,7 +2795,7 @@ static void CheckMessages()
 
     // Force text input mode if hardware keyboard is available.
     if( android_is_hardware_keyboard_available() && !SDL_IsTextInputActive() ) {
-        SDL_StartTextInput();
+        StartTextInput();
     }
 
     // Make sure the SDL surface view is visible, otherwise the "Z" loading screen is visible.
@@ -2792,7 +2823,7 @@ static void CheckMessages()
                 !is_string_input( *new_input_context ) &&
                 SDL_IsTextInputActive() &&
                 get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StopTextInput();
+                StopTextInput();
             }
 
             touch_input_context = *new_input_context;
@@ -3082,10 +3113,33 @@ static void CheckMessages()
                         refresh_display();
                         needupdate = true;
                         break;
+#else
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        window_focus = false;
+                        if( SDL_IsTextInputActive() ) {
+                            text_input_active_when_regaining_focus = true;
+                            // Stop text input to not intefere with other programs
+                            SDL_StopTextInput();
+                            // Clear uncommited IME text. TODO: commit IME text instead.
+                            last_input = input_event();
+                            last_input.type = input_event_t::keyboard_char;
+                            last_input.edit.clear();
+                            last_input.edit_refresh = true;
+                            text_refresh = true;
+                        } else {
+                            text_input_active_when_regaining_focus = false;
+                        }
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        window_focus = true;
+                        // Restore text input status
+                        if( text_input_active_when_regaining_focus ) {
+                            SDL_StartTextInput();
+                        }
+                        break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
                     case SDL_WINDOWEVENT_MINIMIZED:
-                    case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
                         need_redraw = true;
@@ -3095,8 +3149,8 @@ static void CheckMessages()
 #if defined(__ANDROID__)
                         needs_sdl_surface_visibility_refresh = true;
                         if( android_is_hardware_keyboard_available() ) {
-                            SDL_StopTextInput();
-                            SDL_StartTextInput();
+                            StopTextInput();
+                            StartTextInput();
                         }
 #endif
                         break;
@@ -3145,7 +3199,7 @@ static void CheckMessages()
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
 
                                 // add a quick shortcut
@@ -3157,7 +3211,7 @@ static void CheckMessages()
                                 }
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
                             }
                         }
@@ -3175,9 +3229,9 @@ static void CheckMessages()
                     if( ticks - ac_back_down_time <= static_cast<uint32_t>
                         ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                         if( SDL_IsTextInputActive() ) {
-                            SDL_StopTextInput();
+                            StopTextInput();
                         } else {
-                            SDL_StartTextInput();
+                            StartTextInput();
                         }
                     }
                     ac_back_down_time = 0;
@@ -3212,7 +3266,7 @@ static void CheckMessages()
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
 
                                 quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
@@ -3222,7 +3276,7 @@ static void CheckMessages()
                                 refresh_display();
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
                             }
                         }
@@ -3748,9 +3802,9 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 #if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
-        SDL_StartTextInput();
+        StartTextInput();
     } else {
-        SDL_StopTextInput();
+        StopTextInput();
     }
 #else
     // TODO: support keycode mode if hardware keyboard is connected?

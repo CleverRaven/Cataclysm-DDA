@@ -295,6 +295,36 @@
   },
   {
     "type": "snippet",
+    "category": "cooked_bug_organs_desc",
+    "text": [
+      {
+        "id": "cooked_bug_organs_1",
+        "text": "Some disturbing hairs have been burned off during cooking, but you still have difficulty convincing yourself to eat them."
+      },
+      {
+        "id": "cooked_bug_organs_2",
+        "text": "You have cooked a pile of *things* that used to be green, and it still looks green under the light.  You think your face will turn that color after eating them."
+      },
+      {
+        "id": "cooked_bug_organs_3",
+        "text": "It's cooked.  You can force yourself to believe that the cordlike tissue inside is noodles with ketchup and Italian spices."
+      },
+      {
+        "id": "cooked_bug_organs_4",
+        "text": "After you cooked it, you tore this long thing into small pieces.  Maybe this can prevent it from reviving in your intestines."
+      },
+      {
+        "id": "cooked_bug_organs_5",
+        "text": "You're glad it didn't break your kitchen utensils.  Now you hope it won't damage your digestive system."
+      },
+      {
+        "id": "cooked_bug_organs_6",
+        "text": "Looking at this pile of biological tissues with strange smell, you don't know what kind of organs they belong to in medicine.  Of course, you're pretty sure they're not boiled tomatoes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "mutant_bug_lung_desc",
     "text": [
       {

@@ -117,6 +117,7 @@
     "description": "The Spec Ops Enhanced Movement vest is embedded with high-tech filaments, reactive servos and a generator which pumps a crystallized liquid that protects its wearer from most heavy combat situations at the cost of extreme power usage.  It is commonly worn by C.R.I.T Spec Ops.  This vest is currently in suit form and draining your UPS power at high rates.",
     "color": "light_green",
     "warmth": 100,
+    "material": [ "kevlar", "superalloy" ],
     "material_thickness": 7,
     "environmental_protection": 16,
     "turns_per_charge": 1,

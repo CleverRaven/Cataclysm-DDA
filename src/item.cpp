@@ -1540,7 +1540,7 @@ static int get_base_env_resist( const item &it )
         }
     }
 
-    return t->env_resist * it.get_relative_health();
+    return t->avg_env_resist() * it.get_relative_health();
 }
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
@@ -6524,7 +6524,7 @@ int item::get_env_resist( int override_base_resist ) const
         return is_pet_armor() ? type->pet_armor->env_resist : 0;
     }
     // modify if item is a gas mask and has filter
-    int resist_base = t->env_resist;
+    int resist_base = t->avg_env_resist();
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
@@ -6537,7 +6537,7 @@ int item::get_base_env_resist_w_filter() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->env_resist_w_filter : 0;
     }
-    return t->env_resist_w_filter;
+    return t->avg_env_resist_w_filter();
 }
 
 bool item::is_power_armor() const
@@ -6813,7 +6813,7 @@ float item::get_thickness() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
     }
-    return t->thickness;
+    return t->avg_thickness();
 }
 
 int item::get_warmth() const
@@ -6957,13 +6957,14 @@ float item::bash_resist( bool to_self ) const
     const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const float eff_thickness = std::max( 0.1f, get_thickness() - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->bash_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->bash_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     return ( resist * eff_thickness ) + mod;
@@ -6985,13 +6986,14 @@ float item::cut_resist( bool to_self ) const
     const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->cut_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->cut_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     return ( resist * eff_thickness ) + mod;
@@ -7023,13 +7025,14 @@ float item::bullet_resist( bool to_self ) const
     const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->bullet_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->bullet_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     return ( resist * eff_thickness ) + mod;
@@ -7048,16 +7051,16 @@ float item::acid_resist( bool to_self, int base_env_resist ) const
         return 0.0f;
     }
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
         // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
         // but such is the way of the code.
-
-        for( const material_type *mat : mat_types ) {
-            resist += mat->acid_resist();
+        for( const auto &m : mats ) {
+            resist += m.first->acid_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     const int env = get_env_resist( base_env_resist );
@@ -7082,13 +7085,14 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
         return 0.0f;
     }
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->fire_resist();
+    const std::map<material_id, int> mats = made_of();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->fire_resist() * m.second;
         }
-        // Average based on number of materials.
-        resist /= mat_types.size();
+        // Average based portion of materials
+        resist /= total;
     }
 
     const int env = get_env_resist( base_env_resist );
@@ -7103,8 +7107,9 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
 int item::chip_resistance( bool worst ) const
 {
     int res = worst ? INT_MAX : INT_MIN;
-    for( const material_type *mat : made_of_types() ) {
-        const int val = mat->chip_resist();
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    for( const std::pair<material_id, int> mat : made_of() ) {
+        const int val = ( mat.first->chip_resist() * mat.second ) / total;
         res = worst ? std::min( res, val ) : std::max( res, val );
     }
 
@@ -7321,7 +7326,7 @@ bool item::is_two_handed( const Character &guy ) const
     return ( ( weight() / 113_gram ) > guy.str_cur * 4 );
 }
 
-const std::vector<material_id> &item::made_of() const
+const std::map<material_id, int> &item::made_of() const
 {
     if( is_corpse() ) {
         return corpse->mat;
@@ -7337,40 +7342,52 @@ const std::map<quality_id, int> &item::quality_of() const
 std::vector<const material_type *> item::made_of_types() const
 {
     std::vector<const material_type *> material_types_composed_of;
-    for( const material_id &mat_id : made_of() ) {
-        material_types_composed_of.push_back( &mat_id.obj() );
+    if( is_corpse() ) {
+        for( const auto &mat_id : made_of() ) {
+            material_types_composed_of.push_back( &mat_id.first.obj() );
+        }
+    } else {
+        for( const material_id &mat_id : type->mats_ordered ) {
+            material_types_composed_of.push_back( &mat_id.obj() );
+        }
     }
     return material_types_composed_of;
 }
 
 bool item::made_of_any( const std::set<material_id> &mat_idents ) const
 {
-    const std::vector<material_id> &mats = made_of();
+    const std::map<material_id, int> &mats = made_of();
     if( mats.empty() ) {
         return false;
     }
 
-    return std::any_of( mats.begin(), mats.end(), [&mat_idents]( const material_id & e ) {
-        return mat_idents.count( e );
+    return std::any_of( mats.begin(),
+    mats.end(), [&mat_idents]( const std::pair<material_id, int> &e ) {
+        return mat_idents.count( e.first );
     } );
 }
 
 bool item::only_made_of( const std::set<material_id> &mat_idents ) const
 {
-    const std::vector<material_id> &mats = made_of();
+    const std::map<material_id, int> &mats = made_of();
     if( mats.empty() ) {
         return false;
     }
 
-    return std::all_of( mats.begin(), mats.end(), [&mat_idents]( const material_id & e ) {
-        return mat_idents.count( e );
+    return std::all_of( mats.begin(),
+    mats.end(), [&mat_idents]( const std::pair<material_id, int> &e ) {
+        return mat_idents.count( e.first );
     } );
 }
 
-bool item::made_of( const material_id &mat_ident ) const
+int item::made_of( const material_id &mat_ident ) const
 {
-    const std::vector<material_id> &materials = made_of();
-    return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
+    const std::map<material_id, int> &materials = made_of();
+    auto mat = materials.find( mat_ident );
+    if( mat == materials.end() ) {
+        return 0;
+    }
+    return mat->second;
 }
 
 bool item::made_of( phase_id phase ) const
@@ -8008,9 +8025,9 @@ bool item::is_salvageable() const
     if( is_null() ) {
         return false;
     }
-    const std::vector<material_id> &mats = made_of();
-    if( std::none_of( mats.begin(), mats.end(), [this]( const material_id & m ) {
-    return m->salvaged_into().has_value() && m->salvaged_into().value() != type->get_id();
+    const std::map<material_id, int> &mats = made_of();
+    if( std::none_of( mats.begin(), mats.end(), [this]( const std::pair<material_id, int> &m ) {
+    return m.first->salvaged_into().has_value() && m.first->salvaged_into().value() != type->get_id();
     } ) ) {
         return false;
     }
@@ -8294,13 +8311,31 @@ bool item::eipc_recipe_add( const recipe_id &recipe_id )
 
 const material_type &item::get_random_material() const
 {
-    return random_entry( made_of(), material_id::NULL_ID() ).obj();
+    std::vector<material_id> matlist;
+    const std::map<material_id, int> &mats = made_of();
+    matlist.reserve( mats.size() );
+    for( auto mat : mats ) {
+        matlist.emplace_back( mat.first );
+    }
+    return *random_entry( matlist, material_id::NULL_ID() );
 }
 
 const material_type &item::get_base_material() const
 {
-    const std::vector<material_id> &mats = made_of();
-    return mats.empty() ? material_id::NULL_ID().obj() : mats.front().obj();
+    const std::map<material_id, int> &mats = made_of();
+    const material_type *m = &material_id::NULL_ID().obj();
+    int portion = 0;
+    for( const std::pair<material_id, int> mat : mats ) {
+        if( mat.second > portion ) {
+            portion = mat.second;
+            m = &mat.first.obj();
+        }
+    }
+    // Material portions all equal / not specified. Select first material.
+    if( portion == 1 ) {
+        return *type->mats_ordered[0];
+    }
+    return *m;
 }
 
 bool item::operator<( const item &other ) const
@@ -9383,14 +9418,14 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
 float item::simulate_burn( fire_data &frd ) const
 {
-    const std::vector<material_id> &mats = made_of();
+    const std::map<material_id, int> &mats = made_of();
     float smoke_added = 0.0f;
     float time_added = 0.0f;
     float burn_added = 0.0f;
     const units::volume vol = base_volume();
     const int effective_intensity = frd.contained ? 3 : frd.fire_intensity;
-    for( const material_id &m : mats ) {
-        const mat_burn_data &bd = m.obj().burn_data( effective_intensity );
+    for( const auto &m : mats ) {
+        const mat_burn_data &bd = m.first->burn_data( effective_intensity );
         if( bd.immune ) {
             // Made to protect from fire
             return 0.0f;
@@ -9398,25 +9433,26 @@ float item::simulate_burn( fire_data &frd ) const
 
         // If fire is contained, burn rate is independent of volume
         if( frd.contained || bd.volume_per_turn == 0_ml ) {
-            time_added += bd.fuel;
-            smoke_added += bd.smoke;
-            burn_added += bd.burn;
+            time_added += bd.fuel * m.second;
+            smoke_added += bd.smoke * m.second;
+            burn_added += bd.burn * m.second;
         } else {
             double volume_burn_rate = to_liter( bd.volume_per_turn ) / to_liter( vol );
-            time_added += bd.fuel * volume_burn_rate;
-            smoke_added += bd.smoke * volume_burn_rate;
-            burn_added += bd.burn * volume_burn_rate;
+            time_added += bd.fuel * volume_burn_rate * m.second;
+            smoke_added += bd.smoke * volume_burn_rate * m.second;
+            burn_added += bd.burn * volume_burn_rate * m.second;
         }
     }
+    const int mat_total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
 
     // Liquids that don't burn well smother fire well instead
     if( made_of( phase_id::LIQUID ) && time_added < 200 ) {
         time_added -= rng( 400.0 * to_liter( vol ), 1200.0 * to_liter( vol ) );
     } else if( mats.size() > 1 ) {
         // Average the materials
-        time_added /= mats.size();
-        smoke_added /= mats.size();
-        burn_added /= mats.size();
+        time_added /= mat_total;
+        smoke_added /= mat_total;
+        burn_added /= mat_total;
     } else if( mats.empty() ) {
         // Non-liquid items with no specified materials will burn at moderate speed
         burn_added = 1;
@@ -9477,7 +9513,7 @@ bool item::burn( fire_data &frd )
 
 bool item::flammable( int threshold ) const
 {
-    const std::vector<const material_type *> &mats = made_of_types();
+    const std::map<material_id, int> &mats = made_of();
     if( mats.empty() ) {
         // Don't know how to burn down something made of nothing.
         return false;
@@ -9485,22 +9521,24 @@ bool item::flammable( int threshold ) const
 
     int flammability = 0;
     units::volume volume_per_turn = 0_ml;
-    for( const material_type *m : mats ) {
-        const mat_burn_data &bd = m->burn_data( 1 );
+    for( const std::pair<material_id, int> m : mats ) {
+        const mat_burn_data &bd = m.first->burn_data( 1 );
         if( bd.immune ) {
             // Made to protect from fire
             return false;
         }
 
-        flammability += bd.fuel;
-        volume_per_turn += bd.volume_per_turn;
+        flammability += bd.fuel * m.second;
+        volume_per_turn += bd.volume_per_turn * m.second;
     }
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    flammability /= total;
+    volume_per_turn /= total;
 
     if( threshold == 0 || flammability <= 0 ) {
         return flammability > 0;
     }
 
-    volume_per_turn /= mats.size();
     units::volume vol = base_volume();
     if( volume_per_turn > 0_ml && volume_per_turn < vol ) {
         flammability = flammability * volume_per_turn / vol;
@@ -9876,22 +9914,17 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
-                if( ( e->is_magazine() || e->magazine_current() != nullptr )
-                    && e->ammo_current() != itype_id::NULL_ID() ) {
-                    int n = std::min( e->ammo_remaining(), qty );
-                    qty -= n;
+                int n;
+                if( carrier ) {
+                    n = e->ammo_consume( qty, pos, carrier );
+                } else {
+                    n = e->ammo_consume( qty, pos, nullptr );
+                }
+
+                if( n > 0 ) {
                     item temp( *e );
-                    temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
-                    e->ammo_consume( n, pos, nullptr );
-                } else if( carrier && e->has_flag( flag_USES_BIONIC_POWER ) ) {
-                    // TODO: Generalize previous block to avoid code duplication?
-                    int n = std::min( e->ammo_remaining( carrier ), qty );
                     qty -= n;
-                    item temp( *e );
-                    temp.ammo_set( e->ammo_current(), n );
-                    used.push_back( temp );
-                    e->ammo_consume( n, pos, carrier );
                 }
             }
             return VisitResponse::SKIP;
@@ -11249,9 +11282,9 @@ bool item::is_soft() const
         return false;
     }
 
-    const std::vector<material_id> mats = made_of();
-    return std::all_of( mats.begin(), mats.end(), []( const material_id & mid ) {
-        return mid.obj().soft();
+    const std::map<material_id, int> mats = made_of();
+    return std::all_of( mats.begin(), mats.end(), []( const std::pair<material_id, int> &mid ) {
+        return mid.first->soft();
     } );
 }
 

@@ -2095,10 +2095,16 @@
   },
   {
     "type": "keybinding",
+    "name": "Drop Item",
+    "category": "DEFAULTMODE",
+    "id": "drop",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Unload container",
     "category": "DEFAULTMODE",
-    "id": "unload_container",
-    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+    "id": "unload_container"
   },
   {
     "type": "keybinding",
