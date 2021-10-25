@@ -943,16 +943,23 @@
   },
   {
     "type": "technique",
-    "id": "tec_leopard_counter",
-    "name": "Leopard Foresight",
-    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "id": "tec_leopard_claw",
+    "name": "Leopard Swipe",
+    "messages": [ "You savagely claw at %s", "<npcname> savagely claws at %s" ],
     "unarmed_allowed": true,
-    "crit_ok": true,
-    "dodge_counter": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
+    "crit_tec": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_pounce",
+    "name": "Leopard Pounce",
+    "messages": [ "You leap and pounce on %s", "<npcname> leaps and pounces on %s" ],
+    "unarmed_allowed": true,
+    "required_buffs_all": [ "buff_leopard_oncrit" ],
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",
@@ -1038,7 +1045,7 @@
   {
     "type": "technique",
     "id": "tec_ninjutsu_swift",
-    "name": "Swift Strike",
+    "name": "Swift Strike (normal)",
     "messages": [ "You swiftly strike %s", "<npcname> swiftly strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "unarmed_allowed": true,
@@ -1047,18 +1054,30 @@
   },
   {
     "type": "technique",
+    "id": "tec_ninjutsu_swift_crit",
+    "name": "Swift Strike (crit)",
+    "messages": [ "You swiftly strike %s", "<npcname> swiftly strikes %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "required_buffs_all": [ "buff_ninjutsu_onattack" ],
+    "crit_tec": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+  },
+  {
+    "type": "technique",
     "id": "tec_ninjutsu_precise",
     "name": "Assassinate",
     "messages": [ "You attempt to slay %s in a single stroke", "<npcname> attempts to slay %s in a single stroke" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
-    "unarmed_allowed": true,
     "melee_allowed": true,
+    "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
     "crit_tec": true,
     "stun_dur": 1,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.5 },
-      { "stat": "damage", "type": "cut", "scale": 1.5 },
-      { "stat": "damage", "type": "stab", "scale": 1.5 }
+      { "stat": "damage", "type": "bash", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "damage", "type": "stab", "scale": 1.3 }
     ]
   },
   {
@@ -1068,6 +1087,7 @@
     "messages": [ "You quickly grab and bring %s to the ground", "<npcname> quickly grabs and brings attacks %s to the ground" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
+    "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
     "crit_tec": true,
     "down_dur": 2,
     "stun_dur": 2,

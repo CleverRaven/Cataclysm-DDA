@@ -456,7 +456,7 @@
     "name": { "str": "hotplate" },
     "description": "This is a small heating element on a stand, powered by batteries.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
     "weight": "795 g",
-    "volume": "5 L",
+    "volume": "2 L",
     "longest_side": "35 cm",
     "price": 2500,
     "price_postapoc": 250,

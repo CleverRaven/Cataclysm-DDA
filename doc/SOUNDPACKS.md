@@ -33,12 +33,13 @@ Sound effects can be included with a format like this:
     "id": "fire_gun",
     "volume": 90,
     "variant": "bio_laser_gun",
+    "season": "summer",
     "files": [ "guns/energy_generic/weapon_fire_laser.ogg" ]
   }
 ]
 ```
 
-Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played.
+Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played. An optional `season` may also be defined to only play that sound during the specified season (possible values are `spring`, `summer`, `autumn`, and `winter`).
 
 The volume key may range from 0-100.
 
@@ -52,7 +53,10 @@ Sound effects can be included for preloading with a format like this:
 [
   {
     "type": "sound_effect_preload",
-    "preload": [ { "id": "environment", "variant": "daytime" }, { "id": "environment" } ]
+    "preload": [
+      { "id": "environment", "variant": "daytime", "season": "spring" },
+      { "id": "environment" }
+    ]
   }
 ]
 ```
@@ -76,7 +80,7 @@ A playlist can be included with a format like this:
 ]
 ```
 
-Each sound effect is identified by an id and a variant. If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
+Each sound effect is identified by an id, a variant, and a season. If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
 
 ## JSON Format Sound Effects List
 

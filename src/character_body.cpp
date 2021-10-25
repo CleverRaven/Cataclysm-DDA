@@ -217,6 +217,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
 
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
+        as_avatar()->update_cardio_acc();
         as_avatar()->advance_daily_calories();
     }
 

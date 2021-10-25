@@ -2,437 +2,402 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_ZOMBIE",
-    "default": "mon_zarasaurolophus",
     "monsters": [
-      { "monster": "mon_zilophosaurus", "freq": 10, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zeratosaurus", "freq": 10, "cost_multiplier": 60, "starts": 72 },
-      { "monster": "mon_zpinosaurus", "freq": 10, "cost_multiplier": 90, "starts": 144 },
-      { "monster": "mon_zallosaurus", "freq": 80, "cost_multiplier": 60, "starts": 144 },
-      { "monster": "mon_zacrocanthosaurus", "freq": 80, "cost_multiplier": 60, "starts": 144 },
-      { "monster": "mon_ziats", "freq": 80, "cost_multiplier": 60, "starts": 144 },
-      { "monster": "mon_zorgosaurus", "freq": 40, "cost_multiplier": 70, "starts": 72 },
-      { "monster": "mon_zalbertosaurus", "freq": 40, "cost_multiplier": 70, "starts": 72 },
-      { "monster": "mon_zianzhousaurus", "freq": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_zyrannosaurus", "freq": 80, "cost_multiplier": 80, "starts": 144 },
-      { "monster": "mon_zallimimus", "freq": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zothronychus", "freq": 30, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zeinonychus", "freq": 30, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zutahraptor", "freq": 50, "cost_multiplier": 60, "starts": 144 },
-      { "monster": "mon_zamargasaurus", "freq": 5, "cost_multiplier": 72, "starts": 72, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_zapatosaurus", "freq": 50, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zrontosaurus", "freq": 50, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ziplodocus", "freq": 100, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zamarasaurus", "freq": 200, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zrachiosaurus", "freq": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zalamosaurus", "freq": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ztegosaurus", "freq": 50, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zyoplosaurus", "freq": 50, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zankylosaurus", "freq": 50, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zodosaurus", "freq": 50, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zedmontonia", "freq": 50, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zamptosaurus", "freq": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zaiasaura", "freq": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zarasaurolophus", "freq": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zorythosaurus", "freq": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zedmontosaurus", "freq": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zachycephalosaurus", "freq": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zachyrhinosaurus", "freq": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zentaceratops", "freq": 10, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zosmoceratops", "freq": 3, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 9 ] },
-      { "monster": "mon_zorosaurus", "freq": 10, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zriceratops", "freq": 30, "cost_multiplier": 60, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zteranodon", "freq": 50, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zilophosaurus", "weight": 10, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zeratosaurus", "weight": 10, "cost_multiplier": 60, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "weight": 10, "cost_multiplier": 90, "starts": 144 },
+      { "monster": "mon_zallosaurus", "weight": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zacrocanthosaurus", "weight": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_ziats", "weight": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zorgosaurus", "weight": 40, "cost_multiplier": 70, "starts": 72 },
+      { "monster": "mon_zalbertosaurus", "weight": 40, "cost_multiplier": 70, "starts": 72 },
+      { "monster": "mon_zianzhousaurus", "weight": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_zyrannosaurus", "weight": 80, "cost_multiplier": 80, "starts": 144 },
+      { "monster": "mon_zallimimus", "weight": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "weight": 30, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zeinonychus", "weight": 30, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zutahraptor", "weight": 50, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zamargasaurus", "weight": 5, "cost_multiplier": 72, "starts": 72, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_zapatosaurus", "weight": 50, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zrontosaurus", "weight": 50, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ziplodocus", "weight": 100, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zamarasaurus", "weight": 200, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zrachiosaurus", "weight": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zalamosaurus", "weight": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ztegosaurus", "weight": 50, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zyoplosaurus", "weight": 50, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zankylosaurus", "weight": 50, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zodosaurus", "weight": 50, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zedmontonia", "weight": 50, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zamptosaurus", "weight": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zaiasaura", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zarasaurolophus", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zorythosaurus", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zedmontosaurus", "weight": 200, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_zachycephalosaurus",
+        "weight": 200,
+        "cost_multiplier": 10,
+        "starts": 72,
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_zachyrhinosaurus", "weight": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zentaceratops", "weight": 10, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zosmoceratops", "weight": 3, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 9 ] },
+      { "monster": "mon_zorosaurus", "weight": 10, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zriceratops", "weight": 30, "cost_multiplier": 60, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zteranodon", "weight": 50, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zilophosaurus_UPGRADE",
-    "default": "mon_silophosaurus",
     "monsters": [
-      { "monster": "mon_silophosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zilophosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_silophosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zilophosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zeratosaurus_UPGRADE",
-    "default": "mon_seratosaurus",
     "monsters": [
-      { "monster": "mon_seratosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zeratosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zeratosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_seratosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zeratosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zeratosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zpinosaurus_UPGRADE",
-    "default": "mon_skinosaurus",
     "monsters": [
-      { "monster": "mon_skinosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zpinosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zpinosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_skinosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zpinosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zpinosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zallosaurus_UPGRADE",
-    "default": "mon_sallosaurus",
     "monsters": [
-      { "monster": "mon_sallosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zallosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zallosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_sallosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zallosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zallosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zacrocanthosaurus_UPGRADE",
-    "default": "mon_sacrocanthosaurus",
     "monsters": [
-      { "monster": "mon_sacrocanthosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zacrocanthosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sacrocanthosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zacrocanthosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ziats_UPGRADE",
-    "default": "mon_skiats",
     "monsters": [
-      { "monster": "mon_skiats", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_ziats_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_skiats", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_ziats_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zorgosaurus_UPGRADE",
-    "default": "mon_sorgosaurus",
     "monsters": [
-      { "monster": "mon_sorgosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zorgosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zorgosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_sorgosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zorgosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zorgosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zalbertosaurus_UPGRADE",
-    "default": "mon_salbertosaurus",
     "monsters": [
-      { "monster": "mon_salbertosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zalbertosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zalbertosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_salbertosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zalbertosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zalbertosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zianzhousaurus_UPGRADE",
-    "default": "mon_sianzhousaurus",
     "monsters": [
-      { "monster": "mon_sianzhousaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zianzhousaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sianzhousaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zianzhousaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_UPGRADE",
-    "default": "mon_syrannosaurus",
     "monsters": [
-      { "monster": "mon_syrannosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zyrannosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zyrannosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_syrannosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zyrannosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zyrannosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zallimimus_UPGRADE",
-    "default": "mon_sallimimus",
     "monsters": [
-      { "monster": "mon_sallimimus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zallimimus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sallimimus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zallimimus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zothronychus_UPGRADE",
-    "default": "mon_sothronychus",
     "monsters": [
-      { "monster": "mon_sothronychus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zothronychus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zothronychus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_sothronychus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zothronychus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zothronychus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zeinonychus_UPGRADE",
-    "default": "mon_seinonychus",
     "monsters": [
-      { "monster": "mon_seinonychus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zeinonychus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zeinonychus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_seinonychus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zeinonychus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zeinonychus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zutahraptor_UPGRADE",
-    "default": "mon_sutahraptor",
     "monsters": [
-      { "monster": "mon_sutahraptor", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zutahraptor_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zutahraptor_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_sutahraptor", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zutahraptor_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zutahraptor_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zamargasaurus_UPGRADE",
-    "default": "mon_samargasaurus",
     "monsters": [
-      { "monster": "mon_samargasaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zamargasaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_samargasaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zamargasaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zapatosaurus_UPGRADE",
-    "default": "mon_sapatosaurus",
     "monsters": [
-      { "monster": "mon_sapatosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zapatosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sapatosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zapatosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zrontosaurus_UPGRADE",
-    "default": "mon_srontosaurus",
     "monsters": [
-      { "monster": "mon_srontosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zrontosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_srontosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zrontosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ziplodocus_UPGRADE",
-    "default": "mon_siplodocus",
     "monsters": [
-      { "monster": "mon_siplodocus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_ziplodocus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_siplodocus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_ziplodocus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zamarasaurus_UPGRADE",
-    "default": "mon_samarasaurus",
     "monsters": [
-      { "monster": "mon_samarasaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zamarasaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_samarasaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zamarasaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zrachiosaurus_UPGRADE",
-    "default": "mon_srachiosaurus",
     "monsters": [
-      { "monster": "mon_srachiosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zrachiosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_srachiosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zrachiosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zalamosaurus_UPGRADE",
-    "default": "mon_salamosaurus",
     "monsters": [
-      { "monster": "mon_salamosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zalamosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_salamosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zalamosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ztegosaurus_UPGRADE",
-    "default": "mon_sktegosaurus",
     "monsters": [
-      { "monster": "mon_sktegosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_ztegosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sktegosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_ztegosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zyoplosaurus_UPGRADE",
-    "default": "mon_syoplosaurus",
     "monsters": [
-      { "monster": "mon_syoplosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zyoplosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_syoplosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zyoplosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zankylosaurus_UPGRADE",
-    "default": "mon_sankylosaurus",
     "monsters": [
-      { "monster": "mon_sankylosaurus", "freq": 400, "cost_multiplier": 5 },
-      { "monster": "mon_zankylosaurus_shady", "freq": 300, "cost_multiplier": 5 },
-      { "monster": "mon_zankylosaurus_brute", "freq": 300, "cost_multiplier": 5 }
+      { "monster": "mon_sankylosaurus", "weight": 400, "cost_multiplier": 5 },
+      { "monster": "mon_zankylosaurus_shady", "weight": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zankylosaurus_brute", "weight": 300, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zodosaurus_UPGRADE",
-    "default": "mon_sodosaurus",
     "monsters": [
-      { "monster": "mon_sodosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zodosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sodosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zodosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zedmontonia_UPGRADE",
-    "default": "mon_sedmontonia",
     "monsters": [
-      { "monster": "mon_sedmontonia", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zedmontonia_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sedmontonia", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zedmontonia_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zamptosaurus_UPGRADE",
-    "default": "mon_samptosaurus",
     "monsters": [
-      { "monster": "mon_samptosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zamptosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_samptosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zamptosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zaiasaura_UPGRADE",
-    "default": "mon_saiasaura",
     "monsters": [
-      { "monster": "mon_saiasaura", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zaiasaura_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_saiasaura", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zaiasaura_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zarasaurolophus_UPGRADE",
-    "default": "mon_sarasaurolophus",
     "monsters": [
-      { "monster": "mon_sarasaurolophus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zarasaurolophus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sarasaurolophus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zarasaurolophus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zorythosaurus_UPGRADE",
-    "default": "mon_sorythosaurus",
     "monsters": [
-      { "monster": "mon_sorythosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zorythosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sorythosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zorythosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zedmontosaurus_UPGRADE",
-    "default": "mon_sedmontosaurus",
     "monsters": [
-      { "monster": "mon_sedmontosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zedmontosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sedmontosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zedmontosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zachycephalosaurus_UPGRADE",
-    "default": "mon_sachycephalosaurus",
     "monsters": [
-      { "monster": "mon_sachycephalosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zachycephalosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sachycephalosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zachycephalosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zachyrhinosaurus_UPGRADE",
-    "default": "mon_sachyrhinosaurus",
     "monsters": [
-      { "monster": "mon_sachyrhinosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zachyrhinosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sachyrhinosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zachyrhinosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zentaceratops_UPGRADE",
-    "default": "mon_sentaceratops",
     "monsters": [
-      { "monster": "mon_sentaceratops", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zentaceratops_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sentaceratops", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zentaceratops_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zosmoceratops_UPGRADE",
-    "default": "mon_sosmoceratops",
     "monsters": [
-      { "monster": "mon_sosmoceratops", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zosmoceratops_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sosmoceratops", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zosmoceratops_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zorosaurus_UPGRADE",
-    "default": "mon_sorosaurus",
     "monsters": [
-      { "monster": "mon_sorosaurus", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zorosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sorosaurus", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zorosaurus_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zriceratops_UPGRADE",
-    "default": "mon_sriceratops",
     "monsters": [
-      { "monster": "mon_sriceratops", "freq": 600, "cost_multiplier": 5 },
-      { "monster": "mon_zriceratops_brute", "freq": 400, "cost_multiplier": 5 }
+      { "monster": "mon_sriceratops", "weight": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zriceratops_brute", "weight": 400, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_BRUTE",
-    "default": "mon_zyrannosaurus_hulk",
     "monsters": [
-      { "monster": "mon_zyrannosaurus_hulk", "freq": 600, "cost_multiplier": 10 },
-      { "monster": "mon_zyrannosaurus_truck", "freq": 400, "cost_multiplier": 10 }
+      { "monster": "mon_zyrannosaurus_hulk", "weight": 600, "cost_multiplier": 10 },
+      { "monster": "mon_zyrannosaurus_truck", "weight": 400, "cost_multiplier": 10 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zankylosaurus_BRUTE",
-    "default": "mon_zankylosaurus_hulk",
     "monsters": [
-      { "monster": "mon_zankylosaurus_hulk", "freq": 600, "cost_multiplier": 10 },
-      { "monster": "mon_zankylosaurus_tank", "freq": 400, "cost_multiplier": 10 }
+      { "monster": "mon_zankylosaurus_hulk", "weight": 600, "cost_multiplier": 10 },
+      { "monster": "mon_zankylosaurus_tank", "weight": 400, "cost_multiplier": 10 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
-    "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 20, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 60, "starts": 72 },
-      { "monster": "mon_zallosaurus", "freq": 1, "cost_multiplier": 60, "starts": 144 },
-      { "monster": "mon_zorgosaurus", "freq": 1, "cost_multiplier": 70, "starts": 72 },
-      { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 70, "starts": 72 },
-      { "monster": "mon_zallimimus", "freq": 1, "cost_multiplier": 10, "starts": 72 },
-      { "monster": "mon_zeinonychus", "freq": 1, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "freq": 1, "cost_multiplier": 60, "starts": 144 },
-      { "monster": "mon_zyoplosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zankylosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zodosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
-      { "monster": "mon_zedmontonia", "freq": 1, "cost_multiplier": 40, "starts": 72 }
+      { "monster": "mon_zombie", "weight": 988 },
+      { "monster": "mon_zilophosaurus", "weight": 1, "cost_multiplier": 20, "starts": 72 },
+      { "monster": "mon_zeratosaurus", "weight": 1, "cost_multiplier": 60, "starts": 72 },
+      { "monster": "mon_zallosaurus", "weight": 1, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zorgosaurus", "weight": 1, "cost_multiplier": 70, "starts": 72 },
+      { "monster": "mon_zalbertosaurus", "weight": 1, "cost_multiplier": 70, "starts": 72 },
+      { "monster": "mon_zallimimus", "weight": 1, "cost_multiplier": 10, "starts": 72 },
+      { "monster": "mon_zeinonychus", "weight": 1, "cost_multiplier": 30, "starts": 72 },
+      { "monster": "mon_zutahraptor", "weight": 1, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zyoplosaurus", "weight": 1, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zankylosaurus", "weight": 1, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zodosaurus", "weight": 1, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zedmontonia", "weight": 1, "cost_multiplier": 40, "starts": 72 }
     ]
   },
   {
     "name": "GROUP_ROOF_ZOMBIE",
     "type": "monstergroup",
-    "default": "mon_zteranodon",
     "monsters": [
-      { "monster": "mon_zteranodon", "freq": 20, "cost_multiplier": 10, "starts": 72, "pack_size": [ 4, 6 ] },
-      { "monster": "mon_zteranodon", "freq": 20, "cost_multiplier": 10, "starts": 144, "pack_size": [ 4, 6 ] },
-      { "monster": "mon_zuetzalcoatlus", "freq": 20, "cost_multiplier": 20, "starts": 72, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_zuetzalcoatlus", "freq": 20, "cost_multiplier": 20, "starts": 144, "pack_size": [ 2, 4 ] }
+      { "monster": "mon_zteranodon", "weight": 20, "cost_multiplier": 10, "starts": 72, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_zteranodon", "weight": 20, "cost_multiplier": 10, "starts": 144, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_zuetzalcoatlus", "weight": 20, "cost_multiplier": 20, "starts": 72, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_zuetzalcoatlus", "weight": 20, "cost_multiplier": 20, "starts": 144, "pack_size": [ 2, 4 ] }
     ]
   }
 ]

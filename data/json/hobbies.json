@@ -285,7 +285,8 @@
     "name": "Public Speaking",
     "description": "You are an incredibly social individual, with both the composure and vocabulary to make people listen to you.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "speech" } ]
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "traits": [ "BOOMING_VOICE" ]
   },
   {
     "type": "profession",

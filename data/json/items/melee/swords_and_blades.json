@@ -5,7 +5,7 @@
     "symbol": "!",
     "color": "brown",
     "name": { "str": "2-by-sword" },
-    "description": "A plank with a crossguard and whittled-down point; not much for slashing, but much better than your bare hands.",
+    "description": "A plank with a whittled-down point; not much for slashing, but much better than your bare hands.",
     "material": [ "wood" ],
     "volume": "1250 ml",
     "weight": "1000 g",

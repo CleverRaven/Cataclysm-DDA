@@ -932,8 +932,15 @@ struct itype {
         std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
+        // First -> the material
+        // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
-        std::vector<material_id> materials;
+        std::map<material_id, int> materials;
+        // Since the material list was converted to a map, keep track of the material insert order
+        // Do not use this for materials. Use the materials map above.
+        std::vector<material_id> mats_ordered;
+        // Total of item's material portions (materials->second)
+        int mat_portion_total = 0;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;

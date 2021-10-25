@@ -151,6 +151,7 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -332,6 +333,7 @@ activity_handlers::finish_functions = {
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
+    { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
@@ -1685,6 +1687,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     here.maybe_trigger_trap( bush_pos, *you, true );
 }
 
+// Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
 {
@@ -1695,11 +1698,21 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
             bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
-                add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                if( you->is_avatar() ) {
+                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                }
                 return;
             }
         }
-        //1 points/min, almost 2 hours to fill
+        if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
+            float mod = ( std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f );
+            morale_bonus = std::ceil( morale_bonus * mod );
+            // half mult for max bonus
+            mod = 1.f + ( mod - 1.f ) * 0.5f;
+            morale_max_bonus *= mod;
+        }
+        // Playing alone - 1 points/min, almost 2 hours to fill
         you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
     }
 }
@@ -1714,6 +1727,12 @@ void activity_handlers::generic_game_finish( player_activity *act, Character *yo
         for( int i = act->index; i > 0; i-- ) {
             mod += acc;
             acc *= acc;
+        }
+        if( !act->values.empty() && act->values[0] == you->getID().get_value() ) {
+            // A winner is you! Feel more happy!
+            mod *= 1.5f;
+            you->add_msg_if_player( m_good, _( "You won!" ) );
+            you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
         }
         you->add_morale( MORALE_GAME, 4 * mod );
     }
@@ -2842,7 +2861,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    mongroup_id( "GROUP_FISH" ) );
+                    mongroup_id( "GROUP_FISH" ), true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
         here.add_item_or_charges( you->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
@@ -3799,6 +3818,16 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         you->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     you->practice( skill_computer, 10 );
+}
+
+void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
+{
+    if( you->is_avatar() ) {
+        you->as_avatar()->longpull( act->name );
+    } else {
+        you->longpull( act->name, act->placement );
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )

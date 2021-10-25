@@ -172,7 +172,7 @@ const skill_id spell_type::skill_default = skill_id( "spellcraft" );
 // empty string
 const requirement_id spell_type::spell_components_default;
 const translation spell_type::message_default = to_translation( "You cast %s!" );
-const translation spell_type::sound_description_default = to_translation( "an explosion" );
+const translation spell_type::sound_description_default = to_translation( "an explosion." );
 const sounds::sound_t spell_type::sound_type_default = sounds::sound_t::combat;
 const bool spell_type::sound_ambient_default = false;
 // empty string
