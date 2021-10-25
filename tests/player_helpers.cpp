@@ -192,6 +192,14 @@ npc &spawn_npc( const point &p, const std::string &npc_class )
     return *guy;
 }
 
+// Clear player traits and give them a single trait by name
+void set_single_trait( Character &dummy, const std::string &trait_name )
+{
+    dummy.clear_mutations();
+    dummy.toggle_trait( trait_id( trait_name ) );
+    REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
+}
+
 void give_and_activate_bionic( Character &you, bionic_id const &bioid )
 {
     INFO( "bionic " + bioid.str() + " is valid" );

@@ -1556,12 +1556,14 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
 std::string avatar::total_daily_calories_string() const
 {
     const std::string header_string =
-        colorize( "       Minutes at each exercise level            Calories per day", c_white ) + "\n" +
-        colorize( "  Day  None Light Moderate Brisk Active Extra    Gained  Spent  Total",
+        colorize( "       Minutes at each exercise level                  Calories per day",
+                  c_white ) + "\n" +
+        colorize( "  Day  Sleep None Light Moderate Brisk Active Extra    Gained  Spent  Total",
                   c_yellow ) + "\n";
     const std::string format_string =
-        " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
+        " %4d  %4d   %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
 
+    const float no_ex_thresh = ( SLEEP_EXERCISE + NO_EXERCISE ) / 2.0f;
     const float light_ex_thresh = ( NO_EXERCISE + LIGHT_EXERCISE ) / 2.0f;
     const float mod_ex_thresh = ( LIGHT_EXERCISE + MODERATE_EXERCISE ) / 2.0f;
     const float brisk_ex_thresh = ( MODERATE_EXERCISE + BRISK_EXERCISE ) / 2.0f;
@@ -1576,6 +1578,7 @@ std::string avatar::total_daily_calories_string() const
     for( const daily_calories &day : calorie_diary ) {
         // Yes, this is clunky.
         // Perhaps it should be done in log_activity_level? But that's called a lot more often.
+        int sleep_exercise = 0;
         int no_exercise = 0;
         int light_exercise = 0;
         int moderate_exercise = 0;
@@ -1584,7 +1587,9 @@ std::string avatar::total_daily_calories_string() const
         int extra_exercise = 0;
         for( const std::pair<const float, int> &level : day.activity_levels ) {
             if( level.second > 0 ) {
-                if( level.first < light_ex_thresh ) {
+                if( level.first < no_ex_thresh ) {
+                    sleep_exercise += level.second;
+                } else if( level.first < light_ex_thresh ) {
                     no_exercise += level.second;
                 } else if( level.first < mod_ex_thresh ) {
                     light_exercise += level.second;
@@ -1600,6 +1605,7 @@ std::string avatar::total_daily_calories_string() const
             }
         }
         std::string row_data = string_format( format_string, today + day_offset--,
+                                              5 * sleep_exercise,
                                               5 * no_exercise,
                                               5 * light_exercise,
                                               5 * moderate_exercise,
