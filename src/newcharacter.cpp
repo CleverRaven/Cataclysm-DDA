@@ -4033,14 +4033,14 @@ void Character::add_traits()
     }
 }
 
-trait_id Character::random_good_trait()
+trait_id Character::random_good_trait() const
 {
     return get_random_trait( []( const mutation_branch & mb ) {
         return mb.points > 0;
     } );
 }
 
-trait_id Character::random_bad_trait()
+trait_id Character::random_bad_trait() const
 {
     return get_random_trait( []( const mutation_branch & mb ) {
         return mb.points < 0;
@@ -4048,6 +4048,7 @@ trait_id Character::random_bad_trait()
 }
 
 trait_id Character::get_random_trait( const std::function<bool( const mutation_branch & )> &func )
+const
 {
     std::vector<trait_id> vTraits;
 

@@ -1043,11 +1043,11 @@ class Character : public Creature, public visitable
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
-        trait_id random_good_trait();
+        trait_id random_good_trait() const;
         /** Returns the id of a random starting trait that costs < 0 points */
-        trait_id random_bad_trait();
+        trait_id random_bad_trait() const;
         /** Returns the id of a random trait matching the given predicate */
-        trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
+        trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func ) const;
         void randomize_cosmetic_trait( std::string mutation_type );
 
         // In mutation.cpp
