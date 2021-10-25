@@ -89,6 +89,16 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "brain_cooked",
+    "result": "mutant_bug_organs_cooked",
+    "time": "35 m",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "mutant_bug_organs", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "foie_gras",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -336,7 +346,7 @@
     "difficulty": 5,
     "time": "24 m",
     "batch_time_factors": [ 83, 5 ],
-    "container": "can_medium",
+    "container": "canister_empty",
     "contained": true,
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -345,12 +355,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_medium", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "liver", 4 ] ]
-    ],
+    "components": [ [ [ "small_cans", 1, "LIST" ] ], [ [ "scrap", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "liver", 4 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "charges": 4
   },
@@ -423,7 +428,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 3, "LIST" ] ],
+      [ [ "eggs_any_shape", 3, "LIST" ] ],
       [ [ "garlic_clove", 2 ] ],
       [ [ "meat_brain", 4, "LIST" ] ],
       [ [ "batter", 4, "LIST" ] ],

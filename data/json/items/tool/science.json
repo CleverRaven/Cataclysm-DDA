@@ -22,7 +22,7 @@
     "name": { "str": "goo canister" },
     "description": "There is a label on this canister: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
     "weight": "1596 g",
-    "volume": "500 ml",
+    "volume": "270 ml",
     "price": 35000,
     "price_postapoc": 1000,
     "to_hit": 1,
