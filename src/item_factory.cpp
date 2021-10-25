@@ -1990,7 +1990,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
-    optional(jo, false, "specific_coverage", sub_coverage);
+    optional(jo, false, "specificly_covers", sub_coverage);
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
@@ -2003,7 +2003,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", data );
-    optional(jo, was_loaded, "specific_armor", specific_armor_data);
     optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "material_thickness", thickness, 0.0f );

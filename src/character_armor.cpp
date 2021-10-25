@@ -408,7 +408,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
             item &armor = *iter;
 
-            if( !armor.covers( bp ) && !armor.covers_sub( sbp ) {
+            if( !armor.covers( bp ) ) {
                 ++iter;
                 continue;
             }

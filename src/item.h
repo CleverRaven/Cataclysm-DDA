@@ -1720,12 +1720,17 @@ class item : public visitable
         int get_coverage( const bodypart_id &bodypart,
                           const cover_type &type = cover_type::COVER_DEFAULT ) const;
 
+        int get_coverage(const sub_bodypart_id& bodypart,
+            const cover_type& type = cover_type::COVER_DEFAULT) const;
+
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
         };
 
         const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
+
+        const armor_portion_data* portion_for_bodypart(const sub_bodypart_id& bodypart) const;
 
         /**
          * Returns the average encumbrance value that this item across all portions
@@ -1740,6 +1745,9 @@ class item : public visitable
          */
         int get_encumber( const Character &, const bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
+
+        int get_encumber(const Character&, const sub_bodypart_id& bodypart,
+            encumber_flags = encumber_flags::none) const;
 
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.

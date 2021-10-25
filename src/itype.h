@@ -233,6 +233,11 @@ struct armor_portion_data {
     int cover_ranged = 0;
     int cover_vitals = 0;
 
+    int subcoverage = 0;
+    int subcover_melee = 0;
+    int subcover_ranged = 0;
+    int subcover_vitals = 0;
+
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
