@@ -236,27 +236,14 @@ struct armor_portion_data {
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
+    std::vector<sub_bodypart_str_id> sub_coverage;
+
+
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
     void deserialize( const JsonObject &jo );
-};
-
-struct specific_armor_portion_data {
-
-    // Percentage of the body part that this item covers.
-    // This determines how likely it is to hit the item instead of the player.
-    int coverage = 0;
-    int cover_melee = 0;
-    int cover_ranged = 0;
-    int cover_vitals = 0;
-
-    // The specifc advanced zones this piece covers
-    std::vector<sub_bodypart_str_id> covers;
-    
-
-    void deserialize(const JsonObject& jo);
 };
 
 struct islot_armor {
@@ -301,8 +288,6 @@ struct islot_armor {
 
     // Layer, encumbrance and coverage information.
     std::vector<armor_portion_data> data;
-
-    std::vector<specific_armor_portion_data> specific_armor_data;
 
     bool was_loaded = false;
 
