@@ -4366,6 +4366,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
         "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
      ],
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
+    "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket
