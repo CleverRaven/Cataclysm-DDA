@@ -745,6 +745,7 @@ bool main_menu::new_character_tab()
     vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
     vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "R<o>lled Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
         vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
         vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
@@ -755,6 +756,7 @@ bool main_menu::new_character_tab()
     hints.emplace_back( _( "Select from one of previously created character templates." ) );
     hints.emplace_back(
         _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
+    hints.emplace_back( _( "Choose character attributes from randomly drawn cards." ) );
     hints.emplace_back(
         _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
     hints.emplace_back(
@@ -868,9 +870,12 @@ bool main_menu::new_character_tab()
                             play_type = character_type::RANDOM;
                             break;
                         case 3:
-                            play_type = character_type::NOW;
+                            play_type = character_type::ROLLED;
                             break;
                         case 4:
+                            play_type = character_type::NOW;
+                            break;
+                        case 5:
                             play_type = character_type::FULL_RANDOM;
                             break;
                     }

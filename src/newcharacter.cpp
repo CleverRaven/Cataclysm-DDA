@@ -264,6 +264,11 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
     return "If you see this, this is a bug";
 }
 
+namespace card
+{
+class card;
+}
+
 static tab_direction set_points( avatar &u, pool_type & );
 static tab_direction set_stats( avatar &u, pool_type );
 static tab_direction set_traits( avatar &u, pool_type );
@@ -271,7 +276,9 @@ static tab_direction set_scenario( avatar &u, pool_type );
 static tab_direction set_profession( avatar &u, pool_type );
 static tab_direction set_hobbies( avatar &u, pool_type );
 static tab_direction set_skills( avatar &u, pool_type );
-static tab_direction set_description( avatar &you, bool allow_reroll, pool_type );
+static tab_direction set_description( avatar &you, bool allow_reroll, pool_type,
+                                      bool rolled = false );
+static tab_direction set_rolls( std::vector<card::card> &cards, avatar &u );
 
 static cata::optional<std::string> query_for_template_name();
 static void reset_scenario( avatar &u, const scenario *scen );
@@ -568,6 +575,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     int tab = 0;
     pool_type pool = pool_type::MULTI_POOL;
+    tab_direction result = tab_direction::QUIT;
 
     switch( type ) {
         case character_type::CUSTOM:
@@ -600,6 +608,32 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
             tab = NEWCHAR_TAB_MAX;
             break;
+
+        case character_type::ROLLED: {
+            pool = pool_type::FREEFORM;
+            // Rolled doesn't use the usual tabs so it's handled here.
+            std::vector<card::card> cards;
+            while( tab <= 1 ) {
+                if( tab == 0 ) {
+                    result = set_rolls( cards, *this );
+                } else {
+                    result = set_description( *this, false, pool, true );
+                }
+                switch( result ) {
+                    case tab_direction::NONE:
+                        break;
+                    case tab_direction::FORWARD:
+                        tab++;
+                        break;
+                    case tab_direction::BACKWARD:
+                        tab--;
+                        break;
+                    case tab_direction::QUIT:
+                        return false;
+                }
+            }
+        }
+        break;
     }
 
     auto nameExists = [&]( const std::string & name ) {
@@ -610,8 +644,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     };
     set_body();
     const bool allow_reroll = type == character_type::RANDOM;
-    tab_direction result = tab_direction::QUIT;
-    do {
+    while( type != character_type::ROLLED ) {
         if( !interactive ) {
             // no window is created because "Play now" does not require any configuration
             if( nameExists( name ) ) {
@@ -674,7 +707,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
         }
 
-    } while( true );
+    }
 
     if( tab < 0 ) {
         return false;
@@ -813,7 +846,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-static void draw_character_tabs( const catacurses::window &w, const std::string &sTab )
+static void draw_character_tabs( const catacurses::window &w, const std::string &sTab,
+                                 bool rolled = false )
 {
     std::vector<std::string> tab_captions = {
         _( "POINTS" ),
@@ -825,6 +859,10 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "SKILLS" ),
         _( "DESCRIPTION" ),
     };
+
+    if( rolled ) {
+        tab_captions = { _( "ROLLS" ), _( "DESCRIPTION" ) };
+    }
 
     draw_tabs( w, tab_captions, sTab );
     draw_border_below_tabs( w );
@@ -3197,8 +3235,7 @@ static void draw_location( const catacurses::window &w_location, const avatar &y
 
 } // namespace char_creation
 
-tab_direction set_description( avatar &you, const bool allow_reroll,
-                               pool_type pool )
+tab_direction set_description( avatar &you, const bool allow_reroll, pool_type pool, bool rolled )
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
 
@@ -3334,7 +3371,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
     bool no_name_entered = false;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_character_tabs( w, _( "DESCRIPTION" ) );
+        draw_character_tabs( w, _( "DESCRIPTION" ), rolled );
 
         draw_points( w, pool, you );
 
@@ -3963,6 +4000,515 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             return tab_direction::QUIT;
         }
     } while( true );
+}
+
+namespace card
+{
+struct effect {
+    virtual ~effect() = default;
+    virtual bool applicable( const avatar &u ) const = 0;
+    virtual void apply( avatar &u ) const = 0;
+    virtual bool is_good() const = 0;
+    virtual std::string name( const avatar &u ) const = 0;
+    virtual std::string description( const avatar & ) const {
+        return "";
+    }
+
+    static constexpr int max_tries = 100000;
+
+    nc_color color( const avatar &u, bool selected ) const {
+        nc_color c;
+        if( is_good() ) {
+            c = selected ? COL_TR_GOOD_ON_ACT : COL_TR_GOOD;
+            if( !applicable( u ) ) {
+                c = COL_TR_GOOD_OFF_ACT;
+            }
+        } else {
+            c = selected ? COL_TR_BAD_ON_ACT : COL_TR_BAD;
+            if( !applicable( u ) ) {
+                c = COL_TR_BAD_OFF_ACT;
+            }
+        }
+        return c;
+    }
+
+    void print( const avatar &u, catacurses::window w,
+                int row, bool selected ) const {
+        center_print( w, row, color( u, selected ), name( u ) );
+    }
+};
+
+struct stat : effect {
+    enum class tag { str, dex, int_, per, count } stat_;
+    int delta;
+
+    stat( tag s, int d ): stat_( s ), delta( d ) {}
+
+    static std::unique_ptr<stat> random( int d ) {
+        return std::make_unique<stat>( tag( rng( 0, int( tag::count ) - 1 ) ), d );
+    }
+
+    bool applicable( const avatar &u ) const override {
+        switch( stat_ ) {
+            case tag::str:
+                return u.str_max + delta >= 4;
+            case tag::dex:
+                return u.dex_max + delta >= 4;
+            case tag::int_:
+                return u.int_max + delta >= 4;
+            case tag::per:
+                return u.per_max + delta >= 4;
+            case tag::count:
+                cata_assert( false );
+        }
+        return false;
+    }
+
+    void apply( avatar &u ) const override {
+        if( !applicable( u ) ) {
+            return;
+        }
+        switch( stat_ ) {
+            case tag::str:
+                u.str_max += delta;
+                break;
+            case tag::dex:
+                u.dex_max += delta;
+                break;
+            case tag::int_:
+                u.int_max += delta;
+                break;
+            case tag::per:
+                u.per_max += delta;
+                break;
+            case tag::count:
+                cata_assert( false );
+                break;
+        }
+    }
+
+    bool is_good() const override {
+        return delta >= 0;
+    }
+
+    std::string name( const avatar & ) const override {
+        switch( stat_ ) {
+            case tag::str:
+                return string_format( _( "Strength %+d" ), delta );
+            case tag::dex:
+                return string_format( _( "Dexterity %+d" ), delta );
+            case tag::int_:
+                return string_format( _( " Intelligence %+d" ), delta );
+            case tag::per:
+                return string_format( _( "Perception %+d" ), delta );
+            case tag::count:
+                cata_assert( false );
+        }
+        return "BUG";
+    }
+};
+
+struct trait : effect {
+    trait_id id;
+
+    trait( trait_id i ): id( i ) {}
+
+    static std::unique_ptr<trait> random_good( const avatar &u ) {
+        for( int i = 0; i < max_tries; i++ ) {
+            auto t = u.random_good_trait();
+            if( one_in( 1 << t.obj().points ) ) {
+                return std::make_unique<trait>( t );
+            }
+        }
+        cata_assert( false );
+        abort();
+    }
+
+    static std::unique_ptr<trait> random_bad( const avatar &u ) {
+        return std::make_unique<trait>( u.random_bad_trait() );
+    }
+
+    bool applicable( const avatar &u ) const override {
+        return u.mutation_ok( id, false, false );
+    }
+
+    void apply( avatar &u ) const override {
+        if( applicable( u ) ) {
+            u.toggle_trait( id );
+        }
+    }
+
+    bool is_good() const override {
+        return id.obj().points >= 0;
+    }
+
+    std::string name( const avatar & ) const override {
+        return string_format( _( "Trait: %s" ), id.obj().name() );
+    }
+
+    std::string description( const avatar & ) const override {
+        return id.obj().desc();
+    }
+};
+
+struct hobby : effect {
+    profession_id id;
+
+    hobby( profession_id i ): id( i ) {}
+
+    static std::unique_ptr<hobby> random_good() {
+        for( int i = 0; i < max_tries; i++ ) {
+            auto h = random_entry( profession::get_all_hobbies() );
+            int p = h.obj().point_cost();
+            if( p > 0 && one_in( 1 << p ) ) {
+                return std::make_unique<hobby>( h );
+            }
+        }
+        cata_assert( false );
+        abort();
+    }
+
+    static std::unique_ptr<hobby> random_bad() {
+        for( int i = 0; i < max_tries; i++ ) {
+            auto h = random_entry( profession::get_all_hobbies() );
+            if( h.obj().point_cost() < 0 ) {
+                return std::make_unique<hobby>( h );
+            }
+        }
+        cata_assert( false );
+        abort();
+    }
+
+    bool applicable( const avatar &u ) const override {
+        for( const auto &t : id.obj().get_locked_traits() ) {
+            if( u.has_conflicting_trait( t ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void apply( avatar &u ) const override {
+        if( applicable( u ) ) {
+            u.hobbies.insert( &id.obj() );
+        }
+    }
+
+    bool is_good() const override {
+        return id.obj().point_cost() >= 0;
+    }
+
+    std::string name( const avatar &u ) const override {
+        return string_format( _( "Hobby: %s" ),
+                              id.obj().gender_appropriate_name( u.male ) );
+    }
+
+    std::string description( const avatar &u ) const override {
+        return id.obj().description( u.male );
+    }
+};
+
+struct prof : effect {
+    profession_id id;
+
+    prof( profession_id i ): id( i ) {}
+
+    static std::unique_ptr<prof> random() {
+        for( int i = 0; i < max_tries; i++ ) {
+            auto p = random_entry( profession::get_all_nonhobbies() );
+            if( one_in( std::abs( p.obj().point_cost() ) + 1 ) ) {
+                return std::make_unique<prof>( p );
+            }
+        }
+        cata_assert( false );
+        abort();
+    }
+
+    bool applicable( const avatar &u ) const override {
+        for( const auto &t : id.obj().get_locked_traits() ) {
+            if( u.has_conflicting_trait( t ) ) {
+                return false;
+            }
+        }
+        for( const auto &t : id.obj().get_forbidden_traits() ) {
+            if( u.has_trait( t ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void apply( avatar &u ) const override {
+        if( applicable( u ) ) {
+            for( const auto &t : u.prof->get_locked_traits() ) {
+                u.toggle_trait( t );
+            }
+            u.prof = &id.obj();
+            u.add_traits();
+        }
+    }
+
+    bool is_good() const override {
+        return id.obj().point_cost() >= 0;
+    }
+
+    std::string name( const avatar &u ) const override {
+        return string_format( _( "Profession: %s" ),
+                              id.obj().gender_appropriate_name( u.male ) );
+    }
+
+    std::string description( const avatar &u ) const override {
+        return id.obj().description( u.male );
+    }
+};
+
+struct scen : effect {
+    string_id<scenario> id;
+
+    scen( string_id<scenario> i ): id( i ) {}
+
+    static std::unique_ptr<scen> random() {
+        for( int i = 0; i < max_tries; i++ ) {
+            auto s = random_entry( scenario::get_all() );
+            if( one_in( std::abs( s.point_cost() ) + 1 ) ) {
+                return std::make_unique<scen>( s.ident() );
+            }
+        }
+        cata_assert( false );
+        abort();
+    }
+
+    bool applicable( const avatar &u ) const override {
+        for( const auto &t : id.obj().get_locked_traits() ) {
+            if( u.has_conflicting_trait( t ) ) {
+                return false;
+            }
+        }
+        for( const auto &t : u.get_mutations() ) {
+            if( id.obj().is_forbidden_trait( t ) ) {
+                return false;
+            }
+        }
+        auto ps = id.obj().permitted_professions();
+        auto p = u.prof->ident();
+        if( std::find( ps.begin(), ps.end(), p ) == ps.end() ) {
+            prof generic( ps.front() );
+            if( !generic.applicable( u ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void apply( avatar &u ) const override {
+        if( applicable( u ) ) {
+            auto ps = id.obj().permitted_professions();
+            auto p = u.prof->ident();
+            if( std::find( ps.begin(), ps.end(), p ) == ps.end() ) {
+                prof( ps.front() ).apply( u );
+            }
+            set_scenario( &id.obj() );
+        }
+    }
+
+    bool is_good() const override {
+        return id.obj().point_cost() > 0;
+    }
+
+    std::string name( const avatar &u ) const override {
+        return string_format( _( "Scenario: %s" ),
+                              id.obj().gender_appropriate_name( u.male ) );
+    }
+
+    std::string description( const avatar &u ) const override {
+        return id.obj().description( u.male );
+    }
+};
+
+struct card {
+    std::vector<std::unique_ptr<effect>> good;
+    std::vector<std::unique_ptr<effect>> bad;
+
+    static constexpr int max_good = 3;
+    static constexpr int max_bad = 2;
+
+    card( const avatar &u ) {
+        bool special_picked = false;
+        while( good.size() < max_good ) {
+            switch( rng( 0, 4 ) ) {
+                case 0:
+                    good.emplace_back( stat::random( 1 ) );
+                    break;
+                case 1:
+                    good.emplace_back( trait::random_good( u ) );
+                    break;
+                case 2:
+                    good.emplace_back( hobby::random_good() );
+                    break;
+                case 3:
+                    if( !special_picked ) {
+                        good.emplace_back( prof::random() );
+                        special_picked = true;
+                    }
+                    break;
+                case 4:
+                    if( !special_picked ) {
+                        good.emplace_back( scen::random() );
+                        special_picked = true;
+                    }
+                    break;
+            }
+        }
+
+        while( bad.size() < max_bad ) {
+            switch( rng( 0, 2 ) ) {
+                case 0:
+                    bad.emplace_back( stat::random( -1 ) );
+                    break;
+                case 1:
+                    bad.emplace_back( trait::random_bad( u ) );
+                    break;
+                case 2:
+                    bad.emplace_back( hobby::random_bad() );
+                    break;
+            }
+        }
+    }
+
+    bool applicable( const avatar &u ) const {
+        for( const auto &e : good ) {
+            if( !e->applicable( u ) ) {
+                return false;
+            }
+        }
+        for( const auto &e : bad ) {
+            if( !e->applicable( u ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void apply( avatar &u ) const {
+        if( applicable( u ) ) {
+            for( const auto &e : good ) {
+                e->apply( u );
+            }
+            for( const auto &e : bad ) {
+                e->apply( u );
+            }
+        }
+    }
+
+    void print( const avatar &u, catacurses::window &w,
+                int *row, bool selected ) {
+        for( const auto &e : good ) {
+            e->print( u, w, *row, selected );
+            ++*row;
+        }
+        for( const auto &e : bad ) {
+            e->print( u, w, *row, selected );
+            ++*row;
+        }
+    }
+
+    void print_description( const avatar &u, catacurses::window &w,
+                            int *row ) {
+        for( const auto &e : good ) {
+            auto d = e->description( u );
+            if( !d.empty() ) {
+                d = string_format( "%s: %s", e->name( u ), d );
+                center_print( w, *row, COL_NOTE_MINOR, d );
+                ++*row;
+            }
+        }
+        for( const auto &e : bad ) {
+            auto d = e->description( u );
+            if( !d.empty() ) {
+                d = string_format( "%s: %s", e->name( u ), d );
+                center_print( w, *row, COL_NOTE_MINOR, d );
+                ++*row;
+            }
+        }
+    }
+};
+}
+
+tab_direction set_rolls( std::vector<card::card> &cards, avatar &u )
+{
+    constexpr int max_cards = 3;
+    int selected_card = 0;
+
+    ui_adaptor ui;
+    catacurses::window w;
+    catacurses::window w_scenario;
+    catacurses::window w_profession;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        ui.position_from_window( w );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w );
+        draw_character_tabs( w, _( "ROLLS" ), true );
+        mvwprintz( w, point( 2, 3 ), COL_NOTE_MINOR,
+                   _( "Draw cards until all conflict with your previous picks,"
+                      " or stop early by continuing to the next tab." ) );
+        int row = 5;
+        for( int i = 0; i < max_cards; i++ ) {
+            cards[i].print( u, w, &row, i == selected_card );
+            row++;
+        }
+        cards[selected_card].print_description( u, w, &row );
+        wnoutrefresh( w );
+    } );
+
+    input_context ctxt;
+    ctxt.register_updown();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+
+    for( ;; ) {
+        if( cards.size() != max_cards ) {
+            cards.clear();
+            for( int i = 0; i < max_cards; i++ ) {
+                cards.emplace_back( u );
+            }
+        }
+
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+
+        if( action == "DOWN" ) {
+            selected_card++;
+            if( selected_card >= max_cards ) {
+                selected_card = 0;
+            }
+        } else if( action == "UP" ) {
+            selected_card--;
+            if( selected_card < 0 ) {
+                selected_card = max_cards - 1;
+            }
+        }
+
+        if( action == "CONFIRM" ) {
+            if( cards[selected_card].applicable( u ) ) {
+                cards[selected_card].apply( u );
+                cards.clear();
+            }
+        } else if( action == "NEXT_TAB" ) {
+            return tab_direction::FORWARD;
+        } else if( action == "QUIT" ) {
+            if( query_yn( _( "Return to main menu?" ) ) ) {
+                return tab_direction::QUIT;
+            }
+        }
+    }
+
+    return tab_direction::FORWARD;
 }
 
 std::vector<trait_id> Character::get_base_traits() const

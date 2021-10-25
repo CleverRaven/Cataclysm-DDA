@@ -12,6 +12,7 @@ enum class character_type : int {
     CUSTOM,
     RANDOM,
     TEMPLATE,
+    ROLLED,
     NOW,
     FULL_RANDOM,
 };
