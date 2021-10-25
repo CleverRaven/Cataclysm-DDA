@@ -210,7 +210,7 @@
       "advice": "There's a lot of places to look.  They are common in house kitchens, restaurants or grocery stores.",
       "inquire": "How is the search going?  Have you found 'em?",
       "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
     "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ] }
@@ -235,7 +235,7 @@
       "advice": "Glass jars are not that hard to find.  I'd look for them in residential areas.",
       "inquire": "Have you found the jars?",
       "success": "Thank you for your help.  Here's your reward.  I have one more task to do.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
     "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] }
@@ -259,7 +259,7 @@
       "advice": "Butcher knives are not that rare to find.  They are commonly found in kitchens.",
       "inquire": "Do you have that knife now?",
       "success": "I am grateful for the help you've done.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
     "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }

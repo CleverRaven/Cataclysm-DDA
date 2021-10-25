@@ -105,7 +105,6 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
@@ -672,7 +671,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
-            if( !elem->edible() ) {
+            if( !elem.first->edible() ) {
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
@@ -952,7 +951,7 @@ static bool eat( item &food, Character &you, bool force )
 
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
-    if( food.poison > 0 && !you.has_trait( trait_EATPOISON ) &&
+    if( food.poison > 0 &&
         !you.has_trait( trait_EATDEAD ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
             you.add_effect( effect_poison, food.poison * 10_minutes );

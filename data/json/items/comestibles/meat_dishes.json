@@ -85,6 +85,32 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "blutwurst_sausage",
+    "name": { "str": "blutwurst" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Menschenblutwurst" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "Mein teil" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "baleful %s" } }
+    ],
+    "weight": "100 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "looks_like": "sausage",
+    "quench": -1,
+    "calories": 385,
+    "description": "A type of German sausage made of pre-cooked meat and blood.  Better eat it hot and fresh.",
+    "price": 1800,
+    "volume": "1500 ml",
+    "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
+    "material": [ "flesh" ],
+    "charges": 10,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "bratwurst_sausage",
     "name": { "str": "bratwurst" },
     "conditional_names": [
@@ -1109,6 +1135,32 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cheeseburger_wheat_free",
+    "name": { "str": "wheat-free cheeseburger" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
+    ],
+    "weight": "333 g",
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 380,
+    "description": "A wheat-free sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the cataclysm.",
+    "price": 1000,
+    "price_postapoc": 250,
+    "material": [ "flesh", "veggy", "milk" ],
+    "primary_material": "processed_food",
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
+    "fun": 5,
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "deluxe_cheeseburger",
     "copy-from": "cheeseburger",
     "name": { "str": "deluxe cheeseburger" },
@@ -1117,6 +1169,21 @@
     "description": "A cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
     "price_postapoc": 300,
     "material": [ "flesh", "wheat", "milk", "veggy", "tomato" ],
+    "primary_material": "processed_food",
+    "volume": "350 ml",
+    "fun": 7,
+    "vitamins": [ [ "vitA", 35 ], [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ], [ "vitB", 230 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "deluxe_cheeseburger_wheat_free",
+    "copy-from": "cheeseburger_wheat_free",
+    "name": { "str": "deluxe wheat-free cheeseburger" },
+    "weight": "380 g",
+    "calories": 500,
+    "description": "A wheat-free cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
+    "price_postapoc": 300,
+    "material": [ "flesh", "milk", "veggy", "tomato" ],
     "primary_material": "processed_food",
     "volume": "350 ml",
     "fun": 7,
@@ -1149,6 +1216,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "hamburger_wheat_free",
+    "name": { "str": "wheat-free hamburger" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "wheat-free bobburger" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "wheat-free Moreauburger" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
+    ],
+    "weight": "300 g",
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 258,
+    "description": "A wheat-free sandwich of minced meat with condiments.",
+    "price": 900,
+    "price_postapoc": 200,
+    "material": [ "flesh", "veggy" ],
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4,
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "sloppyjoe",
     "name": { "str": "sloppy joe" },
     "conditional_names": [
@@ -1171,6 +1263,39 @@
     "price": 900,
     "price_postapoc": 250,
     "material": [ "flesh", "tomato", "wheat" ],
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4,
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sloppyjoe_wheat_free",
+    "name": { "str": "wheat-free sloppy joe" },
+    "conditional_names": [
+      {
+        "type": "FLAG",
+        "condition": "CANNIBALISM",
+        "name": { "str": "wheat-free manwich", "str_pl": "wheat-free manwiches" }
+      },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "wheat-free manfriendwich", "str_pl": "wheat-free manfriendwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "suspicious %s" } }
+    ],
+    "weight": "313 g",
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 391,
+    "description": "A wheat-free sandwich, consisting of ground meat and tomato sauce served on a hamburger bun.",
+    "price": 900,
+    "price_postapoc": 250,
+    "material": [ "flesh", "tomato", "veggy" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,

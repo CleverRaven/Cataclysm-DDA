@@ -137,6 +137,35 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "leggings_thessalonian",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "cataphract leggings", "str_pl": "pairs of cataphract leggings" },
+    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from waist to toe and is of extremely high quality.",
+    "weight": "5212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "fancy_bronze", "leather" ],
+    "symbol": "[",
+    "looks_like": "chainmail_legs",
+    "color": "brown",
+    "warmth": 18,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      {
+        "encumbrance": 17,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
+  },
+  {
     "id": "chaps_leather",
     "type": "ARMOR",
     "name": { "str_sp": "leather chaps" },

@@ -71,6 +71,7 @@ extern const flag_id flag_COLD_IMMUNE;
 extern const flag_id flag_COLLAPSE_CONTENTS;
 extern const flag_id flag_COLLAPSIBLE_STOCK;
 extern const flag_id flag_COLLAR;
+extern const flag_id flag_COMBAT_TOGGLEABLE;
 extern const flag_id flag_CONDUCTIVE;
 extern const flag_id flag_CONSUMABLE;
 extern const flag_id flag_COOKED;

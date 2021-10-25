@@ -822,5 +822,23 @@
     "color": "white",
     "flags": [ "NO_ROTATE" ],
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
+    "see_cost": 3,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit_under",
+    "name": "cavern",
+    "looks_like": "cave_underground",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 5
   }
 ]

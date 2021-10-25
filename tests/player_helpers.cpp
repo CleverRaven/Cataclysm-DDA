@@ -92,6 +92,8 @@ void clear_character( Character &dummy )
         dummy.lose_proficiency( prof, true );
     }
 
+    // Reset cardio_acc to baseline
+    dummy.reset_cardio_acc();
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( move_mode_id( "walk" ) );

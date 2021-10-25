@@ -590,7 +590,7 @@
     "type": "martial_art",
     "id": "style_karate",
     "name": { "str": "Karate" },
-    "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
+    "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and an extra block on the following round.",
     "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
     "learn_difficulty": 5,
     "arm_block": 2,
@@ -600,23 +600,27 @@
         "name": "Karate Stance",
         "description": "Your no nonsense stance allows you hit more accurately.\n\n+2 Accuracy.",
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
       }
     ],
     "onhit_buffs": [
       {
         "id": "buff_karate_onhit",
-        "name": "Karate Strike",
-        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+2 Block attempts, +1 Dodges attempts, blocked damge reduced by 50% of Strength.\nLasts 2 turns.",
+        "name": "Karate Kata",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damge reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "buff_duration": 2,
-        "bonus_blocks": 2,
+        "bonus_blocks": 1,
         "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ],
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
       }
     ],
-    "techniques": [ "tec_karate_rapid", "tec_karate_precise", "tec_karate_roundhouse", "tec_karate_counter" ]
+    "techniques": [ "tec_karate_rapid", "tec_karate_precise", "tec_karate_roundhouse", "tec_karate_staff", "tec_karate_staff_crit" ],
+    "weapon_category": [ "QUARTERSTAVES" ]
   },
   {
     "type": "martial_art",
@@ -657,7 +661,7 @@
     "type": "martial_art",
     "id": "style_leopard",
     "name": { "str": "Leopard Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength.  Moving increases dodge skill and accuracy further; attacking after moving increases damage.",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength and also increases your critical hit chance.",
     "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
     "learn_difficulty": 10,
     "static_buffs": [
@@ -673,39 +677,24 @@
       },
       {
         "id": "buff_leopard_static2",
-        "name": "Leopard's Agility",
-        "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodge skill.",
-        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "name": "Leopard's Ambush",
+        "description": "Go for the throat and take out your foes immediately!\n\nCritical Hit Chance increased by 100% of Dexterity.",
         "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "dex", "scale": 1.0 } ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_leopard_oncrit",
+        "name": "Leopard's Agility",
+        "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodging skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "buff_duration": 2,
         "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
-    "onmove_buffs": [
-      {
-        "id": "buff_leopard_onmove1",
-        "name": "Leopard's Stalk",
-        "description": "You proudly stalk the shadows and preparing to pounce with unrelenting fury.\n\n+2 Accuracy.\nEnables \"Leopard's Pounce\" buff.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
-        "unarmed_allowed": true,
-        "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
-      },
-      {
-        "id": "buff_leopard_onmove2",
-        "name": "Leopard's Pounce",
-        "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "unarmed_allowed": true,
-        "required_buffs_all": [ "buff_leopard_onmove1" ],
-        "buff_duration": 1,
-        "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 1.25 },
-          { "stat": "damage", "type": "cut", "scale": 1.25 },
-          { "stat": "damage", "type": "stab", "scale": 1.25 }
-        ]
-      }
-    ],
-    "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_counter", "tec_leopard_precise" ]
+    "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_claw", "tec_leopard_precise", "tec_leopard_pounce" ]
   },
   {
     "type": "martial_art",
@@ -830,7 +819,7 @@
     "type": "martial_art",
     "id": "style_ninjutsu",
     "name": { "str": "Ninjutsu" },
-    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage on the first attack.  It also provides small combat bonuses every time you move.",
+    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and you have a higher chance to critically hit on your first attack.  It also provides small combat bonuses every time you move.",
     "initiate": [ "You perform a kuji-in mantra with your hands.  Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
     "learn_difficulty": 6,
     "arm_block": 3,
@@ -847,30 +836,22 @@
       {
         "id": "buff_ninjutsu_static2",
         "name": "Sneak Attack",
-        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+50% all damage.",
+        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+25% critical hit chance.",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 1.5 },
-          { "stat": "damage", "type": "cut", "scale": 1.5 },
-          { "stat": "damage", "type": "stab", "scale": 1.5 }
-        ]
+        "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 25.0 } ]
       }
     ],
     "onattack_buffs": [
       {
         "id": "buff_ninjutsu_onattack",
         "name": "Loss of Surprise",
-        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\n-50% all damage.\nLast 3 turns.",
+        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\nDisables \"Sneak Attack\" buff and \"Assassinate\" and \"Ninjutsu Takedown\" techniques.  Enables \"Swift Strike (crit)\" technique.\nLast 3 turns, persists after switching styles.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
-        "persists": true,
-        "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 0.67 },
-          { "stat": "damage", "type": "cut", "scale": 0.67 },
-          { "stat": "damage", "type": "stab", "scale": 0.67 }
-        ]
+        "persists": true
       }
     ],
     "onmove_buffs": [
@@ -889,16 +870,17 @@
       {
         "id": "buff_ninjutsu_onkill",
         "name": "Escape Plan",
-        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns.",
+        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns, persists after switching styles.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
+        "persists": true,
         "bonus_dodges": 2,
         "flat_bonuses": [ { "stat": "speed", "scale": 10.0 } ]
       }
     ],
-    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_swift_crit", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
     "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS" ]
   },
   {
@@ -1521,7 +1503,7 @@
       {
         "id": "debug_miss_buff",
         "name": "Getting Angry",
-        "description": "When I get my hands on you…  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "description": "When I get my hands on you… +2 bash damage for 2 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 5,

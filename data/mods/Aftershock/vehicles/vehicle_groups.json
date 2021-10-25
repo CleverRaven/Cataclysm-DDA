@@ -1,19 +1,13 @@
 [
   {
-    "id": "city_vehicles",
-    "type": "vehicle_group",
-    "vehicles": [ [ "afs_sports_bike", 300 ] ]
-  },
-  {
     "id": "suburban_home",
     "type": "vehicle_group",
-    "vehicles": [ [ "afs_sports_bike", 150 ], [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
   },
   {
     "id": "parkinglot",
     "type": "vehicle_group",
     "vehicles": [
-      [ "afs_sports_bike", 300 ],
       [ "afs_electric_semi", 300 ],
       [ "car_atomic", 1000 ],
       [ "car_sports_atomic", 100 ],
@@ -71,11 +65,6 @@
     "id": "highway",
     "type": "vehicle_group",
     "vehicles": [ [ "car_atomic", 1500 ], [ "suv_atomic", 1500 ], [ "compact_atomic", 300 ] ]
-  },
-  {
-    "type": "vehicle_group",
-    "id": "bikeshop",
-    "vehicles": [ [ "afs_sports_bike", 400 ] ]
   },
   {
     "type": "vehicle_group",

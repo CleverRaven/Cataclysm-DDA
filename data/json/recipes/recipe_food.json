@@ -14,7 +14,7 @@
     "charges": 12,
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
     "components": [
-      [ [ "flour", 4 ] ],
+      [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ],
       [ [ "salt", 12 ] ],
       [ [ "sugar", 24 ], [ "artificial_sweetener", 24 ] ],
       [ [ "chocolate", 3 ] ],
@@ -43,7 +43,7 @@
       { "proficiency": "prof_baking", "fail_multiplier": 1.1 }
     ],
     "components": [
-      [ [ "flour", 10 ] ],
+      [ [ "flour", 10 ], [ "flour_wheat_free", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt", 1 ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
@@ -841,6 +841,26 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "blood_rice_pudding",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "time": "45 m",
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "batch_time_factors": [ 50, 2 ],
+    "components": [
+      [ [ "dry_rice", 1 ] ],
+      [ [ "edible_blood", 1, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ], [ "peanut", 1 ], [ "chilly-p", 1 ], [ "curry_powder", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sushi_fishroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -995,6 +1015,35 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "blutwurst_sausage",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "batch_time_factors": [ 83, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "charges": 8,
+    "components": [
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "edible_blood", 2, "LIST" ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bratwurst_sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -1064,6 +1113,27 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "sausage_raw", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "soup_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 2,
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [ [ "edible_blood", 1, "LIST" ] ],
+      [ [ "dry_fruit", 1 ] ],
+      [ [ "flour", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2814,7 +2884,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 8 ] ],
+      [ [ "flour", 8 ], [ "flour_wheat_free", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [
@@ -2835,7 +2905,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 8 ] ],
+      [ [ "flour", 8 ], [ "flour_wheat_free", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [
@@ -2857,7 +2927,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 6 ] ],
+      [ [ "flour", 6 ], [ "flour_wheat_free", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [
@@ -2879,7 +2949,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 6 ] ],
+      [ [ "flour", 6 ], [ "flour_wheat_free", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [
@@ -2914,6 +2984,23 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "flatbread_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "charges": 2,
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_indian", 1 ], [ "cookbook", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "flour_wheat_free", 11 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2932,6 +3019,28 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bread_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 10,
+    "time": "20 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [
+      [ "family_cookbook", 1 ],
+      [ "baking_book", 1 ],
+      [ "cookbook", 2 ],
+      [ "cookbook_italian", 3 ],
+      [ "atomic_survival", 6 ]
+    ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "flour_wheat_free", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3086,7 +3195,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 6 ] ],
+      [ [ "flour", 6 ], [ "flour_wheat_free", 6 ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
@@ -3106,7 +3215,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 20 ] ],
+      [ [ "flour", 20 ], [ "flour_wheat_free", 20 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
@@ -3841,6 +3950,26 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "fried_egg_sandwich_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "condiment", 2, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_fried_egg_sandwich",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3859,6 +3988,29 @@
       [ [ "salt_preservation", 2, "LIST" ] ],
       [ [ "condiment", 2, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "deluxe_fried_egg_sandwich_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ],
+      [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ], [ "garlic_clove", 1 ], [ "onion", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "veggy_green", 1, "LIST" ] ],
+      [ [ "salt_preservation", 2, "LIST" ] ],
+      [ [ "condiment", 2, "LIST" ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ]
     ]
   },
   {
@@ -3977,7 +4129,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
@@ -3998,7 +4150,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 6 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
@@ -4020,13 +4172,33 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 6 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "blood_pancakes",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "edible_blood", 2, "LIST" ] ],
+      [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
   {
@@ -4068,7 +4240,7 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
@@ -4089,7 +4261,7 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
@@ -4112,7 +4284,7 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
@@ -4163,7 +4335,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 8 ], [ "oatmeal", 8 ], [ "dry_rice", 2 ] ],
+      [ [ "flour", 8 ], [ "oatmeal", 8 ], [ "dry_rice", 2 ], [ "flour_wheat_free", 8 ] ],
       [
         [ "sugar", 16 ],
         [ "peanutbutter", 4 ],
@@ -4300,7 +4472,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
       [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -4319,7 +4491,11 @@
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "flour", 30 ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
+      [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -4335,7 +4511,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [
         [ "meat_red", 1, "LIST" ],
         [ "dry_meat", 1 ],
@@ -4365,7 +4541,7 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "syrup", 5 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -4498,7 +4674,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [
         [ "veggy_any", 2, "LIST" ],
         [ "mushroom", 2 ],
@@ -4538,7 +4714,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [
         [ "meat_red", 2, "LIST" ],
         [ "can_chicken", 2 ],
@@ -4613,7 +4789,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -4632,7 +4808,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ] ],
+      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
       [
         [ "meat_red", 2, "LIST" ],
         [ "can_chicken", 2 ],
@@ -4819,6 +4995,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
@@ -4841,6 +5018,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ], [ [ "fish", 5 ] ], [ [ "salt_preservation", 5, "LIST" ] ] ]
@@ -4859,6 +5037,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
@@ -4881,6 +5060,7 @@
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
     "components": [
@@ -4920,14 +5100,26 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ], [ "oats", 4 ], [ "starch", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "flour_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "45 m",
+    "charges": 15,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [
       [
-        [ "wheat", 1 ],
         [ "buckwheat", 1 ],
-        [ "barley", 1 ],
         [ "acorns_cooked", 10 ],
-        [ "oats", 4 ],
-        [ "starch", 1 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
         [ "chestnut_roasted", 12 ]
@@ -5219,6 +5411,42 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "fish_sandwich_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "4 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [
+        [ "pickle", 1 ],
+        [ "veggy_pickled", 1 ],
+        [ "onion", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "can_tomato", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "tomato", 1 ],
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ]
+      ],
+      [
+        [ "ketchup", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "mayonnaise", 1 ],
+        [ "bacon", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "soysauce", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_bagel",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5326,6 +5554,78 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_deluxe_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "7 m 30 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
+      [
+        [ "veggy_cooked", 1 ],
+        [ "veggy_wild_cooked", 1 ],
+        [ "veggy_salted", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "tomato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "irradiated_pumpkin", 1 ],
+        [ "onion", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "broccoli", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "irradiated_broccoli", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "sauerkraut_onions", 1 ],
+        [ "pickle", 1 ],
+        [ "veggy_canned", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "irradiated_carrot", 1 ],
+        [ "irradiated_zucchini", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "carrot", 1 ],
+        [ "zucchini", 1 ],
+        [ "lettuce", 1 ],
+        [ "pine_nuts", 1 ],
+        [ "morel_fried", 1 ],
+        [ "veggy_aspic", 1 ],
+        [ "dahlia_baked", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "cucumber", 1 ],
+        [ "veggy_pickled", 1 ],
+        [ "cooked_cattail_stalk", 1 ],
+        [ "cooked_pumpkin", 1 ],
+        [ "potato_baked", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ]
+      ],
+      [
+        [ "ketchup", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "mayonnaise", 1 ],
+        [ "seasoning_salt", 5 ],
+        [ "soysauce", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_reuben",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5351,6 +5651,31 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_reuben_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "7 m 30 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "cheese", 2 ], [ "cheese_hard", 2 ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "sauerkraut", 1 ] ],
+      [ [ "ketchup", 1 ] ],
+      [ [ "onion", 1 ] ],
+      [ [ "horseradish", 1 ] ],
+      [ [ "mayonnaise", 1 ] ],
+      [ [ "seasoning_salt", 5 ] ],
+      [ [ "hot_sauce", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hamburger",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5364,6 +5689,45 @@
     "components": [
       [ [ "meat_red", 1, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
+      [
+        [ "pickle", 1 ],
+        [ "veggy_pickled", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "onion", 1 ],
+        [ "can_tomato", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "tomato", 1 ],
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ]
+      ],
+      [
+        [ "ketchup", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "mayonnaise", 1 ],
+        [ "bacon", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "sauerkraut", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hamburger_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "8 m",
+    "charges": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
@@ -5456,6 +5820,25 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "hotdogs_cooked_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "ketchup", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hotdogs_newyork",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5468,6 +5851,24 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "hotdogs_cooked", 1 ] ],
+      [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hotdogs_newyork_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "4 m",
+    "autolearn": false,
+    "book_learn": [ [ "cookbook", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "hotdogs_cooked_wheat_free", 1 ] ],
       [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
     ]
   },
@@ -5487,6 +5888,25 @@
       [ [ "hotdogs_frozen", 2 ], [ "homemade_hotdogs", 2 ], [ "bratwurst_sausage", 2 ] ],
       [ [ "chili", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
+      [ [ "mustard", 2 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chilidogs_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "hotdogs_frozen", 2 ], [ "homemade_hotdogs", 2 ], [ "bratwurst_sausage", 2 ] ],
+      [ [ "chili", 1 ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "mustard", 2 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
     ]
   },
@@ -5513,7 +5933,7 @@
         [ "can_chicken", 1 ]
       ],
       [ [ "edible_tallow_lard", 2, "LIST" ] ],
-      [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
     ]
   },
@@ -5584,7 +6004,26 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
+      [ [ "bacon", 1 ] ],
+      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ] ],
+      [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "blt_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "bacon", 1 ] ],
       [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ] ],
       [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ]
@@ -5612,6 +6051,25 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sloppyjoe_wheat_free",
+    "charges": 2,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "8 m",
+    "book_learn": [ [ "sweets_book", 1 ], [ "mag_cooking", 1 ], [ "family_cookbook", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "sauce_red", 2 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_t",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5620,6 +6078,18 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "meat_cooked", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_t_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "meat_cooked", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5635,6 +6105,17 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_pb_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_pbj",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5642,6 +6123,17 @@
     "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_pbj_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5661,6 +6153,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_pbh_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
+      [ [ "any_peanutbutter", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_pbm",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5668,6 +6175,17 @@
     "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "syrup", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_pbm_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "syrup", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5683,6 +6201,17 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_fairy_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "book_learn": [ [ "mag_glam", 1 ] ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ], [ [ "any_butter", 1, "LIST" ] ], [ [ "sprinkles", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "toastem4",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5692,7 +6221,12 @@
     "book_learn": [ [ "baking_book", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "flour", 12 ] ], [ [ "eggs_bird", 1, "LIST" ] ], [ [ "jam_fruit", 9 ] ], [ [ "cornmeal", 1 ] ] ]
+    "components": [
+      [ [ "flour", 12 ], [ "flour_wheat_free", 12 ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "jam_fruit", 9 ] ],
+      [ [ "cornmeal", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -6060,7 +6594,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 3 ] ],
+      [ [ "flour", 3 ], [ "flour_wheat_free", 3 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
@@ -6240,7 +6774,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "meal_bone", 3 ] ],
       [
         [ "meal_chitin_piece", 1 ],
@@ -6318,6 +6852,67 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_veggy_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [
+        [ "veggy_cooked", 1 ],
+        [ "veggy_wild_cooked", 1 ],
+        [ "veggy_salted", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "tomato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "irradiated_pumpkin", 1 ],
+        [ "onion", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "broccoli", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "irradiated_broccoli", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "sauerkraut_onions", 1 ],
+        [ "pickle", 1 ],
+        [ "veggy_canned", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "irradiated_carrot", 1 ],
+        [ "irradiated_zucchini", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "carrot", 1 ],
+        [ "zucchini", 1 ],
+        [ "lettuce", 1 ],
+        [ "pine_nuts", 1 ],
+        [ "morel_fried", 1 ],
+        [ "veggy_aspic", 1 ],
+        [ "dahlia_baked", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "cucumber", 1 ],
+        [ "veggy_pickled", 1 ],
+        [ "cooked_cattail_stalk", 1 ],
+        [ "cooked_pumpkin", 1 ],
+        [ "potato_baked", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_cucumber",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -6326,7 +6921,23 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
+      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
+      [ [ "cucumber", 1 ], [ "irradiated_cucumber", 1 ] ],
+      [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_cucumber_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "cornbread", 2 ] ],
       [ [ "cucumber", 1 ], [ "irradiated_cucumber", 1 ] ],
       [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -6358,6 +6969,30 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_sauce_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "charges": 1,
+    "components": [
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [
+        [ "cooking_oil", 1 ],
+        [ "cooking_oil2", 1 ],
+        [ "mayonnaise", 1 ],
+        [ "ketchup", 1 ],
+        [ "sauce_pesto", 1 ],
+        [ "sauce_red", 1 ],
+        [ "mustard", 1 ],
+        [ "any_butter", 1, "LIST" ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_jam",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6365,6 +7000,17 @@
     "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_jam_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6384,6 +7030,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_jam_cheese_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
+      [ [ "jam_fruit", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_jam_butter",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6395,6 +7056,17 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_jam_butter_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "any_butter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_honey",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -6402,6 +7074,17 @@
     "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_honey_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6418,6 +7101,18 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_cheese_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_cheese_grilled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -6427,6 +7122,19 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "sandwich_cheese", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_cheese_grilled_wheat_free",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "sandwich_cheese_wheat_free", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6599,7 +7307,11 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
-    "components": [ [ [ "flour", 2 ] ], [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "flour", 2 ], [ "flour_wheat_free", 2 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -6717,7 +7429,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "oatmeal", 1 ], [ "flour", 5 ], [ "buckwheat", 1 ] ],
+      [ [ "oatmeal", 1 ], [ "flour", 5 ], [ "flour_wheat_free", 5 ], [ "buckwheat", 1 ] ],
       [ [ "dry_fruit", 1 ] ],
       [ [ "edible_tallow_lard", 2, "LIST" ] ],
       [
@@ -6917,14 +7629,26 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ], [ "oats", 4 ], [ "starch", 1 ] ] ]
+  },
+  {
+    "result": "flour_wheat_free",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 15,
+    "time": "11 m 15 s",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [
       [
-        [ "wheat", 1 ],
         [ "buckwheat", 1 ],
-        [ "barley", 1 ],
         [ "acorns_cooked", 10 ],
-        [ "oats", 4 ],
-        [ "starch", 1 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
         [ "chestnut_roasted", 12 ]
@@ -7212,18 +7936,25 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [
-      [
-        [ "wheat", 1 ],
-        [ "buckwheat", 1 ],
-        [ "barley", 1 ],
-        [ "acorns_cooked", 10 ],
-        [ "oats", 4 ],
-        [ "starch", 1 ],
-        [ "dry_rice", 5 ],
-        [ "chestnut_roasted", 12 ]
-      ]
-    ]
+    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ], [ "oats", 4 ], [ "starch", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "flour_wheat_free",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 2,
+    "charges": 15,
+    "time": "1 h 7 m 30 s",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "dry_rice", 5 ], [ "chestnut_roasted", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -7482,7 +8213,7 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -7496,7 +8227,12 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ],
+      [ [ "sourdough_starter", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -7514,7 +8250,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "//": "The single water_clean here is for feeding the new starter.",
     "components": [
-      [ [ "flour", 10 ] ],
+      [ [ "flour", 10 ], [ "flour_wheat_free", 10 ] ],
       [ [ "sourdough_starter", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "water_clean", 1 ] ]
@@ -7956,6 +8692,26 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "tomato_juice", 1 ], [ "V8", 1 ] ],
+      [ [ "vodka", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
+      [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "drink_bloody_mary_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "result_mult": 2,
+    "time": "30 s",
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "edible_blood", 1, "LIST" ] ],
       [ [ "vodka", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],

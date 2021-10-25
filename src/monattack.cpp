@@ -797,11 +797,13 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         const item &weapon = foe->get_wielded_item();
-        if( !weapon.has_flag( flag_NO_UNWIELD ) &&
-            ( weapon.made_of( material_id( "iron" ) ) ||
-              weapon.made_of( material_id( "hardsteel" ) ) ||
-              weapon.made_of( material_id( "steel" ) ) ||
-              weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+        const int metal_portion = weapon.made_of( material_id( "iron" ) ) +
+                                  weapon.made_of( material_id( "hardsteel" ) ) +
+                                  weapon.made_of( material_id( "steel" ) ) +
+                                  weapon.made_of( material_id( "budget_steel" ) );
+        // Take the total portion of metal in the item into account
+        const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
+        if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
             const int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -809,7 +811,8 @@ bool mattack::pull_metal_weapon( monster *z )
             ///\EFFECT_STR increases resistance to pull_metal_weapon special attack
             if( foe->str_cur > min_str ) {
                 ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                success = std::max( 100 - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ), 0 );
+                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ),
+                                    0.0f );
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {

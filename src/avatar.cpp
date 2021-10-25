@@ -62,6 +62,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "profession.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -205,6 +206,19 @@ void avatar::control_npc_menu()
         return;
     }
     get_avatar().control_npc( *followers.at( charmenu.ret ) );
+}
+
+void avatar::longpull( const std::string name )
+{
+    item wtmp( itype_id( "mut_longpull" ) );
+    g->temp_exit_fullscreen();
+    target_handler::trajectory traj = target_handler::mode_throw( *this, wtmp, false );
+    g->reenter_fullscreen();
+    if( traj.empty() ) {
+        return; // cancel
+    }
+
+    Creature::longpull( name, traj.back() );
 }
 
 void avatar::toggle_map_memory()
@@ -1459,6 +1473,27 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+void avatar::update_cardio_acc()
+{
+    // This function should be called once every 24 hours,
+    // before the front of the calorie diary is reset for the next day.
+
+    // Daily gain or loss is the square root of the difference between
+    // current cardio fitness and the kcals spent in the previous 24 hours.
+    const int cardio_fit = get_cardiofit();
+    const int last_24h_kcal = calorie_diary.front().spent;
+
+    // If we burned kcals beyond our current fitness level, gain some cardio.
+    // Or, if we burned fewer kcals than current fitness, lose some cardio.
+    int adjustment = 0;
+    if( cardio_fit > last_24h_kcal ) {
+        adjustment = -std::sqrt( cardio_fit - last_24h_kcal );
+    } else if( last_24h_kcal > cardio_fit ) {
+        adjustment = std::sqrt( last_24h_kcal - cardio_fit );
+    }
+    set_cardio_acc( get_cardio_acc() + adjustment );
 }
 
 void avatar::advance_daily_calories()

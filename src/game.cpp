@@ -2092,6 +2092,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
     ctxt.register_action( "drop" );
+    ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
@@ -4748,7 +4749,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            const int glass_portion = it->made_of( material_id( "glass" ) );
+            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
+            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
@@ -6341,7 +6344,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon ) {
+            if( mon && u.sees( *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
@@ -7771,16 +7774,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-void game::drop()
+void game::unload_container()
 {
-    u.drop( game_menus::inv::multidrop( u ), u.pos() );
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
+        u.drop( game_menus::inv::unload_container( u ), *pnt );
+    }
 }
 
-void game::drop_in_direction()
+void game::drop_in_direction( const tripoint &pnt )
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.drop( game_menus::inv::multidrop( u ), *pnt );
-    }
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -9336,19 +9339,20 @@ point game::place_player( const tripoint &dest_loc )
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
                 const bool forage_crops = forage_everything || forage_type == "crops";
-                if( !xter_t.can_examine( pos ) ) {
+                if( !xter_t.can_examine( pos ) && !xfurn_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::tree_marloss ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::harvest_ter ) ) ||
-                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) )
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
+                           ( forage_crops && xter_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xter_t.examine( u, pos );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
                            ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
-                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant ) )
+                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xfurn_t.examine( u, pos );
                 }

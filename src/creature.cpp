@@ -18,6 +18,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -123,6 +124,10 @@ Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
+
+
+std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
+std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
 
 tripoint Creature::pos() const
 {
@@ -1207,6 +1212,56 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
+void Creature::longpull( const std::string name, const tripoint &p )
+{
+    if( pos() == p ) {
+        add_msg_if_player( _( "You try to pull yourself together." ) );
+        return;
+    }
+
+    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
+    Creature *c = nullptr;
+    for( const tripoint &path_p : path ) {
+        c = get_creature_tracker().creature_at( path_p );
+        if( c == nullptr && get_map().impassable( path_p ) ) {
+            add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
+            return;
+        }
+        if( c != nullptr ) {
+            break;
+        }
+    }
+    if( c == nullptr || !sees( *c ) ) {
+        // TODO: Latch onto objects?
+        add_msg_if_player( m_warning, _( "There's nothing here to latch onto with your %s!" ),
+                           name );
+        return;
+    }
+
+    // Pull creature
+    const Character *ch = as_character();
+    const monster *mon = as_monster();
+    const int str = ch != nullptr ? ch->get_str() : mon != nullptr ? mon->get_grab_strength() : 10;
+    const int odds = units::to_kilogram( c->get_weight() ) / ( str * 3 );
+    if( one_in( clamp<int>( odds * odds, 1, 1000 ) ) ) {
+        add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
+                           name );
+        if( c->is_avatar() ) {
+            add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( false, true ), name );
+        }
+        c->move_to( tripoint_abs_ms( line_to( get_location().raw(), c->get_location().raw(), 0,
+                                              0 ).front() ) );
+        c->add_effect( effect_stunned, 1_seconds );
+        sounds::sound( c->pos(), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
+    } else {
+        add_msg_if_player( m_bad, _( "%s weight makes it difficult to pull towards you." ),
+                           c->disp_name( true, true ) );
+        if( c->is_avatar() ) {
+            add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( false, true ) );
+        }
+    }
+}
+
 /*
  * State check functions
  */
@@ -1363,6 +1418,28 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     add_effect( source, eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity, force,
                 deferred );
 }
+
+void Creature::schedule_effect( const effect &eff, bool force, bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff.get_id(), eff.get_duration(), eff.get_bp(),
+                            eff.is_permanent(), eff.get_intensity(), force,
+                            deferred} );
+}
+void Creature::schedule_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                                bool permanent, int intensity, bool force, bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bp,
+                            permanent, intensity, force,
+                            deferred} );
+}
+void Creature::schedule_effect( const efftype_id &eff_id,
+                                const time_duration &dur, bool permanent, int intensity, bool force,
+                                bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bodypart_str_id::NULL_ID(),
+                            permanent, intensity, force, deferred} );
+}
+
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
@@ -1431,6 +1508,15 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 bool Creature::remove_effect( const efftype_id &eff_id )
 {
     return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart_id &bp )
+{
+    terminating_effects.push( terminating_effect{eff_id, bp} );
+}
+void Creature::schedule_effect_removal( const efftype_id &eff_id )
+{
+    return schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
@@ -2368,7 +2454,7 @@ void Creature::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "moves" ) {
         mod_moves( modifier );
     } else {
-        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+        debugmsg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
 
