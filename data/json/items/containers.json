@@ -25,7 +25,11 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material_thickness": 2,
+      "material": [ "plastic" ],
+      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+    },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -621,7 +625,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "material_thickness": 1, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": { "material_thickness": 1, "material": [ "cotton", "plastic" ], "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED" ]
   },
   {
@@ -835,7 +839,7 @@
     "armor_data": {
       "sided": true,
       "material_thickness": 2,
-      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ], "material": [ "plastic" ] } ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1135,7 +1139,12 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "sided": true, "material_thickness": 1, "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ] },
+    "armor_data": {
+      "sided": true,
+      "material_thickness": 1,
+      "material": [ "iron" ],
+      "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ]
+    },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1460,7 +1469,11 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material_thickness": 2,
+      "material": [ "wood" ],
+      "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ]
+    },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1513,7 +1526,12 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
+    "armor_data": {
+      "sided": true,
+      "material_thickness": 2,
+      "material": [ "leather" ],
+      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1541,7 +1559,7 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
+    "armor_data": { "material_thickness": 2, "material": [ "leather" ], "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1569,7 +1587,7 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": { "material_thickness": 2, "material": [ "leather" ], "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {

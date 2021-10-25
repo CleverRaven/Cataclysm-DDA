@@ -310,6 +310,7 @@
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": {
+      "material": [ "steel", "plastic" ],
       "sided": true,
       "material_thickness": 2,
       "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]

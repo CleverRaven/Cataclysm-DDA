@@ -1540,7 +1540,7 @@ static int get_base_env_resist( const item &it )
         }
     }
 
-    return t->env_resist * it.get_relative_health();
+    return t->avg_env_resist() * it.get_relative_health();
 }
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
@@ -6524,7 +6524,7 @@ int item::get_env_resist( int override_base_resist ) const
         return is_pet_armor() ? type->pet_armor->env_resist : 0;
     }
     // modify if item is a gas mask and has filter
-    int resist_base = t->env_resist;
+    int resist_base = t->avg_env_resist();
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
@@ -6537,7 +6537,7 @@ int item::get_base_env_resist_w_filter() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->env_resist_w_filter : 0;
     }
-    return t->env_resist_w_filter;
+    return t->avg_env_resist_w_filter();
 }
 
 bool item::is_power_armor() const
@@ -6723,7 +6723,7 @@ float item::get_thickness() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
     }
-    return t->thickness;
+    return t->avg_thickness();
 }
 
 int item::get_warmth() const
