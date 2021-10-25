@@ -15,7 +15,6 @@
 #include "point.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 // from overmap.h
@@ -27,6 +26,7 @@ using FreqDef_iter = FreqDef::iterator;
 
 struct MonsterGroupEntry {
     mtype_id name;
+    mongroup_id group;
     int frequency;
     int cost_multiplier;
     int pack_minimum;
@@ -38,11 +38,29 @@ struct MonsterGroupEntry {
     bool lasts_forever() const {
         return ends <= 0_turns;
     }
+    bool is_group() const {
+        return group != mongroup_id();
+    }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost, int new_pack_min,
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
                        const time_duration &new_ends )
         : name( id )
+        , group( mongroup_id() )
+        , frequency( new_freq )
+        , cost_multiplier( new_cost )
+        , pack_minimum( new_pack_min )
+        , pack_maximum( new_pack_max )
+        , data( new_data )
+        , starts( new_starts )
+        , ends( new_ends ) {
+    }
+
+    MonsterGroupEntry( const mongroup_id &id, int new_freq, int new_cost, int new_pack_min,
+                       int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
+                       const time_duration &new_ends )
+        : name( mtype_id() )
+        , group( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
@@ -163,7 +181,7 @@ struct mongroup {
     void io( Archive & );
     using archive_type_tag = io::object_archive_tag;
 
-    void deserialize( JsonIn &data );
+    void deserialize( const JsonObject &jo );
     void deserialize_legacy( JsonIn &json );
     void serialize( JsonOut &json ) const;
 };
@@ -175,11 +193,12 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist( const JsonObject &jo );
         static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
+        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr,
+                bool *mon_found = nullptr );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &monster );
-        static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group );
+        static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group, bool from_subgroups );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
         static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
         /**
@@ -195,6 +214,8 @@ class MonsterGroupManager
         static bool monster_is_blacklisted( const mtype_id &m );
 
         static bool is_animal( const mongroup_id &group );
+
+        static void extract_mons_from_subgroups();
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

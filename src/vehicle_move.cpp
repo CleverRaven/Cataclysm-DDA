@@ -907,10 +907,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).base_item );
     const auto &mats = type->materials;
+    float mat_total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     float vpart_dens = 0.0f;
     if( !mats.empty() ) {
-        for( const material_id &mat_id : mats ) {
-            vpart_dens += mat_id.obj().density();
+        for( const std::pair<const material_id, int> &mat_id : mats ) {
+            vpart_dens += mat_id.first->density() * ( static_cast<float>( mat_id.second ) / mat_total );
         }
         // average
         vpart_dens /= mats.size();
@@ -1304,8 +1305,7 @@ bool vehicle::check_heli_descend( Character &p )
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
-        if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
-                                    !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) ) {
+        if( pt.z < -OVERMAP_DEPTH || !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) {
             p.add_msg_if_player( _( "You are already landed!" ) );
             return false;
         }
@@ -1893,7 +1893,7 @@ vehicle *vehicle::act_on_map()
 bool vehicle::level_vehicle()
 {
     map &here = get_map();
-    if( !here.has_zlevels() || ( is_flying && is_rotorcraft() ) ) {
+    if( is_flying && is_rotorcraft() ) {
         return true;
     }
     // make sure that all parts are either supported across levels or on the same level
@@ -1940,9 +1940,6 @@ bool vehicle::level_vehicle()
 
 void vehicle::check_falling_or_floating()
 {
-    map &here = get_map();
-    is_falling = here.has_zlevels();
-
     // If we're flying none of the rest of this matters.
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
@@ -1950,7 +1947,10 @@ void vehicle::check_falling_or_floating()
         in_water = false;
         return;
     }
+
+    is_falling = true;
     is_flying = false;
+    map &here = get_map();
 
     auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
         // if we're at the bottom of the z-levels, we're supported
@@ -1971,7 +1971,7 @@ void vehicle::check_falling_or_floating()
     // Check under the wheels, if they're supported nothing else matters.
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
-        const tripoint &position = global_part_pos3( wheel_index );
+        const tripoint position = global_part_pos3( wheel_index );
         if( has_support( position, false ) ) {
             ++supported_wheels;
         }
@@ -2032,7 +2032,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
-        const tripoint &pp = veh.global_part_pos3( p );
+        const tripoint pp = veh.global_part_pos3( p );
         const int wheel_area = veh.part( p ).wheel_area();
 
         const auto &tr = ter( pp ).obj();

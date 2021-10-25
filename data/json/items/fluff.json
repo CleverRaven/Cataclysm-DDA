@@ -251,6 +251,36 @@
     "color": "dark_gray"
   },
   {
+    "id": "cigar_cutter",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "cigar cutter" },
+    "description": "A set of small blades that pinch together to cut the end off of a cigar.",
+    "weight": "81 g",
+    "volume": "19 ml",
+    "price": 2200,
+    "price_postapoc": 5,
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "yellow",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "cigar_punch",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "cigar punch", "str_pl": "cigar punches" },
+    "description": "A small tube meant to cut a hole in the end of a cigar.",
+    "weight": "25 g",
+    "volume": "20 ml",
+    "price": 1200,
+    "price_postapoc": 0,
+    "material": [ "aluminum" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "xedra_seismograph",
     "type": "ARMOR",
     "name": { "str": "portable seismograph" },
@@ -268,7 +298,7 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "type": "GENERIC",

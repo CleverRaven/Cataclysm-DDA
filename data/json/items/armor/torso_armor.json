@@ -84,6 +84,36 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "armor_thessalonian",
+    "type": "ARMOR",
+    "name": { "str": "cataphract armor", "str_pl": "suits of cataphract armor" },
+    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from head to waist and is of extremely high quality.",
+    "weight": "7286 g",
+    "volume": "6 L",
+    "price": 50000,
+    "price_postapoc": 7000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "fancy_bronze", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "brown",
+    "warmth": 18,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
+      {
+        "encumbrance": 17,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ]
+      }
+    ]
+  },
+  {
     "id": "bookplate",
     "type": "ARMOR",
     "category": "armor",
@@ -422,42 +452,6 @@
     "material_thickness": 3,
     "flags": [ "STURDY", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "lsurvivor_armor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "light survivor body armor" },
-    "description": "Lightweight, custom-built body armor made from Kevlar and tough fabric.  Mostly waterproof.",
-    "weight": "3000 g",
-    "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 4000,
-    "material": [ "kevlar", "cotton" ],
-    "symbol": "[",
-    "looks_like": "lsurvivor_suit",
-    "color": "green",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "xl_lsurvivor_armor",
-    "type": "ARMOR",
-    "name": { "str": "XL light survivor body armor" },
-    "copy-from": "lsurvivor_armor",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "motorbike_armor",

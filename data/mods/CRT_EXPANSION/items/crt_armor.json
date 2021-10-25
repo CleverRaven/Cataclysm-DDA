@@ -15,7 +15,6 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 10,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
@@ -133,16 +132,6 @@
     "environmental_protection": 3,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "crt_belt",
-    "copy-from": "survivor_belt_notools",
-    "type": "ARMOR",
-    "name": "CRIT web belt",
-    "description": "CRIT standard-issue belt.  Keeps your trousers up and your weapons on your hip.",
-    "color": "dark_gray",
-    "material": [ "leather", "brass" ],
-    "flags": [ "WATER_FRIENDLY" ]
   },
   {
     "id": "crt_iduster",

@@ -56,6 +56,8 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -119,7 +121,8 @@ static item_location_filter convert_filter( const item_filter &filter )
 static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
-                                   const std::string &hint = std::string() )
+                                   const std::string &hint = std::string(),
+                                   item_location container = item_location() )
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -137,8 +140,15 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     u.inv->restack( u );
 
     inv_s.clear_items();
-    inv_s.add_character_items( u );
-    inv_s.add_nearby_items( radius );
+
+    if( container ) {
+        // Only look inside the container.
+        inv_s.add_contained_items( container );
+    } else {
+        // Default behavior.
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+    }
 
     if( u.has_activity( consuming ) ) {
         if( !u.activity.str_values.empty() ) {
@@ -180,9 +190,10 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 void game_menus::inv::common( avatar &you )
 {
     // Return to inventory menu on those inputs
-    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
+    static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
+    inv_s.allow_hide = true;
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -196,7 +207,7 @@ void game_menus::inv::common( avatar &you )
     do {
         you.inv->restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( you );
+        inv_s.add_character_items( you, false );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
             inv_s.select( location );
@@ -314,7 +325,7 @@ class armor_inventory_preset: public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 const int storage_ml = to_milliliter( loc->get_total_capacity() );
                 return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
-            }, string_format( "STORAGE (%s)", volume_units_abbr() ) );
+            }, string_format( _( "STORAGE (%s)" ), volume_units_abbr() ) );
         }
 
     protected:
@@ -557,13 +568,26 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [&you]( const item_location & loc ) {
-                const item &it = *loc;
-                if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( you.fun_for( *loc ).first );
+                int joy = you.fun_for( *loc ).first;
+                std::string joy_str;
+                if( loc->has_flag( flag_MUSHY ) ) {
+                    joy_str = highlight_good_bad_none( joy );
                 } else {
-                    return good_bad_none( you.fun_for( *loc ).first );
+                    joy_str = good_bad_none( joy );
                 }
-            }, _( "JOY" ) );
+
+                int max_joy = you.fun_for( *loc, true ).first;
+                // max_joy should be 3 wide for aligment of '/'
+                if( max_joy == 0 ) {
+                    // this will not be an empty string when food's joy can go below 0 by consumption (very rare)
+                    return joy_str;
+                } else if( max_joy == joy ) {
+                    return joy_str + std::string( joy > 0 ? "<good>/  =</good>" : "<bad>/  =</bad>" );
+                } else {
+                    return string_format( max_joy > 0 ? "%s/<good>%+3d</good>" : "%s/<bad>%3d</bad>",
+                                          joy_str, max_joy );
+                }
+            }, _( "JOY/MAX" ) );
 
             append_cell( []( const item_location & loc ) {
                 const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
@@ -592,9 +616,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
-            const std::string this_cell_title = _( "SATIETY" );
-            append_cell( [&you, this_cell_title]( const item_location & loc ) {
+            append_cell( [&you]( const item_location & loc ) {
                 const item &it = *loc;
                 // Quit prematurely if the item is not food.
                 if( !it.type->comestible ) {
@@ -611,13 +633,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
                     return string_format( "%d", calories_per_effective_volume );
                 }
-                std::string result = satiety_bar( calories_per_effective_volume );
-                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
-                if( utf8_width( this_cell_title ) > 5 ) {
-                    result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
-                }
-                return result;
-            }, _( this_cell_title ) );
+                return satiety_bar( calories_per_effective_volume );
+            }, _( "SATIETY" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
@@ -970,17 +987,20 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you )
+item_location game_menus::inv::consume( avatar &you, const item_location loc )
 {
+    static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
+        container_location = loc;
     }
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
     return inv_internal( you, comestible_inventory_preset( you ),
                          _( "Consume item" ), 1,
                          none_message,
-                         get_consume_needs_hint( you ) );
+                         get_consume_needs_hint( you ),
+                         container_location );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
@@ -1127,8 +1147,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 &&
                 !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
-                           ngettext( "Needs at least %d charge",
-                                     "Needs at least %d charges", loc->ammo_required() ),
+                           n_gettext( "Needs at least %d charge",
+                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
@@ -1448,7 +1468,7 @@ class steal_inventory_preset : public pickup_inventory_preset
             pickup_inventory_preset( you ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return !victim.is_worn( *loc ) && &victim.weapon != &( *loc );
+            return !victim.is_worn( *loc ) && &victim.get_wielded_item() != &( *loc );
         }
 
     private:
@@ -1599,8 +1619,7 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
     inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
                                          /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
-    insert_menu.add_map_items( you.pos() );
-    insert_menu.add_vehicle_items( you.pos() );
+    insert_menu.add_nearby_items( 1 );
     insert_menu.set_display_stats( false );
 
     insert_menu.set_title( title );
@@ -1626,6 +1645,86 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             player_activity(
                 insert_item_activity_actor( holster, holstered_list ) ) );
     }
+}
+
+static bool valid_unload_container( const item_location &container )
+{
+    // Item must be a container.
+    if( !container->is_container() ) {
+        return false;
+    }
+
+    // Container must contain at least one item
+    if( container->empty_container() ) {
+        return false;
+    }
+
+    // This item must not be a liquid, relies on containers
+    // only being able to store one liquid at a time
+    if( container->num_item_stacks() == 1 && container->only_item().made_of( phase_id::LIQUID ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+// Due to current item_location limitations, these won't work.
+// When item_location gets updated to get items inside containers outside the player inventory
+// uncomment this
+// static item_location unload_container_item( drop_location &droplc, item *it, avatar &you )
+// {
+//     switch( droplc.first.where() ) {
+//         case item_location::type::invalid:
+//             return item_location();
+//         case item_location::type::character:
+//             return item_location( you, it );
+//         case item_location::type::map:
+//             return item_location( map_cursor( droplc.first.position() ), it );
+//         case item_location::type::vehicle: {
+//             const cata::optional<vpart_reference> vp =
+//                 get_map().veh_at( droplc.first.position() ).part_with_feature( "CARGO", true );
+//             if( !vp ) {
+//                 return item_location();
+//             }
+//             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
+//         }
+//         case item_location::type::container:
+//             return item_location( droplc.first, it );
+//         default:
+//             return item_location();
+//     }
+// }
+
+drop_locations game_menus::inv::unload_container( avatar &you )
+{
+    inventory_filter_preset unload_preset( valid_unload_container );
+
+    inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
+                                         /*warn_liquid=*/false );
+    insert_menu.add_character_items( you );
+    // When item_location gets updated to get items inside containers outside the player inventory
+    // uncomment this
+    //insert_menu.add_nearby_items( 1 );
+    insert_menu.set_display_stats( false );
+
+    insert_menu.set_title( _( "Select containers to unload" ) );
+
+    drop_locations dropped;
+    for( drop_location &droplc : insert_menu.execute() ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            // no liquids
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                dropped.emplace_back( item_location( droplc.first, it ), it->count() );
+                // When item_location gets updated to get items inside containers outside the player inventory
+                // uncomment this
+                // item_location iloc = unload_container_item( droplc, it, you );
+                // if( iloc ) {
+                //     dropped.emplace_back( iloc, it->count() );
+                // }
+            }
+        }
+    }
+    return dropped;
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset
@@ -1737,8 +1836,9 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     } );
 
     inventory_drop_selector inv_s( you, preset );
+    inv_s.allow_hide = true;
 
-    inv_s.add_character_items( you );
+    inv_s.add_character_items( you, false );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 

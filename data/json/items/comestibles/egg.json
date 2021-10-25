@@ -52,7 +52,50 @@
     "id": "egg_crow",
     "name": { "str": "crow egg" },
     "copy-from": "egg_chicken",
+    "weight": "17 g",
     "rot_spawn": "GROUP_EGG_CROW"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_raven",
+    "name": { "str": "raven egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_RAVEN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluejay",
+    "name": { "str": "blue jay egg" },
+    "copy-from": "egg_chicken",
+    "weight": "6 g",
+    "rot_spawn": "GROUP_EGG_BLUEJAY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cardinal",
+    "name": { "str": "cardinal egg" },
+    "copy-from": "egg_chicken",
+    "weight": "5 g",
+    "rot_spawn": "GROUP_EGG_CARDINAL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_robin",
+    "name": { "str": "robin egg" },
+    "copy-from": "egg_chicken",
+    "description": "Nutritious egg laid by a robin.",
+    "weight": "7 g",
+    "color": "light_blue",
+    "rot_spawn": "GROUP_EGG_ROBIN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sparrow",
+    "name": { "str": "sparrow egg" },
+    "copy-from": "egg_chicken",
+    "calories": 54,
+    "weight": "3 g",
+    "rot_spawn": "GROUP_EGG_SPARROW"
   },
   {
     "type": "COMESTIBLE",
@@ -388,6 +431,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "rehydrated_eggs",
+    "copy-from": "egg_bird",
+    "name": { "str": "rehydrated egg" },
+    "weight": "50 g",
+    "color": "yellow",
+    "symbol": "%",
+    "looks_like": "powder_egg",
+    "quench": 2,
+    "calories": 80,
+    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "price": 22,
+    "price_postapoc": 25,
+    "material": [ "egg" ],
+    "volume": "50 ml",
+    "flags": [  ],
+    "fun": -2,
+    "vitamins": [ [ "vitB", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "scrambled_eggs",
     "name": { "str_sp": "scrambled eggs" },
     "copy-from": "egg_chicken",
@@ -478,6 +541,38 @@
     "price": 500,
     "price_postapoc": 120,
     "material": [ "egg", "wheat" ],
+    "fun": 12,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fried_egg_sandwich_wheat_free",
+    "name": { "str_sp": "wheat-free fried egg sandwich" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 422,
+    "description": "Sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.  Made into a sandwich with wheat-free bread, just like Sunday morning.",
+    "price": 500,
+    "price_postapoc": 120,
+    "material": [ "egg", "veggy" ],
+    "fun": 4,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "deluxe_fried_egg_sandwich_wheat_free",
+    "name": { "str_sp": "wheat-free deluxe fried egg sandwich" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 422,
+    "description": "Deluxe sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.  Made into a sandwich with wheat-free bread, just like Sunday morning.",
+    "price": 500,
+    "price_postapoc": 120,
+    "material": [ "egg", "veggy" ],
     "fun": 12,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },

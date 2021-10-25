@@ -49,7 +49,7 @@
       {
         "text": "Thanks.",
         "topic": "TALK_RANCH_FOREMAN",
-        "effect": [ { "u_buy_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
+        "effect": [ { "u_spawn_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
       }
     ]
   },
@@ -680,7 +680,7 @@
       "offer": "We have the basic equipment that we need but without a functioning power grid we are forced to rely on the readily available vehicle batteries.  This is going to be a chore but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged, we can take care of that.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "Cars can be found in traffic jams along roads or in parking lots…  I'm sure you can find a few.",
+      "advice": "Cars can be found in traffic jams along roads or in parking lots… I'm sure you can find a few.",
       "inquire": "Do you have the car batteries?",
       "success": "I'm impressed with your abilities.",
       "success_lie": "What good does this do us?",

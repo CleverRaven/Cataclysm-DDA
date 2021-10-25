@@ -44,6 +44,7 @@
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],
       [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
       [ "DRILL", 3 ],
       [ "BUTCHER", -38 ]
     ]
@@ -53,19 +54,19 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "bionic goggles" },
-    "qualities": [ [ "GLARE", 2 ] ]
+    "qualities": [ [ "GLARE", 1 ] ]
   },
   {
     "id": "bio_scalpel",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "fake_razor",
@@ -264,5 +265,42 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "stationary water purifier" }
+  },
+  {
+    "id": "pseudo_exercise_machine",
+    "type": "TOOL",
+    "name": { "str": "exercise machine" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": "T",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_punching_bag",
+    "type": "TOOL",
+    "name": { "str": "heavy punching bag" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_ergometer_mechanical",
+    "type": "TOOL",
+    "name": { "str": "mechanical ergometer" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_treadmill_mechanical",
+    "type": "TOOL",
+    "name": { "str": "gravity treadmill" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "L",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

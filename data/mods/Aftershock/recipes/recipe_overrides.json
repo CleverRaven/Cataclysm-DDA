@@ -131,6 +131,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "foie_gras",
     "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 6,
     "charges": 1,
@@ -145,6 +146,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_tripe",
     "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "time": 10000,
@@ -161,6 +163,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_brain",
     "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 25000,
@@ -169,10 +172,11 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "brain", 2 ] ],
-      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "batter", 3, "LIST" ] ],
       [ [ "salt", 1 ] ],
-      [ [ "seasoning_mild", 4, "LIST" ] ]
+      [ [ "seasoning_mild", 4, "LIST" ] ],
+      [ [ "fry_oil", 4, "LIST" ] ]
     ]
   },
   {
@@ -180,6 +184,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "deviled_kidney",
     "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 60000,
@@ -203,6 +208,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "grilled_sweetbread",
     "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 10000,

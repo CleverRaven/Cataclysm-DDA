@@ -34,6 +34,7 @@
 #include "item_stack.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -118,6 +119,7 @@ static void done_nothing( const tripoint & ) {}
 void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
+void done_appliance( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
@@ -1300,10 +1302,30 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( get_avatar().lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( get_avatar().has_trait( trait_DEBUG_HS ) ?
+                       STATIC( itype_id( "frame" ) ) : get_avatar().lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+}
+
+void construct::done_appliance( const tripoint &p )
+{
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
+
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
+    veh->install_part( point_zero, vpart );
+    veh->add_tag( "APPLIANCE" );
+
+    veh->name = vpart->name();
+    // Update the vehicle cache immediately,
+    // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 }
 
@@ -1662,6 +1684,7 @@ void load_construction( const JsonObject &jo )
             { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
+            { "done_appliance", construct::done_appliance },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },

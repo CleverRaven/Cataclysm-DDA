@@ -104,5 +104,20 @@
     "loudness": 5,
     "ammo_effects": [ "SHOT" ],
     "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ]
+  },
+  {
+    "id": "mut_longpull",
+    "type": "GUN",
+    "name": { "str": "Ranged pulling implement" },
+    "description": "this a pseudo item",
+    "volume": "100 ml",
+    "price": 0,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 6,
+    "loudness": 5,
+    "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

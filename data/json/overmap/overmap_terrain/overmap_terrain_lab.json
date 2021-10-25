@@ -169,6 +169,8 @@
     "type": "overmap_terrain",
     "id": "central_lab_entrance",
     "name": "forest",
+    "looks_like": "forest",
+    "land_use_code": "forest",
     "sym": "F",
     "color": "green",
     "see_cost": 3,
@@ -277,6 +279,7 @@
       "lab_surface_brick_basementE4"
     ],
     "name": "solid earth",
+    "looks_like": "solid_earth",
     "sym": "#",
     "color": "brown",
     "see_cost": 5

@@ -1167,7 +1167,7 @@ void Character::hardcoded_effects( effect &it )
             formication_chance += 14400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 60_minutes, bp );
+            schedule_effect( effect_formication, 60_minutes, bp );
         }
         if( dur < 1_days && one_in( 14400 ) ) {
             vomit();
@@ -1190,7 +1190,7 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
             get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp );
+            schedule_effect_removal( effect_formication, bp );
             moves -= 600;
             triggered = true;
         }
@@ -1264,7 +1264,7 @@ void Character::hardcoded_effects( effect &it )
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
                 const bodypart_id &itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, itch );
+                schedule_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
@@ -1279,8 +1279,8 @@ void Character::hardcoded_effects( effect &it )
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
-                //Remove the effect, since it's done all it needs to do to the target.
-                remove_effect( effect_tindrift );
+                // Queue the effect for removal, since it's done all it needs to do to the target.
+                it.set_duration( 0_turns );
             }
         }
     } else if( id == effect_asthma ) {
@@ -1305,7 +1305,7 @@ void Character::hardcoded_effects( effect &it )
             apply_damage( nullptr, bodypart_id( "head" ), rng( 0, 1 ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
-                add_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
+                schedule_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
             }
         }
         if( one_in( 24576 ) ) {
@@ -1313,7 +1313,7 @@ void Character::hardcoded_effects( effect &it )
             apply_damage( nullptr, bodypart_id( "head" ), rng( 1, 2 ) );
             if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
-                add_effect( effect_blind, rng( 5_turns, 20_turns ) );
+                schedule_effect( effect_blind, rng( 5_turns, 20_turns ) );
             }
         }
     } else if( id == effect_tapeworm ) {
@@ -1336,8 +1336,8 @@ void Character::hardcoded_effects( effect &it )
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 3072 ) ) {
                 add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
-                add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
+                schedule_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
+                schedule_effect( effect_stunned, rng( 1_turns, 4_turns ) );
                 if( one_in( 10 ) ) {
                     mod_pain( rng( 1, 10 ) );
                 }
@@ -1359,7 +1359,8 @@ void Character::hardcoded_effects( effect &it )
         }
         if( zed_number > 0 ) {
             //If intensity isn't pass the cap, average it with # of zeds
-            add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, ( intense + zed_number ) / 2 );
+            schedule_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
+                             ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
@@ -1417,7 +1418,7 @@ void Character::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             if( dur > 6_hours ) {
-                add_effect( effect_infected, 1_turns, bp, true );
+                schedule_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1461,7 +1462,7 @@ void Character::hardcoded_effects( effect &it )
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ) );
-                add_effect( effect_recover, 4 * dur );
+                schedule_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
                 recovered = true;
@@ -1526,7 +1527,7 @@ void Character::hardcoded_effects( effect &it )
                         }
                     } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
-                            add_effect( effect_slept_through_alarm, 1_turns, true );
+                            schedule_effect( effect_slept_through_alarm, 1_turns, true );
                         }
                         // 10 minute cyber-snooze
                         it.mod_duration( 10_minutes );
@@ -1535,7 +1536,7 @@ void Character::hardcoded_effects( effect &it )
             } else {
                 if( asleep && dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
-                        add_effect( effect_slept_through_alarm, 1_turns, true );
+                        schedule_effect( effect_slept_through_alarm, 1_turns, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );
@@ -1583,9 +1584,9 @@ void Character::hardcoded_effects( effect &it )
                 if( one_turn_in( 3_days ) && !has_effect( effect_valium ) ) {
                     add_msg_if_player( m_bad, _( "You lose control of your body as it begins to convulse!" ) );
                     time_duration td = rng( 30_seconds, 4_minutes );
-                    add_effect( effect_motor_seizure, td );
-                    add_effect( effect_downed, td );
-                    add_effect( effect_stunned, td );
+                    schedule_effect( effect_motor_seizure, td );
+                    schedule_effect( effect_downed, td );
+                    schedule_effect( effect_stunned, td );
                     if( one_in( 3 ) ) {
                         add_msg_if_player( m_bad, _( "You lose consciousness!" ) );
                         fall_asleep( td );
@@ -1605,7 +1606,7 @@ void Character::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_drop( weapon ).success() ) {
+                        if( is_armed() && can_drop( get_wielded_item() ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
@@ -1615,7 +1616,7 @@ void Character::hardcoded_effects( effect &it )
                         }
                     } else if( limb == "leg" ) {
                         if( dice( 4, 4 ) > get_dex() ) {
-                            add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                            schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
                         } else {
                             add_msg_if_player( m_neutral, _( "However, you manage to keep your footing." ) );
                         }
@@ -1625,8 +1626,8 @@ void Character::hardcoded_effects( effect &it )
                 if( one_turn_in( 2_days / mod ) && !has_effect( effect_valium ) ) {
                     add_msg_if_player( m_bad,
                                        _( "You suddenly lose all muscle tone, and can't support your own weight!" ) );
-                    add_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
-                    add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                    schedule_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
+                    schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
                 }
                 mod *= 2;
             /* fallthrough */

@@ -91,29 +91,6 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "afs_survivor_belt",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "survivor_belt",
-    "id_suffix": "form_afs",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
     "result": "thermometer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -217,22 +194,6 @@
       [ [ "scrap", 5 ] ],
       [ [ "can_drink", 5 ], [ "can_food", 5 ], [ "canister_empty", 5 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "reloaded_laser_pack",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 3,
-    "time": "10 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "recipe_lab_elec", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "plut_cell", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -410,7 +371,7 @@
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 },
+      { "id": "GLARE", "level": 1 },
       { "id": "DRILL", "level": 2 },
       { "id": "SAW_W", "level": 1 }
     ],

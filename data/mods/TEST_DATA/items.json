@@ -342,9 +342,16 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_halligan_no_nails",
+    "copy-from": "test_halligan",
+    "name": "TEST Halligan bar no nail prying",
+    "qualities": [ [ "PRY", 999999 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ]
   },
   {
     "id": "test_fire_ax",
@@ -715,7 +722,6 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
@@ -1526,6 +1532,36 @@
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_hacksaw",
+    "name": { "str": "test hacksaw" },
+    "description": "Test hacksaw.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";",
+    "qualities": [ [ "SAW_M", 10 ] ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_hacksaw_elec",
+    "copy-from": "test_hacksaw",
+    "name": { "str": "test electric hacksaw" },
+    "description": "Test hacksaw which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "use_action": [ [ "HACKSAW", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
   },
   {
     "type": "COMESTIBLE",

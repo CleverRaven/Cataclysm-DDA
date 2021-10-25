@@ -45,9 +45,9 @@
 #include "type_id.h"
 #include "units_fwd.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class mission;
 class monfaction;
 class monster;
@@ -185,7 +185,7 @@ class job_data
             return ret;
         }
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 };
 
 enum npc_mission : int {
@@ -246,7 +246,7 @@ struct npc_personality {
     }
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 struct npc_opinion {
@@ -255,6 +255,7 @@ struct npc_opinion {
     int value;
     int anger;
     int owed; // Positive when the npc owes the player. Negative if player owes them.
+    int sold; // Total value of goods sold/donated by player to the npc. Cannot be negative.
 
     npc_opinion() {
         trust = 0;
@@ -262,10 +263,7 @@ struct npc_opinion {
         value = 0;
         anger = 0;
         owed  = 0;
-    }
-
-    npc_opinion( int T, int F, int V, int A, int O ) :
-        trust( T ), fear( F ), value( V ), anger( A ), owed( O ) {
+        sold = 0;
     }
 
     npc_opinion &operator+=( const npc_opinion &rhs ) {
@@ -274,6 +272,7 @@ struct npc_opinion {
         value += rhs.value;
         anger += rhs.anger;
         owed  += rhs.owed;
+        sold  += rhs.sold;
         return *this;
     }
 
@@ -282,7 +281,7 @@ struct npc_opinion {
     }
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 enum class combat_engagement : int {
@@ -513,7 +512,7 @@ struct npc_follower_rules {
     npc_follower_rules();
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 
     bool has_flag( ally_rule test, bool check_override = true ) const;
     void set_flag( ally_rule setit );
@@ -825,7 +824,7 @@ class npc : public Character
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         void serialize( JsonOut &json ) const override;
 
         // Display
@@ -914,7 +913,7 @@ class npc : public Character
         void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
-        mfaction_id get_monster_faction() const;
+        mfaction_id get_monster_faction() const override;
         // What happens when the player makes a request
         // How closely do we follow the player?
         int follow_distance() const;
@@ -1023,6 +1022,22 @@ class npc : public Character
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
+        /*
+         * Item management functions. These are meant for during and after combat/danger.
+         */
+        void activate_combat_items();
+        void deactivate_combat_items();
+
+        /*
+         * Prepare for combat, such as enabling combat items or CBMs.
+         */
+        void prepare_for_combat();
+
+        /*
+         * Perform any cleanup upon no more present danger, such as disabling combat CBMs or items.
+         */
+        void cleanup_on_no_danger();
+
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints
@@ -1108,6 +1123,8 @@ class npc : public Character
         item_location find_usable_ammo( const item &weap ) const;
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
+
+        void update_cardio_acc() override {};
 
         void aim();
         void do_reload( const item &it );
@@ -1243,7 +1260,6 @@ class npc : public Character
          * Note: this places NPC on a given position in CURRENT MAP coordinates.
          * Do not use when placing a NPC in mapgen.
          */
-        void setpos( const tripoint &pos ) override;
         void travel_overmap( const tripoint_abs_omt &pos );
         npc_attitude get_attitude() const override;
         void set_attitude( npc_attitude new_attitude );
@@ -1273,15 +1289,6 @@ class npc : public Character
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
-        /**
-         * Global submap coordinates of the submap containing the npc.
-         * Use global_*_location to get the global position.
-         * You should not change submap_coords directly, use pos instead,
-         * @ref shift will update submap_coords and move the npc to a different
-         * overmap if needed.
-         * submap_coords defines the overmap the npc is stored on.
-         */
-        point submap_coords;
         // Type of complaint->last time we complained about this type
         std::map<std::string, time_point> complaints;
 
@@ -1295,42 +1302,25 @@ class npc : public Character
             return ai_cache.current_attack_evaluation;
         }
 
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         *
-         * The (global) position of an NPC is always:
-         * point(
-         *     submap_coords.x * SEEX + posx() % SEEX,
-         *     submap_coords.y * SEEY + posy() % SEEY,
-         *     pos.z)
-         * (Expressed in map squares, the system that @ref map uses.)
-         * Any of om, map, pos can be in any range.
-         * For active NPCs pos would be in the valid range required by
-         * the map. But pos, map, and om can be changed without the NPC
-         * actual moving as long as the position stays the same:
-         * pos() += SEEX; submap_coords.x -= 1;
-         * This does not change the global position of the NPC.
-         */
-        tripoint_abs_ms global_square_location() const override;
-        cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
+        // Where we last saw the player
+        cata::optional<tripoint_abs_ms> last_player_seen_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
-        tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
-        tripoint chair_pos = tripoint_min; // This is the spot the NPC wants to move to to sit and relax.
+        // These are the coordinates that a guard will return to inside of their goal tripoint
+        cata::optional<tripoint_abs_ms> guard_pos;
+        // This is the spot the NPC wants to move to to sit and relax.
+        cata::optional<tripoint_abs_ms> chair_pos;
         cata::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
         tripoint_abs_omt goal;
-        tripoint wander_pos = tripoint_min;
-        int wander_time = 0;
+        // Spot to wander off to when idle.
+        cata::optional<tripoint_abs_ms> wander_pos;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
-        /**
-         * Location and index of the corpse we'd like to pulp (if any).
-         */
-        cata::optional<tripoint> pulp_location;
+        // Location of the corpse we'd like to pulp (if any).
+        cata::optional<tripoint_abs_ms> pulp_location;
         time_point restock;
         bool fetching_item = false;
         bool has_new_items = false; // If true, we have something new and should re-equip
@@ -1396,6 +1386,7 @@ class npc : public Character
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 
+        void on_move( const tripoint_abs_ms &old_pos ) override;
     private:
         // the weapon we're actually holding when using bionic fake guns
         item real_weapon;

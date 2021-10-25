@@ -7,7 +7,7 @@
     "description": "A fake charcoal smoker used for basecamps.",
     "sub": "char_smoker",
     "ammo": [ "charcoal" ],
-    "max_charges": 2000
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },
   {
     "id": "fake_fireplace",
@@ -17,7 +17,7 @@
     "description": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
     "ammo": [ "tinder" ],
-    "max_charges": 50000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 25
   },
   {
@@ -28,7 +28,7 @@
     "description": "A fake forge used for basecamps.",
     "sub": "char_forge",
     "ammo": [ "charcoal" ],
-    "max_charges": 2000
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },
   {
     "id": "fake_char_kiln",
@@ -38,7 +38,7 @@
     "description": "A fake kiln used for basecamps.",
     "sub": "char_kiln",
     "ammo": [ "charcoal" ],
-    "max_charges": 2000
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },
   {
     "id": "fake_stove",
@@ -48,7 +48,7 @@
     "description": "A fake stove used for basecamps.",
     "sub": "hotplate",
     "ammo": [ "tinder" ],
-    "max_charges": 50000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 10
   },
   {

@@ -2,11 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "playground_1",
     "//": "Playground",
     "weight": 500,
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "''''''''''''''''''''''''",
@@ -35,19 +34,18 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [ "park_scenic_palette" ],
-      "monsters": { "'": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 140 } },
+      "monsters": { "'": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 60 } },
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "baskeball_court",
     "//": "Basketball Court",
     "weight": 700,
     "object": {
       "fill_ter": "t_pavement",
-      "rotation": [ 0, 3 ],
       "rows": [
         "                        ",
         " |||||||||||||||||||||| ",
@@ -84,12 +82,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "tennis_court",
     "//": "Tennis Court",
     "weight": 500,
     "object": {
       "fill_ter": "t_pavement",
-      "rotation": [ 0, 3 ],
       "rows": [
         "                        ",
         " |||||||||||||||||||||& ",
@@ -123,12 +120,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "volleyball_court",
     "//": "Volleyball Court",
     "weight": 300,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
-      "rotation": [ 0, 3 ],
       "rows": [
         "&bbb                bbb&",
         "   ,,,,,,,,,[,,,,,,,,,  ",
@@ -169,16 +165,15 @@
     "weight": 500,
     "object": {
       "fill_ter": "t_grass",
-      "rotation": [ 0, 3 ],
       "rows": [
         "         ......         ",
         "  zzzzzzzz....zzzzzzzz  ",
         " z         ..         z ",
-        " z    ,bTb,.. t  *`*  z ",
+        " z    ,bTb,.. t **`** z ",
         " z  t ,bTb,..   *```* z ",
         " z  & ..........````` z ",
         " z ,,..,,  ..   *```* z ",
-        " z bb.,,,  ..    *`*  z ",
+        " z bb.,,,  ..   **`** z ",
         " z TT.,,, ....    .   z ",
         ".z bb.   .ssss.   . t z.",
         ".. ,,.  .ss~~ss.  .   ..",
@@ -186,12 +181,12 @@
         ".........s~~~~s.........",
         "..   .  .ss~~ss.  .   ..",
         ".z   .   .ssss.   .   z.",
-        " z   .    ....    . # z ",
+        " z   .    ....    .   z ",
         " z t . t   ..     . b z ",
         " z   ..    ..    .. b z ",
-        " z fss............  # z ",
+        " z fss............    z ",
         " z sAs  t  ..         z ",
-        " z fsf     ..  #bb# t z ",
+        " z fsf     ..   bb  t z ",
         " z         ..         z ",
         "  zzzzzzzz....zzzzzzzz  ",
         "         ......         "
@@ -205,12 +200,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "park_2",
     "//": "Scenic Park",
     "weight": 500,
     "object": {
       "fill_ter": "t_grass",
-      "rotation": [ 0, 3 ],
       "rows": [
         "   ,   z ...... z     , ",
         ",    zzz .o..o. zzz,    ",
@@ -245,12 +239,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "dog_park",
     "//": "Dog Park",
     "weight": 500,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
-      "rotation": [ 0, 3 ],
       "rows": [
         "__________|++|__________",
         "__zzzzzzzz|,,|Pzzzzzzz__",
@@ -314,7 +307,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "park_3",
     "//": "Picnic Park",
     "type": "mapgen",
     "weight": 300,
@@ -364,13 +357,13 @@
         { "chance": 10, "item": "field", "x": 2, "y": 16 },
         { "chance": 10, "item": "field", "x": 1, "y": 13 }
       ],
-      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, "s": { "monster": "GROUP_PARK_SCENIC", "chance": 40 } },
-      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 }, "p": { "vehicle": "suburban_home", "chance": 1 } }
+      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 30 }, "s": { "monster": "GROUP_PARK_SCENIC", "chance": 20 } },
+      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 }, "p": { "vehicle": "suburban_home", "chance": 1 } }
     }
   },
   {
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "park_4",
     "//": "Picnic Park",
     "type": "mapgen",
     "weight": 200,
@@ -426,7 +419,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "playground",
     "//": "Playground",
     "type": "mapgen",
     "weight": 300,
@@ -438,7 +431,7 @@
         "___t'ggggggg$'''''q]]]]'",
         "'''''ghhhhhg$'b_''q+:x]'",
         "'''''ggggggg$'b'_'q]5X]'",
-        "'''_'ghhhhhg''b'_'q]]]]'",
+        "'''_'ggggggg''b'_'q]]]]'",
         "'''''ggggggg$'b'''q]5X]'",
         "'t'''ghhhhhg'_b_''q+:x]'",
         "_''''ggggggg$''''_q]]]]'",
@@ -448,7 +441,7 @@
         "'''''gmgmgmg$$ggggg'''''",
         "''''_gmmmgmg''ggggg$'b'_",
         "_''_'ggggggg$$ggggg''b''",
-        "'t'_'gmmmmmg$'ggggg$_b''",
+        "'t'_'ggggggg$'ggggg$_b''",
         "t''''ggggggg''ggggg''''_",
         "''t''''$'$'$''$'''$_'_''",
         "'_'_t'''_'_''__''_'''''_",
@@ -475,7 +468,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "park_5",
     "//": "Scenic Park",
     "type": "mapgen",
     "weight": 300,
@@ -493,11 +486,11 @@
         "''''''''sss'''''u''_____",
         "'''''''''sss''''''___'u'",
         "'''0:::0''ss''''___'''''",
-        "''0|l:l|0'sss'___'''bbb'",
+        "''0ll:ll0'sss'___'''bbb'",
         "'':l:::l:'sss''_''''''''",
         "'':::::::'ssss'''''&c'''",
         "'':l:::l:_sssss'''''''''",
-        "''0|l:l|0'ss_sss'''bbb''",
+        "''0ll:ll0'ss_sss'''bbb''",
         "'''0:::0'sss''ssssssssss",
         "''''''''sss''''sssssssss",
         "'''''''ssss'''''sssd''''",
@@ -519,7 +512,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "park_6",
     "//": "Scenic Park",
     "type": "mapgen",
     "weight": 400,
@@ -560,7 +553,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "park",
+    "om_terrain": "park_7",
     "//": "Pavilion",
     "type": "mapgen",
     "weight": 100,

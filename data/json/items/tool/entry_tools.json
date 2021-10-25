@@ -15,10 +15,25 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
+  },
+  {
+    "id": "emergency_lockpick",
+    "type": "TOOL",
+    "name": { "str": "rudimentary lockpick" },
+    "description": "This is a pair of thin pieces of metal, one bent in an 'L' shape to push tumblers and the other a stiff object acting as a torsion wrench.  The tools are almost totally inadequate for the job, but when you've got nothing else, it might work.",
+    "ascii_picture": "crude_picklock",
+    "weight": "25 g",
+    "volume": "5 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "LOCKPICK", 1 ] ]
   },
   {
     "id": "crude_picklock",

@@ -67,6 +67,7 @@ enum class do_activity_reason : int {
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
+    NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
@@ -86,7 +87,7 @@ struct activity_reason_info {
         can_do( can_do_ ),
         con_idx( con_idx_ )
     { }
-    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data req ):
+    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data &req ):
         reason( reason_ ),
         can_do( can_do_ ),
         req( req )
@@ -165,6 +166,7 @@ void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
+void multiple_mop_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_dis_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
@@ -180,8 +182,6 @@ void fish_do_turn( player_activity *act, Character *you );
 void cracking_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void butcher_do_turn( player_activity *act, Character *you );
-void pry_nails_do_turn( player_activity *act, Character *you );
-void hacksaw_do_turn( player_activity *act, Character *you );
 void chop_tree_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
@@ -207,8 +207,10 @@ void fish_finish( player_activity *act, Character *you );
 void forage_finish( player_activity *act, Character *you );
 void longsalvage_finish( player_activity *act, Character *you );
 void pulp_finish( player_activity *act, Character *you );
+void mopping_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
+void generic_game_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
 void shear_finish( player_activity *act, Character *you );
 void vehicle_finish( player_activity *act, Character *you );
@@ -233,14 +235,13 @@ void hand_crank_finish( player_activity *act, Character *you );
 void atm_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
 void washing_finish( player_activity *act, Character *you );
-void hacksaw_finish( player_activity *act, Character *you );
-void pry_nails_finish( player_activity *act, Character *you );
 void chop_tree_finish( player_activity *act, Character *you );
 void chop_logs_finish( player_activity *act, Character *you );
 void chop_planks_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void fill_pit_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
+void pull_creature_finish( player_activity *act, Character *you );
 void mind_splicer_finish( player_activity *act, Character *you );
 void spellcasting_finish( player_activity *act, Character *you );
 void study_spell_finish( player_activity *act, Character *you );

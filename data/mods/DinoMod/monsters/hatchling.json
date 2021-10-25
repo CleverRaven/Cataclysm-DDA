@@ -58,6 +58,14 @@
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
+    "id": "mon_gorgosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "gorgosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_gorgosaurus_juvenile" }
+  },
+  {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -105,6 +113,7 @@
     "melee_cut": 1,
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [
       "SEES",
       "HEARS",
@@ -112,7 +121,7 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "CATFOOD",
+      "CANPLAY",
       "GUILT",
       "STUMBLES",
       "NO_BREED",
@@ -128,19 +137,8 @@
     "default_faction": "herbivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CANPLAY"
-    ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_velociraptor_hatchling",
@@ -149,6 +147,13 @@
     "name": "dark gray and yellow hatchling",
     "default_faction": "velociraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
+  },
+  {
+    "id": "mon_nothronychus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
   },
   {
     "id": "mon_deinonychus_hatchling",
@@ -172,15 +177,9 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
-    "extend": { "flags": [ "DOGFOOD" ] },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
+    "extend": { "flags": [ "DOGFOOD", "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
-  },
-  {
-    "id": "mon_nothronychus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
-    "name": "green and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",
@@ -386,13 +385,14 @@
     "description": "A tiny aquatic reptile hatchling with huge shiny eyes and pointy little teeth.",
     "default_faction": "mosasaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [
       "SEES",
       "HEARS",
       "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
-      "CATFOOD",
+      "CANPLAY",
       "GUILT",
       "STUMBLES",
       "NO_BREED",

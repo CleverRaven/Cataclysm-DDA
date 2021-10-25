@@ -140,21 +140,23 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    switch( current_holiday ) {
-        case holiday::new_year:
-        case holiday::easter:
-            break;
-        case holiday::halloween:
-            fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
-            fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
-                                 25, 0, c_white, halloween_graves() );
-            break;
-        case holiday::thanksgiving:
-        case holiday::christmas:
-        case holiday::none:
-        case holiday::num_holiday:
-        default:
-            break;
+    if( get_option<bool>( "SEASONAL_TITLE" ) ) {
+        switch( current_holiday ) {
+            case holiday::new_year:
+            case holiday::easter:
+                break;
+            case holiday::halloween:
+                fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+                fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
+                                     25, 0, c_white, halloween_graves() );
+                break;
+            case holiday::thanksgiving:
+            case holiday::christmas:
+            case holiday::none:
+            case holiday::num_holiday:
+            default:
+                break;
+        }
     }
 
     if( mmenu_title.size() > 1 ) {
@@ -990,7 +992,7 @@ bool main_menu::load_character_tab( bool transfer )
 
         const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
         []( const save_t &it ) {
-            return it.player_name() == world_generator->last_character_name;
+            return it.decoded_name() == world_generator->last_character_name;
         } ) - savegames.begin();
         if( last_character_pos < savegames.size() ) {
             sel3 = last_character_pos;
@@ -1047,7 +1049,7 @@ bool main_menu::load_character_tab( bool transfer )
                     const bool selected = sel3 + line == menu_offset.y - 2;
                     mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
-                               "%s", savename.player_name() );
+                               "%s", savename.decoded_name() );
                 }
             }
             wnoutrefresh( w_open );
@@ -1095,7 +1097,7 @@ bool main_menu::load_character_tab( bool transfer )
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
                 []( const save_t &str ) {
-                    return str.player_name() != MAP_SHARING::getUsername();
+                    return str.decoded_name() != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
             }
@@ -1133,7 +1135,7 @@ bool main_menu::load_character_tab( bool transfer )
                     g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
-                    world_generator->last_character_name = savegames[sel3].player_name();
+                    world_generator->last_character_name = savegames[sel3].decoded_name();
                     world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
 

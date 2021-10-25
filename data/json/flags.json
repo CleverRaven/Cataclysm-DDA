@@ -89,6 +89,11 @@
     "info": "This clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
   },
   {
+    "id": "COLLAPSE_CONTENTS",
+    "type": "json_flag",
+    "info": "Contents are hidden by default in inventory view."
+  },
+  {
     "id": "DEAF",
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
@@ -118,6 +123,11 @@
   {
     "id": "FIELD_DRESS_FAILED",
     "type": "json_flag"
+  },
+  {
+    "id": "HIDDEN",
+    "type": "json_flag",
+    "info": "You have marked this article to not display a sprite when worn."
   },
   {
     "id": "QUARTERED",
@@ -976,6 +986,10 @@
     "type": "json_flag"
   },
   {
+    "id": "APPLIANCE",
+    "type": "json_flag"
+  },
+  {
     "id": "BIPOD",
     "type": "json_flag"
   },
@@ -1065,6 +1079,10 @@
   },
   {
     "id": "DIMENSIONAL_ANCHOR",
+    "type": "json_flag"
+  },
+  {
+    "id": "PORTAL_PROOF",
     "type": "json_flag"
   },
   {
@@ -1342,6 +1360,10 @@
   },
   {
     "id": "POWERED",
+    "type": "json_flag"
+  },
+  {
+    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {
@@ -1737,5 +1759,10 @@
     "type": "json_flag",
     "info": "This item fits in items that use heavy batteries.",
     "name": "heavy battery"
+  },
+  {
+    "id": "COMBAT_TOGGLEABLE",
+    "type": "json_flag",
+    "info": "This item is meant to be toggled during combat."
   }
 ]

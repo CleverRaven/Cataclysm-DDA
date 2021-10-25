@@ -73,22 +73,10 @@ namespace cata
 {
 namespace _details
 {
-#if defined(_WIN32) && defined(__GLIBCXX__)
-// GLIBCXX does not offer the wchar_t extension for fstream paths
-inline std::string path_to_native( const fs::path &p )
-{
-    return wstr_to_native( p.wstring() );
-}
-#elif defined(_WIN32)
-inline std::wstring path_to_native( const fs::path &p )
-{
-    return p.wstring();
-}
+#if defined(_WIN32) && !defined(__GLIBCXX__)
+std::wstring path_to_native( const fs::path &p );
 #else
-inline std::string path_to_native( const fs::path &p )
-{
-    return p.string();
-}
+std::string path_to_native( const fs::path &p );
 #endif
 } // namespace _details
 

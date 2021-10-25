@@ -3,6 +3,7 @@
     "type": "COMESTIBLE",
     "id": "testcomest",
     "name": { "str": "diet pill" },
+    "flags": [ "EDIBLE_FROZEN" ],
     "weight": "100 g",
     "color": "red",
     "spoils_in": "4 days 4 hours",
@@ -454,6 +455,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "soybean",
     "name": { "str_sp": "soybeans" },
     "volume": "250 ml",
@@ -474,6 +476,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "raw_edamame",
     "name": { "str": "raw edamame" },
     "volume": "250 ml",
@@ -513,6 +516,25 @@
     "charges": 2,
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
     "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_rice_pudding",
+    "name": { "str_sp": "blood rice pudding" },
+    "weight": "60 g",
+    "color": "black",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 220,
+    "description": "Blood rice pudding is a pastry made from blood and rice grains.  Best with chopped peanuts, but also good to eat with various seasonings.",
+    "price": 90,
+    "price_postapoc": 50,
+    "fun": 10,
+    "material": [ "veggy", "blood" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT" ],
+    "charges": 3
   },
   {
     "type": "COMESTIBLE",
@@ -620,7 +642,7 @@
     "container": "jar_glass_sealed",
     "sealed": false,
     "quench": 1,
-    "calories": 190,
+    "calories": 201,
     "charges": 5,
     "healthy": 1,
     "fun": 2
@@ -638,7 +660,7 @@
     "symbol": "%",
     "quench": 3,
     "healthy": 1,
-    "calories": 41,
+    "calories": 55,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": 350,
     "price_postapoc": 100,
@@ -691,7 +713,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
-    "use_action": [ "CATTLEFODDER" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATTLEFOOD", "DINOFOOD_C" ]
   },
   {
     "id": "birdfood",
@@ -713,7 +736,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
-    "use_action": [ "BIRDFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "BIRDFOOD" ]
   },
   {
     "id": "dogfood",
@@ -737,7 +761,8 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": [ "DOGFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "dogfood_dry",
@@ -762,7 +787,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": [ "DOGFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "catfood",
@@ -786,7 +812,8 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": [ "CATFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "id": "catfood_dry",
@@ -811,7 +838,8 @@
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": [ "CATFOOD" ]
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "type": "COMESTIBLE",

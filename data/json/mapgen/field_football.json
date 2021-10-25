@@ -24,8 +24,8 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 30, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 },
       [ "mp3", 50 ],
       { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]
@@ -38,11 +38,11 @@
   {
     "name": "GROUP_FOOTBALL",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_tough", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 6 ] }
+      { "monster": "mon_null", "weight": 600 },
+      { "monster": "mon_zombie_tough", "weight": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_runner", "weight": 150, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_zombie_fat", "weight": 100, "pack_size": [ 4, 6 ] }
     ]
   },
   {

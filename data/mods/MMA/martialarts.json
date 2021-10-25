@@ -279,24 +279,33 @@
     "leg_block_with_bio_armor_legs": true,
     "static_buffs": [
       {
-        "id": "mma_buff_panzer_static",
+        "id": "mma_buff_panzer_static1",
         "name": "Schatten Folgen",
-        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attemps, Dodge Skill increased by 12%% of Perception.",
+        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attemps, Dodging Skill increased by 15%% of Perception.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "per", "scale": 0.12 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "per", "scale": 0.15 } ]
+      },
+      {
+        "id": "mma_buff_panzer_static2",
+        "name": "Seinerweisen",
+        "description": "\"Personal Wisdom\"\nThrough your mastery of Panzer Kunst, you have earned the ability to manipulate deadly plasma into all of your attacks!\n\nGain bonus Electric damage equal to 50% of Perception.",
+        "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "damage", "type": "electric", "scaling-stat": "per", "scale": 0.5 } ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "mma_buff_panzer_ondodge",
         "name": "Einzug Rüstungen",
-        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n+5 bash Armor Penetration.\nLasts 2 turns.",
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n+1 Accuracy, gain Armor Penetration equal to 50% of Perception.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "buff_duration": 2,
+        "buff_duration": 3,
         "flat_bonuses": [
           { "stat": "hit", "scale": 1.0 },
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
@@ -305,7 +314,7 @@
         ]
       }
     ],
-    "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
+    "techniques": [ "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
     "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
   },
   {
@@ -354,6 +363,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 3,
+        "persists": true,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.5 },
           { "stat": "damage", "type": "cut", "scale": 1.5 },
@@ -372,9 +382,21 @@
     "arm_block": 0,
     "learn_difficulty": 10,
     "primary_skill": "bashing",
-    "ongethit_buffs": [
+    "onblock_buffs": [
       {
-        "id": "mma_buff_setting_sun_ongethit",
+        "id": "mma_buff_setting_sun_onblock",
+        "name": "Fool's Strike",
+        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% bash damage.\nLasts 2 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.15 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_setting_sun_ondodge",
         "name": "Feigned Opening",
         "description": "By faking an opening, you able to throw your opponent off balance and act quicker for a short time.\n\n+20 Speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
@@ -388,20 +410,15 @@
       {
         "id": "mma_buff_setting_sun_onpause",
         "name": "Baffling Defense",
-        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 1 turn.",
+        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 2,
         "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
       }
     ],
-    "techniques": [
-      "mma_tec_setting_sun_counter",
-      "mma_tec_setting_sun_stun",
-      "mma_tec_setting_sun_throw",
-      "mma_tec_setting_sun_throw_crit"
-    ],
+    "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
     "weapons": [
       "i_staff",
       "kris",
@@ -465,7 +482,18 @@
         "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
       }
     ],
-    "techniques": [ "mma_tec_shii_cho_counter", "mma_tec_shii_cho_disarm", "mma_tec_shii_cho_wide" ],
+    "onblock_buffs": [
+      {
+        "id": "mma_buff_shii_cho_onblock",
+        "name": "Flowing Water",
+        "description": "You are able to deflect an attack and counter in the same motion.\n\n-25% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_shii_cho_disarm", "mma_tec_shii_cho_wide" ],
     "weapons": [
       "bokken",
       "bokken_inferior",
@@ -537,7 +565,7 @@
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 3,
         "max_stacks": 5,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scale": 1.0 },
@@ -561,8 +589,9 @@
         "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 4 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
-        "req_buffs": [ "mma_buff_stone_dragon_onmove1" ],
-        "buff_duration": 4,
+        "required_buffs_all": [ "mma_buff_stone_dragon_onmove1" ],
+        "buff_duration": 1,
+        "persists": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scale": -2.0 },
           { "stat": "armor", "type": "cut", "scale": -2.0 },

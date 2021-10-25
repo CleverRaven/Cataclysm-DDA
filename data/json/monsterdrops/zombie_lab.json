@@ -64,7 +64,7 @@
     "id": "security_shoes",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "boots", 70 ], [ "boots_steel", 50 ], [ "boots_hiking", 20 ], [ "boots_combat", 10 ] ]
+    "items": [ [ "boots", 70 ], [ "boots_steel", 50 ], [ "sneakers_steel", 35 ], [ "boots_hiking", 20 ], [ "boots_combat", 10 ] ]
   },
   {
     "id": "security_torso",
@@ -83,7 +83,7 @@
           { "item": "dimensional_anchor", "count": 1, "prob": 1 }
         ]
       },
-      { "group": "hazmat_full", "damage": [ 1, 4 ] }
+      { "item": "xedra_enviro_suit", "damage": [ 1, 4 ] }
     ]
   }
 ]

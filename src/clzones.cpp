@@ -69,6 +69,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "MINING" ),
                    zone_type( to_translation( "Mine Terrain" ),
                               to_translation( "Designate an area to mine." ) ) );
+    types.emplace( zone_type_id( "MOPPING" ),
+                   zone_type( to_translation( "Mop tile" ),
+                              to_translation( "Designate an area to mop clean." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( to_translation( "Vehicle Deconstruct Zone" ),
                               to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );
@@ -1133,9 +1136,9 @@ void zone_manager::serialize( JsonOut &json ) const
     json.write( zones );
 }
 
-void zone_manager::deserialize( JsonIn &jsin )
+void zone_manager::deserialize( const JsonValue &jv )
 {
-    jsin.read( zones );
+    jv.read( zones );
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
         const zone_type_id zone_type = it->get_type();
         if( !has_type( zone_type ) ) {
@@ -1160,9 +1163,8 @@ void zone_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void zone_data::deserialize( JsonIn &jsin )
+void zone_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );
@@ -1219,7 +1221,7 @@ void zone_manager::load_zones()
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
-        deserialize( jsin );
+        deserialize( jsin.get_value() );
     } );
     revert_vzones();
     added_vzones.clear();

@@ -789,8 +789,9 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
         return response->second.translated();
     }
 
-    return string_format( "Someone forgot to code this message id is %s, topic is %s!",
-                          type->id.c_str(), topic.c_str() );
+    debugmsg( "Someone forgot to code this message id is %s, topic is %s!",
+              type->id.c_str(), topic.c_str() );
+    return "";
 }
 
 mission::mission()
@@ -831,8 +832,7 @@ std::string enum_to_string<mission::mission_status>( mission::mission_status dat
             break;
 
     }
-    debugmsg( "Invalid mission_status" );
-    abort();
+    cata_fatal( "Invalid mission_status" );
 }
 
 } // namespace io

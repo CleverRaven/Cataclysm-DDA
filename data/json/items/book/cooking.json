@@ -289,6 +289,21 @@
     "copy-from": "book_nonf_hard_cook_tpl"
   },
   {
+    "id": "cookbook_bloodforgood",
+    "type": "BOOK",
+    "name": { "str": "Blood for the Greater Good", "str_pl": "copies of Blood for the Greater Good" },
+    "description": "A recipe book compiled by blood-as-food advocate Alžbeta Bátoriová.  The consumption of blood is a taboo among members of many Abrahamic religions, but they aren't going to stop you now.  This book has bonus material for those with particular tastes.",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1999,
+    "price_postapoc": 500,
+    "required_level": 1,
+    "max_level": 2,
+    "intelligence": 5,
+    "time": "10 m",
+    "copy-from": "book_nonf_hard_cook_tpl"
+  },
+  {
     "id": "cookbook_daintydishes",
     "type": "BOOK",
     "name": { "str": "Dainty Dishes Fit for a King", "str_pl": "copies of Dainty Dishes" },
@@ -374,6 +389,15 @@
       { "proficiency": "prof_preservation", "time_factor": 0.05, "fail_factor": 0.1 },
       { "proficiency": "prof_food_canning", "time_factor": 0.05, "fail_factor": 0.3 }
     ],
+    "copy-from": "mag_cooking"
+  },
+  {
+    "id": "vacuum_sealing",
+    "type": "BOOK",
+    "name": { "str": "Vacuum Sealer Instructions", "str_pl": "copies of Vacuum Sealer Instructions" },
+    "description": "This dry guide to a home-use vacuum sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
+    "price_postapoc": 1500,
+    "proficiencies": [ { "proficiency": "prof_preservation", "time_factor": 0.05, "fail_factor": 0.1 } ],
     "copy-from": "mag_cooking"
   },
   {

@@ -4,7 +4,6 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "active alien bomb" },
-    "looks_like": "tool_rdx_charge_act",
     "description": "This is an alien bomb.  It has been activated and will soon explode, delivering its entire destructive power to everything in sight.",
     "weight": "4400 g",
     "volume": "10 L",

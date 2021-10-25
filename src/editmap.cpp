@@ -126,6 +126,7 @@ void edit_json( SAVEOBJ &it )
                 deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 popup( "Error on deserialization: %s", err.what() );
             }
             std::string save2 = serialize( it );
@@ -485,9 +486,9 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
-                    if( mon != nullptr && mon->pos() != mon->move_target() ) {
-                        for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
-                            hilights["mplan"].points[location] = 1;
+                    if( mon != nullptr && mon->has_dest() ) {
+                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
+                            hilights["mplan"].points[m->getlocal( location )] = 1;
                         }
                     }
                 }
@@ -661,7 +662,7 @@ void editmap::draw_main_ui_overlay()
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
                                                 point_zero );
                     }
-                    g->draw_below_override( map_p, here.has_zlevels() &&
+                    g->draw_below_override( map_p,
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
@@ -819,7 +820,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         target_stack.begin()->tname() );
         off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off ), n_gettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );
@@ -1502,14 +1503,17 @@ void editmap::edit_itm()
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it.birthday() ) );
                                 break;
                             case imenu_damage:
                                 it.set_damage( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                                 break;
                             case imenu_burnt:
                                 it.burnt = retval;
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
                                 break;
                             case imenu_tags:

@@ -32,9 +32,8 @@ void computer_option::serialize( JsonOut &jout ) const
     jout.end_object();
 }
 
-void computer_option::deserialize( JsonIn &jin )
+void computer_option::deserialize( const JsonObject &jo )
 {
-    const JsonObject jo = jin.get_object();
     name = jo.get_string( "name" );
     action = jo.get_enum_value<computer_action>( "action" );
     security = jo.get_int( "security" );
@@ -53,9 +52,8 @@ void computer_failure::serialize( JsonOut &jout ) const
     jout.end_object();
 }
 
-void computer_failure::deserialize( JsonIn &jin )
+void computer_failure::deserialize( const JsonObject &jo )
 {
-    const JsonObject jo = jin.get_object();
     type = jo.get_enum_value<computer_failure_type>( "action" );
 }
 
@@ -171,12 +169,12 @@ void computer::serialize( JsonOut &jout ) const
     jout.end_object();
 }
 
-void computer::deserialize( JsonIn &jin )
+void computer::deserialize( const JsonValue &jv )
 {
-    if( jin.test_string() ) {
-        load_legacy_data( jin.get_string() );
+    if( jv.test_string() ) {
+        load_legacy_data( jv.get_string() );
     } else {
-        const JsonObject jo = jin.get_object();
+        const JsonObject jo = jv.get_object();
         jo.read( "name", name );
         jo.read( "mission", mission_id );
         jo.read( "security", security );
@@ -309,7 +307,10 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_MAP_SUBWAY: return "map_subway";
         case COMPACT_MAPS: return "maps";
         case COMPACT_MISS_DISARM: return "miss_disarm";
+        case COMPACT_MISS_LAUNCH: return "miss_launch";
         case COMPACT_OPEN: return "open";
+        case COMPACT_OPEN_GATE: return "open_gate";
+        case COMPACT_CLOSE_GATE: return "close_gate";
         case COMPACT_OPEN_DISARM: return "open_disarm";
         case COMPACT_PORTAL: return "portal";
         case COMPACT_RADIO_ARCHIVE: return "radio_archive";
@@ -339,8 +340,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case NUM_COMPUTER_ACTIONS:
             break;
     }
-    debugmsg( "Invalid computer_action" );
-    abort();
+    cata_fatal( "Invalid computer_action" );
 }
 
 template<>
@@ -363,8 +363,7 @@ std::string enum_to_string<computer_failure_type>( const computer_failure_type f
         case NUM_COMPUTER_FAILURES:
             break;
     }
-    debugmsg( "Invalid computer_failure_type" );
-    abort();
+    cata_fatal( "Invalid computer_failure_type" );
 }
 } // namespace io
 

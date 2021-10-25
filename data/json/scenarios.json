@@ -115,7 +115,7 @@
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED", "CITY_START" ],
+    "flags": [ "CITY_START" ],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -135,7 +135,7 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+    "eoc": [ "scenario_infected" ]
   },
   {
     "type": "scenario",
@@ -194,7 +194,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
+    "eoc": [ "scenario_fungal_infection" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -249,7 +250,8 @@
       "sloc_cemetery"
     ],
     "professions": [ "svictim", "tweaker" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START", "LONE_START" ]
+    "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -655,5 +657,27 @@
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "strong_portal_storm",
+    "name": "Powerful portal storm",
+    "points": -3,
+    "description": "A powerful portal storm is happening and you need to find shelter.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field" ],
+    "eoc": [ "scenario_strong_portal_storm" ]
+  },
+  {
+    "type": "scenario",
+    "id": "strong_portal_storm_base",
+    "name": "Weakened reality",
+    "points": -4,
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal and portal storms will be quite strong.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "eoc": [ "scenario_strong_portal_storm_base" ]
   }
 ]

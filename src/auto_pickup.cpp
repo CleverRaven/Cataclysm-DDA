@@ -30,7 +30,7 @@
 
 using namespace auto_pickup;
 
-static bool check_special_rule( const std::vector<material_id> &materials,
+static bool check_special_rule( const std::map<material_id, int> &materials,
                                 const std::string &rule );
 
 auto_pickup::player_settings &get_auto_pickup()
@@ -479,7 +479,7 @@ void rule::test_pattern() const
     ui.on_screen_resize( init_windows );
 
     int nmatch = vMatchingItems.size();
-    const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
+    const std::string buf = string_format( n_gettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
 
@@ -610,7 +610,7 @@ bool player_settings::empty() const
     return global_rules.empty() && character_rules.empty();
 }
 
-bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule )
+bool check_special_rule( const std::map<material_id, int> &materials, const std::string &rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -624,16 +624,18 @@ bool check_special_rule( const std::vector<material_id> &materials, const std::s
     }
 
     if( type == 'm' ) {
-        return std::any_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+        return std::any_of( materials.begin(),
+        materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
-                return lcmatch( mat->name(), search );
+                return lcmatch( mat.first->name(), search );
             } );
         } );
 
     } else if( type == 'M' ) {
-        return std::all_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+        return std::all_of( materials.begin(),
+        materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
-                return lcmatch( mat->name(), search );
+                return lcmatch( mat.first->name(), search );
             } );
         } );
     }
@@ -817,9 +819,8 @@ void rule_list::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void rule::deserialize( JsonIn &jsin )
+void rule::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );
@@ -832,7 +833,7 @@ void rule_list::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         rule tmp;
-        tmp.deserialize( jsin );
+        tmp.deserialize( jsin.get_object() );
         push_back( tmp );
     }
 }

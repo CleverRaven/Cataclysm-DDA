@@ -555,6 +555,30 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
   },
   {
+    "result": "battery_car",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 13 ] ], [ [ "lead", 2247 ] ], [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "battery_motorbike",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 3 ] ], [ [ "lead", 499 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "battery_motorbike_small",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "lead", 187 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
     "result": "bindle",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -672,12 +696,28 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
+    "result": "sneakers_steel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cotton_patchwork", 3 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
     "result": "box_cigarette",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "case_cigar",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 s",
+    "components": [ [ [ "leather", 1 ] ], [ [ "splinter", 1 ] ] ]
   },
   {
     "result": "broken_EMP_hack",
@@ -693,6 +733,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -712,6 +753,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -798,6 +840,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "lens", 1 ] ]
     ]
@@ -820,6 +863,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "lens", 1 ] ]
     ]
@@ -838,6 +882,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -857,6 +902,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -876,6 +922,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -895,6 +942,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "spike", 2 ] ],
@@ -915,6 +963,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
@@ -1024,6 +1073,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -1165,6 +1215,7 @@
       [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
       [ [ "scrap", 6 ] ],
+      [ [ "e_scrap", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
     ]
@@ -1902,7 +1953,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "smart_phone",
@@ -1910,7 +1961,22 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "light_plus_battery_cell", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "mobile_memory_card", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "mp3",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "splatter_guard",
@@ -2149,8 +2215,8 @@
     "result": "sheet",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "1 s",
-    "components": [ [ [ "sheet_cotton_patchwork", 6 ] ] ],
+    "time": "8 s",
+    "components": [ [ [ "sheet_cotton_patchwork", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -2940,6 +3006,7 @@
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "cable", 4 ] ],
+      [ [ "e_scrap", 3 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "plastic_chunk", 8 ] ],
@@ -3250,6 +3317,14 @@
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+  },
+  {
+    "result": "makeshift_pillow",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "withered", 12 ] ] ]
   },
   {
     "result": "pipe",
@@ -4029,6 +4104,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "cable", 8 ] ],
+      [ [ "e_scrap", 4 ] ],
       [ [ "amplifier", 4 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "plastic_chunk", 8 ] ]
@@ -4050,7 +4126,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ],
+    "components": [ [ [ "hickory_nut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4061,7 +4137,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "hazelnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4072,7 +4148,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "chestnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "chestnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4083,7 +4159,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "almond_unshelled", 1 ] ] ],
+    "components": [ [ [ "almond_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4094,7 +4170,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pistachio_unshelled", 1 ] ] ],
+    "components": [ [ [ "pistachio_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4105,7 +4181,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pecan_unshelled", 1 ] ] ],
+    "components": [ [ [ "pecan_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4116,7 +4192,7 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "walnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "walnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4142,7 +4218,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "peanut_unshelled", 1 ] ] ],
+    "components": [ [ [ "peanut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4337,6 +4413,7 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 6 ] ],
+      [ [ "e_scrap", 4 ] ],
       [ [ "steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "sheet_metal", 6 ] ],

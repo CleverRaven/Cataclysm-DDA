@@ -54,6 +54,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "viewer.h"
@@ -67,6 +68,7 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
@@ -123,8 +125,10 @@ void talk_function::mission_success( npc &p )
     }
 
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.value = 1 + miss_val / 5;
+    op.anger = -1;
+    p.op_of_u += op;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
@@ -142,8 +146,11 @@ void talk_function::mission_failure( npc &p )
         debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( -1, 0, -1, 1, 0 );
-    p.op_of_u += tmp;
+    npc_opinion op;
+    op.trust = -1;
+    op.value = -1;
+    op.anger = 1;
+    p.op_of_u += op;
     miss->fail();
 }
 
@@ -230,6 +237,11 @@ void talk_function::do_construction( npc &p )
 void talk_function::do_mining( npc &p )
 {
     p.assign_activity( ACT_MULTIPLE_MINE );
+}
+
+void talk_function::do_mopping( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_MOP );
 }
 
 void talk_function::do_read( npc &p )
@@ -355,7 +367,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -419,7 +431,7 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
-    p.guard_pos = tripoint_min;
+    p.guard_pos = cata::nullopt;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
@@ -684,6 +696,9 @@ void talk_function::morale_chat_activity( npc &p )
     const int moves = to_moves<int>( 10_minutes );
     player_character.assign_activity( ACT_SOCIALIZE, moves );
     player_character.activity.str_values.push_back( p.get_name() );
+    if( one_in( 3 ) ) {
+        p.say( SNIPPET.random_from_category( "npc_socialize" ).value_or( translation() ).translated() );
+    }
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
@@ -824,13 +839,6 @@ void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.get_name() );
     p.set_attitude( NPCATT_FLEE );
-}
-
-void talk_function::lightning( npc & )
-{
-    if( get_player_character().posz() >= 0 ) {
-        get_weather().lightning_active = true;
-    }
 }
 
 void talk_function::leave( npc &p )

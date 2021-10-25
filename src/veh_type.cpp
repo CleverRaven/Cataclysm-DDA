@@ -64,6 +64,7 @@ static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map = {
     { "ARMOR", VPFLAG_ARMOR },
+    { "APPLIANCE", VPFLAG_APPLIANCE },
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },
@@ -234,6 +235,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
         reqs.clear();
         // Construct a requirement to capture "components", "qualities", and
         // "tools" that might be listed.
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
         reqs.emplace_back( req_id, 1 );

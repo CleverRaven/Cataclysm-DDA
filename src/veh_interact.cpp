@@ -2039,7 +2039,6 @@ void veh_interact::do_change_shape()
             for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
                 std::string disp_name = sel_vpart_info->name();
                 // getting all the available shape variants from vpart_variants
-                std::size_t variants_offset = 0;
                 for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
                     if( vp_variant_pair.first == vp_variant.first ) {
                         disp_name += " " + vp_variant_pair.second;
@@ -2049,7 +2048,6 @@ void veh_interact::do_change_shape()
                         }
                         break;
                     }
-                    variants_offset += 1;
                 }
                 uilist_entry entry( disp_name );
                 entry.retval = ret_code++;
@@ -2255,7 +2253,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
         engine_reqs_met = engines < 2;
     }
 
-    return hammerspace || ( can_make && engine_reqs_met );
+    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
 }
 
 /**
@@ -2844,6 +2842,10 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     size_t page = pos / lines_per_page;
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
+        if( !info.has_flag( VPFLAG_APPLIANCE ) ) {
+            continue;
+        }
+
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.sym ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
@@ -3429,7 +3431,7 @@ void veh_interact::complete_vehicle( Character &you )
                 here.destroy_vehicle( veh );
             } else {
                 point mount = veh->part( vehicle_part ).mount;
-                const tripoint &part_pos = veh->global_part_pos3( vehicle_part );
+                const tripoint part_pos = veh->global_part_pos3( vehicle_part );
                 veh->remove_part( vehicle_part );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh->part_removal_cleanup();

@@ -104,6 +104,9 @@ SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
 /**@}*/
 
+void StartTextInput();
+void StopTextInput();
+
 /**
  * Comparison operators which SDL lacks being a C-ish lib.
  */
