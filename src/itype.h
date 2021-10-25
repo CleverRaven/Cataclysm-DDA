@@ -233,12 +233,10 @@ struct armor_portion_data {
     int cover_ranged = 0;
     int cover_vitals = 0;
 
-<<<<<<< HEAD
     int subcoverage = 0;
     int subcover_melee = 0;
     int subcover_ranged = 0;
     int subcover_vitals = 0;
-=======
     /**
      * Material protection stats are multiplied by this number
      * to determine armor protection values.
@@ -255,7 +253,6 @@ struct armor_portion_data {
 
     // What materials this portion is made of, for armor purposes
     std::vector<material_id> materials;
->>>>>>> 371db1d7c5649b20368407460dd5e1c056f2a38d
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
