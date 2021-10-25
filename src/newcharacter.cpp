@@ -3042,17 +3042,20 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
-            reset_scenario( u, sorted_scens[0] );
-
+            bool need_reset = true;
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {
                 if( sorted_scens[i]->ident() == get_scenario()->ident() ) {
                     cur_id = i;
+                    need_reset = false;
                     break;
                 }
             }
             if( cur_id > scens_length - 1 ) {
                 cur_id = 0;
+            }
+            if( need_reset ) {
+                reset_scenario( u, sorted_scens[0] );
             }
 
             recalc_scens = false;
