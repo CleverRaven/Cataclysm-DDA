@@ -587,6 +587,20 @@
     "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "edible_lard", 1, "LIST" ] ] ]
   },
   {
+    "id": "edible_blood",
+    "type": "requirement",
+    "//": "Any type of edible blood.",
+    "components": [
+      [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ], [ "mutant_human_blood", 1 ], [ "demihuman_blood", 1 ] ]
+    ]
+  },
+  {
+    "id": "any_blood",
+    "type": "requirement",
+    "//": "Any type of blood.",
+    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ] ]
+  },
+  {
     "id": "any_butter_or_oil",
     "type": "requirement",
     "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",

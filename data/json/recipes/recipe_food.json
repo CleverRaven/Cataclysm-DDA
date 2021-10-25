@@ -841,6 +841,26 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "blood_rice_pudding",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "time": "45 m",
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "batch_time_factors": [ 50, 2 ],
+    "components": [
+      [ [ "dry_rice", 1 ] ],
+      [ [ "edible_blood", 1, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ], [ "peanut", 1 ], [ "chilly-p", 1 ], [ "curry_powder", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sushi_fishroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -995,6 +1015,35 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "blutwurst_sausage",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "batch_time_factors": [ 83, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "charges": 8,
+    "components": [
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "edible_blood", 2, "LIST" ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bratwurst_sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -1064,6 +1113,27 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "sausage_raw", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "soup_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 2,
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [ [ "edible_blood", 1, "LIST" ] ],
+      [ [ "dry_fruit", 1 ] ],
+      [ [ "flour", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -4109,6 +4179,26 @@
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "blood_pancakes",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "edible_blood", 2, "LIST" ] ],
+      [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
   {
@@ -8602,6 +8692,26 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "tomato_juice", 1 ], [ "V8", 1 ] ],
+      [ [ "vodka", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
+      [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "drink_bloody_mary_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "result_mult": 2,
+    "time": "30 s",
+    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "edible_blood", 1, "LIST" ] ],
       [ [ "vodka", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
