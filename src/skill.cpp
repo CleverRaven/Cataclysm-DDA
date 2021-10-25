@@ -212,12 +212,12 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         return;
     }
     // catchup gets faster the higher the level gap gets.
-    float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
+    float level_gap = 1.0f * std::max( knowledgeLevel(), 1 ) / std::max( level(), 1 );
     float catchup_amount = amount * catchup_modifier;
     float knowledge_amount = amount * knowledge_modifier;
-    if( _knowledgeLevel > _level ) {
+    if( knowledgeLevel() > level() ) {
         catchup_amount *= level_gap;
-    } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
+    } else if( knowledgeLevel() == level() && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
         catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
                                             1.0f );
@@ -234,7 +234,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         knowledge_amount = catchup_amount * 0.9f;
     }
 
-    if( _knowledgeLevel >= MAX_SKILL ) {
+    if( unadjustedKnowledgeLevel() >= MAX_SKILL ) {
         knowledge_amount = 0;
     }
 
@@ -255,12 +255,12 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     _knowledgeExperience += knowledge_amount;
 
     const auto xp_to_level = [&]() {
-        return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
+        return 100 * 100 * pow( unadjustedLevel() + 1, 2U );
     };
     while( _exercise >= xp_to_level() ) {
         _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
         ++_level;
-        if( _level > _knowledgeLevel ) {
+        if( unadjustedLevel() > unadjustedKnowledgeLevel() ) {
             _knowledgeLevel = _level;
             _knowledgeExperience = 0;
         }
@@ -269,11 +269,11 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     if( _rustAccumulator < 0 ) {
         _rustAccumulator = 0;
     }
-    if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
+    if( level() == knowledgeLevel() && _exercise > _knowledgeExperience ) {
         _knowledgeExperience = _exercise;
     }
 
-    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+    if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
@@ -292,11 +292,11 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
     // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
     if( npc_knowledge > 0 ) {
         // This should later be modified by NPC teaching proficiencies.
-        level_gap = std::max( npc_knowledge * 1.0f - _knowledgeLevel * 1.0f, 1.0f );
+        level_gap = std::max<float>( npc_knowledge - unadjustedKnowledgeLevel(), 1.0f );
     } else {
         // Some day this should be affected by json specific to the skill, some skills are more amenable
         // to book learning.
-        level_gap = std::max( _knowledgeLevel * 1.0f - _level * 1.0f, 1.0f );
+        level_gap = std::max<float>( unadjustedKnowledgeLevel() - unadjustedLevel(), 1.0f );
     }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
@@ -307,7 +307,7 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
     }
     _knowledgeExperience += amount;
 
-    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+    if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
@@ -317,8 +317,8 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 bool SkillLevel::isRusty() const
 {
     // skill is considered rusty if the practical xp lags knowledge xp by at least 1%
-    return _level != _knowledgeLevel ||
-           _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
+    return level() != knowledgeLevel() ||
+           _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
 }
 
 bool SkillLevel::rust( int rust_resist )
@@ -328,12 +328,12 @@ bool SkillLevel::rust( int rust_resist )
         return false;
     }
 
-    if( _level >= MAX_SKILL ) {
+    if( unadjustedLevel() >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
 
-    const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
+    const int level_multiplier = pow( unadjustedLevel() + 1, 2U );
     float level_exp = level_multiplier * 10000.0f;
     if( _rustAccumulator > level_exp * 3 ) {
         // at this point the numbers ahead will be too small to bother.  Just cap it off.
@@ -352,11 +352,11 @@ bool SkillLevel::rust( int rust_resist )
         rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
     }
 
-    if( _level == 0 ) {
+    if( level() == 0 ) {
         rust_amount = std::min( rust_amount, _exercise );
     }
 
-    if( rust_amount < 1 ) {
+    if( rust_amount <= 0 ) {
         return false;
     }
 
@@ -365,7 +365,7 @@ bool SkillLevel::rust( int rust_resist )
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * _level * _level ) - 1;
+            _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
             --_level;
         } else {
             _exercise = 0;
@@ -382,8 +382,8 @@ void SkillLevel::practice()
 
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
-    if( _knowledgeLevel < maximumLevel || maximumLevel < 0 ) {
-        knowledge_train( ( _knowledgeLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    if( knowledgeLevel() < maximumLevel || maximumLevel < 0 ) {
+        knowledge_train( ( knowledgeLevel() + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();
