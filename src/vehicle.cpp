@@ -1243,8 +1243,9 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
-    //First part in an empty square MUST be a structural part
-    if( parts_in_square.empty() && part.location != part_location_structure ) {
+    //First part in an empty square MUST be a structural part or be an appliance
+    if( parts_in_square.empty() &&  part.location != part_location_structure &&
+        !part.has_flag( "APPLIANCE" ) ) {
         return false;
     }
     // If its a part that harnesses animals that don't allow placing on it.
@@ -4598,8 +4599,11 @@ void vehicle::consume_fuel( int load, bool idling )
         // But only if the player is actually there!
         int eff_load = load / 10;
         int mod = 4 * st; // strain
-        int base_burn = static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) -
-                        3;
+        const int base_staminaRegen = static_cast<int>
+                                      ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+        const int actual_staminaRegen = static_cast<int>( base_staminaRegen *
+                                        player_character.get_cardiofit() / player_character.base_bmr() );
+        int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
@@ -6229,7 +6233,7 @@ void vehicle::shed_loose_parts()
             tow_data.clear_towing();
         }
         const vehicle_part *part = &parts[elem];
-        if( !magic ) {
+        if( !magic && !part->properties_to_item().has_flag( flag_id( "POWER_CORD" ) ) ) {
             item drop = part->properties_to_item();
             here.add_item_or_charges( global_part_pos3( *part ), drop );
         }
@@ -7270,6 +7274,16 @@ tripoint vehicle::exhaust_dest( int part ) const
     }
     point q = coord_translate( p );
     return global_pos3() + tripoint( q, 0 );
+}
+
+void vehicle::add_tag( std::string tag )
+{
+    tags.insert( tag );
+}
+
+bool vehicle::has_tag( std::string tag )
+{
+    return tags.count( tag ) > 0;
 }
 
 template<>

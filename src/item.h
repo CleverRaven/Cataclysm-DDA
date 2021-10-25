@@ -1024,6 +1024,7 @@ class item : public visitable
         const material_type &get_random_material() const;
         /**
          * Get the basic (main) material of this item. May return the null-material.
+         * This is the material with the highest "portion" value.
          */
         const material_type &get_base_material() const;
         /**
@@ -1031,7 +1032,7 @@ class item : public visitable
          * This may return an empty vector.
          * The returned vector does not contain the null id.
          */
-        const std::vector<material_id> &made_of() const;
+        const std::map<material_id, int> &made_of() const;
         /**
         * The ids of all the qualities this contains.
         */
@@ -1055,8 +1056,9 @@ class item : public visitable
         /**
          * Check we are made of this material (e.g. matches at least one
          * in our set.)
+         * @return The portion of this item made up by the material
          */
-        bool made_of( const material_id &mat_ident ) const;
+        int made_of( const material_id &mat_ident ) const;
         /**
          * Are we solid, liquid, gas, plasma?
          */
@@ -1702,16 +1704,23 @@ class item : public visitable
          */
         layer_level get_layer() const;
 
+        enum cover_type {
+            COVER_DEFAULT,
+            COVER_MELEE,
+            COVER_RANGED,
+            COVER_VITALS
+        };
         /*
          * Returns the average coverage of each piece of data this item
          */
-        int get_avg_coverage() const;
+        int get_avg_coverage( const cover_type &type = cover_type::COVER_DEFAULT ) const;
         /**
          * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
          * Values range from 0 (not covering anything) to 100 (covering the whole body part).
          * Items that cover more are more likely to absorb damage from attacks.
          */
-        int get_coverage( const bodypart_id &bodypart ) const;
+        int get_coverage( const bodypart_id &bodypart,
+                          const cover_type &type = cover_type::COVER_DEFAULT ) const;
 
         enum class encumber_flags : int {
             none = 0,

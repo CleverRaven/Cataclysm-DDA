@@ -893,6 +893,8 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        void plug_in( const tripoint &pos );
+
         // Fold up the vehicle
         bool fold_up();
 
@@ -1915,6 +1917,9 @@ class vehicle
         // SC config. optional, as majority of vehicles don't have SC installed
         cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
+
+        void add_tag( std::string tag );
+        bool has_tag( std::string tag );
 
     private:
         mutable units::mass mass_cache; // NOLINT(cata-serialize)

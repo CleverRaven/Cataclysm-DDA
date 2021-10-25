@@ -1132,9 +1132,15 @@ class map
         bool has_adjacent_furniture_with( const tripoint &p,
                                           const std::function<bool( const furn_t & )> &filter );
         /**
+         * Check for moppable fields/items at this location
+         * @param p the location
+         * @return true if anything is moppable here, false otherwise.
+         */
+        bool terrain_moppable( const tripoint &p );
+        /**
          * Remove moppable fields/items at this location
-         *  @param p the location
-         *  @return true if anything moppable was there, false otherwise.
+         * @param p the location
+         * @return true if anything moppable was there, false otherwise.
          */
         bool mop_spills( const tripoint &p );
         /**
@@ -1778,7 +1784,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
-        void draw_spider_pit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.

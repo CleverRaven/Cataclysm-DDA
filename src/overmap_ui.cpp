@@ -1076,6 +1076,13 @@ static void draw_om_sidebar(
                    oter.get_rotation() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    "oter_type: %s", oter.get_type_id().str() );
+        std::vector<oter_id> predecessors = overmap_buffer.predecessors( center );
+        if( !predecessors.empty() ) {
+            mvwprintz( wbar, point( 1, ++lines ), c_white, "predecessors:" );
+            for( auto pred = predecessors.rbegin(); pred != predecessors.rend(); ++pred ) {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "- %s", pred->id().str() );
+            }
+        }
         cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {

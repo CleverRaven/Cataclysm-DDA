@@ -189,6 +189,8 @@ class talker_character: public talker_character_const
         void set_kill_xp( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
+        std::vector<skill_id> skills_teacheable() const override;
+        std::string skill_seminar_text( const skill_id &s ) const override;
     protected:
         talker_character() = default;
         Character *me_chr;

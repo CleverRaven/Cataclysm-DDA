@@ -376,12 +376,16 @@ std::string Character::get_miss_reason()
 }
 
 void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+                                 const item &weap, const Creature *target, const bodypart_id &bp ) const
 {
-    roll_bash_damage( crit, di, average, weap );
-    roll_cut_damage( crit, di, average, weap );
-    roll_stab_damage( crit, di, average, weap );
-    roll_other_damage( crit, di, average, weap );
+    float crit_mod = 1.f;
+    if( target != nullptr ) {
+        crit_mod = target->get_crit_factor( bp );
+    }
+    roll_bash_damage( crit, di, average, weap, crit_mod );
+    roll_cut_damage( crit, di, average, weap, crit_mod );
+    roll_stab_damage( crit, di, average, weap, crit_mod );
+    roll_other_damage( crit, di, average, weap, crit_mod );
 }
 
 static void melee_train( Character &you, int lo, int hi, const item &weap )
@@ -655,8 +659,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( critical_hit ) {
             melee::melee_stats.actual_crit_count += 1;
         }
+        // select target body part
+        const bodypart_id &target_bp = t.select_body_part( this, hit_spread );
         damage_instance d;
-        roll_all_damage( critical_hit, d, false, *cur_weapon );
+        roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
 
         const bool has_force_technique = !force_technique.str().empty();
 
@@ -722,7 +728,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
             weakpoint_attack attack;
             attack.weapon = cur_weapon;
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack );
+            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack, &target_bp );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
                 dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
@@ -1100,7 +1106,7 @@ float Character::bonus_damage( bool random ) const
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap ) const
+                                  const item &weap, float crit_mod ) const
 {
     float bash_dam = 0.0f;
 
@@ -1205,16 +1211,16 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     // Finally, extra critical effects
     if( crit ) {
-        bash_mul *= 1.5f;
+        bash_mul *= 1.f + 0.5f * crit_mod;
         // 50% armor penetration
-        armor_mult = 0.5f;
+        armor_mult = 0.5f * crit_mod;
     }
 
     di.add_damage( damage_type::BASH, bash_dam, arpen, armor_mult, bash_mul );
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+                                 const item &weap, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
@@ -1280,16 +1286,16 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 
     cut_mul *= mabuff_damage_mult( damage_type::CUT );
     if( crit ) {
-        cut_mul *= 1.25f;
-        arpen += 5;
-        armor_mult = 0.75f; //25% armor penetration
+        cut_mul *= 1.f + 0.25f * crit_mod;
+        arpen += static_cast<int>( 5.f * crit_mod );
+        armor_mult = 1.f - 0.25f * crit_mod; //25% armor penetration
     }
 
     di.add_damage( damage_type::CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
 void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
-                                  const item &weap ) const
+                                  const item &weap, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
 
@@ -1345,16 +1351,16 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     int arpen = mabuff_arpen_bonus( damage_type::STAB );
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
-        stab_mul *= 1.0 + ( skill / 10.0 );
+        stab_mul *= 1.0 + ( skill / 10.0 ) * crit_mod;
         // Stab criticals have extra %arpen
-        armor_mult = 0.66f;
+        armor_mult = 1.f - 0.34f * crit_mod;
     }
 
     di.add_damage( damage_type::STAB, cut_dam, arpen, armor_mult, stab_mul );
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
-                                   const item &weap ) const
+                                   const item &weap, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
 
@@ -2031,9 +2037,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
     if( tec != tec_none && !is_dead_state() ) {
+        int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( weapon.made_of( material_id( "glass" ) ) ) {
+        } else if( weapon.made_of( material_id( "glass" ) ) > twenty_percent ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -2122,11 +2129,17 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    const int vol = weap.volume() / 250_ml;
     // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    const int glass_portion = weap.made_of( material_id( "glass" ) );
+    float glass_fraction = glass_portion / static_cast<float>( weap.type->mat_portion_total );
+    if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
+        glass_fraction = 0.f;
+    }
+    // only consider portion of weapon made of glass
+    const int vol = weap.volume() * glass_fraction / 250_ml;
+    if( glass_portion &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
-        rng( 0, vol + 8 ) < vol + str_cur ) {
+        rng_float( 0.0f, vol + 8 ) < vol + str_cur ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {

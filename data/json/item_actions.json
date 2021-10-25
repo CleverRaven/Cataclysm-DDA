@@ -732,7 +732,7 @@
   {
     "type": "item_action",
     "id": "PETFOOD",
-    "name": { "str": "Feed a wild animal…  or a human" }
+    "name": { "str": "Feed a wild animal… or a human" }
   },
   {
     "type": "item_action",

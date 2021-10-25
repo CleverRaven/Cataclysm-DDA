@@ -15,7 +15,6 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 10,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
@@ -29,6 +28,7 @@
     "weight": "1500 g",
     "price": 250000,
     "warmth": 40,
+    "material": [ "rubber", "superalloy", "nomex" ],
     "material_thickness": 5,
     "environmental_protection": 5,
     "armor": [ { "encumbrance": 17, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]

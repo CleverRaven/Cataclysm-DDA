@@ -2760,7 +2760,7 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
             m.put_items_from_loc( item_group_id( "everyday_corpse" ), corpse_location );
         } else {
             //Pets' corpses
-            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS );
+            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS, true );
             const mtype_id &pet = random_entry_ref( pets );
             item body = item::make_corpse( pet, calendar::start_of_cataclysm );
             m.add_item_or_charges( corpse_location, body );

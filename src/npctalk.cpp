@@ -87,6 +87,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
+static const efftype_id effect_asked_to_train( "asked_to_train" );
 
 static const itype_id fuel_type_animal( "animal" );
 
@@ -106,6 +107,12 @@ static int topic_category( const talk_topic &the_topic );
 
 static const talk_topic &special_talk( const std::string &action );
 
+static bool friendly_teacher( const Character &student, const Character &teacher )
+{
+    return ( student.is_npc() && teacher.is_avatar() ) ||
+           ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
+}
+
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
@@ -119,52 +126,104 @@ std::string talk_trial::name() const
     return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
-/** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
-           1_seconds * p.get_skill_level( skill );
+    return calc_skill_training_time_char( p, get_player_character(), skill );
+}
+
+/** Time (in turns) and cost (in cent) for training: */
+time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
+        const skill_id &skill )
+{
+    return 1_hours + 30_minutes * student.get_skill_level( skill ) -
+           1_minutes * teacher.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
 {
-    if( p.is_player_ally() ) {
+    return calc_skill_training_cost_char( p, get_player_character(), skill );
+}
+
+int calc_skill_training_cost_char( const Character &teacher, const Character &student,
+                                   const skill_id &skill )
+{
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-
-    int skill_level = get_player_character().get_knowledge_level( skill );
+    int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
 
-time_duration calc_proficiency_training_time( const npc &, const proficiency_id &proficiency )
+time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
 {
-    return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
+    const Character &c = get_player_character();
+    return calc_proficiency_training_time( c, c, proficiency );
+}
+
+time_duration calc_proficiency_training_time( const Character &, const Character &student,
+        const proficiency_id &proficiency )
+{
+    return std::min( 30_minutes, student.proficiency_training_needed( proficiency ) );
+}
+
+int calc_proficiency_training_cost( const Character &teacher, const Character &student,
+                                    const proficiency_id &proficiency )
+{
+    if( friendly_teacher( student, teacher ) ) {
+        return 0;
+    }
+    return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
 }
 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
 {
-    if( p.is_player_ally() ) {
-        return 0;
-    }
+    return calc_proficiency_training_cost( p, get_player_character(), proficiency );
+}
 
-    return to_seconds<int>( calc_proficiency_training_time( p, proficiency ) );
+
+time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
+{
+    return calc_ma_style_training_time( p, get_player_character(), id );
 }
 
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+time_duration calc_ma_style_training_time( const Character &, const Character &,
+        const matype_id & )
 {
     return 30_minutes;
 }
 
-int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
+int calc_ma_style_training_cost( const npc &p, const matype_id &id )
 {
-    if( p.is_player_ally() ) {
+    return calc_ma_style_training_cost( p, get_player_character(), id );
+}
+
+int calc_ma_style_training_cost( const Character &teacher, const Character &student,
+                                 const matype_id & )
+{
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-
     return 800;
+}
+
+// quicker to learn with instruction as opposed to books.
+// if this is a known spell, then there is a set time to gain some exp.
+// if player doesn't know this spell, then the NPC will teach all of it
+// which takes max 6 hours, min 3 hours.
+// TODO: a system for NPCs to train new stuff in bits and pieces
+// and remember the progress.
+time_duration calc_spell_training_time( const Character &, const Character &student,
+                                        const spell_id &id )
+{
+    if( student.magic->knows_spell( id ) ) {
+        return 1_hours;
+    } else {
+        const int time_int = student.magic->time_to_learn_spell( student, id ) / 50;
+        return time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+    }
 }
 
 int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
@@ -172,6 +231,23 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
     if( is_player_ally() ) {
         return 0;
     }
+    return ::calc_spell_training_cost_gen( knows, difficulty, level );
+}
+
+int calc_spell_training_cost( const Character &teacher, const Character &student,
+                              const spell_id &id )
+{
+    if( friendly_teacher( student, teacher ) ) {
+        return 0;
+    }
+    const spell &temp_spell = teacher.magic->get_spell( id );
+    const bool knows = student.magic->knows_spell( id );
+    return calc_spell_training_cost_gen( knows, temp_spell.get_difficulty(),
+                                         temp_spell.get_level() );
+}
+
+int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
+{
     int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
     if( !knows ) {
         ret = ret * 2;
@@ -193,6 +269,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
+    NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -239,6 +316,68 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return nmenu.ret;
     }
 
+}
+
+static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
+        const std::string &prompt,
+        std::function<bool( const npc * )> exclude_func = nullptr )
+{
+    std::vector<int> picked;
+    if( npc_list.empty() ) {
+        return picked;
+    }
+    const int npc_count = npc_list.size();
+    do {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( int i = 0; i < npc_count; i++ ) {
+            std::string entry;
+            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            entry += npc_list[i]->name_and_activity();
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return std::vector<int>();
+        } else if( nmenu.ret >= npc_count ) {
+            break;
+        }
+        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.push_back( nmenu.ret );
+        }
+    } while( true );
+    return picked;
+}
+
+static skill_id skill_select_menu( const Character &c, const std::string &prompt )
+{
+    int i = 0;
+    uilist nmenu;
+    nmenu.text = prompt;
+    for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+        bool enabled = s.second.level() > 0;
+        std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
+        nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
+        i++;
+    }
+    nmenu.query();
+    if( nmenu.ret > -1 ) {
+        i = 0;
+        for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+            if( i == nmenu.ret ) {
+                return s.first;
+            }
+            i++;
+        }
+    }
+    return skill_id();
 }
 
 static void npc_batch_override_toggle(
@@ -484,6 +623,10 @@ void game::chat()
                       );
     }
     if( !followers.empty() ) {
+        bool enable_seminar = !player_character.has_effect( effect_asked_to_train );
+        nmenu.addentry( NPC_CHAT_START_SEMINAR, enable_seminar, 'T',
+                        enable_seminar ? _( "Start a training seminar" ) :
+                        _( "Start a training seminar (You've already taught enough for now)" ) );
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
                         string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
@@ -530,6 +673,34 @@ void game::chat()
             .query();
             yell_msg = popup.text();
             is_order = false;
+            break;
+        }
+        case NPC_CHAT_START_SEMINAR: {
+            // TODO: Also allow group training of martial arts/spells/proficiencies
+            const skill_id &sk = skill_select_menu( player_character,
+                                                    _( "Which skill would you like to teach?" ) );
+            if( !sk.is_valid() ) {
+                return;
+            }
+            std::vector<int> selected = npcs_select_menu( followers,
+            _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
+                return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
+            } );
+            if( selected.empty() ) {
+                return;
+            }
+            std::vector<Character *> to_train;
+            for( int i : selected ) {
+                if( followers[i] ) {
+                    to_train.push_back( followers[i] );
+                }
+            }
+            talk_function::teach_domain d;
+            d.skill = sk;
+            d.style = matype_id();
+            d.prof = proficiency_id();
+            d.spell = spell_id();
+            talk_function::start_training_gen( player_character, to_train, d );
             break;
         }
         case NPC_CHAT_GUARD: {
@@ -882,6 +1053,14 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Here's what I can teach you…" );
         }
+    } else if( topic == "TALK_TRAIN_NPC" ) {
+        if( actor( false )->skills_offered_to( *actor( true ) ).empty() ) {
+            return _( "Sorry, there's nothing I can learn from you." );
+        } else {
+            return _( "Sure, I'm all ears." );
+        }
+    } else if( topic == "TALK_TRAIN_SEMINAR" ) {
+        return _( "What do you want me to teach?" );
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         return actor( true )->distance_to_goal();
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
@@ -909,8 +1088,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     }
 
-    return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
-                          topic );
+    debugmsg( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic );
+    return "";
 }
 
 void dialogue::apply_speaker_effects( const talk_topic &the_topic )
@@ -1056,6 +1235,33 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
+    } else if( the_topic.id == "TALK_TRAIN_NPC" ) {
+        const std::vector<skill_id> &trainable = actor( false )->skills_offered_to( *actor( true ) );
+        if( trainable.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &s : trainable ) {
+            const std::string &text = actor( true )->skill_training_text( *actor( true ), s );
+            if( !text.empty() && !s->obsolete() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", s );
+            }
+        }
+        add_response_none( _( "Eh, never mind." ) );
+    } else if( the_topic.id == "TALK_TRAIN_SEMINAR" ) {
+        const std::vector<skill_id> &slist = actor( true )->skills_teacheable();
+        if( slist.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &sk : slist ) {
+            if( sk->obsolete() ) {
+                continue;
+            }
+            const std::string &text = actor( true )->skill_seminar_text( sk );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", sk );
+        }
+        add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN &&
             player_character.backlog.front().index == actor( true )->getID().get_value() ) {
@@ -1237,7 +1443,8 @@ int topic_category( const talk_topic &the_topic )
         return 5;
     }
     static const std::unordered_set<std::string> topic_6 = { {
-            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE"
+            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE",
+            "TALK_TRAIN_NPC_START", "TALK_TRAIN_NPC_FORCE"
         }
     };
     if( topic_6.count( topic ) > 0 ) {
@@ -2389,14 +2596,18 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
 
 void talk_effect_fun_t::set_lightning()
 {
-    if( get_player_character().posz() >= 0 ) {
-        get_weather().lightning_active = true;
-    }
+    function = []( const dialogue & ) {
+        if( get_player_character().posz() >= 0 ) {
+            get_weather().lightning_active = true;
+        }
+    };
 }
 
 void talk_effect_fun_t::set_next_weather()
 {
-    get_weather().set_nextweather( calendar::turn );
+    function = []( const dialogue & ) {
+        get_weather().set_nextweather( calendar::turn );
+    };
 }
 
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
@@ -3441,6 +3652,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_fishing ),
             WRAP( do_construction ),
             WRAP( do_mining ),
+            WRAP( do_mopping ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
@@ -3496,6 +3708,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( player_weapon_drop ),
             WRAP( lead_to_safety ),
             WRAP( start_training ),
+            WRAP( start_training_npc ),
+            WRAP( start_training_seminar ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
             WRAP( npc_die ),

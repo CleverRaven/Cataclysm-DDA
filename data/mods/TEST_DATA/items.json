@@ -722,7 +722,6 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
@@ -924,7 +923,12 @@
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
+    "armor_data": {
+      "material": [ "leather" ],
+      "sided": true,
+      "material_thickness": 2,
+      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    },
     "pocket_data": [
       {
         "max_item_volume": "15 ml",
@@ -1942,6 +1946,7 @@
     "description": "Some strange can from another dimension.  It can be worn on the waist.",
     "weight": "13 g",
     "volume": "253 ml",
+    "material": [ "aluminum" ],
     "symbol": "?",
     "color": "light_gray",
     "pocket_data": [
@@ -1956,7 +1961,11 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material": [ "aluminum" ],
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+    },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -2000,6 +2009,7 @@
     "description": "Some strange jug from another dimension.",
     "weight": "52 g",
     "volume": "1012 ml",
+    "material": [ "plastic" ],
     "symbol": "?",
     "color": "light_gray",
     "pocket_data": [
@@ -2014,7 +2024,11 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material": [ "plastic" ],
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+    },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -2025,6 +2039,7 @@
     "description": "Some strange jug from another dimension.  It can be worn on the waist.",
     "weight": "104 g",
     "volume": "2024 ml",
+    "material": [ "plastic" ],
     "symbol": "?",
     "color": "light_gray",
     "pocket_data": [
@@ -2051,7 +2066,11 @@
         "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material": [ "plastic" ],
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+    },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -2062,6 +2081,7 @@
     "weight": "208 g",
     "volume": "4048 ml",
     "symbol": "?",
+    "material": [ "cotton" ],
     "color": "light_gray",
     "pocket_data": [
       {
@@ -2075,7 +2095,11 @@
         ]
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material": [ "cotton" ],
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+    },
     "flags": [ "BELTED" ]
   },
   {

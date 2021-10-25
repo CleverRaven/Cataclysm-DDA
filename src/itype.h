@@ -229,6 +229,26 @@ struct armor_portion_data {
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
     int coverage = 0;
+    int cover_melee = 0;
+    int cover_ranged = 0;
+    int cover_vitals = 0;
+
+    /**
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
+     */
+    float thickness = 0.0f;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+
+    // What materials this portion is made of, for armor purposes
+    std::vector<material_id> materials;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
@@ -245,19 +265,6 @@ struct islot_armor {
     * Whether this item can be worn on either side of the body
     */
     bool sided = false;
-    /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
-     */
-    float thickness = 0.0f;
-    /**
-     * Resistance to environmental effects.
-     */
-    int env_resist = 0;
-    /**
-     * Environmental protection of a gas mask with installed filter.
-     */
-    int env_resist_w_filter = 0;
     /**
      * How much warmth this item provides.
      */
@@ -284,6 +291,10 @@ struct islot_armor {
     std::vector<armor_portion_data> data;
 
     bool was_loaded = false;
+
+    int avg_env_resist() const;
+    int avg_env_resist_w_filter() const;
+    float avg_thickness() const;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -929,8 +940,15 @@ struct itype {
         std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
+        // First -> the material
+        // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
-        std::vector<material_id> materials;
+        std::map<material_id, int> materials;
+        // Since the material list was converted to a map, keep track of the material insert order
+        // Do not use this for materials. Use the materials map above.
+        std::vector<material_id> mats_ordered;
+        // Total of item's material portions (materials->second)
+        int mat_portion_total = 0;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;

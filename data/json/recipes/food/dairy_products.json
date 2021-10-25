@@ -20,7 +20,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "raw_butter",
     "id_suffix": "shake",
-    "byproducts": [ [ "buttermilk", 3 ], [ "jar_glass_sealed", 1 ] ],
+    "byproducts": [ [ "buttermilk", 3 ] ],
     "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -29,7 +29,8 @@
     "time": "20 m",
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ]
+    "tools": [ [ [ "jar_glass_sealed", 1 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ]
   },
   {
     "type": "recipe",

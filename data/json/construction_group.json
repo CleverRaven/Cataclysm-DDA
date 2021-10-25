@@ -1031,6 +1031,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_fridge",
+    "name": "Place Fridge"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },

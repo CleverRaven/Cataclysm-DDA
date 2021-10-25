@@ -4,13 +4,14 @@
     "name": "GROUP_TRIFFID",
     "default": "mon_triffid",
     "monsters": [
-      { "monster": "mon_triffid_young", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_fungal_fighter", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_triffid", "freq": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
-      { "monster": "mon_triffid_queen", "freq": 60, "cost_multiplier": 20 },
-      { "monster": "mon_biollante", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_triffid_flower", "freq": 100, "cost_multiplier": 4 }
+      { "monster": "mon_triffid_young", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_fungal_fighter", "weight": 100 },
+      { "monster": "mon_triffid", "weight": 80 },
+      { "monster": "mon_triffid", "weight": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_queen", "weight": 60, "cost_multiplier": 20 },
+      { "monster": "mon_biollante", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_flower", "weight": 100, "cost_multiplier": 4 }
     ]
   },
   {
@@ -18,12 +19,13 @@
     "name": "GROUP_TRIFFID_OUTER",
     "default": "mon_triffid",
     "monsters": [
-      { "monster": "mon_triffid_young", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_triffid", "freq": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_fungal_fighter", "freq": 160, "cost_multiplier": 0 },
-      { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
-      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 },
-      { "monster": "mon_triffid_flower", "freq": 25, "cost_multiplier": 4 }
+      { "monster": "mon_triffid_young", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_triffid", "weight": 205 },
+      { "monster": "mon_triffid", "weight": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_fungal_fighter", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_biollante", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_flower", "weight": 25, "cost_multiplier": 4 }
     ]
   },
   {
@@ -31,14 +33,15 @@
     "name": "GROUP_TRIFFID_HEARTGUARDS",
     "default": "mon_triffid",
     "monsters": [
-      { "monster": "mon_triffid", "freq": 300, "cost_multiplier": 0, "pack_size": [ 4, 6 ] },
-      { "monster": "mon_vinebeast", "freq": 260, "cost_multiplier": 2 },
-      { "monster": "mon_triffid_queen", "freq": 160, "cost_multiplier": 5 }
+      { "monster": "mon_triffid", "weight": 280, "cost_multiplier": 0 },
+      { "monster": "mon_triffid", "weight": 300, "cost_multiplier": 0, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_vinebeast", "weight": 260, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_queen", "weight": 160, "cost_multiplier": 5 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TRIFFID_HEART",
-    "default": "mon_triffid_heart"
+    "monsters": [ { "monster": "mon_triffid_heart" } ]
   }
 ]

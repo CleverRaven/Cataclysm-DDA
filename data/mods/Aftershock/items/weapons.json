@@ -282,7 +282,11 @@
     "longest_side": "183 cm",
     "price_postapoc": 40000,
     "bashing": 10,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material": [ "superalloy", "hardsteel", "wood" ],
+      "material_thickness": 1,
+      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
@@ -320,7 +324,11 @@
     "longest_side": "183 cm",
     "price_postapoc": 40000,
     "bashing": 10,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material": [ "superalloy", "hardsteel", "wood" ],
+      "material_thickness": 1,
+      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
@@ -373,7 +381,11 @@
     "longest_side": "152 cm",
     "price_postapoc": 2000,
     "bashing": 12,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "material_thickness": 1,
+      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ],
+      "material": [ "steel", "plastic" ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 12 },

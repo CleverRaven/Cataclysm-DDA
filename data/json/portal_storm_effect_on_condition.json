@@ -1,0 +1,537 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_strong_portal_storm_base",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "=", { "const": 10 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_strong_portal_storm",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "=", { "const": 15 } ]
+      },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 1 } ]
+      },
+      "next_weather"
+    ]
+  },
+  {
+    "id": "test_portal_cause",
+    "type": "TOOL",
+    "name": { "str_sp": "Test Portal Causer" },
+    "description": "Causes portal storms.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "symbol": "!",
+    "color": "light_red",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Touch the opening.",
+      "effect_on_conditions": [ "EOC_CAUSE_PORTAL_STORM" ]
+    }
+  },
+  {
+    "id": "test_portal_strengener",
+    "type": "TOOL",
+    "name": { "str_sp": "Test Portal Strengthener" },
+    "description": "Strengthens portal storms.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "symbol": "!",
+    "color": "light_red",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Touch the opening.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_TEST_STRENGTHEN",
+          "effect": { "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "++" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence_min": "6 days",
+    "recurrence_max": "9 days",
+    "global": true,
+    "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_STORM_WARN" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN",
+    "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on",
+    "//2": "base portal strength and if its day or night. Then it queues up either itself or the eoc that causes a portal storm.",
+    "effect": [
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_1",
+            "condition": {
+              "and": [
+                "u_can_see",
+                "u_is_outside",
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": "<"
+                }
+              ]
+            },
+            "effect": [
+              {
+                "set_queue_effect_on_condition": [
+                  {
+                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_1",
+                    "condition": "is_day",
+                    "effect": [ { "u_message": "PORTAL_STORM_DAY_MESSAGES_1", "snippet": true } ],
+                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_1", "snippet": true }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_2",
+            "condition": {
+              "and": [
+                "u_can_see",
+                "u_is_outside",
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": "<"
+                },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [
+              {
+                "set_queue_effect_on_condition": [
+                  {
+                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_2",
+                    "condition": "is_day",
+                    "effect": [ { "u_message": "PORTAL_STORM_DAY_MESSAGES_2", "snippet": true } ],
+                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_2", "snippet": true }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_3",
+            "condition": {
+              "and": [
+                "u_can_see",
+                "u_is_outside",
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [
+              {
+                "set_queue_effect_on_condition": [
+                  {
+                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_3",
+                    "condition": "is_day",
+                    "effect": [ { "u_message": "PORTAL_STORM_DAY_MESSAGES_3", "snippet": true } ],
+                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_3", "snippet": true }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE",
+            "effect": [ { "set_weighted_list_eocs": [ [ "EOC_CAUSE_PORTAL_STORM", 1 ], [ "EOC_PORTAL_STORM_WARN", 3 ] ] } ]
+          }
+        ],
+        "time_in_future_min": "1 hours",
+        "time_in_future_max": "6 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_PORTAL_STORM",
+    "//": "This sets up all the variables for the start of a portal storm. The storm won't happen until the current weather",
+    "//2": "ends though.  This will usually be 5 minutes at most.",
+    "condition": {
+      "not": {
+        "or": [
+          { "is_weather": "portal_storm" },
+          {
+            "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
+            "op": "="
+          }
+        ]
+      }
+    },
+    "effect": [
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 1 } ]
+      },
+      "next_weather",
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" },
+          "+",
+          { "const": 1 }
+        ]
+      },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "EOC_PORTAL_STORM_INCREASE_BASE_STRENGTH",
+            "//": "Cap portal storm base strength at 25",
+            "condition": {
+              "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 25 } ],
+              "op": "<"
+            },
+            "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "++" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STRENGTHEN",
+    "//": "Increases the portal storms strength.",
+    "recurrence_min": "45 minutes",
+    "recurrence_max": "75 minutes",
+    "global": true,
+    "condition": { "is_weather": "portal_storm" },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "++" ] },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 0 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_1",
+    "//": "Weakest effects.",
+    "recurrence_min": "15 seconds",
+    "recurrence_max": "75 seconds",
+    "global": true,
+    "condition": { "is_weather": "portal_storm" },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      {
+        "set_weighted_list_eocs": [
+          [ "EOC_PORTAL_WRAITH", 5 ],
+          [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
+          [ "EOC_PORTAL_PAIN", 1 ],
+          [ "EOC_PORTAL_LIGHT", 2 ],
+          [ "EOC_PORTAL_MESSAGE", 5 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_2",
+    "//": "Stronger effects.",
+    "recurrence_min": "45 seconds",
+    "recurrence_max": "90 seconds",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        {
+          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 4 } ],
+          "op": ">"
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      {
+        "set_weighted_list_eocs": [
+          [ "EOC_PORTAL_RADIATION", 1 ],
+          [ "EOC_PORTAL_NETHER_SPAWN", 1 ],
+          [ "EOC_PORTAL_SMOKE", 1 ],
+          [ "EOC_PORTAL_MESSAGE", 3 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_3",
+    "//": "The most painful stuff.",
+    "recurrence_min": "60 seconds",
+    "recurrence_max": "90 seconds",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        {
+          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 8 } ],
+          "op": ">"
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [ { "set_weighted_list_eocs": [ [ "EOC_PORTAL_GIANT_APPENDAGE", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_MESSAGE",
+    "//": "This displays messages depending on the storms strength.",
+    "condition": { "and": [ "u_is_outside", "u_can_see", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "effect": [
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "EOC_PORTAL_STORM_MESSAGE_1",
+            "condition": {
+              "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+              "op": "<"
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true } ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_MESSAGE_2",
+            "condition": {
+              "and": [
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": "<"
+                },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true } ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_MESSAGE_3",
+            "condition": {
+              "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+              "op": ">="
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_RADIATION",
+    "//": "Just a fun little irony, it looks nice but under the hood it ain't good for you.",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_has_worn_with_flag": "RAD_PROOF" } },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "For a second the air glows a beautiful color you've never seen before and can't quite recall afterwards.",
+        "type": "good"
+      },
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_rad_str", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "+",
+          { "const": 10 }
+        ]
+      },
+      {
+        "arithmetic": [ { "u_val": "rad" }, "+=", { "global_val": "var", "var_name": "ps_rad_str", "type": "weather", "context": "ps" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_NETHER_SPAWN",
+    "//": "Emulate a classic portal by spawning from its spawn group.",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_message": "Several large portals open and before they close monsters pour through.", "type": "bad" },
+      {
+        "u_set_spawn_monster": "GROUP_NETHER_PORTAL",
+        "group": true,
+        "real_count": 2,
+        "hallucination_count": 2,
+        "lifespan_min": "10 seconds",
+        "lifespan_max": "2 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_WRAITH",
+    "condition": "u_is_outside",
+    "effect": [
+      {
+        "u_message": "Small gashes in reality open nearby. On the other side you see an endless dark ocean. Some alien beings spill out before the portals close.",
+        "type": "bad"
+      },
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_wraith_count", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "/",
+          { "const": 3 }
+        ]
+      },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "ps_wraith_count", "type": "weather", "context": "ps" }, "++" ]
+      },
+      {
+        "u_set_spawn_monster": "mon_wraith",
+        "real_count": { "name": "ps_wraith_count", "type": "weather", "context": "ps", "default": 1, "global": true },
+        "hallucination_count": { "name": "ps_wraith_count", "type": "weather", "context": "ps", "default": 1, "global": true },
+        "lifespan_min": "5 seconds",
+        "lifespan_max": "2 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_IMPOSSIBLE_SHAPE",
+    "condition": "u_is_outside",
+    "effect": [
+      {
+        "u_message": "You cannot remember how the impossible shapes came to be here. The pain in your head suggests that is a good thing.",
+        "type": "bad"
+      },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] },
+      {
+        "u_set_spawn_monster": "mon_impossible_shape",
+        "real_count": 1,
+        "hallucination_count": 1,
+        "lifespan_min": "1 minutes",
+        "lifespan_max": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_GIANT_APPENDAGE",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_message": "Bizzare limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
+      {
+        "u_set_spawn_monster": "mon_giant_appendage",
+        "real_count": 1,
+        "hallucination_count": 3,
+        "lifespan_min": "5 seconds",
+        "lifespan_max": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_PAIN",
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "effect": [
+      {
+        "u_message": "You awake with a start from what must have been a violent and horrifying daydream. Your body aches as if the wounds were real.",
+        "type": "bad"
+      },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 30 } ] },
+      { "u_set_field": "fd_blood", "radius": 2 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SMOKE",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_message": "A million tiny pinpricks in space open for an instant and smoke pours everywhere.", "type": "bad" },
+      { "u_set_field": "fd_smoke" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_LIGHT",
+    "//": "If its night make it bright, if its day make it dark.",
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_light_str", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "*",
+          { "time": "1 minutes" }
+        ]
+      },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "portal_storm_dark_light",
+            "condition": "is_day",
+            "effect": [
+              {
+                "custom_light_level": 0,
+                "length_min": "1 seconds",
+                "length_max": { "name": "ps_light_str", "type": "weather", "context": "ps", "default": "1 minutes", "global": true }
+              },
+              { "u_message": "The sun is snuffed out like a candle.", "type": "bad" }
+            ],
+            "false_effect": [
+              {
+                "custom_light_level": 125,
+                "length_min": "1 seconds",
+                "length_max": { "name": "ps_light_str", "type": "weather", "context": "ps", "default": "1 minutes", "global": true }
+              },
+              { "u_message": "Some of the stars grow so bright they hurt to look at.", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_INCORPOREAL",
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_incorporeal_str", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "*",
+          { "time": "1 seconds" }
+        ]
+      },
+      { "u_message": "You feel stretched, as if part of you was elsewhere.", "type": "bad" },
+      {
+        "u_add_effect": "incorporeal",
+        "duration": { "name": "ps_incorporeal_str", "type": "weather", "context": "ps", "default": "1 seconds", "global": true }
+      }
+    ]
+  }
+]

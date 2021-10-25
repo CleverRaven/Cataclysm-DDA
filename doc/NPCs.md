@@ -580,6 +580,8 @@ Effect | Description
 `start_mugging` | The NPC will approach your character and steal from your character, attacking if your character resists.
 `lead_to_safety` | The NPC will gain the LEAD attitude and give your character the mission of reaching safety.
 `start_training` | The NPC will train your character in a skill or martial art.  NOTE: the code currently requires that you initiate training by directing the player through `"topic": "TALK_TRAIN"` where the thing to be trained is selected.  Initiating training outside of "TALK_TRAIN" will give an error.
+`start_training_npc` | The NPC will accept training from the player in a skill or martial art.
+`start_training_seminar` | Opens a dialog to select which characters will participate in the training seminar hosted by this NPC.
 `companion_mission: role_string` | The NPC will offer you a list of missions for your allied NPCs, depending on the NPC's role.
 `basecamp_mission` | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
 `bionic_install` | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.

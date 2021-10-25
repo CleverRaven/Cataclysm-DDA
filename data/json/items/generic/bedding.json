@@ -152,6 +152,7 @@
     "copy-from": "quilt",
     "name": { "str": "patchwork quilt" },
     "description": "A huge, patchwork wool quilt.  Very, very warm.",
+    "material": [ "wool" ],
     "warmth": 70,
     "armor": [
       {

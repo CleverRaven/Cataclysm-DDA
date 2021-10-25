@@ -69,6 +69,7 @@ class mapgendata
         ::mission *mission_;
         int zlevel_;
         mapgen_arguments mapgen_args_;
+        std::vector<oter_id> predecessors_;
 
     public:
         oter_id t_nesw[8];
@@ -178,6 +179,10 @@ class mapgendata
         bool is_groundcover( const ter_id &iid ) const;
 
         bool has_join( const cube_direction, const std::string &join_id ) const;
+
+        bool has_predecessor() const;
+        const oter_id &last_predecessor() const;
+        void pop_last_predecessor();
 
         template<typename Result>
         Result get_arg( const std::string &name ) const {

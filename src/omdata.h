@@ -176,6 +176,7 @@ enum class oter_flags : int {
     ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    requires_predecessor,
     lake,
     lake_shore,
     ravine,
