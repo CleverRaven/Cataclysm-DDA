@@ -137,7 +137,7 @@ def read_armor_data(jo, dat):
 # grab it from each definition in the copy-from chain
 def get_armor_data_rec(jo, dat):
     # When we've got all of our data filled, we can stop recursing
-    if all(key in dat for key in  transferred_keys):
+    if all(key in dat for key in transferred_keys):
         return
 
     read_armor_data(jo, dat)
