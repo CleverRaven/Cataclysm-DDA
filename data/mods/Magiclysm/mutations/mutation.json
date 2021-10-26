@@ -313,5 +313,15 @@
     "description": "You are deer-like, giving you the ability to move quickly and escape danger.  However, this takes a great toll on your body, and you don't think you should maintain this form for long.",
     "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ],
     "healing_awake": -500.0
+  },  
+  {
+    "type": "mutation",
+    "id": "MIRROR_DISPLACEMENT",
+    "name": { "str": "Mirror Displacement" },
+    "points": 9,
+    "description": "You aren't where you seem to be.",
+    "starting_trait": false,
+    "category": [ "CHIMERA" ],
+    "flags": [ "UNCANNY_DODGE" ]
   }
 ]

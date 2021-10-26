@@ -11,16 +11,6 @@
   },
   {
     "type": "mutation",
-    "id": "MIRROR_DISPLACEMENT",
-    "name": { "str": "Mirror Displacement" },
-    "points": 9,
-    "description": "You aren't where you seem to be.",
-    "starting_trait": false,
-    "category": [ "CHIMERA" ],
-    "flags": [ "UNCANNY_DODGE" ]
-  },
-  {
-    "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
     "extend": { "category": [ "DRAGON_BLACK" ] }
