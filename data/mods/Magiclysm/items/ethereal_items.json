@@ -72,7 +72,6 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "material": [ "magical_material" ],
     "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
