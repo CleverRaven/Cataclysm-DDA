@@ -50,6 +50,7 @@
       [ "bottle_glass", 10 ],
       [ "bottle_plastic_small", 130 ],
       [ "survnote", 1 ]
+    ]
   },
   {
     "type": "item_group",
