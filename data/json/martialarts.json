@@ -102,6 +102,109 @@
   },
   {
     "type": "martial_art",
+    "id": "style_barbaran",
+    "name": { "str": "Barbaran Montante" },
+    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.",
+    "initiate": [
+      "You heft your weapon, stretch your shoulders, and slide into the Represa.",
+      "%s rolls their shoulders and prepares to duel."
+    ],
+    "learn_difficulty": 8,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_barbaran_static",
+        "name": "Barbaran Represa",
+        "description": "Sliding footwork enhances the crushing continuity of your attacks.\n\nArmor penetration increased by 75% of Strength.",
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.75 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.75 }
+        ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_barbaran_onblock",
+        "name": "Reversing Destreza",
+        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "max_stacks": 2,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.95 } ],
+        "buff_duration": 3
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_barbaran_onkill",
+        "name": "Movimiento Natural",
+        "description": "Formal victory is attained, and your mind is cleared to focus on your next moves.\n\n+1 Block attempts.\nLasts 5 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "buff_duration": 5,
+        "bonus_blocks": 1
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_barbaran_onmove",
+        "name": "Ricasso Step",
+        "description": "You switch or sturdy your grip mid-step to aid your blocking.\n\nBlocked damage reduced by 40% of Strength.\nLasts 3 turns.  Stacks 3 times.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.4 } ],
+        "buff_duration": 3
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_barbaran_onpause",
+        "name": "Vulgar Preparation",
+        "description": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, Armor penetration increased by 225% of Strength.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "str", "scale": 0.15 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 2.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 2.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 2.25 }
+        ],
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
+    "weapons": [
+      "2h_flail_steel",
+      "2h_flail_wood",
+      "battleaxe",
+      "battleaxe_inferior",
+      "battleaxe_fake",
+      "hammer_sledge",
+      "hammer_sledge_heavy",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "morningstar",
+      "morningstar_inferior",
+      "morningstar_fake",
+      "sword_nail",
+      "sword_crude",
+      "sword_wood",
+      "warhammer",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_boxing",
     "name": { "str": "Boxing" },
     "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase dodge skill.",
