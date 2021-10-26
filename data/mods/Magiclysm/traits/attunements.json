@@ -1185,7 +1185,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "HEATPROOF" ]
   },
   {
     "id": "WITHER_MAGE",
