@@ -1655,6 +1655,63 @@ bool Character::is_prone() const
     return move_mode->type() == move_mode_type::PRONE;
 }
 
+int Character::footstep_sound() const
+{
+    if( has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
+        return 0;
+    }
+
+    double volume = is_stealthy() ? 3 : 6;
+    volume *= mutation_value( "noise_modifier" );
+    if( volume > 0 ) {
+        volume *= current_movement_mode()->sound_mult();
+        if( is_mounted() ) {
+            monster *mons = mounted_creature.get();
+            switch( mons->get_size() ) {
+                case creature_size::tiny:
+                    volume = 0; // No sound for the tinies
+                    break;
+                case creature_size::small:
+                    volume /= 3;
+                    break;
+                case creature_size::medium:
+                    break;
+                case creature_size::large:
+                    volume *= 1.5;
+                    break;
+                case creature_size::huge:
+                    volume *= 2;
+                    break;
+                default:
+                    break;
+            }
+            if( mons->has_flag( MF_LOUDMOVES ) ) {
+                volume += 6;
+            }
+        } else {
+            volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
+        }
+        return std::round( volume );
+    }
+}
+
+void Character::make_footstep_noise() const
+{
+    const int volume = footstep_sound();
+    if( volume <= 0 ) {
+        return;
+    }
+    if( is_mounted() ) {
+        sounds::sound( pos(), volume, sounds::sound_t::movement,
+                       mounted_creature.get()->type->get_footsteps(),
+                       false, "none", "none" );
+    } else {
+        sounds::sound( pos(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
+                       "none", "none" );    // Sound of footsteps may awaken nearby monsters
+    }
+    sfx::do_footstep();
+}
+
 steed_type Character::get_steed_type() const
 {
     steed_type steed;

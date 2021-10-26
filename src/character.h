@@ -815,6 +815,8 @@ class Character : public Creature, public visitable
         bool is_crouching() const;
         bool is_prone() const;
 
+        int footstep_sound() const;
+        void make_footstep_noise() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
