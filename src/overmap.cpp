@@ -81,10 +81,22 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
-static const oter_str_id forest( "forest" );
-static const oter_str_id forest_thick( "forest_thick" );
-static const oter_str_id forest_water( "forest_water" );
-static const oter_str_id river_center( "river_center" );
+static const oter_str_id oter_central_lab_core( "central_lab_core" );
+static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
+static const oter_str_id oter_forest( "forest" );
+static const oter_str_id oter_forest_thick( "forest_thick" );
+static const oter_str_id oter_forest_water( "forest_water" );
+static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
+static const oter_str_id oter_ice_lab_stairs( "ice_lab_stairs" );
+static const oter_str_id oter_lab_core( "lab_core" );
+static const oter_str_id oter_lab_stairs( "lab_stairs" );
+static const oter_str_id oter_mine_down( "mine_down" );
+static const oter_str_id oter_river_center( "river_center" );
+static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
+static const oter_str_id oter_slimepit_down( "slimepit_down" );
+
+static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -370,16 +382,6 @@ template<>
 const string_id<oter_t> &int_id<oter_t>::id() const
 {
     return terrains.convert( *this );
-}
-
-bool operator==( const int_id<oter_t> &lhs, const char *rhs )
-{
-    return lhs.id().str() == rhs;
-}
-
-bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
-{
-    return !( lhs == rhs );
 }
 
 static void set_oter_ids()   // FIXME: constify
@@ -2961,36 +2963,34 @@ bool overmap::generate_sub( const int z )
                 subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
                 subway_points.emplace_back( i, j + 1 );
-            } else if( oter_above == "road_nesw_manhole" ) {
+            } else if( oter_above == oter_road_nesw_manhole ) {
                 ter_set( p, oter_id( "sewer_isolated" ) );
                 sewer_points.emplace_back( i, j );
-            } else if( oter_above == "sewage_treatment" ) {
-                sewer_points.emplace_back( i, j );
-            } else if( oter_above == "slimepit_down" || oter_above == "slimepit_bottom" ) {
+            } else if( oter_above == oter_slimepit_down || oter_above == oter_slimepit_bottom ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.emplace_back( p.xy(), size );
-            } else if( oter_above == "forest_water" ) {
+            } else if( oter_above == oter_forest_water ) {
                 ter_set( p, oter_id( "cavern" ) );
                 chip_rock( p );
-            } else if( oter_above == "lab_core" ||
-                       ( z == -1 && oter_above == "lab_stairs" ) ||
+            } else if( oter_above == oter_lab_core ||
+                       ( z == -1 && oter_above == oter_lab_stairs ) ||
                        is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            } else if( oter_above == "lab_stairs" ) {
+            } else if( oter_above == oter_lab_stairs ) {
                 ter_set( p, oter_id( "lab" ) );
-            } else if( oter_above == "ice_lab_core" ||
-                       ( z == -1 && oter_above == "ice_lab_stairs" ) ) {
+            } else if( oter_above == oter_ice_lab_core ||
+                       ( z == -1 && oter_above == oter_ice_lab_stairs ) ) {
                 ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            } else if( oter_above == "ice_lab_stairs" ) {
+            } else if( oter_above == oter_ice_lab_stairs ) {
                 ter_set( p, oter_id( "ice_lab" ) );
-            } else if( oter_above == "central_lab_core" ) {
+            } else if( oter_above == oter_central_lab_core ) {
                 central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
-            } else if( oter_above == "central_lab_stairs" ) {
+            } else if( oter_above == oter_central_lab_stairs ) {
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
                 requires_sub = true;
-            } else if( oter_above == "mine_down" ) {
+            } else if( oter_above == oter_mine_down ) {
                 ter_set( p, oter_id( "mine" ) );
                 mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
                 // technically not all finales need a sub level,
@@ -3019,7 +3019,7 @@ bool overmap::generate_sub( const int z )
     for( auto &i : lab_points ) {
         bool lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &lab_train_points, "", lab_train_odds );
         requires_sub |= lab;
-        if( !lab && ter( tripoint_om_omt( i.pos, z ) ) == "lab_core" ) {
+        if( !lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_lab_core ) {
             ter_set( tripoint_om_omt( i.pos, z ), oter_id( "lab" ) );
         }
     }
@@ -3027,7 +3027,7 @@ bool overmap::generate_sub( const int z )
         bool ice_lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &lab_train_points, "ice_",
                                   lab_train_odds );
         requires_sub |= ice_lab;
-        if( !ice_lab && ter( tripoint_om_omt( i.pos, z ) ) == "ice_lab_core" ) {
+        if( !ice_lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_ice_lab_core ) {
             ter_set( tripoint_om_omt( i.pos, z ), oter_id( "ice_lab" ) );
         }
     }
@@ -3035,7 +3035,7 @@ bool overmap::generate_sub( const int z )
         bool central_lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &central_lab_train_points,
                                       "central_", lab_train_odds );
         requires_sub |= central_lab;
-        if( !central_lab && ter( tripoint_om_omt( i.pos, z ) ) == "central_lab_core" ) {
+        if( !central_lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_central_lab_core ) {
             ter_set( tripoint_om_omt( i.pos, z ), oter_id( "central_lab" ) );
         }
     }
@@ -3378,11 +3378,11 @@ void overmap::move_hordes()
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
         int movement_chance = 1;
-        if( walked_into == forest || walked_into == forest_water ) {
+        if( walked_into == oter_forest || walked_into == oter_forest_water ) {
             movement_chance = 3;
-        } else if( walked_into == forest_thick ) {
+        } else if( walked_into == oter_forest_thick ) {
             movement_chance = 6;
-        } else if( walked_into == river_center ) {
+        } else if( walked_into == oter_river_center ) {
             movement_chance = 10;
         }
 
@@ -3507,11 +3507,11 @@ void overmap::move_nemesis()
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( local_sm ) );
         int movement_chance = 1;
-        if( walked_into == forest || walked_into == forest_water ) {
+        if( walked_into == oter_forest || walked_into == oter_forest_water ) {
             movement_chance = 3;
-        } else if( walked_into == forest_thick ) {
+        } else if( walked_into == oter_forest_thick ) {
             movement_chance = 6;
-        } else if( walked_into == river_center ) {
+        } else if( walked_into == oter_river_center ) {
             movement_chance = 10;
         }
 
@@ -3696,8 +3696,8 @@ void overmap::place_forest_trails()
             return false;
         }
         const auto current_terrain = ter( tripoint_om_omt( p, 0 ) );
-        return current_terrain == "forest" || current_terrain == "forest_thick" ||
-               current_terrain == "forest_water";
+        return current_terrain == oter_forest || current_terrain == oter_forest_thick ||
+               current_terrain == oter_forest_water;
     };
     const forest_trail_settings &forest_trail = settings->forest_trail;
 
@@ -3882,9 +3882,9 @@ void overmap::place_forests()
 
             // If the noise here meets our threshold, turn it into a forest.
             if( n > settings->overmap_forest.noise_threshold_forest_thick ) {
-                ter_set( p, forest_thick );
+                ter_set( p, oter_forest_thick );
             } else if( n > settings->overmap_forest.noise_threshold_forest ) {
-                ter_set( p, forest );
+                ter_set( p, oter_forest );
             }
         }
     }
@@ -4049,7 +4049,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint_om_omt p_mine( i, 0, 0 );
 
             if( is_river( north->ter( p_neighbour ) ) ) {
-                ter_set( p_mine, river_center );
+                ter_set( p_mine, oter_river_center );
             }
             if( is_river( north->ter( p_neighbour ) ) &&
                 is_river( north->ter( p_neighbour + point_east ) ) &&
@@ -4068,7 +4068,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint_om_omt p_mine( 0, i, 0 );
 
             if( is_river( west->ter( p_neighbour ) ) ) {
-                ter_set( p_mine, river_center );
+                ter_set( p_mine, oter_river_center );
             }
             if( is_river( west->ter( p_neighbour ) ) &&
                 is_river( west->ter( p_neighbour + point_north ) ) &&
@@ -4086,7 +4086,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint_om_omt p_mine( i, OMAPY - 1, 0 );
 
             if( is_river( south->ter( p_neighbour ) ) ) {
-                ter_set( p_mine, river_center );
+                ter_set( p_mine, oter_river_center );
             }
             if( is_river( south->ter( p_neighbour ) ) &&
                 is_river( south->ter( p_neighbour + point_east ) ) &&
@@ -4105,7 +4105,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint_om_omt p_mine( OMAPX - 1, i, 0 );
 
             if( is_river( east->ter( p_neighbour ) ) ) {
-                ter_set( p_mine, river_center );
+                ter_set( p_mine, oter_river_center );
             }
             if( is_river( east->ter( p_neighbour ) ) &&
                 is_river( east->ter( p_neighbour + point_north ) ) &&
@@ -4227,7 +4227,7 @@ void overmap::place_swamps()
             const bool should_isolated_swamp = f.noise_at( pos.xy() ) >
                                                settings->overmap_forest.noise_threshold_swamp_isolated;
             if( should_flood || should_isolated_swamp )  {
-                ter_set( pos, forest_water );
+                ter_set( pos, oter_forest_water );
             }
         }
     }
@@ -4339,7 +4339,7 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
                 tripoint_om_omt p( p2 + point( j, i ), 0 );
                 if( p.y() >= 0 && p.y() < OMAPY && p.x() >= 0 && p.x() < OMAPX ) {
                     if( !ter( p )->is_lake() && one_in( river_chance ) ) {
-                        ter_set( p, river_center );
+                        ter_set( p, oter_river_center );
                     }
                 }
             }
@@ -4390,7 +4390,7 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
                     }
 
                     if( !ter( p )->is_lake() && one_in( river_chance ) ) {
-                        ter_set( p, river_center );
+                        ter_set( p, oter_river_center );
                     }
                 }
             }
@@ -4640,7 +4640,8 @@ bool overmap::build_lab(
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
                 // make an ants lab if it's a basic lab and ants were there before.
                 if( prefix.empty() && check_ot( "ants", ot_match_type::type, cand ) ) {
-                    if( ter( cand ) != "ants_queen" ) { // skip over a queen's chamber.
+                    // skip over a queen's chamber.
+                    if( ter( cand )->get_type_id() != oter_type_ants_queen ) {
                         ter_set( cand, labt_ants );
                     }
                 } else {
@@ -5849,7 +5850,7 @@ void overmap::place_mongroups()
                 int swamp_count = 0;
                 for( int sx = x - 3; sx <= x + 3; sx++ ) {
                     for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( ter( { sx, sy, 0 } ) == "forest_water" ) {
+                        if( ter( { sx, sy, 0 } ) == oter_forest_water ) {
                             swamp_count += 2;
                         }
                     }

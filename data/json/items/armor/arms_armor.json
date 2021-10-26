@@ -62,7 +62,7 @@
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 },
+    "material_thickness": 4,
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
@@ -73,7 +73,7 @@
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "relative": { "material_thickness": 1 },
+    "material_thickness": 5,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE", "NO_REPAIR" ]
   },
   {
@@ -295,7 +295,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
     "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
-    "copy-from": "armguard_scrap",
+    "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE", "NONCONDUCTIVE" ]
   },

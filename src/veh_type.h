@@ -33,6 +33,7 @@ class vehicle;
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
+    VPFLAG_APPLIANCE,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,

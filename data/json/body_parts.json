@@ -73,6 +73,7 @@
     "hit_difficulty": 1.15,
     "limb_type": "sensor",
     "vision_score": 1.0,
+    "nightvision_score": 1.0,
     "side": "both",
     "legacy_id": "EYES",
     "stylish_bonus": 2,

@@ -171,6 +171,12 @@ class talker
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
+        virtual std::vector<skill_id> skills_teacheable() const {
+            return {};
+        }
+        virtual std::string skill_seminar_text( const skill_id & ) const {
+            return {};
+        }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
             return {};
         }

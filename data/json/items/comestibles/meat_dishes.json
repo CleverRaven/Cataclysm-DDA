@@ -85,6 +85,32 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "blutwurst_sausage",
+    "name": { "str": "blutwurst" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Menschenblutwurst" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "Mein teil" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "baleful %s" } }
+    ],
+    "weight": "100 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "looks_like": "sausage",
+    "quench": -1,
+    "calories": 385,
+    "description": "A type of German sausage made of pre-cooked meat and blood.  Better eat it hot and fresh.",
+    "price": 1800,
+    "volume": "1500 ml",
+    "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
+    "material": [ "flesh" ],
+    "charges": 10,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "bratwurst_sausage",
     "name": { "str": "bratwurst" },
     "conditional_names": [
@@ -397,7 +423,7 @@
     "name": { "str": "stuffed clam" },
     "copy-from": "fish_fried",
     "weight": "150 g",
-    "calories": 572,
+    "calories": 115,
     "description": "Quahog clams stuffed with bread crumbs and fried.",
     "volume": "175 ml",
     "looks_like": "fish_fried",

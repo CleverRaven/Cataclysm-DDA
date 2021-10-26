@@ -877,5 +877,27 @@
       "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
       "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
     }
+  },
+  {
+    "id": "MISSION_MANSION_START",
+    "type": "mission_definition",
+    "name": { "str": "Ready or Not" },
+    "description": "Survive all day from the crazy inhabitants of the mansion.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 1 },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

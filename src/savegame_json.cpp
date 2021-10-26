@@ -529,7 +529,6 @@ void activity_tracker::serialize( JsonOut &json ) const
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
-    json.member( "tick_counter", tick_counter );
     json.end_object();
 }
 
@@ -547,7 +546,10 @@ void activity_tracker::deserialize( const JsonObject &jo )
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
-    jo.read( "tick_counter", tick_counter );
+    if( jo.has_member( "tick_counter" ) ) { // migration - remove after 0.G
+        tracker *= 1000;
+        intake *= 1000;
+    }
 }
 
 // migration handling of items that used to have charges instead of real items.

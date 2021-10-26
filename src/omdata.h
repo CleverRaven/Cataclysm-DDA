@@ -400,10 +400,6 @@ struct oter_t {
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// TODO: Deprecate these operators
-bool operator==( const oter_id &lhs, const char *rhs );
-bool operator!=( const oter_id &lhs, const char *rhs );
-
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
 // (thus, LINE_OXXX looks like 'T'). LINE_ is defined in output.h.  The ACS_

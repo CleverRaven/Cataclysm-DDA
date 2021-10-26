@@ -215,5 +215,218 @@
     "special_attacks": [ [ "TAZER", 10 ] ],
     "luminance": 500,
     "death_drops": "feral_security_death_drops_flashlight"
+  },
+  {
+    "id": "mon_feral_maid_broom",
+    "type": "MONSTER",
+    "name": { "str": "feral servant" },
+    "description": "Once a fancy servant of some rich family, this maniac walks around with a broom in hand, searching for a victim to clean from its life.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "magenta",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_cut": 0,
+    "dodge": 1,
+    "harvest": "human",
+    "vision_day": 30,
+    "vision_night": 3,
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": "feral_maids_death_drops_broom",
+    "zombify_into": "mon_zombie",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_feral_maid_candlestick",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_maid_broom",
+    "name": { "str": "feral servant" },
+    "description": "Once a fancy servant of some rich family, this maniac walks around with a candlestick in hand, wanting to turn off the lights of your life.",
+    "death_drops": "feral_maids_death_drops_candlestick"
+  },
+  {
+    "id": "mon_feral_maid_knife",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_maid_broom",
+    "name": { "str": "feral servant" },
+    "description": "Once a fancy servant of some rich family, this maniac walks around with a knife in hand, searching some victims to butcher for the next meal.",
+    "melee_skill": 3,
+    "melee_cut": 4,
+    "death_drops": "feral_maids_death_drops_knife"
+  },
+  {
+    "id": "mon_feral_fancy_rapier",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_maid_broom",
+    "name": { "str": "well dressed feral" },
+    "description": "Wearing fancy clothes and with a rapier in hand, this maniac was once a socialite.  It smiles with madness and seems like it wants to invite you to dinner.",
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 10,
+    "death_drops": "feral_fancy_death_drops_rapier"
+  },
+  {
+    "id": "mon_feral_fancy_rapier_fake",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_maid_broom",
+    "name": { "str": "well dressed feral" },
+    "description": "Wearing fancy clothes and with a rapier in hand, this maniac was once a socialite.  It smiles with madness and seems like it wants to invite you to dinner.",
+    "melee_skill": 3,
+    "melee_cut": 1,
+    "death_drops": "feral_fancy_death_drops_rapier_fake"
+  },
+  {
+    "id": "mon_feral_fancy_crossbow",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_maid_broom",
+    "name": { "str": "well dressed feral" },
+    "description": "Wearing fancy clothes and with a crossbow in hand, this maniac was once a socialite.  Its hands seem to caress the crossbow as if touching a loved one.",
+    "starting_ammo": { "bolt_cf": 6 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 15,
+        "move_cost": 200,
+        "gun_type": "rep_crossbow",
+        "ammo_type": "bolt_cf",
+        "fake_skills": [ [ "gun", 1 ], [ "smg", 1 ] ],
+        "fake_dex": 6,
+        "fake_per": 6,
+        "require_targeting_player": false,
+        "ranges": [ [ 0, 7, "DEFAULT" ] ],
+        "description": "The feral human shoots its crossbow!"
+      }
+    ],
+    "death_drops": "feral_fancy_death_drops_crossbow"
+  },
+  {
+    "id": "mon_feral_armored_mace",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_maid_broom",
+    "name": { "str": "armored feral" },
+    "description": "Clad in ancient armor and with a mace in hand, this maniac walks around in search of its next prey.  You can see stains of dried blood all around its mace.",
+    "melee_skill": 3,
+    "melee_dice": 3,
+    "melee_dice_sides": 7,
+    "melee_cut": 0,
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 12,
+    "armor_stab": 15,
+    "death_drops": "feral_armored_death_drops_mace",
+    "weakpoints": [
+      {
+        "name": "the face",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          { "effect": "stunned", "duration": 1, "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 10 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 10,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 25,
+            "message": "The %s is blinded!",
+            "damage_required": [ 26, 100 ]
+          },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 10,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "downed", "chance": 8, "message": "The %s is knocked down!", "damage_required": [ 10, 25 ] },
+          { "effect": "downed", "chance": 20, "message": "The %s is knocked down!", "damage_required": [ 26, 100 ] }
+        ],
+        "coverage": 8
+      },
+      {
+        "name": "the armpit",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "all": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "coverage": 1
+      },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage_mult": { "ranged": 0.65 },
+        "coverage": 4
+      },
+      {
+        "name": "the arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage": 4
+      }
+    ]
+  },
+  {
+    "id": "mon_feral_armored_battleaxe",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_armored_mace",
+    "name": { "str": "armored feral" },
+    "description": "Clad in ancient armor and with a battle axe in hand, this maniac walks around in search of its next prey.  You can see stains of dried blood all around its axe.",
+    "melee_cut": 15,
+    "death_drops": "feral_armored_death_drops_battleaxe"
   }
 ]

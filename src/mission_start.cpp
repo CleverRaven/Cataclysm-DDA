@@ -236,7 +236,7 @@ void mission_start::place_npc_software( mission *miss )
 
     oter_id oter = overmap_buffer.ter( place );
     if( is_ot_match( "house", oter, ot_match_type::prefix ) ||
-        is_ot_match( "s_pharm", oter, ot_match_type::prefix ) || oter == "" ) {
+        is_ot_match( "s_pharm", oter, ot_match_type::prefix ) || oter.id().is_empty() ) {
         comppoint = find_potential_computer_point( compmap );
     }
 

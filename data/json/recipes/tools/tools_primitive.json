@@ -272,6 +272,8 @@
     "skill_used": "fabrication",
     "time": "5 m",
     "autolearn": true,
+    "//": "As of writing, a stick/plank is 130 cm, a splinter is 30 cm, this is intentionally 'generous' because this is rounded up and material tends to be uneven anyways",
+    "byproducts": [ [ "splinter", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]

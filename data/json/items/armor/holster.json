@@ -200,6 +200,7 @@
     "name": { "str": "western holster" },
     "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
+    "material": [ "leather" ],
     "sided": true,
     "armor": [
       { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
@@ -252,6 +253,7 @@
     "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
+    "material": [ "leather" ],
     "pocket_data": [
       {
         "magazine_well": "200 ml",

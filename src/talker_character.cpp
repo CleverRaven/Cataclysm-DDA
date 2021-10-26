@@ -8,6 +8,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "skill.h"
 #include "talker_character.h"
 #include "vehicle.h"
 
@@ -549,4 +550,22 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
     me_chr->remove_bionic( old_bionic );
+}
+
+std::vector<skill_id> talker_character::skills_teacheable() const
+{
+    std::vector<skill_id> ret;
+    for( const auto &pair : *me_chr->_skills ) {
+        const skill_id &id = pair.first;
+        if( pair.second.level() > 0 ) {
+            ret.push_back( id );
+        }
+    }
+    return ret;
+}
+
+std::string talker_character::skill_seminar_text( const skill_id &s ) const
+{
+    int lvl = me_chr->get_skill_level( s );
+    return string_format( "%s (%d)", s.obj().name(), lvl );
 }
