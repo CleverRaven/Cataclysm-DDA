@@ -20,5 +20,17 @@
       { "lose": "hand_l" },
       { "lose": "hand_r" }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "RM13",
+    "condition": "ACTIVE",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "SQUEAKY_ANKLES",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
   }
 ]
