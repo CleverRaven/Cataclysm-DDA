@@ -145,7 +145,7 @@
     "name": { "str": "protein smoothie" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty smoothie made from pure refined protein and nutritious fruit mixed into milk.",
