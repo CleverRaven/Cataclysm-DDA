@@ -638,6 +638,7 @@ Limb scores act as the basis of calculating the effect of limb encumbrance and d
 | breathing_score      | Modifies stamina recovery speed and shout volume.
 | vision_score         | Modifies ranged dispersion.
 | nightvision_score    | Modifies night vision range (multiplier on the calculated range).
+| reaction_score       | Modifies dodge chance and block effectivity.
 | balance_score        | Modifies thrown attack speed, movement cost and melee attack rolls.
 | movement_speed_score | Modifies movement cost.
 | swim_score           | Modifies swim speed.
