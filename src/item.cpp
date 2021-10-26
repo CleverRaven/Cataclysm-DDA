@@ -742,6 +742,33 @@ bool item::is_frozen_liquid() const
     return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
 }
 
+bool item::covers( const sub_bodypart_id &bp ) const
+{
+    // if the item has no armor data it doesn't cover that part
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return false;
+    }
+
+    bool has_sub_data = false;
+    // if the item has no sub location info then it should return that it does cover it
+    for( const armor_portion_data &data : armor->data ) {
+        if( !data.sub_coverage.empty() ) {
+            has_sub_data = true;
+        }
+    }
+
+    if( !has_sub_data ) {
+        return true;
+    }
+
+    bool does_cover = false;
+    iterate_covered_sub_body_parts_internal( get_side(), [&]( const sub_bodypart_str_id & covered ) {
+        does_cover = does_cover || bp == covered;
+    } );
+    return does_cover;
+}
+
 bool item::covers( const bodypart_id &bp ) const
 {
     bool does_cover = false;
@@ -783,6 +810,20 @@ cata::optional<side> item::covers_overlaps( const item &rhs ) const
     }
 }
 
+std::vector<sub_bodypart_id> item::get_covered_sub_body_parts() const
+{
+    return get_covered_sub_body_parts( get_side() );
+}
+
+std::vector<sub_bodypart_id> item::get_covered_sub_body_parts( const side s ) const
+{
+    std::vector<sub_bodypart_id> res;
+    iterate_covered_sub_body_parts_internal( s, [&]( const sub_bodypart_id & bp ) {
+        res.push_back( bp );
+    } );
+    return res;
+}
+
 body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
@@ -817,6 +858,31 @@ const std::array<bodypart_str_id, 4> right_side_parts{ {
 };
 
 } // namespace
+
+void item::iterate_covered_sub_body_parts_internal( const side s,
+        std::function<void( const sub_bodypart_str_id & )> cb ) const
+{
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return;
+    }
+
+    for( const armor_portion_data &data : armor->data ) {
+        if( !data.sub_coverage.empty() ) {
+            if( !armor->sided || s == side::BOTH || s == side::num_sides ) {
+                for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
+                    cb( bpid );
+                }
+                continue;
+            }
+            for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
+                if( bpid->part_side == s ) {
+                    cb( bpid );
+                }
+            }
+        }
+    }
+}
 
 void item::iterate_covered_body_parts_internal( const side s,
         std::function<void( const bodypart_str_id & )> cb ) const
@@ -3137,6 +3203,15 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( !covers_anything ) {
             coverage += _( " <info>Nothing</info>." );
+        }
+
+        info.emplace_back( "ARMOR", coverage );
+    }
+
+    if( this->has_sublocations() ) {
+        std::string coverage = _( "<bold>Specifically</bold>:" );
+        for( const sub_bodypart_id &sbp : this->get_covered_sub_body_parts() ) {
+            coverage += _( " The <info>" + sbp->name + "</info>." );
         }
 
         info.emplace_back( "ARMOR", coverage );
@@ -6634,11 +6709,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     return encumber;
 }
 
-int item::get_encumber(const Character& p, const sub_bodypart_id& bodypart,
-    encumber_flags flags) const
+int item::get_encumber( const Character &p, const sub_bodypart_id &bodypart,
+                        encumber_flags flags ) const
 {
-    const islot_armor* t = find_armor_data();
-    if (!t) {
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
         // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
@@ -6646,45 +6721,45 @@ int item::get_encumber(const Character& p, const sub_bodypart_id& bodypart,
     int encumber = 0;
     float relative_encumbrance = 1.0f;
     // Additional encumbrance from non-rigid pockets
-    if (!(flags & encumber_flags::assume_full)) {
+    if( !( flags & encumber_flags::assume_full ) ) {
         // p.get_check_encumbrance() may be set when it's not possible
         // to reset `cached_relative_encumbrance` for individual items
         // (e.g. when dropping via AIM, see #42983)
-        if (!cached_relative_encumbrance || p.get_check_encumbrance()) {
+        if( !cached_relative_encumbrance || p.get_check_encumbrance() ) {
             cached_relative_encumbrance = contents.relative_encumbrance();
         }
         relative_encumbrance = *cached_relative_encumbrance;
     }
 
-    if (const armor_portion_data* portion_data = portion_for_bodypart(bodypart)) {
+    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         encumber = portion_data->encumber;
-        encumber += std::ceil(relative_encumbrance * (portion_data->max_encumber -
-            portion_data->encumber));
+        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
+                               portion_data->encumber ) );
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if (has_flag(flag_FIT) && has_flag(flag_VARSIZE)) {
-        encumber = std::max(encumber / 2, encumber - 10);
+    if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
+        encumber = std::max( encumber / 2, encumber - 10 );
     }
 
     // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing(p);
-    switch (sizing_level) {
-    case sizing::small_sized_human_char:
-    case sizing::small_sized_big_char:
-        // non small characters have a HARD time wearing undersized clothing
-        encumber *= 3;
-        break;
-    case sizing::human_sized_small_char:
-    case sizing::big_sized_small_char:
-        // clothes bag up around smol characters and encumber them more
-        encumber *= 2;
-        break;
-    default:
-        break;
+    const sizing sizing_level = get_sizing( p );
+    switch( sizing_level ) {
+        case sizing::small_sized_human_char:
+        case sizing::small_sized_big_char:
+            // non small characters have a HARD time wearing undersized clothing
+            encumber *= 3;
+            break;
+        case sizing::human_sized_small_char:
+        case sizing::big_sized_small_char:
+            // clothes bag up around smol characters and encumber them more
+            encumber *= 2;
+            break;
+        default:
+            break;
     }
 
-    encumber += static_cast<int>(std::ceil(get_clothing_mod_val(clothing_mod_type_encumbrance)));
+    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
     return encumber;
 }
@@ -6758,21 +6833,30 @@ int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) co
     return 0;
 }
 
-int item::get_coverage(const sub_bodypart_id& bodypart, const cover_type& type) const
+int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type ) const
 {
-    if (const armor_portion_data* portion_data = portion_for_bodypart(bodypart)) {
-        switch (type) {
-        case cover_type::COVER_DEFAULT:
-            return portion_data->coverage;
-        case cover_type::COVER_MELEE:
-            return portion_data->cover_melee;
-        case cover_type::COVER_RANGED:
-            return portion_data->cover_ranged;
-        case cover_type::COVER_VITALS:
-            return portion_data->cover_vitals;
+    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
+        switch( type ) {
+            case cover_type::COVER_DEFAULT:
+                return portion_data->coverage;
+            case cover_type::COVER_MELEE:
+                return portion_data->cover_melee;
+            case cover_type::COVER_RANGED:
+                return portion_data->cover_ranged;
+            case cover_type::COVER_VITALS:
+                return portion_data->cover_vitals;
         }
     }
     return 0;
+}
+
+bool item::has_sublocations() const
+{
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
+        return false;
+    }
+    return t->has_sub_coverage;
 }
 
 const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypart ) const
@@ -6789,16 +6873,17 @@ const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypar
     return nullptr;
 }
 
-const armor_portion_data* item::portion_for_bodypart(const sub_bodypart_id& bodypart) const
+const armor_portion_data *item::portion_for_bodypart( const sub_bodypart_id &bodypart ) const
 {
-    const islot_armor* t = find_armor_data();
-    if (!t) {
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
         return nullptr;
     }
-    for (const armor_portion_data& entry : t->data) {
-        if (!entry.sub_coverage.empty()) {
-            for (const sub_bodypart_id& subpart : entry.sub_coverage) {
-                if (subpart == bodypart) {
+    for( const armor_portion_data &entry : t->data ) {
+        if( !entry.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &tmp : entry.sub_coverage ) {
+                const sub_bodypart_id &subpart = tmp;
+                if( subpart == bodypart ) {
                     return &entry;
                 }
             }

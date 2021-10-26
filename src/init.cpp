@@ -438,7 +438,7 @@ void DynamicDataLoader::initialize()
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
     add( "body_part", &body_part_type::load_bp );
-    add("sub_body_part", &sub_body_part_type::load_bp);
+    add( "sub_body_part", &sub_body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );

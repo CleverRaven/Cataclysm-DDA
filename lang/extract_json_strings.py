@@ -169,6 +169,7 @@ automatically_convertible = {
     "speech",
     "SPELL",
     "start_location",
+    "sub_body_part",
     "terrain",
     "TOOL",
     "TOOLMOD",

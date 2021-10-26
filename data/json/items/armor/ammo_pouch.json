@@ -315,7 +315,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] } ]
   },
   {
     "id": "quiver",

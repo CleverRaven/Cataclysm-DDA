@@ -15,19 +15,16 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "subbodypart.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
 struct body_part_type;
-struct sub_body_part_type;
 template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
-
-using sub_bodypart_str_id = string_id<sub_body_part_type>;
-using sub_bodypart_id = int_id<sub_body_part_type>;
 
 extern const bodypart_str_id body_part_head;
 extern const bodypart_str_id body_part_eyes;
@@ -64,17 +61,9 @@ struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
 
-enum class side : int {
-    BOTH,
-    LEFT,
-    RIGHT,
-    num_sides
-};
+enum class side : int;
 
-template<>
-struct enum_traits<side> {
-    static constexpr side last = side::num_sides;
-};
+
 
 // Drench cache
 enum water_tolerance {
@@ -107,28 +96,6 @@ struct stat_hp_mods {
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
     void deserialize( const JsonObject &jo );
-};
-
-struct sub_body_part_type {
-
-    sub_bodypart_str_id id;
-    bool was_loaded = false;
-
-    //name of the sub part
-    translation name;
-
-    float hit_size = 0.0f;
-
-    static void load_bp(const JsonObject& jo, const std::string& src);
-
-    void load(const JsonObject& jo, const std::string& src);
-
-    // Clears all bps
-    static void reset();
-    // Post-load finalization
-    static void finalize_all();
-
-    static void finalize();
 };
 
 struct body_part_type {
@@ -186,12 +153,9 @@ struct body_part_type {
         /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
         std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
 
-        /** Sub-location of the body part used for encumberance, coverage and determining protection 
+        /** Sub-location of the body part used for encumberance, coverage and determining protection
          */
         std::vector<sub_bodypart_str_id> sub_parts;
-
-        /** Cumulative size of all sub parts. Needed to select one at random */
-        float sub_parts_size_sum = 0.0f;
 
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
@@ -265,9 +229,6 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
-        sub_bodypart_str_id get_part_with_cumulative_hit_size(float size) const;
-        sub_bodypart_id random_body_sub_part() const;
-
 
         int bionic_slots() const {
             return bionic_slots_;
@@ -289,8 +250,13 @@ struct layer_details {
     int max = 0;
     int total = 0;
 
+    // if the layer is conflicting
+    bool is_conflicting = false;
+
+    std::vector<sub_bodypart_id> covered_sub_parts;
+
     void reset();
-    int layer( int encumbrance );
+    int layer( int encumbrance, bool conflicts );
 
     bool operator ==( const layer_details &rhs ) const {
         return max == rhs.max &&
@@ -307,8 +273,56 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
-    void layer( const layer_level level, const int encumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
+    bool add_sub_locations( const layer_level level, const std::vector<sub_bodypart_id> &sub_parts ) {
+        bool return_val = false;
+        for( const sub_bodypart_id &sbp : sub_parts ) {
+            bool found = false;
+            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+                    ( level )].covered_sub_parts ) {
+                // if we find a location return true since we should add penalty
+                if( sbp == layer_sbp ) {
+                    found = true;
+                }
+            }
+            // if we've found it already in the list mark our return value as true
+            if( found ) {
+                return_val = true;
+            }
+            // otherwise we should add it to the list
+            else {
+                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+            }
+        }
+        return return_val;
+    }
+
+    bool add_sub_locations( const layer_level level,
+                            const std::vector<sub_bodypart_str_id> &sub_parts ) {
+        bool return_val = false;
+        for( const sub_bodypart_str_id &temp : sub_parts ) {
+            const sub_bodypart_id &sbp = temp;
+            bool found = false;
+            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+                    ( level )].covered_sub_parts ) {
+                // if we find a location return true since we should add penalty
+                if( sbp == layer_sbp ) {
+                    found = true;
+                }
+            }
+            // if we've found it already in the list mark our return value as true
+            if( found ) {
+                return_val = true;
+            }
+            // otherwise we should add it to the list
+            else {
+                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+            }
+        }
+        return return_val;
+    }
+
+    void layer( const layer_level level, const int encumbrance, bool conflicts ) {
+        layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );
     }
 
     void reset() {

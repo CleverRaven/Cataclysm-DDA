@@ -3206,7 +3206,7 @@ void layer_details::reset()
 // The stacking penalty applies by doubling the encumbrance of
 // each item except the highest encumbrance one.
 // So we add them together and then subtract out the highest.
-int layer_details::layer( const int encumbrance )
+int layer_details::layer( const int encumbrance, bool conflicts )
 {
     /*
      * We should only get to this point with an encumbrance value of 0
@@ -3216,6 +3216,11 @@ int layer_details::layer( const int encumbrance )
      */
     if( encumbrance == 0 ) {
         return total; // skip over the other logic because this item doesn't count
+    }
+
+    // if this layer has conflicting pieces then add that information
+    if( conflicts ) {
+        is_conflicting = true;
     }
 
     pieces.push_back( encumbrance );

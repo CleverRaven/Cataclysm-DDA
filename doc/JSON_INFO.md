@@ -700,7 +700,7 @@ For information about tools with option to export ASCII art in format ready to b
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
 | dupes_allowed               | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
-| cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`) 
+| cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
 
@@ -2511,7 +2511,8 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 95,
     "cover_ranged": 50,
     "cover_vitals": 5,
-    "covers": [ "torso" ]
+    "covers": [ "torso" ],
+    "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ]
   },
   {
     "encumbrance": 2,
@@ -2519,7 +2520,8 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 80,
     "cover_ranged": 70,
     "cover_vitals": 5,
-    "covers": [ "arm_r", "arm_l" ]
+    "covers": [ "arm_r", "arm_l" ],
+    "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
   }
 ]
 ```
@@ -2540,6 +2542,14 @@ What percentage of time this piece of armor will be hit (and thus used as armor)
 ##### Covers
 (array of strings)
 What body parts this section of the armor covers. See the bodypart_ids defined in body_parts.json for valid values.
+
+##### Specifically Covers
+(array of strings)
+What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
+These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
+if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
+Backpacks should always include torso_hanging_back so that they don't conflict with strapped torso armor.
+Strapped torso armor should always use specifically covers as it will otherwise conflict with backpacks.
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
@@ -2686,7 +2696,7 @@ The `conditional_names` field allows defining alternate names for items that wil
       "name": { "str_sp": "%s (morale)" },
       "value" : "true"
     },
-    { 
+    {
       "type": "SNIPPET_ID",
       "condition": "test",
       "value":"one",
@@ -2700,7 +2710,7 @@ You can list as many conditional names for a given item as you want. Each condit
     - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
     - `FLAG` which checks if an item has the specified flag (exact match).
     - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
-    - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`. 
+    - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
 

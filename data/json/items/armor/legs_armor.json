@@ -247,7 +247,7 @@
     "color": "dark_gray",
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ],
-    "armor": [ { "coverage": 30, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 30, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_knee_l", "leg_knee_r" ] } ]
   },
   {
     "id": "legguard_bronze",
