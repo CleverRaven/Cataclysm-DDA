@@ -13,32 +13,42 @@ This document will outline deep design concepts and lore for existing and planne
 
 "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
 
-**Description**: The Free Merchants are the remnants of "6 busloads of office workers and soccer moms" after the courageous people died fighting zombies.  The survivors want to fortify their evacuee center of a base and survive as a trading hub.
+#### Description
+The Free Merchants are the remnants of "6 busloads of office workers and soccer moms" after the courageous people died fighting zombies.  The survivors want to fortify their evacuee center of a base and survive as a trading hub.
 
 They have a lifeboat mentality at this point, and their lifeboat is full.  They are not charitable or nice and they pretty much require that people be able to pull their own weight or be abandoned.
 
-**Structure**: The upper floor of the Evac Center is staffed by the few remaining combat capable people, while the rest live in the basement.
+#### Structure
+The upper floor of the Evac Center is staffed by those physically able to defend themselves, work the caravans, et cetera.  The lower levels contain administrators, children, and key supports.  Also living upstairs are the "refugees", the last few people admitted to the faction before they realized the bunker was at capacity.
 
-They're nominally a democracy on a town hall model, though currently there's an emergency manager for the first year or two post-Cataclysm.
+They're nominally a democracy on a town hall model.  However, realistically, an oligarchy has formed with some of the most vocal people who gained power in the chaos of the cataclysm.  These people have varying levels of support and competence and their voices are generally listened to the most in the group meetings.
 
-**Goals**: Survive through trade.  Form friendly mutually beneficial relationships with other survivor factions.  Gain control over valuable resources and get other people to pay for them.
-
-**Size**: About 100 people, give or take.  Presumably people are regularly signing on as teamsters.
+##### Size
+About 100 people, give or take.  Presumably people are regularly signing on as teamsters.
 - Living full-time underground in the Free Merchant bunker are around 10 key support staff, another 30-50 children, and about 20 people who take care of the children.  A lot of the rest of the faction (another 40-60 people) sleeps there but spends more of their time above ground, guarding and helping with caravan duties.
 - On the surface are around a dozen refugees that are technically part of the faction, but treated as second class citizens due to lacking a bunker bed.
 - Teamsters consist of faction members as well as third party employees and contractors who are not part of the faction.  Those people would need other places to live, they can't be fit into the bunker.
 
-**Attitudes**: Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, random scavengers, God's Chosen, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.
+#### Goals
+Survive through trade.  Form friendly mutually beneficial relationships with other survivor factions.  Gain control over valuable resources and get other people to pay for them.
+
+In the early to mid game, a key priority of the Merchants should be to build a self-sufficient defensible base.  While they don't require the player's aid for that, they may value the player as an experienced consultant.
+
+#### Attitudes
+Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, Exodii, random scavengers, God's Chosen, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.  Distrusted by Isherwood Farm; would probably trade with them if they'd allow it.
 
 Opposed to Mycus, triffids, zombies, and nether creatures, though has no ability to take the fight to them and can barely defend itself against zombie hordes.
 
 Mildly anti-mutant.  Neither for or against augmentation.  Doesn't quite get that the Marloss Evangelists are mutants.
 
-**Bases**: Controls an evacuee center.  The Tacoma Commune is a farm project on a nearby ranch.
+#### Bases
+Controls the refugee center.  The Tacoma Commune is a farm project on a nearby ranch.
 
-**Trade/Economics**: Has a robust internal economy, using specifically stamped US greenbacks as scrip.  Honors their scrip, however it comes to them.  Will buy eCards at a huge discount and sell them at a significant discount.  Will buy money bundles at a premium (compared to their value as paper).
+#### Trade/Economics
+Has a robust internal economy, using specifically stamped US greenbacks as scrip called "Merch".  Honors their scrip, however it comes to them.  Will buy eCards at a huge discount and sell them at a significant discount.  Will buy money bundles at a premium (compared to their value as paper).
 
-**Missions** (fairly complete): Deal with monsters and bandits, get parts for the center, help the Tacoma Commune.
+#### Missions
+Deal with monsters and bandits, get parts for the center, help the Tacoma Commune.  Later, the merchants should be willing to hire you as a caravan guard, or to help meet and deal with external factions.
 
 ### Hell's Raiders
 
@@ -73,7 +83,6 @@ Generally hostile to the Mycus, triffids, zombies, and nether cults.
 ### Old Guard
 
 "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
-
 
 **Description**: The Old Guard claims to be the remnants of the US Federal government, with an armada of ships in the Atlantic Ocean and a few walled off cities near the coast.  In practice, there's a pair of Old Guard agents at the Evacuee Center working with the Free Merchants, and a few squads caught in the Necropolis.
 
