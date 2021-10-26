@@ -1006,6 +1006,7 @@ void Item_factory::init()
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
+    add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
     add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
