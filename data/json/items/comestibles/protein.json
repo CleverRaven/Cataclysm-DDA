@@ -140,7 +140,7 @@
   },
   {
     "id": "protein_smoothie",
-    "copy-from": "protein_drink",
+    "copy-from": "milk_fortified",
     "type": "COMESTIBLE",
     "name": { "str": "protein smoothie" },
     "conditional_names": [
