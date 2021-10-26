@@ -3208,6 +3208,15 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", coverage );
     }
 
+    if (this->has_sublocations()) {
+        std::string coverage = _("<bold>Specifically</bold>:");
+        for (const sub_bodypart_id& sbp : this->get_covered_sub_body_parts()) {
+            coverage += _(" The <info>" + sbp->name + "</info>.");
+        }
+
+        info.emplace_back("ARMOR", coverage);
+    }
+
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
         std::string layering = _( "Layer:" );
         if( has_flag( flag_PERSONAL ) ) {
