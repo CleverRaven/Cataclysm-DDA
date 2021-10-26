@@ -495,24 +495,6 @@
   },
   {
     "type": "mutation",
-    "id": "MANA_SIPHON_3",
-    "copy-from": "MANA_SIPHON_3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MANA_ADD3",
-    "copy-from": "MANA_ADD3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MANA_REGEN3",
-    "copy-from": "MANA_REGEN3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "MUZZLE_DRAGON",
     "name": { "str": "Scaled Mouth" },
     "points": -3,
