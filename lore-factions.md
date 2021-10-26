@@ -1,5 +1,10 @@
-**spoiler alert**.  Do not read this document if you have no intention of contributing to the project and do not want your play experience spoiled.
+###**spoiler alert**.
+Do not read this document if you have no intention of contributing to the project and do not want your play experience spoiled.
 
+#### Seriously, spoiler alert.
+CDDA tells stories using unreliable narrators and a found footage style.  Knowing too much of the lore can ruin your experience.  Don't read this unless you plan to contribute, please!  If you do read this and don't plan to contribute, don't come complaining to me that it's not written in a compelling style, you're reading our napkin-notes my friend.
+
+# CDDA Faction Lore and Design Goals: Deep Dive
 This document will outline deep design concepts and lore for existing and planned factions, both human and alien.  Due to the infrequency of updates to design docs, I will not be distinguishing from what is planned for addition and what is already in the game; if something noted here is inconsistent with content in the game, it is worth checking with core developers to get an idea of which direction we plan to go in.
 
 ## CDDA-Earth Native Human Factions
@@ -7,7 +12,6 @@ This document will outline deep design concepts and lore for existing and planne
 ### Free Merchants
 
 "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
-
 
 **Description**: The Free Merchants are the remnants of "6 busloads of office workers and soccer moms" after the courageous people died fighting zombies.  The survivors want to fortify their evacuee center of a base and survive as a trading hub.
 
@@ -17,9 +21,12 @@ They have a lifeboat mentality at this point, and their lifeboat is full.  They 
 
 They're nominally a democracy on a town hall model, though currently there's an emergency manager for the first year or two post-Cataclysm.
 
-**Goals**: Survive through trade.
+**Goals**: Survive through trade.  Form friendly mutually beneficial relationships with other survivor factions.  Gain control over valuable resources and get other people to pay for them.
 
-**Size**: 60-160+ people?
+**Size**: About 100 people, give or take.  Presumably people are regularly signing on as teamsters.
+- Living full-time underground in the Free Merchant bunker are around 10 key support staff, another 30-50 children, and about 20 people who take care of the children.  A lot of the rest of the faction (another 40-60 people) sleeps there but spends more of their time above ground, guarding and helping with caravan duties.
+- On the surface are around a dozen refugees that are technically part of the faction, but treated as second class citizens due to lacking a bunker bed.
+- Teamsters consist of faction members as well as third party employees and contractors who are not part of the faction.  Those people would need other places to live, they can't be fit into the bunker.
 
 **Attitudes**: Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, random scavengers, God's Chosen, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.
 
@@ -122,7 +129,7 @@ Over time, the interests of the Commune and Merchants are going to diverge, and 
 
 ### Hub 01
 
-*"Summar"*
+*"Summary"*
 
 **Description**: 
 
@@ -226,11 +233,14 @@ Triffids resemble Earth plants in morphology, on a surface and cellular level.  
 ### The Netherum
 
 **Description**  
-Triffids resemble Earth plants in morphology, on a surface and cellular level.  However, in terms of physiology and anatomy, they are not plants at all.  
+Various unconnected forces of pure chaos from in-between dimensions.  Not really a faction but worth noting here.  
 
 ### The Exodii
 
 See [the Technology document](./technology.md) for more details on how Exodii technology works, both practically and (non-canonically) some of the theory ideas for how it could function.
+
+### The Yrax
+
 
 ### Mi-Go
 
