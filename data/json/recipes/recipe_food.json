@@ -111,7 +111,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, {'id": "DISTILL", "level": 1 } ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, {"id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "salt_water", 10 ], [ "saline", 50 ] ] ]
   },
