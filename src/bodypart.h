@@ -117,8 +117,6 @@ struct sub_body_part_type {
     //name of the sub part
     translation name;
 
-    float hit_size = 0.0f;
-
     static void load_bp(const JsonObject& jo, const std::string& src);
 
     void load(const JsonObject& jo, const std::string& src);
@@ -189,9 +187,6 @@ struct body_part_type {
         /** Sub-location of the body part used for encumberance, coverage and determining protection 
          */
         std::vector<sub_bodypart_str_id> sub_parts;
-
-        /** Cumulative size of all sub parts. Needed to select one at random */
-        float sub_parts_size_sum = 0.0f;
 
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
@@ -264,9 +259,6 @@ struct body_part_type {
         static void finalize_all();
         // Verifies that body parts make sense
         static void check_consistency();
-
-        sub_bodypart_str_id get_part_with_cumulative_hit_size(float size) const;
-        sub_bodypart_id random_body_sub_part() const;
 
 
         int bionic_slots() const {

@@ -233,10 +233,6 @@ struct armor_portion_data {
     int cover_ranged = 0;
     int cover_vitals = 0;
 
-    int subcoverage = 0;
-    int subcover_melee = 0;
-    int subcover_ranged = 0;
-    int subcover_vitals = 0;
     /**
      * Material protection stats are multiplied by this number
      * to determine armor protection values.

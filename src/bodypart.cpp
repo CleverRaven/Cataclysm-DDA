@@ -353,8 +353,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "side", part_side );
 
     optional(jo, was_loaded, "sub_parts", sub_parts);
-
-    optional(jo, was_loaded, "part_weight", sub_parts_size_sum);
 }
 
 void body_part_type::reset()
@@ -441,25 +439,6 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
-}
-
-// TODO: get_function_with_better_name
-sub_bodypart_str_id body_part_type::get_part_with_cumulative_hit_size(float size) const
-{
-
-    for (const sub_bodypart_id& part : sub_parts) {
-        size -= part->hit_size;
-        if (size <= 0.0f) {
-            return part.id();
-        }
-    }
-
-    return sub_bodypart_str_id::NULL_ID();
-}
-
-sub_bodypart_id body_part_type::random_body_sub_part() const
-{
-    return get_part_with_cumulative_hit_size(rng_float(0.0f, sub_parts_size_sum)).id();
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )

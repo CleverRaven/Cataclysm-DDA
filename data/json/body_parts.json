@@ -27,8 +27,7 @@
     "drench_capacity": 40,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80,
-    "sub_parts": [ "torso_upper", "neck", "torso_lower", "hanging_front", "hanging_back" ],
-    "part_weight": 14.32
+    "sub_parts": [ "torso_upper", "neck", "torso_lower", "hanging_front", "hanging_back" ]
   },
   {
     "id": "head",
@@ -58,8 +57,7 @@
     "drench_capacity": 7,
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 18,
-    "part_weight": 0.0
+    "bionic_slots": 18
   },
   {
     "id": "eyes",
@@ -85,8 +83,7 @@
     "flags": [ "IGNORE_TEMP" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4,
-    "part_weight": 0.0
+    "bionic_slots": 4
   },
   {
     "id": "mouth",
@@ -115,8 +112,7 @@
     "drench_capacity": 1,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4,
-    "part_weight": 0.0
+    "bionic_slots": 4
   },
   {
     "id": "arm_l",
@@ -153,8 +149,7 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_connector_l", "arm_central_l", "arm_joint_l", "arm_distal_l" ],
-    "part_weight": 7.65
+    "sub_parts": [ "arm_connector_l", "arm_central_l", "arm_joint_l", "arm_distal_l" ]
   },
   {
     "id": "arm_r",
@@ -190,8 +185,7 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_connector_r", "arm_central_r", "arm_joint_r", "arm_distal_r" ],
-    "part_weight": 7.65
+    "sub_parts": [ "arm_connector_r", "arm_central_r", "arm_joint_r", "arm_distal_r" ]
   },
   {
     "id": "hand_l",
@@ -222,8 +216,7 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5,
-    "part_weight": 0.0
+    "bionic_slots": 5
   },
   {
     "id": "hand_r",
@@ -254,8 +247,7 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5,
-    "part_weight": 0.0
+    "bionic_slots": 5
   },
   {
     "id": "leg_l",
@@ -291,8 +283,7 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": ["leg_connector_l", "leg_central_l", "leg_joint_l", "leg_distal_l"],
-    "part_weight": 7.99
+    "sub_parts": ["leg_connector_l", "leg_central_l", "leg_joint_l", "leg_distal_l"]
   },
   {
     "id": "leg_r",
@@ -328,8 +319,7 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": ["leg_connector_r", "leg_central_r", "leg_joint_r", "leg_distal_r"],
-    "part_weight": 7.99
+    "sub_parts": ["leg_connector_r", "leg_central_r", "leg_joint_r", "leg_distal_r"]
   },
   {
     "id": "foot_l",
@@ -361,8 +351,7 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7,
-    "part_weight": 0.0
+    "bionic_slots": 7
   },
   {
     "id": "foot_r",
@@ -394,8 +383,7 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7,
-    "part_weight": 0.0
+    "bionic_slots": 7
   },
   {
     "id": "debug_tail",
@@ -420,8 +408,7 @@
     "connected_to": "torso",
     "accusative": { "ctxt": "bodypart_accusative", "str": "debug tail" },
     "hp_bar_ui_text": "DBG TAIL",
-    "base_hp": 20,
-    "part_weight": 0.0
+    "base_hp": 20
   },
   {
     "id": "torso_upper",
