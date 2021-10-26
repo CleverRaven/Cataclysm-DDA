@@ -32,7 +32,7 @@
     "id": "crystallize_mana_1",
     "type": "SPELL",
     "name": "Crystallize Mana (1)",
-    "description": "Mana Crystal Spawner. If you can see this you probably debugged it in.",
+    "description": "Mana Crystal Spawner.  If you can see this you probably debugged it in.",
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
