@@ -742,6 +742,33 @@ bool item::is_frozen_liquid() const
     return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
 }
 
+bool item::covers(const sub_bodypart_id& bp) const
+{
+    // if the item has no armor data it doesn't cover that part
+    const islot_armor* armor = find_armor_data();
+    if (armor == nullptr) {
+        return false;
+    }
+
+    bool has_sub_data = false;
+    // if the item has no sub location info then it should return that it does cover it
+    for (const armor_portion_data& data : armor->data) {
+        if (!data.sub_coverage.empty()) {
+            has_sub_data = true;
+        }
+    }
+
+    if ( !has_sub_data ) {
+        return true;
+    }
+
+    bool does_cover = false;
+    iterate_covered_sub_body_parts_internal(get_side(), [&](const sub_bodypart_str_id& covered) {
+        does_cover = does_cover || bp == covered;
+        });
+    return does_cover;
+}
+
 bool item::covers( const bodypart_id &bp ) const
 {
     bool does_cover = false;
@@ -783,6 +810,20 @@ cata::optional<side> item::covers_overlaps( const item &rhs ) const
     }
 }
 
+std::vector<sub_bodypart_id> item::get_covered_sub_body_parts() const
+{
+    return get_covered_sub_body_parts(get_side());
+}
+
+std::vector<sub_bodypart_id> item::get_covered_sub_body_parts(const side s) const
+{
+    std::vector<sub_bodypart_id> res;
+    iterate_covered_sub_body_parts_internal(s, [&](const sub_bodypart_id& bp) {
+        res.push_back(bp);
+        });
+    return res;
+}
+
 body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
@@ -817,6 +858,31 @@ const std::array<bodypart_str_id, 4> right_side_parts{ {
 };
 
 } // namespace
+
+void item::iterate_covered_sub_body_parts_internal(const side s,
+    std::function<void(const sub_bodypart_str_id&)> cb) const
+{
+    const islot_armor* armor = find_armor_data();
+    if (armor == nullptr) {
+        return;
+    }
+
+    for (const armor_portion_data& data : armor->data) {
+        if (!data.sub_coverage.empty()) {
+            if (!armor->sided || s == side::BOTH || s == side::num_sides) {
+                for (const sub_bodypart_str_id& bpid : data.sub_coverage) {
+                    cb(bpid);
+                }
+                continue;
+            }
+            for (const sub_bodypart_str_id& bpid : data.sub_coverage) {
+                if (bpid->side == s) {
+                    cb(bpid);
+                }
+            }
+        }
+    }
+}
 
 void item::iterate_covered_body_parts_internal( const side s,
         std::function<void( const bodypart_str_id & )> cb ) const
@@ -6773,6 +6839,12 @@ int item::get_coverage(const sub_bodypart_id& bodypart, const cover_type& type) 
         }
     }
     return 0;
+}
+
+bool item::has_sublocations() const
+{
+    const islot_armor* t = find_armor_data();
+    return t->has_sub_coverage;
 }
 
 const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypart ) const

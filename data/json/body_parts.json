@@ -423,7 +423,7 @@
   {
     "id": "torso_lower",
     "type": "sub_body_part",
-    "name": "lower torso",
+    "name": "lower torso"
   },
   {
     "id": "hanging_front",
@@ -433,87 +433,103 @@
   {
     "id": "hanging_back",
     "type": "sub_body_part",
-    "name": "hanging off your back",
+    "name": "hanging off your back"
   },
 
   {
     "id": "arm_connector_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right shoulder"
   },
   {
     "id": "arm_central_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right upper arm"
   },
   {
     "id": "arm_joint_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right elbow"
   },
   {
     "id": "arm_distal_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right forearm"
   },
   {
     "id": "arm_connector_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left shoulder"
   },
   {
     "id": "arm_central_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left upper arm"
   },
   {
     "id": "arm_joint_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left elbow"
   },
   {
     "id": "arm_distal_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left forearm"
   },
   {
     "id": "leg_connector_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right hip"
   },
   {
     "id": "leg_central_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right thigh"
   },
   {
     "id": "leg_joint_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right knee"
   },
   {
     "id": "leg_distal_r",
     "type": "sub_body_part",
+    "side": 2,
     "name": "right calve"
   },
   {
     "id": "leg_connector_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left hip"
   },
   {
     "id": "leg_central_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left thigh"
   },
   {
     "id": "leg_joint_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left knee"
   },
   {
     "id": "leg_distal_l",
     "type": "sub_body_part",
+    "side": 1,
     "name": "left calve"
   }
 ]

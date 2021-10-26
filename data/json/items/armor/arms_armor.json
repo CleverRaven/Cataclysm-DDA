@@ -94,7 +94,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_distal_l", "arm_distal_r" ] } ]
   },
   {
     "id": "xl_armguard_hard",
@@ -376,7 +376,7 @@
     "color": "dark_gray",
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 30, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "coverage": 30, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_joint_l", "arm_joint_r" ] } ]
   },
   {
     "id": "vambrace_larmor",

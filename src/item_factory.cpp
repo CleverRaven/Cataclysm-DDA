@@ -605,6 +605,10 @@ void Item_factory::finalize_post( itype &obj )
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
+            // if sub coverage is empty we should add all coverage to the item
+            if (!data.sub_coverage.empty()) {
+                obj.armor->has_sub_coverage = true;
+            }
         }
     }
 
@@ -1995,7 +1999,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
-    optional(jo, false, "specificly_covers", sub_coverage);
+    optional(jo, false, "specifically_covers", sub_coverage);
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );

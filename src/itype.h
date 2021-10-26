@@ -290,6 +290,11 @@ struct islot_armor {
      */
     std::vector<std::string> valid_mods;
 
+    /**
+     * If the item in question has any sub coverage when testing for encumberance 
+     */
+    bool has_sub_coverage = false;
+
     // Layer, encumbrance and coverage information.
     std::vector<armor_portion_data> data;
 

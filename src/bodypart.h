@@ -117,6 +117,8 @@ struct sub_body_part_type {
     //name of the sub part
     translation name;
 
+    side side = side::BOTH;
+
     static void load_bp(const JsonObject& jo, const std::string& src);
 
     void load(const JsonObject& jo, const std::string& src);
@@ -281,6 +283,8 @@ struct layer_details {
     int max = 0;
     int total = 0;
 
+    std::vector<sub_bodypart_id> covered_sub_parts;
+
     void reset();
     int layer( int encumbrance );
 
@@ -298,6 +302,50 @@ struct encumbrance_data {
 
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
+
+    bool add_sub_locations(const layer_level level, std::vector<sub_bodypart_id> sub_parts) {
+        bool return_val = false;
+        for (const sub_bodypart_id& sbp : sub_parts) {
+            bool found = false;
+            for (const sub_bodypart_id& layer_sbp : layer_penalty_details[static_cast<size_t>(level)].covered_sub_parts) {
+                // if we find a location return true since we should add penalty
+                if (sbp == layer_sbp) {
+                    found = true;
+                }
+            }
+            // if we've found it already in the list mark our return value as true
+            if (found) {
+                return_val = true;
+            }
+            // otherwise we should add it to the list
+            else {
+                layer_penalty_details[static_cast<size_t>(level)].covered_sub_parts.push_back(sbp);
+            }
+        }
+        return return_val;
+    }
+
+    bool add_sub_locations(const layer_level level, std::vector<sub_bodypart_str_id> sub_parts) {
+        bool return_val = false;
+        for (const sub_bodypart_id& sbp : sub_parts) {
+            bool found = false;
+            for (const sub_bodypart_id& layer_sbp : layer_penalty_details[static_cast<size_t>(level)].covered_sub_parts) {
+                // if we find a location return true since we should add penalty
+                if (sbp == layer_sbp) {
+                    found = true;
+                }
+            }
+            // if we've found it already in the list mark our return value as true
+            if (found) {
+                return_val = true;
+            }
+            // otherwise we should add it to the list
+            else {
+                layer_penalty_details[static_cast<size_t>(level)].covered_sub_parts.push_back(sbp);
+            }
+        }
+        return return_val;
+    }
 
     void layer( const layer_level level, const int encumbrance ) {
         layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );

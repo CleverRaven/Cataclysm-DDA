@@ -791,13 +791,28 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
         const int armorenc = !power_armor || !it.is_power_armor() ?
                              encumber_val : std::max( 0, encumber_val - 40 );
 
+        // do the sublayers of this armor conflict
+        bool conflicts = false;
+
+        // add the sublocations to the overall body part layer and update if we are conflicting
+        if (it.has_sublocations()) {
+            conflicts = vals[bp].add_sub_locations(item_layer, it.get_covered_sub_body_parts());
+        }
+        else {
+            // if the item doesn't have sublocation data assume it covers all
+            // instead of adding the sublocations of the armor add the sublocations of the limb
+            conflicts = vals[bp].add_sub_locations(item_layer, bp->sub_parts);
+        }
+
         highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
 
         // Apply layering penalty to this layer, as well as any layer worn
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
              penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-            vals[bp].layer( penalty_layer, layering_encumbrance );
+            if (conflicts) {
+                vals[bp].layer(penalty_layer, layering_encumbrance);
+            }
         }
 
         vals[bp].armor_encumbrance += armorenc;
