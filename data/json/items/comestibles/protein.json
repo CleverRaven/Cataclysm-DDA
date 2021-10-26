@@ -108,5 +108,54 @@
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
     "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }
+  },
+  {
+    "id": "milk_fortified",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str": "fortified milk" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "foul %s" } }
+    ],
+    "description": "Milk enriched with protein powder, it's extra healthy and doesn't taste too bad.",
+    "weight": "286 g",
+    "volume": "250 ml",
+    "price": 300,
+    "price_postapoc": 75,
+    "symbol": "~",
+    "color": "light_gray",
+    "spoils_in": "1 day",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "material": [ "milk" ],
+    "calories": 232,
+    "quench": 22,
+    "healthy": 3,
+    "fun": 1,
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 32 ] ],
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
+    "id": "protein_smoothie",
+    "copy-from": "protein_drink",
+    "type": "COMESTIBLE",
+    "name": { "str": "protein smoothie" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+    ],
+    "description": "A thick and tasty smoothie made from pure refined protein and nutritious fruit mixed into milk.",
+    "material": [ "fruit", "milk" ],
+    "calories": 282,
+    "healthy": 5,
+    "fun": 5,
+    "volume": "500 ml",
+    "charges": 2,
+    "quench": 18,
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
   }
 ]
