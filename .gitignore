@@ -51,6 +51,7 @@ json_formatter
 *.opensdf
 *.pdb
 *.lib
+*.manifest
 *.sdf
 *.suo
 *.user
