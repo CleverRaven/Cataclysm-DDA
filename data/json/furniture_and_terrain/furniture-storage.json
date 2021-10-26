@@ -552,7 +552,7 @@
     "type": "furniture",
     "id": "f_rack_l",
     "looks_like": "f_rack",
-    "name": "locked display case",
+    "name": "locked display rack",
     "description": "A sheet metal shelving unit, with the storage surfaces angled in such a way as to show off the items stored.  Metal fasteners with a lock hold the items securely to the rack.",
     "symbol": "{",
     "color": "light_gray",
