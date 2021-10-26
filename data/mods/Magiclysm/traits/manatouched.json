@@ -32,7 +32,7 @@
     "category": [ "MANATOUCHED" ],
     "threshreq": [ "THRESH_MANA" ],
     "description": "Your internal ley lines have become much easier for you to control, resulting in you being able to naturally create crystallized mana.",
-    "spells_learned": [ [ "manatouched_crystal", 5 ] ]
+    "spells_learned": [ [ "crystallize_mana", 1 ] ]
   },
   {
     "type": "mutation",
