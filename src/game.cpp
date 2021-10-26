@@ -229,7 +229,6 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
