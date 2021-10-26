@@ -125,7 +125,7 @@
     "price": 300,
     "price_postapoc": 75,
     "symbol": "~",
-    "color": "light_gray",
+    "color": "white",
     "spoils_in": "1 day",
     "phase": "liquid",
     "container": "bottle_plastic",
