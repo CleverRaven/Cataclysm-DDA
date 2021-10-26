@@ -26,6 +26,7 @@ Use the `Home` key to return to the top.
   - [`data/json/` JSONs](#datajson-jsons)
     - [Ascii_arts](#ascii_arts)
     - [Body_parts](#body_parts)
+- [Limb scores](#limb-scores)
     - [Bionics](#bionics)
     - [Dreams](#dreams)
     - [Disease](#disease)
