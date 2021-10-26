@@ -340,7 +340,7 @@
     "subtype": "hobby",
     "id": "martial_training",
     "name": "Martial Arts",
-    "description": "For years, you've been taking lessons at a local dojo and have become quite proficient.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "points": 4,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
     "traits": [ "MARTIAL_ARTS" ]
@@ -350,7 +350,7 @@
     "subtype": "hobby",
     "id": "self_defense",
     "name": "Self-Defense",
-    "description": "You have trained extensively in unarmed self-defense.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "points": 4,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
     "traits": [ "MARTIAL_ARTS2" ]
@@ -360,7 +360,7 @@
     "subtype": "hobby",
     "id": "shaolin",
     "name": "Shaolin Kung Fu",
-    "description": "You have studied the arts of the Shaolin monks for years.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
+    "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
     "traits": [ "MARTIAL_ARTS3" ]
@@ -370,7 +370,7 @@
     "subtype": "hobby",
     "id": "melee_training",
     "name": "Melee Training",
-    "description": "You have extensive practice fighting with all kinds of weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "points": 6,
     "skills": [
       { "level": 2, "name": "melee" },
@@ -386,9 +386,9 @@
     "id": "gourmand",
     "name": "Fine Dining",
     "description": "Everyone eats to live, but you live to eat.  Tasty food will raise your morale more, and you aren't as upset by gross food.  You also eat faster, and can overeat with less chance of getting sick.",
-    "points": 2,
+    "points": 3,
     "traits": [ "GOURMAND" ],
-    "skills": [ { "level": 1, "name": "cooking" } ]
+    "skills": [ { "level": 2, "name": "cooking" } ]
   },
   {
     "type": "profession",
@@ -412,71 +412,22 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "hoarder",
-    "name": "Stockpiling",
-    "description": "You are very efficient at retrieving things from pockets and bags, but suffer a morale penalty when carrying less than your maximum capacity of volume.  The latter can be alleviated with prescription sedatives.",
-    "points": -1,
-    "traits": [ "HOARDER", "PACKMULE" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "nomadic",
-    "name": "Traveling",
-    "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
-    "points": -1,
-    "traits": [ "NOMAD" ],
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "driving" } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "pyromaniac",
-    "name": "Arson",
-    "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
-    "points": 0,
-    "skills": [ { "level": 1, "name": "survival" } ],
-    "traits": [ "PYROMANIA" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "rigid_table_manners",
-    "name": "Etiquette",
-    "description": "You've been taught proper table manners since your early childhood; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
-    "points": 0,
-    "skills": [ { "level": 1, "name": "speech" } ],
-    "traits": [ "TABLEMANNERS" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "truthteller",
-    "name": "Honesty",
-    "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.  However, this does make you a good, honest speaker when you're not trying to hide something.",
-    "points": 0,
-    "traits": [ "TRUTHTELLER" ],
-    "skills": [ { "level": 1, "name": "speech" } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
     "id": "meatarian",
-    "name": "Carnism",
-    "description": "You absolutely love meat, and dislike eating fruits and vegetables.  It's not just a taste thing, it's a lifestyle.  You spend a lot of time online telling vegans they are wrong.",
-    "points": -2,
+    "name": "Butchering",
+    "description": "You absolutely love meat, and dislike eating fruits and vegetables.  Your particular tastes have turned you into a decent amateur butcher.",
+    "points": -3,
     "traits": [ "ANTIFRUIT", "MEATARIAN" ],
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" }, { "level": 1, "name": "speech" } ]
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "vegetarian",
-    "name": "Vegetarianism",
-    "description": "You have been a vegetarian for so long that eating meat makes you feel sick.  You spend a lot of time online telling carnists they are wrong.",
+    "name": "Vegetarian Foraging",
+    "description": "You have been a vegetarian for so long that eating meat makes you feel sick.  You like to supplement your diet with wild plants and mushrooms foraged in the woods.",
     "points": -1,
     "traits": [ "VEGETARIAN" ],
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "speech" } ]
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ]
   },
   {
     "type": "profession",
@@ -806,23 +757,5 @@
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
     "points": 2,
     "traits": [ "SELFAWARE", "SPIRITUAL" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "underweight",
-    "name": "Extreme Dieting",
-    "description": "You lost an awful lot of weight before the Cataclysm.  Now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
-    "points": -1,
-    "traits": [ "XS" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "obese",
-    "name": "Binge Eating",
-    "description": "You gained an awful lot of weight before the Cataclysm, and your immune system suffers for it.  You can't afford health problems on top of everything else that's happening.  You need to lose weight or die trying.",
-    "points": -1,
-    "traits": [ "XXXL" ]
   }
 ]
