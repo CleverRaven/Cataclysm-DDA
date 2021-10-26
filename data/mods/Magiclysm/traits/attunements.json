@@ -869,7 +869,8 @@
     "prereqs": [ "BIOMANCER", "MAGUS" ],
     "//": "Purposefully omits torso, head, etc.",
     "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
-    "social_modifiers": { "persuade": 20, "lie": 20, "intimidate": 20 },
+    "ugliness": -7,
+    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": 10 },
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
