@@ -114,10 +114,10 @@ void draw_diary_border( catacurses::window *win, const nc_color &color = c_white
     mvwprintw( *win, point( max.x - 3, 2 ), "||||" );
     mvwprintw( *win, point( max.x - 3, 3 ), "||||" );
     //bottom right corner
-    mvwprintw( *win, point( max.x - 3, max.y - 3 ), "||||" );
-    mvwprintw( *win, point( max.x - 3, max.y - 2 ), "||||" );
-    mvwprintw( *win, point( max.x - 3, max.y - 1 ), "=\\||" );
-    mvwprintw( *win, point( max.x - 3, max.y - 0 ), "--''" );
+    mvwprintw( *win, max + point( -3, -3 ), "||||" );
+    mvwprintw( *win, max + point( -3, -2 ), "||||" );
+    mvwprintw( *win, max + point( -3, -1 ), "=\\||" );
+    mvwprintw( *win, max + point( -3, 0 ), "--''" );
     //mid top
     mvwprintw( *win, point( midx, 0 ), "   " );
     mvwprintw( *win, point( midx, 1 ), "\\ /" );
@@ -167,14 +167,14 @@ void diary::show_diary_ui( diary *c_diary )
 
         w_pages = catacurses::newwin( max.y + 5, max.x * 3 / 10, point( beg.x - 5 - max.x * 3 / 10,
                                       beg.y - 2 ) );
-        w_changes = catacurses::newwin( max.y - 3, midx - 1, point( beg.x, beg.y + 3 ) );
-        w_text = catacurses::newwin( max.y - 3, midx - 2, point( beg.x + midx + 2, beg.y + 3 ) );
-        w_border = catacurses::newwin( max.y + 5, max.x + 9, point( beg.x - 4, beg.y - 2 ) );
+        w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
+        w_text = catacurses::newwin( max.y - 3, midx - 2, beg + point( 2 + midx, 3 ) );
+        w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
         w_desc = catacurses::newwin( 3, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
                                      beg.y - 6 ) );
-        w_head = catacurses::newwin( 1, max.x, point( beg.x, beg.y + 1 ) );
-        w_info = catacurses::newwin( ( max.y / 2 - 4 > 7 ) ? 7 : max.y / 2 - 4, max.x + 9, point( beg.x - 4,
-                                     beg.y + max.y + 4 ) );
+        w_head = catacurses::newwin( 1, max.x, beg + point_south );
+        w_info = catacurses::newwin( ( max.y / 2 - 4 > 7 ) ? 7 : max.y / 2 - 4, max.x + 9, beg + point( -4,
+                                     4 + max.y ) );
 
 
         ui.position_from_window( w_diary );
@@ -282,7 +282,7 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( action == "CONFIRM" ) {
             if( !c_diary->pages.empty() ) {
                 c_diary->edit_page_ui( w_text );
-            }    
+            }
         } else if( action == "NEW_PAGE" ) {
             c_diary->new_page();
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
@@ -312,7 +312,7 @@ void diary::edit_page_ui()
 {
     std::string title = _( "Text:" );
     static constexpr int max_note_length = 20000;
-    
+
     const std::string old_text = get_page_ptr()->m_text;
     std::string new_text = old_text;
 

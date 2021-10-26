@@ -45,7 +45,7 @@ int diary::set_opend_page( int pagenum )
         desc_map.clear();
     }
     if( pages.empty() ) {
-        opend_page = - 1; 
+        opend_page = - 1;
     } else if( pagenum < 0 ) {
         opend_page = pages.size() - 1;
     } else {
@@ -90,7 +90,7 @@ void diary::spell_changes()
     if( prevpage == nullptr ) {
         if( !currpage->known_spells.empty() ) {
             add_to_change_list( _( "Known spells:" ) );
-            for( const std::pair<spell_id, int> &elem : currpage->known_spells ) {
+            for( const std::pair<const string_id<spell_type>, int> &elem : currpage->known_spells ) {
                 const spell s = u->magic->get_spell( elem.first );
                 add_to_change_list( string_format( _( "%s: %d" ), s.name(), elem.second ), s.description() );
             }
@@ -99,7 +99,7 @@ void diary::spell_changes()
     } else {
         if( !currpage->known_spells.empty() ) {
             bool flag = true;
-            for( const std::pair<spell_id, int> &elem : currpage->known_spells ) {
+            for( const std::pair<const string_id<spell_type>, int> &elem : currpage->known_spells ) {
                 if( prevpage->known_spells.find( elem.first ) != prevpage->known_spells.end() ) {
                     const int prevlvl = prevpage->known_spells[elem.first];
                     if( elem.second != prevlvl ) {
@@ -257,7 +257,7 @@ void diary::kill_changes()
     if( prevpage == nullptr ) {
         if( !currpage->kills.empty() ) {
             add_to_change_list( _( "Kills: " ) );
-            for( const std::pair<mtype_id, int> &elem : currpage->kills ) {
+            for( const std::pair<const string_id<mtype>, int> &elem : currpage->kills ) {
                 const mtype &m = elem.first.obj();
                 nc_color color = m.color;
                 std::string symbol = m.sym;
@@ -280,7 +280,7 @@ void diary::kill_changes()
         if( !currpage->kills.empty() ) {
 
             bool flag = true;
-            for( const std::pair<mtype_id, int> &elem : currpage->kills ) {
+            for( const std::pair<const string_id<mtype>, int> &elem : currpage->kills ) {
                 const mtype &m = elem.first.obj();
                 nc_color color = m.color;
                 std::string symbol = m.sym;
@@ -351,7 +351,7 @@ void diary::skill_changes()
         } else {
 
             add_to_change_list( _( "Skills:" ) );
-            for( const std::pair<skill_id, int> &elem : currpage->skillsL ) {
+            for( const std::pair<const string_id<Skill>, int> &elem : currpage->skillsL ) {
 
                 if( elem.second > 0 ) {
                     Skill s = elem.first.obj();
@@ -364,7 +364,7 @@ void diary::skill_changes()
     } else {
 
         bool flag = true;
-        for( const std::pair<skill_id, int> &elem : currpage->skillsL ) {
+        for( const std::pair<const string_id<Skill>, int> &elem : currpage->skillsL ) {
             if( prevpage->skillsL.find( elem.first ) != prevpage->skillsL.end() ) {
                 if( prevpage->skillsL[elem.first] != elem.second ) {
                     if( flag ) {
@@ -589,9 +589,8 @@ std::string diary::get_head_text()
 {
 
     if( !pages.empty() ) {
-
-        const time_point prev_turn = ( get_page_ptr( -1 ) != nullptr ) ? get_page_ptr(
-                                         -1 )->turn : calendar::turn_zero;
+        const diary_page *prevpageptr = get_page_ptr( -1 );
+        const time_point prev_turn = ( prevpageptr != nullptr ) ? prevpageptr->turn : calendar::turn_zero;
         const time_duration turn_diff = get_page_ptr()->turn - prev_turn;
         const int days = to_days<int>( turn_diff );
         const int hours = to_hours<int>( turn_diff ) % 24;
@@ -676,7 +675,7 @@ void diary::export_to_txt( bool lastexport )
     path += "\\" + owner + "s_diary.txt";
     myfile.open( path );
 
-    for( int i = 0; i < pages.size(); i++ ) {
+    for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
         set_opend_page( i );
         const diary_page page = *get_page_ptr();
         myfile << get_head_text() + "\n\n";
@@ -756,8 +755,8 @@ void diary::load()
 
 void diary::deserialize( std::istream &fin )
 {
-    JsonIn jin( fin );
-    deserialize( jin );
+    JsonIn jsin( fin );
+    deserialize( jsin );
 }
 
 void diary::deserialize( JsonIn &jsin )

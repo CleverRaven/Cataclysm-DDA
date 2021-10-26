@@ -43,7 +43,7 @@ std::pair<int, int> string_editor_window::get_line_and_position( std::vector<std
     for( int i = 0; i < static_cast<int>( foldedtext.size() ); i++ ) {
         utf8_wrapper linetext( foldedtext[i] );
         int temp = linetext.display_width();
-        int size = static_cast<int>( foldedtext[i].size() );
+        //int size = static_cast<int>( foldedtext[i].size() );
         //foldstring, cuts " " away, so it is possible to get a hughe disconect between folded and unfolded string.
         temp += ( foldedtext[i].back() != ' ' ) ? 1 : 0;
 

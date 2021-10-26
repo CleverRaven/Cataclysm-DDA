@@ -54,7 +54,7 @@ class string_editor_window
         std::map<long, std::function<bool()>> callbacks;
     public:
         string_editor_window( catacurses::window &win, std::string text );
-        
+
         /*returns line and position in folded text for position in text*/
         std::pair<int, int> get_line_and_position( std::vector<std::string> foldedtext,
                 int position );
