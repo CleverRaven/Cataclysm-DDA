@@ -1083,9 +1083,6 @@ float Character::get_dodge() const
         ret *= 2 * stamina_ratio;
     }
 
-    // Reaction score of limbs influences dodge chances
-    ret *= reaction_score();
-
     return std::max( 0.0f, ret );
 }
 
@@ -1902,9 +1899,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // add martial arts block effectiveness bonus
     block_score += mabuff_block_effectiveness_bonus();
-
-    // multiply by bodypart reaction bonuses
-    block_score *= reaction_score();
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
