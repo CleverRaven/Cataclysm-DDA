@@ -1689,12 +1689,12 @@
   {
     "id": "SCIENCE_CARD_MAINTENANCE_YELLOW",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured maintence area."
+    "info": "You could probably use this to get into a secured maintenance area."
   },
   {
     "id": "SCIENCE_CARD_MAINTENANCE_BLUE",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured maintence area."
+    "info": "You could probably use this to get into a secured maintenance area."
   },
   {
     "id": "SCIENCE_CARD_TRANSPORT_1",
