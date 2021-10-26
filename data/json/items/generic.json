@@ -590,7 +590,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "usb_drive",
     "symbol": ",",
     "color": "white",
@@ -601,8 +601,18 @@
     "material": [ "plastic" ],
     "weight": "18 g",
     "volume": "5 ml",
-    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
-    "to_hit": -3
+    "pocket_data": [
+      { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ],
+    "to_hit": -3,
+    "flags": [ "MC_USED" ]
   },
   {
     "type": "GENERIC",
@@ -1927,7 +1937,7 @@
     "volume": "2 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "mobile_memory_card_used",
     "looks_like": "mobile_memory_card",
     "symbol": ",",
@@ -1939,6 +1949,15 @@
     "material": [ "plastic" ],
     "ascii_picture": "mobile_memory_card",
     "flags": [ "MC_MOBILE", "MC_USED" ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ],
     "weight": "5 g",
     "volume": "1 ml"
   },
