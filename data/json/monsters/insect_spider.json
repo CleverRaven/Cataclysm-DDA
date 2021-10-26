@@ -2423,7 +2423,7 @@
     "copy-from": "mon_stag_beetle_giant",
     "proportional": { "hp": 4, "speed": 0.75, "morale": 3, "melee_dice_sides": 2 },
     "volume": "950 L",
-    "weight": "4400 kg",
+    "weight": "1000 kg",
     "diff": 4,
     "armor_bash": 86,
     "armor_cut": 100,
