@@ -810,9 +810,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
              penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-            if (conflicts) {
-                vals[bp].layer(penalty_layer, layering_encumbrance);
-            }
+            vals[bp].layer(penalty_layer, layering_encumbrance, conflicts);
         }
 
         vals[bp].armor_encumbrance += armorenc;

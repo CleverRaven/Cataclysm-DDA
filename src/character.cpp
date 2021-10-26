@@ -3206,7 +3206,7 @@ void layer_details::reset()
 // The stacking penalty applies by doubling the encumbrance of
 // each item except the highest encumbrance one.
 // So we add them together and then subtract out the highest.
-int layer_details::layer( const int encumbrance )
+int layer_details::layer( const int encumbrance, bool conflicts )
 {
     /*
      * We should only get to this point with an encumbrance value of 0
@@ -3227,7 +3227,20 @@ int layer_details::layer( const int encumbrance )
     } else {
         total += encumbrance;
     }
-    return total - current;
+    if (conflicts) {
+        // if we already knew this layer was conflicing continue normally
+        if (is_conflicting) {
+            return total - current;
+        }
+        // if this is the first time the layer is in conflict we need to return the full value not partial
+        else {
+            is_conflicting = true;
+            return total;
+        }
+    }
+    else {
+        return 0;
+    }
 }
 
 std::list<item>::iterator Character::position_to_wear_new_item( const item &new_item )

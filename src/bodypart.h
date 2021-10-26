@@ -283,10 +283,13 @@ struct layer_details {
     int max = 0;
     int total = 0;
 
+    // if the layer is already conflicting
+    bool is_conflicting = false;
+
     std::vector<sub_bodypart_id> covered_sub_parts;
 
     void reset();
-    int layer( int encumbrance );
+    int layer( int encumbrance, bool conflicts );
 
     bool operator ==( const layer_details &rhs ) const {
         return max == rhs.max &&
@@ -347,8 +350,8 @@ struct encumbrance_data {
         return return_val;
     }
 
-    void layer( const layer_level level, const int encumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
+    void layer( const layer_level level, const int encumbrance, bool conflicts ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );
     }
 
     void reset() {
