@@ -210,7 +210,7 @@
   {
     "type": "overmap_special",
     "id": "Lab_MAINTENANCE_areas",
-    "//": "Lab maintence areas that connect to other lab zones.",
+    "//": "Lab maintenance areas that connect to other lab zones.",
     "overmaps": [
       { "point": [ -1, 2, -2 ], "overmap": "lab_maintenance_z-2&3_A_north" },
       { "point": [ 2, 2, -2 ], "overmap": "lab_maintenance_z-2&3_B_north" },
