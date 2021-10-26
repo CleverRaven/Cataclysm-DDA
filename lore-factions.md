@@ -1,4 +1,4 @@
-### **spoiler alert**.
+## **spoiler alert**.
 Do not read this document if you have no intention of contributing to the project and do not want your play experience spoiled.
 
 #### Seriously, spoiler alert.
@@ -54,105 +54,140 @@ Deal with monsters and bandits, get parts for the center, help the Tacoma Commun
 
 *"The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."*
 
-**Description**: The Hell's Raiders are a collection of smaller gangs, some of which existed before the Cataclysm.  Much of the membership was already willing to commit armed robbery or more violent crimes, and their attitudes haven't changed now that law enforcement is defunct and zombies roam the land.
+#### Description
+The Hell's Raiders are a collection of smaller gangs, some of which existed before the Cataclysm.  Much of the membership was already willing to commit armed robbery or more violent crimes, and their attitudes haven't changed now that law enforcement is defunct and zombies roam the land.
 
-**Structure**: Most gangs are led by a boss with an aptitude for leadership and violence.  The members consist of former criminals, along with some desperate people who figure having a rough bunch of thugs on your side is a good survival strategy.  Slaves round out the gang structure and perform menial labor, gardening, and other low risk but necessary work.
+#### Structure
+Most gangs are led by a boss with an aptitude for leadership and violence.  The members consist of former criminals, along with some desperate people who figure having a rough bunch of thugs on your side is a good survival strategy.  Slaves round out the gang structure and perform menial labor, gardening, and other low risk but necessary work.
 
 The gang leaders themselves are led by a junta of fairly nasty mutants and augmentees who view themselves as Nietzschean ubermensch with a Will to Power (not all of them take this view explicitly, but that's the general attitude).  They are the post-Human rulers of a brave new world.  Psychopathy is common, and at least a few are post-Threshold mutants with sapiovore.  At least some of these people were involved in creating the Cataclysm, though not intentionally.  Some of them are looking for other post- and trans-humans to serve as lieutenants.
 
-**Goals**: The junta leadership seeks power and are willing to do what it takes to get it.  In their zero-sum worldview, other powerful factions mean less power for them, so they seek to destabilize the other factions, but they also seek to control or destroy monster factions like the Mycus, the triffids, and the mi-go.
+#### Goals
+The junta leadership seeks power and are willing to do what it takes to get it.  In their zero-sum worldview, other powerful factions mean less power for them, so they seek to destabilize the other factions, but they also seek to control or destroy monster factions like the Mycus, the triffids, and the mi-go.
 
 Most gang members want to survive and be comfortable.
 
-**Size**: Dozens of gangs.  Gangs range from 2-3 people to 40+.  The leadership junta has 4-7 members and fights among itself with some regularly and/or gets betrayed by ambitious underlings.
+#### Size
+Dozens of gangs.  Gangs range from 2-3 people to 40+.  The leadership junta has 4-7 members and fights among itself with some regularly and/or gets betrayed by ambitious underlings.
 
-**Attitudes**: Hostile to the Old Guard, as the other remaining powerful human faction.  Individual gangs prey on the Free Merchants, Tacoma Commune, Farm Survivalists, Strongarm Survivalists, Gods Chosen, the Campus, and the Great Library.  Performs limited trade with the Robofac.  Generally friendly with Fence Men.  The leadership despises the Neo Natives but individual gangs sometimes trade with them.  Some gangs prey on the BOTT, but the leadership would prefer to recruit the more promising members.  Marloss Evangelists sometimes poach individual gangs or even junta members, but the junta can't quite decide if Marloss berries are a path to power or not.
+#### Attitudes
+Hostile to the Old Guard, as the other remaining powerful human faction.  Individual gangs prey on the Free Merchants, Tacoma Commune, Farm Survivalists, Strongarm Survivalists, Gods Chosen, the Campus, and the Great Library.  Performs limited trade with the Robofac.  Generally friendly with Fence Men.  The leadership despises the Neo Natives but individual gangs sometimes trade with them.  Some gangs prey on the BOTT, but the leadership would prefer to recruit the more promising members.  Marloss Evangelists sometimes poach individual gangs or even junta members, but the junta can't quite decide if Marloss berries are a path to power or not.
 
 Generally pro-mutant and pro-augmentation; post-Threshold mutants or powerful augmentees are more likely to be recruited than enslaved.
 
 Generally hostile to the Mycus, triffids, zombies, and nether cults.
 
-**Bases**: Individual gangs prefer to take over existing buildings, especially prepper cabins, LMOE shelters, apartments, or military outposts and bunkers.  Some gangs have built forts.  Any given lead has a base in a LMOE shelter, semi-functioning lab, or military outpost.
+#### Bases
+Individual gangs prefer to take over existing buildings, especially prepper cabins, LMOE shelters, apartments, or military outposts and bunkers.  Some gangs have built forts.  Any given lead has a base in a LMOE shelter, semi-functioning lab, or military outpost.
 
-**Trade/Economics**: Has a fairly robust internal economic system based on precious metals, but no formal currency within the first year.  Favored allies (the Fence Men basically) can also trade gold/silver with them.  Other people get promissory notes to round out barter, with no guarantee that the promissory notes will be honored in the future.  The double-dealing nature of the Hell's Raiders will cause them problems in the future.
+#### Trade/Economics
+Has a fairly robust internal economic system based on precious metals, but no formal currency within the first year.  Favored allies (the Fence Men basically) can also trade gold/silver with them.  Other people get promissory notes to round out barter, with no guarantee that the promissory notes will be honored in the future.  The double-dealing nature of the Hell's Raiders will cause them problems in the future.
 
-**Missions**: Spy on Free Merchant and Tacoma Commune caravans, subvert the Old Guard, destroy fungal infestations, destroy triffids.
+#### Missions
+Spy on Free Merchant and Tacoma Commune caravans, subvert the Old Guard, destroy fungal infestations, destroy triffids.
 
-**Note**: Current members of the Hell's Raiders shoot the player on sight, so if they're going to be developed as a real faction, that needs to change.
+#### Note
+Current members of the Hell's Raiders shoot the player on sight, so if they're going to be developed as a real faction, that needs to change.
 
 ### Old Guard
 
 "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
 
-**Description**: The Old Guard claims to be the remnants of the US Federal government, with an armada of ships in the Atlantic Ocean and a few walled off cities near the coast.  In practice, there's a pair of Old Guard agents at the Evacuee Center working with the Free Merchants, and a few squads caught in the Necropolis.
+#### Description
+The Old Guard claims to be the remnants of the US Federal government, with an armada of ships in the Atlantic Ocean and a few walled off cities near the coast.  In practice, there's a pair of Old Guard agents at the Evacuee Center working with the Free Merchants, and a few squads caught in the Necropolis.
 
 The Old Guard, on the surface, seems like the "good" faction, but they're making claims they can't support and are stretched way too thin.  Their leadership also caused the Cataclysm, so it's not obvious why anyone would want to put them back in control.
 
-**Structure**: Practically speaking, the Old Guard is a support network that can provide limited supplies and goods to independent contractors and Federal Marshals who perform necessary tasks.
+#### Structure
+Practically speaking, the Old Guard is a support network that can provide limited supplies and goods to independent contractors and Federal Marshals who perform necessary tasks.
 
-**Goals**: Undo the Cataclysm, or failing that, re-establish civilization under the Old Guard's control.
+#### Goals
+Undo the Cataclysm, or failing that, re-establish civilization under the Old Guard's control.
 
-**Size**: Theoretically, tens of thousands of people.  Practically, a few dozen.
+#### Size
+Theoretically, tens of thousands of people.  Practically, a few dozen.
 
-**Attitudes**: Friendly to any organization that accepts Old Guard guidance and seeks to stabilize the Cataclysm.  They're on good terms with the Free Merchants, Tacoma Commune, God's Chosen, the Great Library, and the Campus.  Opposed to the Fence Men, Hell's Raider, Neo-Natives, and Bravo Deserters.  Wants to establish control over the Strongarm Survivalists, Farm Survivalists, and Robofac, and would be willing to use force to settle the issue.  To the extent that the Old Guard understands that Marloss Evangelists are a front for the Mycus, they're against them.
+#### Attitudes
+Friendly to any organization that accepts Old Guard guidance and seeks to stabilize the Cataclysm.  They're on good terms with the Free Merchants, Tacoma Commune, God's Chosen, the Great Library, and the Campus.  Opposed to the Fence Men, Hell's Raider, Neo-Natives, and Bravo Deserters.  Wants to establish control over the Strongarm Survivalists, Farm Survivalists, and Robofac, and would be willing to use force to settle the issue.  To the extent that the Old Guard understands that Marloss Evangelists are a front for the Mycus, they're against them.
 
 Completely neutral on the subject of mutants and augmentees.
 
 Explicitly hostile to the Mycus, triffids, zombies, and nether cults.
 
-**Bases**: The Old Guard has outposts at the Evacuee Center.
+#### Bases
+The Old Guard has outposts at the Evacuee Center.
 
-**Trade/Economics**: The Old Guard is the US government, and thus thinks that trade should be handled via US greenbacks (money bundles) and eCash.  The reality of the Cataclysm means that there's been 1000% inflation, so while they technically honor eCash, they don't pay much for it.
+#### Trade/Economics
+The Old Guard is the US government, and thus thinks that trade should be handled via US greenbacks (money bundles) and eCash.  The reality of the Cataclysm means that there's been 1000% inflation, so while they technically honor eCash, they don't pay much for it.
 
-**Missions** (partially complete): Deal with bandits, investigate labs, rescue soldiers from the Necropolis, bring Farm/Strongarm Survivalists into the fold.
+#### Missions
+Deal with bandits, investigate labs, rescue soldiers from the Necropolis, bring Farm/Strongarm Survivalists into the fold.
 
-**Resources**: The key resource of the Old Guard is their fleets.  Due to the isolated, regimented and self-sufficient nature of naval vessels (including merchant vessels), there was a vastly higher survival rate among in-transit ships than among the general population. While the fleets took losses from many sources, there are a number of fully-crewed and operational ships, including some very large vessels. This resource comes at a great cost however, the manpower required to operate and maintain these vessels accounts for the majority of the Old Guard population, and the resources they require is an unsustainable drain on the faction.
+#### Resources
+The key resource of the Old Guard is their fleets.  Due to the isolated, regimented and self-sufficient nature of naval vessels (including merchant vessels), there was a vastly higher survival rate among in-transit ships than among the general population. While the fleets took losses from many sources, there are a number of fully-crewed and operational ships, including some very large vessels. This resource comes at a great cost however, the manpower required to operate and maintain these vessels accounts for the majority of the Old Guard population, and the resources they require is an unsustainable drain on the faction.
 
-**Development Direction**: The major challenge facing the old guard immediately after the Cataclysm is extracting as much value as possible from the fleet while decommissioning it. Each remaining ship can either be operated as a combat vessel at great resource cost (food, equipment, provisions, fuel and manpower) or decommissioned to provide a core around which a community can be built. Even the smallest ship has a large diesel engine that can be configured as a generator, as well as secured storage facilities, sleeping berths, stocks of ammunition and weapons, and various facilities such a cooking, machine shops and medical facilities. The expected trajectory is that the Old Guard recruits survivors to act as settlers, and once they have a sufficient number and have located a strategic location for a settlement, they establish a settlement there and decommission a ship to act as the core of the settlement. In parallel with this decommissioning effort, the Old Guard would prioritize establishing a provisional and then permanent government to maintain their legitimacy.
+#### Development Direction
+The major challenge facing the old guard immediately after the Cataclysm is extracting as much value as possible from the fleet while decommissioning it. Each remaining ship can either be operated as a combat vessel at great resource cost (food, equipment, provisions, fuel and manpower) or decommissioned to provide a core around which a community can be built. Even the smallest ship has a large diesel engine that can be configured as a generator, as well as secured storage facilities, sleeping berths, stocks of ammunition and weapons, and various facilities such a cooking, machine shops and medical facilities. The expected trajectory is that the Old Guard recruits survivors to act as settlers, and once they have a sufficient number and have located a strategic location for a settlement, they establish a settlement there and decommission a ship to act as the core of the settlement. In parallel with this decommissioning effort, the Old Guard would prioritize establishing a provisional and then permanent government to maintain their legitimacy.
 
 One possible ongoing campaign for the Old Guard might be clearing and forming a permanent zombie-free zone on Nantucket, then launching a similar campaign to attempt to retake Martha's Vineyard. Player/mercenary involvement in the Martha's Vineyard campaign would be an option.
 
-**Steady State**: Eventually the majority of the fleet is decommissioned as the cores of new settlements scattered across the eastern seaboard. A remaining skeleton fleet, operating with skeleton crews might continue to patrol the Atlantic coast to provide support to these settlements. The faction at this point is transitioned into expanding their control and solidifying their holdings. Settlements built around a decommissioned ship have a massive head start compared to most settlements, but at the same time Old Guard settlers would be the least equipped among the factions to adapt to the new realities of founding an inshore settlement.
+#### Steady State
+Eventually the majority of the fleet is decommissioned as the cores of new settlements scattered across the eastern seaboard. A remaining skeleton fleet, operating with skeleton crews might continue to patrol the Atlantic coast to provide support to these settlements. The faction at this point is transitioned into expanding their control and solidifying their holdings. Settlements built around a decommissioned ship have a massive head start compared to most settlements, but at the same time Old Guard settlers would be the least equipped among the factions to adapt to the new realities of founding an inshore settlement.
 
 ### Tacoma Commune
 
 *"An outpost started by the Free Merchants to provide a source of food and raw materials."*
 
-**Description**: The Free Merchants send their idle hands to work at the Tacoma Commune.  Hard work as a subsistence farmer at the Commune is unpleasant, but it's better than starving to death at the Evac Center, and Commune workers get first dibs on any food produced.
+#### Description
+The Free Merchants send their idle hands to work at the Tacoma Commune.  Hard work as a subsistence farmer at the Commune is unpleasant, but it's better than starving to death at the Evac Center, and Commune workers get first dibs on any food produced.
 
 Over time, the interests of the Commune and Merchants are going to diverge, and the Commune workers are going to be less and less interested in paying taxes to the Free Merchant.
 
-**Structure**: The foreman and crop overseer run the joint.
+#### Structure
+The foreman and crop overseer run the joint.
 
-**Goals**: Build a small village at a ranch.
+#### Goals
+Build a small village at a ranch.
 
-**Size**: 2 people initially but increases over time.
+#### Size
+2 people initially but increases over time.
 
-**Attitudes**: A colony of the Free Merchants that initially takes their attitudes.
+#### Attitudes
+A colony of the Free Merchants that initially takes their attitudes.
 
-**Bases**: Controls a ranch.
+#### Bases
+Controls a ranch.
 
-**Trade/Economics**: Uses Free Merchant scrip for commerce, with substantial black market trading in cut logs and healthcare services.
+#### Trade/Economics
+Uses Free Merchant scrip for commerce, with substantial black market trading in cut logs and healthcare services.
 
-**Missions** (fairly complete): acquire supplies necessary to expand the commune, help build the commune, defend caravans to the evac center.
+#### Missions
+Acquire supplies necessary to expand the commune, help build the commune, defend caravans to the evac center.
 
 ### Hub 01
 
 *"Summary"*
 
-**Description**: 
+#### Description
+ 
 
-**Structure**: 
+#### Structure
+ 
 
-**Goals**: 
+#### Goals
+ 
 
-**Size**: 
+#### Size
+ 
 
-**Attitudes**: 
+#### Attitudes
+ 
 
-**Bases**: 
+#### Bases
+ 
 
-**Trade/Economics**: 
+#### Trade/Economics
+ 
 
 **Missions** 
 
@@ -161,21 +196,28 @@ Over time, the interests of the Commune and Merchants are going to diverge, and 
 
 *"Summar"*
 
-**Description**: 
+#### Description
+ 
 
-**Structure**: 
+#### Structure
+ 
 
-**Goals**: 
+#### Goals
+ 
 
-**Size**: 
+#### Size
+ 
 
-**Attitudes**: 
+#### Attitudes
+ 
 
-**Bases**: 
+#### Bases
+ 
 
-**Trade/Economics**: 
+#### Trade/Economics
+ 
 
-**Missions** 
+#### Missions
 
 ## Extradimensional and Alien Factions
 
@@ -247,6 +289,34 @@ Various unconnected forces of pure chaos from in-between dimensions.  Not really
 ### The Exodii
 
 See [the Technology document](./technology.md) for more details on how Exodii technology works, both practically and (non-canonically) some of the theory ideas for how it could function.
+
+#### Description
+The Exodii are a group of interdimensional humans from other versions of Earth that have been consumed by the blob.  They use a combination of cybernetics and portal technology to leave a world as it is becoming uninhabitable, to travel to a new one and continue the cycle.  They are non-hostile and willing to trade, but not as benign as they may appear on the surface. 
+
+#### Structure
+There are two distinct castes among the Exodii.  They don't really have names within the faction, but for the purposes of the design doc I will call them "citizens" and "non-citizens".  Citizens are the "true" Exodii, humans with fully functioning intelligence that have been converted into cyborgs to allow transport through the Exodii portal system, which is moderately hostile to insufficiently shielded organic material.  Non-citizens are the "support" Exodii, the workers, quadrupeds, and other similar robot-like frames.  They have a human brain for central processing, but it is damaged and not at full capacity, usually by blob psychosis.  While the non-citizens have access to some Exodii perks, they are not treated like nor considered to be Exodii by the citizens.  In addition to these two, there are a number of human brains not connected to robotic bodies, used as computers and for data storage.  Some of these are Exodii citizens who prefer spending most of their time in a virtual world; some are too heavily damaged to even control a body and have just been repurposed as wetware.
+
+There is a single gestalt semi-artificial intelligence as part of this Exodii node, nicknamed the "Great Grey".  It is an overlay of multiple brain-computers, networked and communicating with each other.  It serves as something of a data repository.  Most of its time is spent doing translation and data-sifting.
+
+#### Goals
+The Exodii only care about survival.  They will stay on CDDA-Earth as long as possible to gather rare resources: a modern tech world is rare and desirable, and a good chance for them to stock up on stuff that is hard to find elsewhere, like plastics and petrochemicals.
+
+Of note, the Exodii are not at all interested in trying to "beat" the zombie plague.  They have seen that tried countless times on countless worlds and are still here, wandering.  They consider it a fruitless waste of resources.
+
+#### Size
+The Exodii exist across multiple dimensions in uncounted numbers.  This particular "node" consists of a few dozen citizen-level Exodii, dozens to hundreds of non-citizens, and an unspecified number of disembodied brains being used for data storage and computers.
+
+#### Attitudes
+ 
+
+#### Bases
+ 
+
+#### Trade/Economics
+ 
+
+#### Missions
+
 
 ### The Yrax
 
