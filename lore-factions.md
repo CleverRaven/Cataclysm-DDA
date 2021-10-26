@@ -1,4 +1,4 @@
-###**spoiler alert**.
+### **spoiler alert**.
 Do not read this document if you have no intention of contributing to the project and do not want your play experience spoiled.
 
 #### Seriously, spoiler alert.
