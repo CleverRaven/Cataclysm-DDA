@@ -1055,7 +1055,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "7800 ml", "max_contains_weight": "10 kg", "max_item_length": "40 cm", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "7800 ml", "max_contains_weight": "20 kg", "max_item_length": "40 cm", "rigid": true } ]
   },
   {
     "id": "toolbox_workshop_empty",
@@ -1065,7 +1065,7 @@
     "description": "This is a stout metal box for containing tools.  It is much bigger than a regular tool box and could be used to store more tools than usual.",
     "looks_like": "toolbox_empty",
     "weight": "3994 g",
-    "volume": "3100 ml",
+    "volume": "13000 ml",
     "longest_side": "65 cm",
     "price": 14099,
     "price_postapoc": 3250,
@@ -1074,7 +1074,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "15 kg", "max_item_length": "63 cm", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "12800 ml", "max_contains_weight": "30 kg", "max_item_length": "63 cm", "rigid": true } ]
   },
   {
     "id": "toolset_extended",
