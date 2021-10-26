@@ -13,6 +13,12 @@
 #include "overmapbuffer.h"
 #include "type_id.h"
 
+static const oter_str_id oter_cabin( "cabin" );
+static const oter_str_id oter_cabin_east( "cabin_east" );
+static const oter_str_id oter_cabin_north( "cabin_north" );
+static const oter_str_id oter_cabin_south( "cabin_south" );
+static const oter_str_id oter_cabin_west( "cabin_west" );
+
 TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
@@ -97,9 +103,9 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     for( int x = 0; x < OMAPX; ++x ) {
         for( int y = 0; y < OMAPY; ++y ) {
             const oter_id t = test_overmap->ter( { x, y, 0 } );
-            if( t->id == "cabin" ||
-                t->id == "cabin_north" || t->id == "cabin_east" ||
-                t->id == "cabin_south" || t->id == "cabin_west" ) {
+            if( t->id == oter_cabin ||
+                t->id == oter_cabin_north || t->id == oter_cabin_east ||
+                t->id == oter_cabin_south || t->id == oter_cabin_west ) {
                 found_optional = true;
             }
         }
