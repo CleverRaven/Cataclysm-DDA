@@ -46,6 +46,29 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_MANSION_START",
+    "monsters": [
+      { "monster": "mon_feral_maid_broom", "freq": 80, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_maid_candlestick", "freq": 80, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_maid_knife", "freq": 80, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_maid_broom", "freq": 80, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_maid_candlestick", "freq": 80, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_maid_knife", "freq": 80, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_fancy_rapier", "freq": 60, "cost_multiplier": 3 },
+      { "monster": "mon_feral_fancy_rapier", "freq": 40, "cost_multiplier": 6, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_fancy_rapier_fake", "freq": 80, "cost_multiplier": 2 },
+      { "monster": "mon_feral_fancy_rapier_fake", "freq": 50, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_fancy_crossbow", "freq": 60, "cost_multiplier": 5 },
+      { "monster": "mon_feral_fancy_crossbow", "freq": 40, "cost_multiplier": 10, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MANSION_ARMORED",
+    "monsters": [ { "monster": "mon_feral_armored_mace", "freq": 100 }, { "monster": "mon_feral_armored_battleaxe", "freq": 100 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_CHUD",
     "monsters": [
       { "monster": "mon_chud", "weight": 875, "cost_multiplier": 0 },
