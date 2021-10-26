@@ -80,7 +80,7 @@
       { "item": "case_cigar", "prob": 5 },
       [ "vest", 40 ],
       [ "kevlar", 15 ],
-      [ "jacket_army", 30 ],
+      [ "jacket_army_modern", 30 ],
       [ "trenchcoat", 25 ],
       [ "trenchcoat_leather", 20 ],
       [ "trenchcoat_fur", 10 ],

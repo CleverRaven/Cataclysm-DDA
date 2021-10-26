@@ -355,7 +355,7 @@
       { "proficiency": "prof_polymerworking" }
     ],
     "components": [
-      [ [ "jacket_army", 1 ] ],
+      [ [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
       [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
