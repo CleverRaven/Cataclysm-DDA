@@ -27,7 +27,7 @@
     "drench_capacity": 40,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80,
-    "sub_parts": ["thorax", "neck", "stomach", "side_r", "side_l", "groin", "buttocks", "armpit_r", "armpit_l", "upper_back", "lower_back"],
+    "sub_parts": [ "torso_upper", "neck", "torso_lower", "hanging_front", "hanging_back" ],
     "part_weight": 14.32
   },
   {
@@ -153,7 +153,7 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": ["shoulder_l", "upper_arm_l", "upper_arm_l_back", "elbow_l", "elbow_l_back", "forearm_l", "forearm_l_back"],
+    "sub_parts": [ "arm_connector_l", "arm_central_l", "arm_joint_l", "arm_distal_l" ],
     "part_weight": 7.65
   },
   {
@@ -190,7 +190,7 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": ["shoulder_r", "upper_arm_r", "upper_arm_r_back", "elbow_r", "elbow_r_back", "forearm_r", "forearm_r_back"],
+    "sub_parts": [ "arm_connector_r", "arm_central_r", "arm_joint_r", "arm_distal_r" ],
     "part_weight": 7.65
   },
   {
@@ -291,7 +291,7 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": ["thigh_l", "thigh_l_back", "knee_l", "knee_l_back", "shin_l", "shin_l_back"],
+    "sub_parts": ["leg_connector_l", "leg_central_l", "leg_joint_l", "leg_distal_l"],
     "part_weight": 7.99
   },
   {
@@ -328,7 +328,7 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": ["thigh_r", "thigh_r_back", "knee_r", "knee_r_back", "shin_r", "shin_r_back"],
+    "sub_parts": ["leg_connector_r", "leg_central_r", "leg_joint_r", "leg_distal_r"],
     "part_weight": 7.99
   },
   {
@@ -424,225 +424,109 @@
     "part_weight": 0.0
   },
   {
-    "id": "thorax",
+    "id": "torso_upper",
     "type": "sub_body_part",
-    "name": "thorax",
-    "hit_size": 3
+    "name": "upper torso"
   },
   {
     "id": "neck",
     "type": "sub_body_part",
-    "name": "neck",
-    "hit_size": 1
+    "name": "neck"
   },
   {
-    "id": "stomach",
+    "id": "torso_lower",
     "type": "sub_body_part",
-    "name": "stomach",
-    "hit_size": 2
+    "name": "lower torso",
   },
   {
-    "id": "side_r",
+    "id": "hanging_front",
     "type": "sub_body_part",
-    "name": "right side",
-    "hit_size": 2
+    "name": "hanging off your front"
   },
   {
-    "id": "side_l",
+    "id": "hanging_back",
     "type": "sub_body_part",
-    "name": "left side",
-    "hit_size": 2
+    "name": "hanging off your back",
+  },
+
+  {
+    "id": "arm_connector_r",
+    "type": "sub_body_part",
+    "name": "right shoulder"
   },
   {
-    "id": "groin",
+    "id": "arm_central_r",
     "type": "sub_body_part",
-    "name": "groin",
-    "hit_size": 2
+    "name": "right upper arm"
   },
   {
-    "id": "buttocks",
+    "id": "arm_joint_r",
     "type": "sub_body_part",
-    "name": "buttocks",
-    "hit_size": 0.66
+    "name": "right elbow"
   },
   {
-    "id": "armpit_r",
+    "id": "arm_distal_r",
     "type": "sub_body_part",
-    "name": "right armpit",
-    "hit_size": 1
+    "name": "right forearm"
   },
   {
-    "id": "armpit_l",
+    "id": "arm_connector_l",
     "type": "sub_body_part",
-    "name": "left armpit",
-    "hit_size": 1
+    "name": "left shoulder"
   },
   {
-    "id": "upper_back",
+    "id": "arm_central_l",
     "type": "sub_body_part",
-    "name": "upper back",
-    "hit_size": 1
+    "name": "left upper arm"
   },
   {
-    "id": "lower_back",
+    "id": "arm_joint_l",
     "type": "sub_body_part",
-    "name": "lower back",
-    "hit_size": 0.66
+    "name": "left elbow"
   },
   {
-    "id": "shoulder_r",
+    "id": "arm_distal_l",
     "type": "sub_body_part",
-    "name": "right shoulder",
-    "hit_size": 1
+    "name": "left forearm"
   },
   {
-    "id": "upper_arm_r",
+    "id": "leg_connector_r",
     "type": "sub_body_part",
-    "name": "right upper arm",
-    "hit_size": 2
+    "name": "right hip"
   },
   {
-    "id": "upper_arm_r_back",
+    "id": "leg_central_r",
     "type": "sub_body_part",
-    "name": "back of the right upper arm",
-    "hit_size": 0.66
+    "name": "right thigh"
   },
   {
-    "id": "elbow_r",
+    "id": "leg_joint_r",
     "type": "sub_body_part",
-    "name": "right elbow",
-    "hit_size": 1
+    "name": "right knee"
   },
   {
-    "id": "elbow_r_back",
+    "id": "leg_distal_r",
     "type": "sub_body_part",
-    "name": "back of the right elbow",
-    "hit_size": 0.33
+    "name": "right calve"
   },
   {
-    "id": "forearm_r",
+    "id": "leg_connector_l",
     "type": "sub_body_part",
-    "name": "right forearm",
-    "hit_size": 2
+    "name": "left hip"
   },
   {
-    "id": "forearm_r_back",
+    "id": "leg_central_l",
     "type": "sub_body_part",
-    "name": "back of the right forearm",
-    "hit_size": 0.66
+    "name": "left thigh"
   },
   {
-    "id": "shoulder_l",
+    "id": "leg_joint_l",
     "type": "sub_body_part",
-    "name": "left shoulder",
-    "hit_size": 1
+    "name": "left knee"
   },
   {
-    "id": "upper_arm_l",
+    "id": "leg_distal_l",
     "type": "sub_body_part",
-    "name": "left upper arm",
-    "hit_size": 2
-  },
-  {
-    "id": "upper_arm_l_back",
-    "type": "sub_body_part",
-    "name": "back of the left upper arm",
-    "hit_size": 0.66
-  },
-  {
-    "id": "elbow_l",
-    "type": "sub_body_part",
-    "name": "left elbow",
-    "hit_size": 1
-  },
-  {
-    "id": "elbow_l_back",
-    "type": "sub_body_part",
-    "name": "back of the left elbow",
-    "hit_size": 0.33
-  },
-  {
-    "id": "forearm_l",
-    "type": "sub_body_part",
-    "name": "left forearm",
-    "hit_size": 2
-  },
-  {
-    "id": "forearm_l_back",
-    "type": "sub_body_part",
-    "name": "back of the left forearm",
-    "hit_size": 0.66
-  },
-  {
-    "id": "thigh_l",
-    "type": "sub_body_part",
-    "name": "left thigh",
-    "hit_size": 3
-  },
-  {
-    "id": "thigh_l_back",
-    "type": "sub_body_part",
-    "name": "back of the left thigh",
-    "hit_size": 1
-  },
-  {
-    "id": "knee_l",
-    "type": "sub_body_part",
-    "name": "left knee",
-    "hit_size": 1
-  },
-  {
-    "id": "knee_l_back",
-    "type": "sub_body_part",
-    "name": "back of the left knee",
-    "hit_size": 0.33
-  },
-  {
-    "id": "shin_l",
-    "type": "sub_body_part",
-    "name": "left shin",
-    "hit_size": 2
-  },
-  {
-    "id": "shin_l_back",
-    "type": "sub_body_part",
-    "name": "back of the left shin",
-    "hit_size": 0.66
-  },
-  {
-    "id": "thigh_r",
-    "type": "sub_body_part",
-    "name": "right thigh",
-    "hit_size": 3
-  },
-  {
-    "id": "thigh_r_back",
-    "type": "sub_body_part",
-    "name": "back of the right thigh",
-    "hit_size": 1
-  },
-  {
-    "id": "knee_r",
-    "type": "sub_body_part",
-    "name": "right knee",
-    "hit_size": 1
-  },
-  {
-    "id": "knee_r_back",
-    "type": "sub_body_part",
-    "name": "back of the right knee",
-    "hit_size": 0.33
-  },
-  {
-    "id": "shin_r",
-    "type": "sub_body_part",
-    "name": "right shin",
-    "hit_size": 2
-  },
-  {
-    "id": "shin_r_back",
-    "type": "sub_body_part",
-    "name": "back of the right shin",
-    "hit_size": 0.66
+    "name": "left calve"
   }
 ]

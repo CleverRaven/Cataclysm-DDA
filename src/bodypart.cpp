@@ -265,7 +265,6 @@ void sub_body_part_type::load(const JsonObject& jo, const std::string&)
 {
     mandatory(jo, was_loaded, "id", id);
     mandatory(jo, was_loaded, "name", name);
-    mandatory(jo, was_loaded, "hit_size", hit_size);
 }
 
 void body_part_type::load( const JsonObject &jo, const std::string & )
