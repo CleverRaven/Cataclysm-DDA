@@ -1691,8 +1691,8 @@ int Character::footstep_sound() const
         } else {
             volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
         }
-        return std::round( volume );
     }
+    return std::round( volume );
 }
 
 void Character::make_footstep_noise() const
