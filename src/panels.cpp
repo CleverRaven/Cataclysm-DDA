@@ -833,7 +833,7 @@ std::string display::morale_emotion( const int morale_cur, const face_type face,
         return ":3";
     } else if( face == face_bird && morale_cur >= 10 ) {
         return ":>";
-    } else if( face == face_human && morale_cur >= 10 ) {
+    } else if( ( face == face_human || face == face_bear ) && morale_cur >= 10 ) {
         return ":)";
     } else if( morale_cur >= -10 ) {
         return ":|";
