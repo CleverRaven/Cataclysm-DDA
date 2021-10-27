@@ -202,7 +202,7 @@
       "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2"
     ],
     "type": "talk_topic",
-    "dynamic_line": "Not as much as I'd like, I'm afraid.  Most these shelters seemed to have been designed to make people *feel* safer, not to actually keep them safe.  Our radio equipment is terrible… I don't think it was even meant to be used.  I've heard some talk of hordes.",
+    "dynamic_line": "Not as much as I'd like, I'm afraid.  Most of these shelters seemed to have been designed to make people *feel* safer, not to actually keep them safe.  Our radio equipment is terrible… I don't think it was even meant to be used seriously.  I've heard some talk of hordes.",
     "responses": [
       { "text": "Hordes?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld1" },
       {
@@ -221,9 +221,9 @@
     ]
   },
   {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware",
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware", "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1" ],
     "type": "talk_topic",
-    "dynamic_line": "Tools, to be precise.  The basement and the storage rooms had way more than we need, and a lot of people brought their own when they were evacuating.  There's more than we could ever use, so we'll be happy to sell them at a very fair price.",
+    "dynamic_line": "Tools, to be precise.  The basement and the storage rooms had way more than we need, and a lot of people brought their own when they were evacuating.  There's more than we could ever use, so we'll be happy to sell them at a very fair price.  Nothing in the way of radios, so you'll have to look somewhere else for that.",
     "responses": [
       {
         "text": "Wait, basement?  I didn't know this place had a basement.",
@@ -236,8 +236,17 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
         "effect": "start_trade"
       },
+      {
+        "text": "Radios?  That seems awfully specific.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1"
+      },
       { "text": "Good to know.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1",
+    "type": "talk_topic",
+    "dynamic_line": "We've had some issues with scavengers.  Apparently a big part of the marketing for these shelters was high-end radio equipment that they could use to keep in touch with each other, and a lot of the people we've traded with have asked about it.  Not that we don't have any radios, mind you, but they're all absolutely awful.  Even if we *could* spare any, they'd be useless to anyone that actually needed it - not much point in lugging around a ham radio that can't pick hear anything more than a mile away."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_TroubleWithFood",

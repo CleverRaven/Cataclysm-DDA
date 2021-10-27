@@ -2,7 +2,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
     "type": "talk_topic",
-    "dynamic_line": "*looks pained.  \"A lot of the time, yes.  Our address is in the computers of most of the evac shelters around here, and people keep showing up that we have to turn away.  It gets easier when you have something you can read off a script.\"",
+    "dynamic_line": "A lot of the time, yes.  Our address is in the computers of most of the evac shelters around here, and people keep showing up that we have to turn away.  It gets easier when you have something you can read off a script.",
     "responses": [
       { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
       { "text": "That sounds a little cruel.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cruel" },
@@ -117,7 +117,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin1",
     "type": "talk_topic",
-    "dynamic_line": "Maybe out there alone, or with a small group, but enough to feed a few dozen other people that aren't going to be doing anything to help you?  That just isn't a risk we're willing to take right now.  If you want to trade us supplies or donate something, you're more than welcome to, and it'd be a huge help, but right now, we're far past our comfort zone as it is."
+    "dynamic_line": "Maybe out there alone, or with a small group, but enough to feed a few dozen other people that aren't helping you?  That just isn't a risk we're willing to take right now.  If you want to trade us supplies or donate something, you're more than welcome to, and it'd be a huge help, but right now, we're far past our comfort zone as it is."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin2",
@@ -156,22 +156,22 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess2",
     "type": "talk_topic",
-    "dynamic_line": "Look at it this way: everyone I knew is dead.  Most of the people these refugees knew are dead, too.  We're not going to throw innocent people to the wolves just because they can't fight.  Things are hard, but they would be way worse for everyone if we weren't helping each other."
+    "dynamic_line": "Just because they're not boots on the ground doesn't mean they aren't helping.  In fact, I'd say that a lot of them are our most important people.  They keep the power running, for one thing.  And even if they weren't helping, look at it this way: all of us are scared, and almost all of us have lost someone from all this.  We aren't going to throw our own to the wolves."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess3",
     "type": "talk_topic",
-    "dynamic_line": "I appreciate the offer, I really do, but I'm sorry.  The basement is off-limits to outsiders, and we're not in the market for new recruits right now.  Maybe once we're in a better spot I'll think about it, but right now I can't justify just giving you free reign down there."
+    "dynamic_line": "I appreciate the offer, I really do, but I'm sorry.  The basement is off-limits to outsiders, and we're not in the market for new recruits right now.  Maybe once we're in a better spot there might be some room to think about it, but right now I can't justify just giving you free reign down there."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld1",
     "type": "talk_topic",
-    "dynamic_line": "Yeah.  Someone came through this way a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it downtown before he ran into a wall of zombies that he said could stop a tank.  He hightailed it out, but he claims there were several thousand at least.  I guess when you get a bunch of them together, they end up making enough noise to attract everyone in the neighborhood.  Thankfully, we haven't had a mob like that pass by here, because I'm not sure the fence would do very much."
+    "dynamic_line": "Yeah.  Someone came through this way a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it downtown before he ran into a wall of zombies that he said could stop a tank.  He hightailed it out, but he said there were several thousand at least.  I guess when you get a bunch of them together, they end up making enough noise to attract everyone in the neighborhood.  Thankfully, we haven't had a mob like that pass by here, because I'm not sure the fence would do much to keep them out."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
     "type": "talk_topic",
-    "dynamic_line": "Other than those people with the hard drive, none that I know of.  Scavengers share some odd things, but we can't exactly go check for ourselves.  The teamster in the back bay might know something, though, if you really want to know."
+    "dynamic_line": "Other than those people with the hard drive, none that I know of.  Scavengers share some odd things, but we can't exactly go check for ourselves.  The teamster in the back bay might have some pointers, though, if you really want to know."
   },
   {
     "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Plans", "TALK_FREE_MERCHANTS_MERCHANT_Plans2" ],
@@ -188,11 +188,11 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Plans2",
     "type": "talk_topic",
-    "dynamic_line": "Right now, it's the best way we have to make sure that everyone gets what they need.  Long-term viability of business models is what people in suits used to do back before all this, and we see where that got them.  Barter is the only thing keeping us from starving right now, so we're going to keep doing it as long as it works or until we can start producing our own food."
+    "dynamic_line": "Right now, it's the best way we have to make sure that everyone gets what they need.  Long-term viability of business models is what people in suits used to do back before all this, and we see where that got them.  Barter is the only thing keeping us from starving, so we're going to keep doing it as long as it works or until we can start producing our own food."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge",
     "type": "talk_topic",
-    "dynamic_line": "Nobody right now, I think?  We make decisions as a group, and people volunteer for things that need doing.  I guess I do the most actual administrative work, especially with how much we have to budget for these days, but I don't think I'd really say I'm in charge of anything, either?  It's all working out alright for right now."
+    "dynamic_line": "I don't think we have a figurehead right now, I think?  If we do, I don't know about it.  For the most part, we all have our own responsibilities and that works to keep us all fed as a group.  I'm the front man for outsiders, the broker keeps tabs on our food, so on and so forth.  We've had some town hall style talks in the cafeteria about setting up a democracy, but there's nothing solid on that right now."
   }
 ]
