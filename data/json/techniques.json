@@ -262,6 +262,36 @@
   },
   {
     "type": "technique",
+    "id": "tec_barbaran_impale",
+    "name": "Impaling Estocada",
+    "messages": [ "You thrust your weapon through %s", "<npcname> thrusts their weapon through %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "weapon_damage_requirements": [ { "type": "cut", "min": 8 } ],
+    "melee_allowed": true,
+    "aoe": "impale",
+    "mult_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 },
+      { "stat": "movecost", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_barbaran_disarm",
+    "name": "Swift Atajo",
+    "messages": [ "You jab a quick blow at %s's grip", "<npcname> jabs a quick blow at %s's grip" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "disarms": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "tec_boxing_cross",
     "name": "Cross",
     "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],

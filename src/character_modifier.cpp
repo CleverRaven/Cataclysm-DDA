@@ -91,6 +91,15 @@ float Character::nightvision_score() const
     return std::max( 0.0f, total );
 }
 
+float Character::reaction_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_reaction_score();
+    }
+    return std::max( 0.0f, total );
+}
+
 float Character::movement_speed_score() const
 {
     float total = 0.0f;
