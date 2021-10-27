@@ -1036,6 +1036,8 @@
       { "item": "box_small", "prob": 30 },
       { "item": "rag", "prob": 20 },
       { "item": "bag_plastic", "prob": 20 },
+      { "item": "bag_zipper", "prob": 3 },
+      { "item": "bag_zipper_gallon", "prob": 1 },
       { "item": "news_regional", "prob": 15 },
       { "item": "mag_news", "prob": 15 },
       { "item": "scorecard", "prob": 40 }
