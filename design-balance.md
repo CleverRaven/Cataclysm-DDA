@@ -2,9 +2,8 @@ This document is under construction.
 
 # Overview of game balance principles
 
-
-
 **Summary**
+
 The driving goal of balance in DDA is to support **versimilitude in the scenario**.  In other words we want the right *things* to be present to match reality, but also when those things are used to accomplish goals, they should be appoximately as effective at doing so as their real-world counterparts.  Of note, this is not the same as pursuing all aspects of realism.  New features added should have the goal of improving verissimilitude rather than complexity for complexity's sake.
 
 This means that *solutions to problems* should come from the same angle.  If something is not working as it should, the answer is to assess how it should work in reality, and figure out a way to better simulate that.  We find that reality tends to be quite balanced, and having things work as one would expect makes for a fun game.  
@@ -12,6 +11,7 @@ This means that *solutions to problems* should come from the same angle.  If som
 This concept is backstopped by the concept that reality has a reasonable and interesting set of balance tradeoffs, and approaching this set of tradeoffs makes for a fun game.
 
 Some examples:  
+
 - Bows and crossbows have naturally poor armour penetration compared to guns.  The solution to this was not to artificially inflate their armour penetration, but to add gaps in armour for archers to hit.  This led to a robust and interesting weakpoints system instead of an eternal shuffling of stats.
 - Modern vehicles are quite easy to operate and effective at their core competencies of moving people and items around on reasonably well-prepared surfaces, as such they are incredibly valuable and powerful tools in the game as well.  However, their use should be limited by the difficulty of getting a vehicle to operate without a key, congestion of roads in and out of population centers, the eventual expiration of common fuels, and the difficulty of repairing vehicle chassis as they take damage from impacts and use.
 - Guns deal FAR more damage than elastic projectile launchers like bows and crossbows.  However, they are loud and require looted ammunition.  Nonetheless, bows and crossbows should always be a niche/challenge weapon.
