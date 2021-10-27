@@ -18,13 +18,11 @@ Some examples:
 - Melee weapons consume considerable effort to operate and are generally significantly more dangerous to use than ranged weapons.  However, anything can be repurposed to a melee weapon and they are often superior in close quarters.
 - Some foods are healthy and plentiful, when those foods are in season survival becomes easy.  However, preserving food is a time and skill intensive proposition, and farming requires land and skill.
 
-
-
 ## Balance around general game concepts
 
-### General combat balance
+### Overall combat balance
 
-Combat in CDDA should always feel deadly.  In particular, the player should never feel safe being surrounded by multiple zombies, no matter how far in the game they are.  At first this means "regular" zombies; later, as the player approaches transhumanism, it may take multiple transhuman enemies to threaten the player, but at no time should a player be able to shrug off a crowd of zombies. 
+Combat in CDDA should always feel deadly.  In particular, the player should never feel safe being surrounded by multiple zombies, no matter how far in the game they are.  At first this means "regular" zombies; later, as the player approaches transhumanism, it may take multiple transhuman enemies to threaten the player, but at no time should a player be able to shrug off a horde. 
 
 - Zombies should have a "rend" mechanic, allowing groups of them to tear at armour and damage it more effectively than a single zombie might.  This would be enhanced if they can overwhelm and knock down a foe.
 - Almost all players should be limited heavily by fatigue and stamina as they attempt to fight off hordes.
@@ -42,37 +40,64 @@ Like noise, light and shadow are powerful tools for tension building.  Despite t
 ### Time
 Time is the primary currency of our game.  This is a dying world, and it should feel as if the game gets harder as time progresses.
 
+- pre-cataclysm loot should decay over time.  First food, then medicine and fuel, then wooden stuff will all age and crumble as time passes, requiring players to transition to making or repairing their own.
 - Evolution is a key mechanic for managing time.  More powerful enemies arise as time passes.  This requires us to keep evolution *slow enough to matter*.  If powerful zombies pop up in a week, then the principle engagement of the player is going to be with those zombies.
 - We will need at some point to manage some biosphere collapse.  Initially this will be slow, but as time progresses in the game, extreme weather and storms should become more common and plants rarer.  Eventually this Earth will become uninhabitable, although that will still take a while. 
 
 ### Crafting vs Looting
+At its core, this is a post-apocalyptic simulation, and a key aspect of early post-apocalyptic stuff should be looting and repurposing existing gear.  One does not associate the apocalypse genre with smithing a fully functional suit of plate armour at a smithy a week after the world ends; one associates it with rolling a shopping cart through eerily empty city streets gathering dented tins of beans, cautiously glancing about through the visor of your dirty riot armour.
 
-### 
+- Crafting new gear is generally an emergency measure at first.  Everything you want should be available to loot, if you know where to look.  If players look in the right place, they should find what they expect to find there: looking in ten kitchens to get a single frying pan doesn't feel fun nor real.
+- Over time, NPC survivors and the free merchants should strip easily accessible resources from lootable areas. Looting will be replaced with trading or crafting as a viable option, unless one wants to go into the cities.  This requires adding some intelligent heuristics to simulate this behaviour.  Although it's acceptable to add some "looted" map variants at the start, these should represent what was looted in the pre-cataclysm riots, not what has been looted since the world ended.
+- Cities should be the best source of well preserved loot, but should be teeming with uncountable zombies.  You have to brave the risk if you want to find more oxyacetalene.
+- Much of the midgame crafting should be around repurposing and improving pre-cataclysm gear to suit the new post-cataclysm situation, rather than making new stuff from scratch.
+- Into the later game, as pre-cataclysm stuff decays, we should see more newly-minted gear rise up, at a quality level in between medieval and early industrial era due to limited crafting abilities.
+- Crafting gear should always be a very time consuming option, especially if lacking powered tools.
+
+### NPC interactions and non-linear plotting
+As an apocalypse-genre game, we expect interaction with survivors to become a crucial part of the game.  This could represent having traveling companions and a home faction, but it could also be through befriending and/or paying a static game faction.
+
+- It is perfectly reasonable to balance certain gameplay elements, especially advanced ones, with the requirement of NPC interaction.  For example, a lone wolf survivor should not be able to do all types of vehicle repair and construction: some jobs just *need another pair of hands*.
+- Not every gameplay element needs to be, nor should be, available in every playthrough.  Allying with the Exodii or with Hub01 should produce different results, locking off some elements of the game forever and opening up others.
+- Similarly, not every gameplay element needs to be available through each faction.  While the Free Merchants or Hell's Raiders might be encoded to offer a version of the services a player faction could do, they don't have to have everything.
+- NPCs have the potential to represent an enemy that scales in a way zombies just can't.  If you make enemies with the Hell's Raiders, they should be able to circumvent your static base defenses in ways a real person would, likely through a combination of scripting and AI.  No amount of concrete walls and stationary turret emplacements will make your base impregnable to concentrated mortar fire.
+- As the game development progresses we should continue to remove features that were initially added as substitutes for NPC interaction, as we have been doing with various AI elements.  Examples include autodocs and vending machines.
 
 ## Balance of specific gameplay elements
 
 ### Melee
-The player can use *highly* suboptimal unarmed strikes with no equipment, which deals low damage per second and comes with a high stamina cost.  
-Improvised melee weapons such as sticks or primitive spears greatly improve on unarmed, to the point where unarmed can be considered a dead end.  
-Improvised weapons suffer from relative fragility, and should be replaced with a purpose built melee weapon as soon as possible.  
-Repurposed tools such as hammers and machetes, as well as survivor-crafted equivalents represent an intermediate tier of melee weapon that can be relied on long-term, but are still outclassed by purpose-built melee weapons.  
-At the pinnnacle of melee weapons are purpose-built melee weapons such as swords, robust spears, polearms and axes.  These weapons will reliably outperform all kinds of repurposed weapons, but will have some differentiation in how effective they are based on the situation.  
-Martial arts training and skill can extend the usefullness of melee combat of all kinds, but not to the point where melee combat can become the player's sole form of combat.  
-The intended niche for melee combat of all kinds is to conserve other resources when dealing with relatively low-threat opponents, or as a defense when caught unprepared.  
-At no point is melee intended to be sufficient to deal with the entire range of enemies present in the game, even those who appear early in the game.
+Melee combat should rarely be the best way to handle combat: rather, it's easily obtained, and often really fun.  At no point is melee intended to be sufficient to deal with the entire range of enemies present in the game, even those who appear early in the game.  The intended niche for melee combat of all kinds is to conserve other resources when dealing with relatively low-threat opponents, as a defense when caught unprepared, or in forced close quarters, particularly when silent combat is necessary.  
 
+1. The player can use *highly* suboptimal unarmed strikes with no equipment, which deals low damage per second and comes with a high stamina cost.  Even with superb unarmed skills, this is *never* going to be a competitive way to fight zombies.  Sticking exclusively to unarmed is a challenge mode, and may be encouraged with achievements, but we have no desire to try to "balance" unarmed to armed combat against each other.
+2. Improvised melee weapons such as sticks or primitive spears greatly improve on unarmed and can be scooped off the ground immediately.  These weapons suffer from relative fragility and poor balance, and should be replaced with a purpose built melee weapon as soon as possible.
+3. Repurposed tools such as hammers and machetes, as well as survivor-crafted equivalents represent an intermediate tier of melee weapon that can be relied on long-term, but are still outclassed by purpose-built melee weapons.  
+4. At the pinnnacle of melee weapons are purpose-built melee weapons such as swords, robust spears, polearms and axes.  These weapons will reliably outperform all kinds of repurposed weapons, but will have some differentiation in how effective they are based on the situation.  
+
+- Martial arts training and skill can extend the usefullness of melee combat of all kinds, but not to the point where melee combat can become the player's most optimal form of combat.
+- Melee combat will always place the player in harm's way, which greatly affects its utility.  A solid strike with a sufficiently weighted lever arm may hit nearly as hard as a gun or bow, but you cannot do it from safety.
+- Reach weapons occupy a noteworthy spot in balance considerations.  Having reach is nearly always preferable to not having reach, except in specific close quarters situations.  There is a reason that the spear is the most ubiquitous weapon throughout human history.  Just as we have no desire to attempt to balance unarmed to be equal to armed combat, we have no intention of ensuring that using non-reach weapons is as good as using reach weapons.  They aren't.  Killing zombies that can't reach you is good.  That said, any actual considerations that would limit the use of reach weapons, such as cramped quarters or low ceilings, are perfectly reasonable measures to add to the game.
+ 
 ### Guns
-Entry into guns is gated by access to guns themselves, magazines and ammunition.
-Civilian style hunting and self defense weapons are far more numerous than higher performing military weapons.
-Only a handful of poorly-performing guns and magazines are craftable by the player, and conventional gunpowder and casings are also not player craftable, though the player can reload existing cases with craftable bullets and gunpowder and primers scavenged from less desirable calibres of ammunition.
-Guns provide massive firepower in a highly portable package, but can cause trouble by alerting enemies in a wide area to the player's presence.
-Guns present a multi-tiered set of resource limitations.
-A gun can fire more or less continuously until it's current magazine is depleted of rounds.
-Spare magazines allow a player to swap in more ammunition to continue firing, and additional magazines provide longer and longer continuous combat capability.
-Magazines are reloadable, but not in a timeframe reasonable for combat, so the number of loaded magazines a player has on their person places a cap on their sustained damage output.
-Once a player is able to cease combat, they can relatively rapidly refill magazines, ammunition stores permitting.
-The total weight of one or more guns, loaded magazines, and potentially spare ammunition for magazine reloads can be significant.
-Ability to replinish ammunition supplies may vary wildly depending on the area.
+There are several major reasons guns dominate modern warfare.  They are very effective weapons.  In pursuit of verissimilitude, we do not aim to change this in the game balance; if you have a shotgun, it should feel like it hugely outclasses a longsword for close quarters combat, because it does.
+
+- Entry into guns is gated by access to guns themselves, and by availability of magazines and ammunition.
+- Civilian style hunting and self defense weapons are far more numerous than higher performing military weapons.
+- Only a handful of poorly-performing guns and magazines are craftable by the player, and conventional gunpowder and casings are also not player craftable, though the player can reload existing cases with craftable bullets and gunpowder and primers scavenged from less desirable calibres of ammunition.
+- Guns provide massive firepower in a highly portable package, but can cause trouble by alerting enemies in a wide area to the player's presence.  One of the most vital ways of balancing guns has nothing to do with weapon stats, but instead with properly modeling the effects of **noise**, as described above.
+- Guns present a multi-tiered set of resource limitations that can be adjusted to achieve a desired play balance.  This balance should be informed as much as possible by real life availability of these things.
+- A gun can fire more or less continuously until it's current magazine is depleted of rounds.
+- Spare magazines allow a player to swap in more ammunition to continue firing, and additional magazines provide longer and longer continuous combat capability.
+- Magazines are reloadable, but not in a timeframe reasonable for combat, so the number of loaded magazines a player has on their person places a cap on their sustained damage output.
+- Once a player is able to cease combat, they can relatively rapidly refill magazines, ammunition stores permitting.
+- The total weight of one or more guns, loaded magazines, and potentially spare ammunition for magazine reloads can be significant.
+- Ability to replinish ammunition supplies may vary wildly depending on the area.
+- Gunfire not only alerts the horde to your presence, but also reminds potentially hostile NPCs that there are other survivors out there.  Those NPCs may also have guns.
+
+#### Enemies with guns
+Fighting someone with a gun is extremely difficult to manage from an entertaining gameplay perspective.  Much of the time, gameplay will consist of hearing a bang, and receiving a "you have died" message. There are several important ways to mitigate this.
+
+- In general, world-spawning unintelligent monsters should not be equipped with guns.  Even reduced accuracy is not a solution to this: that just means you have a lower chance of being suddenly killed without warning.  "Stupid" enemies with guns should be kept restricted to special locations with hints alerting the players to their presence or layouts that ensure the player will see them first.
+- Any world-spawning enemy with a gun should be intelligent, an NPC or above.  These enemies should attempt to get the player into a compromising position before opening fire as much as possible.  Most of the time these will be raiders and bandits, who will still prefer to steal what you have and let you live.  For the times when they don't, their presence should be clearly flagged with an ambush rather than heralded with a sniper shot from outside the reality bubble.  On rare occasions this would be unrealistic, but most of the time, bandits and raiders should still prefer to let another living human survive than to burn the world to the ground.
 
 ### Armour
 
