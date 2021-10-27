@@ -1115,6 +1115,8 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         use_in_place = true;
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
+    } else if( you.is_worn( *loc ) ) {
+        use_in_place = true;
     } else {
         item_location::type loc_where = loc.where_recursive();
         if( loc_where != item_location::type::character ) {
