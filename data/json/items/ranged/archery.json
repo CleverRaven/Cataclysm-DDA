@@ -409,6 +409,7 @@
     "dispersion": 1250,
     "durability": 4,
     "clip_size": 1,
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -454,6 +455,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -494,6 +496,7 @@
       "msg": "You tighten the limbs, increasing the strength of the bow.",
       "ammo_scale": 0
     },
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -575,6 +578,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -620,6 +624,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -665,6 +670,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -709,6 +715,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -763,6 +770,7 @@
     "dispersion": 1000,
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -808,6 +816,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]
