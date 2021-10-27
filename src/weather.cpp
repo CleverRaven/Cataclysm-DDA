@@ -65,6 +65,8 @@ static const oter_type_str_id oter_type_forest_water( "forest_water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
+static const json_character_flag json_flag_HIGH_GLARE( "HIGH_GLARE" );
+
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
@@ -121,10 +123,14 @@ void glare( const weather_type_id &w )
     }
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
-        //enhance/reduce by some traits
-        if( player_character.has_trait( trait_CEPH_VISION ) ) {
-            dur = dur * 2;
+
+        for( const bodypart_id &bp : player_character.get_all_body_parts_of_type(
+                 body_part_type::type::sensor ) ) {
+            if( bp->has_flag( json_flag_HIGH_GLARE ) ) {
+                dur *= 2;
+            }
         }
+
         player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
     }
 }

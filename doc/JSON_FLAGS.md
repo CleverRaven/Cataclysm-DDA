@@ -11,6 +11,7 @@
   - [Armor](#armor)
     - [Covers](#covers)
     - [Flags](#flags-1)
+  - [Bodyparts](#bodyparts)
   - [Bionics](#bionics)
   - [Bodyparts](#bodyparts)
   - [Books](#books)
@@ -327,6 +328,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus reducing morale from being wet.
+
+
+## Bodyparts
+-```HIGH_GLARE``` A sensor bodypart with this flag causes double the glare effect duration in bright light.
+-```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
 
 
 ## Bionics

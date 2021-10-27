@@ -76,6 +76,7 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_HIGH_GLARE( "HIGH_GLARE" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -548,6 +549,7 @@ void flashbang( const tripoint &p, bool player_immune )
         }
         if( here.sees( player_character.pos(), p, 8 ) ) {
             int flash_mod = 0;
+            int dur_mod = 1;
             if( player_character.has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
                     flash_mod = 3; // Yay, you weren't looking!
@@ -560,9 +562,12 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
                        player_character.worn_with_flag( STATIC( flag_id( "FLASH_PROTECTION" ) ) ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
+            } else if( player_character.has_flag( json_flag_HIGH_GLARE ) ) {
+                flash_mod /= 2;
+                dur_mod = 2;
             }
             player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
-                                             time_duration::from_turns( 10 - dist ) );
+                                             time_duration::from_turns( ( 10 - dist ) * dur_mod ) );
         }
     }
     for( monster &critter : g->all_monsters() ) {
