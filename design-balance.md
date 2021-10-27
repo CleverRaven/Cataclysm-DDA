@@ -63,6 +63,15 @@ As an apocalypse-genre game, we expect interaction with survivors to become a cr
 - NPCs have the potential to represent an enemy that scales in a way zombies just can't.  If you make enemies with the Hell's Raiders, they should be able to circumvent your static base defenses in ways a real person would, likely through a combination of scripting and AI.  No amount of concrete walls and stationary turret emplacements will make your base impregnable to concentrated mortar fire.
 - As the game development progresses we should continue to remove features that were initially added as substitutes for NPC interaction, as we have been doing with various AI elements.  Examples include autodocs and vending machines.
 
+### Monster design considerations
+It is tempting to write an ever-increasing flow of monster evolution and difficulty, with ever rising armour and damage and more and more deadly attacks.  While some of this is desirable, it is important to overuse this as a gameplay principle.  Monsters should have tradeoffs just like the player.  This doesn't mean that every durable monster must be slow (quite the opposite) but it does mean that we do not need a heavily armoured hulk variant of every zombie type.  Rather than adding "more", particularly just bigger numbers, consider adding things that encourage new play mechanics.  Some examples of mechanics already in play that shift gameplay without just bumping numbers include:
+
+- Hounds of Tindalos multiplying and teleporting all over the place
+- Shady zombies vanishing into shadows and giving jumpscares
+- Pupating zombies leaving trails that can affect terrain
+- Necromancers reviving other zombies
+- Ferals opening doors and using tools
+
 ## Balance of specific gameplay elements
 
 ### Melee
