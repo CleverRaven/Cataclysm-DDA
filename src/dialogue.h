@@ -261,7 +261,7 @@ struct dialogue {
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
+        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
         dialogue() = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         talker *actor( const bool is_beta ) const;
