@@ -16,6 +16,10 @@ This is the Cataclysm: DDA design document.  It is meant for designer-end planni
 
 Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have…
 
+#### Supporting lore documents
+* [Background](./lore-background.md) - provides more information on the timeline of events leading up to the Cataclysm
+* [Factions](./lore-factions.md) - in-depth discussion of in-game factions and how they should affect gameplay
+
 # User Experience
 
 Explore, fight and survive in an expansive post-apocalyptic game world.
@@ -529,6 +533,10 @@ Mid-to-late summer to winter, year 1
 The world ended.  You don't know what caused it, but suddenly everywhere was being overrun with monsters of all kinds.  Now only a tiny fraction of humanity is alive, the dead fill the cities, and worse things are stirring in the wilderness.
 
 Civilization is gone, but maybe you can survive.  Maybe you can find others.
+
+For more details on individual features of the story, see:
+* [Background](./lore-background.md) - provides more information on the timeline of events leading up to the Cataclysm
+* [Factions](./lore-factions.md) - in-depth discussion of in-game factions and how they should affect gameplay
 
 ## Style & Structure
 
