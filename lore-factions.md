@@ -368,21 +368,50 @@ The Exodii are friendly towards any human faction that is friendly to them, init
 * **Hub01**: Upon learning the nature of Hub01, the Exodii will be unwilling to engage with them further, and will establish a plan to flee the dimension if conflict arises.  They have met entities like Melchior in the past and consider them high-priority danger.
 * **Hell's Raiders**: Player interaction may be important here, and form the key difference between whether the Hell's Raiders become trade allies with the Exodii, seeking more cybernetics for themselves, or attempt to betray them and steal their tech.  The Exodii are experienced with factions like this; betrayal will not end well for the Raiders.
 * **Yrax**: The Exodii have encountered Yrax before, and consider them fascinating.  They would love more information about them, but have never gotten far.  The Yrax, in turn, are utterly uninterested in the Exodii.
+* **Triffids**: While the Exodii have encountered a wide range of things in the multiverse, none of the Exodii in this node have met them before.  They might be kind of interested in observing them, from a distance, mostly out of curiosity and to make sure they're prepared in case of conflict.
+* **Mi-Go**: The Exodii have no real beef with the Mi-Go and would engage and trade with them if the Mi-Go allowed it.  However, the Mi-Go despise Exodii tech, which means any trade has to be through intermediaries.
 
 #### Bases
 The Exodii have a single primary castle with several associated nearby outbuildings that forms the core of their base.  They used their best navigational tools to get this to our world intact.  Many of their secondary nodes have been transported to our world with cheaper, simpler beacons that scattered them randomly throughout the landscape.
 
-In addition to their own base, scattered safehouses, and resource deposits, there are Exodii-associated "labyrinthine structures".  These are netherum constructs they intentionally create, using the netherum's copying abilities, by passing purpose-built buildings through the same netherum sector and letting it linger there for some time.  When arriving in a low-tech world these structures can be valuable sources of basic resources structurally copied from the 'seed'.  They are also terrifying places of shifting terrain and chaotic monsters, as well as potentially powerful and dangerous netherum artifacts.  On CDDA-Earth the Exodii have little interest in these structures since there is no shortage of basic materials in safer places, but players will probably find them challenging and interesting ways to obtain advanced tools and CBMs.
+In addition to their own base, scattered safehouses, and resource deposits, there are Exodii-associated "labyrinthine structures".  These are netherum constructs they intentionally create, using the netherum's copying properties, by passing purpose-built buildings through the same netherum sector and letting it linger there for some time.  When arriving in a low-tech world these structures can be valuable sources of basic resources structurally copied from the 'seed'.  They are also terrifying places of shifting terrain and chaotic monsters, as well as potentially powerful and dangerous netherum artifacts.  On CDDA-Earth the Exodii have little interest in these structures since there is no shortage of basic materials in safer places, but players will probably find them challenging and interesting ways to obtain advanced tools and CBMs.
 
 #### Trade/Economics
- 
+In general the Exodii are set to gather as many resources as they can hoard.  They are particularly interested in petrochemical products and metals, since they are hard to find in lower tech worlds, and in entertainment media.  They also like getting "rosetta stones" like translators and dictionaries, which may help their own efforts to understand each other.  They have a particular passion for quality 'how to' videos, which can be understood without as much language comprehension and can be converted to Exodii-compatible video formats through the time honoured technique of playing them on a TV and recording the output with a camera.
+
+The Exodii can produce all low-end CBMs and most mid-to-high tier CBMs on their base, given precursors.  Exodii frames and bodies are also in their manufacturing range, and several other mundane items.  They struggle with producing things in bulk, so bullets and ammo are a constant problem.  External facilities grant them resmelting and reforging capacity for metal reclamation, although again, throughput is a limiting factor.
+
+##### Trade with player
+Of note, the Exodii have just come from a medieval world and are happy to sell a few of the collected arms and armour to the player.  Additionally, they can share their "how to" knowledge and sell the player blueprints for custom-made survivor armour, the "nomad" armour line.  They will collect and sell parts for this on occasion to make crafting easier.
+
+CBM access through the Exodii store will be gated based on time since meeting the exodii and level of trust.  Some rare CBMs should never be purchaseable and should only be available through certain quests, although these should be in the minority.  Of note these rare CBMs should be gated into choices, so you can only have CBM A or B, but not both.
 
 #### Missions
-
-So you engage with the Exodii. First and foremost, they want some resources to help them establish their foothold on cdda-earth. Fairly quickly you can earn enough trust that they are willing to sell you CBMs if you're willing to trust them to install them.  Secondly, they are scavengers in nature on this planet.   They will bulk buy cultural artforms that are easy to transport for digital nomads.   Books they can scan, videos they can download.  The player is likely to work with some kind of librarian looking for unique music, videos and books.  Technology from Cataclysm Earth is likely to be of interest only to someone with a hobby for it.   For instance encryption is something they are aware of but have almost no real use for outside of someone collecting it.   On the other scale of things they are incredibly interested in the advanced technology from any other portal traveling races.  Most especially the Yrax.  While not so bold as to request survivors attack the Yrax and bring any remains to the shard, the Exodii will happily accept any components salvaged by a survivor.    
+The Exodii have plenty of their own capacity to do fetch-and-carry or kill quests.  The role of the player is, first and foremost, to function as a local guide.  That means that most Exodii quests should generally fall into the "help us find/understand something in your world" vein, initially, and later "help us make contact with friendly factions".  Individual Exodii may have other, simpler requests: for example, Rubik (the trade front end person) would specifically like some entertainment items they value and would dearly love some tinned eels.
 
 ### The Yrax
 
+#### Description
+The Yrax are autonomous alien robots.  What they want is, to the player, unclear.  Their technology is advanced to the point of near magic, consisting of smooth ceramic-like plates etched with eldritch patterns with no clear meaning.  Their drones are designed to disengage from combat and condense into nigh-indestructible solid ceramic eggs until threats pass.  If dismantled, the components of an Yrax unit do not appear to have any recognizable connections or interactions - no gears, plugs, wires, or anything, just smooth etched surfaces that slide together but don't obviously mechanically interact.
+
+Larger Yrax research and defense outposts will be built with repurposed local materials: if the probes find something of interest, they will devour locust-like every bit of scrap in the area and rebuild it into an outpost to allow them to investigate without interruption.
+
+#### Goals
+The Yrax are autonomous probes sent by an alien species to explore blob-infected worlds, seeking information on how the blob works and how to prevent it from finding their dimension.  The Yrax home dimension is protected through several levels of firewall and is currently blob-free.  They are in a race against time: statistically they estimate they have only ten thousand years or so before the blob finds them, and think their research will take almost that long to complete.
+
+The probe AI controlling Yrax presence in this dimension has little interest in its inhabitants, as it has found they are extremely unlikely to have any useful information.  Primarily they aim to study dimensional effects, portals, and other things that seem random to us.
+
+#### Size
+Yrax are autonomous and can rebuild and reproduce as many units as required, or port them in from connected dimensions.
+
+#### Bases
+There are a few small-to-medium sized core Yrax production and transmission facilities near stable portal facilities on CDDA-Earth, as well as smaller research outposts at sites of interest.
+
+#### Trade/Economics
+There is no interest whatsoever in trade with the Yrax.  They can produce or portal in anything they need to function, being a fully autonomous multidimensional AI.
+
+#### Missions
+It is unlikely, but possible, that the player may stumble across items of interest to the Yrax.  If this happens, they would probably seek out and attempt to communicate with the player to retrieve them, or use force if that fails.
 
 ### Mi-Go
 
