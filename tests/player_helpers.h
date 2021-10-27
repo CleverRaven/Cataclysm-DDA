@@ -3,6 +3,7 @@
 #define CATA_TESTS_PLAYER_HELPERS_H
 
 #include <iosfwd>
+#include <vector>
 
 #include "npc.h"
 
@@ -26,5 +27,7 @@ item tool_with_ammo( const std::string &tool, int qty );
 void arm_shooter( npc &shooter, const std::string &gun_type,
                   const std::vector<std::string> &mods = {},
                   const std::string &ammo_type = "" );
+
+void equip_shooter( npc &shooter, const std::vector<std::string> &apparel );
 
 #endif // CATA_TESTS_PLAYER_HELPERS_H
