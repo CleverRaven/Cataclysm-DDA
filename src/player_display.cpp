@@ -213,15 +213,21 @@ static std::string get_encumbrance_description( const Character &you, const body
             s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
                                 you.melee_attack_roll_modifier() );
             s += melee_cost_text( you.melee_thrown_move_modifier_torso() );
+            s += swim_cost_text( you.swim_modifier() );
             break;
         }
         case bp_head:
-            s += _( "<color_magenta>Head encumbrance has no effect; it simply limits how much you can put on.</color>" );
+            s += string_format( _( "Dodge and block rolls:<color_white>x%.2f</color>\n" ),
+                                you.reaction_score() );
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>" ),
+                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>\n" ),
                      you.vision_score() );
+            s += string_format( _( "Nightvision modifier: <color_white>x%.2f</color>\n" ),
+                                you.nightvision_score() );
+            s += string_format( _( "Dodge and block rolls:<color_white>x%.2f</color>\n" ),
+                                you.reaction_score() );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
