@@ -1739,6 +1739,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
     const auto generate_response_lines = [&]() {
@@ -1785,11 +1786,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
             } else if( action == "ANY_INPUT" ) {
+                // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
                                                   response_hotkeys.end(), evt );
                 response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+            } else if( action == "QUIT" ) {
+                response_ind = get_best_quit_response();
             }
-        } while( action != "ANY_INPUT" || response_ind >= response_hotkeys.size() );
+        } while( ( action != "ANY_INPUT" && action != "QUIT" ) || response_ind >= response_hotkeys.size() );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -1814,6 +1818,41 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
     return effects.apply( *this );
+}
+
+/**
+ * Finds the best response to use when the player is trying to quit.
+ *
+ * Returns the index into the response list.
+ */
+int dialogue::get_best_quit_response() const
+{
+    if( responses.size() == 1 ) {
+        // Only one response. Use it. Consequences will be prompted for by the caller.
+        return 0;
+    }
+
+    // Find relevant responses
+    for( size_t i = 0; i < responses.size(); ++i ) {
+        const talk_response &response = responses[i];
+        std::set<dialogue_consequence> consequences = response.get_consequences( *this );
+        if( consequences.count( dialogue_consequence::none ) != consequences.size() ) {
+            // When given multiple response options, don't pick any with consequences
+            continue;
+        }
+
+        // Unfortunately, while we'd like to be able to go "back" from nested dialogue trees, the
+        // topic stack doesn't always shrink. Returning to the previous topic is sometimes done
+        // with TALK_NONE, or sometimes by referencing the topic id directly. No solution really
+        // gives us something that feels right in all cases, so we only support completely leaving
+        // the conversation via the quit key.
+
+        if( response.success.next_topic.id == "TALK_DONE" ) {
+            return i;
+        }
+    }
+
+    return responses.size(); // Didn't find a good option
 }
 
 talk_trial::talk_trial( const JsonObject &jo )

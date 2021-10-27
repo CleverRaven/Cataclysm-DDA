@@ -71,7 +71,7 @@ size_t dialogue_window::add_to_history( const std::string &text, nc_color color 
     const int xmax = win_xmax - 2;
     std::vector<std::string> folded = foldstring( text, xmax - xoffset );
     for( const std::string &message : folded ) {
-        history.emplace_back( color, message);
+        history.emplace_back( color, message );
     }
     return folded.size();
 }

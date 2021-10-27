@@ -358,6 +358,8 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      const itype_id &item_type, bool first = false );
+
+        int get_best_quit_response() const;
 };
 
 /**
