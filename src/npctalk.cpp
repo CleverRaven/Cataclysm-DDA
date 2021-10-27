@@ -1686,7 +1686,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     ui_adaptor ui;
     const auto resize_cb = [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
+        d_win.resize( ui );
     };
     ui.on_screen_resize( resize_cb );
     resize_cb( ui );
@@ -1704,23 +1704,20 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 topic.item_type );
     capitalize_letter( challenge );
 
-    size_t highlight_lines = 0;
+    d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
         // No name prepended!
         challenge = challenge.substr( 1 );
-        highlight_lines = d_win.add_to_history( challenge );
+        d_win.add_to_history( challenge );
     } else if( challenge[0] == '*' ) {
         // Prepend name
         challenge = string_format( pgettext( "npc does something", "%s %s" ), actor( true )->disp_name(),
                                    challenge.substr( 1 ) );
-        highlight_lines = d_win.add_to_history( challenge );
+        d_win.add_to_history( challenge );
     } else {
-        highlight_lines = d_win.add_to_history( challenge, actor( true )->disp_name(),
-                                                actor( true )->get_npc()->basic_symbol_color() );
+        d_win.add_to_history( challenge, actor( true )->disp_name(),
+                              actor( true )->get_npc()->basic_symbol_color() );
     }
-
-    // Number of lines to highlight
-
 
     apply_speaker_effects( topic );
 
@@ -1763,8 +1760,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.print_header( actor( true )->disp_name() );
-        d_win.display_responses( highlight_lines, response_lines );
+        d_win.draw( actor( true )->disp_name(), response_lines );
     } );
 
     size_t response_ind = response_hotkeys.size();
@@ -1835,9 +1831,13 @@ int dialogue::get_best_quit_response() const
     // Find relevant responses
     for( size_t i = 0; i < responses.size(); ++i ) {
         const talk_response &response = responses[i];
-        std::set<dialogue_consequence> consequences = response.get_consequences( *this );
-        if( consequences.count( dialogue_consequence::none ) != consequences.size() ) {
-            // When given multiple response options, don't pick any with consequences
+        if( response.trial.calc_chance( *this ) < 100 ) {
+            // Don't pick anything with a chance to fail.
+            continue;
+        }
+
+        if( response.success.effects.size() > 0 ) {
+            // Don't pick anything with side effects
             continue;
         }
 

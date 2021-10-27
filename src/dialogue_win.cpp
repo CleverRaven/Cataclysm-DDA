@@ -15,7 +15,7 @@
 // Height of the response section
 const int RESPONSES_LINES = 15;
 
-void dialogue_window::resize_dialogue( ui_adaptor &ui )
+void dialogue_window::resize( ui_adaptor &ui )
 {
     const int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
     const int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
@@ -23,7 +23,116 @@ void dialogue_window::resize_dialogue( ui_adaptor &ui )
     const int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
     d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
     ui.position_from_window( d_win );
+
+    // Reset size-dependant state
     scroll_yoffset = 0;
+    rebuild_folded_history();
+}
+
+void dialogue_window::draw( const std::string &npc_name, const std::vector<talk_data> &responses )
+{
+    werase( d_win );
+
+    print_header( npc_name );
+    print_history();
+    can_scroll_down = print_responses( responses );
+    can_scroll_up = scroll_yoffset > 0;
+
+    // Mid - 1 pad - 2 text width
+    // NOLINTNEXTLINT(cata-combine-locals-into-point)
+    const int xoffset = getmaxx( d_win ) / 2 - 1 - 2;
+    // NOLINTNEXTLINT(cata-combine-locals-into-point)
+    const int yoffset = getmaxy( d_win ) - 1 - RESPONSES_LINES + 1;
+    if( can_scroll_up ) {
+        mvwprintz( d_win, point( xoffset, yoffset ), c_light_green, "^^" );
+    }
+    if( can_scroll_down ) {
+        mvwprintz( d_win, point( xoffset, yoffset + RESPONSES_LINES - 2 ), c_light_green, "vv" );
+    }
+    wnoutrefresh( d_win );
+}
+
+void dialogue_window::handle_scrolling( const std::string &action )
+{
+    // Scroll the responses section
+    const int displayable_lines = RESPONSES_LINES - 2;
+    if( action == "DOWN" || action == "PAGE_DOWN" ) {
+        if( can_scroll_down ) {
+            scroll_yoffset += displayable_lines;
+        }
+    } else if( action == "UP" || action == "PAGE_UP" ) {
+        if( can_scroll_up ) {
+            scroll_yoffset = std::max( 0, scroll_yoffset - displayable_lines );
+        }
+    }
+}
+
+void dialogue_window::refresh_response_display()
+{
+    scroll_yoffset = 0;
+    can_scroll_down = false;
+    can_scroll_up = false;
+}
+
+void dialogue_window::add_to_history( const std::string &text, const std::string &speaker_name,
+                                      nc_color speaker_color )
+{
+    add_to_history( speaker_name, speaker_color );
+    add_to_history( text );
+}
+
+void dialogue_window::add_to_history( const std::string &text )
+{
+    add_to_history( text, c_white );
+}
+
+void dialogue_window::add_to_history( const std::string &text, nc_color color )
+{
+    history.emplace_back( color, text );
+    ++num_lines_highlighted;
+
+    add_to_folded_history( history.back(), true );
+}
+
+void dialogue_window::add_history_separator()
+{
+    add_to_history( "", c_white );
+}
+
+void dialogue_window::clear_history_highlights()
+{
+    num_lines_highlighted = 0;
+    num_folded_lines_highlighted = 0;
+}
+
+void dialogue_window::add_to_folded_history( const history_message &message, bool is_highlighted )
+{
+    const int win_xmax = getmaxx( d_win );
+    const int xoffset = 2;
+    const int xmax = win_xmax - 2;
+    std::vector<std::string> folded = foldstring( message.text, xmax - xoffset );
+    if( folded.size() == 0 ) {
+        // foldstring doesn't preserve empty lines. Add it back in.
+        folded.push_back( message.text );
+    }
+    for( const std::string &line : folded ) {
+        history_folded.emplace_back( message.color, line );
+    }
+
+    if( is_highlighted ) {
+        num_folded_lines_highlighted += folded.size();
+    }
+}
+
+void dialogue_window::rebuild_folded_history()
+{
+    history_folded.clear();
+    num_folded_lines_highlighted = 0;
+
+    history_folded.reserve( history.size() * 2 );
+    for( auto message_iter = history.begin(); message_iter < history.end(); ++message_iter ) {
+        add_to_folded_history( *message_iter, ( history.end() - message_iter ) <= num_lines_highlighted );
+    }
 }
 
 void dialogue_window::print_header( const std::string &name )
@@ -41,58 +150,20 @@ void dialogue_window::print_header( const std::string &name )
     mvwputch( d_win, point( xmax - 1, ybar ), BORDER_COLOR, LINE_XOXX );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( d_win, point( 2, ybar + 1 ), c_white, _( "Your response:" ) );
-    npc_name = name;
 }
 
-void dialogue_window::clear_window_texts()
-{
-    werase( d_win );
-    print_header( npc_name );
-}
 
-size_t dialogue_window::add_to_history( const std::string &text, const std::string &speaker_name,
-                                        nc_color speaker_color )
-{
-    size_t lines_added = 0;
-    lines_added += add_to_history( speaker_name, speaker_color );
-    lines_added += add_to_history( text );
-    return lines_added;
-}
-
-size_t dialogue_window::add_to_history( const std::string &text )
-{
-    return add_to_history( text, c_white );
-}
-
-size_t dialogue_window::add_to_history( const std::string &text, nc_color color )
-{
-    const int win_xmax = getmaxx( d_win );
-    const int xoffset = 2;
-    const int xmax = win_xmax - 2;
-    std::vector<std::string> folded = foldstring( text, xmax - xoffset );
-    for( const std::string &message : folded ) {
-        history.emplace_back( color, message );
-    }
-    return folded.size();
-}
-
-// Empty line between lines of dialogue
-void dialogue_window::add_history_separator()
-{
-    history.emplace_back( c_white, "" );
-}
-
-void dialogue_window::print_history( const size_t highlight_lines )
+void dialogue_window::print_history()
 {
     const int xoffset = 2;
     const int ymin = 2; // Border + header
     int ycurrent = getmaxy( d_win ) - 1 - RESPONSES_LINES - 2;
-    int curindex = history.size() - 1;
+    int curindex = history_folded.size() - 1;
     // index of the first line that is highlighted
-    const int newindex = history.size() - highlight_lines;
+    const int newindex = history_folded.size() - num_folded_lines_highlighted;
     while( curindex >= 0 && ycurrent >= ymin ) {
         // Colorized highlighted text; use light gray for all old messages
-        const history_message &message = history[curindex];
+        const history_message &message = history_folded[curindex];
         nc_color col = ( curindex >= newindex ) ? message.color : c_light_gray;
         mvwprintz( d_win, point( xoffset, ycurrent ), col, message.text );
         --ycurrent;
@@ -152,46 +223,4 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Check opinion" ),
                ctxt.get_desc( "CHECK_OPINION", 1 ) );
     return more_responses_to_display;
-}
-
-void dialogue_window::refresh_response_display()
-{
-    scroll_yoffset = 0;
-    can_scroll_down = false;
-    can_scroll_up = false;
-}
-
-void dialogue_window::handle_scrolling( const std::string &action )
-{
-    // Scroll the responses section
-    const int displayable_lines = RESPONSES_LINES - 2;
-    if( action == "DOWN" || action == "PAGE_DOWN" ) {
-        if( can_scroll_down ) {
-            scroll_yoffset += displayable_lines;
-        }
-    } else if( action == "UP" || action == "PAGE_UP" ) {
-        if( can_scroll_up ) {
-            scroll_yoffset = std::max( 0, scroll_yoffset - displayable_lines );
-        }
-    }
-}
-
-void dialogue_window::display_responses( const int highlight_lines,
-        const std::vector<talk_data> &responses )
-{
-    clear_window_texts();
-    print_history( highlight_lines );
-    can_scroll_down = print_responses( responses );
-    can_scroll_up = scroll_yoffset > 0;
-
-    // Mid - 1 pad - 2 text width
-    const int xoffset = getmaxx( d_win ) / 2 - 1 - 2;
-    const int yoffset = getmaxy( d_win ) - 1 - RESPONSES_LINES + 1;
-    if( can_scroll_up ) {
-        mvwprintz( d_win, point( xoffset, yoffset ), c_light_green, "^^" );
-    }
-    if( can_scroll_down ) {
-        mvwprintz( d_win, point( xoffset, yoffset + RESPONSES_LINES - 2 ), c_light_green, "vv" );
-    }
-    wnoutrefresh( d_win );
 }
