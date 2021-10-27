@@ -676,8 +676,8 @@ class item_location::impl::item_in_container : public item_location::impl
                 // for holsters, we should not include the cost of wielding the holster itself
                 parent_obtain_cost = 0;
             } else if( container.where() != item_location::type::container ) {
-                // a little bonus for grabbing something from what you're wearing
-                parent_obtain_cost /= 2;
+                // Worn items don't need to be retrieved, just accessed.
+                parent_obtain_cost = 0;
             }
             return primary_cost + parent_obtain_cost;
         }
