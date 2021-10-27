@@ -1836,7 +1836,7 @@ int dialogue::get_best_quit_response() const
             continue;
         }
 
-        if( response.success.effects.size() > 0 ) {
+        if( !response.success.effects.empty() ) {
             // Don't pick anything with side effects
             continue;
         }

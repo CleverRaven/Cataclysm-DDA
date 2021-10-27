@@ -13,7 +13,7 @@
 #include "ui_manager.h"
 
 // Height of the response section
-const int RESPONSES_LINES = 15;
+static const int RESPONSES_LINES = 15;
 
 void dialogue_window::resize( ui_adaptor &ui )
 {
@@ -39,9 +39,9 @@ void dialogue_window::draw( const std::string &npc_name, const std::vector<talk_
     can_scroll_up = scroll_yoffset > 0;
 
     // Mid - 1 pad - 2 text width
-    // NOLINTNEXTLINT(cata-combine-locals-into-point)
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
     const int xoffset = getmaxx( d_win ) / 2 - 1 - 2;
-    // NOLINTNEXTLINT(cata-combine-locals-into-point)
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
     const int yoffset = getmaxy( d_win ) - 1 - RESPONSES_LINES + 1;
     if( can_scroll_up ) {
         mvwprintz( d_win, point( xoffset, yoffset ), c_light_green, "^^" );
@@ -111,7 +111,7 @@ void dialogue_window::add_to_folded_history( const history_message &message, boo
     const int xoffset = 2;
     const int xmax = win_xmax - 2;
     std::vector<std::string> folded = foldstring( message.text, xmax - xoffset );
-    if( folded.size() == 0 ) {
+    if( folded.empty() ) {
         // foldstring doesn't preserve empty lines. Add it back in.
         folded.push_back( message.text );
     }
