@@ -47,8 +47,8 @@
       [ "can_food", 10 ],
       [ "pipe", 5 ],
       [ "bag_plastic", 10 ],
-      [ "zipper_bag", 3 ],
-      [ "zipper_bag_gallon", 1 ],
+      [ "bag_zipper", 3 ],
+      [ "bag_zipper_gallon", 1 ],
       [ "bottle_glass", 10 ],
       [ "bottle_plastic_small", 130 ],
       [ "survnote", 1 ]
