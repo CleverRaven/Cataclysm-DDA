@@ -1637,7 +1637,7 @@ bool read_activity_actor::npc_read( npc &learner )
 
         if( display_messages &&
             ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) && one_in( 25 ) ) ) ) {
+              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) && one_in( 25 ) ) ) ) {
             add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
                      book->type_name() );
         }
