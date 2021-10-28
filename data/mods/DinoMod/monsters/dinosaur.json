@@ -63,6 +63,10 @@
     "melee_cut": 2,
     "dodge": 4,
     "armor_bash": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 100,
     "zombify_into": "mon_zilophosaurus",
     "description": "A medium dinosaur with sharp teeth and two prominent bony crests on its head.",
@@ -99,6 +103,10 @@
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 70,
     "zombify_into": "mon_zeratosaurus",
     "description": "A large, fast predatory bipedal dinosaur, decorated with three colorful horns on its head and dotted with bright skin bones with long sharp teeth and a long flexible tail.",
@@ -134,6 +142,10 @@
     "armor_bash": 4,
     "armor_cut": 3,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 425,
     "zombify_into": "mon_zpinosaurus",
     "description": "Meet the king of the river, a huge dinosaur about the size of a small house, with a ferocious crocodile-like head and a sail on its back.  Usually feeds on fish.",
@@ -168,6 +180,10 @@
     "melee_cut": 6,
     "dodge": 4,
     "armor_bash": 3,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 190,
     "zombify_into": "mon_zallosaurus",
     "description": "A large predatory bipedal dinosaur, with tiger-like stripes on its broad back.",
@@ -213,6 +229,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_gorgosaurus",
+    "name": { "str_sp": "gorgosaurus" },
+    "copy-from": "mon_albertosaurus",
+    "default_faction": "gorgosaurus",
+    "morale": 80,
+    "speed": 60,
+    "melee_cut": 13,
+    "dodge": 6,
+    "hp": 250,
+    "zombify_into": "mon_zorgosaurus",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.",
+    "reproduction": { "baby_egg": "egg_gorgosaurus", "baby_count": 3, "baby_timer": 24 },
+    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 15 ] ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_albertosaurus",
     "name": { "str_sp": "albertosaurus" },
     "species": "DINOSAUR",
@@ -235,6 +267,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 270,
     "zombify_into": "mon_zalbertosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with long strong arms and a feathered mullet and tail.",
@@ -272,6 +308,10 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 12,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 150,
     "vision_day": 36,
     "zombify_into": "mon_zianzhousaurus",
@@ -309,6 +349,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 400,
     "zombify_into": "mon_zyrannosaurus",
     "description": "Enormous teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms with large claws, with a feathered mullet and tail.",
@@ -472,6 +516,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "dodge": 4,
     "hp": 160,
     "zombify_into": "mon_zothronychus",
@@ -558,6 +606,10 @@
     "melee_cut": 5,
     "dodge": 6,
     "armor_bash": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 125,
     "zombify_into": "mon_zutahraptor",
     "vision_night": 5,
@@ -642,6 +694,10 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "hp": 500,
     "zombify_into": "mon_zapatosaurus",
@@ -769,6 +825,10 @@
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 10,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 275,
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
@@ -826,6 +886,10 @@
     "armor_bash": 15,
     "armor_cut": 18,
     "armor_bullet": 6,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.8 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 375,
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
@@ -900,6 +964,10 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 170,
     "zombify_into": "mon_zamptosaurus",
     "description": "A large feathered dinosaur with four strong legs, broad shoulders and a pointed beak.  It moves slowly but with enormous strength.",
@@ -1001,6 +1069,7 @@
     "melee_dice_sides": 4,
     "dodge": 6,
     "armor_bash": 2,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 115,
     "zombify_into": "mon_zachycephalosaurus",
     "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks like a reptilian ostrich with a round hard-looking domed head.",
@@ -1107,6 +1176,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 400,
     "zombify_into": "mon_zriceratops",
     "description": "A massive rhino-like dinosaur with a bony crest from which three large horns emerge.",
@@ -1215,6 +1285,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 6,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 335,
     "zombify_into": "mon_zosasaurus",
     "description": "A huge aquatic reptile about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",

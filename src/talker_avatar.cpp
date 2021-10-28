@@ -11,6 +11,7 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
+#include "skill.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
@@ -23,6 +24,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 talker_avatar::talker_avatar( avatar *new_me )
 {
     me_chr = new_me;
+    me_chr_const = new_me;
 }
 
 std::vector<std::string> talker_avatar::get_topics( bool )
@@ -57,6 +59,22 @@ int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
         chance += me_chr->intimidation() + me_mods.intimidate;
     }
     return chance;
+}
+
+std::vector<skill_id> talker_avatar::skills_offered_to( const talker &student ) const
+{
+    if( !student.get_character() ) {
+        return {};
+    }
+    const Character &c = *student.get_character();
+    std::vector<skill_id> ret;
+    for( const auto &pair : *me_chr->_skills ) {
+        const skill_id &id = pair.first;
+        if( c.get_knowledge_level( id ) < pair.second.level() ) {
+            ret.push_back( id );
+        }
+    }
+    return ret;
 }
 
 void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost,

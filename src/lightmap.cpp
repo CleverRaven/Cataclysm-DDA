@@ -268,6 +268,7 @@ void map::build_sunlight_cache( int pzlev )
     for( int zlev = zlev_max; zlev >= zlev_min; zlev-- ) {
 
         level_cache &map_cache = get_cache( zlev );
+        map_cache.natural_light_level_cache = g->natural_light_level( zlev );
         auto &lm = map_cache.lm;
         // Grab illumination at ground level.
         const float outside_light_level = g->natural_light_level( 0 );

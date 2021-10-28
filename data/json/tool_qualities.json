@@ -173,6 +173,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "PRYING_NAIL",
+    "name": { "str": "nail prying" }
+  },
+  {
+    "type": "tool_quality",
     "id": "PUNCH",
     "name": { "str": "punch" }
   },

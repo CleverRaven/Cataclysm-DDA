@@ -44,7 +44,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": [
+      "park",
+      "park_2",
+      "park_3",
+      "park_4",
+      "park_5",
+      "park_6",
+      "park_7",
+      "playground",
+      "playground_1",
+      "dog_park",
+      "volleyball_court",
+      "tennis_court",
+      "baskeball_court"
+    ],
     "name": "park",
     "sym": "O",
     "color": "green",
@@ -807,6 +821,24 @@
     "sym": "#",
     "color": "white",
     "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
+    "see_cost": 3,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit_under",
+    "name": "cavern",
+    "looks_like": "cave_underground",
+    "sym": "0",
+    "color": "light_gray",
     "see_cost": 5
   }
 ]

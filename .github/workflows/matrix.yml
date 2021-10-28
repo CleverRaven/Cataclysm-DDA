@@ -40,7 +40,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-mods:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -92,9 +92,9 @@ jobs:
             tiles: 1
             sound: 1
             test-stage: 1
-            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
-            mxe_target: i686-w64-mingw32.static
+            mxe_target: i686-w64-mingw32.static.gcc11
             wine: wine
 
           - compiler: clang++-6.0
@@ -197,5 +197,5 @@ jobs:
       if: failure()
       with:
         name: cata_test
-        path: tests/cata_test
+        path: tests/cata_test*
         if-no-files-found: ignore

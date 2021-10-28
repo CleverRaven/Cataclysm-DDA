@@ -200,21 +200,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "rabbit_foot",
-    "symbol": "q",
-    "color": "brown",
-    "name": { "str": "rabbit sample" },
-    "description": "A tiny paw that came off of a rabbit.  Please, no luck jokes.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "fur", "leather" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
@@ -554,10 +539,21 @@
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": [ "steel" ],
     "weight": "40 g",
-    "volume": "250 ml",
+    "volume": "263 ml",
     "bashing": 2,
     "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -594,7 +590,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "usb_drive",
     "symbol": ",",
     "color": "white",
@@ -605,8 +601,18 @@
     "material": [ "plastic" ],
     "weight": "18 g",
     "volume": "5 ml",
-    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
-    "to_hit": -3
+    "pocket_data": [
+      { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ],
+    "to_hit": -3,
+    "flags": [ "MC_USED" ]
   },
   {
     "type": "GENERIC",
@@ -992,7 +998,8 @@
     "weight": "15000 g",
     "volume": "20 L",
     "bashing": 5,
-    "to_hit": -5
+    "to_hit": -5,
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "type": "GENERIC",
@@ -1524,7 +1531,7 @@
     "color": "yellow",
     "name": { "str": "broken loudspeaker" },
     "category": "other",
-    "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
+    "description": "A broken loudspeaker.  It's so unusually quiet now….  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 500,
     "material": [ "steel" ],
@@ -1930,7 +1937,7 @@
     "volume": "2 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "mobile_memory_card_used",
     "looks_like": "mobile_memory_card",
     "symbol": ",",
@@ -1942,6 +1949,15 @@
     "material": [ "plastic" ],
     "ascii_picture": "mobile_memory_card",
     "flags": [ "MC_MOBILE", "MC_USED" ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ],
     "weight": "5 g",
     "volume": "1 ml"
   },
@@ -2607,7 +2623,12 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": { "material_thickness": 0.1, "warmth": 6, "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ] },
+    "armor_data": {
+      "material_thickness": 0.1,
+      "material": [ "paper" ],
+      "warmth": 6,
+      "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ]
+    },
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
@@ -2644,7 +2665,12 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "armor_data": {
+      "material_thickness": 0.1,
+      "material": [ "paper" ],
+      "warmth": 3,
+      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+    },
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
@@ -2681,7 +2707,12 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": { "material_thickness": 0.1, "warmth": 3, "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ] },
+    "armor_data": {
+      "material_thickness": 0.1,
+      "material": [ "paper" ],
+      "warmth": 3,
+      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+    },
     "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
   {
@@ -2735,7 +2766,7 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
@@ -3703,5 +3734,37 @@
     "cutting": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "training_dummy_light",
+    "symbol": "@",
+    "color": "brown",
+    "name": { "str": "training dummy" },
+    "category": "other",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.",
+    "price": 15000,
+    "price_postapoc": 600,
+    "material": [ "wood" ],
+    "weight": "50 kg",
+    "volume": "80 L",
+    "bashing": 12,
+    "to_hit": -2
+  },
+  {
+    "type": "TOOL",
+    "id": "training_dummy_heavy",
+    "symbol": "@",
+    "color": "light_gray",
+    "name": { "str": "armored training dummy" },
+    "category": "other",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.",
+    "price": 15000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "wood" ],
+    "weight": "55 kg",
+    "volume": "80 L",
+    "bashing": 14,
+    "to_hit": -2
   }
 ]

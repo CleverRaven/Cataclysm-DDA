@@ -14,6 +14,7 @@
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -228,7 +229,6 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
@@ -645,6 +645,8 @@ void game::setup()
     effect_on_conditions::clear( u );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
     // back to menu for save loading, new game etc
 }
 
@@ -1241,6 +1243,24 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
+        if( u.activity.id() == activity_id( "ACT_TRAIN_TEACHER" ) ) {
+            for( npc &n : all_npcs() ) {
+                // Also cancel activities for students
+                for( const int st_id : u.activity.values ) {
+                    if( n.getID().get_value() == st_id ) {
+                        n.cancel_activity();
+                    }
+                }
+            }
+            u.remove_effect( efftype_id( "asked_to_train" ) );
+        } else if( u.activity.id() == activity_id( "ACT_TRAIN" ) ) {
+            for( npc &n : all_npcs() ) {
+                // If the player is the only student, cancel the teacher's activity
+                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
+                    n.cancel_activity();
+                }
+            }
+        }
         u.cancel_activity();
         u.clear_destination();
         u.resume_backlog_activity();
@@ -1474,7 +1494,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
     if( it.is_container() ) {
         hint_rating best_rate = hint_rating::cant;
         it.visit_items( [&you, &best_rate]( item * node, item * ) {
-            if( you.can_consume( *node ) )  {
+            if( you.can_consume_as_is( *node ) )  {
                 ret_val<edible_rating> rate = you.will_eat( *node );
                 if( rate.success() ) {
                     best_rate = hint_rating::good;
@@ -1488,7 +1508,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
         return best_rate;
     }
 
-    if( !you.can_consume( it ) ) {
+    if( !you.can_consume_as_is( it ) ) {
         return hint_rating::cant;
     }
 
@@ -2089,6 +2109,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
     ctxt.register_action( "drop" );
+    ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
@@ -2310,6 +2331,10 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
+        effect_on_conditions::avatar_death();
+        if( !u.is_dead_state() ) {
+            return false;
+        }
         Messages::deactivate();
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
@@ -3763,6 +3788,8 @@ void game::mon_info_update( )
                 case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
+                case direction::last:
+                    cata_fatal( "invalid direction" );
             }
         }
 
@@ -4739,7 +4766,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            const int glass_portion = it->made_of( material_id( "glass" ) );
+            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
+            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
@@ -4933,11 +4962,15 @@ bool game::npc_menu( npc &who )
         if( !prompt_dangerous_tile( who.pos() ) ) {
             return true;
         }
-        // TODO: Make NPCs protest when displaced onto dangerous crap
-        add_msg( _( "You swap places with %s." ), who.get_name() );
-        swap_critters( u, who );
-        // TODO: Make that depend on stuff
-        u.mod_moves( -200 );
+        if( u.get_grab_type() == object_type::NONE ) {
+            // TODO: Make NPCs protest when displaced onto dangerous crap
+            add_msg( _( "You swap places with %s." ), who.get_name() );
+            swap_critters( u, who );
+            // TODO: Make that depend on stuff
+            u.mod_moves( -200 );
+        } else {
+            add_msg( _( "You cannot swap places while grabbing something." ) );
+        }
     } else if( choice == push ) {
         // TODO: Make NPCs protest when displaced onto dangerous crap
         tripoint oldpos = who.pos();
@@ -6328,7 +6361,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon ) {
+            if( mon && u.sees( *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
@@ -6777,9 +6810,43 @@ bool game::take_screenshot( const std::string &path ) const
 {
     return save_screenshot( path );
 }
+
+bool game::take_screenshot() const
+{
+    // check that the current '<world>/screenshots' directory exists
+    std::stringstream map_directory;
+    map_directory << PATH_INFO::world_base_save_path() << "/screenshots/";
+    assure_dir_exist( map_directory.str() );
+
+    // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+    // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
+    std::time_t time = std::time( nullptr );
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
+    const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
+                               date_buffer.str() );
+
+    std::string file_name = ensure_valid_file_name( tmp_file_name );
+    auto current_file_path = map_directory.str() + file_name;
+
+    // Take a screenshot of the viewport.
+    if( take_screenshot( current_file_path ) ) {
+        popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
+        return true;
+    } else {
+        popup( _( "An error occurred while trying to save the screenshot." ) );
+        return false;
+    }
+}
 #else
 bool game::take_screenshot( const std::string &/*path*/ ) const
 {
+    return false;
+}
+
+bool game::take_screenshot() const
+{
+    popup( _( "This binary was not compiled with tiles support." ) );
     return false;
 }
 #endif
@@ -7724,16 +7791,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-void game::drop()
+void game::unload_container()
 {
-    u.drop( game_menus::inv::multidrop( u ), u.pos() );
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
+        u.drop( game_menus::inv::unload_container( u ), *pnt );
+    }
 }
 
-void game::drop_in_direction()
+void game::drop_in_direction( const tripoint &pnt )
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.drop( game_menus::inv::multidrop( u ), *pnt );
-    }
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -9040,50 +9107,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
 
-    if( !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        int volume = u.is_stealthy() ? 3 : 6;
-        volume *= u.mutation_value( "noise_modifier" );
-        if( volume > 0 ) {
-            if( u.is_wearing( itype_rm13_armor_on ) ) {
-                volume = 2;
-            } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                volume = 12;
-            }
-
-            volume *= u.current_movement_mode()->sound_mult();
-            if( u.is_mounted() ) {
-                monster *mons = u.mounted_creature.get();
-                switch( mons->get_size() ) {
-                    case creature_size::tiny:
-                        volume = 0; // No sound for the tinies
-                        break;
-                    case creature_size::small:
-                        volume /= 3;
-                        break;
-                    case creature_size::medium:
-                        break;
-                    case creature_size::large:
-                        volume *= 1.5;
-                        break;
-                    case creature_size::huge:
-                        volume *= 2;
-                        break;
-                    default:
-                        break;
-                }
-                if( mons->has_flag( MF_LOUDMOVES ) ) {
-                    volume += 6;
-                }
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, mons->type->get_footsteps(), false,
-                               "none", "none" );
-            } else {
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
-                               "none", "none" );    // Sound of footsteps may awaken nearby monsters
-            }
-            sfx::do_footstep();
-        }
-
-    }
+    u.make_footstep_noise();
 
     if( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
@@ -9253,8 +9277,9 @@ point game::place_player( const tripoint &dest_loc )
     }
     // Move the player
     // Start with z-level, to make it less likely that old functions (2D ones) freak out
+    bool z_level_changed = false;
     if( dest_loc.z != m.get_abs_sub().z ) {
-        vertical_shift( dest_loc.z );
+        z_level_changed = vertical_shift( dest_loc.z );
     }
 
     if( u.is_hauling() && ( !m.can_put_items( dest_loc ) ||
@@ -9269,7 +9294,7 @@ point game::place_player( const tripoint &dest_loc )
         mon->process_triggers();
         m.creature_in_field( *mon );
     }
-    point submap_shift = update_map( u );
+    point submap_shift = update_map( u, z_level_changed );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
     // If you must use it you can calculate the position in the new, shifted system with
@@ -9284,28 +9309,31 @@ point game::place_player( const tripoint &dest_loc )
             const auto forage = [&]( const tripoint & pos ) {
                 const ter_t &xter_t = *m.ter( pos );
                 const furn_t &xfurn_t = *m.furn( pos );
-                const bool forage_everything = forage_type == "both";
+                const bool forage_everything = forage_type == "all";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
-                if( !xter_t.can_examine( pos ) ) {
+                const bool forage_crops = forage_everything || forage_type == "crops";
+                if( !xter_t.can_examine( pos ) && !xfurn_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::tree_marloss ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::harvest_ter ) ) ||
-                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) )
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
+                           ( forage_crops && xter_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xter_t.examine( u, pos );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
-                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) )
+                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
+                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xfurn_t.examine( u, pos );
                 }
             };
 
             for( const direction &elem : adjacentDir ) {
-                forage( u.pos() + direction_XY( elem ) );
+                forage( u.pos() + displace_XY( elem ) );
             }
         }
 
@@ -9348,7 +9376,7 @@ point game::place_player( const tripoint &dest_loc )
 
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos() + direction_XY( elem ) );
+                    pulp( u.pos() + displace_XY( elem ) );
                 }
             } else {
                 pulp( u.pos() );
@@ -10317,9 +10345,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     const tripoint old_pos = u.pos();
     const tripoint old_abs_pos = here.getabs( old_pos );
     point submap_shift;
-    vertical_shift( z_after );
+    const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x, stairs.y );
+        submap_shift = update_map( stairs.x, stairs.y, z_level_changed );
     }
 
     // if an NPC or monster is on the stiars when player ascends/descends
@@ -10583,12 +10611,12 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     return stairs;
 }
 
-void game::vertical_shift( const int z_after )
+bool game::vertical_shift( const int z_after )
 {
     if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to get z-level %d outside allowed range of %d-%d",
                   z_after, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-        return;
+        return false;
     }
 
     // TODO: Implement dragging stuff up/down
@@ -10602,6 +10630,8 @@ void game::vertical_shift( const int z_after )
     m.vertical_shift( z_after );
 
     vertical_notes( z_before, z_after );
+
+    return z_before != z_after;
 }
 
 void game::vertical_notes( int z_before, int z_after )
@@ -10644,13 +10674,13 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-point game::update_map( Character &p )
+point game::update_map( Character &p, bool z_level_changed )
 {
     point p2( p.posx(), p.posy() );
-    return update_map( p2.x, p2.y );
+    return update_map( p2.x, p2.y, z_level_changed );
 }
 
-point game::update_map( int &x, int &y )
+point game::update_map( int &x, int &y, bool z_level_changed )
 {
     point shift;
 
@@ -10674,10 +10704,11 @@ point game::update_map( int &x, int &y )
     if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, m.get_abs_sub().z ) );
-        // Update what parts of the world map we can see
-        // We need this call because even if the map hasn't shifted we may have changed z-level and can now see farther
-        // TODO: only make this call if we changed z-level
-        update_overmap_seen();
+        if( z_level_changed ) {
+            // Update what parts of the world map we can see
+            // We may be able to see farther now that the z-level has changed.
+            update_overmap_seen();
+        }
         // Not actually shifting the submaps, all the stuff below would do nothing
         return point_zero;
     }
@@ -11462,4 +11493,9 @@ timed_event_manager &get_timed_events()
 weather_manager &get_weather()
 {
     return g->weather;
+}
+
+global_variables &get_globals()
+{
+    return g->global_variables_instance;
 }

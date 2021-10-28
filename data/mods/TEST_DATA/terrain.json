@@ -76,5 +76,63 @@
       "duration": "5 seconds",
       "byproducts": [ { "item": "test_rock", "count": 3 }, { "item": "test_2x4", "count": [ 7, 9 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying1",
+    "name": "Prying Test Terrain 1",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "prying": {
+      "result": "t_dirt",
+      "duration": "30 seconds",
+      "byproducts": [ { "item": "test_rock", "count": 3 }, { "item": "test_2x4", "count": [ 7, 9 ] } ],
+      "prying_data": { "prying_nails": true }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying2",
+    "name": "Prying Test Terrain 2",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "prying": { "result": "t_dirt", "duration": "30 seconds", "prying_data": { "difficulty": 100 } }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying3",
+    "name": "Prying Test Terrain 3",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "prying": { "result": "t_dirt", "duration": "30 seconds", "prying_data": { "prying_level": 100 } }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying4",
+    "name": "Prying Test Terrain 4",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    },
+    "prying": { "result": "t_grass", "duration": "30 seconds", "prying_data": { "difficulty": 100, "breakable": true } }
   }
 ]

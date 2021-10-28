@@ -564,6 +564,36 @@ proceeds to the next phase.
 If all phases complete and unsatisfied joins remain, this is considered an
 error and a debugmsg will be displayed with more details.
 
+#### Chunks
+
+A placement rule in the phases can specify multiple overmaps to be placed in a
+particular configuration.  This is useful if you want to place some feature
+that's larger than a single OMT.  Here is an example from the microlab:
+
+```json
+{
+  "name": "subway_chunk_at_-2",
+  "chunk": [
+    { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ], "rot": "north" },
+    { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
+    { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+  ],
+  "max": 1
+}
+```
+
+The `"name"` of a chunk is only for debugging messages when something goes
+wrong.  `"max"` and `"weight"` are handled as above.
+
+The new feature is `"chunks"` which specifies a list of overmaps and their
+relative positions and rotations.  The overmaps are taken from the ones defined
+for this special.  Rotation of `"north"` is the default, so specifying that has
+no effect, but it's included here to demonstrate the syntax.
+
+The postions and rotations are relative.  The chunk can be placed at any offset
+and rotation, so long as all the overmaps are shifted and rotated together like
+a rigid body.
+
 #### Techniques to avoid placement errors
 
 To help avoid these errors, some additional features of the mutable special
@@ -628,7 +658,7 @@ When designing your own mutable overmap specials, you will have to think
 through these permutations to ensure that all joins will be satisfied by the
 end of the last phase.
 
-##### Optional joins
+#### Optional joins
 
 Rather than having lots of rules designed to satisfy all possible situations in
 the final phase, in some situations you can make this easier using optional
@@ -671,6 +701,77 @@ As such, this `crater_edge` overmap can satisfy any unresolved joins for the
 `Crater` special without generating any new unresolved joins of its own.  This
 makes it great to finish off the special in the final phase.
 
+#### Asymmetric joins
+
+Sometimes you want two different OMTs to connect, but wouldn't want either to
+connect with themselves.  In this case you wouldn't want to use the same join
+on both.  Instead, you can define two joins which form a pair, by specifying
+one as the opposite of the other.
+
+Another situation where this can arise is when the two sides of a join need
+different location constraints.  For example, in the anthill, the surface and
+subterranean components need different locations.  We could improve the
+definition of its joins by making the join between surface and tunnels
+asymmetric, like this:
+
+```json
+"joins": [
+  { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+  { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+  "tunnel_to_tunnel"
+],
+```
+
+As you can see, the `tunnel_to_surface` part of the pair needs to override the
+default value of `into_locations` because it points towards the surface.
+
+#### Alternative joins
+
+Sometimes you want the next phase(s) of a mutable special to be able to link to
+existing unresolved joins without themselves generating any unresolved joins of
+that type.  This helps to create a clean break between the old and the new.
+
+For example, this happens in the `microlab_mutable` special.  This special has
+some structured `hallway` OMTs surrounded by a clump of `microlab` OMTs.  The
+hallways have `hallway_to_microlab` joins pointing out to their sides, so we
+need `microlab` OMTs to have `microlab_to_hallway` joins (the opposite of
+`hallway_to_microlab`) in order to match them.
+
+However, we don't want the unresolved edges of a `microlab` OMT to require more
+hallways all around, so we mostly want them to use `microlab_to_microlab`
+joins.  How can we satisfy these apparently conflicting requirements without
+making many different variants of `microlab` with different numbers of each
+type of join?  Alternative joins can help us here.
+
+The definition of the `microlab` overmap might look like this:
+
+```json
+"microlab": {
+  "overmap": "microlab_generic",
+  "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+  "east": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+  "south": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+  "west": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] }
+},
+```
+
+This allows it to join with hallways which are already placed on the overmap,
+but new unresolved joins will only match more `microlab`s.
+
+#### Testing your new mutable special
+
+If you want to exhaustively test your mutable special for placement errors, and
+you are in a position to compile the game, then an easy way to do so is to use
+the existing test in `tests/overmap_test.cpp`.
+
+In that file, look for `TEST_CASE( "mutable_overmap_placement"`.  At the start
+of that function there is a list of mutable special ids that tests tries
+spawning.  Replace one of them with your new special's id, recompile and run
+the test.
+
+The test will attempt to place your special a few thousand times, and should
+find most ways in which placement might fail.
+
 ### Joins
 
 A join definition can be a simple string, which will be its id.  Alternatively,
@@ -679,6 +780,7 @@ it can be a dictionary with some of these keys:
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
 | `id`        | Id of the join being defined. |
+| `opposite`  | Id of the join which must match this one from the adjacent terrain. |
 | `into_locations` | List of `overmap_location` ids that this join may point towards. |
 
 ### Mutable special overmaps
@@ -705,6 +807,7 @@ join id.  Alternatively it can be a JSON object with the following keys:
 | ----------- | -------------------------------------------------------------------------- |
 | `id`        | Id of the join used here. |
 | `type`      | Either `"mandatory"` or `"available"`.  Default: `"mandatory"`. |
+| `alternatives` | List of join ids that may be used instead of the one listed under `id`, but only when placing this overmap.  Unresolved joins created by its placement will only be the primary join `id`. |
 
 ### Generation rules
 

@@ -33,7 +33,7 @@ class talker
         virtual Character *get_character() {
             return nullptr;
         }
-        virtual Character *get_character() const {
+        virtual const Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -57,7 +57,7 @@ class talker
         virtual Creature *get_creature() {
             return nullptr;
         }
-        virtual Creature *get_creature() const {
+        virtual const Creature *get_creature() const {
             return nullptr;
         }
         // identity and location
@@ -125,16 +125,16 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
-        virtual int get_str_max() {
+        virtual int get_str_max() const {
             return 0;
         }
-        virtual int get_dex_max() {
+        virtual int get_dex_max() const {
             return 0;
         }
-        virtual int get_int_max() {
+        virtual int get_int_max() const {
             return 0;
         }
-        virtual int get_per_max() {
+        virtual int get_per_max() const {
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
@@ -169,6 +169,12 @@ class talker
             return false;
         }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::vector<skill_id> skills_teacheable() const {
+            return {};
+        }
+        virtual std::string skill_seminar_text( const skill_id & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
@@ -215,6 +221,8 @@ class talker
         virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
+        virtual void add_bionic( const bionic_id & ) {}
+        virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string & ) const {
             return "";
         }
@@ -258,6 +266,10 @@ class talker
         }
         virtual void add_sold( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
+            return {};
+        }
+        virtual std::vector<const item *> const_items_with( const std::function<bool( const item & )> & )
+        const {
             return {};
         }
         virtual void i_add( const item & ) {}

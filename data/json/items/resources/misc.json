@@ -12,6 +12,7 @@
     "volume": "250 ml",
     "cutting": 10,
     "flags": [ "SPEAR" ],
+    "weapon_category": [ "SHIVS" ],
     "price": 3000,
     "price_postapoc": 0
   },
@@ -61,6 +62,7 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ],
     "price": 500,
     "price_postapoc": 0
   },
@@ -248,6 +250,7 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ],
     "price": 1000,
     "price_postapoc": 0
   },

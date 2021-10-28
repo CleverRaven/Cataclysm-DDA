@@ -2,7 +2,7 @@
   {
     "id": "mag_barter",
     "type": "BOOK",
-    "name": { "str": "car buyer's guide" },
+    "name": { "str": "Car Buyer's Guide", "str_pl": "copies of Car Buyer's Guide" },
     "description": "Normally this glossy, ad-filled magazine about cars would be pointless, but it has a series of articles on haggling techniques.",
     "weight": "90 g",
     "volume": "250 ml",

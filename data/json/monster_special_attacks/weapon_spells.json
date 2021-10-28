@@ -56,9 +56,12 @@
     "name": { "str": "Exodii multipurpose weapon pod" },
     "description": "Randomly selects one of several weapons.",
     "valid_targets": [ "hostile", "ground" ],
-    "effect": "none",
+    "effect": "attack",
     "shape": "blast",
     "base_casting_time": 200,
+    "min_range": 1,
+    "max_range": 5,
+    "max_level": 2,
     "min_damage": 1,
     "max_damage": 1,
     "extra_effects": [

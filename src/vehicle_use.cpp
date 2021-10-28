@@ -381,13 +381,8 @@ void vehicle::control_engines()
     int e_toggle = 0;
     bool dirty = false;
     //count active engines
-    int active_mask = 0;
     int fuel_count = 0;
-    int i = 0;
     for( int e : engines ) {
-        if( is_part_on( e ) ) {
-            active_mask |= 1 << i++;
-        }
         fuel_count += part_info( e ).engine_fuel_opts().size();
     }
 
@@ -423,11 +418,8 @@ void vehicle::control_engines()
     }
 
     bool engines_were_on = engine_on;
-    int new_active_mask = 0;
-    i = 0;
     for( int e : engines ) {
         engine_on |= is_part_on( e );
-        new_active_mask |= 1 << i++;
     }
 
     // if current velocity greater than new configuration safe speed
@@ -827,6 +819,22 @@ void vehicle::use_controls( const tripoint &pos )
         // Don't access `this` from here on, one of the actions above is to call
         // fold_up(), which may have deleted `this` object.
     }
+}
+
+void vehicle::plug_in( const tripoint &pos )
+{
+    item powercord( "power_cord" );
+    powercord.set_var( "source_x", pos.x );
+    powercord.set_var( "source_y", pos.y );
+    powercord.set_var( "source_z", pos.z );
+    powercord.set_var( "state", "pay_out_cable" );
+    powercord.active = true;
+
+    if( powercord.get_use( "CABLE_ATTACH" ) ) {
+        powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
+                pos );
+    }
+
 }
 
 bool vehicle::fold_up()
@@ -2057,15 +2065,22 @@ void vehicle::interact_with( const vpart_position &vp )
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
+    bool is_appliance = has_tag( "APPLIANCE" );
+
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
         RELOAD_TURRET, FILL_CONTAINER, DRINK, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
-        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, PEEK_CURTAIN, TOOLS_OFFSET
+        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, PEEK_CURTAIN, TOOLS_OFFSET, PLUG
     };
     uilist selectmenu;
 
-    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
-    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+
+    if( !is_appliance ) {
+        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+    } else {
+        selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
+    }
     if( vp_controls ) {
         selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
@@ -2245,7 +2260,7 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case DRINK: {
             item water( itype_water_clean, calendar::turn_zero );
-            if( player_character.can_consume( water ) ) {
+            if( player_character.can_consume_as_is( water ) ) {
                 player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }
@@ -2332,6 +2347,10 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case WORKBENCH: {
             iexamine::workbench_internal( player_character, vp.pos(), vp_workbench );
+            return;
+        }
+        case PLUG: {
+            plug_in( here.getabs( vp.pos() ) );
             return;
         }
         default: {

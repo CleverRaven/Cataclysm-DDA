@@ -40,6 +40,8 @@ query to stop the activity, and strings that describe it, for example:
 * interruptable (true): Can this be interrupted.  If false, then popups related
 to e.g. pain or seeing monsters will be suppressed.
 
+* interruptable_with_kb (true): Can this be interrupted by a key press.
+
 * no_resume (false): Rather than resuming, you must always restart the
 activity from scratch.
 

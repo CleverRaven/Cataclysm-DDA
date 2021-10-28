@@ -13,6 +13,7 @@
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
+      "material": [ "superalloy" ],
       "warmth": 20,
       "material_thickness": 4,
       "environmental_protection": 10,
@@ -64,6 +65,7 @@
     "name": "magic lamp",
     "description": "A magical light source that will light up a small area.",
     "weight": "1 g",
+    "material": [ "leather", "glass", "magical_material" ],
     "volume": "250 ml",
     "price": 1,
     "to_hit": -2,
@@ -84,6 +86,7 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
+    "material": [ "magical_material" ],
     "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
@@ -395,6 +398,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
+    "material": [ "magical_material" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
@@ -413,6 +417,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
+    "material": [ "magical_material" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
@@ -433,6 +438,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
+    "material": [ "magical_material" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
@@ -511,6 +517,7 @@
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
+    "material": [ "magical_material" ],
     "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
     "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ],
     "armor": [ { "encumbrance": 18, "covers": [ "eyes", "mouth" ] } ]
@@ -524,6 +531,7 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
+    "material": [ "magical_material" ],
     "environmental_protection": 15,
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "armor": [
@@ -541,6 +549,7 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
+    "material": [ "magical_material" ],
     "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   },
@@ -554,6 +563,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
+    "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [
@@ -674,6 +684,7 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
+    "material": [ "magical_material" ],
     "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
     "relic_data": {
       "passive_effects": [
@@ -696,6 +707,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
+    "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [
@@ -924,5 +936,57 @@
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife",
+    "copy-from": "throwing_knife",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "material": [ "superalloy" ],
+    "extend": { "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ] },
+    "thrown_damage": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_fire",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing, wrapped in ethereal flames.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "heat", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_cold",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing, emanates cold.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "cold", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_cut",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife with wide edge made for throwing, seems unnaturally sharp.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.2 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_biological",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing, made of porous substance and covered in dark ooze.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "biological", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife_pure_special",
+    "copy-from": "magical_throwing_knife",
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A transparent blade seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
   }
 ]

@@ -50,6 +50,13 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
+talker_npc::talker_npc( npc *new_me )
+{
+    me_npc = new_me;
+    me_chr = new_me;
+    me_chr_const = new_me;
+}
+
 std::string talker_npc::distance_to_goal() const
 {
     // TODO: this ignores the z-component
@@ -441,7 +448,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
     if( to_eat.is_food() ) {
-        if( !p.can_consume( to_eat ) ) {
+        if( !p.can_consume_as_is( to_eat ) ) {
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {

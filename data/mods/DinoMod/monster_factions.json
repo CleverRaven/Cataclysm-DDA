@@ -148,6 +148,25 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "gorgosaurus",
+    "base_faction": "predator_dino",
+    "by_mood": "gorgosaurus",
+    "friendly": [ "gorgosaurus_juvenile", "gorgosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "gorgosaurus", "gorgosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "gorgosaurus", "gorgosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "albertosaurus",
     "base_faction": "predator_dino",
     "by_mood": "albertosaurus",

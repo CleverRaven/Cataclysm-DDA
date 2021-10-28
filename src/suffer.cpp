@@ -118,6 +118,7 @@ static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
+static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -135,6 +136,7 @@ static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SORES( "SORES" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -1025,6 +1027,11 @@ void suffer::from_other_mutations( Character &you )
 
     }
 
+    if( you.has_active_mutation( trait_SNAIL_TRAIL ) && !you.in_vehicle ) {
+        here.add_field( position, fd_sludge, 1 );
+
+    }
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if( you.has_trait( trait_PER_SLIME ) ) {
@@ -1047,6 +1054,10 @@ void suffer::from_other_mutations( Character &you )
     if( you.has_trait( trait_WEB_SPINNER ) && !you.in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
         here.add_field( position, fd_web, 1 );
+    }
+
+    if( you.has_trait( trait_MUCUS_SECRETION ) && !you.in_vehicle && one_in( 2033 ) ) {
+        here.add_field( position, fd_sludge, 1 );
     }
 
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&
@@ -1376,7 +1387,8 @@ void suffer::from_exertion( Character &you )
 
     // Significantly slow the rate of messaging when in an activity
     const int chance = you.activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
-    if( you.activity_history.activity() > max_activity && one_in( chance ) && !you.in_sleep_state() ) {
+    if( !you.in_sleep_state() && you.activity_history.activity( false ) > max_activity &&
+        one_in( chance ) ) {
         you.add_msg_if_player( m_bad,
                                _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }

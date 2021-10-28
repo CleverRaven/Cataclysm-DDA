@@ -1,10 +1,25 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
+    "om_terrain": [ [ "microlab_generic" ] ],
     "object": {
       "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_tile" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |    2  |rrrr|     ",
         " cc  ==[==|  ||||||     ",
@@ -37,10 +52,46 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  |    2  |rrrr|     ",
+        " cc  ==[==|  ||||||     ",
+        "     =    |  |i  l|r i  ",
+        "     [    |22|i  l|r c  ",
+        " FFFF=    |  |i  l|r c  ",
+        "|||||||||||  ||2||||    ",
+        " F|F |####|        | c  ",
+        " F|F ||||||        | c  ",
+        " F|F |????         | i  ",
+        "     |             |   Y",
+        "|5||||   dddddd    |2|||",
+        "    2 Y  dh^  d    |    ",
+        "    2 Y  d  ^hd    |    ",
+        "|2||||   dddddd    |(((|",
+        "    r|             2    ",
+        "cc  r|????         |^   ",
+        "cc hc||||||        | h  ",
+        "    c|FFF|N  |     |6tt ",
+        "|||||||22||  ||((22|||||",
+        "          |  |     |FF| ",
+        "   c6  6c |  |c    |  | ",
+        "   cc  cc |  |6h        ",
+        "   cc  cc |  |c  ccccc  ",
+        "          |22|          "
+      ],
+      "palettes": [ "microlab" ],
+      "items": { "l": { "item": "cleaning", "chance": 50, "repeat": [ 1, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |    |  |FFFF|6    ",
         " cc      F|  ||||||6 h  ",
@@ -72,10 +123,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |   c|  |c  c|   c ",
         " cc  |   c|  ||||||   c ",
@@ -107,10 +158,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc c|c   |  |r  F|     ",
         " cc       |  |r  F|   c ",
@@ -143,10 +194,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc c|c   |  |c  F|c    ",
         " cc       |  |c  F|c  c ",
@@ -181,10 +232,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc c|r  r|  |   c|c    ",
         " ||||||||||  | ccc|c  c ",
@@ -216,10 +267,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc c|c  c|  | cc |     ",
         " ||||||||||  | cc | c c ",
@@ -251,10 +302,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc c|    |  | cc |     ",
         " ||||||22||  | cc | c c ",
@@ -286,10 +337,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc c|cccc|  | cc |     ",
         " ||||||||||  | cc c c c ",
@@ -321,10 +372,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     |    |  | cc |     ",
         "     | cc |  | cc | c c ",
@@ -356,10 +407,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     |    |  | cc |     ",
         "  cc | cc |  | cc | c c ",
@@ -391,10 +442,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     |    |  | cc |     ",
         "  cc | cc |  |||||| c c ",
@@ -428,10 +479,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     |    |  |    |     ",
         "     2   c|  |cccc| cc  ",
@@ -463,10 +514,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     |c  c|  |    |     ",
         " cccc|c  c|  |    | c c ",

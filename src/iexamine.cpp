@@ -152,7 +152,6 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
-static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
@@ -1577,13 +1576,10 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
  */
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
-    auto prying_items = you.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );
+    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
 
     map &here = get_map();
-    if( prying_items.empty() ) {
+    if( best_prying.is_null() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
@@ -1595,19 +1591,11 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         return;
     }
 
-    // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
-    } );
-
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
     you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), prying_items[0]->tname() );
+                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
 
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    item temporary_item( prying_items[0]->type );
-    iuse::crowbar( &you, &temporary_item, false, examp );
+    iuse::crowbar( &you, &best_prying, false, examp );
 }
 
 /**
@@ -1691,16 +1679,6 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     } else {
         you.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
     }
-}
-
-/**
- * Display popup with reference to "The Enigma of Amigara Fault."
- */
-void iexamine::fault( Character &, const tripoint & )
-{
-    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
-              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
-              "shape, but with long, twisted, distended limbs." ) );
 }
 
 /**
@@ -2099,7 +2077,7 @@ void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp )
 void iexamine::harvest_furn( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       get_option<std::string>( "AUTO_FORAGING" ) == "all";
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
@@ -2109,7 +2087,7 @@ void iexamine::harvest_furn( Character &you, const tripoint &examp )
 void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( !auto_forage && !query_pick( you, examp ) ) {
@@ -2121,7 +2099,7 @@ void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
 void iexamine::harvest_ter( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
@@ -2387,6 +2365,28 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
+// Only harvest, used for autoforaging
+void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = here.i_at( examp );
+    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.is_seed();
+    } );
+
+    if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
+        here.i_clear( examp );
+        here.furn_set( examp, f_null );
+        return;
+    }
+
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
+        harvest_plant( you, examp, false );
+    }
+}
+
 /**
  * Actual harvesting of selected plant
  */
@@ -2573,7 +2573,7 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 
     if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
         query_yn( _( "Harvest the %s?" ), pname ) ) {
-        harvest_plant( you, examp );
+        harvest_plant( you, examp, false );
     } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
@@ -3430,7 +3430,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !you.can_consume( drink ) ) {
+                if( !you.can_consume_as_is( drink ) ) {
                     return; // They didn't actually drink
                 }
                 you.assign_activity( player_activity( consume_activity_actor( drink ) ) );
@@ -3545,7 +3545,7 @@ static void pick_plant( Character &you, const tripoint &examp,
 void iexamine::tree_hickory( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
 
     bool digging_up = false;
@@ -3640,7 +3640,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = &it;
 
             it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
-                if( it->typeId() == itype_maple_syrup ) {
+                if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
                     return VisitResponse::ABORT;
@@ -4873,7 +4873,6 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
     bool needs_anesthesia = true;
     std::vector<tool_comp> anesth_kit;
-    int drug_count = 0;
 
     if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
         amenu.ret > 1 ) {
@@ -4886,7 +4885,6 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
-                drug_count += anesthesia_item->ammo_remaining();
             }
         }
     }
@@ -6268,7 +6266,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
-            { "fault", &iexamine::fault },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },
             { "pedestal_temple", &iexamine::pedestal_temple },
             { "door_peephole", &iexamine::door_peephole },
@@ -6290,6 +6287,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "harvest_furn", &iexamine::harvest_furn },
             { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
             { "harvest_ter", &iexamine::harvest_ter },
+            { "harvest_plant_ex", &iexamine::harvest_plant_ex },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },
             { "translocator", &iexamine::translocator },
@@ -6330,7 +6328,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
         "harvest_furn",
         "harvest_ter_nectar",
         "harvest_ter",
-        "tree_hickory",
+        "harvest_plant",
     };
 
     auto iter = function_map.find( function_name );
