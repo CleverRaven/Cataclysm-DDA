@@ -572,9 +572,9 @@ Blob infection means everyone heals more quickly from basic soft tissue injuries
 In-game this is an explanation for rapid player healing; note that this means that rapid healing is diegetic, ie.  characters in the game world are conscious of the fact that they heal much faster than before, and may comment on it.
 
 **Mutation**
-The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state).  That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism.  The blob also responds to radiation and certain other toxic challenges by sometimes causing random mutations.
+The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state and can be thought of as a 'basic human' mutagen).  That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism.  The blob also responds to radiation and certain other toxic challenges by sometimes causing random mutations.
 
-Mutagens work in part by copying a particular creature's phenotype onto the blob, then merging that phenotype with the person consuming the mutagen.
+Mutagens work in part by copying a particular creature's phenotype onto the blob, then merging that phenotype with the person consuming the mutagen.  Mutagens do *not* work by modifying the underlying genetics of the organism: they are epigenetic.
 
 **Cognition**
 The blob has a potent, albeit often subtle, effect on human cognition.
@@ -599,4 +599,4 @@ About a third of ferals remember more complex things.  These ferals might use co
 
 A very dangerous tenth or so of ferals maintain most of their human intelligence.  They can use any tools they would have in life, can plan tactics, and can assess your weaknesses and use salvaged materiel to exploit them… Basically anything an NPC should be able to do.  Likely they can talk as well, although probably it would be difficult for them to be too deceptive.  These comprise about 1/1000 of the zombie faction.  Over time these will probably evolve into a variant living form of zombie Masters and become another nemesis level villain for the late game.  Feral Masters would be exceedingly rare, probably 1/10,000 or less, given the low odds of an intelligent feral living long enough to evolve.
 
-Many of the Blob Lieutenants sent to earth were probably the equivalent to Feral Masters among their own species.
+Many of the Blob Avatars sent to earth were probably the equivalent to Feral Masters among their own species.
