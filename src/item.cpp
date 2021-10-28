@@ -4405,7 +4405,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *t = find_armor_data() ) {
             bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-            []( armor_portion_data data ) {
+            []( const armor_portion_data & data ) {
                 return data.encumber != data.max_encumber;
             } );
             if( any_encumb_increase ) {
