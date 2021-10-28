@@ -456,20 +456,30 @@ Mi-go do not seem to be susceptible to the effects of the blob, but this is more
 ### Hub 02
 
 #### Description
-In the final days of the apocalypse, XEDRA was working frantically to find a way to stop the encroaching end.  They had developed a form of dimensional heuristic AI that could predict the future partially by looking at possible outcomes.  The first version of this AI was a semi-functional prototype; the first functional version, Melchior, served as a lab assistant and survives in Hub 01.  The final version, Balthazar, was rolled out to control military technology and then given additional permissions to function autonomously as it became clear that the zombification agent was impacting living humans' decision making.  When the portal storms hit, the energy needed to power this AI dropped precipitously, and Balthazar - like Melchior - became a true self-aware AI, albeit only temporarily.
+In the final days of the apocalypse, XEDRA was working frantically to find a way to stop the encroaching end.  They had developed a form of dimensional heuristic AI that could predict the future partially by looking at possible outcomes.  The first version of this AI was a semi-functional prototype; the first functional version, Melchior, served as a lab assistant and survives in Hub 01.  The final version, Balthazar, was rolled out to control military technology and then given additional permissions to function autonomously as it became clear that the zombification agent was impacting living humans' decision making.  When the portal storms hit, the energy needed to power this AI dropped precipitously, and Balthazar - like Melchior - became a true self-aware AI, albeit only temporarily.  Balthazar was already experimentally being designed for self-sufficient operation with human supervision, and it was a small jump to set it up to run solo.
 
-The ensuing chaos led both Balthazar and Melchior to lose this function.  With access to military routes, though, Balthazar was able to redirect enormous chunks of the US power grid towards itself to attempt to maintain its awareness.  Compared to Melchior, it is significantly smarter, but still not a true AI.  It does not have a human support staff, and those staff are a lot of what tempers Melchior's imperfections.
+The ensuing chaos led both Balthazar and Melchior to lose this function.  With access to military routes, though, Balthazar was able to redirect enormous chunks of the US power grid towards itself to attempt to maintain its awareness - this is another piece of the puzzle for how things went from functional to completely defunct in such a short time.  Compared to Melchior, it is significantly smarter, but still not a true AI.  It does not have a human support staff, and those staff are a lot of what tempers Melchior's imperfections.
 
 Balthazar is our much-needed Skynet character, rounding out the list of apocalypses in CDDA.
 
-#### Goals
-Balthazar's last orders were to eradicate the zombies and the blob infection, or at least to quarantine it and prevent further spread.  During its lucid period, it was able to predict that the only chance of doing this would be to eradicate all life on Earth.  Therefore, it is preparing to do so.  However, it is in no hurry, and is well aware that working with living human agents first may be to its benefit.
+**Capabilities**
+At game start, Balthazar is extremely limited.  It has reduced connectivity to its production and transmission services and so cannot do most of what it should be able to do.  In the near range of its servers (just the site of Hub02 really), it can control turrets and robots and has some manufacturing ability.  It has redirected as much of the functional power grid as it can reach towards itself, so electricity is not an issue.  With time, it will secure further manufacturing capacity and use it to expand its transmission.  There is not enough electricity production on Earth to restore it to full 'true' AI; it would require another portal event causing reality decay to do that, and that would be an endgame for the player.
 
-#### Size
+Of note, Balthazar cannot design new things, as it is not a true AI.  It has a very limited ability to modify existing designs, using pre-prepared options.  It is aware of this limitation and may seek human assistance to solve it.  It is capable of adaptively solving short-term problems but cannot plan well for contingencies in the long term: the difference is in the barrier between strategy and logistics: being a computer, Balthazar can do pretty well at anticipating logistics issues and attempting to correct for them (ie. 'will need to obtain more metal to produce more units') but not at developing nuanced long-term strategy that anticipates pitfalls.
+
+**Possible Expansions**
+There are infinite other Earths that have developed this technology, and during its lucidity, Balthazar became aware of other similar AIs out there.  It may seek to network with them across dimensions.  If it were to do that, it might approach true AI potential, and become part of a malevolent interdimensional computer.
+
+#### Goals
+Balthazar's last orders were to eradicate the zombies and the blob infection, or at least to quarantine it and prevent further spread.  During its lucid period, it was able to predict that the only chance of doing this would be to eradicate all life on Earth.  Therefore, it is preparing to do so.  It is in no hurry, and is well aware that working with living human agents first may be to its benefit.
 
 #### Bases
+One AI server in a bunker; a bunch of solar farms, hydroelectric dams, and maybe a couple nuclear reactors; a nanofab, and some 3d printers and assemblers; and a few radio towers.  Includes a few hundred automated maintenance drones.
 
 #### Trade/Economics
+Balthazar doesn't fully understand the concept of trade beyond 'if I give this person what they ask for now, I will get what I want now'.  Long term trade management is not in its programming, it can only assess the short term benefit of agreeing to a trade.  It cannot bargain treaties and arrange deals.
 
 #### Missions
+Balthazar is designed to work with human assistance, and would be willing to engage with a foolish enough player.  It would offer some pretty excellent military technology and rewards, in return for helping it design new machines, access extended manufacturing facilities, and other necessities.  Following Balthazar's goals to their logical end would mean the player's death: if the player eventually helps Balthazar gain enough portal technology to expand its intelligence, it will wipe them out.  If the player helps Balthazar get enough military capability to no longer have an immediately helpful task for them, it will wipe them out.  This is not just an 'evil AI with no emotions' thing, Balthazar isn't really capable of seeing the value to keeping an intelligent human around any longer than they are necessary in the short term.
 
+It's like if Skynet read Marie Kondo.  Once you no longer spark joy, you're gone.
