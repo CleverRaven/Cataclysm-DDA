@@ -1655,6 +1655,63 @@ bool Character::is_prone() const
     return move_mode->type() == move_mode_type::PRONE;
 }
 
+int Character::footstep_sound() const
+{
+    if( has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
+        return 0;
+    }
+
+    double volume = is_stealthy() ? 3 : 6;
+    volume *= mutation_value( "noise_modifier" );
+    if( volume > 0 ) {
+        volume *= current_movement_mode()->sound_mult();
+        if( is_mounted() ) {
+            monster *mons = mounted_creature.get();
+            switch( mons->get_size() ) {
+                case creature_size::tiny:
+                    volume = 0; // No sound for the tinies
+                    break;
+                case creature_size::small:
+                    volume /= 3;
+                    break;
+                case creature_size::medium:
+                    break;
+                case creature_size::large:
+                    volume *= 1.5;
+                    break;
+                case creature_size::huge:
+                    volume *= 2;
+                    break;
+                default:
+                    break;
+            }
+            if( mons->has_flag( MF_LOUDMOVES ) ) {
+                volume += 6;
+            }
+        } else {
+            volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
+        }
+    }
+    return std::round( volume );
+}
+
+void Character::make_footstep_noise() const
+{
+    const int volume = footstep_sound();
+    if( volume <= 0 ) {
+        return;
+    }
+    if( is_mounted() ) {
+        sounds::sound( pos(), volume, sounds::sound_t::movement,
+                       mounted_creature.get()->type->get_footsteps(),
+                       false, "none", "none" );
+    } else {
+        sounds::sound( pos(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
+                       "none", "none" );    // Sound of footsteps may awaken nearby monsters
+    }
+    sfx::do_footstep();
+}
+
 steed_type Character::get_steed_type() const
 {
     steed_type steed;
@@ -2015,7 +2072,7 @@ float Character::get_vision_threshold( float light_level ) const
     }
 
     // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range * vision_score() );
+    range = std::max( 1.0f, range * nightvision_score() );
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
@@ -3661,7 +3718,7 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     }
 
     if( !ignore_weariness ) {
-        activity_history.calorie_adjust( nkcal );
+        activity_history.calorie_adjust( ncal );
     }
     set_stored_calories( stored_calories + ncal );
 }
@@ -4055,7 +4112,7 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     // And any values we get that are negative or 0
     // will cause incorrect behavior
     if( level <= 0 ) {
-        level = activity_history.activity();
+        level = activity_history.activity( in_sleep_state() );
     }
     const float max = maximum_exertion_level();
     if( level < max ) {
@@ -4072,7 +4129,7 @@ float Character::instantaneous_activity_level() const
 float Character::activity_level() const
 {
     float max = maximum_exertion_level();
-    float attempted_level = activity_history.activity();
+    float attempted_level = activity_history.activity( in_sleep_state() );
     return std::min( max, attempted_level );
 }
 
@@ -5553,12 +5610,17 @@ int Character::base_bmr() const
 int Character::get_bmr() const
 {
     int base_bmr_calc = base_bmr();
-    base_bmr_calc *= std::min( activity_history.average_activity(), maximum_exertion_level() );
+    base_bmr_calc *= clamp( activity_history.average_activity(), NO_EXERCISE,
+                            maximum_exertion_level() );
     return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::set_activity_level( float new_level )
 {
+    if( new_level <= NO_EXERCISE && in_sleep_state() ) {
+        new_level = std::min( new_level, SLEEP_EXERCISE );
+    }
+
     activity_history.log_activity( new_level );
 }
 

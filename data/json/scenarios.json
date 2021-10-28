@@ -679,5 +679,33 @@
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "eoc": [ "scenario_strong_portal_storm_base" ]
+  },
+  {
+    "type": "scenario",
+    "id": "Mansion",
+    "name": "Mansion Escape",
+    "points": -1,
+    "description": "You were living the high life when the world ended, surrounded by riches and extravagant food every day, but now you find yourself awakening from an induced paralysis and carried to the basement of the mansion in which you used to live, heavy footsteps resound around you, are you ready to survive in this new world?.",
+    "allowed_locs": [ "sloc_mansion_basement" ],
+    "start_name": "Mansion",
+    "surround_groups": [ [ "GROUP_MANSION_START", 90.0 ], [ "GROUP_MANSION_ARMORED", 10.0 ] ],
+    "eoc": [ "scenario_paralyzepoison" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "professions": [
+      "maid",
+      "frat",
+      "lost_sub",
+      "lawyer",
+      "politician",
+      "dancer",
+      "spouse",
+      "musician",
+      "chef",
+      "groundskeeper",
+      "homemaker",
+      "mafia_boss",
+      "major-general"
+    ],
+    "missions": [ "MISSION_MANSION_START" ]
   }
 ]

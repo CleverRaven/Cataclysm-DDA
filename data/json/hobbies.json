@@ -283,7 +283,7 @@
     "subtype": "hobby",
     "id": "street_fighting",
     "name": "Street Fighting",
-    "description": "You were always instigating fights in the street.  Atleast this might come in useful now.",
+    "description": "You were always instigating fights in the street.  At least this might come in useful now.",
     "points": 2,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 2, "name": "dodge" } ]
   },

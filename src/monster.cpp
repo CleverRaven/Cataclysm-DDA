@@ -639,7 +639,7 @@ std::string monster::speed_description( float mon_speed_rating,
 
     for( const speed_description_value &speed_value : speed_desc->values() ) {
         if( ratio_tpt >= speed_value.value() ) {
-            return random_entry( speed_value.descriptions(), std::string() );
+            return random_entry( speed_value.descriptions(), translation() ).translated();
         }
     }
 

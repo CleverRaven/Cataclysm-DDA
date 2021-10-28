@@ -5,7 +5,7 @@
     "//": "Bread type food usable as batter for frying.",
     "components": [
       [
-        [ "flour", 1 ],
+        [ "flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
@@ -94,6 +94,12 @@
     ]
   },
   {
+    "id": "eggs_any_shape",
+    "type": "requirement",
+    "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "egg_reptile", 1 ] ] ]
+  },
+  {
     "id": "milk_standard",
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",
@@ -124,18 +130,41 @@
     "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
   },
   {
+    "id": "sugar_powdered",
+    "type": "requirement",
+    "//": "  Only powdered sugar",
+    "components": [ [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ] ]
+  },
+  {
     "id": "sugar_standard",
     "type": "requirement",
-    "//": "One unit provides ~260kcal; chosen to match one unit of molasses",
+    "//": "One unit provides ~200kcal; chosen to match one unit of molasses",
     "components": [
       [
-        [ "sugar", 14 ],
-        [ "syrup", 5 ],
-        [ "beet_syrup", 6 ],
+        [ "sugar", 10 ],
+        [ "syrup", 4 ],
+        [ "beet_syrup", 5 ],
         [ "molasses", 1 ],
-        [ "honey_bottled", 4 ],
+        [ "honey_bottled", 3 ],
         [ "honey_glassed", 1 ],
-        [ "honeydew", 4 ]
+        [ "sweet_water", 1 ],
+        [ "honeydew", 3 ],
+        [ "artificial_sweetener", 10 ]
+      ]
+    ]
+  },
+  {
+    "id": "sugar_standard_half",
+    "type": "requirement",
+    "//": "About a little more than half of standard",
+    "components": [
+      [
+        [ "sugar", 6 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 3 ],
+        [ "honey_bottled", 2 ],
+        [ "honeydew", 2 ],
+        [ "artificial_sweetener", 6 ]
       ]
     ]
   },
@@ -300,28 +329,25 @@
     "components": [ [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ] ]
   },
   {
+    "id": "any_cracklins",
+    "type": "requirement",
+    "//": "multifarious cracklins",
+    "components": [
+      [
+        [ "cracklins", 1 ],
+        [ "human_cracklins", 1 ],
+        [ "mutant_cracklins", 1 ],
+        [ "mutant_human_cracklins", 1 ],
+        [ "demihuman_cracklins", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_nofish",
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [
-        [ "meat_red", 1, "LIST" ],
-        [ "meat_liver", 5, "LIST" ],
-        [ "meat_kidney", 5, "LIST" ],
-        [ "meat_lung", 5, "LIST" ],
-        [ "sweetbread", 5 ],
-        [ "bacon", 4 ],
-        [ "lunchmeat", 5 ],
-        [ "bologna", 5 ],
-        [ "can_spam", 2 ],
-        [ "can_chicken", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "dry_meat", 1 ],
-        [ "jerky", 1 ],
-        [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ],
-        [ "meat_fried", 1 ]
-      ]
+      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
     ]
   },
   {
@@ -330,6 +356,7 @@
     "//": "meat you'd put on a sandwich",
     "components": [
       [
+        [ "any_cracklins", 2, "LIST" ],
         [ "meat_cooked", 1 ],
         [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
@@ -344,9 +371,9 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "jerky", 1 ],
-        [ "bacon", 1 ],
+        [ "bacon", 2 ],
         [ "lunchmeat", 2 ],
-        [ "bologna", 5 ],
+        [ "bologna", 2 ],
         [ "can_spam", 2 ],
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
@@ -357,11 +384,14 @@
         [ "can_tuna", 1 ],
         [ "can_sardine", 1 ],
         [ "can_clams", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 1 ],
         [ "fish_pickled", 1 ],
-        [ "cracklins", 1 ],
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
+        [ "sausage_wasteland", 1 ],
         [ "bratwurst_sausage", 1 ],
         [ "meat_fried", 1 ]
       ]
@@ -979,5 +1009,11 @@
         [ "kompot", 1 ]
       ]
     ]
+  },
+  {
+    "id": "small_cans",
+    "type": "requirement",
+    "//": "Small can, 250ml.",
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
   }
 ]

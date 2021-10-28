@@ -459,7 +459,8 @@
     "type": "COMESTIBLE",
     "name": { "str": "imitation peanutbutter" },
     "description": "A thick, nutty brown paste.",
-    "copy-from": "peanutbutter"
+    "copy-from": "peanutbutter",
+    "calories": 400
   },
   {
     "id": "spread_peanutbutter",

@@ -211,6 +211,7 @@ void mopping_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
+void teach_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
 void shear_finish( player_activity *act, Character *you );
 void vehicle_finish( player_activity *act, Character *you );

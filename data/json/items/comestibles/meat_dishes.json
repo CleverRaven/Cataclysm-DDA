@@ -423,7 +423,7 @@
     "name": { "str": "stuffed clam" },
     "copy-from": "fish_fried",
     "weight": "150 g",
-    "calories": 572,
+    "calories": 115,
     "description": "Quahog clams stuffed with bread crumbs and fried.",
     "volume": "175 ml",
     "looks_like": "fish_fried",

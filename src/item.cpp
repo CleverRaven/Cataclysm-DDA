@@ -1540,7 +1540,7 @@ static int get_base_env_resist( const item &it )
         }
     }
 
-    return t->env_resist * it.get_relative_health();
+    return t->avg_env_resist() * it.get_relative_health();
 }
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
@@ -3724,7 +3724,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet copied recipes from SD cards
-    if( has_var( "EIPC_RECIPES" ) ) {
+    if( has_var( "EIPC_RECIPES" ) && !is_broken_on_active() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -3814,7 +3814,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet ebook recipes
-    if( is_ebook_storage() ) {
+    if( is_ebook_storage() && !is_broken_on_active() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -6524,7 +6524,7 @@ int item::get_env_resist( int override_base_resist ) const
         return is_pet_armor() ? type->pet_armor->env_resist : 0;
     }
     // modify if item is a gas mask and has filter
-    int resist_base = t->env_resist;
+    int resist_base = t->avg_env_resist();
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
@@ -6537,7 +6537,7 @@ int item::get_base_env_resist_w_filter() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->env_resist_w_filter : 0;
     }
-    return t->env_resist_w_filter;
+    return t->avg_env_resist_w_filter();
 }
 
 bool item::is_power_armor() const
@@ -6723,7 +6723,7 @@ float item::get_thickness() const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
     }
-    return t->thickness;
+    return t->avg_thickness();
 }
 
 int item::get_warmth() const
@@ -7797,6 +7797,11 @@ bool item::is_broken() const
     return has_flag( flag_ITEM_BROKEN );
 }
 
+bool item::is_broken_on_active() const
+{
+    return has_flag( flag_ITEM_BROKEN ) || ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
+}
+
 int item::wind_resist() const
 {
     std::vector<const material_type *> materials = made_of_types();
@@ -8181,7 +8186,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
         }
-    } else if( has_var( "EIPC_RECIPES" ) ) {
+    } else if( has_var( "EIPC_RECIPES" ) && !is_broken_on_active() ) {
         // See eipc_recipe_add() in item.cpp where this is set.
         const std::string recipes = get_var( "EIPC_RECIPES" );
         // Capture the index one past the delimiter, i.e. start of target string.

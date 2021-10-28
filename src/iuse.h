@@ -141,6 +141,7 @@ cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
 cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
+cata::optional<int> electricstorage( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );

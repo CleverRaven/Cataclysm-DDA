@@ -150,6 +150,7 @@
     "color": "dark_gray",
     "charges_per_use": 1,
     "armor_data": {
+      "material": [ "black_dragon_hide" ],
       "sided": true,
       "material_thickness": 1,
       "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]

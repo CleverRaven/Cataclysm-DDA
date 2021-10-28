@@ -289,7 +289,8 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 },
+    "relative": { "bashing": 1 },
+    "material_thickness": 5,
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
@@ -502,6 +503,7 @@
     "color": "dark_gray",
     "armor_data": {
       "material_thickness": 6,
+      "material": [ "plastic", "nomex" ],
       "armor": [
         { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
         { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
@@ -532,7 +534,11 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_data": { "material_thickness": 6, "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ] },
+    "armor_data": {
+      "material": [ "plastic", "nomex" ],
+      "material_thickness": 6,
+      "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
+    },
     "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You put down your visor." },
     "warmth": 30,
     "environmental_protection": 1,

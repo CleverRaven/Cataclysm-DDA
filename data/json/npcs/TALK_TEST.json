@@ -1397,9 +1397,9 @@
         "effect": { "arithmetic": [ { "u_val": "owed" }, "=", { "const": 12 } ] }
       },
       {
-        "text": "Sets skill level in driving to 13.",
+        "text": "Sets skill level in driving to 10.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "skill_level", "skill": "driving" }, "=", { "const": 13 } ] }
+        "effect": { "arithmetic": [ { "u_val": "skill_level", "skill": "driving" }, "=", { "const": 10 } ] }
       },
       {
         "text": "Sets pos_x to 14.",

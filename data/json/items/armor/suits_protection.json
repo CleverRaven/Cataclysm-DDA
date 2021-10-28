@@ -592,7 +592,10 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 30, "encumbrance": 5 }
+    ]
   },
   {
     "id": "k_gambeson",
@@ -611,8 +614,11 @@
     "warmth": 30,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 30, "encumbrance": 5 }
+    ]
   },
   {
     "id": "xl_gambeson",
@@ -628,7 +634,7 @@
     "name": { "str": "XL kevlar gambeson" },
     "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "OVERSIZE" ]
   },
   {
     "id": "hazmat_suit",

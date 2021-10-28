@@ -431,6 +431,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "rehydrated_eggs",
+    "copy-from": "egg_bird",
+    "name": { "str": "rehydrated egg" },
+    "weight": "50 g",
+    "color": "yellow",
+    "symbol": "%",
+    "looks_like": "powder_egg",
+    "quench": 2,
+    "calories": 80,
+    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "price": 22,
+    "price_postapoc": 25,
+    "material": [ "egg" ],
+    "volume": "50 ml",
+    "flags": [  ],
+    "fun": -2,
+    "vitamins": [ [ "vitB", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "scrambled_eggs",
     "name": { "str_sp": "scrambled eggs" },
     "copy-from": "egg_chicken",
@@ -459,6 +479,21 @@
     "price_postapoc": 50,
     "material": [ "egg" ],
     "fun": 2,
+    "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_salad",
+    "name": { "str": "egg salad" },
+    "copy-from": "boiled_egg",
+    "color": "white",
+    "symbol": "o",
+    "quench": 2,
+    "description": "Hard-boiled eggs, mixed into a salad.  Can be made into a sandwich!",
+    "price": 95,
+    "price_postapoc": 50,
+    "material": [ "egg" ],
+    "fun": 4,
     "flags": [ "FREEZERBURN" ]
   },
   {

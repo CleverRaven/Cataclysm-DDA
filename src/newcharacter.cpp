@@ -183,8 +183,9 @@ static int skill_points_used( const avatar &u )
     }
     int skills = 0;
     for( const Skill &sk : Skill::skills ) {
-        std::vector<int> costs = {0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25};
-        skills += costs.at( u.get_skill_level( sk.ident() ) );
+        static std::array < int, 1 + MAX_SKILL > costs = { 0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25 };
+        int skill_level = u.get_skill_level( sk.ident() );
+        skills += costs.at( std::min<int>( skill_level, costs.size() - 1 ) );
     }
     return scenario + profession_points + hobbies + skills;
 }

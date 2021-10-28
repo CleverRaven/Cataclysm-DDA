@@ -100,6 +100,56 @@ static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
+static const oter_str_id oter_ants_lab( "ants_lab" );
+static const oter_str_id oter_ants_lab_stairs( "ants_lab_stairs" );
+static const oter_str_id oter_ants_es( "ants_es" );
+static const oter_str_id oter_ants_esw( "ants_esw" );
+static const oter_str_id oter_ants_ew( "ants_ew" );
+static const oter_str_id oter_ants_ne( "ants_ne" );
+static const oter_str_id oter_ants_nes( "ants_nes" );
+static const oter_str_id oter_ants_nesw( "ants_nesw" );
+static const oter_str_id oter_ants_new( "ants_new" );
+static const oter_str_id oter_ants_ns( "ants_ns" );
+static const oter_str_id oter_ants_nsw( "ants_nsw" );
+static const oter_str_id oter_ants_sw( "ants_sw" );
+static const oter_str_id oter_ants_wn( "ants_wn" );
+static const oter_str_id oter_central_lab( "central_lab" );
+static const oter_str_id oter_central_lab_core( "central_lab_core" );
+static const oter_str_id oter_central_lab_finale( "central_lab_finale" );
+static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
+static const oter_str_id oter_ice_lab( "ice_lab" );
+static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
+static const oter_str_id oter_ice_lab_finale( "ice_lab_finale" );
+static const oter_str_id oter_ice_lab_stairs( "ice_lab_stairs" );
+static const oter_str_id oter_lab( "lab" );
+static const oter_str_id oter_lab_core( "lab_core" );
+static const oter_str_id oter_lab_finale( "lab_finale" );
+static const oter_str_id oter_lab_stairs( "lab_stairs" );
+static const oter_str_id oter_mine( "mine" );
+static const oter_str_id oter_mine_finale( "mine_finale" );
+static const oter_str_id oter_mine_down( "mine_down" );
+static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_str_id oter_sewer_es( "sewer_es" );
+static const oter_str_id oter_sewer_esw( "sewer_esw" );
+static const oter_str_id oter_sewer_ew( "sewer_ew" );
+static const oter_str_id oter_sewer_ne( "sewer_ne" );
+static const oter_str_id oter_sewer_nes( "sewer_nes" );
+static const oter_str_id oter_sewer_nesw( "sewer_nesw" );
+static const oter_str_id oter_sewer_new( "sewer_new" );
+static const oter_str_id oter_sewer_ns( "sewer_ns" );
+static const oter_str_id oter_sewer_nsw( "sewer_nsw" );
+static const oter_str_id oter_sewer_sw( "sewer_sw" );
+static const oter_str_id oter_sewer_wn( "sewer_wn" );
+static const oter_str_id oter_slimepit( "slimepit" );
+static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
+static const oter_str_id oter_slimepit_down( "slimepit_down" );
+static const oter_str_id oter_temple( "temple" );
+static const oter_str_id oter_temple_finale( "temple_finale" );
+static const oter_str_id oter_temple_stairs( "temple_stairs" );
+static const oter_str_id oter_tower_lab( "tower_lab" );
+static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
+static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
+
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int MON_RADIUS = 3;
@@ -4075,13 +4125,13 @@ void map::draw_lab( mapgendata &dat )
     int tw = 0;
     int bw = 0;
 
-    if( terrain_type == "lab" || terrain_type == "lab_stairs" || terrain_type == "lab_core" ||
-        terrain_type == "ants_lab" || terrain_type == "ants_lab_stairs" ||
-        terrain_type == "ice_lab" || terrain_type == "ice_lab_stairs" ||
-        terrain_type == "ice_lab_core" ||
-        terrain_type == "central_lab" || terrain_type == "central_lab_stairs" ||
-        terrain_type == "central_lab_core" ||
-        terrain_type == "tower_lab" || terrain_type == "tower_lab_stairs" ) {
+    if( terrain_type == oter_lab || terrain_type == oter_lab_stairs
+        || terrain_type == oter_lab_core || terrain_type == oter_ants_lab
+        || terrain_type == oter_ants_lab_stairs || terrain_type == oter_ice_lab
+        || terrain_type == oter_ice_lab_stairs || terrain_type == oter_ice_lab_core
+        || terrain_type == oter_central_lab || terrain_type == oter_central_lab_stairs
+        || terrain_type == oter_central_lab_core || terrain_type == oter_tower_lab
+        || terrain_type == oter_tower_lab_stairs ) {
 
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
@@ -4513,10 +4563,10 @@ void map::draw_lab( mapgendata &dat )
         }
 
         // Slimes pretty much wreck up the place, too, but only underground
-        tw = ( dat.north() == "slimepit" ? SEEY     : 0 );
-        rw = ( dat.east()  == "slimepit" ? SEEX + 1 : 0 );
-        bw = ( dat.south() == "slimepit" ? SEEY + 1 : 0 );
-        lw = ( dat.west()  == "slimepit" ? SEEX     : 0 );
+        tw = ( dat.north() == oter_slimepit ? SEEY     : 0 );
+        rw = ( dat.east()  == oter_slimepit ? SEEX + 1 : 0 );
+        bw = ( dat.south() == oter_slimepit ? SEEY + 1 : 0 );
+        lw = ( dat.west()  == oter_slimepit ? SEEX     : 0 );
         if( tw != 0 || rw != 0 || bw != 0 || lw != 0 ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
@@ -4750,8 +4800,8 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         }
-    } else if( terrain_type == "lab_finale" || terrain_type == "ice_lab_finale" ||
-               terrain_type == "central_lab_finale" || terrain_type == "tower_lab_finale" ) {
+    } else if( terrain_type == oter_lab_finale || terrain_type == oter_ice_lab_finale ||
+               terrain_type == oter_central_lab_finale || terrain_type == oter_tower_lab_finale ) {
 
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
@@ -5060,7 +5110,7 @@ void map::draw_lab( mapgendata &dat )
 void map::draw_temple( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "temple" || terrain_type == "temple_stairs" ) {
+    if( terrain_type == oter_temple || terrain_type == oter_temple_stairs ) {
         if( dat.zlevel() == 0 ) {
             // Ground floor
             // TODO: More varieties?
@@ -5283,16 +5333,16 @@ void map::draw_temple( const mapgendata &dat )
                 break;
             } // Done with room type switch
             // Stairs down if we need them
-            if( terrain_type == "temple_stairs" ) {
+            if( terrain_type == oter_temple_stairs ) {
                 line( this, t_stairs_down, point( SEEX, 0 ), point( SEEX + 1, 0 ) );
             }
             // Stairs at the south if dat.above() has stairs down.
-            if( dat.above() == "temple_stairs" ) {
+            if( dat.above() == oter_temple_stairs ) {
                 line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
             }
 
         } // Done with underground-only stuff
-    } else if( terrain_type == "temple_finale" ) {
+    } else if( terrain_type == oter_temple_finale ) {
         fill_background( this, t_rock );
         square( this, t_rock_floor, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
         square( this, t_rock_floor, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
@@ -5309,7 +5359,7 @@ void map::draw_temple( const mapgendata &dat )
 void map::draw_mine( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "mine" || terrain_type == "mine_down" ) {
+    if( terrain_type == oter_mine || terrain_type == oter_mine_down ) {
         if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
             dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
@@ -5399,7 +5449,7 @@ void map::draw_mine( mapgendata &dat )
 
         }
 
-        if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
+        if( terrain_type == oter_mine_down ) { // Don't forget to build a slope down!
             std::vector<direction> open;
             if( dat.n_fac == 4 ) {
                 open.push_back( direction::NORTH );
@@ -5462,7 +5512,7 @@ void map::draw_mine( mapgendata &dat )
             }
         } // Done building a slope down
 
-        if( dat.above() == "mine_down" ) { // Don't forget to build a slope up!
+        if( dat.above() == oter_mine_down ) { // Don't forget to build a slope up!
             std::vector<direction> open;
             if( dat.n_fac == 6 && ter( point( SEEX, 6 ) ) != t_slope_down ) {
                 open.push_back( direction::NORTH );
@@ -5521,7 +5571,7 @@ void map::draw_mine( mapgendata &dat )
                 }
             }
         } // Done building a slope up
-    } else if( terrain_type == "mine_finale" ) {
+    } else if( terrain_type == oter_mine_finale ) {
         // Set up the basic chamber
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
@@ -5535,19 +5585,19 @@ void map::draw_mine( mapgendata &dat )
         }
 
         // Now draw the entrance(s)
-        if( dat.north() == "mine" ) {
+        if( dat.north() == oter_mine ) {
             square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
         }
 
-        if( dat.east()  == "mine" ) {
+        if( dat.east()  == oter_mine ) {
             square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
         }
 
-        if( dat.south() == "mine" ) {
+        if( dat.south() == oter_mine ) {
             square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
         }
 
-        if( dat.west()  == "mine" ) {
+        if( dat.west()  == oter_mine ) {
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         }
 
@@ -5585,10 +5635,10 @@ void map::draw_slimepit( const mapgendata &dat )
                 }
             }
         }
-        if( terrain_type == "slimepit_down" ) {
+        if( terrain_type == oter_slimepit_down ) {
             ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_down );
         }
-        if( dat.above() == "slimepit_down" ) {
+        if( dat.above() == oter_slimepit_down ) {
             switch( rng( 1, 4 ) ) {
                 case 1:
                     ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), t_slope_up );
@@ -5602,7 +5652,7 @@ void map::draw_slimepit( const mapgendata &dat )
                 case 4:
                     ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
             }
-        } else if( dat.above() == "slimepit_bottom" ) {
+        } else if( dat.above() == oter_slimepit_bottom ) {
             // Align the stairs
             ter_set( point( 7, 9 ), t_slope_up );
         }
@@ -5686,7 +5736,7 @@ void map::draw_connections( const mapgendata &dat )
             }
         }
     } else if( is_ot_match( "sewer", terrain_type, ot_match_type::type ) ) {
-        if( dat.above() == "road_nesw_manhole" ) {
+        if( dat.above() == oter_road_nesw_manhole ) {
             ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
         }
         if( is_ot_match( "subway", dat.north(), ot_match_type::type ) &&
@@ -6374,41 +6424,41 @@ bool connects_to( const oter_id &there, int dir )
     switch( dir ) {
         // South
         case 2:
-            if( there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
-                there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ns" || there == "ants_es" ||
-                there == "ants_sw"    || there == "ants_nes" ||  there == "ants_nsw" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ns || there == oter_sewer_es || there == oter_sewer_sw ||
+                there == oter_sewer_nes || there == oter_sewer_nsw || there == oter_sewer_esw ||
+                there == oter_sewer_nesw || there == oter_ants_ns || there == oter_ants_es ||
+                there == oter_ants_sw || there == oter_ants_nes || there == oter_ants_nsw ||
+                there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
         // West
         case 3:
-            if( there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
-                there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ew" || there == "ants_sw" ||
-                there == "ants_wn"    || there == "ants_new" || there == "ants_nsw" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ew || there == oter_sewer_sw || there == oter_sewer_wn ||
+                there == oter_sewer_new || there == oter_sewer_nsw || there == oter_sewer_esw ||
+                there == oter_sewer_nesw || there == oter_ants_ew || there == oter_ants_sw ||
+                there == oter_ants_wn || there == oter_ants_new || there == oter_ants_nsw ||
+                there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
         // North
         case 0:
-            if( there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
-                there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
-                there == "sewer_nesw" || there == "ants_ns" || there == "ants_ne" ||
-                there == "ants_wn"    || there == "ants_nes" || there == "ants_new" ||
-                there == "ants_nsw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ns || there == oter_sewer_ne || there == oter_sewer_wn ||
+                there == oter_sewer_nes || there == oter_sewer_new || there == oter_sewer_nsw ||
+                there == oter_sewer_nesw || there == oter_ants_ns || there == oter_ants_ne ||
+                there == oter_ants_wn || there == oter_ants_nes || there == oter_ants_new ||
+                there == oter_ants_nsw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
         // East
         case 1:
-            if( there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
-                there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ew" || there == "ants_ne" ||
-                there == "ants_es"    || there == "ants_nes" || there == "ants_new" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ew || there == oter_sewer_ne || there == oter_sewer_es ||
+                there == oter_sewer_nes || there == oter_sewer_new || there == oter_sewer_esw ||
+                there == oter_sewer_nesw || there == oter_ants_ew || there == oter_ants_ne ||
+                there == oter_ants_es || there == oter_ants_nes || there == oter_ants_new ||
+                there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;

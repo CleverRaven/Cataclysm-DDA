@@ -12,6 +12,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -32,6 +33,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -50,6 +52,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -65,6 +68,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -80,6 +84,7 @@
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] },
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   }
 ]

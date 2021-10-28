@@ -233,6 +233,23 @@ struct armor_portion_data {
     int cover_ranged = 0;
     int cover_vitals = 0;
 
+    /**
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
+     */
+    float thickness = 0.0f;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+
+    // What materials this portion is made of, for armor purposes
+    std::vector<material_id> materials;
+
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
@@ -248,19 +265,6 @@ struct islot_armor {
     * Whether this item can be worn on either side of the body
     */
     bool sided = false;
-    /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
-     */
-    float thickness = 0.0f;
-    /**
-     * Resistance to environmental effects.
-     */
-    int env_resist = 0;
-    /**
-     * Environmental protection of a gas mask with installed filter.
-     */
-    int env_resist_w_filter = 0;
     /**
      * How much warmth this item provides.
      */
@@ -287,6 +291,10 @@ struct islot_armor {
     std::vector<armor_portion_data> data;
 
     bool was_loaded = false;
+
+    int avg_env_resist() const;
+    int avg_env_resist_w_filter() const;
+    float avg_thickness() const;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
