@@ -564,7 +564,7 @@
     "id": "mon_feral_militia",
     "type": "MONSTER",
     "name": { "str": "mad militia" },
-    "description": "A former militia member turned feral, intelligent enough to use their equipment on hand. One hand grips unto an automatic firearm, while their other hand hovers near a loaded holster. Their Bloodshot eyes scans around as their surroundings are illuminated by a light source on their person.",
+    "description": "Wearing a camo uniform with a kevlar vest, this person was a militia member, turned feral. Their hands grip unto an automatic firearm, bloodshot eyes scanning around for threats. Their surroundings are illuminated by a light source on their person, and as they steadily move, your eyes easily catch on to their loaded holster.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -606,7 +606,7 @@
         "fake_skills": [ [ "gun", 2 ], [ "pistol", 3 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 15, 30, "DEFAULT" ] ],
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The mad militiaman mechanically fires their holster firearm!"
       },
@@ -615,12 +615,12 @@
         "cooldown": 5,
         "move_cost": 150,
         "gun_type": "ar15",
-        "//": "(When from afar distance, uses sidearm. When near enough, uses auto-firearm)",
+        "//": "(When from afar distance, uses machinegun. When near enough, uses sidearm)",
         "ammo_type": "223",
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 0, 14, "AUTO" ] ],
+        "ranges": [ [ 0, 30, "AUTO" ] ],
         "require_targeting_player": false,
         "description": "The mad militiaman fires their machine gun!"
       }
