@@ -87,6 +87,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_warmth";
         case widget_var::bp_wetness:
             return "bp_wetness";
+        case widget_var::cardio_fit:
+            return "cardio_fit";
+        case widget_var::cardio_acc:
+            return "cardio_acc";
         // Description functions
         case widget_var::activity_text:
             return "activity_text";
@@ -134,8 +138,7 @@ std::string enum_to_string<widget_var>( widget_var data )
         case widget_var::last:
             break;
     }
-    debugmsg( "Invalid widget_var" );
-    abort();
+    cata_fatal( "Invalid widget_var" );
 }
 
 } // namespace io
@@ -279,6 +282,12 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::bp_encumb:
             // Encumbrance for body part
             value = ava.get_part_encumbrance_data( _bp_id ).encumbrance;
+            break;
+        case widget_var::cardio_fit:
+            value = ava.get_cardiofit();
+            break;
+        case widget_var::cardio_acc:
+            value = ava.get_cardio_acc();
             break;
 
         // TODO

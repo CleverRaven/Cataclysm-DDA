@@ -261,7 +261,9 @@
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
       { "item": "manual_first_aid", "prob": 40 },
-      { "item": "manual_computers", "prob": 20 },
+      { "item": "manual_computer", "prob": 20 },
+      { "item": "webbasics_computer", "prob": 20 },
+      { "item": "hackerman_computer", "prob": 20 },
       { "group": "SUS_book_nonf_hard_dodge", "prob": 20 },
       { "item": "textbook_computer", "prob": 4 },
       { "item": "textbook_chemistry", "prob": 4 },
@@ -301,6 +303,7 @@
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_canning", "prob": 30 },
       { "item": "manual_sealing", "prob": 40 },
+      { "item": "vacuum_sealing", "prob": 20 },
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 }
@@ -339,6 +342,7 @@
       { "item": "winemaking_beginner", "prob": 14 },
       { "item": "manual_canning", "prob": 18 },
       { "item": "manual_sealing", "prob": 9 },
+      { "item": "vacuum_sealing", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 },
       { "item": "theater_props", "prob": 5 }
@@ -357,7 +361,9 @@
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
       { "item": "manual_first_aid", "prob": 40 },
-      { "item": "manual_computers", "prob": 20 },
+      { "item": "manual_computer", "prob": 20 },
+      { "item": "webbasics_computer", "prob": 20 },
+      { "item": "hackerman_computer", "prob": 10 },
       { "item": "recipe_augs", "prob": 5 },
       { "item": "howto_computer", "prob": 10 },
       { "item": "cookbook", "prob": 35 },
@@ -382,6 +388,7 @@
       { "item": "winemaking_beginner", "prob": 10 },
       { "item": "manual_canning", "prob": 8 },
       { "item": "manual_sealing", "prob": 9 },
+      { "item": "vacuum_sealing", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 }
     ]
@@ -412,9 +419,12 @@
     "entries": [
       { "item": "textbook_computer", "prob": 4 },
       { "item": "computer_science", "prob": 8 },
+      { "item": "webbasics_computer", "prob": 10 },
+      { "item": "hackerman_computer", "prob": 6 },
       { "item": "book_icef", "prob": 8 },
       { "item": "textbook_electronics", "prob": 6 },
       { "item": "advanced_electronics", "prob": 6 },
+      { "item": "ic_reference_electronics", "prob": 4 },
       { "item": "textbook_business", "prob": 12 },
       { "item": "adv_chemistry", "prob": 4 },
       { "item": "tailor_portfolio", "prob": 3 },
@@ -470,7 +480,9 @@
     "//": "Books you might find on personal or library bookshelves in a secret lab.",
     "subtype": "distribution",
     "entries": [
-      { "item": "manual_computers", "prob": 10 },
+      { "item": "manual_computer", "prob": 10 },
+      { "item": "webbasics_computer", "prob": 6 },
+      { "item": "hackerman_computer", "prob": 4 },
       { "item": "recipe_augs", "prob": 5 },
       { "item": "howto_computer", "prob": 10 },
       { "item": "textbook_robots", "prob": 5 },
@@ -489,6 +501,7 @@
       { "item": "textbook_gaswarfare", "prob": 2 },
       { "item": "manual_electronics", "prob": 5 },
       { "item": "advanced_electronics", "prob": 6 },
+      { "item": "ic_reference_electronics", "prob": 2 },
       { "item": "reference_cooking", "prob": 2 },
       { "item": "reference_fabrication1", "prob": 2 },
       { "item": "reference_firstaid1", "prob": 2 },
@@ -529,6 +542,8 @@
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_canning", "prob": 80 },
       { "item": "manual_sealing", "prob": 190 },
+      { "item": "manual_barbaran", "prob": 10 },
+      { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 }
     ]
   },
@@ -581,6 +596,7 @@
       { "item": "manual_wingchun", "prob": 3 },
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
+      { "item": "manual_barbaran", "prob": 1 },
       { "item": "book_lockpick", "prob": 1 },
       { "group": "rare_martial_arts_books", "prob": 6 },
       { "item": "scots_tailor", "prob": 30 }

@@ -131,7 +131,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
         std::signal( SIGABRT, SIG_DFL );
 #pragma GCC diagnostic pop
-        abort();
+        abort(); // NOLINT(cata-assert)
     }
 } // extern "C"
 
@@ -158,7 +158,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
         std::signal( SIGABRT, SIG_DFL );
 #pragma GCC diagnostic pop
-        abort();
+        abort(); // NOLINT(cata-assert)
     } catch( ... ) {
         type = "Unknown exception";
         msg = "Not derived from std::exception";
@@ -170,7 +170,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
     std::signal( SIGABRT, SIG_DFL );
 #pragma GCC diagnostic pop
-    abort();
+    abort(); // NOLINT(cata-assert)
 }
 
 void init_crash_handlers()

@@ -721,9 +721,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         }
         return true;
     }
-    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-    cata_assert( false );
-    return false;
+    cata_fatal( "c must be either a monster or a Character" );
 }
 
 bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
@@ -1162,32 +1160,6 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
-    if( !here.has_zlevels() ) {
-        if( c->is_avatar() ) {
-            add_msg( m_warning, _( "You fall down a level!" ) );
-            g->vertical_move( -1, true );
-            if( c->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                    c->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
-                add_msg( _( "You flap your wings and flutter down gracefully." ) );
-            } else if( c->as_character()->has_active_bionic( bio_shock_absorber ) ) {
-                add_msg( m_info,
-                         _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
-            } else {
-                c->as_avatar()->impact( 20, p );
-            }
-        } else {
-            c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-            tripoint dest = c->pos();
-            dest.z--;
-            c->impact( 20, dest );
-            c->setpos( dest );
-            if( m != nullptr ) {
-                g->despawn_monster( *m );
-            }
-        }
-
-        return true;
-    }
 
     int height = 0;
     tripoint where = p;
@@ -1241,7 +1213,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( you->is_avatar() ) {
-        add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
+        add_msg( m_bad, n_gettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
         g->vertical_move( -height, true );
     } else {
@@ -1424,7 +1396,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
             map &here = get_map();
             you->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
             tripoint_abs_omt omt_pos = you->global_omt_location();
-            const std::string &regen_mapgen = here.tr_at( p ).map_regen_target();
+            const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
             if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {
                 popup( _( "Failed to generate the new map" ) );

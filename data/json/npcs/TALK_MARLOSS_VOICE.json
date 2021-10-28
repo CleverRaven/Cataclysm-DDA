@@ -45,7 +45,7 @@
     "responses": [
       { "text": "Well, sure.", "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY" },
       { "text": "I'd… rather not.", "topic": "TALK_MARLOSS_VOICE" },
-      { "text": "I'm sorry…  I have places to be.", "topic": "TALK_DONE" }
+      { "text": "I'm sorry… I have places to be.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -81,7 +81,7 @@
       {
         "text": "[Take marloss berry] Thank you.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_buy_item": "marloss_berry" }, { "u_add_effect": "u_given_berry", "duration": 43200 } ]
+        "effect": [ { "u_spawn_item": "marloss_berry" }, { "u_add_effect": "u_given_berry", "duration": 43200 } ]
       },
       { "text": "I have changed my mind, thank you.", "topic": "TALK_DONE" },
       {

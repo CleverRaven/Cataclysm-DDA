@@ -121,6 +121,33 @@
   },
   {
     "type": "furniture",
+    "id": "f_wind_vane",
+    "name": "wind vane",
+    "description": "A metal fin that swivels around a central pivot, indicating the direction of prevailing wind.",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 10,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "pipe_fittings", "count": 1 },
+        { "item": "wire", "count": 4 },
+        { "item": "sheet_metal_small", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "sheet_metal_small", "count": [ 0, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_roof_turbine_vent",
     "name": "roof turbine vent",
     "description": "A rotary wind turbine that will catch the wind and pull out air from inside.  It is most commonly used for improving air circulation, particularly in poorly-ventilated areas like attics.",

@@ -86,6 +86,7 @@ static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -95,14 +96,14 @@ using namespace map_field_processing;
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
-    std::vector<material_id> all_mats = fuel.made_of();
+    const std::map<material_id, int> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return;
     }
-    // Items that are multiple materials are assumed to be equal parts each.
-    const units::mass by_weight = burned_mass / all_mats.size();
-    for( material_id &mat : all_mats ) {
-        for( const auto &bp : mat->burn_products() ) {
+    const units::mass by_weight = burned_mass;
+    const float mat_total = fuel.type->mat_portion_total == 0 ? 1 : fuel.type->mat_portion_total;
+    for( const auto &mat : all_mats ) {
+        for( const auto &bp : mat.first->burn_products() ) {
             itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
             // and leads to infinite recursion.
@@ -110,7 +111,9 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            // distribute byproducts by weight AND portion of item
+            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) *
+                                      ( mat.second / mat_total ) );
 
             if( n <= 0 ) {
                 continue;
@@ -140,9 +143,7 @@ int map::burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp
 
 void map::process_fields()
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int z = minz; z <= maxz; z++ ) {
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         auto &field_cache = get_cache( z ).field_cache;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
@@ -287,7 +288,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
-    if( zlevels && p.z > -OVERMAP_DEPTH ) {
+    if( p.z > -OVERMAP_DEPTH ) {
         const tripoint down{ p.xy(), p.z - 1 };
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
@@ -312,7 +313,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         }
     }
 
-    if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
+    if( !spread.empty() && one_in( spread.size() ) ) {
         // Construct the destination from offset and p
         if( sheltered || windpower < 5 ) {
             std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
@@ -338,7 +339,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                 gas_spread_to( cur, n.second, n.first );
             }
         }
-    } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
+    } else if( p.z < OVERMAP_HEIGHT ) {
         const tripoint up{ p.xy(), p.z + 1 };
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
@@ -502,7 +503,7 @@ static void field_processor_underwater_dissipation( const tripoint &, field_entr
 static void field_processor_fd_acid( const tripoint &p, field_entry &cur, field_proc_data &pd )
 {
     //cur_fd_type_id == fd_acid
-    if( !pd.here.has_zlevels() || p.z <= -OVERMAP_DEPTH ) {
+    if( p.z <= -OVERMAP_DEPTH ) {
         return;
     }
 
@@ -1053,8 +1054,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.add_item_or_charges( p, item( "ash" ) );
             }
 
-        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && here.has_zlevels() &&
-                   p.z > -OVERMAP_DEPTH ) {
+        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && p.z > -OVERMAP_DEPTH ) {
             // We're hanging in the air - let's fall down
             tripoint dst{ p.xy(), p.z - 1 };
             if( here.valid_move( p, dst, true, true ) ) {
@@ -1222,7 +1222,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Consume adjacent fuel / terrain / webs to spread.
     // Allow raging fires (and only raging fires) to spread up
     // Spreading down is achieved by wrecking the walls/floor and then falling
-    if( here.has_zlevels() && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
+    if( cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
         const tripoint dst_p = tripoint( p.xy(), p.z + 1 );
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
@@ -1363,7 +1363,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     if( !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_SUPPRESS_SMOKE ) &&
         rng( 0, 100 - windpower ) <= smoke &&
         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
-        bool smoke_up = here.has_zlevels() && p.z < OVERMAP_HEIGHT;
+        bool smoke_up = p.z < OVERMAP_HEIGHT;
         if( smoke_up ) {
             tripoint up{p.xy(), p.z + 1};
             if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, up ) ) {
@@ -1468,7 +1468,7 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
-            if( !you.in_vehicle ) {
+            if( !you.has_trait( trait_GASTROPOD_FOOT ) && ( !you.in_vehicle ) ) {
                 you.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
                 you.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );

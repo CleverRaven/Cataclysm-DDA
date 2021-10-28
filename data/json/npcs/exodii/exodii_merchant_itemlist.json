@@ -1,0 +1,230 @@
+[
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Tier0",
+    "//": "This stuff should be available in the exodii store from the start.",
+    "subtype": "collection",
+    "items": [
+      { "item": "thread", "prob": 75, "count": [ 10, 20 ] },
+      [ "vac_mold", 10 ],
+      [ "box_medium", 75 ],
+      [ "box_large", 25 ],
+      [ "pipe_fittings", 70 ],
+      [ "goggles_welding", 50 ],
+      [ "welding_mask", 30 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 10 ],
+      [ "metal_tank", 8 ],
+      [ "metal_tank_little", 8 ],
+      [ "cu_pipe", 25 ],
+      [ "plastic_sheet", 10 ],
+      [ "oxy_torch", 45 ],
+      { "item": "weldtank", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 45, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_NomadGear_Tier0",
+    "//": "This stuff should be available in the exodii store from the start.  This group includes common items used to craft nomad gear, which the exodii are happy to offer, as well as blueprints for them.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "item": "bp_nomad_cowl", "prob": 100 },
+          { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
+          { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
+          { "item": "glasses_safety", "prob": 40 },
+          { "item": "glasses_bal", "prob": 10 }
+        ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "bp_nomad_bodyglove", "prob": 100 },
+          { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
+          { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
+          { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
+          { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
+          { "item": "thread_nomex", "prob": 20, "count": [ 1, 6 ] },
+          { "item": "thread_kevlar", "prob": 20, "count": [ 1, 6 ] },
+          { "item": "zipper_long_plastic", "prob": 10, "count": [ 1, 2 ] },
+          { "item": "snapfastener_steel", "prob": 40, "count": [ 5, 10 ] },
+          { "item": "chunk_rubber", "prob": 50, "count": [ 1, 2 ] },
+          { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
+        ],
+        "prob": 50
+      },
+      {
+        "collection": [
+          { "item": "bp_nomad_jumpsuit", "prob": 100 },
+          { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
+          { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
+          { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
+          { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
+          { "item": "leather_pouch", "prob": 10, "count": [ 1, 2 ] },
+          { "item": "ragpouch", "prob": 40, "count": [ 1, 2 ] },
+          { "item": "tool_belt", "prob": 40 },
+          { "item": "leather_pouch", "prob": 10 },
+          { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
+        ],
+        "prob": 40
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Guns_Tier0",
+    "//": "This stuff should be available in the exodii store from the start.  This group includes guns and ammo the exodii are happy to sell to noobs.",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [ { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] }, { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] } ]
+      },
+      {
+        "distribution": [
+          { "item": "exodiiminimag", "prob": 60, "charges": 0, "count": [ 1, 2 ] },
+          { "item": "exodiiBRmag", "prob": 10, "charges": 0, "count": [ 1, 2 ] }
+        ]
+      },
+      { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_OldArmour",
+    "//": "This stuff should be available in the exodii store from the start.  Old Thessalonian armour the exodii brought with them.",
+    "//2": "Ideally, the spear should be sold as a spearhead and the player crafts it by getting their own pole.",
+    "subtype": "collection",
+    "items": [
+      { "item": "gambeson", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "armor_lorica", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "helmet_corinthian", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "armor_thessalonian", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "leggings_thessalonian", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "sword_xiphos", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier1",
+    "//": "These CBMs should be available in the exodii store from the start.",
+    "items": [
+      [ "bio_watch", 10 ],
+      [ "bio_syringe", 10 ],
+      [ "bio_power_storage", 20 ],
+      [ "bio_flashlight", 10 ],
+      [ "bio_lighter", 10 ],
+      [ "bio_magnet", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_cable", 10 ],
+      [ "bio_tattoo_led", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_soporific", 10 ],
+      [ "bio_fingerhack", 10 ],
+      [ "bio_geiger", 10 ],
+      [ "bio_nostril", 1 ],
+      [ "bio_voice", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier2",
+    "//": "These CBMs should be available in the exodii store after building a decent amount of trust over time.",
+    "items": [
+      [ "bio_tools", 10 ],
+      [ "bio_ethanol", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_surgical_razor", 10 ],
+      [ "bio_remote", 10 ],
+      [ "bio_torsionratchet", 10 ],
+      [ "bio_ears", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_armor_arms", 10 ],
+      [ "bio_armor_eyes", 10 ],
+      [ "bio_armor_head", 10 ],
+      [ "bio_armor_legs", 10 ],
+      [ "bio_armor_torso", 10 ],
+      [ "bio_digestion", 10 ],
+      [ "bio_infrared", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_night_vision", 10 ],
+      [ "bio_power_storage_mkII", 10 ],
+      [ "bio_scent_mask", 10 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_taste_blocker", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier3",
+    "//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
+    "items": [
+      [ "bio_blood_filter", 10 ],
+      [ "bio_purifier", 10 ],
+      [ "bio_heatsink", 10 ],
+      [ "bio_climate", 10 ],
+      [ "bio_leukocyte", 10 ],
+      [ "bio_adrenaline", 10 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_carbon", 10 ],
+      [ "bio_evap", 10 ],
+      [ "bio_face_mask", 10 ],
+      [ "bio_gills", 10 ],
+      [ "bio_hydraulics", 10 ],
+      [ "bio_membrane", 10 ],
+      [ "bio_painkiller", 10 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_weight", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier4",
+    "//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
+    "items": [
+      [ "bio_faraday", 10 ],
+      [ "bio_metabolics", 10 ],
+      [ "bio_ground_sonar", 10 ],
+      [ "bio_recycler", 10 ],
+      [ "bio_uncanny_dodge", 10 ],
+      [ "bio_eye_enhancer", 10 ],
+      [ "bio_dex_enhancer", 10 ],
+      [ "bio_heat_absorb", 10 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_memory", 10 ],
+      [ "bio_speed", 10 ],
+      [ "bio_str_enhancer", 10 ],
+      [ "bio_water_extractor", 10 ],
+      [ "bio_synaptic_regen", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_unlocks_weapons_light",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [ [ "bio_blade", 10 ], [ "bio_claws", 10 ], [ "bio_cqb", 10 ], [ "bio_flashbang", 10 ], [ "bio_razors", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_unlocks_weapons_medium",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [ [ "bio_resonator", 10 ], [ "bio_targeting", 15 ], [ "bio_shotgun", 10 ], [ "bio_laser", 5 ], [ "bio_shock", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_unlocks_weapons_heavy",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [
+      [ "bio_chain_lightning", 15 ],
+      [ "bio_emp", 1 ],
+      [ "bio_emp_armgun", 1 ],
+      [ "bio_railgun", 15 ],
+      [ "bio_shockwave", 10 ]
+    ]
+  }
+]

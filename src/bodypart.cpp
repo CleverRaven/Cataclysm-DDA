@@ -58,8 +58,7 @@ std::string enum_to_string<side>( side data )
         case side::num_sides:
             break;
     }
-    debugmsg( "Invalid side" );
-    abort();
+    cata_fatal( "Invalid side" );
 }
 
 template<>
@@ -82,8 +81,7 @@ std::string enum_to_string<body_part_type::type>( body_part_type::type data )
         case body_part_type::type::num_types:
             break;
     }
-    debugmsg( "Invalid body part type." );
-    abort();
+    cata_fatal( "Invalid body part type." );
 }
 
 } // namespace io
@@ -214,7 +212,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     // This is NOT the plural of `name`; it's a name referring to the pair of
     // bodyparts which this bodypart belongs to, and thus should not be implemented
-    // using "ngettext" or "translation::make_plural". Otherwise, in languages
+    // using "n_gettext" or "translation::make_plural". Otherwise, in languages
     // without plural forms, translation of this string would indicate it
     // to be a left or right part, while it is not.
     optional( jo, was_loaded, "name_multiple", name_multiple );
@@ -240,11 +238,17 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
-    mandatory( jo, was_loaded, "drench_capacity", drench_max );
 
-    optional( jo, was_loaded, "legacy_id", legacy_id, "BP_NULL" );
-    if( legacy_id != "BP_NULL" ) {
-        token = legacy_id_to_enum( legacy_id );
+    // tokens are actually legacy code that should be on their way out.
+    if( !was_loaded ) {
+        optional( jo, was_loaded, "legacy_id", legacy_id, "BP_NULL" );
+        if( legacy_id != "BP_NULL" ) {
+            token = legacy_id_to_enum( legacy_id );
+        }
+    } else {
+        // we need to clear this because any bodypart using copy-from will not be a legacy part.
+        legacy_id = "BP_NULL";
+        token = body_part::num_bp;
     }
 
     optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
@@ -283,8 +287,10 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "swim_score", swim_score );
 
     optional( jo, was_loaded, "vision_score", vision_score );
+    optional( jo, was_loaded, "nightvision_score", nightvision_score );
+    optional( jo, was_loaded, "reaction_score", reaction_score );
 
-    part_side = jo.get_enum_value<side>( "side" );
+    mandatory( jo, was_loaded, "side", part_side );
 }
 
 void body_part_type::reset()
@@ -511,6 +517,16 @@ float bodypart::get_breathing_score() const
 float bodypart::get_vision_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->vision_score ) );
+}
+
+float bodypart::get_nightvision_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->nightvision_score ) );
+}
+
+float bodypart::get_reaction_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->reaction_score ) );
 }
 
 float bodypart::get_movement_speed_score() const

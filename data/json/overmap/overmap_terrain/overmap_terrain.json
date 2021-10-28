@@ -36,6 +36,7 @@
     "id": "deep_rock",
     "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
@@ -43,7 +44,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": [
+      "park",
+      "park_2",
+      "park_3",
+      "park_4",
+      "park_5",
+      "park_6",
+      "park_7",
+      "playground",
+      "playground_1",
+      "dog_park",
+      "volleyball_court",
+      "tennis_court",
+      "baskeball_court"
+    ],
     "name": "park",
     "sym": "O",
     "color": "green",
@@ -329,6 +344,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "crater",
+    "name": "crater",
+    "sym": "O",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater_core",
+    "copy-from": "crater"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "radio_tower",
       "radio_tower_even",
@@ -361,6 +390,20 @@
     "see_cost": 2,
     "mondensity": 2,
     "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 3, 8 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "name": "wind turbine",
+    "sym": "Y",
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -667,6 +710,7 @@
     "type": "overmap_terrain",
     "id": "airliner_2c_-1",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5
@@ -777,6 +821,24 @@
     "sym": "#",
     "color": "white",
     "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
+    "see_cost": 3,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit_under",
+    "name": "cavern",
+    "looks_like": "cave_underground",
+    "sym": "0",
+    "color": "light_gray",
     "see_cost": 5
   }
 ]

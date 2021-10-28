@@ -36,6 +36,7 @@
 #include "units.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 
 static const efftype_id effect_bounced( "bounced" );
 
@@ -196,7 +197,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin, const vehicle *in_veh )
+        Creature *origin, const vehicle *in_veh, const weakpoint_attack &wp_attack )
 {
     const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
@@ -407,7 +408,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 continue;
             }
             attack.missed_by = cur_missed_by;
-            critter->deal_projectile_attack( null_source ? nullptr : origin, attack );
+            critter->deal_projectile_attack( null_source ? nullptr : origin, attack, true, wp_attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {

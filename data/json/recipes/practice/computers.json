@@ -26,7 +26,7 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "autolearn": [ [ "computer", 4 ] ],
-    "book_learn": [ [ "manual_computers", 2 ], [ "computer_science", 3 ] ],
+    "book_learn": [ [ "manual_computer", 2 ], [ "hackerman_computer", 2 ], [ "webbasics_computer", 3 ], [ "computer_science", 3 ] ],
     "tools": [ [ [ "laptop", 50 ] ] ]
   },
   {

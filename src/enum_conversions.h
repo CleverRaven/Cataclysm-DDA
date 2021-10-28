@@ -53,9 +53,8 @@ std::unordered_map<std::string, E> build_enum_lookup_map()
         E e = static_cast<E>( i );
         auto inserted = result.emplace( enum_to_string( e ), e );
         if( !inserted.second ) {
-            debugmsg( "repeated enum string %s (%d and %d)", inserted.first->first,
-                      static_cast<Int>( inserted.first->second ), i );
-            abort();
+            cata_fatal( "repeated enum string %s (%d and %d)", inserted.first->first,
+                        static_cast<Int>( inserted.first->second ), i );
         }
     }
 

@@ -49,7 +49,7 @@ inline const T &translation_argument_identity( const T &t )
 
 std::string gettext( const std::string & );
 std::string pgettext( const std::string &, const std::string & );
-std::string ngettext( const std::string &, const std::string &, int );
+std::string n_gettext( const std::string &, const std::string &, int );
 std::string npgettext( const std::string &, const std::string &, const std::string &, int );
 
 #define translate_marker( s ) ( s )

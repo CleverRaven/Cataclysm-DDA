@@ -137,9 +137,7 @@ message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    # English is included to workaround a libintl bug that affects performance
-    # on MinGW targets. See lang/CMakeList.txt for more information.
-    set(LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    set(LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 endif ()
 
 if (GIT_BINARY)
@@ -247,6 +245,8 @@ endif ()
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
 
+FIND_PACKAGE(ZLIB REQUIRED)
+
 # Check for build types and libraries
 if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
@@ -336,22 +336,6 @@ endif (BACKTRACE)
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    if (NOT _OS_LINUX_) # on Linux with glibc, libintl is not required
-        find_package(Libintl)
-        if (NOT LIBINTL_FOUND)
-            message(FATAL_ERROR
-                    "You need the libintl development library \
-                         to be able to compile with LOCALIZE support. \
-                         See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
-    endif()
-    find_package(Iconv)
-    if (NOT ICONV_FOUND)
-        message(FATAL_ERROR
-                "You need the iconv development library \
-                     to be able to compile with LOCALIZE support. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
     add_subdirectory(lang)
     add_definitions(-DLOCALIZE)
 endif ()

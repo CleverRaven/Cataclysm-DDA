@@ -62,8 +62,7 @@ std::string enum_to_string<usage_from>( usage_from data )
         case usage_from::num_usages_from:
             break;
     }
-    debugmsg( "Invalid usage" );
-    abort();
+    cata_fatal( "Invalid usage" );
 }
 
 } // namespace io

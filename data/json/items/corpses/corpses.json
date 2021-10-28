@@ -101,7 +101,17 @@
     "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      {
+        "id": "child_gunned_01",
+        "text": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender."
+      },
+      {
+        "id": "child_gunned_02",
+        "text": "The corpse of an infant.  A single small-caliber bullet has been put through its skull."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -149,7 +159,26 @@
     "name": { "str": "corpse" },
     "description": "A dead body with a gaping stab wound in its back.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      { "id": "generic_stabbed_01", "text": "A dead body with a gaping stab wound in its back." },
+      {
+        "id": "generic_stabbed_02",
+        "text": "The bloody corpse of a young man.  He has been stabbed repeatedly in the jugular and throat with a small blade."
+      },
+      {
+        "id": "generic_stabbed_03",
+        "text": "The dead body of a person.  They look to have been skewered through with a large sharp implement."
+      },
+      {
+        "id": "generic_stabbed_04",
+        "text": "The corpse of a tall middle-aged woman.  She appears to have many stab wounds up her legs and thighs."
+      },
+      {
+        "id": "generic_stabbed_05",
+        "text": "The corpse of a small old lady, her face caked in blood and missing an eye."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -183,5 +212,47 @@
     "volume": "57 L",
     "weight": "78 kg",
     "material": [ "hflesh" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_generic_gunned",
+    "copy-from": "corpse",
+    "name": { "str": "corpse" },
+    "description": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head.",
+    "looks_like": "corpse_generic_human",
+    "volume": "40 L",
+    "weight": "52 kg",
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      {
+        "id": "generic_gunned_01",
+        "text": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head."
+      },
+      {
+        "id": "generic_gunned_02",
+        "text": "The corpse of a young blond woman shot several times in the back with a low-caliber weapon."
+      },
+      {
+        "id": "generic_gunned_03",
+        "text": "An androgynous-looking corpse gored by arms fire chest to thighs, leaving the face eerily pristine."
+      },
+      {
+        "id": "generic_gunned_04",
+        "//": "canoeing",
+        "text": "The corpse of a seemingly older male.  He appears to have been shot in the forehead at a very close range leaving you a good view of his brain matter."
+      },
+      {
+        "id": "generic_gunned_05",
+        "text": "The corpse of a middle-aged woman, her legs and arms covered in blood.  She appears to have been shot in the thigh."
+      },
+      {
+        "id": "generic_gunned_06",
+        "text": "The corpse of a young man who appears to have been shot to death.  His right arm is only barely still attached to his shoulder."
+      },
+      {
+        "id": "generic_gunned_07",
+        "text": "The corpse of a tall woman unblemished but for the bloody hole atop her head, its thick black hair intermixed now with brain, viscera and shotgun pellets."
+      }
+    ]
   }
 ]

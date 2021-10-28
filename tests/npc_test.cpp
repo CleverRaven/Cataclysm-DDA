@@ -431,8 +431,14 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
+    time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+    if( noon < calendar::turn ) {
+        noon = noon + 1_days;
+    }
+    REQUIRE( time_past_midnight( noon ) == 12_hours );
+    REQUIRE( noon >= calendar::turn );
     // Set to daytime for visibiliity
-    calendar::turn = calendar::turn_zero + 12_hours;
+    calendar::turn = noon;
 
     g->faction_manager_ptr->create_if_needed();
 

@@ -192,7 +192,7 @@
       { "id": "note_74", "text": "\"Make sure your car is REALLY stopped before you get out.\"" },
       {
         "id": "note_75",
-        "text": "\"I found some kind of stone pyramid with spikes.  I feel…  I feel like I'm being watched.\""
+        "text": "\"I found some kind of stone pyramid with spikes.  I feel… I feel like I'm being watched.\""
       },
       {
         "id": "note_76",
@@ -578,11 +578,57 @@
       },
       {
         "id": "note_224",
-        "text": "\"…damn those hybrid cars are efficient.  Wish I was smart enough to finagle that engine controller out of it…  heard Scrapper Joe put one in his deathmobile and now doesn't need gas at all…  then again, Joe is full of shit…\""
+        "text": "\"…damn those hybrid cars are efficient.  wish I was smart enough to finagle that engine controller out of it… heard scrapper Joe put one in his deathmobile and now doesn't need gas at all… then again, Joe is full of shit…\""
       },
       {
         "id": "note_225",
         "text": "\"⋯bioluminescent, 5' diameter⋯  appears to be an immense disembodied eyeball, capable of flight and [illegible] thought\""
+      },
+      {
+        "id": "note_226",
+        "text": "\"What's the deal with boiling water?  Rain water is distilled naturally!  It's perfectly safe, you could save so much time if you didn't boil it.  I drunk some river water, and I'm fine!\""
+      },
+      {
+        "id": "note_227",
+        "text": "\"Went to the emergency shelter, some guy walked in, walked out, grabbed a rock, smashed a bench to bits, carved a plank out of it, walked out again.  Haven't seen them in 3 days… wonder what their story is.\""
+      },
+      {
+        "id": "note_228",
+        "text": "This note is covered in grey goo, ew… \"I know I have a fetish but THIS IS TOO MUCH.  My hands are made of slime.  My hair is slime.  My body is covered in slime.  I can't even use a crowbar 'cause of slime.  Wherever I go I leave a trail of slime.  Everything's slime.  My bag is falling off my back into slime.\""
+      },
+      {
+        "id": "note_229",
+        "text": "A page from a notebook, with a morse code reference and the following decoded message: \"Whiskey echo whiskey - Lima alpha delta\""
+      },
+      {
+        "id": "note_230",
+        "//": "It's a code :D",
+        "text": "\"See if you want to be, extra annoying you can, nod off to the, dump and go, help, Erin to dig up the, last, peice\""
+      },
+      {
+        "id": "note_231",
+        "text": "\"I saw one of those Foodplace workers on the street.  Honestly, they look no different alive than dead.\""
+      },
+      {
+        "id": "note_232",
+        "text": "\"DO NOT go to the irradiation plants!  My truck looks like swiss cheese after the turrets had their way with me.  I'm gonna be stuck roadside for hours while I patch up this mess.\""
+      },
+      {
+        "id": "note_233",
+        "text": "\"I can imagine people sending their 'love and prayers' on social media.  Love doesn't kill zeds, prayer doesn't put food in my belly.\""
+      },
+      {
+        "id": "note_234",
+        "text": "\"I used to take everything at face value.  If you couldn't measure it, couldn't explain it, couldn't put a number to it, it wasn't real.  Then this shit happened.  Real funny.\""
+      },
+      { "id": "note_235", "text": "This note is covered in grey goo, ew… \"Blorble\"" },
+      {
+        "id": "note_236",
+        "text": "\"Saw some chick in the forest.  Her body is all green and shit, and she was covered in leaves and vines.\""
+      },
+      {
+        "id": "note_237",
+        "text": "\"Good news: My teachers aren't trying to tear my limbs off about my homework.  Bad news: My teachers are trying to tear my limbs off regardless.\""
       }
     ]
   }

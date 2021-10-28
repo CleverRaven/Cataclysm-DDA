@@ -229,6 +229,26 @@ struct armor_portion_data {
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
     int coverage = 0;
+    int cover_melee = 0;
+    int cover_ranged = 0;
+    int cover_vitals = 0;
+
+    /**
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
+     */
+    float thickness = 0.0f;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+
+    // What materials this portion is made of, for armor purposes
+    std::vector<material_id> materials;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
@@ -245,19 +265,6 @@ struct islot_armor {
     * Whether this item can be worn on either side of the body
     */
     bool sided = false;
-    /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
-     */
-    float thickness = 0.0f;
-    /**
-     * Resistance to environmental effects.
-     */
-    int env_resist = 0;
-    /**
-     * Environmental protection of a gas mask with installed filter.
-     */
-    int env_resist_w_filter = 0;
     /**
      * How much warmth this item provides.
      */
@@ -284,6 +291,10 @@ struct islot_armor {
     std::vector<armor_portion_data> data;
 
     bool was_loaded = false;
+
+    int avg_env_resist() const;
+    int avg_env_resist_w_filter() const;
+    float avg_thickness() const;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -472,9 +483,20 @@ struct islot_wheel {
         void deserialize( const JsonObject &jo );
 };
 
-struct gun_variant_data {
+enum class itype_variant_kind : int {
+    gun,
+    generic,
+    last
+};
+
+template<>
+struct enum_traits<itype_variant_kind> {
+    static constexpr itype_variant_kind last = itype_variant_kind::last;
+};
+
+struct itype_variant_data {
     std::string id;
-    translation brand_name;
+    translation alt_name;
     translation alt_description;
     ascii_art_id art;
 
@@ -486,7 +508,6 @@ struct gun_variant_data {
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
-    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -670,7 +691,6 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
-    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -828,6 +848,7 @@ enum condition_type {
     FLAG,
     COMPONENT_ID,
     VAR,
+    SNIPPET_ID,
     num_condition_types
 };
 
@@ -842,6 +863,8 @@ struct conditional_name {
     condition_type type;
     // Context name  (i.e. "CANNIBALISM"   or "mutant")
     std::string condition;
+    // Used for variables and snippets to identify the specific value
+    std::string value;
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
@@ -891,6 +914,9 @@ struct itype {
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
+        // Potential variant items that exist of this type (same stats, different name and desc)
+        std::vector<itype_variant_data> variants;
+
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
@@ -914,8 +940,15 @@ struct itype {
         std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
+        // First -> the material
+        // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
-        std::vector<material_id> materials;
+        std::map<material_id, int> materials;
+        // Since the material list was converted to a map, keep track of the material insert order
+        // Do not use this for materials. Use the materials map above.
+        std::vector<material_id> mats_ordered;
+        // Total of item's material portions (materials->second)
+        int mat_portion_total = 0;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
@@ -937,6 +970,10 @@ struct itype {
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
+
+        // Needs to go so far away because padding!
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
@@ -1024,6 +1061,9 @@ struct itype {
 
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
+
+        // What it has to say.
+        std::vector<std::string> chat_topics;
 
         layer_level layer = layer_level::NUM_LAYER_LEVELS;
 

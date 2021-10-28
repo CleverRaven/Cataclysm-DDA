@@ -82,7 +82,7 @@
         "ammo": 100,
         "items": [
           "beret",
-          "modularvestkevlar",
+          "kevlar",
           "jacket_army",
           "army_top",
           "legguard_hard",
@@ -120,7 +120,7 @@
       "both": {
         "ammo": 100,
         "items": [
-          "modularvestkevlar",
+          "kevlar",
           "crt_chestrig",
           "crt_pants",
           "legguard_hard",
@@ -211,7 +211,7 @@
           "crt_helmet_liner",
           "glasses_bal",
           "balclava",
-          "modularvestkevlar",
+          "kevlar",
           "jacket_army",
           "army_top",
           "crt_armguard",
@@ -646,7 +646,6 @@
           "ds_pulse_rifle",
           "ds_rivet_gun",
           "ds_ripper",
-          "toolbox",
           "lighter",
           "UPS_off",
           "id_military",

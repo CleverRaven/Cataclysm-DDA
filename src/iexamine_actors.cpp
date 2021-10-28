@@ -1,5 +1,7 @@
 #include "iexamine_actors.h"
 
+#include "avatar.h"
+#include "effect_on_condition.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "itype.h"
@@ -80,7 +82,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
         if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
-            debugmsg( "Failed to apply magen function %s", mapgen_id );
+            debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
         here.set_seen_cache_dirty( examp );
         here.set_transparency_cache_dirty( examp.z );
@@ -173,7 +175,7 @@ void cardreader_examine_actor::finalize() const
         }
     }
 
-    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.empty() ) {
+    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.is_empty() ) {
         debugmsg( "Cardreader examine actor does not change either terrain or furniture" );
     }
 
@@ -191,4 +193,33 @@ void cardreader_examine_actor::finalize() const
 std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 {
     return std::make_unique<cardreader_examine_actor>( *this );
+}
+
+void eoc_examine_actor::call( Character &you, const tripoint & ) const
+{
+    dialogue d( get_talker_for( you ), nullptr );
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+}
+
+void eoc_examine_actor::load( const JsonObject &jo )
+{
+    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+}
+
+void eoc_examine_actor::finalize() const
+{
+    for( const effect_on_condition_id &eoc : eocs ) {
+        if( !eoc.is_valid() ) {
+            debugmsg( "Invalid effect_on_condition_id: %s", eoc.str() );
+        }
+    }
+}
+
+std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
+{
+    return std::make_unique<eoc_examine_actor>( *this );
 }

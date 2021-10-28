@@ -140,6 +140,7 @@ class Tileset:
         palette_copies: bool = False,
         palette: bool = False,
         format_json: bool = False,
+        only_json: bool = False,
     ) -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
@@ -148,6 +149,7 @@ class Tileset:
         self.palette_copies = palette_copies
         self.palette = palette
         self.format_json = format_json
+        self.only_json = only_json
         self.output_conf_file = None
 
         self.pngnum = 0
@@ -444,7 +446,10 @@ class Tilesheet:
 
             return
 
-        self.sprites.append(self.load_image(filepath))
+        if not self.tileset.only_json:
+            self.sprites.append(self.load_image(filepath))
+        else:
+            self.sprites.append(None)
         self.tileset.pngnum += 1
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.unreferenced_pngnames[
@@ -517,23 +522,24 @@ class Tilesheet:
         self.tileset.pngnum += self.sheet_width - \
             ((len(self.sprites) % self.sheet_width) or self.sheet_width)
 
-        if self.sprites:
-            sheet_image = Vips.Image.arrayjoin(
-                self.sprites, across=self.sheet_width)
-
-            pngsave_args = PNGSAVE_ARGS
-
-            if self.tileset.palette:
-                pngsave_args['palette'] = True
-
-            sheet_image.pngsave(self.output, **pngsave_args)
-
-            if self.tileset.palette_copies and not self.tileset.palette:
-                sheet_image.pngsave(
-                    self.output + '8', palette=True, **pngsave_args)
-
+        if self.tileset.only_json:
             return True
-        return False
+
+        sheet_image = Vips.Image.arrayjoin(
+            self.sprites, across=self.sheet_width)
+
+        pngsave_args = PNGSAVE_ARGS.copy()
+
+        if self.tileset.palette:
+            pngsave_args['palette'] = True
+
+        sheet_image.pngsave(self.output, **pngsave_args)
+
+        if self.tileset.palette_copies and not self.tileset.palette:
+            sheet_image.pngsave(
+                self.output + '8', palette=True, **pngsave_args)
+
+        return True
 
 
 class TileEntry:
@@ -710,18 +716,25 @@ if __name__ == '__main__':
         '--format-json', dest='format_json', action='store_true',
         help='Use either CDDA formatter or Python json.tool '
         'to format the tile_config.json')
+    arg_parser.add_argument(
+        '--only-json', dest='only_json', action='store_true',
+        help='Only output the tile_config.json')
     args_dict = vars(arg_parser.parse_args())
 
     # compose the tileset
     try:
         tileset_worker = Tileset(
-            args_dict.get('source_dir'),
-            args_dict.get('output_dir') or args_dict.get('source_dir'),
-            args_dict.get('use_all', False),
-            args_dict.get('obsolete_fillers', False),
-            args_dict.get('palette_copies', False),
-            args_dict.get('palette', False),
-            args_dict.get('format_json', False),
+            source_dir=args_dict.get('source_dir'),
+            output_dir=(
+                args_dict.get('output_dir') or
+                args_dict.get('source_dir')
+            ),
+            use_all=args_dict.get('use_all', False),
+            obsolete_fillers=args_dict.get('obsolete_fillers', False),
+            palette_copies=args_dict.get('palette_copies', False),
+            palette=args_dict.get('palette', False),
+            format_json=args_dict.get('format_json', False),
+            only_json=args_dict.get('only_json', False),
         )
         tileset_worker.compose()
     except ComposingException as exception:

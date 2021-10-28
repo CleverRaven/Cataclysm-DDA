@@ -20,6 +20,7 @@
 #include "optional.h"
 #include "pathfinding.h"
 #include "shearing.h"
+#include "speed_description.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
@@ -286,17 +287,18 @@ struct mtype {
 
         std::set<species_id> species;
         std::set<std::string> categories;
-        std::vector<material_id> mat;
+        std::map<material_id, int> mat;
+        int mat_portion_total = 0;
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
         mfaction_str_id default_faction;
         bodytype_id bodytype;
+        units::mass weight;
+        units::volume volume;
         nc_color color = c_white;
         creature_size size;
-        units::volume volume;
-        units::mass weight;
         phase_id phase;
 
         int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
@@ -314,13 +316,12 @@ struct mtype {
         int regenerates = 0;
         // Effects that can modify regeneration
         std::map<efftype_id, int> regeneration_modifiers;
+        // mountable ratio for rider weight vs. mount weight, default 0.2
+        float mountable_weight_ratio = 0.2f;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
         bool regen_morale = false;
-
-        // mountable ratio for rider weight vs. mount weight, default 0.2
-        float mountable_weight_ratio = 0.2f;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
@@ -328,11 +329,10 @@ struct mtype {
         int melee_sides = 0;    /** number of sides those dice have */
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
+        int sk_dodge = 0;       /** dodge skill */
 
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
         std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
-
-        int sk_dodge = 0;       /** dodge skill */
 
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;    /** innate armor vs. bash */
@@ -342,13 +342,15 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
         ::weakpoints weakpoints;
-
-        // Bleed rate in percent, 0 makes the monster immune to bleeding
-        int bleed_rate = 100;
+        weakpoint_families families;
 
         // Pet food category this monster is in
         pet_food_data petfood;
 
+        // Bleed rate in percent, 0 makes the monster immune to bleeding
+        int bleed_rate = 100;
+
+        float luminance;           // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
@@ -356,18 +358,20 @@ struct mtype {
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
         shearing_data shearing;
-        float luminance;           // 0 is default, >0 gives luminance to lightmap
+        speed_description_id speed_desc;
 
-        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
-
         monster_death_effect mdeath_effect;
-
+        std::vector<std::string> chat_topics; // What it has to say.
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
+
+        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
+        // Monster's ability to destroy terrain and vehicles
+        int bash_skill;
 
         // Monster upgrade variables
         int half_life;
@@ -387,11 +391,8 @@ struct mtype {
         std::vector<std::string> baby_flags;
 
         // Monster biosignature variables
-        cata::optional<time_duration> biosig_timer;
         itype_id biosig_item;
-
-        // Monster's ability to destroy terrain and vehicles
-        int bash_skill;
+        cata::optional<time_duration> biosig_timer;
 
         // All the bools together for space efficiency
 
@@ -422,16 +423,18 @@ struct mtype {
          * If this monster is a rideable mech it needs a power source battery type
          */
         itype_id mech_battery;
+        /** Emission sources that cycle each turn the monster remains alive */
+        std::map<emit_id, time_duration> emit_fields;
+
         /**
          * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player
          */
         int mech_str_bonus = 0;
 
-        /** Emission sources that cycle each turn the monster remains alive */
-        std::map<emit_id, time_duration> emit_fields;
+        // Grinding cap for training player's melee skills when hitting this monster, defaults to MAX_SKILL.
+        int melee_training_cap;
 
         pathfinding_settings path_settings;
-
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;

@@ -562,7 +562,7 @@ class wish_monster_callback: public uilist_callback
             if( valid_entnum ) {
                 tmp.print_info( w_info, 2, 5, 1 );
 
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.str(),
                                                     group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
@@ -775,7 +775,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     for( const itype *i : item_controller->all() ) {
         item option( i, calendar::turn_zero );
         // Only display the generic name if it has variants
-        option.clear_gun_variant();
+        option.clear_itype_variant();
         opts.emplace_back( option.tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );

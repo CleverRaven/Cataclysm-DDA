@@ -112,6 +112,7 @@
     "type": "GUN",
     "name": { "str": "14-round tube shotgun" },
     "description": "This shotgun uses a system of 2 tube magazines to carry 14 rounds of 12 gauge shot.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "ksg",
@@ -157,6 +158,7 @@
     "type": "GUN",
     "name": { "str": "24-round tube shotgun" },
     "description": "This shotgun uses a system of 2 tube magazines to carry 24 rounds of 12 gauge shot.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "ksg-25",
@@ -202,6 +204,7 @@
     "type": "GUN",
     "name": { "str": "6-round shotgun" },
     "description": "This is a shotgun with capacity for 6 rounds of 12 gauge shot.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "mossberg_500",
@@ -238,6 +241,7 @@
     "type": "GUN",
     "name": { "str": "9-round shotgun" },
     "description": "This is a shotgun with capacity for 9 rounds of 12 gauge shot",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "mossberg_590",
@@ -269,6 +273,7 @@
     "type": "GUN",
     "name": { "str": "8-round shotgun" },
     "description": "This is a shotgun with capacity for 8 rounds of 12 gauge shot",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "mossberg_930",
@@ -380,6 +385,7 @@
     "type": "GUN",
     "name": { "str": "5-round shotgun" },
     "description": "This is a shotgun with capacity for 5 rounds of 12 gauge shot.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "remington_870",
@@ -421,6 +427,7 @@
     "type": "GUN",
     "name": { "str": "breaching shotgun" },
     "description": "This shotgun has a short barrel and no stock, and is set up for breaching doors.  It is small enough to carry as a secondary weapon, but has fairly unpleasant recoil and no sights.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "remington_870_breacher",
@@ -466,6 +473,7 @@
     "type": "GUN",
     "name": { "str": "7-round shotgun" },
     "description": "This is a shotgun with capacity for 7 rounds of 12 gauge shot.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "remington_870_express",
@@ -528,6 +536,7 @@
     "type": "GUN",
     "name": { "str": "Saiga shotgun" },
     "description": "This shotgun is chambered in 12 gauge, and accepting Saiga magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "saiga_12",
@@ -640,6 +649,7 @@
     "type": "GUN",
     "name": { "str": "automatic shotgun" },
     "description": "This shotgun, deemed a destructive device, resembles a comically oversized revolver.  It can hold 12 rounds of 12 gauge shot, and fire all of them in under 3 seconds",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "streetsweeper",
@@ -687,6 +697,7 @@
     "type": "GUN",
     "name": { "str": "15-round tube fed shotgun" },
     "description": "This shotgun uses a system of 3 tube magazines to hold 15 rounds of 12 gauge shots, in a relatively small firearm.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "tavor_12",
@@ -732,6 +743,7 @@
     "type": "GUN",
     "name": { "str": "6-round lever-action shotgun" },
     "description": "This is a lever-action shotgun with a very short barrel, and no stock, accepting 6 rounds of 12 gauge shot.  It would pair nicely with a motorcycle jacket and a Harley Davidson.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "winchester_1887",
@@ -776,6 +788,7 @@
     "type": "GUN",
     "name": { "str": "trench shotgun" },
     "description": "This shotgun comes attached with a large bayonet, as though it comes straight from the trenches of World War 1.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "winchester_1897",

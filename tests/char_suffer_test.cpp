@@ -140,7 +140,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 
         WHEN( "wielding an umbrella and wearing sunglasses" ) {
             dummy.wield( umbrella );
-            REQUIRE( dummy.weapon.has_flag( flag_RAIN_PROTECT ) );
+            REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
 
             dummy.wear_item( shades, false );
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
@@ -240,7 +240,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         WHEN( "naked and wielding an umbrella, with or without sunglasses" ) {
             dummy.worn.clear();
             dummy.wield( umbrella );
-            REQUIRE( dummy.weapon.has_flag( flag_RAIN_PROTECT ) );
+            REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
 
             // Umbrella completely shields the skin from exposure when wielded
             THEN( "they suffer no injury" ) {

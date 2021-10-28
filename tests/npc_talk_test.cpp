@@ -1024,6 +1024,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.dex_cur = 4;
     player_character.int_cur = 4;
     player_character.per_cur = 4;
+    player_character.kill_xp = 50;
     for( npc *guy : g->allies() ) {
         talk_function::leave( *guy );
     }
@@ -1044,12 +1045,8 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 3;
+    int expected_answers = 4;
     if( player_character.magic->max_mana( player_character ) == 1000 ) {
-        expected_answers++;
-    }
-    if( g->get_kill_tracker().kill_xp() >= 35 ) {
-        // So far there is no easy way to reset kill_xp counter for testing purposes.
         expected_answers++;
     }
 
@@ -1373,10 +1370,10 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( beta.op_of_u.owed == 12 );
 
     const skill_id skill( "driving" );
-    // "Sets skill level in driving to 13."
+    // "Sets skill level in driving to 10."
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.get_skill_level( skill ) == 13 );
+    CHECK( player_character.get_skill_level( skill ) == 10 );
 
     // "Sets pos_x to 14."
     effects = d.responses[ 13 ].success;

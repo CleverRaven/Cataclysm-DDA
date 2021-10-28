@@ -789,11 +789,13 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     } );
 
     if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
-        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+        qty = sum_no_wrap( qty, static_cast<int>( units::to_kilojoule(
+                               get_player_character().get_power_level() ) ) );
     }
 
     if( found_bionic_tool ) {
-        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+        qty = sum_no_wrap( qty, static_cast<int>( units::to_kilojoule(
+                               get_player_character().get_power_level() ) ) );
     }
 
     if( qty < limit && found_tool_with_UPS ) {

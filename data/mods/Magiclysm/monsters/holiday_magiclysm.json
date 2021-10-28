@@ -31,7 +31,8 @@
     "baby_flags": [ "WINTER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
     "anger_triggers": [ "PLAYER_NEAR_BABY" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ],
+    "zombify_into": "mon_yulecat_zombie"
   },
   {
     "id": "mon_yulecat_cub",

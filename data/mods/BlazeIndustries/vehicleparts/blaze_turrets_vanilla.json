@@ -45,15 +45,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_an94",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted AN94" },
-    "item": "an94",
-    "breaks_into": [ { "item": "an94", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
     "id": "mounted_ar15",
     "copy-from": "turret",
     "type": "vehicle_part",

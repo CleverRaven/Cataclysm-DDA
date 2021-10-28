@@ -126,7 +126,7 @@ std::string character_martial_arts::enumerate_known_styles( const itype_id &weap
 
 std::string character_martial_arts::selected_style_name( const Character &owner ) const
 {
-    if( style_selected->force_unarmed || style_selected->weapon_valid( owner.weapon ) ) {
+    if( style_selected->force_unarmed || style_selected->weapon_valid( owner.get_wielded_item() ) ) {
         return style_selected->name.translated();
     } else if( owner.is_armed() ) {
         return _( "Normal" );

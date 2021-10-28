@@ -20,6 +20,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -76,6 +77,7 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",

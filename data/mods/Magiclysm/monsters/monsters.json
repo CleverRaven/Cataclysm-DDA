@@ -30,7 +30,8 @@
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
+    "zombify_into": "mon_owlbear_zombie"
   },
   {
     "id": "mon_black_pudding",
@@ -311,7 +312,8 @@
     "harvest": "human_large_leather",
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
     "regenerates": 1,
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
+    "zombify_into": "mon_troll_zombie"
   },
   {
     "id": "mon_stirge",
@@ -485,5 +487,57 @@
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_were_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+  },
+  {
+    "id": "mon_balrog",
+    "type": "MONSTER",
+    "name": { "str": "fiery nightmare" },
+    "description": "A colossal figure which seems to consist entirely of shadows engulfed in flames.  Its immense dark wings extend from wall to wall.  Two eyes that resemble burning coals are gazing down on you with hatred.  In one hand it holds a huge sword, in the other it has a many thonged whip, both glowing with red-hot flames.",
+    "default_faction": "nether",
+    "bodytype": "human",
+    "species": [ "UNKNOWN" ],
+    "volume": "875000 ml",
+    "weight": "300 kg",
+    "hp": 500,
+    "speed": 140,
+    "symbol": "B",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 10,
+    "melee_dice": 7,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "heat", "amount": 20 } ],
+    "melee_cut": 10,
+    "armor_bash": 12,
+    "armor_cut": 12,
+    "armor_bullet": 25,
+    "bleed_rate": 0,
+    "vision_day": 83,
+    "vision_night": 60,
+    "harvest": "exempt",
+    "special_attacks": [
+      {
+        "id": "smash",
+        "move_cost": 110,
+        "cooldown": 8,
+        "min_mul": 0.8,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      {
+        "id": "impale",
+        "min_mul": 1.5,
+        "max_mul": 3,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      {
+        "id": "cut_throat",
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      { "id": "flaming_whip" }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ]
   }
 ]

@@ -47,6 +47,9 @@ class talker_item: public talker
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string & ) override;
 
+        std::vector<std::string> get_topics( bool radio_contact ) override;
+        bool will_talk_to_u( const Character &you, bool force ) override;
+
     protected:
         talker_item() = default;
         item_location *me_it;

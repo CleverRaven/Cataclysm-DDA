@@ -38,7 +38,6 @@ static std::string vision_test_info( map_test_case &t )
 
     using namespace map_test_case_common;
 
-    out << "zlevels: " << here.has_zlevels() << '\n';
     out << "origin: " << t.get_origin() << '\n';
     out << "player: " << get_player_character().pos() << '\n';
     out << "unimpaired_range: " << get_player_character().unimpaired_range()  << '\n';

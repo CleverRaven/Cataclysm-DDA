@@ -1043,9 +1043,9 @@ void defense_game::caravan()
                 popup( _( "You can't afford those items!" ) );
             } else if( ( items[0].empty() && query_yn( _( "Really buy nothing?" ) ) ) ||
                        ( !items[0].empty() &&
-                         query_yn( ngettext( "Buy %d item, leaving you with %s?",
-                                             "Buy %d items, leaving you with %s?",
-                                             items[0].size() ),
+                         query_yn( n_gettext( "Buy %d item, leaving you with %s?",
+                                              "Buy %d items, leaving you with %s?",
+                                              items[0].size() ),
                                    items[0].size(),
                                    format_money( static_cast<int>( player_character.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
@@ -1353,7 +1353,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
     if( valid.empty() ) {
         debugmsg( "Couldn't find a valid monster group for defense!" );
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ), true );
     }
 
     return ret;

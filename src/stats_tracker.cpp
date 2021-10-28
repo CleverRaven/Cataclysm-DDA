@@ -221,8 +221,7 @@ stats_tracker_state::~stats_tracker_state() = default;
 
 const cata_variant &stats_tracker_multiset_state::get_value() const
 {
-    debugmsg( "Trying to get a variant value from a multiset state" );
-    abort();
+    cata_fatal( "Trying to get a variant value from a multiset state" );
 }
 
 stats_tracker::~stats_tracker()

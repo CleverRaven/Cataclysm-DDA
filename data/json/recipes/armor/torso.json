@@ -500,7 +500,7 @@
     "using": [ [ "sewing_standard", 135 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
+      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 16 ] ],
       [ [ "rag", 19 ] ],
       [
@@ -530,7 +530,7 @@
     "using": [ [ "sewing_standard", 175 ] ],
     "components": [
       [ [ "coat_rain", 2 ] ],
-      [ [ "jacket_army", 2 ], [ "xl_duster", 1 ] ],
+      [ [ "jacket_army", 2 ], [ "jacket_army_modern", 2 ], [ "xl_duster", 1 ] ],
       [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "sheet_kevlar_layered", 32 ] ],
       [ [ "rag", 26 ] ],
       [
@@ -1084,7 +1084,7 @@
     "using": [ [ "sewing_standard", 115 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
+      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_duster", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 13 ] ],
       [ [ "rag", 14 ] ],
       [
@@ -1266,7 +1266,7 @@
     "using": [ [ "sewing_standard", 85 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
+      [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 10 ] ],
       [ [ "rag", 11 ] ],
       [
@@ -1568,7 +1568,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
+      [ [ "trenchcoat", 1 ], [ "jacket_army_modern", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 12 ] ],
       [ [ "rag", 14 ] ],
       [

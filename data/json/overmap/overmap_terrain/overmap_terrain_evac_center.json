@@ -11,6 +11,7 @@
     "abstract": "generic_evac_center_road",
     "copy-from": "generic_evac_center",
     "name": "road",
+    "looks_like": "road",
     "color": "dark_gray"
   },
   {
@@ -89,6 +90,7 @@
     "abstract": "generic_refctr",
     "see_cost": 2,
     "name": "field",
+    "looks_like": "field",
     "sym": ".",
     "color": "brown"
   },
@@ -761,6 +763,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_rc_earth",
     "name": "solid earth",
+    "looks_like": "solid_earth",
     "sym": "#",
     "color": "brown",
     "see_cost": 5
@@ -769,6 +772,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_rc_underground",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5

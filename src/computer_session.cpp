@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
+#include "computer.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
@@ -45,6 +46,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
@@ -287,7 +289,10 @@ computer_session::computer_action_functions = {
     { COMPACT_MAP_SUBWAY, &computer_session::action_map_subway },
     { COMPACT_MAPS, &computer_session::action_maps },
     { COMPACT_MISS_DISARM, &computer_session::action_miss_disarm },
+    { COMPACT_MISS_LAUNCH, &computer_session::action_miss_launch },
     { COMPACT_OPEN, &computer_session::action_open },
+    { COMPACT_OPEN_GATE, &computer_session::action_open_gate },
+    { COMPACT_CLOSE_GATE, &computer_session::action_close_gate },
     { COMPACT_OPEN_DISARM, &computer_session::action_open_disarm },
     { COMPACT_PORTAL, &computer_session::action_portal },
     { COMPACT_RADIO_ARCHIVE, &computer_session::action_radio_archive },
@@ -376,6 +381,20 @@ void computer_session::action_open()
     get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, get_player_character().pos(),
                                 true );
     query_any( _( "Doors opened.  Press any key…" ) );
+}
+
+void computer_session::action_open_gate()
+{
+    get_map().translate_radius( t_wall_metal, t_metal_floor, 8.0, get_player_character().pos(),
+                                true );
+    query_any( _( "Gates opened.  Press any key…" ) );
+}
+
+void computer_session::action_close_gate()
+{
+    get_map().translate_radius( t_metal_floor, t_wall_metal, 8.0, get_player_character().pos(),
+                                true );
+    query_any( _( "Gates closed.  Press any key…" ) );
 }
 
 //LOCK AND UNLOCK are used to build more complex buildings
@@ -648,6 +667,64 @@ void computer_session::action_miss_disarm()
     }
 }
 
+void computer_session::action_miss_launch()
+{
+    // Target Acquisition.
+    const tripoint_abs_omt target( ui::omap::choose_point( 0 ) );
+    if( target == overmap::invalid_tripoint ) {
+        add_msg( m_info, _( "Target acquisition canceled." ) );
+        return;
+    }
+
+    if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
+        add_msg( m_info, _( "Nuclear missile launched!" ) );
+        //Remove the option to fire another missile.
+        comp.options.clear();
+    } else {
+        add_msg( m_info, _( "Nuclear missile launch aborted." ) );
+        return;
+    }
+
+    //Put some smoke gas and explosions at the nuke location.
+    const tripoint nuke_location = { get_player_character().pos() - point( 12, 0 ) };
+    for( const auto &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+        if( one_in( 4 ) ) {
+            get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
+        }
+    }
+
+    //Only explode once. But make it large.
+    explosion_handler::explosion( nuke_location, 2000, 0.7, true );
+
+    //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
+    // For each level between here and the surface, remove the missile
+    for( int level = get_map().get_abs_sub().z; level <= 0; level++ ) {
+        map tmpmap;
+        tmpmap.load( tripoint_abs_sm( get_map().get_abs_sub().x, get_map().get_abs_sub().y, level ),
+                     false );
+
+        if( level < 0 ) {
+            tmpmap.translate( t_missile, t_hole );
+        } else {
+            tmpmap.translate( t_metal_floor, t_hole );
+        }
+        tmpmap.save();
+    }
+
+    for( const tripoint_abs_omt &p : points_in_radius( target, 2 ) ) {
+        // give it a nice rounded shape
+        if( !( p.x() == target.x() - 2 && p.y() == target.y() - 2 ) &&
+            !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
+            !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
+            !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
+            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+        }
+    }
+    explosion_handler::nuke( target );
+
+    activate_failure( COMPFAIL_SHUTDOWN );
+}
+
 void computer_session::action_list_bionics()
 {
     get_player_character().moves -= 30;
@@ -676,7 +753,7 @@ void computer_session::action_list_bionics()
         print_line( "%s", name );
     }
     if( more > 0 ) {
-        print_line( ngettext( "%d OTHER FOUND…", "%d OTHERS FOUND…", more ), more );
+        print_line( n_gettext( "%d OTHER FOUND…", "%d OTHERS FOUND…", more ), more );
     }
 
     print_newline();

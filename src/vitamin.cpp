@@ -126,7 +126,6 @@ std::string enum_to_string<vitamin_type>( vitamin_type data )
         case vitamin_type::num_vitamin_types:
             break;
     }
-    debugmsg( "Invalid vitamin_type" );
-    abort();
+    cata_fatal( "Invalid vitamin_type" );
 }
 } // namespace io

@@ -123,3 +123,16 @@ void active_item_cache::rotate_locations( int turns, const point &dim )
         }
     }
 }
+
+void active_item_cache::mirror( const point &dim, bool horizontally )
+{
+    for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
+        for( item_reference &ir : pair.second ) {
+            if( horizontally ) {
+                ir.location.x = dim.x - 1 - ir.location.x;
+            } else {
+                ir.location.y = dim.y - 1 - ir.location.y;
+            }
+        }
+    }
+}

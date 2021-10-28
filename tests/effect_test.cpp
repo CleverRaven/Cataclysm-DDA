@@ -148,11 +148,11 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
     REQUIRE( eff_debugged.get_intensity() == 1 );
     REQUIRE( eff_debugged.get_max_intensity() == 10 );
 
-    SECTION( "intensity cannot be set less than 1" ) {
+    SECTION( "intensity cannot be set less than 0" ) {
         eff_debugged.set_intensity( 0 );
-        CHECK( eff_debugged.get_intensity() == 1 );
+        CHECK( eff_debugged.get_intensity() == 0 );
         eff_debugged.set_intensity( -1 );
-        CHECK( eff_debugged.get_intensity() == 1 );
+        CHECK( eff_debugged.get_intensity() == 0 );
     }
 
     SECTION( "intensity cannot be set greater than maximum" ) {
@@ -164,6 +164,24 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
         eff_debugged.mod_intensity( 2 );
         CHECK( eff_debugged.get_intensity() == 10 );
     }
+}
+
+TEST_CASE( "effect intensity removal", "[effect][intensity]" )
+{
+
+    const efftype_id eff_id( "test_int_remove" );
+    effect eff_test_int_remove( effect_source::empty(), &eff_id.obj(), 3_turns,
+                                bodypart_str_id( "bp_null" ),
+                                false, 1, calendar::turn );
+
+    REQUIRE( eff_test_int_remove.get_intensity() == 1 );
+    REQUIRE( eff_test_int_remove.get_int_decay_remove() == false );
+
+    SECTION( "effects protected from intensity-based removal can't be set to less than 1 intensity" ) {
+        eff_test_int_remove.set_intensity( 0 );
+        CHECK( eff_test_int_remove.get_intensity() == 1 );
+    }
+
 }
 
 TEST_CASE( "max effective intensity", "[effect][max][intensity]" )
@@ -210,13 +228,14 @@ TEST_CASE( "max effective intensity", "[effect][max][intensity]" )
 TEST_CASE( "effect decay", "[effect][decay]" )
 {
     const efftype_id eff_id( "debugged" );
+    const efftype_id eff_id2( "test_int_remove" );
 
     std::vector<efftype_id> rem_ids;
     std::vector<bodypart_id> rem_bps;
 
-    SECTION( "decay reduces effect duration by 1 turn" ) {
+    SECTION( "decay reduces effect duration by 1 turn and triggers intensity decay" ) {
         effect eff_debugged( effect_source::empty(), &eff_id.obj(), 2_turns, bodypart_str_id( "bp_null" ),
-                             false, 1, calendar::turn );
+                             false, 5, calendar::turn );
         // Ensure it will last 2 turns, and is not permanent/paused
         REQUIRE( to_turns<int>( eff_debugged.get_duration() ) == 2 );
         REQUIRE_FALSE( eff_debugged.is_permanent() );
@@ -260,13 +279,123 @@ TEST_CASE( "effect decay", "[effect][decay]" )
         CHECK( to_turns<int>( eff_debugged.get_duration() ) == 2 );
     }
 
-    // TODO:
-    // When intensity > 1
-    // - and duration < max_duration
-    // - and int_decay_tick is set (from effect JSON)
-    // - and time % decay_tick == 0
-    // Then:
-    // - add int_decay_step to intensity (default -1)
+    SECTION( "intensity decay triggers on the appropriate turns" ) {
+        effect eff_debugged( effect_source::empty(), &eff_id.obj(), 1_hours, bodypart_str_id( "bp_null" ),
+                             false, 10, calendar::turn );
+        // Ensure it has a decay tick  of 2 turns and a decay step of -1, and int removal is allwed
+        // Also check max duration
+        REQUIRE( eff_debugged.get_max_duration() == 1_hours );
+        REQUIRE( eff_debugged.get_intensity() == 10 );
+        REQUIRE( eff_debugged.get_int_decay_step() == -1 );
+        REQUIRE( eff_debugged.get_int_decay_tick() == 2 );
+        REQUIRE( eff_debugged.get_int_decay_remove() == true );
+        // Reset time
+        calendar::turn = calendar::start_of_cataclysm;
+
+        // First decay - at max duration, no intensity decay
+        CHECK( eff_debugged.get_duration() == eff_debugged.get_max_duration() );
+        eff_debugged.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( eff_debugged.get_intensity() == 10 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Progress turns, checking for the appropriate intensity and no removal
+
+        // Turn 1, no intensity change
+        calendar::turn += 1_turns;
+        eff_debugged.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( eff_debugged.get_intensity() == 10 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Turn 2, intensity decays
+        calendar::turn += 1_turns;
+        eff_debugged.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( eff_debugged.get_intensity() == 9 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Turn 3, no intensity change
+        calendar::turn += 1_turns;
+        eff_debugged.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( eff_debugged.get_intensity() == 9 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Skip the intermediate levels, set intensity to 1 manually before proceeding
+        eff_debugged.set_intensity( 1 );
+        calendar::turn += 1_turns;
+        eff_debugged.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( eff_debugged.get_intensity() == 0 );
+        // Effect is removed
+        CHECK( rem_ids.size() == 1 );
+        CHECK( rem_bps.size() == 1 );
+        // Effect ID and body part are pushed to the arrays
+        REQUIRE( !rem_ids.empty() );
+        CHECK( rem_ids.front() == eff_debugged.get_id() );
+        REQUIRE( !rem_ids.empty() );
+        CHECK( rem_bps.front() == bodypart_id( "bp_null" ) );
+
+    }
+
+    SECTION( "int_decay_remove == false protects an effect from removal" ) {
+        effect eff_test_int_remove( effect_source::empty(), &eff_id2.obj(), 3_turns,
+                                    bodypart_str_id( "bp_null" ),
+                                    false, 3, calendar::turn );
+        // Ensure it has the -2 int decay step, is protected from removal and has a decay tick of 1
+        REQUIRE( eff_test_int_remove.get_int_decay_step() == -2 );
+        REQUIRE( eff_test_int_remove.get_int_decay_tick() == 1 );
+        REQUIRE( eff_test_int_remove.get_int_decay_remove() == false );
+        // Ensure it will last 3 turns, and is not permanent/paused
+        REQUIRE( to_turns<int>( eff_test_int_remove.get_duration() ) == 3 );
+        REQUIRE_FALSE( eff_test_int_remove.is_permanent() );
+
+        // First decay - 2 turns left, intensity decay procs
+        eff_test_int_remove.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( to_turns<int>( eff_test_int_remove.get_duration() ) == 2 );
+        CHECK( eff_test_int_remove.get_intensity() == 1 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Second decay - 1 turns left, intensity stays 1 (but wouldn't proc anyway)
+        calendar::turn += 1_turns;
+        eff_test_int_remove.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( to_turns<int>( eff_test_int_remove.get_duration() ) == 1 );
+        CHECK( eff_test_int_remove.get_intensity() == 1 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Third decay - 0 turn left, intensity decay procs but intensity is capped to 1
+        calendar::turn += 1_turns;
+        eff_test_int_remove.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( to_turns<int>( eff_test_int_remove.get_duration() ) == 0 );
+        CHECK( eff_test_int_remove.get_intensity() == 1 );
+        // Effect not removed
+        CHECK( rem_ids.empty() );
+        CHECK( rem_bps.empty() );
+
+        // Fourth decay - 0 turns left, intensity stays 1 (but wouldn't proc anyway)
+        calendar::turn += 1_turns;
+        eff_test_int_remove.decay( rem_ids, rem_bps, calendar::turn, false );
+        CHECK( to_turns<int>( eff_test_int_remove.get_duration() ) == 0 );
+        CHECK( eff_test_int_remove.get_intensity() == 1 );
+        // Effect is removed
+        CHECK( rem_ids.size() == 1 );
+        CHECK( rem_bps.size() == 1 );
+        // Effect ID and body part are pushed to the arrays
+        REQUIRE( !rem_ids.empty() );
+        CHECK( rem_ids.front() == eff_test_int_remove.get_id() );
+        REQUIRE( !rem_ids.empty() );
+        CHECK( rem_bps.front() == bodypart_id( "bp_null" ) );
+
+
+    }
 }
 
 // Effect description

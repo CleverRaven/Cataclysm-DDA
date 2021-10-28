@@ -1218,9 +1218,16 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
+    add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MOPPING" ).setPrerequisite( "AUTO_FEATURES" );
+
     add( "AUTO_FORAGING", "general", to_translation( "Auto foraging" ),
-         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
+         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Crops: Only forage crops.  - Everything: Forage bushes, trees, crops, and everything else including flowers, cattails etc." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "crops", to_translation( "Crops" ) }, { "all", to_translation( "Everything" ) } },
     "off"
        );
 
@@ -1546,8 +1553,17 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
+         # Mode 4: Diagonal Lock
+
+         * Holding Ctrl or Shift locks movement to diagonal only
+         * This ensures that pressing ↑ + → will results in ↗ and not ↑ or →
+         * Reject input if it doesn't make sense
+         * Example 1: Press → while holding Shift and ↑ results in ↗
+         * Example 2: Press → while holding Shift, ↑ and ← results in input rejection
+         * Example 3: Press → while holding Shift and ← results in input rejection
+
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
+    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -1884,6 +1900,13 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+
+    add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
+         to_translation( "Choose the overmap tileset you want to use." ),
+         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
 
     add_empty_line();
 
@@ -2571,6 +2594,20 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
             use_tiles_overmap = false;
         }
+        try {
+            overmap_tilecontext->reinit();
+            overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                               /*precheck=*/false, /*force=*/false,
+                                               /*pump_events=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+            overmap_tilecontext->do_tile_loading_report();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+            use_tiles = false;
+            use_tiles_overmap = false;
+        }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
     }
@@ -2816,9 +2853,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_width = projected_window_width();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
-                                      "%s #%s -- The window will be %d pixels wide with the selected value.",
-                                      new_window_width ),
+                            n_gettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
+                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
+                                       new_window_width ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_width );
@@ -2831,9 +2868,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_height = projected_window_height();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
-                                      "%s #%s -- The window will be %d pixels tall with the selected value.",
-                                      new_window_height ),
+                            n_gettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
+                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
+                                       new_window_height ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_height );
@@ -3004,7 +3041,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {

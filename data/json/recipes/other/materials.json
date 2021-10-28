@@ -691,7 +691,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "FILE", "level": 1 } ],
+    "qualities": [ { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "nail", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },

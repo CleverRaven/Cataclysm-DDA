@@ -153,18 +153,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "anthill",
-    "copy-from": "anthill",
-    "sym": "\u00F3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "acid_anthill",
-    "copy-from": "acid_anthill",
-    "sym": "\u00F3"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "slimepit",
     "copy-from": "slimepit",
     "sym": "\u00DC"

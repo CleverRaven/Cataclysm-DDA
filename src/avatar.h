@@ -103,12 +103,23 @@ class avatar : public Character
             return this;
         }
 
+        mfaction_id get_monster_faction() const override;
+
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
         }
         void set_save_id( const std::string &id ) {
             save_id = id;
         }
+        /**
+         * Makes the avatar "take over" the given NPC, while the current avatar character
+         * becomes an NPC.
+         */
+        void control_npc( npc & );
+        /**
+         * Open a menu to choose the NPC to take over.
+         */
+        void control_npc_menu();
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
@@ -196,6 +207,11 @@ class avatar : public Character
         void identify( const item &item ) override;
         void clear_identified();
 
+        /**
+         * Opens the targeting menu to pull a nearby creature towards the character.
+         * @param name Name of the implement used to pull the creature. */
+        void longpull( const std::string name );
+
         void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
@@ -214,16 +230,9 @@ class avatar : public Character
 
         teleporter_list translocators;
 
-        int get_str_base() const override;
-        int get_dex_base() const override;
-        int get_int_base() const override;
-        int get_per_base() const override;
-
         void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
-        // how much "kill xp" you have
-        int kill_xp() const;
         void power_bionics() override;
         void power_mutations() override;
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
@@ -310,6 +319,7 @@ class avatar : public Character
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
+        void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
         void log_activity_level( float level ) override;
@@ -322,6 +332,7 @@ class avatar : public Character
 
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
+        std::set<character_id> follower_ids;
 
     private:
         // the encumbrance on your limbs reducing your dodging ability
@@ -362,14 +373,13 @@ class avatar : public Character
 
         object_type grab_type;
 
-        // these are the stat upgrades from stats through kills
-
-        int str_upgrade = 0;
-        int dex_upgrade = 0;
-        int int_upgrade = 0;
-        int per_upgrade = 0;
-
         monster_visible_info mon_visible;
+
+        /**
+         * The NPC that would control the avatar's character in the avatar's absence.
+         * The Character data in this object is not relevant/used.
+         */
+        std::unique_ptr<npc> shadow_npc;
 };
 
 avatar &get_avatar();

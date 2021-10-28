@@ -65,6 +65,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -321,6 +322,13 @@ float Character::hit_roll() const
         hit -= 2.0f;
     }
 
+    // Difficult to land a hit while prone
+    if( is_on_ground() ) {
+        hit -= 8.0f;
+    } else if( is_crouching() ) {
+        hit -= 2.0f;
+    }
+
     //Unstable ground chance of failure
     if( has_effect( effect_bouldering ) ) {
         hit *= 0.75f;
@@ -356,6 +364,9 @@ std::string Character::get_miss_reason()
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
         farsightedness );
+    add_miss_reason(
+        _( "You struggle to hit reliably while on the ground." ),
+        3 * is_on_ground() );
 
     const std::string *const reason = melee_miss_reasons.pick();
     if( reason == nullptr ) {
@@ -365,12 +376,16 @@ std::string Character::get_miss_reason()
 }
 
 void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+                                 const item &weap, const Creature *target, const bodypart_id &bp ) const
 {
-    roll_bash_damage( crit, di, average, weap );
-    roll_cut_damage( crit, di, average, weap );
-    roll_stab_damage( crit, di, average, weap );
-    roll_other_damage( crit, di, average, weap );
+    float crit_mod = 1.f;
+    if( target != nullptr ) {
+        crit_mod = target->get_crit_factor( bp );
+    }
+    roll_bash_damage( crit, di, average, weap, crit_mod );
+    roll_cut_damage( crit, di, average, weap, crit_mod );
+    roll_stab_damage( crit, di, average, weap, crit_mod );
+    roll_other_damage( crit, di, average, weap, crit_mod );
 }
 
 static void melee_train( Character &you, int lo, int hi, const item &weap )
@@ -490,10 +505,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
             set_movement_mode( move_mode_id( "prone" ) );
-        } else if( is_on_ground() ) {
-            add_msg_if_player( m_warning, _( "You cannot fight while on the ground." ) );
+            return false;
         }
-        return false;
     }
 
     melee::melee_stats.attack_count += 1;
@@ -585,6 +598,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             getID(), cur_weapon->typeId(), hits, c->getID(), c->get_name() );
     }
 
+    const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
+                                   MAX_SKILL;
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
@@ -624,7 +639,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
-            melee_train( *this, 2, 5, *cur_weapon );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), *cur_weapon );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -644,8 +659,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( critical_hit ) {
             melee::melee_stats.actual_crit_count += 1;
         }
+        // select target body part
+        const bodypart_id &target_bp = t.select_body_part( this, hit_spread );
         damage_instance d;
-        roll_all_damage( critical_hit, d, false, *cur_weapon );
+        roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
 
         const bool has_force_technique = !force_technique.str().empty();
 
@@ -673,6 +690,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( cur_weapon->reach_range( *this ) > 1 && !reach_attacking &&
             cur_weapon->has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
+        }
+        // being prone affects how much leverage you can use to deal damage
+        if( is_on_ground() ) {
+            d.mult_damage( 0.3 );
+        } else if( is_crouching() ) {
+            d.mult_damage( 0.8 );
         }
 
         const ma_technique &technique = technique_id.obj();
@@ -703,7 +726,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             if( allow_special ) {
                 perform_special_attacks( t, dealt_special_dam );
             }
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            weakpoint_attack attack;
+            attack.weapon = cur_weapon;
+            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack, &target_bp );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
                 dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
@@ -757,7 +782,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
-                melee_train( *this, 5, 10, *cur_weapon );
+                melee_train( *this, 5, std::min( 10, skill_training_cap ), *cur_weapon );
             }
 
             // Treat monster as seen if we see it before or after the attack
@@ -802,8 +827,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     const int melee = get_skill_level( skill_melee );
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
+    const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
 
-    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
+    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus - stance_malus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn: %d", std::min( -50, mod_sta ) );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
@@ -898,6 +924,13 @@ int stumble( Character &u, const item &weap )
         return 0;
     }
 
+    int str_mod = u.str_cur;
+    if( u.is_on_ground() ) {
+        str_mod /= 4;
+    } else if( u.is_crouching() ) {
+        str_mod /= 2;
+    }
+
     // Examples:
     // 10 str with a hatchet: 4 + 8 = 12
     // 5 str with a battle axe: 26 + 49 = 75
@@ -905,7 +938,7 @@ int stumble( Character &u, const item &weap )
 
     /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     return ( weap.volume() / 125_ml ) +
-           ( weap.weight() / ( u.str_cur * 10_gram + 13.0_gram ) );
+           ( weap.weight() / ( str_mod * 10_gram + 13.0_gram ) );
 }
 
 bool Character::scored_crit( float target_dodge, const item &weap ) const
@@ -1050,6 +1083,9 @@ float Character::get_dodge() const
         ret *= 2 * stamina_ratio;
     }
 
+    // Reaction score of limbs influences dodge chances
+    ret *= reaction_score();
+
     return std::max( 0.0f, ret );
 }
 
@@ -1073,7 +1109,7 @@ float Character::bonus_damage( bool random ) const
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap ) const
+                                  const item &weap, float crit_mod ) const
 {
     float bash_dam = 0.0f;
 
@@ -1178,16 +1214,16 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     // Finally, extra critical effects
     if( crit ) {
-        bash_mul *= 1.5f;
+        bash_mul *= 1.f + 0.5f * crit_mod;
         // 50% armor penetration
-        armor_mult = 0.5f;
+        armor_mult = 0.5f * crit_mod;
     }
 
     di.add_damage( damage_type::BASH, bash_dam, arpen, armor_mult, bash_mul );
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+                                 const item &weap, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
@@ -1253,16 +1289,16 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 
     cut_mul *= mabuff_damage_mult( damage_type::CUT );
     if( crit ) {
-        cut_mul *= 1.25f;
-        arpen += 5;
-        armor_mult = 0.75f; //25% armor penetration
+        cut_mul *= 1.f + 0.25f * crit_mod;
+        arpen += static_cast<int>( 5.f * crit_mod );
+        armor_mult = 1.f - 0.25f * crit_mod; //25% armor penetration
     }
 
     di.add_damage( damage_type::CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
 void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
-                                  const item &weap ) const
+                                  const item &weap, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
 
@@ -1318,16 +1354,16 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     int arpen = mabuff_arpen_bonus( damage_type::STAB );
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
-        stab_mul *= 1.0 + ( skill / 10.0 );
+        stab_mul *= 1.0 + ( skill / 10.0 ) * crit_mod;
         // Stab criticals have extra %arpen
-        armor_mult = 0.66f;
+        armor_mult = 1.f - 0.34f * crit_mod;
     }
 
     di.add_damage( damage_type::STAB, cut_dam, arpen, armor_mult, stab_mul );
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
-                                   const item &weap ) const
+                                   const item &weap, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
 
@@ -1763,7 +1799,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             melee_attack( *c, false );
         }
 
-        t.add_msg_if_player( m_good, ngettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
+        t.add_msg_if_player( m_good, n_gettext( "%d enemy hit!", "%d enemies hit!", count_hit ),
+                             count_hit );
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
         set_stamina( temp_stamina );
@@ -1865,6 +1902,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // add martial arts block effectiveness bonus
     block_score += mabuff_block_effectiveness_bonus();
+
+    // multiply by bodypart reaction bonuses
+    block_score *= reaction_score();
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
@@ -2003,9 +2043,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
     if( tec != tec_none && !is_dead_state() ) {
+        int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( weapon.made_of( material_id( "glass" ) ) ) {
+        } else if( weapon.made_of( material_id( "glass" ) ) > twenty_percent ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -2028,7 +2069,8 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
         if( hit_spread >= 0 ) {
-            t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
+            weakpoint_attack attack;
+            t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam, attack );
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
@@ -2093,11 +2135,17 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    const int vol = weap.volume() / 250_ml;
     // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    const int glass_portion = weap.made_of( material_id( "glass" ) );
+    float glass_fraction = glass_portion / static_cast<float>( weap.type->mat_portion_total );
+    if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
+        glass_fraction = 0.f;
+    }
+    // only consider portion of weapon made of glass
+    const int vol = weap.volume() * glass_fraction / 250_ml;
+    if( glass_portion &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
-        rng( 0, vol + 8 ) < vol + str_cur ) {
+        rng_float( 0.0f, vol + 8 ) < vol + str_cur ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
@@ -2150,7 +2198,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.weapon.is_two_handed( u ) || !u.has_two_arms_lifting() ||
+        if( u.get_wielded_item().is_two_handed( u ) || !u.has_two_arms_lifting() ||
             u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
@@ -2489,6 +2537,12 @@ int Character::attack_speed( const item &weap ) const
 
     move_cost *= mutation_value( "attackcost_modifier" );
 
+    if( is_on_ground() ) {
+        move_cost *= 4.0;
+    } else if( is_crouching() ) {
+        move_cost *= 1.5;
+    }
+
     if( move_cost < 25.0 ) {
         return 25;
     }
@@ -2572,8 +2626,8 @@ void avatar::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item &it = target.weapon;
-
+    item &it = target.get_wielded_item();
+    const item &weapon = get_wielded_item();
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
@@ -2613,7 +2667,7 @@ void avatar::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( weapon ) );
+    mod_moves( -100 - attack_speed( get_wielded_item() ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.get_name(), it.tname() );

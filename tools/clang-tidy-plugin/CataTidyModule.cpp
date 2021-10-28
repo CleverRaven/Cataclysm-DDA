@@ -9,6 +9,7 @@
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
+#include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
@@ -20,6 +21,7 @@
 #include "TestFilenameCheck.h"
 #include "TestsMustRestoreGlobalStateCheck.h"
 #include "TextStyleCheck.h"
+#include "TranslateStringLiteralCheck.h"
 #include "TranslationsInDebugMessagesCheck.h"
 #include "TranslatorCommentsCheck.h"
 #include "UnsequencedCallsCheck.h"
@@ -49,7 +51,7 @@ class CataModule : public ClangTidyModule
                 llvm::report_fatal_error(
                     Twine( "clang version mismatch in CataTidyModule.  Compiled against "
                            CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
-                abort();
+                abort(); // NOLINT(cata-assert)
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );
             CheckFactories.registerCheck<AssertCheck>( "cata-assert" );
@@ -58,6 +60,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
+            CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
@@ -73,6 +76,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<TestsMustRestoreGlobalStateCheck>(
                 "cata-tests-must-restore-global-state" );
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
+            CheckFactories.registerCheck<TranslateStringLiteralCheck>(
+                "cata-translate-string-literal" );
             CheckFactories.registerCheck<TranslationsInDebugMessagesCheck>(
                 "cata-translations-in-debug-messages" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );

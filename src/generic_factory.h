@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "cata_void.h"
 #include "debug.h"
@@ -238,6 +239,8 @@ class generic_factory
                     jo.throw_error( string_format( "cannot specify both '%s' and '%s'/'%s'",
                                                    abstract_member_name, id_member_name, legacy_id_member_name ) );
                 }
+                restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+                check_plural = check_plural_t::none;
                 def.load( jo, src );
                 abstracts[jo.get_string( abstract_member_name )] = def;
             }

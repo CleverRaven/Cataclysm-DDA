@@ -210,8 +210,6 @@ TEST_CASE( "serialize_map", "[json]" )
     test_serialization( s_map, R"({"bar":"bar_val","foo":"foo_val"})" );
     std::map<mtype_id, std::string> string_id_map = { { mtype_id( "foo" ), "foo_val" } };
     test_serialization( string_id_map, R"({"foo":"foo_val"})" );
-    std::map<trigger_type, std::string> enum_map = { { HUNGER, "foo_val" } };
-    test_serialization( enum_map, R"({"HUNGER":"foo_val"})" );
 }
 
 TEST_CASE( "serialize_pair", "[json]" )
@@ -236,8 +234,6 @@ TEST_CASE( "serialize_set", "[json]" )
     test_serialization( s_set, R"(["bar","foo"])" );
     std::set<mtype_id> string_id_set = { mtype_id( "foo" ) };
     test_serialization( string_id_set, R"(["foo"])" );
-    std::set<trigger_type> enum_set = { HUNGER };
-    test_serialization( enum_set, string_format( R"([%d])", static_cast<int>( HUNGER ) ) );
 }
 
 template<typename Matcher>
@@ -269,7 +265,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
     // this test case is mainly for checking the format of debug messages.
     // the text style check itself is tested in the lit test of clang-tidy.
     restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
     error_log_format = error_log_format_t::human_readable;
+    check_plural = check_plural_t::certain;
 
     // string, ascii
     test_translation_text_style_check(
@@ -371,32 +369,144 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
         R"({"str": "foo", "str_pl": "foo"})" );
 
     // test plural forms
+    test_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"("box")" );
+    test_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "box"})" );
+
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"("bar")" );
+    test_pl_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:EOF: Cannot autogenerate plural form.  Please specify the plural form explicitly.)" ),
+        R"("box")" );
+
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "bar"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:1:8: Cannot autogenerate plural form.  Please specify the plural form explicitly.)"
+            "\n"
+            R"()" "\n"
+            R"({"str":)" "\n"
+            R"(       ^)" "\n"
+            R"(        "box"})" "\n" ),
+        R"({"str": "box"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str_sp": "bar"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str_sp": "box"})" );
+
     test_pl_translation_text_style_check(
         Catch::Equals(
             R"((json-error))" "\n"
             R"(Json error: <unknown source file>:1:25: "str_pl" is not necessary here since the plural form can be automatically generated.)"
             "\n"
             R"()" "\n"
-            R"({"str": "foo", "str_pl":)" "\n"
+            R"({"str": "bar", "str_pl":)" "\n"
             R"(                        ^)" "\n"
-            R"(                         "foos"})" "\n" ),
-        R"({"str": "foo", "str_pl": "foos"})" );
+            R"(                         "bars"})" "\n" ),
+        R"({"str": "bar", "str_pl": "bars"})" );
     test_pl_translation_text_style_check(
         Catch::Equals(
             R"((json-error))" "\n"
             R"(Json error: <unknown source file>:1:25: Please use "str_sp" instead of "str" and "str_pl" for text with identical singular and plural forms)"
             "\n"
             R"()" "\n"
-            R"({"str": "foo", "str_pl":)" "\n"
+            R"({"str": "bar", "str_pl":)" "\n"
             R"(                        ^)" "\n"
-            R"(                         "foo"})" "\n" ),
-        R"({"str": "foo", "str_pl": "foo"})" );
+            R"(                         "bar"})" "\n" ),
+        R"({"str": "bar", "str_pl": "bar"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "box", "str_pl": "boxs"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "box", "str_pl": "boxes"})" );
 
     // ensure nolint member suppresses text style check
     test_translation_text_style_check(
         Catch::Equals( "" ),
         // NOLINTNEXTLINE(cata-text-style)
         R"~({"str": "foo. bar", "//NOLINT(cata-text-style)": "blah"})~" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"~({"str": "box", "//NOLINT(cata-text-style)": "blah"})~" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"~({"str": "bar", "str_pl": "bars", "//NOLINT(cata-text-style)": "blah"})~" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"~({"str": "bar", "str_pl": "bar", "//NOLINT(cata-text-style)": "blah"})~" );
+
+    {
+        restore_on_out_of_scope<check_plural_t> restore_check_plural_2( check_plural );
+        check_plural = check_plural_t::none;
+        test_pl_translation_text_style_check(
+            Catch::Equals( "" ),
+            R"("box")" );
+        test_pl_translation_text_style_check(
+            Catch::Equals( "" ),
+            R"({"str": "box"})" );
+        test_pl_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:25: "str_pl" is not necessary here )"
+                R"(since the plural form can be automatically generated.)" "\n"
+                R"()" "\n"
+                R"({"str": "bar", "str_pl":)" "\n"
+                R"(                        ^)" "\n"
+                R"(                         "bars"})" "\n" ),
+            R"({"str": "bar", "str_pl": "bars"})" );
+        test_pl_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:25: Please use "str_sp" instead of "str" )"
+                R"(and "str_pl" for text with identical singular and plural forms)" "\n"
+                R"()" "\n"
+                R"({"str": "bar", "str_pl":)" "\n"
+                R"(                        ^)" "\n"
+                R"(                         "bar"})" "\n" ),
+            R"({"str": "bar", "str_pl": "bar"})" );
+        test_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:11: str_sp not supported here)" "\n"
+                R"()" "\n"
+                R"({"str_sp":)" "\n"
+                R"(          ^)" "\n"
+                R"(           "foo"})" "\n" ),
+            R"({"str_sp": "foo"})" );
+        test_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:25: str_pl not supported here)" "\n"
+                R"()" "\n"
+                R"({"str": "foo", "str_pl":)" "\n"
+                R"(                        ^)" "\n"
+                R"(                         "foo"})" "\n" ),
+            R"({"str": "foo", "str_pl": "foo"})" );
+        test_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:5: insufficient spaces at this location.  2 required, but only 1 found.)"
+                "\n"
+                R"(    Suggested fix: insert " ")" "\n"
+                R"(    At the following position (marked with caret))" "\n"
+                R"()" "\n"
+                R"("foo.)" "\n"
+                R"(    ^)" "\n"
+                R"(      bar.")" "\n" ),
+            R"("foo. bar.")" ); // NOLINT(cata-text-style)
+    }
 
     // ensure sentence text style check is disabled when plural form is enabled
     test_pl_translation_text_style_check(

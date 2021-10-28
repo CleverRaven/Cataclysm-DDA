@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -34,10 +35,12 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 
 static const efftype_id effect_stunned( "stunned" );
 
@@ -64,12 +67,16 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
+static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
+static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
@@ -93,8 +100,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
         case mutagen_technique::num_mutagen_techniques:
             break;
     }
-    debugmsg( "Invalid mutagen_technique" );
-    abort();
+    cata_fatal( "Invalid mutagen_technique" );
 }
 
 } // namespace io
@@ -272,48 +278,8 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
 
 bool reflex_activation_data::is_trigger_true( const Character &guy ) const
 {
-    bool activate = false;
-
-    int var = 0;
-    switch( trigger ) {
-        case PAIN:
-            var = guy.get_pain();
-            break;
-        case HUNGER:
-            var = guy.get_hunger();
-            break;
-        case THRIST:
-            var = guy.get_thirst();
-            break;
-        case MOOD:
-            var = guy.get_morale_level();
-            break;
-        case STAMINA:
-            var = guy.get_stamina();
-            break;
-        case MOON:
-            var = static_cast<int>( get_moon_phase( calendar::turn ) );
-            break;
-        case TIME:
-            var = to_hours<int>( time_past_midnight( calendar::turn ) );
-            break;
-        default:
-            debugmsg( "Invalid trigger" );
-            return false;
-    }
-
-    if( threshold_low < threshold_high ) {
-        if( var < threshold_high &&
-            var > threshold_low ) {
-            activate = true;
-        }
-    } else {
-        if( var < threshold_high ||
-            var > threshold_low ) {
-            activate = true;
-        }
-    }
-    return activate;
+    dialogue d( get_talker_for( guy ), nullptr );
+    return trigger( d );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -685,6 +651,15 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_LONG_TONGUE2 ||
+               mut == trait_GASTROPOD_EXTREMITY2 ||
+               mut == trait_GASTROPOD_EXTREMITY3 ) {
+        tdata.powered = false;
+        assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mut->name() );
+        return;
+    } else if( mut == trait_SNAIL_TRAIL ) {
+        get_map().add_field( pos(), fd_sludge, 1 );
+        add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
@@ -701,17 +676,8 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
         slime->friendly = -1;
-        if( one_in( 3 ) ) {
-            add_msg_if_player( m_good,
-                               //~ Usual enthusiastic slimespring small voices! :D
-                               _( "wow!  you look just like me!  we should look out for each other!" ) );
-        } else if( one_in( 2 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
-        } else {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "we're a team, we've got this!" ) );
-        }
+        add_msg_if_player( m_good, SNIPPET.random_from_category( "slime_generate" ).value_or(
+                               translation() ).translated() );
         tdata.powered = false;
         return;
     } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {
@@ -782,7 +748,7 @@ void Character::activate_mutation( const trait_id &mut )
         int npower;
         if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
             mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            add_msg_if_player( m_good, _( "Bionic power increased by %dmJ." ), npower );
             tdata.powered = false;
         }
         return;
