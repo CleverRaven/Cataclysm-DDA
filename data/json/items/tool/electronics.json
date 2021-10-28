@@ -557,6 +557,8 @@
         "default_magazine": "light_battery_cell"
       }
     ]
+  },
+  {
     "id": "exotool",
     "type": "TOOL",
     "name": { "str": "exoskeleton tool set" },
