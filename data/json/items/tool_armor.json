@@ -3337,17 +3337,15 @@
     "looks_like": "depowered_armor",
     "color": "dark_gray",
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "medium_storage_battery" ]
-    }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ] },
+      { "pocket_type": "CONTAINER", "item_restriction": [ "exotool" ] }
     ],
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "armor": [
       {
@@ -3365,7 +3363,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "battery powered utility exoskeleton (on)", "str_pl": "battery powered utility exoskeletons (on)" },
     "description": "  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "ammo": "battery",
     "power_draw": 100000,
@@ -3387,13 +3385,16 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 10000 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ] },
+      { "pocket_type": "CONTAINER", "item_restriction": [ "exotool" ] }
+    ],
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
     "ammo": "gasoline",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "armor": [
       {
@@ -3411,7 +3412,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "ICE utility exoskeleton (on)", "str_pl": "ICE utility exoskeletons (on)" },
     "description": "  It is turned on and continually draining gasoline.  Use it to turn it off.",
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "turns_per_charge": 4,
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
