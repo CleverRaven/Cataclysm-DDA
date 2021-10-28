@@ -1087,7 +1087,8 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) && one_in( 43200 ) && u.is_avatar() ) {
+        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
+            one_in( 43200 ) && u.is_avatar() ) {
             if( one_in( 2 ) ) {
                 u.sound_hallu();
             } else {
