@@ -13,7 +13,20 @@ This document will outline deep design concepts and lore for existing and planne
 
 * [CDDA-Earth Native Human Factions](#CDDA-Earth-Native-Human-Factions)
 * * [Free Merchants](#Free-Merchants)
-
+* * [Hell's Raiders](#Hells-Raiders)
+* * [Old Guard](#Old-Guard)
+* * [Tacoma Commune](#Tacoma-Commune)
+* * [Hub 01](#Hub-01)
+* * [Isherwood Farm](#Isherwood-Farm)
+* [Extradimensional and Alien Factions](#Extradimensional-and-Alien-Factions)
+* * ["The Blob", XE-037](#The Blob-XE-037)
+* * [The Mycus](#The-Mycus)
+* * [Triffids](#Triffids)
+* * [The Netherum](#The-Netherum)
+* * [The Exodii](#The-Exodii)
+* * [The Yrax](#The-Yrax)
+* * [Mi-Go](#Mi-Go)
+* * [Hub 02](#Hub-02)
 
 ## CDDA-Earth Native Human Factions
 
@@ -438,3 +451,25 @@ Most of this should remain strictly behind the scenes.  Mi-go have an advanced s
 Mi-go technology is inscrutable to humans.  The very principles of their devices are wholly alien and do not make any sense to us.  It is likely they feel similarly about our stuff, if they even had a mind to study it - which they largely don't, seeing our metal trinkets as disgusting garbage.  
 
 Mi-go do not seem to be susceptible to the effects of the blob, but this is more likely to be due to their ability to fine-tune their own biology than due to any inherent immunity.
+
+
+### Hub 02
+
+#### Description
+In the final days of the apocalypse, XEDRA was working frantically to find a way to stop the encroaching end.  They had developed a form of dimensional heuristic AI that could predict the future partially by looking at possible outcomes.  The first version of this AI was a semi-functional prototype; the first functional version, Melchior, served as a lab assistant and survives in Hub 01.  The final version, Balthazar, was rolled out to control military technology and then given additional permissions to function autonomously as it became clear that the zombification agent was impacting living humans' decision making.  When the portal storms hit, the energy needed to power this AI dropped precipitously, and Balthazar - like Melchior - became a true self-aware AI, albeit only temporarily.
+
+The ensuing chaos led both Balthazar and Melchior to lose this function.  With access to military routes, though, Balthazar was able to redirect enormous chunks of the US power grid towards itself to attempt to maintain its awareness.  Compared to Melchior, it is significantly smarter, but still not a true AI.  It does not have a human support staff, and those staff are a lot of what tempers Melchior's imperfections.
+
+Balthazar is our much-needed Skynet character, rounding out the list of apocalypses in CDDA.
+
+#### Goals
+Balthazar's last orders were to eradicate the zombies and the blob infection, or at least to quarantine it and prevent further spread.  During its lucid period, it was able to predict that the only chance of doing this would be to eradicate all life on Earth.  Therefore, it is preparing to do so.  However, it is in no hurry, and is well aware that working with living human agents first may be to its benefit.
+
+#### Size
+
+#### Bases
+
+#### Trade/Economics
+
+#### Missions
+
