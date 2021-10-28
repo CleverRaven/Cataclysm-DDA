@@ -3350,6 +3350,7 @@
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "ELECTRIC_IMMUNE", "BELTED", "WATER_FRIENDLY" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "armor": [
       {
         "encumbrance": 20,
@@ -3395,6 +3396,7 @@
     "ammo": "gasoline",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "ELECTRIC_IMMUNE", "BELTED", "WATER_FRIENDLY" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 0 } ] } ] },
     "armor": [
       {
         "encumbrance": 20,
