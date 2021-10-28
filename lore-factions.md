@@ -19,7 +19,7 @@ This document will outline deep design concepts and lore for existing and planne
 * * [Hub 01](#Hub-01)
 * * [Isherwood Farm](#Isherwood-Farm)
 * [Extradimensional and Alien Factions](#Extradimensional-and-Alien-Factions)
-* * ["The Blob", XE-037](#The Blob-XE-037)
+* * ["The Blob", XE-037](#The-Blob-XE-037)
 * * [The Mycus](#The-Mycus)
 * * [Triffids](#Triffids)
 * * [The Netherum](#The-Netherum)
