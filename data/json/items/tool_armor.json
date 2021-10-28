@@ -936,6 +936,7 @@
     ],
     "ammo": "battery",
     "charges_per_use": 5,
+    "relic_data": { "passive_effects": [ { "id": "RM13" } ] },
     "use_action": [ "RM13ARMOR_OFF" ],
     "warmth": 30,
     "environmental_protection": 15,

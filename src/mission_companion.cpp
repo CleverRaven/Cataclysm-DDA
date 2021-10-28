@@ -1187,7 +1187,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "
                   "to sell…" ) );
     } else {
-        liquidate = query_yn( _( "Do you wish to sell the crop of %d %s for a profit of $%d?" ),
+        liquidate = query_yn( _( "Do you wish to sell the crop of %1$d %2$s for a profit of $%3$d?" ),
                               number_plants, plant_names[plant_index], money );
     }
 

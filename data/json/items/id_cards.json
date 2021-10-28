@@ -101,7 +101,7 @@
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Maintenance: green zone badge" },
-    "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to green zone card readers.",
+    "description": "This is an employee badge for a maintenance worker.  The reverse side describes protocol for using it; this could grant access to green zone card readers.",
     "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT" ]
   },
   {
@@ -110,7 +110,7 @@
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Maintenance: ocher zone badge" },
-    "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to ocher zone card readers.",
+    "description": "This is an employee badge for a maintenance worker.  The reverse side describes protocol for using it; this could grant access to ocher zone card readers.",
     "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT" ]
   },
   {
@@ -119,7 +119,7 @@
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Maintenance: blue zone badge" },
-    "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to blue zone card readers.",
+    "description": "This is an employee badge for a maintenance worker.  The reverse side describes protocol for using it; this could grant access to blue zone card readers.",
     "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT" ]
   },
   {

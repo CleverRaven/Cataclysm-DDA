@@ -102,6 +102,109 @@
   },
   {
     "type": "martial_art",
+    "id": "style_barbaran",
+    "name": { "str": "Barbaran Montante" },
+    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.",
+    "initiate": [
+      "You heft your weapon, stretch your shoulders, and slide into the Represa.",
+      "%s rolls their shoulders and prepares to duel."
+    ],
+    "learn_difficulty": 8,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_barbaran_static",
+        "name": "Barbaran Represa",
+        "description": "Sliding footwork enhances the crushing continuity of your attacks.\n\nArmor penetration increased by 75% of Strength.",
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.75 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.75 }
+        ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_barbaran_onblock",
+        "name": "Reversing Destreza",
+        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "max_stacks": 2,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.95 } ],
+        "buff_duration": 3
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_barbaran_onkill",
+        "name": "Movimiento Natural",
+        "description": "Formal victory is attained, and your mind is cleared to focus on your next moves.\n\n+1 Block attempts.\nLasts 5 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "buff_duration": 5,
+        "bonus_blocks": 1
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_barbaran_onmove",
+        "name": "Ricasso Step",
+        "description": "You switch or sturdy your grip mid-step to aid your blocking.\n\nBlocked damage reduced by 40% of Strength.\nLasts 3 turns.  Stacks 3 times.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.4 } ],
+        "buff_duration": 3
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_barbaran_onpause",
+        "name": "Vulgar Preparation",
+        "description": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, Armor penetration increased by 225% of Strength.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "str", "scale": 0.15 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 2.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 2.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 2.25 }
+        ],
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
+    "weapons": [
+      "2h_flail_steel",
+      "2h_flail_wood",
+      "battleaxe",
+      "battleaxe_inferior",
+      "battleaxe_fake",
+      "hammer_sledge",
+      "hammer_sledge_heavy",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "morningstar",
+      "morningstar_inferior",
+      "morningstar_fake",
+      "sword_nail",
+      "sword_crude",
+      "sword_wood",
+      "warhammer",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_boxing",
     "name": { "str": "Boxing" },
     "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase dodge skill.",
@@ -1053,87 +1156,13 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapons": [
-      "baton-extended",
-      "bone_knife",
-      "bowling_pin",
-      "butterfly_swords",
-      "cudgel",
-      "diveknife",
-      "glaive",
-      "golf_club",
-      "hockey_stick",
-      "i_staff",
-      "javelin",
-      "javelin_iron",
-      "knife_combat",
-      "knife_baselard",
-      "copper_knife",
-      "knife_hunting",
-      "knife_trench",
-      "kris",
-      "kris_fake",
-      "machete",
-      "machete_gimmick",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "makeshift_knife",
-      "makeshift_machete",
-      "naginata",
-      "naginata_inferior",
-      "naginata_fake",
-      "pipe",
-      "pointy_stick",
-      "pool_cue",
-      "PR24-extended",
-      "primitive_knife",
-      "q_staff",
-      "staff_sling",
-      "rebar",
-      "scimitar",
-      "scimitar_inferior",
-      "scimitar_fake",
-      "scythe",
-      "scythe_war",
-      "shock_staff",
-      "shocktonfa_off",
-      "shocktonfa_on",
-      "sickle",
-      "shillelagh",
-      "shillelagh_fake",
-      "shillelagh_weighted",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_pipe",
-      "spear_forked",
-      "spear_steel",
-      "spear_survivor",
-      "spear_wood",
-      "spear_copper",
-      "spear_homemade_halfpike",
-      "stick",
-      "survivor_machete",
-      "tanto",
-      "tonfa",
-      "tonfa_wood",
-      "kukri",
-      "knife_rambo",
-      "knife_rm42",
-      "switchblade",
-      "l-stick",
-      "l-stick_on",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
   },
   {
     "type": "martial_art",
     "id": "style_snake",
     "name": { "str": "Snake Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your Accuracy, rather than Dexterity.  Standing still will increases your accuracy and damage of your next attack.",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your accuracy and damage, rather than Dexterity and Strength.  Standing still will increases the accuracy and critical hit chance of your next few attacks.",
     "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -1141,29 +1170,64 @@
       {
         "id": "buff_snake_static",
         "name": "Snake's Sight",
-        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.  Bash damage increased by 75% of Perception but decreased by 75% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "per", "scale": 0.25 }, { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 } ]
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.75 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": -0.75 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_snake_onhit",
+        "name": "Snake Bite",
+        "description": "Each snake bite is more painful than the last.\n\nGain armor penetration equal to 25% of Perceptions.\nLasts 2 turns.  Stacks 4 times",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "buff_duration": 2,
+        "max_stacks": 4,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.25 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_snake_oncrit",
+        "name": "Snake Fang",
+        "description": "You hit a weakpoint!  Your next attack will be extra painful.\n\nGain armor penetration equal to 100% of Perceptions.\nLasts 1 turn.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "buff_duration": 1,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
+        ]
       }
     ],
     "onpause_buffs": [
       {
         "id": "buff_snake_onpause",
         "name": "Snake's Coil",
-        "description": "Every snake wait for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, gain armor penetration equal to 50% of Perceptions.\nLasts 1 turn.  Stacks 3 times.",
+        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, +1 Block Effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 4,
         "max_stacks": 3,
         "flat_bonuses": [
+          { "stat": "block_effectiveness", "scale": 1.0 },
           { "stat": "hit", "scale": 1.0 },
-          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
+          { "stat": "crit_chance", "scale": 5.0 }
         ]
       }
     ],
-    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
+    "techniques": [ "tec_snake_swift", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
   },
   {
     "type": "martial_art",
