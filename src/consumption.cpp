@@ -972,7 +972,8 @@ static bool eat( item &food, Character &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -982,7 +983,8 @@ static bool eat( item &food, Character &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
