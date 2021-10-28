@@ -85,6 +85,23 @@ The biggest branch point in CDDA tech is the availability of sci-fi technology f
 
 The basic rule of thumb is that the more advanced or unbelievable the technology, the less player modifiable it should be.  An alien chemical propellant weapon might be modified to accept earth bullets because the principles are quite similar, but no player is going to be dismantling a mi-go slaver rifle and salvaging recognizable components. 
 
+### Scale of technology/power levels in game
+```
+Modern Earth |S-U-X-E^--M------------F-Y----!T-----B| Basically Magic
+
+S: Survivors
+U: Exodii understanding of most technical theory
+X: XEDRA/Hub01/02
+E: Exodii functional technology with principles they no longer understand
+^: High upper limit of what a modern human could conceivably come to understand and work with
+M: Mi-Go
+F: Mycus (though it is unclear if the mycus has any true intent or forward thought, so it's hard to say if it's truly technology)
+Y: Yrax
+!: After this, it's magic for all intents and purposes
+T: Triffids
+B: Blob
+```
+
 ### Exodii Technology
 The Exodii are a faction of human travellers from other cataclysm-affected dimensions.  They have replaced a majority of their bodies with cybernetics to enable them to more easily defend against the zombie threat, both inside and out.  In general, Exodii technology should **not** be significantly more advanced than our own, with a few exceptions as outlined here.
 
@@ -110,3 +127,5 @@ Off-site the Exodii maintain separate structures that they've gathered over time
 Exodii portal technology is quite different from that employed by XEDRA.  While on the surface they seem to do the same thing, they are fundamentally wholly different technologies.  Exodii portal tech cannot be easily targeted to a location the way XEDRA tech seems to be; they can filter destinations based on criteria, but cannot pinpoint a single location to travel to until they've gone there.  They are able to set up beacons, once they have hit a dimension, and then travel to the beacon reliably - so they can go back to previously dimensions, and can home in on a single dimension once they've chosen it and send all their stuff there.
 
 Exodii portal tech is moderately hostile to organic material.  How exactly it classifies this is unclear and it's unlikely the Exodii know themselves.  Inert organic matter like plastic and wood fare better but may still decay during the jump.  Exposed living tissue is at greater risk, so the gardens on the Exodii base tend to die and need replanting each trip.  Food in tins and containers is at less, but not no, risk of damage, as are partial conversion exodii, who limit their risk by entering a hibernation state and encasing themselves in metal pods during travel (conveniently this also means that if they die, they are locked up safely).  Due to these dangers, the Exodii avoid unnecessary dimensional transit.  However, this effect is mostly seen as a feature, not a bug: if the base is overrun and needs to make an emergency teleport, it will kill almost any interlopers immediately.
+
+### Yrax Technology
