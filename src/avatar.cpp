@@ -339,7 +339,7 @@ void avatar::on_mission_finished( mission &cur_mission )
 diary *avatar::get_avatar_diary()
 {
     if( a_diary == nullptr ) {
-        a_diary.reset( new diary() );
+        a_diary = std::make_unique<diary>();
     }
     return a_diary.get();
 }

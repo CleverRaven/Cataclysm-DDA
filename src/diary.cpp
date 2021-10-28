@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include <filesystem>
+//#include <filesystem>
 
 #include "game.h"
 #include "filesystem.h"
@@ -665,6 +665,7 @@ void diary::delete_page()
 {
     if( opend_page < static_cast<int>( pages.size() ) ) {
         pages.erase( pages.begin() + opend_page );
+        set_opend_page( opend_page - 1 );
     }
 }
 

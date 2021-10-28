@@ -71,12 +71,11 @@ class diary
         std::vector<diary_page *> pages;
 
         /*current opend page*/
-        int opend_page = 0;
-
+        int opend_page = 0; // NOLINT(cata-serialize)
         /*list of chages from opend page to previus page*/
-        std::vector<std::string> change_list;
+        std::vector<std::string> change_list; // NOLINT(cata-serialize)
         /*maps discription to position in change list*/
-        std::map<int, std::string> desc_map;
+        std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
 
 
         //methoden
