@@ -51,7 +51,7 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_character( Character &dummy )
+void clear_character( Character &dummy, bool skip_nutrition )
 {
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
@@ -68,8 +68,10 @@ void clear_character( Character &dummy )
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
-    item food( "debug_nutrition" );
-    dummy.consume( food );
+    if( !skip_nutrition ) {
+        item food( "debug_nutrition" );
+        dummy.consume( food );
+    }
 
     // This sets HP to max, clears addictions and morale,
     // and sets hunger, thirst, fatigue and such to zero
