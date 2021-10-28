@@ -1108,7 +1108,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     item_pocket *parent_pocket = nullptr;
     bool on_person = true;
     int pre_obtain_moves = you.moves;
-    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) || you.is_worn( *loc ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
     } else if( you.can_wield( *loc ).success() && loc->is_holster() && !loc.held_by( you ) ) {
