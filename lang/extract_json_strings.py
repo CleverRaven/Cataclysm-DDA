@@ -1029,9 +1029,15 @@ def extract_snippets(item):
 def extract_speed_description(item):
     outfile = get_outfile("speed_description")
     values = item.get("values", [])
+    comment = "speed description of monsters"
     for value in values:
-        if 'description' in value:
-            writestr(outfile, value['description'])
+        if 'descriptions' in value:
+            descriptions = value.get("descriptions")
+            if type(descriptions) is str:
+                writestr(outfile, descriptions, comment=comment)
+            elif type(descriptions) is list:
+                for description in descriptions:
+                    writestr(outfile, description, comment=comment)
 
 
 def extract_vehicle_part_category(item):

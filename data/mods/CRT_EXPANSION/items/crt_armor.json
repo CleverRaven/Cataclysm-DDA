@@ -28,6 +28,7 @@
     "weight": "1500 g",
     "price": 250000,
     "warmth": 40,
+    "material": [ "rubber", "superalloy", "nomex" ],
     "material_thickness": 5,
     "environmental_protection": 5,
     "armor": [ { "encumbrance": 17, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]

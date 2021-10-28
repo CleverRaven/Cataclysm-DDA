@@ -238,6 +238,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_simple_concrete_wall_embrasure",
+    "group": "remove_concrete_wall",
+    "//": "Cuts a segment of concrete wall (with an embrasure) out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
+    "pre_terrain": "t_embrasure_sconc",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_halfway_concrete_wall",
     "group": "remove_concrete_wall",
     "//": "Cuts a segment of half complete concrete wall out very neatly, and then breaks it apart for disposal.",
@@ -281,6 +294,23 @@
       { "item": "scrap", "count": [ 15, 40 ] }
     ],
     "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_reinforced_concrete_wall_embrasure",
+    "group": "remove_reinforced_concrete_wall",
+    "//": "Cuts a segment of reinforced concrete wall (with an embrasure) out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
+    "byproducts": [
+      { "item": "rock", "count": [ 15, 30 ] },
+      { "item": "rebar", "count": [ 6, 12 ] },
+      { "item": "scrap", "count": [ 15, 40 ] }
+    ],
+    "pre_terrain": "t_embrasure_strconcrete",
     "post_terrain": "t_thconc_floor"
   },
   {
@@ -389,6 +419,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_rock_wall_embrasure",
+    "group": "remove_rock_wall",
+    "//": "Cuts out a segment of stone wall with embrasure, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
+    "pre_terrain": "t_embrasure_rock",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_rock_wall_halfway",
     "group": "remove_rock_wall",
     "//": "Cuts out a segment of half complete stone wall, and then breaks it apart for disposal.",
@@ -411,6 +454,19 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_brick_wall",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_brick_wall_embrasure",
+    "group": "remove_brick_wall",
+    "//": "Cuts a segment of brick wall with embrasure out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 12 ] } ],
+    "pre_terrain": "t_embrasure_brick",
     "post_terrain": "t_thconc_floor"
   },
   {
@@ -454,6 +510,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_adobe_brick_wall_embrasure",
+    "group": "remove_brick_wall",
+    "//": "Cuts a segment of adobe brick wall with embrasure out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 12 ] } ],
+    "pre_terrain": "t_embrasure_adobe_brick",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_wooden_wall",
     "group": "remove_wooden_wall",
     "//": "Cuts a segment of wooden wall out very neatly, and then breaks it apart for disposal.",
@@ -463,6 +532,19 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_wooden_wall_embrasure",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of wooden wall with embrasure out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": "wall_deconstruction_results",
+    "pre_terrain": "t_embrasure_wood",
     "post_terrain": "t_floor"
   },
   {
@@ -493,6 +575,19 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_log_wall_embrasure",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of log wall with embrasure out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_embrasure_log",
     "post_terrain": "t_dirt"
   },
   {

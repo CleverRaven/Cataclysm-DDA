@@ -96,14 +96,14 @@ using namespace map_field_processing;
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
-    std::vector<material_id> all_mats = fuel.made_of();
+    const std::map<material_id, int> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return;
     }
-    // Items that are multiple materials are assumed to be equal parts each.
-    const units::mass by_weight = burned_mass / all_mats.size();
-    for( material_id &mat : all_mats ) {
-        for( const auto &bp : mat->burn_products() ) {
+    const units::mass by_weight = burned_mass;
+    const float mat_total = fuel.type->mat_portion_total == 0 ? 1 : fuel.type->mat_portion_total;
+    for( const auto &mat : all_mats ) {
+        for( const auto &bp : mat.first->burn_products() ) {
             itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
             // and leads to infinite recursion.
@@ -111,7 +111,9 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            // distribute byproducts by weight AND portion of item
+            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) *
+                                      ( mat.second / mat_total ) );
 
             if( n <= 0 ) {
                 continue;

@@ -220,10 +220,13 @@ bool cleanup_at_end()
         const int days = to_days<int>( survived );
 
         if( days > 0 ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
         } else if( hours > 0 ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dh %dm", hours, minutes );
         } else {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dm", minutes );
         }
 

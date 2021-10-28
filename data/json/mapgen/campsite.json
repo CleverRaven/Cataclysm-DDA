@@ -2,12 +2,12 @@
   {
     "name": "CAMPERS",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_rot", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_dog", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_null", "weight": 500 },
+      { "monster": "mon_zombie", "weight": 100, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_child", "weight": 100, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_rot", "weight": 100, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_dog", "weight": 200, "pack_size": [ 1, 2 ] }
     ]
   },
   {

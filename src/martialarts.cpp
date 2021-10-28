@@ -22,6 +22,7 @@
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -1678,9 +1679,17 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer += tech.obj().get_description() + "--\n";
         }
 
-        if( !ma.weapons.empty() ) {
+        std::set<itype_id> valid_ma_weapons = ma.weapons;
+        for( const itype *itp : item_controller->all() ) {
+            const itype_id &weap_id = itp->get_id();
+            if( ma.has_weapon( weap_id ) )  {
+                valid_ma_weapons.emplace( weap_id );
+            }
+        }
+
+        if( !valid_ma_weapons.empty() ) {
             std::vector<std::string> weapons;
-            std::transform( ma.weapons.begin(), ma.weapons.end(),
+            std::transform( valid_ma_weapons.begin(), valid_ma_weapons.end(),
             std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
                 // Colorize wielded weapon and move it to the front of the list
                 Character &player_character = get_player_character();

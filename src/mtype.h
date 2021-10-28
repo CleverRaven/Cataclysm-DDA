@@ -287,7 +287,8 @@ struct mtype {
 
         std::set<species_id> species;
         std::set<std::string> categories;
-        std::vector<material_id> mat;
+        std::map<material_id, int> mat;
+        int mat_portion_total = 0;
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */

@@ -821,6 +821,22 @@ void vehicle::use_controls( const tripoint &pos )
     }
 }
 
+void vehicle::plug_in( const tripoint &pos )
+{
+    item powercord( "power_cord" );
+    powercord.set_var( "source_x", pos.x );
+    powercord.set_var( "source_y", pos.y );
+    powercord.set_var( "source_z", pos.z );
+    powercord.set_var( "state", "pay_out_cable" );
+    powercord.active = true;
+
+    if( powercord.get_use( "CABLE_ATTACH" ) ) {
+        powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
+                pos );
+    }
+
+}
+
 bool vehicle::fold_up()
 {
     const bool can_be_folded = is_foldable();
@@ -2049,15 +2065,22 @@ void vehicle::interact_with( const vpart_position &vp )
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
+    bool is_appliance = has_tag( "APPLIANCE" );
+
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
         RELOAD_TURRET, FILL_CONTAINER, DRINK, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
-        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, PEEK_CURTAIN, TOOLS_OFFSET
+        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, PEEK_CURTAIN, TOOLS_OFFSET, PLUG
     };
     uilist selectmenu;
 
-    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
-    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+
+    if( !is_appliance ) {
+        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+    } else {
+        selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
+    }
     if( vp_controls ) {
         selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
@@ -2324,6 +2347,10 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case WORKBENCH: {
             iexamine::workbench_internal( player_character, vp.pos(), vp_workbench );
+            return;
+        }
+        case PLUG: {
+            plug_in( here.getabs( vp.pos() ) );
             return;
         }
         default: {

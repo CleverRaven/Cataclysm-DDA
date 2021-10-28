@@ -1631,7 +1631,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, nullint );
+                                            rota, ll, apply_night_vision_goggles, nullint, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1641,7 +1641,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, nullint );
+                                            ll, apply_night_vision_goggles, nullint, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
@@ -1650,7 +1650,16 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                       int &height_3d )
 {
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, height_3d );
+                                            rota, ll, apply_night_vision_goggles, height_3d, 0 );
+}
+
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                      const std::string &subcategory, const tripoint &pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d, int intensity )
+{
+    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, height_3d, intensity, "" );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1658,8 +1667,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d )
 {
-    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota, ll,
-                                            apply_night_vision_goggles, height_3d, "" );
+    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, height_3d, 0, "" );
 }
 
 cata::optional<tile_lookup_res>
@@ -1852,7 +1861,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d,
-                                      const std::string &variant )
+                                      int intensity_level, const std::string &variant )
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1867,11 +1876,27 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         return false;
     }
 
-    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category, variant );
     const tile_type *tt = nullptr;
-    if( res ) {
-        tt = &( res -> tile() );
+    cata::optional<tile_lookup_res> res;
+
+
+
+    // check if there is an available intensity tile and if there is use that instead of the basic tile
+    // this is only relevant for fields
+    if( intensity_level > 0 ) {
+        res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
+        if( res ) {
+            tt = &( res -> tile() );
+        }
     }
+    // if a tile with intensity hasn't already been found then fall back to a base tile
+    if( !res ) {
+        res = find_tile_looks_like( id, category, variant );
+        if( res ) {
+            tt = &( res -> tile() );
+        }
+    }
+
     const std::string &found_id = res ? ( res->id() ) : id;
 
     if( !tt ) {
@@ -1929,7 +1954,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == TILE_CATEGORY::FIELD ) {
             const field_type_id fid = field_type_id( found_id );
             sym = fid->get_intensity_level().symbol;
-            // TODO: field intensity?
             col = fid->get_intensity_level().color;
         } else if( category == TILE_CATEGORY::TRAP ) {
             const trap_str_id tmp( found_id );
@@ -2891,8 +2915,12 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         int rotation = 0;
         get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
+        //get field intensity
+        //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
+        int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity() - 1;
+        int nullint = 0;
         ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
-                                              p, subtile, rotation, lit, nv );
+                                              p, subtile, rotation, lit, nv, nullint, intensity );
     }
     if( fld.obj().display_items ) {
         const auto it_override = item_override.find( p );
@@ -2930,7 +2958,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             const bool nv = it_overridden ? false : nv_goggles_activated;
 
             ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
-                                                  0, lit, nv, height_3d, variant );
+                                                  0, lit, nv, height_3d, 0, variant );
             if( ret_draw_items && hilite ) {
                 draw_item_highlight( p );
             }

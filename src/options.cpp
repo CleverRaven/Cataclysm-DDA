@@ -1553,8 +1553,17 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
+         # Mode 4: Diagonal Lock
+
+         * Holding Ctrl or Shift locks movement to diagonal only
+         * This ensures that pressing ↑ + → will results in ↗ and not ↑ or →
+         * Reject input if it doesn't make sense
+         * Example 1: Press → while holding Shift and ↑ results in ↗
+         * Example 2: Press → while holding Shift, ↑ and ← results in input rejection
+         * Example 3: Press → while holding Shift and ← results in input rejection
+
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
+    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();

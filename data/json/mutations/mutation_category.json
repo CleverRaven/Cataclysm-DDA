@@ -102,7 +102,7 @@
   {
     "type": "mutation_category",
     "id": "URSINE",
-    "name": "Bear",
+    "name": "Ursine",
     "threshold_mut": "THRESH_URSINE",
     "mutagen_message": "You feel an urge to… patrol?  the forests?",
     "iv_message": "You feel yourself quite equipped for wilderness survival.",
@@ -120,7 +120,7 @@
   {
     "type": "mutation_category",
     "id": "LUPINE",
-    "name": "Wolf",
+    "name": "Lupine",
     "threshold_mut": "THRESH_LUPINE",
     "mutagen_message": "You feel an urge to mark your territory.  But then it passes.",
     "iv_message": "As the mutagen hits you, your ears twitch and you stifle a yipe.",
@@ -250,7 +250,7 @@
   {
     "type": "mutation_category",
     "id": "ELFA",
-    "name": "Fey",
+    "name": "Elf-A",
     "threshold_mut": "THRESH_ELFA",
     "mutagen_message": "Nature is becoming one with you…",
     "iv_message": "Everything goes green for a second.",
