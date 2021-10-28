@@ -3337,9 +3337,7 @@
     "looks_like": "depowered_armor",
     "color": "dark_gray",
     "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ] },
-      { "pocket_type": "CONTAINER", "item_restriction": [ "exotool" ] },
-      { "pocket_type": "CONTAINER", "item_restriction": [ "powered_exotool" ] }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ] }
     ],
     "warmth": 0,
     "material_thickness": 8,
@@ -3386,11 +3384,7 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ] },
-      { "pocket_type": "CONTAINER", "item_restriction": [ "exotool" ] },
-      { "pocket_type": "CONTAINER", "item_restriction": [ "powered_exotool" ] }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 10000 } } ],
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
