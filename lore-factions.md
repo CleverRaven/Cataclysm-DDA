@@ -9,6 +9,12 @@ CDDA tells stories using unreliable narrators and a found footage style.  Knowin
 # CDDA Faction Lore and Design Goals: Deep Dive
 This document will outline deep design concepts and lore for existing and planned factions, both human and alien.  Due to the infrequency of updates to design docs, I will not be distinguishing from what is planned for addition and what is already in the game; if something noted here is inconsistent with content in the game, it is worth checking with core developers to get an idea of which direction we plan to go in.
 
+## Table of Contents
+
+* [CDDA-Earth Native Human Factions](#CDDA-Earth-Native-Human-Factions)
+* * [Free Merchants](#Free-Merchants)
+
+
 ## CDDA-Earth Native Human Factions
 
 ### Free Merchants
