@@ -3350,7 +3350,7 @@
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "ELECTRIC_IMMUNE", "BELTED", "WATER_FRIENDLY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "armor": [
       {
         "encumbrance": 20,
@@ -3368,7 +3368,7 @@
     "name": { "str": "battery powered utility exoskeleton (on)", "str_pl": "battery powered utility exoskeletons (on)" },
     "description": "  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "ammo": "battery",
     "power_draw": 100000,
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
@@ -3396,7 +3396,7 @@
     "ammo": "gasoline",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "ELECTRIC_IMMUNE", "BELTED", "WATER_FRIENDLY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 0 } ] } ] },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "armor": [
       {
         "encumbrance": 20,
@@ -3414,7 +3414,7 @@
     "name": { "str": "ICE utility exoskeleton (on)", "str_pl": "ICE utility exoskeletons (on)" },
     "description": "  It is turned on and continually draining gasoline.  Use it to turn it off.",
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "turns_per_charge": 4,
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   }
