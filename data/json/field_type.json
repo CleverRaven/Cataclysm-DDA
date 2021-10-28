@@ -217,6 +217,7 @@
     "id": "fd_sludge",
     "type": "field_type",
     "legacy_enum_id": 9,
+    "mopsafe": true,
     "intensity_levels": [
       {
         "name": "thin sludge trail",
