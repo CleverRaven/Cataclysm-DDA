@@ -320,7 +320,7 @@ def extract_material(item):
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
     if "name" in item:
-        name = item["name"]
+        name = get_singular_name(item["name"])
         writestr(outfile, name)
     else:
         name = item["id"]
