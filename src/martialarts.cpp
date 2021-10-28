@@ -458,48 +458,30 @@ void clear_techniques_and_martial_arts()
     ma_techniques.reset();
 }
 
+bool ma_requirements::buff_requirements_satisfied( const Character &u ) const
+{
+    const auto having_buff = [&u]( const mabuff_id & buff_id ) {
+        return u.has_mabuff( buff_id );
+    };
+
+    if( std::any_of( forbid_buffs_any.begin(), forbid_buffs_any.end(), having_buff ) ) {
+        return false;
+    }
+
+    if( !forbid_buffs_all.empty() ) {
+        if( std::all_of( forbid_buffs_all.begin(), forbid_buffs_all.end(), having_buff ) ) {
+            return false;
+        }
+    }
+
+    return std::all_of( req_buffs_all.begin(), req_buffs_all.end(), having_buff ) &&
+           ( req_buffs_any.empty() || std::any_of( req_buffs_any.begin(), req_buffs_any.end(), having_buff ) );
+}
+
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
-    // Check: Required Buffs All
-    for( const mabuff_id &buff_id : req_buffs_all ) {
-        if( !u.has_mabuff( buff_id ) ) {
-            return false;
-        }
-    }
-
-    // Check: Forbidden Buffs Any
-    for( const mabuff_id &buff_id : forbid_buffs_any ) {
-        if( u.has_mabuff( buff_id ) ) {
-            return false;
-        }
-    }
-
-    // Check: Required Buffs Any
-    if( !req_buffs_any.empty() ) {}
-    bool req_buff_valid = false;
-
-    for( const mabuff_id &buff_id : req_buffs_any ) {
-        if( u.has_mabuff( buff_id ) ) {
-            req_buff_valid = true;
-        }
-
-        if( !req_buff_valid ) {
-            return false;
-        }
-    }
-
-    // Check: Forbidden Buffs All
-    if( !forbid_buffs_all.empty() ) {}
-    bool forbid_buff_valid = false;
-
-    for( const mabuff_id &buff_id : forbid_buffs_all ) {
-        if( !u.has_mabuff( buff_id ) ) {
-            forbid_buff_valid = true;
-        }
-
-        if( !forbid_buff_valid ) {
-            return false;
-        }
+    if( !buff_requirements_satisfied( u ) ) {
+        return false;
     }
 
     //A technique is valid if it applies to unarmed strikes, if it applies generally
