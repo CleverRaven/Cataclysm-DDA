@@ -594,6 +594,7 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "human",
+    "luminance": 500,
     "starting_ammo": { "9mm": 5, "223": 9 },
     "special_attacks": [
       [ "GRAB", 7 ],
