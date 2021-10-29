@@ -3219,9 +3219,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         std::vector<sub_bodypart_id> covered = this->get_covered_sub_body_parts();
         // go through all coverages and try to pair up groups
-        for( int i = 0; i < covered.size(); i++ ) {
+        for( size_t i = 0; i < covered.size(); i++ ) {
             const sub_bodypart_id &sbp = covered[i];
-            if( sbp == ( sub_bodypart_id )0 ) {
+            if( sbp == sub_bodypart_id() ) {
                 // if we have already covered this value continue
                 continue;
             }

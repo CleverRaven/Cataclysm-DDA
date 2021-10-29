@@ -169,7 +169,6 @@ automatically_convertible = {
     "speech",
     "SPELL",
     "start_location",
-    "sub_body_part",
     "terrain",
     "TOOL",
     "TOOLMOD",
@@ -271,6 +270,11 @@ def extract_bodypart(item):
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 
+def extract_sub_bodypart(item):
+    outfile = get_outfile("sub_bodypart")
+    writestr(outfile, item["name"])
+    if "name_multiple" in item:
+        writestr(outfile, item["name_multiple"])
 
 def extract_clothing_mod(item):
     outfile = get_outfile("clothing_mod")
@@ -1057,6 +1061,7 @@ def extract_widget(item):
 extract_specials = {
     "achievement": extract_achievement,
     "body_part": extract_bodypart,
+    "sub_body_part": extract_sub_bodypart,
     "clothing_mod": extract_clothing_mod,
     "conduct": extract_achievement,
     "construction": extract_construction,
