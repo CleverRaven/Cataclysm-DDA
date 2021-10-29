@@ -106,5 +106,32 @@
       "MAP_MIRROR_HORIZONTAL_IF_W",
       "MAP_ROTATE_270_IF_W"
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_glassblower_rock",
+    "description": "Let's start building a glassblower's cottage from rock.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_glassblower_rock",
+    "blueprint_name": "rock walled glassblower's cottage",
+    "blueprint_requires": [ { "id": "fbmw_2" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_glassblower" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_glassblower" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
   }
 ]

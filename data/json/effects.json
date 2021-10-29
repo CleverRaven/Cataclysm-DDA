@@ -2477,13 +2477,14 @@
   },
   {
     "type": "effect_type",
-    "id": "nightmares"
+    "id": "nightmares",
+    "max_duration": "72 hours"
   },
   {
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if composed of mist." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ]
   },
   {
     "type": "effect_type",

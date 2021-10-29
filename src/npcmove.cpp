@@ -892,7 +892,7 @@ void npc::move()
         action = npc_return_to_guard_pos;
     } else {
         // No present danger
-        deactivate_combat_cbms();
+        cleanup_on_no_danger();
 
         action = address_needs();
         print_action( "address_needs %s", action );
@@ -1406,8 +1406,8 @@ npc_action npc::method_of_attack()
         return npc_pause;
     }
 
-    // if there's enough of a threat to be here, power up the combat CBMs
-    activate_combat_cbms();
+    // if there's enough of a threat to be here, power up the combat CBMs and any combat items.
+    prepare_for_combat();
 
     evaluate_best_weapon( critter );
 
@@ -1719,6 +1719,56 @@ bool npc::recharge_cbm()
     }
 
     return false;
+}
+
+void npc::activate_combat_items()
+{
+    for( item &candidate : worn ) {
+        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
+            !candidate.active ) {
+
+            const iuse_transform *transform = dynamic_cast<const iuse_transform *>
+                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
+
+            // Due to how UPS works, there can be no charges_needed for UPS items.
+            // Energy consumption is thus not checked at activation.
+            // To prevent "flickering", this is a hard check for UPS charges > 0.
+            if( transform->target->has_flag( flag_USE_UPS ) && available_ups() == 0 ) {
+                continue;
+            }
+            if( transform->can_use( *this, candidate, false, tripoint_zero ).success() ) {
+                transform->use( *this, candidate, false, tripoint_zero );
+                add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
+            }
+        }
+    }
+}
+
+void npc::deactivate_combat_items()
+{
+    for( item &candidate : worn ) {
+        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
+            candidate.active ) {
+            const iuse_transform *transform = dynamic_cast<const iuse_transform *>
+                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
+            if( transform->can_use( *this, candidate, false, tripoint_zero ).success() ) {
+                transform->use( *this, candidate, false, tripoint_zero );
+                add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
+            }
+        }
+    }
+}
+
+void npc::prepare_for_combat()
+{
+    activate_combat_cbms();
+    activate_combat_items();
+}
+
+void npc::cleanup_on_no_danger()
+{
+    deactivate_combat_cbms();
+    deactivate_combat_items();
 }
 
 healing_options npc::patient_assessment( const Character &c )

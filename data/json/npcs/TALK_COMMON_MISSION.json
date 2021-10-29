@@ -110,7 +110,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "I'm sorry…  I failed.",
+        "text": "I'm sorry… I failed.",
         "condition": "mission_failed",
         "topic": "TALK_MISSION_FAILURE",
         "opinion": { "trust": -1, "value": -1, "anger": 1 }

@@ -1908,7 +1908,7 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
                                                      you.backlog.front().id() == ACT_MULTIPLE_MINE ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
-                        add_msg_if_player_sees( you, "%1s failed to fetch tools", you.name );
+                        add_msg_if_player_sees( you, _( "%1s failed to fetch tools." ), you.name );
                         continue;
                     }
                     item leftovers = it;

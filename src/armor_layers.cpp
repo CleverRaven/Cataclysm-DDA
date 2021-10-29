@@ -883,7 +883,7 @@ void Character::sort_armor()
                         popup( _( "Can't put this on!" ) );
                     }
                 } else {
-                    add_msg_if_player( "You chose not to wear the %s.", item_name );
+                    add_msg_if_player( _( "You chose not to wear the %s." ), item_name );
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
@@ -908,7 +908,7 @@ void Character::sort_armor()
                         popup( _( "Can't put this on!" ) );
                     }
                 } else {
-                    add_msg_if_player( "You chose not to wear the %s.", item_name );
+                    add_msg_if_player( _( "You chose not to wear the %s." ), item_name );
                 }
             }
         } else if( action == "REMOVE_ARMOR" ) {

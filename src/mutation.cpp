@@ -40,6 +40,7 @@
 #include "units.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 
 static const efftype_id effect_stunned( "stunned" );
 
@@ -73,6 +74,9 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
+static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
+static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
@@ -647,6 +651,12 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_LONG_TONGUE2 ||
+               mut == trait_GASTROPOD_EXTREMITY2 ||
+               mut == trait_GASTROPOD_EXTREMITY3 ) {
+        tdata.powered = false;
+        assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mut->name() );
+        return;
     } else if( mut == trait_SNAIL_TRAIL ) {
         get_map().add_field( pos(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
@@ -738,7 +748,7 @@ void Character::activate_mutation( const trait_id &mut )
         int npower;
         if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
             mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            add_msg_if_player( m_good, _( "Bionic power increased by %dmJ." ), npower );
             tdata.powered = false;
         }
         return;

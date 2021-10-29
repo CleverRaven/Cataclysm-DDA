@@ -325,6 +325,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_TRAIN_TEACHER",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "teaching",
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_SOCIALIZE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -576,6 +584,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_PULL_CREATURE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "pulling a creature",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ATM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -597,7 +614,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "welding",
-    "based_on": "speed"
+    "based_on": "time"
   },
   {
     "id": "ACT_CRACKING",

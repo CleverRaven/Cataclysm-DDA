@@ -324,7 +324,7 @@
     "type": "npc_class",
     "id": "NC_HALLU",
     "name": { "str": "Real Person" },
-    "job_description": "I'm just wandering, like a totally real and normal NP… Person!",
+    "job_description": "I'm just wandering, like a totally real and normal NP… person!",
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
     "common": false,
     "skills": [
@@ -369,7 +369,7 @@
     "type": "npc_class",
     "id": "NC_CYBORG",
     "name": { "str": "Cyborg" },
-    "job_description": "Zzzzzt…  I… I'm a Cy… BEEEEEP… borg.",
+    "job_description": "Zzzzzt… I… I'm a Cy… BEEEEEP… borg.",
     "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }

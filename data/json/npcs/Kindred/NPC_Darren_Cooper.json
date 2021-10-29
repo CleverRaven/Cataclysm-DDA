@@ -96,7 +96,7 @@
       "value": "yes",
       "no": {
         "u_has_trait": "seer_mark",
-        "yes": "How do you do.  Name's Cooper.  What's your- wait…  that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am then.",
+        "yes": "How do you do.  Name's Cooper.  What's your- wait… that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am then.",
         "no": "How do you do.  Name's Cooper.  And you are?"
       },
       "yes": {
@@ -377,7 +377,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_COOPERS_SIDE",
-    "dynamic_line": "I met Brigitte shortly after everything collapsed.  Seeing so much death and insanity around me…  it almost crushed me, but when she explained everything about the bones to me, it gave me a sliver of hope, that one time, things might turn around.  For that, I am grateful to her.  But we'll never change anything if we keep using scraps of bones found on corpses on the side of the road.  By the time the animals are done with those, there is barely any Song left to be used.  It's not enough.  I had to leave, to work on my own.  To do what's necessary.",
+    "dynamic_line": "I met Brigitte shortly after everything collapsed.  Seeing so much death and insanity around me… it almost crushed me, but when she explained everything about the bones to me, it gave me a sliver of hope, that one time, things might turn around.  For that, I am grateful to her.  But we'll never change anything if we keep using scraps of bones found on corpses on the side of the road.  By the time the animals are done with those, there is barely any Song left to be used.  It's not enough.  I had to leave, to work on my own.  To do what's necessary.",
     "responses": [
       {
         "text": "What do you mean by 'necessary'?",
@@ -400,7 +400,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_NECESSARY",
-    "dynamic_line": "People will die in this world overrun with monsters.  There is no avoiding it.  But I can give those deaths meaning, allow them to help the world after death, more than they could in life.  It brings me no pleasure, but…  yes, some must give their life for the greater good.  It's the only way.  Wish there was an alternative, but it must be done.  I only take people from this world to save it.  Make no mistake though, the only people that I…  kill are those who would not survive anyway.",
+    "dynamic_line": "People will die in this world overrun with monsters.  There is no avoiding it.  But I can give those deaths meaning, allow them to help the world after death, more than they could in life.  It brings me no pleasure, but… yes, some must give their life for the greater good.  It's the only way.  Wish there was an alternative, but it must be done.  I only take people from this world to save it.  Make no mistake though, the only people that I… kill are those who would not survive anyway.",
     "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
     "responses": [
       {
@@ -517,7 +517,7 @@
     "dynamic_line": "I scavenge only so I can survive, but I have a much greater goal than just to live.",
     "speaker_effect": { "effect": { "u_add_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
-      { "text": "A…  goal?  What do you mean?  What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
+      { "text": "A… goal?  What do you mean?  What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
       { "text": "Uh, okay then.  I have to go now; have a nice day.", "topic": "TALK_DONE" }
     ]
   },

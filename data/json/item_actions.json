@@ -732,7 +732,7 @@
   {
     "type": "item_action",
     "id": "PETFOOD",
-    "name": { "str": "Feed a wild animal…  or a human" }
+    "name": { "str": "Feed a wild animal… or a human" }
   },
   {
     "type": "item_action",
@@ -768,6 +768,11 @@
     "type": "item_action",
     "id": "PROZAC",
     "name": { "str": "Take" }
+  },
+  {
+    "type": "item_action",
+    "id": "ELECTRICSTORAGE",
+    "name": { "str": "Manage external storage" }
   },
   {
     "type": "item_action",

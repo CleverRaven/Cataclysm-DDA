@@ -2,8 +2,8 @@
   {
     "id": "armor_nomad",
     "type": "ARMOR",
-    "name": { "str": "nomad gear" },
-    "description": "A makeshift outfit made from pre-Cataclysm clothing designed for long travels.  It has a lot of storage space.",
+    "name": { "str": "nomad jumpsuit" },
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.",
     "weight": "5830 g",
     "volume": "7500 ml",
     "price": 35000,
@@ -14,9 +14,9 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 16 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 10, 14 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 13 ] }
+      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 10, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 6, 7 ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
@@ -31,48 +31,29 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
-    "warmth": 40,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
-  },
-  {
-    "id": "armor_nomad_light",
-    "type": "ARMOR",
-    "name": { "str": "light nomad gear" },
-    "description": "A light makeshift outfit made from pre-Cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
-    "weight": "3200 g",
-    "volume": "6500 ml",
-    "price": 29500,
-    "price_postapoc": 1250,
-    "to_hit": -4,
-    "material": [ "cotton" ],
-    "looks_like": "armor_nomad",
-    "symbol": "[",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
     "warmth": 10,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+  },
+  {
+    "id": "armor_nomad_light",
+    "type": "ARMOR",
+    "name": { "str": "light nomad jumpsuit" },
+    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.",
+    "copy-from": "armor_nomad",
+    "price": 29500,
+    "price_postapoc": 1250,
+    "material": [ "cotton" ],
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 6, 8 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 5, 6 ] }
+    ],
+    "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
+    "delete": { "flags": [ "STURDY" ] }
   },
   {
     "id": "armor_scavenger",
