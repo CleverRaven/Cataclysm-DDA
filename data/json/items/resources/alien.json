@@ -31,6 +31,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "alien_fern",
+    "symbol": "y",
+    "color": "red_green",
+    "name": { "str": "alien fern branch", "str_pl": "alien fern branches" },
+    "description": "A branching trunk of leaves from a mega fern, about two feet long and a couple of feet across in diameter measuring the leaves.  Maybe one day you'll think of something to make with a giant fern.",
+    "material": [ "wood" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "weight": "80 g",
+    "volume": "5000 ml",
+    "longest_side": "260 cm",
+    "looks_like": "stick",
+    "bashing": 1,
+    "to_hit": -3,
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "exodii_chassis",
     "name": { "str_sp": "Exodii chassis" },
     "description": "This roughly hexagonal frame and associated bodywork looks like it was constructed as a single monolithic piece.  The fitting holes and attachments are extremely durable, despite showing signs of heavy wear and repair.  The structure is versatile, and could probably be engineered to serve a number of different heavy combat roles.",

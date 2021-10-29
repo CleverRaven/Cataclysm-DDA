@@ -1187,7 +1187,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "
                   "to sell…" ) );
     } else {
-        liquidate = query_yn( _( "Do you wish to sell the crop of %d %s for a profit of $%d?" ),
+        liquidate = query_yn( _( "Do you wish to sell the crop of %1$d %2$s for a profit of $%3$d?" ),
                               number_plants, plant_names[plant_index], money );
     }
 
@@ -1989,18 +1989,18 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                     //~ %1$s: skill name, %2$d: companion skill level
                     npc_desc += string_format( pgettext( "companion skill", "%1$s %2$d" ),
                                                skill_tested_id.obj().name(),
-                                               e->get_skill_level( skill_tested_id ) );
+                                               e->get_knowledge_level( skill_tested_id ) );
                 } else {
                     //~ %1$s: skill name, %2$d: companion skill level, %3$d: skill requirement
                     npc_desc += string_format( pgettext( "companion skill", "%1$s %2$d/%3$d" ),
                                                skill_tested_id.obj().name(),
-                                               e->get_skill_level( skill_tested_id ),
+                                               e->get_knowledge_level( skill_tested_id ),
                                                skill_level );
-                    can_do &= e->get_skill_level( skill_tested_id ) >= skill_level;
+                    can_do &= e->get_knowledge_level( skill_tested_id ) >= skill_level;
                 }
             }
         }
-        uilist_entry npc_entry = uilist_entry( x, can_do, x, npc_desc );
+        uilist_entry npc_entry = uilist_entry( x, can_do, -1, npc_desc );
         npc_menu.push_back( npc_entry );
         x++;
     }

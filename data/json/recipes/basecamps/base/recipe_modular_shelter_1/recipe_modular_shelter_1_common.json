@@ -964,7 +964,7 @@
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 30 ], [ "toolset", 225 ], [ "welder", 150 ], [ "welder_crude", 225 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 1 } ] ],
         "components": [ [ [ "pipe", 24 ] ], [ [ "sheet_metal", 6 ] ], [ [ "sheet_metal_small", 12 ] ] ]
       }
     }

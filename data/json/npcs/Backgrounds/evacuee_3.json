@@ -2,7 +2,7 @@
   {
     "id": "BGSS_EVACUEE_3_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead…  I was the only one to make it out.  I never looked back.",
+    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead… I was the only one to make it out.  I never looked back.",
     "responses": [
       {
         "text": "How did you survive after that?",

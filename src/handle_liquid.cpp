@@ -205,12 +205,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     }
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume_as_is( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
-        if( player_character.can_fuel_bionic_with( liquid ) ) {
-            menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
-        } else {
-            menu.addentry( -1, true, 'e', _( "Consume it" ) );
-        }
-
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
         } );

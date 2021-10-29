@@ -85,6 +85,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h" // For play_game
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -131,7 +132,6 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
@@ -257,7 +257,6 @@ static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
@@ -278,7 +277,6 @@ static const itype_id itype_paper( "paper" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
-static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -286,8 +284,6 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
-static const itype_id itype_stick( "stick" );
-static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
@@ -342,6 +338,7 @@ static const trait_id trait_NUMB( "NUMB" );
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
@@ -1938,7 +1935,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
                     //lets say it is a 5% chance per fish to catch
                     if( one_in( 20 ) ) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
+                                    GROUP_FISH, true );
                         const mtype_id &fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
@@ -2356,65 +2353,10 @@ cata::optional<int> iuse::ma_manual( Character *p, item *it, bool, const tripoin
     return 1;
 }
 
-cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint & )
+// Remove after 0.G
+cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    const std::set<ter_id> allowed_ter_id {
-        t_fence,
-        t_window_boarded,
-        t_window_boarded_noglass,
-        t_door_boarded,
-        t_door_boarded_damaged,
-        t_door_boarded_peep,
-        t_door_boarded_damaged_peep,
-        t_rdoor_boarded,
-        t_rdoor_boarded_damaged
-    };
-
-    map &here = get_map();
-    const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
-            return false;
-        }
-        const ter_id ter = here.ter( pnt );
-
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
-        return is_allowed;
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint &pnt = *pnt_;
-    const ter_id type = here.ter( pnt );
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
-            p->add_msg_if_player( _( "You try to hit yourself with the hammer." ) );
-            p->add_msg_if_player( _( "But you can't touch this." ) );
-        } else {
-            p->add_msg_if_player( m_info, _( "You can't pry that." ) );
-        }
-        return cata::nullopt;
-    }
-
-    if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
-        type == t_door_boarded || type == t_door_boarded_damaged ||
-        type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-        type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        // pry action
-        player_activity act( ACT_PRY_NAILS, to_moves<int>( 30_seconds ), -1 );
-        act.placement = pnt;
-        p->assign_activity( act );
-        return it->type->charges_to_use();
-    } else {
-        return cata::nullopt;
-    }
+    return iuse::crowbar( p, it, false, pos );
 }
 
 cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &pos )
@@ -2423,35 +2365,18 @@ cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_door_locked,
-        t_door_locked_alarm,
-        t_door_locked_interior,
-        t_door_locked_peep,
-        t_door_c,
-        t_door_c_peep,
-        t_manhole_cover,
-        t_window_domestic,
-        t_curtains,
-        t_window_no_curtains
-    };
-    const std::set<furn_id> allowed_furn_id {
-        f_crate_c,
-        f_coffin_c
-    };
 
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &allowed_furn_id, &here, p]( const tripoint & pnt ) {
+    [&here, p]( const tripoint & pnt ) {
         if( pnt == p->pos() ) {
             return false;
+        } else if( here.has_furn( pnt ) ) {
+            return here.furn( pnt )->prying->valid();
+        } else if( !here.ter( pnt )->is_null() ) {
+            return here.ter( pnt )->prying->valid();
         }
-        const ter_id ter = here.ter( pnt );
-        const auto furn = here.furn( pnt );
-
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
-                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
-        return is_allowed;
+        return false;
     };
 
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
@@ -2459,76 +2384,35 @@ cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint 
     if( !pnt_ ) {
         return cata::nullopt;
     }
+
     const tripoint &pnt = *pnt_;
-    const ter_id type = here.ter( pnt );
-    const furn_id furn = here.furn( pnt );
+
+    const pry_data *prying;
+    if( here.has_furn( pnt ) ) {
+        prying = &here.furn( pnt )->prying->prying_data();
+    } else {
+        prying = &here.ter( pnt )->prying->prying_data();
+    }
+
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet, "
-                                             "but alas.  You are just too miserly." ) );
+            if( it->typeId() == STATIC( itype_id( "hammer" ) ) ) {
+                p->add_msg_if_player( m_info, _( "You try to hit yourself with the hammer." ) );
+                p->add_msg_if_player( m_info, _( "But you can't touch this." ) );
+            } else {
+                p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet, "
+                                                 "but alas.  You are just too miserly." ) );
+            }
         } else {
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
         return cata::nullopt;
     }
-    const char *succ_action;
-    const char *fail_action;
-    ter_id new_type = t_null;
-    bool noisy;
-    int pry_quality;
-    int difficulty;
 
-    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but can't pry open the door." );
-        new_type = t_door_o;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 6;
-    } else if( type == t_door_locked_peep ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but can't pry open the door." );
-        new_type = t_door_o_peep;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 6;
-    } else if( type == t_door_c ) {
-        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-        here.ter_set( pnt, t_door_o );
-        p->mod_moves( -100 );
-        return 0;
-    } else if( type == t_door_c_peep ) {
-        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-        here.ter_set( pnt, t_door_o_peep );
-        p->mod_moves( -100 );
-        return 0;
-    } else if( type == t_manhole_cover ) {
-        succ_action = _( "You lift the manhole cover." );
-        fail_action = _( "You pry, but can't lift the manhole cover." );
-        pry_quality = 1;
-        new_type = t_manhole;
-        noisy = false;
-        difficulty = 4;
-    } else if( furn == f_crate_c ) {
-        succ_action = _( "You pop open the crate." );
-        fail_action = _( "You pry, but can't pop open the crate." );
-        pry_quality = 1;
-        noisy = true;
-        difficulty = 6;
-    } else if( furn == f_coffin_c ) {
-        succ_action = _( "You wedge open the coffin." );
-        fail_action = _( "You pry, but the coffin remains closed." );
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 5;
-    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
-        succ_action = _( "You pry open the window." );
-        fail_action = _( "You pry, but can't pry open the window." );
-        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 6;
-    } else {
+    // previously iuse::hammer
+    if( prying->prying_nails ) {
+        p->assign_activity(
+            player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
         return cata::nullopt;
     }
 
@@ -2537,70 +2421,21 @@ cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint 
     // The iexamine function for crate supplies a hammer object.
     // So this stops the player (A)ctivating a Hammer with a Crowbar in their backpack
     // then managing to open a door.
-    const int pry_level = it->get_quality( quality_id( "PRY" ) );
+    const int pry_level = it->get_quality( qual_PRY );
 
-    if( pry_level < pry_quality ) {
+    if( pry_level < prying->prying_level ) {
         // This doesn't really make it clear to the player
         // why their attempt is failing.
-        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %1$s." ),
                               it->tname() );
-        p->mod_moves( 10 ); // spend a few moves trying it.
-        return 0;
+        p->mod_moves( -50 ); // spend a few moves trying it.
+        return cata::nullopt;
     }
 
-    // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
-    difficulty -= ( pry_level - pry_quality );
+    p->assign_activity(
+        player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
 
-    /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
-    /** @EFFECT_STR increases chance of crowbar prying success */
-
-    if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
-        p->add_msg_if_player( m_good, succ_action );
-
-        if( here.furn( pnt ) == f_crate_c ) {
-            here.furn_set( pnt, f_crate_o );
-        } else if( here.furn( pnt ) == f_coffin_c ) {
-            here.furn_set( pnt, f_coffin_o );
-        } else {
-            here.ter_set( pnt, new_type );
-        }
-
-        if( noisy ) {
-            sounds::sound( pnt, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
-        }
-        if( type == t_manhole_cover ) {
-            here.spawn_item( pnt, itype_manhole_cover );
-        }
-        if( type == t_door_locked_alarm ) {
-            get_event_bus().send<event_type::triggers_alarm>( p->getID() );
-            sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        p->global_sm_location() );
-            }
-        }
-    } else {
-        if( type == t_window_domestic || type == t_curtains ) {
-            //chance of breaking the glass if pry attempt fails
-            /** @EFFECT_STR reduces chance of breaking window with crowbar */
-
-            /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-                    p->str_cur ) ) {
-                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
-                sounds::sound( pnt, 24, sounds::sound_t::combat, _( "glass breaking!" ), true, "smash", "glass" );
-                here.ter_set( pnt, t_window_frame );
-                here.spawn_item( pnt, itype_sheet, 2 );
-                here.spawn_item( pnt, itype_stick );
-                here.spawn_item( pnt, itype_string_36 );
-                return it->type->charges_to_use();
-            }
-        }
-        p->add_msg_if_player( fail_action );
-    }
-    return it->type->charges_to_use();
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripoint & )
@@ -3809,12 +3644,13 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
 cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
-    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
@@ -4447,6 +4283,14 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         return cata::nullopt;
     } else {
         std::string loaded_software = "robot_finds_kitten";
+        // number of nearby friends with gaming devices
+        std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
+            return n.is_player_ally() && p->sees( n ) &&
+                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+            n.has_item_with( [&it]( const item & i ) {
+                return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+            } );
+        } );
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
@@ -4455,9 +4299,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
-        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        if( friends_w_game.empty() ) {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        } else {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play something with friends" ) );
+            as_m.entries.emplace_back( 7, true, '7', _( "Play something alone" ) );
+        }
         as_m.query();
 
+        bool w_friends = false;
         switch( as_m.ret ) {
             case 1:
                 loaded_software = "robot_finds_kitten";
@@ -4476,7 +4326,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
                 break;
             case 6:
                 loaded_software = "null";
+                w_friends = !friends_w_game.empty();
                 break;
+            case 7: {
+                if( friends_w_game.empty() ) {
+                    return cata::nullopt;
+                }
+                loaded_software = "null";
+            }
+            break;
             default:
                 //Cancel
                 return cata::nullopt;
@@ -4484,11 +4342,38 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         //Play in 15-minute chunks
         const int moves = to_moves<int>( 15_minutes );
+        size_t num_friends = w_friends ? friends_w_game.size() : 0;
+        int winner = rng( 0, num_friends );
+        if( winner == 0 ) {
+            winner = get_player_character().getID().get_value();
+        } else {
+            winner = friends_w_game[winner - 1]->getID().get_value();
+        }
+        player_activity game_act( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), num_friends,
+                                  p->get_item_position( it ), w_friends ? "gaming with friends" : "gaming" );
+        game_act.values.emplace_back( winner );
 
-        p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( w_friends ) {
+            std::string it_name = it->type_name( num_friends + 1 );
+            if( num_friends > 1 ) {
+                p->add_msg_if_player( _( "You and your %1$u friends play on your %2$s for a while." ), num_friends,
+                                      it_name );
+            } else {
+                p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
+            }
+            for( npc *n : friends_w_game ) {
+                std::vector<item *> nit = n->items_with( [&it]( const item & i ) {
+                    return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+                } );
+                n->assign_activity( game_act );
+                n->activity.targets.emplace_back( *n, nit.front() );
+                n->activity.position = n->get_item_position( nit.front() );
+            }
+        } else {
+            p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        }
         if( loaded_software == "null" ) {
-            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                p->get_item_position( it ), "gaming" );
+            p->assign_activity( game_act );
             p->activity.targets.emplace_back( *p, it );
             return 0;
         }
@@ -4670,25 +4555,6 @@ cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripo
     }
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
 
-    std::array<const char *, 4> messages_friendly_or_neutral = {
-        {
-            _( "What is this unbearable sound!?" ),
-            _( "STOP.  MY EARS" ),
-            _( "I'm not a dog…" ),
-            _( "Would you kindly not do that?" )
-        }
-    };
-
-    std::array<const char *, 5> messages_hostile = {
-        {
-            _( "I WILL MURDER YOU" ),
-            _( "I'LL SHOVE THAT WHISTLE DOWN YOUR THROAT" ),
-            _( "You're seriously pissing me off…" ),
-            _( "I'm not a dog…" ),
-            _( "What is this unbearable sound!?" )
-        },
-    };
-
     // Can the Character hear the dog whistle?
     auto hearing_check = [p]( const Character & who ) -> bool {
         return !who.is_deaf() && p->sees( who ) &&
@@ -4700,15 +4566,24 @@ cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripo
             continue;
         }
 
+        cata::optional<translation> npc_message;
+
         if( p->attitude_to( subject ) == Creature::Attitude::HOSTILE ) {
-            subject.say( random_entry( messages_hostile ) );
+            npc_message = SNIPPET.random_from_category( "dogwhistle_message_npc_hostile" );
         } else {
-            subject.say( random_entry( messages_friendly_or_neutral ) );
+            npc_message = SNIPPET.random_from_category( "dogwhistle_message_npc_not_hostile" );
+        }
+
+        if( npc_message ) {
+            subject.say( npc_message.value().translated() );
         }
     }
 
     if( hearing_check( *p ) && one_in( 3 ) ) {
-        p->add_msg_if_player( m_info, _( "You hate this loud sound." ) );
+        cata::optional<translation> your_message = SNIPPET.random_from_category( "dogwhistle_message_you" );
+        if( your_message ) {
+            p->add_msg_if_player( m_info, your_message.value().translated() );
+        }
     }
 
     for( monster &critter : g->all_monsters() ) {
@@ -5018,7 +4893,7 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
     static const quality_id GLARE( "GLARE" );
-    if( !p->has_quality( GLARE, 2 ) ) {
+    if( !p->has_quality( GLARE, 1 ) ) {
         p->add_msg_if_player( m_info, _( "You need welding goggles to do that." ) );
         return cata::nullopt;
     }
@@ -5150,37 +5025,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        if( !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pnt ) ) {
-            map_stack items = here.i_at( pnt );
-            auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.made_of( phase_id::LIQUID );
-            } );
-            if( found != items.end() ) {
-                return true;
-            }
-        }
-        for( const auto &pr : here.field_at( pnt ) ) {
-            if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
-                return true;
-            }
-        }
-        if( const optional_vpart_position vp = here.veh_at( pnt ) ) {
-            vehicle *const veh = &vp->vehicle();
-            std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
-            for( int elem : parts_here ) {
-                if( veh->part( elem ).blood > 0 ) {
-                    return true;
-                }
-                vehicle_stack items = veh->get_items( elem );
-                auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                    return it.made_of( phase_id::LIQUID );
-                } );
-                if( found != items.end() ) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return here.terrain_moppable( pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5617,16 +5462,11 @@ cata::optional<int> iuse::talking_doll( Character *p, item *it, bool, const trip
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
-
+    p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
     const SpeechBubble speech = get_speech( it->typeId().str() );
 
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );
-
-    // Sound code doesn't describe noises at the player position
-    if( p->can_hear( p->pos(), speech.volume ) ) {
-        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
-    }
 
     return it->type->charges_to_use();
 }
@@ -6302,34 +6142,8 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
                 p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
             } else {
                 p->add_morale( MORALE_PHOTOS, rng( 15, 30 ), 100 );
-
-                const int random_photo = rng( 1, 20 );
-                switch( random_photo ) {
-                    case 1:
-                        p->add_msg_if_player( m_good, _( "You used to have a dog like this…" ) );
-                        break;
-                    case 2:
-                        p->add_msg_if_player( m_good, _( "Ha-ha!  An amusing cat photo." ) );
-                        break;
-                    case 3:
-                        p->add_msg_if_player( m_good, _( "Excellent pictures of nature." ) );
-                        break;
-                    case 4:
-                        p->add_msg_if_player( m_good, _( "Food photos… your stomach rumbles!" ) );
-                        break;
-                    case 5:
-                        p->add_msg_if_player( m_good, _( "Some very interesting travel photos." ) );
-                        break;
-                    case 6:
-                        p->add_msg_if_player( m_good, _( "Pictures of a concert of popular band." ) );
-                        break;
-                    case 7:
-                        p->add_msg_if_player( m_good, _( "Photos of someone's luxurious house." ) );
-                        break;
-                    default:
-                        p->add_msg_if_player( m_good, _( "You feel nostalgic as you stare at the photo." ) );
-                        break;
-                }
+                p->add_msg_if_player( m_good, "%s",
+                                      SNIPPET.random_from_category( "examine_photo_msg" ).value_or( translation() ) );
             }
 
             return it->type->charges_to_use();
@@ -8909,13 +8723,16 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const bool solar_pack = initial_state == "solar_pack";
         const bool UPS = initial_state == "UPS";
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
+        bool is_power_cord = it->has_flag( flag_id( "POWER_CORD" ) );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        if( !is_power_cord ) {
+            kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        }
         kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
                         !UPS, -1, _( "Attach loose end to vehicle" ) );
 
-        if( has_bio_cable && loose_ends ) {
+        if( has_bio_cable && loose_ends && !is_power_cord ) {
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
@@ -9532,7 +9349,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
 cata::optional<int> iuse::break_stick( Character *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );
@@ -9683,6 +9500,41 @@ cata::optional<int> iuse::coin_flip( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoint & )
 {
+    if( p->is_avatar() ) {
+        std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+        } );
+        int fcount = followers.size();
+        if( fcount > 0 ) {
+            const char *qstr = fcount > 1 ? _( "Play the %s with your friends?" ) :
+                               _( "Play the %s with your friend?" );
+            std::string res = query_popup()
+                              .context( "FRIENDS_ME_CANCEL" )
+                              .message( qstr, it->tname() )
+                              .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
+                              .query().action;
+            if( res == "FRIENDS" ) {
+                if( fcount > 1 ) {
+                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                } else {
+                    add_msg( _( "You and your friend start playing." ) );
+                }
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                    p->get_item_position( it ), "gaming with friends" );
+                for( npc *n : followers ) {
+                    n->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
+                                        n->get_item_position( it ), "gaming with friends" );
+                }
+            } else if( res == "ME" ) {
+                p->add_msg_if_player( _( "You start playing." ) );
+                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
+                                    p->get_item_position( it ), "gaming" );
+            } else {
+                return cata::nullopt;
+            }
+            return 0;
+        } // else, fall through to playing alone
+    }
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
         p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
@@ -9695,40 +9547,143 @@ cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const tripoint & )
 {
-    enum {
-        BALL8_GOOD,
-        BALL8_UNK = 10,
-        BALL8_BAD = 15
+    p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname() );
+    int rn = rng( 0, 3 );
+    std::string msg_category;
+    game_message_type color;
+    if( rn == 0 ) {
+        msg_category = "magic_8ball_bad";
+        color = m_bad;
+    } else if( rn == 1 ) {
+        msg_category = "magic_8ball_unknown";
+        color = m_info;
+    } else {
+        msg_category = "magic_8ball_good";
+        color = m_good;
+    }
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(),
+                          SNIPPET.random_from_category( msg_category ).value_or( translation() ) );
+    return 0;
+}
+
+cata::optional<int> iuse::electricstorage( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
+        return cata::nullopt;
+    }
+
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "ELECTRICSTORAGE iuse called on item without ebook type pocket" );
+        return cata::nullopt;
+    }
+
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return cata::nullopt;
+    }
+
+    auto filter = []( const item & itm ) {
+        return !itm.is_broken() &&
+               itm.has_flag( flag_MC_USED ) &&
+               itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
     };
-    static const std::array<const char *, 20> tab = {{
-            translate_marker( "It is certain." ),
-            translate_marker( "It is decidedly so." ),
-            translate_marker( "Without a doubt." ),
-            translate_marker( "Yes - definitely." ),
-            translate_marker( "You may rely on it." ),
-            translate_marker( "As I see it, yes." ),
-            translate_marker( "Most likely." ),
-            translate_marker( "Outlook good." ),
-            translate_marker( "Yes." ),
-            translate_marker( "Signs point to yes." ),
-            translate_marker( "Reply hazy, try again." ),
-            translate_marker( "Ask again later." ),
-            translate_marker( "Better not tell you now." ),
-            translate_marker( "Can't predict now." ),
-            translate_marker( "Concentrate and ask again." ),
-            translate_marker( "Don't count on it." ),
-            translate_marker( "My reply is no." ),
-            translate_marker( "My sources say no." ),
-            translate_marker( "Outlook not so good." ),
-            translate_marker( "Very doubtful." )
+
+    item_location storage_card = game_menus::inv::titled_filter_menu(
+                                     filter, *p->as_avatar(), _( "Use what storage device?" ),
+                                     _( "You don't have any empty book storage devices." ) );
+
+    if( !storage_card ) {
+        return cata::nullopt;
+    }
+
+    // list of books of from_it that are not in to_it
+    auto book_difference = []( const item & from_it, const item & to_it ) -> std::vector<const item *> {
+        std::set<itype_id> existing_ebooks;
+        for( const item *ebook : to_it.ebooks() )
+        {
+            if( !ebook->is_book() ) {
+                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+                continue;
+            }
+
+            existing_ebooks.insert( ebook->typeId() );
+        }
+
+        std::vector<const item *> ebooks;
+        for( const item *ebook : from_it.ebooks() )
+        {
+            if( !ebook->is_book() ) {
+                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+                continue;
+            }
+
+            if( existing_ebooks.count( ebook->typeId() ) ) {
+                continue;
+            }
+
+            ebooks.emplace_back( ebook );
+        }
+        return ebooks;
+    };
+
+    std::vector<const item *> to_storage = book_difference( *it, *storage_card );
+    std::vector<const item *> to_device = book_difference( *storage_card, *it );
+
+    uilist smenu;
+    smenu.text = _( "What to do with your storage devices:" );
+
+    smenu.addentry( 1, !to_device.empty(), 't', _( "Copy to device from the card" ) );
+    smenu.addentry( 2, !to_storage.empty(), 'f', _( "Copy from device to the card" ) );
+    smenu.addentry( 3, !storage_card->ebooks().empty(), 'v', _( "View books in the card" ) );
+    smenu.query();
+
+    // were any books moved to or from the device
+    int books_moved = 0;
+
+    auto move_books = [&books_moved]( const std::vector<const item *> &fromset, item & toit ) -> void {
+        books_moved = fromset.size();
+        for( const item *ebook : fromset )
+        {
+            toit.put_in( *ebook, item_pocket::pocket_type::EBOOK );
         }
     };
 
-    p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname() );
-    int rn = rng( 0, tab.size() - 1 );
-    game_message_type color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
-    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(), _( tab[rn] ) );
-    return 0;
+    if( smenu.ret == 1 ) {
+        // to device
+        move_books( to_device, *it );
+    } else if( smenu.ret == 2 ) {
+        // from device
+        move_books( to_storage, *storage_card );
+    } else if( smenu.ret == 3 ) {
+        game_menus::inv::ebookread( *p, storage_card );
+        return cata::nullopt;
+    } else {
+        return cata::nullopt;
+    }
+
+    if( books_moved > 0 ) {
+        p->mod_moves( -to_moves<int>( 2_seconds ) );
+        if( smenu.ret == 1 ) {
+            p->add_msg_if_player( m_info,
+                                  n_gettext( "Copied one book to the device.",
+                                             "Copied %1$s books to the device.", books_moved ),
+                                  books_moved );
+        } else if( smenu.ret == 2 ) {
+            p->add_msg_if_player( m_info,
+                                  n_gettext( "Copied one book to the %2$s.",
+                                             "Copied %1$s books to the %2$s.", books_moved ),
+                                  books_moved, storage_card->tname() );
+        }
+    }
+
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoint & )

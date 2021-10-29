@@ -81,7 +81,7 @@
         "items": [
           "pants_army",
           "tank_top",
-          "modularvestceramic",
+          "tacvest",
           "glasses_bal",
           "knee_pads",
           "elbow_pads",
@@ -160,7 +160,7 @@
           "tac_fullhelmet",
           "pants_army",
           "tshirt",
-          "modularveststeel",
+          "ballistic_vest_esapi",
           "armguard_hard",
           "legguard_hard",
           "grenadebandolier",

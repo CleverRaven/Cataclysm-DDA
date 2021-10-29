@@ -62,10 +62,10 @@
         "         #...............4...........33333333tWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwwww         ",
         "         #.......................!..hll333333tWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwww           ",
         "         #.......................!..hll333333tWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwww        ",
-        "         #...........................33333333twwwwwwwwwwwwwwwwwwWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwww      ",
-        "         #...................................#                 wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwww        ",
-        "         #.....4..................4..........#                 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww        ",
-        "         #...................................#                  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww       ",
+        "         #............XXX............33333333twwwwwwwwwwwwwwwwwwWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwww      ",
+        "         #...........XX6XX...................#                 wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwww        ",
+        "         #.....4.....X777X........4..........#                 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww        ",
+        "         #...........XXXXX...................#                  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww       ",
         "         #...................................#                        wwww         w  ww               ww      w        ",
         "         ############||||||||||###############                                                                          ",
         "                                                                                                                        "
@@ -76,7 +76,8 @@
         { "class": "forge_lord_reagents", "x": 14, "y": 9 },
         { "class": "forge_lord_pirate", "x": 16, "y": 9 },
         { "class": "forge_lord_pirate", "x": 16, "y": 6 },
-        { "class": "forge_lord_pirate", "x": 14, "y": 6 }
+        { "class": "forge_lord_pirate", "x": 14, "y": 6 },
+        { "class": "forge_lord_librarian", "x": 23, "y": 43 }
       ],
       "place_monsters": [
         { "monster": "GROUP_STOCKED_POND", "x": [ 77, 82 ], "y": [ 32, 42 ], "density": 0.3, "repeat": [ 1, 3 ] },
@@ -120,7 +121,9 @@
       "2": [ "t_magiconc_floor", "t_safe_shopper" ],
       "4": "t_thconc_floor_echandelier",
       "+": "t_railroad_rubble",
-      "5": "t_bollard"
+      "5": "t_bollard",
+      "6": "t_vault_vent",
+      "7": "t_vault_vent"
     },
     "furniture": {
       "h": "f_demon_forge",
@@ -132,7 +135,8 @@
       "Z": "f_magic_bench",
       "!": "f_anvil",
       "f": "f_table",
-      "2": "f_everburning_candelabra"
+      "2": "f_everburning_candelabra",
+      "7": "f_bookcase"
     },
     "items": {
       "!": { "item": "magic_smith", "chance": 40, "repeat": [ 1, 2 ] },
@@ -140,6 +144,7 @@
         { "item": "NC_FORGE_LORD_STORE_REAGENT", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "NC_FORGE_PIRATE_wield", "chance": 20 }
       ],
+      "7": { "item": "NC_FORGE_LORD_STORE_LIBRARY", "chance": 100, "repeat": [ 5, 8 ] },
       "8": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
       "9": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
       "$": [

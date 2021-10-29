@@ -243,6 +243,7 @@ enum debug_filter : int {
     DF_ACT_SAFECRACKING, // safecracking activity actor
     DF_ACT_SHEARING, // shearing activity actor
     DF_ACT_WORKOUT, // workout activity actor
+    DF_ACTIVITY, // activity actor generic
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic
     DF_BALLISTIC, // ballistic generic

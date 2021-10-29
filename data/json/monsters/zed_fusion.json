@@ -283,7 +283,7 @@
     "id": "mon_zombie_scissorlimbs",
     "type": "MONSTER",
     "name": { "str_sp": "scissorlimbs" },
-    "description": " A nightmarish spider of gore stands tall among the ruins, and keeps silent watch of the blighted landscape.  Its spindly limbs of bone slip between the rubble with otherworldly speed.",
+    "description": "A nightmarish spider of gore stands tall among the ruins, and keeps silent watch of the blighted landscape.  Its spindly limbs of bone slip between the rubble with otherworldly speed.",
     "default_faction": "zombie",
     "bodytype": "spider",
     "species": [ "ZOMBIE", "HUMAN" ],

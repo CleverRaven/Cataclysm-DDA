@@ -62,6 +62,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "profession.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -180,8 +181,8 @@ void avatar::control_npc( npc &np )
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
     // center the map on the new avatar character
-    g->vertical_shift( posz() );
-    g->update_map( *this );
+    const bool z_level_changed = g->vertical_shift( posz() );
+    g->update_map( *this, z_level_changed );
 }
 
 void avatar::control_npc_menu()
@@ -205,6 +206,19 @@ void avatar::control_npc_menu()
         return;
     }
     get_avatar().control_npc( *followers.at( charmenu.ret ) );
+}
+
+void avatar::longpull( const std::string name )
+{
+    item wtmp( itype_id( "mut_longpull" ) );
+    g->temp_exit_fullscreen();
+    target_handler::trajectory traj = target_handler::mode_throw( *this, wtmp, false );
+    g->reenter_fullscreen();
+    if( traj.empty() ) {
+        return; // cancel
+    }
+
+    Creature::longpull( name, traj.back() );
 }
 
 void avatar::toggle_map_memory()
@@ -688,7 +702,7 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "Can bring your %s knowledge to %d." ),
                  skill.obj().name(), reading->level );
         if( reading->req != 0 ) {
-            add_msg( m_info, _( "Requires %s knowledge level %d to understand." ),
+            add_msg( m_info, _( "Requires %1$s knowledge level %2$d to understand." ),
                      skill.obj().name(), reading->req );
         }
     }
@@ -757,7 +771,7 @@ void avatar::wake_up()
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
-            remove_effect( effect_alarm_clock );
+            // effects will be removed in Character::wake_up.
         } else if( has_effect( effect_slept_through_alarm ) ) {
             if( has_flag( json_flag_ALARMCLOCK ) ) {
                 add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
@@ -1461,6 +1475,27 @@ bool avatar::invoke_item( item *used, const std::string &method )
     return Character::invoke_item( used, method );
 }
 
+void avatar::update_cardio_acc()
+{
+    // This function should be called once every 24 hours,
+    // before the front of the calorie diary is reset for the next day.
+
+    // Daily gain or loss is the square root of the difference between
+    // current cardio fitness and the kcals spent in the previous 24 hours.
+    const int cardio_fit = get_cardiofit();
+    const int last_24h_kcal = calorie_diary.front().spent;
+
+    // If we burned kcals beyond our current fitness level, gain some cardio.
+    // Or, if we burned fewer kcals than current fitness, lose some cardio.
+    int adjustment = 0;
+    if( cardio_fit > last_24h_kcal ) {
+        adjustment = -std::sqrt( cardio_fit - last_24h_kcal );
+    } else if( last_24h_kcal > cardio_fit ) {
+        adjustment = std::sqrt( last_24h_kcal - cardio_fit );
+    }
+    set_cardio_acc( get_cardio_acc() + adjustment );
+}
+
 void avatar::advance_daily_calories()
 {
     calorie_diary.push_front( daily_calories{} );
@@ -1521,12 +1556,14 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
 std::string avatar::total_daily_calories_string() const
 {
     const std::string header_string =
-        colorize( "       Minutes at each exercise level            Calories per day", c_white ) + "\n" +
-        colorize( "  Day  None Light Moderate Brisk Active Extra    Gained  Spent  Total",
+        colorize( "       Minutes at each exercise level                  Calories per day",
+                  c_white ) + "\n" +
+        colorize( "  Day  Sleep None Light Moderate Brisk Active Extra    Gained  Spent  Total",
                   c_yellow ) + "\n";
     const std::string format_string =
-        " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
+        " %4d  %4d   %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
 
+    const float no_ex_thresh = ( SLEEP_EXERCISE + NO_EXERCISE ) / 2.0f;
     const float light_ex_thresh = ( NO_EXERCISE + LIGHT_EXERCISE ) / 2.0f;
     const float mod_ex_thresh = ( LIGHT_EXERCISE + MODERATE_EXERCISE ) / 2.0f;
     const float brisk_ex_thresh = ( MODERATE_EXERCISE + BRISK_EXERCISE ) / 2.0f;
@@ -1541,6 +1578,7 @@ std::string avatar::total_daily_calories_string() const
     for( const daily_calories &day : calorie_diary ) {
         // Yes, this is clunky.
         // Perhaps it should be done in log_activity_level? But that's called a lot more often.
+        int sleep_exercise = 0;
         int no_exercise = 0;
         int light_exercise = 0;
         int moderate_exercise = 0;
@@ -1549,7 +1587,9 @@ std::string avatar::total_daily_calories_string() const
         int extra_exercise = 0;
         for( const std::pair<const float, int> &level : day.activity_levels ) {
             if( level.second > 0 ) {
-                if( level.first < light_ex_thresh ) {
+                if( level.first < no_ex_thresh ) {
+                    sleep_exercise += level.second;
+                } else if( level.first < light_ex_thresh ) {
                     no_exercise += level.second;
                 } else if( level.first < mod_ex_thresh ) {
                     light_exercise += level.second;
@@ -1565,6 +1605,7 @@ std::string avatar::total_daily_calories_string() const
             }
         }
         std::string row_data = string_format( format_string, today + day_offset--,
+                                              5 * sleep_exercise,
                                               5 * no_exercise,
                                               5 * light_exercise,
                                               5 * moderate_exercise,
@@ -1776,7 +1817,15 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     int selection = kmenu.ret;
 
     if( selection >= STYLE_OFFSET ) {
+        // If the currect style is selected, do not change styles
+        if( style_selected == selectable_styles[selection - STYLE_OFFSET] ) {
+            return false;
+        }
+
+        avatar &u = const_cast<avatar &>( you );
+        style_selected->remove_all_buffs( u );
         style_selected = selectable_styles[selection - STYLE_OFFSET];
+        ma_static_effects( u );
         martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;

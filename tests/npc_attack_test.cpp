@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "creature_tracker.h"
+#include "flag.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -134,6 +135,61 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
                 CHECK( !throw_attack );
             }
         }
+        WHEN( "NPC has power armor" ) {
+            main_npc.worn.clear();
+
+            item armor( "power_armor_basic" );
+            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            REQUIRE( wear_success );
+
+            // If the flag gets removed from power armor, some other item with the flag will need to replace it.
+            REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
+
+            WHEN( "NPC has a UPS for their armor" ) {
+                item ps( "UPS_off" );
+                item battery( "heavy_plus_battery_cell" );
+                battery.ammo_set( battery.ammo_default(), battery.ammo_capacity( ammotype( "battery" ) ) );
+
+                ps.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+
+                item *stored_ps = main_npc.try_add( ps );
+                REQUIRE( stored_ps != nullptr );
+
+                THEN( "NPC activates their power armor successfully" ) {
+                    // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.
+                    main_npc.regen_ai_cache();
+                    main_npc.method_of_attack();
+                    CHECK( main_npc.is_wearing( itype_id( "power_armor_basic_on" ) ) );
+                    CHECK( !main_npc.is_wearing( itype_id( "power_armor_basic" ) ) );
+                }
+            }
+
+            WHEN( "NPC has no power supply for their armor" ) {
+                THEN( "NPC fails to activate their power armor" ) {
+                    main_npc.regen_ai_cache();
+                    main_npc.method_of_attack();
+                    CHECK( main_npc.is_wearing( itype_id( "power_armor_basic" ) ) );
+                    CHECK( !main_npc.is_wearing( itype_id( "power_armor_basic_on" ) ) );
+                }
+            }
+        }
+        WHEN( "NPC has a headlamp" ) {
+            main_npc.worn.clear();
+
+            item headlamp( "wearable_light" );
+            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
+            REQUIRE( wear_success );
+
+            // If the flag gets added, some other item without the flag will need to replace it.
+            REQUIRE( !main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
+
+            // This test is to ensure NPCs do not randomly activate items in their inventory.
+            THEN( "NPC does not activate their headlamp" ) {
+                main_npc.regen_ai_cache();
+                main_npc.method_of_attack();
+                CHECK( main_npc.is_wearing( itype_id( "wearable_light" ) ) );
+            }
+        }
     }
     GIVEN( "There is a zombie 5 tiles away" ) {
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 5 );
@@ -218,6 +274,22 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
                         CHECK( rating.target() == zombie_far->pos() );
                     }
                 }
+            }
+        }
+    }
+    GIVEN( "There is no zombie nearby. " ) {
+        WHEN( "NPC is wearing active power armor. " ) {
+            item armor( "power_armor_basic_on" );
+            armor.activate();
+            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            REQUIRE( wear_success );
+
+            THEN( "NPC deactivates their power armor. " ) {
+                // This is somewhat cheating, but going up one level is testing all of npc::move.
+                main_npc.cleanup_on_no_danger();
+
+                CHECK( !main_npc.is_wearing( itype_id( "power_armor_basic_on" ) ) );
+                CHECK( main_npc.is_wearing( itype_id( "power_armor_basic" ) ) );
             }
         }
     }

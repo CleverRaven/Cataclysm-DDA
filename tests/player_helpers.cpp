@@ -51,7 +51,7 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_character( Character &dummy )
+void clear_character( Character &dummy, bool skip_nutrition )
 {
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
@@ -68,8 +68,10 @@ void clear_character( Character &dummy )
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
-    item food( "debug_nutrition" );
-    dummy.consume( food );
+    if( !skip_nutrition ) {
+        item food( "debug_nutrition" );
+        dummy.consume( food );
+    }
 
     // This sets HP to max, clears addictions and morale,
     // and sets hunger, thirst, fatigue and such to zero
@@ -92,6 +94,8 @@ void clear_character( Character &dummy )
         dummy.lose_proficiency( prof, true );
     }
 
+    // Reset cardio_acc to baseline
+    dummy.reset_cardio_acc();
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( move_mode_id( "walk" ) );
@@ -168,6 +172,16 @@ void clear_avatar()
     get_avatar().clear_identified();
 }
 
+void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
+{
+    CHECK( !shooter.in_vehicle );
+    shooter.worn.clear();
+    shooter.inv->clear();
+    for( const std::string &article : apparel ) {
+        shooter.wear_item( item( article ) );
+    }
+}
+
 void process_activity( Character &dummy )
 {
     do {
@@ -188,6 +202,14 @@ npc &spawn_npc( const point &p, const std::string &npc_class )
     REQUIRE( guy != nullptr );
     CHECK( !guy->in_vehicle );
     return *guy;
+}
+
+// Clear player traits and give them a single trait by name
+void set_single_trait( Character &dummy, const std::string &trait_name )
+{
+    dummy.clear_mutations();
+    dummy.toggle_trait( trait_id( trait_name ) );
+    REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
 }
 
 void give_and_activate_bionic( Character &you, bionic_id const &bioid )

@@ -72,10 +72,10 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_tyrannosaurus",
-    "name": "tyrannosaurus egg",
+    "id": "egg_gorgosaurus",
+    "name": "gorgosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_tyrannosaurus"
+    "rot_spawn": "GROUP_EGG_gorgosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -83,6 +83,20 @@
     "name": "albertosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_albertosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_qianzhousaurus",
+    "name": "qianzhousaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_qianzhousaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tyrannosaurus",
+    "name": "tyrannosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_tyrannosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -132,6 +146,13 @@
     "name": "eoraptor egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_eoraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_amargasaurus",
+    "name": "amargasaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_amargasaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -275,6 +296,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_kosmoceratops",
+    "name": "kosmoceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_kosmoceratops"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_torosaurus",
     "name": "torosaurus egg",
     "copy-from": "egg_dino",
@@ -314,26 +342,5 @@
     "name": "mosasaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_mosasaurus"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_qianzhousaurus",
-    "name": "qianzhousaurus egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_qianzhousaurus"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_amargasaurus",
-    "name": "amargasaurus egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_amargasaurus"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_kosmoceratops",
-    "name": "kosmoceratops egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_kosmoceratops"
   }
 ]

@@ -53,6 +53,8 @@ class character_martial_arts
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 
+        /** Removes all martial arts events */
+        void clear_all_effects( Character &owner );
         /** Fires all non-triggered martial arts events */
         void ma_static_effects( Character &owner );
         /** Fires all move-triggered martial arts events */

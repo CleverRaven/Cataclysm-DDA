@@ -69,6 +69,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "MINING" ),
                    zone_type( to_translation( "Mine Terrain" ),
                               to_translation( "Designate an area to mine." ) ) );
+    types.emplace( zone_type_id( "MOPPING" ),
+                   zone_type( to_translation( "Mop tile" ),
+                              to_translation( "Designate an area to mop clean." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( to_translation( "Vehicle Deconstruct Zone" ),
                               to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );

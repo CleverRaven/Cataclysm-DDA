@@ -287,7 +287,8 @@ struct mtype {
 
         std::set<species_id> species;
         std::set<std::string> categories;
-        std::vector<material_id> mat;
+        std::map<material_id, int> mat;
+        int mat_portion_total = 0;
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
@@ -341,6 +342,7 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
         ::weakpoints weakpoints;
+        weakpoint_families families;
 
         // Pet food category this monster is in
         pet_food_data petfood;

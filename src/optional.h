@@ -33,6 +33,9 @@ class optional
     private:
         using StoredType = typename std::remove_const<T>::type;
         union {
+            // `volatile` suppresses -Wmaybe-uninitialized false positive
+            // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80635#c53
+            volatile char dont_use;
             char dummy;
             StoredType data;
         };

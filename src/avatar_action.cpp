@@ -404,8 +404,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
-    bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
-    bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
+    bool fromBoat = veh0 != nullptr;
+    bool toBoat = veh1 != nullptr;
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
@@ -1108,7 +1108,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     item_pocket *parent_pocket = nullptr;
     bool on_person = true;
     int pre_obtain_moves = you.moves;
-    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) || you.is_worn( *loc ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
     } else if( you.can_wield( *loc ).success() && loc->is_holster() && !loc.held_by( you ) ) {

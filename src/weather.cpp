@@ -970,7 +970,7 @@ void weather_manager::update_weather()
             here.set_seen_cache_dirty( tripoint_zero );
         }
         if( weather_id != old_weather ) {
-            effect_on_conditions::process_reactivate( get_player_character() );
+            effect_on_conditions::process_reactivate();
         }
     }
 }

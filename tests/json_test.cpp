@@ -210,8 +210,6 @@ TEST_CASE( "serialize_map", "[json]" )
     test_serialization( s_map, R"({"bar":"bar_val","foo":"foo_val"})" );
     std::map<mtype_id, std::string> string_id_map = { { mtype_id( "foo" ), "foo_val" } };
     test_serialization( string_id_map, R"({"foo":"foo_val"})" );
-    std::map<trigger_type, std::string> enum_map = { { HUNGER, "foo_val" } };
-    test_serialization( enum_map, R"({"HUNGER":"foo_val"})" );
 }
 
 TEST_CASE( "serialize_pair", "[json]" )
@@ -236,8 +234,6 @@ TEST_CASE( "serialize_set", "[json]" )
     test_serialization( s_set, R"(["bar","foo"])" );
     std::set<mtype_id> string_id_set = { mtype_id( "foo" ) };
     test_serialization( string_id_set, R"(["foo"])" );
-    std::set<trigger_type> enum_set = { HUNGER };
-    test_serialization( enum_set, string_format( R"([%d])", static_cast<int>( HUNGER ) ) );
 }
 
 template<typename Matcher>

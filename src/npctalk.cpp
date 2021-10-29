@@ -54,9 +54,11 @@
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "ret_val.h"
@@ -85,6 +87,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
+static const efftype_id effect_asked_to_train( "asked_to_train" );
 
 static const itype_id fuel_type_animal( "animal" );
 
@@ -104,6 +107,12 @@ static int topic_category( const talk_topic &the_topic );
 
 static const talk_topic &special_talk( const std::string &action );
 
+static bool friendly_teacher( const Character &student, const Character &teacher )
+{
+    return ( student.is_npc() && teacher.is_avatar() ) ||
+           ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
+}
+
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
@@ -117,52 +126,104 @@ std::string talk_trial::name() const
     return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
-/** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
-           1_seconds * p.get_skill_level( skill );
+    return calc_skill_training_time_char( p, get_player_character(), skill );
+}
+
+/** Time (in turns) and cost (in cent) for training: */
+time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
+        const skill_id &skill )
+{
+    return 1_hours + 30_minutes * student.get_skill_level( skill ) -
+           1_minutes * teacher.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
 {
-    if( p.is_player_ally() ) {
+    return calc_skill_training_cost_char( p, get_player_character(), skill );
+}
+
+int calc_skill_training_cost_char( const Character &teacher, const Character &student,
+                                   const skill_id &skill )
+{
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-
-    int skill_level = get_player_character().get_knowledge_level( skill );
+    int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
 
-time_duration calc_proficiency_training_time( const npc &, const proficiency_id &proficiency )
+time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
 {
-    return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
+    const Character &c = get_player_character();
+    return calc_proficiency_training_time( c, c, proficiency );
+}
+
+time_duration calc_proficiency_training_time( const Character &, const Character &student,
+        const proficiency_id &proficiency )
+{
+    return std::min( 30_minutes, student.proficiency_training_needed( proficiency ) );
+}
+
+int calc_proficiency_training_cost( const Character &teacher, const Character &student,
+                                    const proficiency_id &proficiency )
+{
+    if( friendly_teacher( student, teacher ) ) {
+        return 0;
+    }
+    return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
 }
 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
 {
-    if( p.is_player_ally() ) {
-        return 0;
-    }
+    return calc_proficiency_training_cost( p, get_player_character(), proficiency );
+}
 
-    return to_seconds<int>( calc_proficiency_training_time( p, proficiency ) );
+
+time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
+{
+    return calc_ma_style_training_time( p, get_player_character(), id );
 }
 
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+time_duration calc_ma_style_training_time( const Character &, const Character &,
+        const matype_id & )
 {
     return 30_minutes;
 }
 
-int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
+int calc_ma_style_training_cost( const npc &p, const matype_id &id )
 {
-    if( p.is_player_ally() ) {
+    return calc_ma_style_training_cost( p, get_player_character(), id );
+}
+
+int calc_ma_style_training_cost( const Character &teacher, const Character &student,
+                                 const matype_id & )
+{
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-
     return 800;
+}
+
+// quicker to learn with instruction as opposed to books.
+// if this is a known spell, then there is a set time to gain some exp.
+// if player doesn't know this spell, then the NPC will teach all of it
+// which takes max 6 hours, min 3 hours.
+// TODO: a system for NPCs to train new stuff in bits and pieces
+// and remember the progress.
+time_duration calc_spell_training_time( const Character &, const Character &student,
+                                        const spell_id &id )
+{
+    if( student.magic->knows_spell( id ) ) {
+        return 1_hours;
+    } else {
+        const int time_int = student.magic->time_to_learn_spell( student, id ) / 50;
+        return time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+    }
 }
 
 int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
@@ -170,6 +231,23 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
     if( is_player_ally() ) {
         return 0;
     }
+    return ::calc_spell_training_cost_gen( knows, difficulty, level );
+}
+
+int calc_spell_training_cost( const Character &teacher, const Character &student,
+                              const spell_id &id )
+{
+    if( friendly_teacher( student, teacher ) ) {
+        return 0;
+    }
+    const spell &temp_spell = teacher.magic->get_spell( id );
+    const bool knows = student.magic->knows_spell( id );
+    return calc_spell_training_cost_gen( knows, temp_spell.get_difficulty(),
+                                         temp_spell.get_level() );
+}
+
+int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
+{
     int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
     if( !knows ) {
         ret = ret * 2;
@@ -191,6 +269,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
+    NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -237,6 +316,68 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return nmenu.ret;
     }
 
+}
+
+static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
+        const std::string &prompt,
+        std::function<bool( const npc * )> exclude_func = nullptr )
+{
+    std::vector<int> picked;
+    if( npc_list.empty() ) {
+        return picked;
+    }
+    const int npc_count = npc_list.size();
+    do {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( int i = 0; i < npc_count; i++ ) {
+            std::string entry;
+            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            entry += npc_list[i]->name_and_activity();
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return std::vector<int>();
+        } else if( nmenu.ret >= npc_count ) {
+            break;
+        }
+        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.push_back( nmenu.ret );
+        }
+    } while( true );
+    return picked;
+}
+
+static skill_id skill_select_menu( const Character &c, const std::string &prompt )
+{
+    int i = 0;
+    uilist nmenu;
+    nmenu.text = prompt;
+    for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+        bool enabled = s.second.level() > 0;
+        std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
+        nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
+        i++;
+    }
+    nmenu.query();
+    if( nmenu.ret > -1 ) {
+        i = 0;
+        for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+            if( i == nmenu.ret ) {
+                return s.first;
+            }
+            i++;
+        }
+    }
+    return skill_id();
 }
 
 static void npc_batch_override_toggle(
@@ -482,6 +623,10 @@ void game::chat()
                       );
     }
     if( !followers.empty() ) {
+        bool enable_seminar = !player_character.has_effect( effect_asked_to_train );
+        nmenu.addentry( NPC_CHAT_START_SEMINAR, enable_seminar, 'T',
+                        enable_seminar ? _( "Start a training seminar" ) :
+                        _( "Start a training seminar (You've already taught enough for now)" ) );
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
                         string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
@@ -528,6 +673,34 @@ void game::chat()
             .query();
             yell_msg = popup.text();
             is_order = false;
+            break;
+        }
+        case NPC_CHAT_START_SEMINAR: {
+            // TODO: Also allow group training of martial arts/spells/proficiencies
+            const skill_id &sk = skill_select_menu( player_character,
+                                                    _( "Which skill would you like to teach?" ) );
+            if( !sk.is_valid() ) {
+                return;
+            }
+            std::vector<int> selected = npcs_select_menu( followers,
+            _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
+                return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
+            } );
+            if( selected.empty() ) {
+                return;
+            }
+            std::vector<Character *> to_train;
+            for( int i : selected ) {
+                if( followers[i] ) {
+                    to_train.push_back( followers[i] );
+                }
+            }
+            talk_function::teach_domain d;
+            d.skill = sk;
+            d.style = matype_id();
+            d.prof = proficiency_id();
+            d.spell = spell_id();
+            talk_function::start_training_gen( player_character, to_train, d );
             break;
         }
         case NPC_CHAT_GUARD: {
@@ -880,6 +1053,14 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Here's what I can teach you…" );
         }
+    } else if( topic == "TALK_TRAIN_NPC" ) {
+        if( actor( false )->skills_offered_to( *actor( true ) ).empty() ) {
+            return _( "Sorry, there's nothing I can learn from you." );
+        } else {
+            return _( "Sure, I'm all ears." );
+        }
+    } else if( topic == "TALK_TRAIN_SEMINAR" ) {
+        return _( "What do you want me to teach?" );
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         return actor( true )->distance_to_goal();
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
@@ -907,8 +1088,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     }
 
-    return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
-                          topic );
+    debugmsg( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic );
+    return "";
 }
 
 void dialogue::apply_speaker_effects( const talk_topic &the_topic )
@@ -1054,6 +1235,33 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
+    } else if( the_topic.id == "TALK_TRAIN_NPC" ) {
+        const std::vector<skill_id> &trainable = actor( false )->skills_offered_to( *actor( true ) );
+        if( trainable.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &s : trainable ) {
+            const std::string &text = actor( true )->skill_training_text( *actor( true ), s );
+            if( !text.empty() && !s->obsolete() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", s );
+            }
+        }
+        add_response_none( _( "Eh, never mind." ) );
+    } else if( the_topic.id == "TALK_TRAIN_SEMINAR" ) {
+        const std::vector<skill_id> &slist = actor( true )->skills_teacheable();
+        if( slist.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &sk : slist ) {
+            if( sk->obsolete() ) {
+                continue;
+            }
+            const std::string &text = actor( true )->skill_seminar_text( sk );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", sk );
+        }
+        add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN &&
             player_character.backlog.front().index == actor( true )->getID().get_value() ) {
@@ -1235,7 +1443,8 @@ int topic_category( const talk_topic &the_topic )
         return 5;
     }
     static const std::unordered_set<std::string> topic_6 = { {
-            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE"
+            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE",
+            "TALK_TRAIN_NPC_START", "TALK_TRAIN_NPC_FORCE"
         }
     };
     if( topic_6.count( topic ) > 0 ) {
@@ -2030,10 +2239,10 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
-    std::vector<std::string> update_ids;
+    std::vector<update_mapgen_id> update_ids;
 
     if( jo.has_string( member ) ) {
-        update_ids.emplace_back( jo.get_string( member ) );
+        update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
         for( const std::string line : jo.get_array( member ) ) {
             update_ids.emplace_back( line );
@@ -2046,8 +2255,32 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             update_params.guy = d.actor( true )->get_npc();
         }
         const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
-        for( const std::string &mapgen_update_id : update_ids ) {
+        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &member )
+{
+    mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
+                                            member ) );
+    function = [dest_params]( const dialogue & d ) {
+        npc *guy = d.actor( true )->get_npc();
+        if( guy ) {
+            tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
+            guy->goal = destination;
+            guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
+                            overmap_path_params::for_npc() );
+            if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+                guy->omt_path.empty() ) {
+                guy->goal = npc::no_goal_point;
+                guy->omt_path.clear();
+                return;
+            }
+            guy->set_mission( NPC_MISSION_TRAVELLING );
+            guy->guard_pos = cata::nullopt;
+            guy->set_attitude( NPCATT_NULL );
         }
     };
 }
@@ -2165,6 +2398,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
+    const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
@@ -2194,17 +2428,29 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         jo.throw_error( "Invalid message type." );
     }
 
-    function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
+    function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
+             is_npc]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( !target || target->is_npc() ) {
+            return;
+        }
         std::string translated_message;
         if( snippet ) {
-            translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
-                    translation() ).translated() );
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
         } else {
             translated_message = _( message );
-        }
-        Character *target = d.actor( is_npc )->get_character();
-        if( !target ) {
-            return;
         }
         if( sound ) {
             bool display = false;
@@ -2221,11 +2467,29 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             }
         }
         if( popup_msg ) {
-            popup( translated_message, PF_NONE );
+            const auto new_win = [translated_message]() {
+                query_popup pop;
+                pop.message( "%s", translated_message );
+                return pop.get_window();
+            };
+            scrollable_text( new_win, "", replace_colors( translated_message ) );
         } else {
             target->add_msg_if_player( type, translated_message );
         }
 
+    };
+}
+
+void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    duration_or_var dov = get_duration_or_var( jo, "duration", true );
+    activity_id act = activity_id( jo.get_string( member ) );
+    function = [is_npc, dov, act]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->assign_activity( act, to_moves<int>( dov.evaluate( d.actor( is_npc ) ) ) );
+        }
     };
 }
 
@@ -2330,161 +2594,173 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
     };
 }
 
+void talk_effect_fun_t::set_lightning()
+{
+    function = []( const dialogue & ) {
+        if( get_player_character().posz() >= 0 ) {
+            get_weather().lightning_active = true;
+        }
+    };
+}
+
+void talk_effect_fun_t::set_next_weather()
+{
+    function = []( const dialogue & ) {
+        get_weather().set_nextweather( calendar::turn );
+    };
+}
+
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
-    const std::string &op = jo.get_string( "op" );
+    std::string op = "none";
+    std::string result = "none";
     std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+    // Normal full version
+    if( objects.size() == 5 ) {
+        op = objects.get_string( 3 );
+        result = objects.get_string( 1 );
+        if( result != "=" ) {
+            jo.throw_error( "invalid result " + op + " in " + jo.str() );
+            function = []( const dialogue & ) {
+                return false;
+            };
+        }
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 2 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 4 ) );
+        if( op == "*" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) * get_second_int( d ) );
+            };
+        } else if( op == "/" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) / get_second_int( d ) );
+            };
+        } else if( op == "+" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) + get_second_int( d ) );
+            };
+        } else if( op == "-" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) - get_second_int( d ) );
+            };
+        } else if( op == "%" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) % get_second_int( d ) );
+            };
+        } else if( op == "&" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) & get_second_int( d ) );
+            };
+        } else if( op == "|" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) | get_second_int( d ) );
+            };
+        } else if( op == "<<" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) << get_second_int( d ) );
+            };
+        } else if( op == ">>" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) >> get_second_int( d ) );
+            };
+        } else if( op == "^" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) ^ get_second_int( d ) );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( const dialogue & ) {
+                return false;
+            };
+        }
+        // ~
+    } else if( objects.size() == 4 ) {
+        op = objects.get_string( 3 );
+        result = objects.get_string( 1 );
+        if( result != "=" ) {
+            jo.throw_error( "invalid result " + op + " in " + jo.str() );
+            function = []( const dialogue & ) {
+                return false;
+            };
+        }
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 2 ) );
+        if( op == "~" ) {
+            function = [get_first_int, set_int]( const dialogue & d ) {
+                set_int( d, ~get_first_int( d ) );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( const dialogue & ) {
+                return false;
+            };
+        }
 
-    if( op == "*" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) * get_second_int( d ) );
-        };
-    } else if( op == "/" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) / get_second_int( d ) );
-        };
-    } else if( op == "+" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) + get_second_int( d ) );
-        };
-    } else if( op == "-" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) - get_second_int( d ) );
-        };
-    } else if( op == "%" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) % get_second_int( d ) );
-        };
-    } else if( op == "&" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) & get_second_int( d ) );
-        };
-    } else if( op == "|" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) | get_second_int( d ) );
-        };
-    } else if( op == "<<" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) << get_second_int( d ) );
-        };
-    } else if( op == ">>" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) >> get_second_int( d ) );
-        };
-    } else if( op == "~" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, set_int]( const dialogue & d ) {
-            set_int( d, ~get_first_int( d ) );
-        };
-    } else if( op == "^" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) ^ get_second_int( d ) );
-        };
-    } else if( op == "=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) );
-        };
-    } else if( op == "*=" ) {
+        // =, -=, +=, *=, and /=
+    } else if( objects.size() == 3 ) {
+        result = objects.get_string( 1 );
         std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
                     objects.get_object( 0 ) );
         std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) * get_second_int( d ) );
-        };
-    } else if( op == "/=" ) {
+                    objects.get_object( 2 ) );
+        if( result == "+=" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) + get_second_int( d ) );
+            };
+        } else if( result == "-=" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) - get_second_int( d ) );
+            };
+        } else if( result == "*=" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) * get_second_int( d ) );
+            };
+        } else if( result == "/=" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) / get_second_int( d ) );
+            };
+        } else if( result == "%=" ) {
+            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) % get_second_int( d ) );
+            };
+        } else if( result == "=" ) {
+            function = [get_second_int, set_int]( const dialogue & d ) {
+                set_int( d, get_second_int( d ) );
+            };
+        } else {
+            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
+            function = []( const dialogue & ) {
+                return false;
+            };
+        }
+        // ++ and --
+    } else if( objects.size() == 2 ) {
+        op = objects.get_string( 1 );
         std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
                     objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) / get_second_int( d ) );
-        };
-    } else if( op == "+=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) + get_second_int( d ) );
-        };
-    } else if( op == "-=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) - get_second_int( d ) );
-        };
-    } else if( op == "%=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 1 ) );
-        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) % get_second_int( d ) );
-        };
-    } else if( op == "++" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        function = [get_first_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) + 1 );
-        };
-    } else if( op == "--" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        function = [get_first_int, set_int]( const dialogue & d ) {
-            set_int( d, get_first_int( d ) - 1 );
-        };
+        if( op == "++" ) {
+            function = [get_first_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) + 1 );
+            };
+        } else if( op == "--" ) {
+            function = [get_first_int, set_int]( const dialogue & d ) {
+                set_int( d, get_first_int( d ) - 1 );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( const dialogue & ) {
+                return false;
+            };
+        }
     } else {
-        jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
+        jo.throw_error( "Invalid number of args in " + jo.str() );
         function = []( const dialogue & ) {
             return false;
         };
+        return;
     }
 }
 
@@ -2540,9 +2816,12 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 get_weather().clear_temp_cache();
             };
         }
-    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ) {
+    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
+               jo.has_member( "global_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
-        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
+        const bool is_global = jo.has_member( "global_val" );
+        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : is_global ?
+                                          jo.get_string( "global_val" ) : jo.get_string( "u_val" );
         if( checked_value == "strength_base" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_str_max( input );
@@ -2560,12 +2839,11 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_per_max( input );
             };
         } else if( checked_value == "var" ) {
-            bool global;
-            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, global]( const dialogue & d, int input ) {
-                if( global ) {
-                    get_talker_for( get_player_character() )->set_value( var_name, std::to_string( input ) );
+            return [is_npc, var_name, is_global]( const dialogue & d, int input ) {
+                if( is_global ) {
+                    global_variables &globvars = get_globals();
+                    globvars.set_global_value( var_name, std::to_string( input ) );
                 } else {
                     d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
                 }
@@ -2722,9 +3000,30 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
-        std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
+    };
+}
+
+void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    bool success = jo.get_bool( "success" );
+    function = [mission_name, success]( const dialogue & ) {
+        avatar &player_character = get_avatar();
+
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
+        for( mission *mission : missions ) {
+            if( mission->mission_id() == mission_type ) {
+                if( success ) {
+                    mission->wrap_up();
+                } else {
+                    mission->fail();
+                }
+                break;
+            }
+        }
     };
 }
 
@@ -2773,7 +3072,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 }
 
 void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
-        const std::string &member )
+        const std::string &member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs;
     for( JsonValue jv : jo.get_array( member ) ) {
@@ -2783,30 +3082,62 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
             0_seconds );
     duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
             0_seconds );
-    function = [dov_time_in_future_min, dov_time_in_future_max, eocs]( const dialogue & d ) {
+    bool affect_nearby_npcs = jo.get_bool( "affect_nearby_npcs", false );
+    std::vector<std::string> names = jo.get_string_array( "npcs_to_affect" );
+    cata::optional<int> npc_range;
+    if( jo.has_int( "npc_range" ) ) {
+        npc_range = jo.get_int( "npc_range" );
+    }
+
+    bool npc_must_see = jo.get_bool( "npc_must_see", false );
+    function = [dov_time_in_future_min, dov_time_in_future_max, eocs, names, npc_must_see, npc_range,
+                            affect_nearby_npcs, is_npc]( const dialogue & d ) {
         time_duration max = dov_time_in_future_max.evaluate( d.actor( false ) );
         if( max > 0_seconds ) {
             time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
-                if( eoc->activate_only ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+                if( eoc->type == eoc_type::ACTIVATION ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
                 } else {
-                    debugmsg( "Cannot queue a recurring effect_on_condition." );
+                    debugmsg( "Cannot queue a non activation effect_on_condition." );
                 }
             }
         } else {
-            Creature *creature_alpha = d.actor( false )->get_creature();
-            item_location *item_alpha = d.actor( false )->get_item();
-            Creature *creature_beta = d.actor( true )->get_creature();
-            item_location *item_beta = d.actor( true )->get_item();
-            dialogue newDialog(
-                ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
-                    item_alpha ) : nullptr,
-                ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
-                    item_beta ) : nullptr
-            );
-            for( const effect_on_condition_id &eoc : eocs ) {
-                eoc->activate( newDialog );
+            if( affect_nearby_npcs ) {
+                tripoint actor_pos = d.actor( is_npc )->pos();
+                const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
+                              names]( const npc & guy ) {
+                    bool name_valid = names.empty();
+                    for( const std::string &name : names ) {
+                        if( name == guy.name ) {
+                            name_valid = true;
+                            break;
+                        }
+                    }
+                    return name_valid && ( !npc_range.has_value() || actor_pos.z == guy.posz() ) && ( !npc_must_see ||
+                            guy.sees( actor_pos ) ) &&
+                           ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos() ) <= npc_range.value() );
+                } );
+                for( npc *target : available ) {
+                    for( const effect_on_condition_id &eoc : eocs ) {
+                        dialogue newDialog( get_talker_for( target ), nullptr );
+                        eoc->activate( newDialog );
+                    }
+                }
+            } else {
+                Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+                item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+                Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+                item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+                dialogue newDialog(
+                    ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
+                        item_alpha ) : nullptr,
+                    ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
+                        item_beta ) : nullptr
+                );
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    eoc->activate( newDialog );
+                }
             }
         }
     };
@@ -3210,6 +3541,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_cbm_recharge_rule" );
         subeffect_fun.set_npc_cbm_recharge_rule( setting );
+    } else if( jo.has_member( "npc_set_goal" ) ) {
+        subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_string( "u_buy_monster" ) ) {
@@ -3236,14 +3569,24 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_member( "u_assign_activity" ) ) {
+        subeffect_fun.set_assign_activity( jo, "u_assign_activity", false );
+    } else if( jo.has_member( "npc_assign_activity" ) ) {
+        subeffect_fun.set_assign_activity( jo, "npc_assign_activity", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
+    } else if( jo.has_string( "finish_mission" ) ) {
+        subeffect_fun.set_finish_mission( jo, "finish_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
-        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition", false );
+    } else if( jo.has_array( "u_set_queue_eoc" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "u_set_queue_eoc", false );
+    } else if( jo.has_array( "npc_set_queue_eoc" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "npc_set_queue_eoc", true );
     } else if( jo.has_array( "set_weighted_list_eocs" ) ) {
         subeffect_fun.set_weighted_list_eocs( jo, "set_weighted_list_eocs" );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
@@ -3309,6 +3652,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_fishing ),
             WRAP( do_construction ),
             WRAP( do_mining ),
+            WRAP( do_mopping ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
@@ -3364,12 +3708,13 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( player_weapon_drop ),
             WRAP( lead_to_safety ),
             WRAP( start_training ),
+            WRAP( start_training_npc ),
+            WRAP( start_training_seminar ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
-            WRAP( lightning ),
             WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP
@@ -3387,6 +3732,18 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
         subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "lightning" ) {
+        subeffect_fun.set_lightning();
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "next_weather" ) {
+        subeffect_fun.set_next_weather();
         set_effect( subeffect_fun );
         return;
     }

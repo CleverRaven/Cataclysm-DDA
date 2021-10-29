@@ -12,6 +12,7 @@
     "bashing": 8,
     "cutting": 16,
     "flags": [ "STAB", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "weapon_category": [ "CLAWS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
   {
