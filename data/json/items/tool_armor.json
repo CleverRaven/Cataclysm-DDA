@@ -3347,7 +3347,13 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ], "default_magazine": "medium_storage_battery" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "medium_storage_battery" ],
+        "default_magazine": "medium_storage_battery"
+      }
+    ],
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
@@ -3376,6 +3382,7 @@
     "ammo": "battery",
     "power_draw": 972216,
     "//": "Battery should last two hours (02:00:07).",
+    "revert_to": "utility_exoskeleton_off",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
   },
   {
@@ -3422,6 +3429,7 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
     "turns_per_charge": 1,
     "//": "Full tank lasts a bit under three hours (166.66 minutes).",
+    "revert_to": "ice_utility_exoskeleton_off",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   }
 ]
