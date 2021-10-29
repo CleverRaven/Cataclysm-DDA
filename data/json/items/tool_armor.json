@@ -3347,7 +3347,7 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "medium_storage_battery" ], "default_magazine": "medium_storage_battery" } ],
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
