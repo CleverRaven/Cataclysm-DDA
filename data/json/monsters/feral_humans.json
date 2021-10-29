@@ -433,7 +433,7 @@
     "id": "mon_feral_prepper",
     "type": "MONSTER",
     "name": { "str": "feral prepper" },
-    "description": "A quick glance of this person would show that they have prepared well enough for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of their prepped improvised weapon, while the other grips on a firearm, treating both as clubs.",
+    "description": "A quick glance of this person would show that they have prepared well enough for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of their blood-stained improvised weapon, while the other grips on a firearm, treating both as clubs.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -538,7 +538,7 @@
         "fake_per": 10,
         "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 30, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral survivalist mechanically fires their firearm!"
+        "description": "The crazed survivalist fires their firearm!"
       }
     ],
     "death_drops": "mon_feral_survivalist_death_drops",
@@ -564,7 +564,7 @@
     "id": "mon_feral_militia",
     "type": "MONSTER",
     "name": { "str": "mad militia" },
-    "description": "Wearing a camo uniform with a kevlar vest, this person was a militia member, turned feral. Their hands grip unto an automatic firearm, bloodshot eyes scanning around for threats. Their surroundings are illuminated by a light source on their person, and as they steadily move, your eyes easily catch on to their loaded holster.",
+    "description": "Wearing a geared camo uniform with a kevlar vest, this person was a militia member, turned feral.  Their hands grip unto an automatic firearm; Bloodshot eyes scanning around for threats.  Their surroundings are illuminated by a light source on their person, and as they steadily move, your eyes easily catch on to their loaded holster.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -609,7 +609,7 @@
         "fake_per": 10,
         "ranges": [ [ 0, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The mad militiaman mechanically fires their holster firearm!"
+        "description": "The mad militiaman fires their holster firearm!"
       },
       {
         "type": "gun",
