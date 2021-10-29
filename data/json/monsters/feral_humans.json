@@ -601,7 +601,7 @@
       {
         "type": "gun",
         "cooldown": 5,
-        "move_cost": 150,
+        "move_cost": 100,
         "gun_type": "m9",
         "ammo_type": "9mm",
         "fake_skills": [ [ "gun", 2 ], [ "pistol", 3 ] ],
