@@ -275,14 +275,15 @@
     "name": "Public Speaking",
     "description": "You were an incredibly social individual.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "speech" } ]
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "traits": [ "BOOMING_VOICE" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "street_fighting",
     "name": "Street Fighting",
-    "description": "You were always instigating fights in the street.  Atleast this might come in useful now.",
+    "description": "You were always instigating fights in the street.  At least this might come in useful now.",
     "points": 2,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 2, "name": "dodge" } ]
   },
@@ -385,8 +386,9 @@
     "id": "marathon_runner",
     "name": "Marathon Runner",
     "description": "You went and ran the Boston Marathon every year.  Now, that training came in handy in avoiding the dead.",
-    "points": 2,
-    "skills": [ { "level": 4, "name": "swimming" } ]
+    "points": 5,
+    "traits": [ "GOODCARDIO", "FLEET" ],
+    "skills": [ { "level": 2, "name": "swimming" } ]
   },
   {
     "type": "profession",

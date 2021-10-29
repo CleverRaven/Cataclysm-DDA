@@ -1,9 +1,12 @@
 #include <string>
 
+#include "avatar.h"
 #include "cata_catch.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "monster.h"
+#include "mtype.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -63,7 +66,14 @@ static weakpoint_report damage_monster( const std::string &target_type, const da
     return ret;
 }
 
-TEST_CASE( "monster_weakpoint", "[monster]" )
+static void reset_proficiencies( Character &dummy, const proficiency_id &prof )
+{
+    dummy.set_focus( 100 );
+    dummy.add_proficiency( prof, true );
+    dummy.lose_proficiency( prof, true );
+}
+
+TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
 {
     // Debug Monster has two weakpoints at 25% each, one leaves 0 armor the other 25 bullet armor, down from 100 bullet armor
     weakpoint_report wr1 = damage_monster( "debug_mon", damage_instance( damage_type::BULLET, 100.0f,
@@ -94,4 +104,24 @@ TEST_CASE( "monster_weakpoint", "[monster]" )
     CHECK( wr3.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( 0.20f ) );
     CHECK( wr3.PercHits( "" ) == Approx( 0.50f ).epsilon( 0.20f ) );
     CHECK( wr3.AveDam( "" ) == Approx( 100.0f ).epsilon( 0.20f ) );
+}
+
+TEST_CASE( "weakpoint_practice", "[monster][weakpoint]" )
+{
+    avatar &dummy = get_avatar();
+    mtype_id wp_mon( "weakpoint_mon" );
+    proficiency_id prof( "prof_debug_weakpoint" );
+    clear_character( dummy );
+
+    reset_proficiencies( dummy, prof );
+    wp_mon.obj().families.practice_dissect( dummy );
+    CHECK( dummy.get_proficiency_practice( prof ) == Approx( 1.0f ).epsilon( 0.05f ) );
+
+    reset_proficiencies( dummy, prof );
+    wp_mon.obj().families.practice_kill( dummy );
+    CHECK( dummy.get_proficiency_practice( prof ) == Approx( 0.0333f ).epsilon( 0.05f ) );
+
+    reset_proficiencies( dummy, prof );
+    wp_mon.obj().families.practice_hit( dummy );
+    CHECK( dummy.get_proficiency_practice( prof )  == Approx( 0.00111f ).epsilon( 0.05f ) );
 }

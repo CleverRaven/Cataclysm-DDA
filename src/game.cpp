@@ -229,7 +229,6 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
@@ -1244,6 +1243,24 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
+        if( u.activity.id() == activity_id( "ACT_TRAIN_TEACHER" ) ) {
+            for( npc &n : all_npcs() ) {
+                // Also cancel activities for students
+                for( const int st_id : u.activity.values ) {
+                    if( n.getID().get_value() == st_id ) {
+                        n.cancel_activity();
+                    }
+                }
+            }
+            u.remove_effect( efftype_id( "asked_to_train" ) );
+        } else if( u.activity.id() == activity_id( "ACT_TRAIN" ) ) {
+            for( npc &n : all_npcs() ) {
+                // If the player is the only student, cancel the teacher's activity
+                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
+                    n.cancel_activity();
+                }
+            }
+        }
         u.cancel_activity();
         u.clear_destination();
         u.resume_backlog_activity();
@@ -2092,6 +2109,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
     ctxt.register_action( "drop" );
+    ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
@@ -4748,7 +4766,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            const int glass_portion = it->made_of( material_id( "glass" ) );
+            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
+            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
@@ -6341,7 +6361,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon ) {
+            if( mon && u.sees( *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
@@ -7771,16 +7791,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-void game::drop()
+void game::unload_container()
 {
-    u.drop( game_menus::inv::multidrop( u ), u.pos() );
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
+        u.drop( game_menus::inv::unload_container( u ), *pnt );
+    }
 }
 
-void game::drop_in_direction()
+void game::drop_in_direction( const tripoint &pnt )
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.drop( game_menus::inv::multidrop( u ), *pnt );
-    }
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -9087,50 +9107,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
 
-    if( !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        int volume = u.is_stealthy() ? 3 : 6;
-        volume *= u.mutation_value( "noise_modifier" );
-        if( volume > 0 ) {
-            if( u.is_wearing( itype_rm13_armor_on ) ) {
-                volume = 2;
-            } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                volume = 12;
-            }
-
-            volume *= u.current_movement_mode()->sound_mult();
-            if( u.is_mounted() ) {
-                monster *mons = u.mounted_creature.get();
-                switch( mons->get_size() ) {
-                    case creature_size::tiny:
-                        volume = 0; // No sound for the tinies
-                        break;
-                    case creature_size::small:
-                        volume /= 3;
-                        break;
-                    case creature_size::medium:
-                        break;
-                    case creature_size::large:
-                        volume *= 1.5;
-                        break;
-                    case creature_size::huge:
-                        volume *= 2;
-                        break;
-                    default:
-                        break;
-                }
-                if( mons->has_flag( MF_LOUDMOVES ) ) {
-                    volume += 6;
-                }
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, mons->type->get_footsteps(), false,
-                               "none", "none" );
-            } else {
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
-                               "none", "none" );    // Sound of footsteps may awaken nearby monsters
-            }
-            sfx::do_footstep();
-        }
-
-    }
+    u.make_footstep_noise();
 
     if( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
@@ -9332,21 +9309,24 @@ point game::place_player( const tripoint &dest_loc )
             const auto forage = [&]( const tripoint & pos ) {
                 const ter_t &xter_t = *m.ter( pos );
                 const furn_t &xfurn_t = *m.furn( pos );
-                const bool forage_everything = forage_type == "both";
+                const bool forage_everything = forage_type == "all";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
-                if( !xter_t.can_examine( pos ) ) {
+                const bool forage_crops = forage_everything || forage_type == "crops";
+                if( !xter_t.can_examine( pos ) && !xfurn_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::tree_marloss ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::harvest_ter ) ) ||
-                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) )
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
+                           ( forage_crops && xter_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xter_t.examine( u, pos );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
-                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) )
+                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
+                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xfurn_t.examine( u, pos );
                 }

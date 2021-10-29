@@ -1029,11 +1029,13 @@ projectile Character::thrown_item_projectile( const item &thrown ) const
 int Character::thrown_item_total_damage_raw( const item &thrown ) const
 {
     projectile proj = thrown_item_projectile( thrown );
-    const units::volume volume = thrown.volume();
     proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
                             static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
+    const int glass_portion = thrown.made_of( material_id( "glass" ) );
+    const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
+    const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
-    if( !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
+    if( !thrown.active && glass_portion &&
         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100 ) {
         proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
     }
@@ -1087,9 +1089,12 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    const int glass_portion = thrown.made_of( material_id( "glass" ) );
+    const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
+    const units::volume glass_vol = volume * glass_fraction;
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
+    const bool shatter = !thrown.active && glass_portion &&
+                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1486,7 +1491,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
                     return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
                                           config.label.c_str() ), config.color, chance );
                 }, enumeration_conjunction::none );
-                confidence_s.append( string_format( ", Miss: <color_light_gray>%3d%%</color>",
+                confidence_s.append( string_format( _( ", Miss: <color_light_gray>%3d%%</color>" ),
                                                     ( 100 - last_chance ) ) );
                 line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                     c_dark_gray, confidence_s );
@@ -3302,9 +3307,9 @@ void target_ui::panel_cursor_info( int &text_y )
 {
     std::string label_range;
     if( src == dst ) {
-        label_range = string_format( "Range: %d", range );
+        label_range = string_format( _( "Range: %d" ), range );
     } else {
-        label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
+        label_range = string_format( _( "Range: %d/%d" ), dist_fn( dst ), range );
     }
     if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
         // Since each turret has its own range, highlighting cursor

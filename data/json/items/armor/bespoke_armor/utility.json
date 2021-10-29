@@ -3,7 +3,7 @@
     "id": "survivor_belt_notools",
     "type": "ARMOR",
     "name": { "str": "survivor belt" },
-    "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade and a holster to carry a pistol.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+    "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade, a holster to carry a pistol and a loop for holding larger tools.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1549 g",
     "volume": "2250 ml",
     "price": 15000,
@@ -74,6 +74,13 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
         "moves": 50
+      },
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
@@ -97,7 +104,6 @@
     "warmth": 5,
     "material_thickness": 4,
     "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
   },

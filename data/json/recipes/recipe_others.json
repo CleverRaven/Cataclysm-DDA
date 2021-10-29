@@ -1393,7 +1393,7 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "GLARE", "level": 1 }
     ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ] ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]

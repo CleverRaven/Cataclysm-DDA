@@ -57,6 +57,23 @@
     "multi_activity": true
   },
   {
+    "type": "activity_type",
+    "id": "ACT_MULTIPLE_MOP",
+    "activity_level": "NO_EXERCISE",
+    "verb": "mopping",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
+    "id": "ACT_MOP",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "mopping",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -306,6 +323,14 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "training",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_TRAIN_TEACHER",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "teaching",
+    "based_on": "speed",
+    "no_resume": true
   },
   {
     "id": "ACT_SOCIALIZE",
@@ -559,6 +584,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_PULL_CREATURE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "pulling a creature",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ATM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -580,7 +614,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "welding",
-    "based_on": "speed"
+    "based_on": "time"
   },
   {
     "id": "ACT_CRACKING",

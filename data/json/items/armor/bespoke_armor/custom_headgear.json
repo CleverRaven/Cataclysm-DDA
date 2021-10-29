@@ -3,7 +3,7 @@
     "id": "helmet_nomad",
     "type": "ARMOR",
     "name": { "str": "nomad cowl" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.",
+    "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
     "weight": "470 g",
     "volume": "2500 ml",
     "price": 25000,
@@ -27,7 +27,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
     "name": { "str": "nomad cowl XL" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  Designed for a gigantic wanderer.",
+    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusual and enormous anatomy.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
   },

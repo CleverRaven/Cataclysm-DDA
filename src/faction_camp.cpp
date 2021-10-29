@@ -133,6 +133,9 @@ static const mtype_id mon_turkey( "mon_turkey" );
 static const mtype_id mon_weasel( "mon_weasel" );
 static const mtype_id mon_wolf( "mon_wolf" );
 
+static const oter_str_id oter_faction_hide_site_0( "faction_hide_site_0" );
+static const oter_str_id oter_forest_wet( "forest_wet" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 struct mass_volume {
@@ -2047,7 +2050,7 @@ void basecamp::start_cut_logs()
             if( om_cutdown_trees_est( forest ) < 5 ) {
                 const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
-                if( omt_trees.id() != "forest_wet" ) {
+                if( omt_trees.id() != oter_forest_wet ) {
                     overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
@@ -2217,7 +2220,7 @@ void basecamp::start_fortifications( std::string &bldg_exp )
         bool change_x = ( start.x() != stop.x() );
         bool change_y = ( start.y() != stop.y() );
         if( change_x && change_y ) {
-            popup( "Construction line must be straight!" );
+            popup( _( "Construction line must be straight!" ) );
             return;
         }
         if( bldg_exp == "faction_wall_level_N_1" ) {
@@ -3590,7 +3593,7 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
 
         const oter_id &omt_ref = overmap_buffer.ter( last );
 
-        if( bounce && omt_ref.id() == "faction_hide_site_0" ) {
+        if( bounce && omt_ref.id() == oter_faction_hide_site_0 ) {
             range = def_range * .75;
             def_range = range;
         }

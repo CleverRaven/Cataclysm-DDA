@@ -84,6 +84,36 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "armor_thessalonian",
+    "type": "ARMOR",
+    "name": { "str": "cataphract armor", "str_pl": "suits of cataphract armor" },
+    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from head to waist and is of extremely high quality.",
+    "weight": "7286 g",
+    "volume": "6 L",
+    "price": 50000,
+    "price_postapoc": 7000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "fancy_bronze", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "brown",
+    "warmth": 18,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
+      {
+        "encumbrance": 17,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ]
+      }
+    ]
+  },
+  {
     "id": "bookplate",
     "type": "ARMOR",
     "category": "armor",

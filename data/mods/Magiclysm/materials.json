@@ -186,6 +186,12 @@
   },
   {
     "type": "material",
+    "id": "magical_material",
+    "name": "Magical Material",
+    "copy-from": "cotton"
+  },
+  {
+    "type": "material",
     "id": "dragon_blood",
     "name": "Dragon blood",
     "density": 1,

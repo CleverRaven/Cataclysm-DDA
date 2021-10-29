@@ -40,7 +40,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-mods:
     continue-on-error: true
     runs-on: ubuntu-latest

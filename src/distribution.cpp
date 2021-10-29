@@ -28,6 +28,7 @@ struct fixed_distribution : int_distribution_impl {
     }
 
     std::string description() const override {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         return string_format( "Fixed(%d)", value );
     }
 };
@@ -48,6 +49,7 @@ struct poisson_distribution : int_distribution_impl {
     }
 
     std::string description() const override {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         return string_format( "Poisson(%.0f)", dist.mean() );
     }
 };

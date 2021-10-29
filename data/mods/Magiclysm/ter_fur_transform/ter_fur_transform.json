@@ -172,5 +172,16 @@
         "message": "The door opens forcefully!"
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "icelemental_crystal",
+    "furniture": [
+      {
+        "result": "f_everfrost_crystal",
+        "valid_furniture": [ "f_null" ],
+        "message": "There's a rippling in the air and a blast of cold air, then the crystal forms."
+      }
+    ]
   }
 ]
