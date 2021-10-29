@@ -413,6 +413,8 @@
   {
     "id": "torso_upper",
     "type": "sub_body_part",
+    "opposite": "torso_lower",
+    "name_multiple": "torso",
     "name": "upper torso"
   },
   {
@@ -423,6 +425,8 @@
   {
     "id": "torso_lower",
     "type": "sub_body_part",
+    "opposite": "torso_upper",
+    "name_multiple": "torso",
     "name": "lower torso"
   },
   {
@@ -439,96 +443,133 @@
     "id": "arm_shoulder_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "arm_shoulder_l",
+    "name_multiple": "shoulders",
     "name": "right shoulder"
   },
   {
     "id": "arm_upper_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "arm_upper_l",
+    "name_multiple": "upper arms",
     "name": "right upper arm"
   },
   {
     "id": "arm_elbow_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "arm_elbow_l",
+    "name_multiple": "elbows",
     "name": "right elbow"
   },
   {
     "id": "arm_lower_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "arm_lower_l",
+    "name_multiple": "lower arms",
     "name": "right forearm"
   },
   {
     "id": "arm_shoulder_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "arm_shoulder_r",
+    "name_multiple": "shoulders",
     "name": "left shoulder"
   },
   {
     "id": "arm_upper_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "arm_upper_r",
+    "name_multiple": "upper arms",
     "name": "left upper arm"
   },
   {
     "id": "arm_elbow_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "arm_elbow_r",
+    "name_multiple": "elbows",
     "name": "left elbow"
   },
   {
     "id": "arm_lower_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "arm_lower_r",
+    "name_multiple": "lower arms",
     "name": "left forearm"
   },
   {
     "id": "leg_hip_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "leg_hip_l",
+    "name_multiple": "hips",
     "name": "right hip"
   },
   {
     "id": "leg_upper_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "leg_upper_l",
+    "name_multiple": "thighs",
     "name": "right thigh"
   },
   {
     "id": "leg_knee_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "leg_knee_l",
+    "name_multiple": "knees",
     "name": "right knee"
   },
   {
     "id": "leg_lower_r",
     "type": "sub_body_part",
     "side": 2,
+    "opposite": "leg_lower_l",
+    "name_multiple": "calves",
     "name": "right calve"
   },
   {
     "id": "leg_hip_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "leg_hip_r",
+    "name_multiple": "hips",
     "name": "left hip"
   },
   {
     "id": "leg_upper_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "leg_upper_r",
+    "name_multiple": "thighs",
     "name": "left thigh"
   },
   {
     "id": "leg_knee_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "leg_knee_r",
+    "name_multiple": "knees",
     "name": "left knee"
   },
   {
     "id": "leg_lower_l",
     "type": "sub_body_part",
     "side": 1,
+    "opposite": "leg_lower_r",
+    "name_multiple": "calves",
     "name": "left calve"
+  },
+  {
+    "id": "sub_limb_debug",
+    "type": "sub_body_part",
+    "name": "debug limb"
   }
 ]

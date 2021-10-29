@@ -40,10 +40,14 @@ struct enum_traits<side> {
 struct sub_body_part_type {
 
     sub_bodypart_str_id id;
+    sub_bodypart_str_id opposite;
+
     bool was_loaded = false;
 
     //name of the sub part
     translation name;
+
+    translation name_multiple;
 
     side part_side = side::BOTH;
 

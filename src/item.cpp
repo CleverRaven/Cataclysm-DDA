@@ -862,6 +862,12 @@ const std::array<bodypart_str_id, 4> right_side_parts{ {
 void item::iterate_covered_sub_body_parts_internal( const side s,
         std::function<void( const sub_bodypart_str_id & )> cb ) const
 {
+    if (is_gun()) {
+        // Currently only used for guns with the should strap mod, other guns might
+        // go on another bodypart.
+        cb(sub_bodypart_str_id("torso_hanging_back"));
+    }
+
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
         return;
@@ -3210,8 +3216,30 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( this->has_sublocations() ) {
         std::string coverage = _( "<bold>Specifically</bold>:" );
-        for( const sub_bodypart_id &sbp : this->get_covered_sub_body_parts() ) {
-            coverage += _( " The <info>" + sbp->name + "</info>." );
+        std::vector<sub_bodypart_id> covered = this->get_covered_sub_body_parts();
+        for (int i = 0; i < covered.size(); i++) {
+            const sub_bodypart_id& sbp = covered[i];
+            if (sbp == (sub_bodypart_id)0) {
+                // if we have already covered this value continue
+                continue;
+            }
+            sub_bodypart_id temp = sbp->opposite;
+            // if we have found the partner
+            bool found = false;
+            for (std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end(); ++sbp_it) {
+                // go through each body part and test if its partner is there as well
+                if (temp == *sbp_it) {
+                    // add the multiple name not the single
+                    coverage += _(" The <info>" + sbp->name_multiple + "</info>.");
+                    found = true;
+                    *sbp_it = sub_bodypart_id();
+                    break;
+                }
+            }
+            // if we didn't find its pair print it normally
+            if (!found) {
+                coverage += _(" The <info>" + sbp->name + "</info>.");
+            }
         }
 
         info.emplace_back( "ARMOR", coverage );
