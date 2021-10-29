@@ -1,0 +1,10 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FERAL_PREPPER_UPGRADE",
+    "monsters": [
+      { "monster": "mon_feral_survivalist", "weight": 800 },
+      { "monster": "mon_feral_militia", "weight": 200 }
+    ]
+  }
+]
