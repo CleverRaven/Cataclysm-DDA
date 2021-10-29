@@ -186,7 +186,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "covers": [ "arm_l", "arm_r" ], "encumbrance": 11, "cover_melee": 57, "cover_ranged": 54, "cover_vitals": 70, "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]} ]
   },
   {
     "id": "xl_armguard_metal",

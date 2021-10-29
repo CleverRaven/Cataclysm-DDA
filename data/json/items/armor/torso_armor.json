@@ -110,6 +110,15 @@
         "cover_ranged": 90,
         "cover_vitals": 100,
         "covers": [ "arm_l", "arm_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 20,
+        "cover_melee": 19,
+        "cover_ranged": 18,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ]
   },
