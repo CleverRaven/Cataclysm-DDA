@@ -9,6 +9,7 @@
     "color": "yellow",
     "symbol": "]",
     "material": [ "glass" ],
+    "longest_side": "100 cm",
     "volume": "3 L",
     "bashing": 1,
     "flags": [ "NO_REPAIR" ],
@@ -70,6 +71,7 @@
     "symbol": ";",
     "volume": "250 ml",
     "category": "spare_parts",
+    "longest_side": "25 cm",
     "price": 5000,
     "price_postapoc": 100,
     "copy-from": "solar_panel"
