@@ -294,6 +294,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_stag_beetle",
+    "name": { "str": "stag beetle egg" },
+    "copy-from": "egg_insect",
+    "color": "brown",
+    "symbol": "o",
+    "spoils_in": "20 days",
+    "proportional": { "weight": 5, "calories": 5, "volume": 5 },
+    "vitamins": [ [ "vitA", 95 ], [ "calcium", 35 ], [ "iron", 90 ], [ "vitB", 330 ], [ "mutant_toxin", 125 ] ],
+    "description": "A huge translucent beetle egg.  You can see a larva slowly squirming inside, contorting uncomfortably outside of the soil.",
+    "rot_spawn": "GROUP_EGG_STAG_BEETLE",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_antlion",
     "name": { "str": "antlion egg" },
     "copy-from": "egg_insect",
