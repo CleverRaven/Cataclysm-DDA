@@ -780,34 +780,63 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
-        dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
-                                       dispersion, this, in_veh, wp_attack );
-        curshot++;
-        if( shot.hit_critter ) {
-            hits++;
+        projectile proj = make_gun_projectile( gun );
+        dispersion_sources dispersion = get_weapon_dispersion( gun );
+        dispersion.add_range( recoil_total() );
+        dispersion.add_spread( proj.shot_spread );
 
-            if( monster *m = shot.hit_critter->as_monster() ) {
+        bool first = true;
+        bool headshot = false;
+        bool multishot = proj.count > 1;
+        std::map< Creature *, std::pair < int, int >> targets_hit;
+        for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
+            dealt_projectile_attack shot = projectile_attack( proj, pos(), aim,
+                                           dispersion, this, in_veh, wp_attack, first );
+            first = false;
+            if( shot.hit_critter ) {
+                int damage = shot.dealt_dam.total_damage();
+                if( damage > 0 ) {
+                    targets_hit[ shot.hit_critter ].second += damage;
+                }
+                targets_hit[ shot.hit_critter ].first++;
+            }
+            if( shot.missed_by <= .1 ) {
+                headshot = true;
+            }
+            if( proj.count > 1 && rl_dist( pos(), shot.end_point ) == 1 ) {
+                // Point-blank shots don't act like shot, everything hits the same target.
+                multishot = false;
+                break;
+            }
+        }
+        if( !targets_hit.empty() ) {
+            hits++;
+        }
+        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
+            if( monster *const m = hit_entry.first->as_monster() ) {
                 get_event_bus().send<event_type::character_ranged_attacks_monster>(
                     getID(), gun_id, m->type->id );
-            } else if( Character *c = shot.hit_critter->as_character() ) {
+            } else if( Character *const c = hit_entry.first->as_character() ) {
                 get_event_bus().send<event_type::character_ranged_attacks_character>(
                     getID(), gun_id, c->getID(), c->get_name() );
             }
-
+            if( multishot ) {
+                // TODO: Pull projectile name from the ammo entry.
+                multi_projectile_hit_message( hit_entry.first, hit_entry.second.first, hit_entry.second.second,
+                                              n_gettext( "projectile", "projectiles", hit_entry.second.first ) );
+            }
         }
-        if( shot.missed_by <= .1 ) {
+        if( headshot ) {
             // TODO: check head existence for headshot
             get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
+        curshot++;
 
         if( !gun.is_gun() ) {
             // If we lose our gun as a side effect of firing it, skip the rest of the loop body.
@@ -1667,6 +1696,7 @@ static projectile make_gun_projectile( const item &gun )
     projectile proj;
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
+    proj.shot_impact = gun.gun_damage( true, true );
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -1699,6 +1729,8 @@ static projectile make_gun_projectile( const item &gun )
 
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
+        proj.count = ammo->count;
+        proj.shot_spread = ammo->shot_spread;
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {

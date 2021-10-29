@@ -746,6 +746,19 @@ struct islot_ammo : common_ranged_data {
     int def_charges = 1;
 
     /**
+     * Number of projectiles fired per round, e.g. shotgun shot.
+     */
+    int count = 1;
+    /**
+     * Spread/dispersion between projectiles fired from the same round.
+     */
+    int shot_spread = 0;
+    /**
+     * Damage for a single shot.
+     */
+    damage_instance shot_damage;
+
+    /**
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;

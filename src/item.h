@@ -2108,7 +2108,7 @@ class item : public visitable
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
          * Returns empty instance on non-gun items.
          */
-        damage_instance gun_damage( bool with_ammo = true ) const;
+        damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */

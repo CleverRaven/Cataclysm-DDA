@@ -1082,7 +1082,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     attack.missed_by = goodhit;
 
-    // copy it, since we're mutating
+    // copy it, since we're mutating.
     damage_instance impact = proj.impact;
     if( hit_selection.damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
         hit_selection.damage_mult = 1.0f;
