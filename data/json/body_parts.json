@@ -532,8 +532,8 @@
     "type": "sub_body_part",
     "side": 2,
     "opposite": "leg_lower_l",
-    "name_multiple": "calves",
-    "name": "right calve"
+    "name_multiple": "lower legs",
+    "name": "right lower leg"
   },
   {
     "id": "leg_hip_l",
@@ -564,8 +564,8 @@
     "type": "sub_body_part",
     "side": 1,
     "opposite": "leg_lower_r",
-    "name_multiple": "calves",
-    "name": "left calve"
+    "name_multiple": "lower legs",
+    "name": "left lower leg"
   },
   {
     "id": "sub_limb_debug",

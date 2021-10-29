@@ -380,7 +380,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 45,
+        "coverage": 54,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
@@ -472,7 +472,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 45,
+        "coverage": 54,
         "encumbrance": [ 5, 6 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
@@ -600,7 +600,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 45,
+        "coverage": 54,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
@@ -1641,7 +1641,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 45,
+        "coverage": 54,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }
@@ -1719,8 +1719,8 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 90,
-        "encumbrance": [ 9, 11 ],
+        "coverage": 54,
+        "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }
     ],

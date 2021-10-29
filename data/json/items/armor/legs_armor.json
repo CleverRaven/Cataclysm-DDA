@@ -18,7 +18,16 @@
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 9,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
   },
   {
     "id": "legguard_chitin",
@@ -39,7 +48,16 @@
     "material_thickness": 4,
     "environmental_protection": 2,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 2,
+        "cover_melee": 36,
+        "cover_ranged": 36,
+        "cover_vitals": 50,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
+      }
+    ]
   },
   {
     "id": "legguard_acidchitin",
@@ -156,12 +174,12 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
       {
-        "encumbrance": 17,
-        "coverage": 93,
-        "cover_melee": 95,
-        "cover_ranged": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 14,
+        "cover_melee": 76,
+        "cover_ranged": 72,
         "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ]
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
   },
@@ -247,7 +265,16 @@
     "color": "dark_gray",
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ],
-    "armor": [ { "coverage": 30, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_knee_l", "leg_knee_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 0,
+        "cover_melee": 5,
+        "cover_ranged": 5,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_knee_r", "leg_knee_l" ]
+      }
+    ]
   },
   {
     "id": "legguard_bronze",
@@ -267,7 +294,16 @@
     "warmth": 15,
     "material_thickness": 4,
     "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 5,
+        "cover_melee": 38,
+        "cover_ranged": 36,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
+      }
+    ]
   },
   {
     "id": "xl_legguard_bronze",
@@ -297,7 +333,16 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 10, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 10,
+        "cover_melee": 72,
+        "cover_ranged": 76,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "legguard_lightplate",
@@ -317,7 +362,16 @@
     "warmth": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 8,
+        "cover_melee": 76,
+        "cover_ranged": 76,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_legguard_lightplate",
@@ -346,7 +400,16 @@
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 6, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 3,
+        "cover_melee": 38,
+        "cover_ranged": 36,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
+      }
+    ]
   },
   {
     "id": "xl_legguard_metal",
@@ -375,7 +438,16 @@
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
   },
   {
     "id": "improvised_legguard_tire",
@@ -395,7 +467,16 @@
     "warmth": 5,
     "material_thickness": 4,
     "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
   },
   {
     "id": "legguard_scrap",
@@ -417,7 +498,16 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 6,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
   },
   {
     "id": "xl_legguard_scrap",
@@ -446,7 +536,16 @@
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 14,
+        "cover_melee": 60,
+        "cover_ranged": 60,
+        "cover_vitals": 0,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_legguard_tire",

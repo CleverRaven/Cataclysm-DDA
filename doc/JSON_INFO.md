@@ -2548,8 +2548,7 @@ What body parts this section of the armor covers. See the bodypart_ids defined i
 What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
 These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
 if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
-Backpacks should always include torso_hanging_back so that they don't conflict with strapped torso armor.
-Strapped torso armor should always use specifically covers as it will otherwise conflict with backpacks.
+strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
