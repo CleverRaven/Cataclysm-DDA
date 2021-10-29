@@ -1394,35 +1394,20 @@
       {
         "id": "buff_tiger_onhit",
         "name": "Tiger Fury",
-        "description": "You attack with an endless barrage of strikes.  The more you hit, the stronger you become.\n\n+10% damage.\nLasts 3 turns.  Stacks 4 times.",
+        "description": "You attack with an endless barrage of strikes.  The more you hit, the stronger you become.\n\n+1 Accuracy, 5% damage.\nLasts 3 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 3,
-        "max_stacks": 4,
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ],
         "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 1.1 },
-          { "stat": "damage", "type": "cut", "scale": 1.1 },
-          { "stat": "damage", "type": "stab", "scale": 1.1 }
+          { "stat": "damage", "type": "bash", "scale": 1.05 },
+          { "stat": "damage", "type": "cut", "scale": 1.05 },
+          { "stat": "damage", "type": "stab", "scale": 1.05 }
         ]
       }
     ],
-    "oncrit_buffs": [
-      {
-        "id": "buff_tiger_oncrit",
-        "name": "Tiger Rampage",
-        "description": "Your opponent's lose is your gain.  Your next attack will break through your opponent's guard.\n\nGain Armor Penetration equal to 50% of Strength.\nLasts 1 turns.  Stacks 2 times.",
-        "unarmed_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "buff_duration": 1,
-        "max_stacks": 2,
-        "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
-        ]
-      }
-    ],
-    "techniques": [ "tec_tiger_palm", "tec_tiger_takedown" ]
+    "techniques": [ "tec_tiger_break", "tec_tiger_claw", "tec_tiger_palm", "tec_tiger_takedown", "tec_tiger_wide" ]
   },
   {
     "type": "martial_art",
