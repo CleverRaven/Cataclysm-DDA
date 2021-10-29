@@ -862,20 +862,26 @@
     "type": "item_group",
     "id": "soup_box",
     "subtype": "distribution",
+    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_packet",
+    "subtype": "distribution",
     "entries": [
       {
         "item": "soup_instant_chicken_noodle_powder",
         "prob": 50,
-        "container-item": "box_soup",
+        "container-item": "bag_paper_powder",
         "charges-min": 1,
-        "charges-max": 4
+        "charges-max": 1
       },
       {
         "item": "soup_instant_vegetable_powder",
         "prob": 50,
-        "container-item": "box_soup",
+        "container-item": "bag_paper_powder",
         "charges-min": 1,
-        "charges-max": 4
+        "charges-max": 1
       }
     ]
   }

@@ -1877,22 +1877,6 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
   },
   {
-    "id": "box_soup",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "small cardboard box of instant soup", "str_pl": "small cardboard boxes of instant soup" },
-    "looks_like": "box_small",
-    "description": "A very small cardboard box for packets of instant soup mix.",
-    "weight": "60 g",
-    "volume": "60 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "cardboard" ],
-    "symbol": ")",
-    "color": "red",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "55 ml", "max_contains_weight": "55 g" } ]
-  },
-  {
     "id": "1st_aid_box",
     "type": "GENERIC",
     "category": "container",
