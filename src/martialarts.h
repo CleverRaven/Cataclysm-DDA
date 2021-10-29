@@ -62,6 +62,7 @@ struct ma_requirements {
 
     std::string get_description( bool buff = false ) const;
 
+    bool buff_requirements_satisfied( const Character &u ) const;
     bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
