@@ -3390,7 +3390,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "ICE utility exoskeleton" },
-    "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body. This model uses a compact internal combustion engine for power.",
+    "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.",
     "weight": "110 kg",
     "volume": "130 L",
     "price": 11500000,
