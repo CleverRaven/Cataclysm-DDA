@@ -270,11 +270,13 @@ def extract_bodypart(item):
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 
+
 def extract_sub_bodypart(item):
     outfile = get_outfile("sub_bodypart")
     writestr(outfile, item["name"])
     if "name_multiple" in item:
         writestr(outfile, item["name_multiple"])
+
 
 def extract_clothing_mod(item):
     outfile = get_outfile("clothing_mod")
