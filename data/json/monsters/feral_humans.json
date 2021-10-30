@@ -458,7 +458,6 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "human",
-    "upgrades": { "half_life": 35, "into_group": "GROUP_FERAL_PREPPER_UPGRADE" },
     "starting_ammo": { "9mm": 3 },
     "special_attacks": [
       [ "GRAB", 7 ],
